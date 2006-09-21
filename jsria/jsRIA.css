@@ -1,0 +1,137 @@
+@CHARSET "UTF-8";
+
+ul.jsWTList {
+	width: 300px;
+	border: 1px solid #000;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+ul.jsWTList li {
+	margin-left: 0;
+	list-style-type: none;
+	background-color: #EEE;
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left: 18px;
+}
+
+ul.jsWTList li:hover {
+	background-color: #FFF;
+}
+
+ul.jsWTList li.selected {
+	background-color: #DDD;
+}
+
+ul.jsWTList li:hover.selected {
+	background-color: #FFF;
+	color: #00A;
+}
+
+/* Tree Control */
+
+ul.jsWTTree, ul.jsWTTree ul {
+	background-repeat: repeat-y;
+	padding-left: 18px;
+}
+
+ul.jsWTTreeLines ul {
+	background-image: url('jsRIA/res/images/line.gif');
+}
+
+ul.jsWTTreeNoLines ul {
+	background-image: none;
+}
+
+ul.jsWTTree {
+	padding-left: 0;
+}
+
+ul.jsWTTree ul {
+	clear: left;
+}
+
+ul.jsWTTree li {
+	background-repeat: no-repeat;
+/*	height: 18px;
+	max-height: 18px;*/
+	list-style-type: none;
+}
+
+ul.jsWTTreeLines li {
+	background-image: url('jsRIA/res/images/join.gif');
+}
+
+ul.jsWTTreeNoLines li {
+	background-image: none;
+}
+
+ul.jsWTTree li span.textBox {
+	cursor: default;
+	padding-left: 3px;
+	height: 18px;
+	max-height: 18px;
+	line-height: 18px;
+	display: block;
+	margin-left: 18px;
+}
+
+ul.jsWTTree li span.textBox img {
+	margin-right: 3px;
+	vertical-align: middle;
+}
+
+ul.jsWTTree li span.textBox span.text {
+	background-color: #FFF;
+	font-size: 15px;
+	padding-top: 1px;
+}
+
+ul.jsWTTree li span.textBox span:hover.text {
+	background-color: #EEE;
+}
+
+ul.jsWTTree li span.textBox span.selected {
+	background-color: #DDD;
+}
+
+ul.jsWTTree li span.textBox span:hover.selected {
+	background-color: #DDD;
+	color: #00A;
+}
+
+ul.jsWTTree li span.toggler {
+	display: block;
+	width: 18px;
+	height: 18px;
+	float: left;
+}
+
+ul.jsWTTree li span.togglerExpanded {
+	background-image: url('jsRIA/res/images/collapse.gif');
+}
+
+ul.jsWTTree li span.togglerCollapsed {
+	background-image: url('jsRIA/res/images/expand.gif');
+}
+
+ul.jsWTTree li.noChilds {
+	padding-left: 21px;
+}
+
+ul.jsWTTree li.hasChilds {
+	padding-left: 0;
+}
+
+ul.jsWTTreeLines li.bottom {
+	background-image: url('jsRIA/res/images/joinbottom.gif');
+}
+
+ul.jsWTTreeNoLines li.bottom {
+	background-image: none;
+}
+
+ul.jsWTTree ul.bottom {
+	background-image: none;
+}
