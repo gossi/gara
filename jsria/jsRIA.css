@@ -30,7 +30,6 @@ ul.jsWTList li:hover.selected {
 }
 
 /* Tree Control */
-
 ul.jsWTTree, ul.jsWTTree ul {
 	background-repeat: repeat-y;
 	padding-left: 18px;
@@ -46,6 +45,7 @@ ul.jsWTTreeNoLines ul {
 
 ul.jsWTTree {
 	padding-left: 0;
+	-moz-user-select: none;
 }
 
 ul.jsWTTree ul {
@@ -99,6 +99,10 @@ ul.jsWTTree li span.textBox span.selected {
 ul.jsWTTree li span.textBox span:hover.selected {
 	background-color: #DDD;
 	color: #00A;
+}
+
+ul.jsWTTree li span.active {
+	border: 1px dotted #000;
 }
 
 ul.jsWTTree li span.toggler {

@@ -12,8 +12,7 @@ function Item() {
 	this.image = null;
 	this.bIsPainted = false;
 	this.bChanged = false;
-	this.htmlNode;
-	this.aEventHandlers = new Object();
+	this.bActive = false;
 }
 Item.inheritsFrom(Widget);
 
@@ -27,37 +26,6 @@ Item.inheritsFrom(Widget);
 Item.prototype.addClassName = function(sClassName) {
 	this.sClassName += " " + sClassName;
 	this.bChanged = true;
-}
-
-
-Item.prototype.addEventHandler = function(type, obj, method, p, htmlNode) {
-
-	if (typeof(p) == "undefined") {
-		p = null;
-	}
-	
-	if (typeof(htmlNode) == "undefined") {
-		htmlNode = this.htmlNode;
-		targetObj = this;
-	} else {
-		targetObj = htmlNode.handleEvent;
-	}
-	
-	if (!this.aEventHandlers[type]) {
-		this.aEventHandlers[type] = new Array();
-	}
-	var et = this.aEventHandlers[type];
-	et.push([obj, method, p, htmlNode]);
-
-	if (htmlNode.addEventListener) {
-		try {
-			htmlNode.addEventListener(type, targetObj, false);
-		} catch(e) {
-//			alert(e);
-		}
-	} else {
-		htmlNode.attachEvent("on" + type, targetObj.handleEvent);
-	}
 }
 
 /**
@@ -104,27 +72,6 @@ Item.prototype.getText = function() {
 	return this.sText;
 }
 
-Item.prototype.handleEvent = function(e, htmlNode) {
-	if (typeof(htmlNode) == "undefined") {
-		htmlNode = this.htmlNode;
-	}
-	
-	if (this.aEventHandlers[e.type]) {
-		var aHandlers = this.aEventHandlers[e.type];
-		for (var i = 0; i < aHandlers.length; ++i) {
-			var aHandler = aHandlers[i];
-
-			if (aHandler[3] == htmlNode) {
-				if (aHandler[2] == null) {
-					eval("aHandler[0]." + aHandler[1] + "(this, e)");
-				} else {
-					eval("aHandler[0]." + aHandler[1] + "(this, e, aHandler[2])");
-				}
-			}
-		}
-	}
-}
-
 /**
  * Tells wether there is new data available since last question.
  * 
@@ -157,8 +104,32 @@ Item.prototype.releaseChange = function() {
 	this.bChanged = false;
 }
 
+/**
+ * Removes a CSS class name from this item.
+ * 
+ * @author Thomas Gossmann
+ * @param {String} sClassName the class name that should be removed
+ * @type void
+ */
 Item.prototype.removeClassName = function(sClassName) {
 	this.sClassName = strReplace(this.sClassName, sClassName, "");
+	this.bChanged = true;
+}
+
+/**
+ * Sets the item active or inactive
+ * 
+ * @author Thomas Gossmann
+ * @param {boolean} bActive true for active and false for inactive
+ * @type void
+ */
+Item.prototype.setActive = function(bActive) {
+	this.bActive = bActive;
+	if (bActive) {
+		this.addClassName("active");
+	} else {
+		this.removeClassName("active");
+	}
 	this.bChanged = true;
 }
 
@@ -172,17 +143,6 @@ Item.prototype.removeClassName = function(sClassName) {
 Item.prototype.setClassName = function(sClassName) {
 	this.sClassName = sClassName;
 	this.bChanged = true;
-}
-
-/**
- * Sets the html node for this item
- * 
- * @author Thomas Gossmann
- * @param {HTMLElement} node the html node for this item
- * @type void
- */
-Item.prototype.setHtmlNode = function(node) {
-	this.htmlNode = node;
 }
 
 /**
@@ -227,4 +187,15 @@ Item.prototype.setPainted = function(bIsPainted) {
 Item.prototype.setText = function(sText) {
 	this.sText = sText;
 	this.bChanged = true;
+}
+
+/**
+ * String representation of this object
+ * 
+ * @author Thomas Gossmann
+ * @return A String describing this object
+ * @type String
+ */
+Item.prototype.toString = function() {
+	return "[object Item]";
 }

@@ -13,15 +13,36 @@ function Tree(parentElement) {
 	}
 	Control.prototype.constructor.call(this);
 
-	this.tree = null;
 	this.aSelection = new Array();
 	this.aSelectionListeners = new Array();
 	this.bShowLines = true;
 	this.sClassName = 'jsWTTree';
 	this.parentElement = parentElement
 	this.aTopItems = new Array();
+	this.focushack = null;
+	this.activeItem = null;
+	this.shiftItem = null;
 }
 Tree.inheritsFrom(Control);
+
+/**
+ * Activates an item
+ * 
+ * @author Thomas Gossmann
+ * @private
+ * @param {TreeItem} the item to activate
+ * @type void
+ */
+Tree.prototype.activateItem = function(item) {
+	// set a previous active item inactive
+	if (this.activeItem != null) {
+		this.activeItem.setActive(false);
+	}
+
+	this.activeItem = item;
+	this.activeItem.setActive(true);
+	this.update();
+}
 
 /**
  * Adds an item to the tree. This is automatically done by instantiating a new item.
@@ -36,7 +57,31 @@ Tree.prototype.addItem = function(newItem) {
 		throw new WrongObjectException("New item is not instance of TreeItem", "Tree", "addItem");
 	}
 
-	this.aItems.push(newItem);
+	var parentItem = newItem.getParent()
+	if (parentItem == this) {
+		this.aItems.push(newItem);
+		jsRIA.getLog().addMessage("Add Root Item (" + newItem.getText() + ") length: " + this.aItems.length);
+	} else {
+		var iIndex = this.aItems.indexOf(parentItem)
+			+ getDescendents(parentItem)
+			+ 1;
+
+		this.aItems.splice(iIndex, 0, newItem);
+	}
+	
+	function getDescendents(item) {
+		var iChilds = 0;
+		if (item.hasChilds()) {
+			var aItems = item.getItems();
+			for (var i = 0; i < aItems.length; ++i) {
+				if (aItems[i].hasChilds()) {
+					iChilds += getDescendents(aItems[i]);
+				}
+				iChilds++;
+			}
+		}
+		return iChilds;
+	}
 }
 
 /**
@@ -72,8 +117,26 @@ Tree.prototype.addTopItem = function(item) {
 	this.aTopItems.push(item);
 }
 
+Tree.prototype.clickHandler = function(item, e) {
+	if (e.ctrlKey && !e.shiftKey) {
+		if (this.aSelection.contains(item)) {
+			this.deselect(item);
+		} else {
+			this.select(item, true);
+		}
+	} else if (!e.ctrlKey && e.shiftKey) {
+		this.selectRange(item, false);
+	} else if (e.ctrlKey && e.shiftKey) {
+		this.selectRange(item, true);
+	} else {
+//		if (!this.aSelection.contains(item)) {
+			this.select(item, false);
+//		}
+	}
+}
+
 /**
- * Internal method for creating a node representing an item. This is used for creating
+ * Internal method for creating a node representing n item. This is used for creating
  * a new item or put updated content to an existing node of an earlier painted item.
  * 
  * @author Thomas Gossmann
@@ -110,7 +173,7 @@ Tree.prototype.createItem = function(item, bottom) {
 		img.src = item.getImage().src;
 		img.alt = item.getText();
 	}
-	
+
 	var textSpanBox = document.createElement("span");
 	textSpanBox.className = "textBox";
 
@@ -120,10 +183,9 @@ Tree.prototype.createItem = function(item, bottom) {
 	textSpan.handleEvent = function(e) {
 		item.handleEvent(e, this);
 	}
-	
-	
+
 	item.addEventHandler("dblclick", item, "toggleChilds", null, textSpan);
-	item.addEventHandler("click", this, "toggleSelection", null, textSpan);
+	item.addEventHandler("click", this, "clickHandler", null, textSpan);
 
 	if (bottom) {
 		item.addClassName("bottom");
@@ -155,10 +217,11 @@ Tree.prototype.deselect = function(item) {
 
 	if (this.aSelection.contains(item)
 			&& item.getTree() == this) {
-		this.aSelection.remove(this.aSelection.getKey(item));
+		this.aSelection.remove(this.aSelection.indexOf(item));
 		this.notifySelectionListener();
-		var span = item.getHtmlNode().getElementsByTagName("span")[1].getElementsByTagName("span")[0];
-		span.className = "text";		
+		item.setUnselected();
+		this.shiftItem = item;
+		this.activateItem(item);
 	}
 }
 
@@ -169,8 +232,8 @@ Tree.prototype.deselect = function(item) {
  * @type void
  */
 Tree.prototype.deselectAll = function() {
-	for (var i = 0; i < this.aItems.length; ++i) {
-		this.deselect(this.aItems[i]);
+	for (var i = this.aSelection.length; i >= 0; --i) {
+		this.deselect(this.aSelection[i]);
 	}
 	this.update();
 }
@@ -261,10 +324,154 @@ Tree.prototype.indexOf = function(item) {
 	}
 
 	if (!this.aItems.contains(item)) {
-		throw new ItemNotExistsException(item.getText(), "Tree", "indexOf");
+		throw new ItemNotExistsException(item, "Tree", "indexOf");
 	}
 
 	return this.aItems.getKey(item);
+}
+
+Tree.prototype.keyHandler = function(tree, e) {
+	
+	window.status = "keycode: " + e.keyCode;
+	
+	switch (e.keyCode) {
+		case 38 : // up
+			// determine previous item
+			var prev;
+			var aSiblings;
+			
+			if (this.activeItem == this.aItems[0]) {
+				// item is root;
+				prev = false;
+			} else {
+				var parentWidget = this.activeItem.getParent();
+				if (parentWidget == this) {
+					aSiblings = this.aTopItems;
+				} else {
+					aSiblings = parentWidget.getItems();
+				}
+				var iSibOffset = aSiblings.indexOf(this.activeItem);
+	
+				// prev item is parent
+				if (iSibOffset == 0) {
+					prev = parentWidget;
+				} else {
+					var prevSibling = aSiblings[iSibOffset - 1];
+					prev = getLastItem(prevSibling);
+				}
+			}
+			
+			if (prev) {
+				if (!e.ctrlKey && !e.shiftKey) {
+					//this.deselect(this.activeItem);
+					this.select(prev, false);
+				} else if (e.ctrlKey && e.shiftKey) {
+					this.selectRange(prev, true);
+				} else if (e.shiftKey) {
+					this.selectRange(prev, false);
+				} else if (e.ctrlKey) {
+					this.activateItem(prev);
+				}
+			}
+		break;
+
+		case 40 : // down
+			// determine next item
+			var next;
+			var aSiblings;
+			
+			// item is last;
+			if (this.activeItem == this.aItems[this.aItems.length - 1]) {
+				next = false;
+			} else {
+				var parentWidget = this.activeItem.getParent();
+				if (parentWidget == this) {
+					aSiblings = this.aTopItems;
+				} else {
+					aSiblings = parentWidget.getItems();
+				}
+				var iSibOffset = aSiblings.indexOf(this.activeItem);
+	
+				if (this.activeItem.hasChilds() && this.activeItem.isExpanded()) {
+					next = this.activeItem.getItems()[0];
+				} else if (this.activeItem.hasChilds() && !this.activeItem.isExpanded()) {
+					next = this.aItems[this.aItems.indexOf(this.activeItem) + this.activeItem.getItemCount() + 1];
+				} else {
+					next = this.aItems[this.aItems.indexOf(this.activeItem) + 1];
+				}
+//				 else if (iSibOffset < aSiblings.length - 1){
+//					next = aSiblings[iSibOffset + 1];
+//				} else if (iSibOffset == aSiblings.length - 1 && this.activeItem.getParent() != this) {
+//
+//				} else {
+//					next = this.aItems[this.aItems.indexOf(this.activeItem) + 1];
+//				}
+			}
+
+			if (next) {
+				if (!e.ctrlKey && !e.shiftKey) {
+					//this.deselect(this.activeItem);
+					this.select(next, false);
+				} else if (e.ctrlKey && e.shiftKey) {
+					this.selectRange(next, true);
+				} else if (e.shiftKey) {
+					this.selectRange(next, false);
+				} else if (e.ctrlKey) {
+					this.activateItem(next);
+				}
+			}
+			break;
+		
+		case 37: // left
+			// collapse tree
+			var buffer = this.activeItem;
+			this.activeItem.collapse();
+			this.activateItem(buffer);
+			this.update();
+			break;
+
+		case 39: // left
+			// collapse tree
+			this.activeItem.expand();
+			this.update();
+			break;
+			
+		case 32 : // space
+			if (this.aSelection.contains(this.activeItem) && e.ctrlKey) {
+				this.deselect(this.activeItem);
+			} else {
+				this.select(this.activeItem, true);
+			}
+			break;
+			
+		case 36 : // home
+			if (!e.ctrlKey && !e.shiftKey) {
+				this.select(this.aItems[0], false);
+			} else if (e.shiftKey) {
+				this.selectRange(this.aItems[0], false);
+			} else if (e.ctrlKey) {
+				this.activateItem(this.aItems[0]);
+			}
+			break;
+			
+		case 35 : // end
+			if (!e.ctrlKey && !e.shiftKey) {
+				this.select(this.aItems[this.aItems.length-1], false);
+			} else if (e.shiftKey) {
+				this.selectRange(this.aItems[this.aItems.length-1], false);
+			} else if (e.ctrlKey) {
+				this.activateItem(this.aItems[this.aItems.length-1]);
+			}
+			break;
+	}
+
+	function getLastItem(item) {
+		if (item.isExpanded() && item.hasChilds()) {
+			return getLastItem(item.getItems()[item.getItems().length - 1]);
+		} else {
+			return item;
+		}
+	}
 }
 
 /**
@@ -300,18 +507,27 @@ Tree.prototype.removeSelectionListener = function(listener) {
  * @author Thomas Gossmann
  * @type void
  * @param {TreeItem} the item to select
+ * @param {boolean} true for adding to the current selection, false will select only this item
+ * @private
  */
-Tree.prototype.select = function(item) {
+Tree.prototype.select = function(item, bAdd) {
 	if (!item instanceof TreeItem) {
 		throw new WrongObjectException("item not instance of TreeItem", "Tree", "select");
+	}
+
+	if (!bAdd) {
+		while (this.aSelection.length) {
+			this.aSelection.pop().setUnselected();
+		}
 	}
 	
 	if (!this.aSelection.contains(item)
 			&& item.getTree() == this) {
 		this.aSelection.push(item);
+		item.setSelected();
+		this.shiftItem = item;
+		this.activateItem(item);
 		this.notifySelectionListener();
-		var span = item.getHtmlNode().getElementsByTagName("span")[1].getElementsByTagName("span")[0];
-		span.className = "text selected";
 	}
 }
 
@@ -323,9 +539,30 @@ Tree.prototype.select = function(item) {
  */
 Tree.prototype.selectAll = function() {
 	for (var i = 0; i < this.aItems.length; ++i) {
-		this.select(this.aItems[i]);
+		this.select(this.aItems[i], true);
 	}
 	this.update();
+}
+
+Tree.prototype.selectRange = function(item, bAdd) {
+	if (!bAdd) {
+		while (this.aSelection.length) {
+			this.aSelection.pop().setUnselected();
+		}
+	}
+	
+	var iIndexShift = this.indexOf(this.shiftItem);
+	var iIndexItem = this.indexOf(item);
+	var iFrom = iIndexShift > iIndexItem ? iIndexItem : iIndexShift;
+	var iTo = iIndexShift < iIndexItem ? iIndexItem : iIndexShift;
+
+	for (var i = iFrom; i <= iTo; ++i) {
+		this.aSelection.push(this.aItems[i]);
+		this.aItems[i].setSelected();
+	}
+
+	this.notifySelectionListener();
+	this.activateItem(item);
 }
 
 /**
@@ -338,6 +575,7 @@ Tree.prototype.selectAll = function() {
 Tree.prototype.setLinesVisible = function(show) {
 	this.bShowLines = show;
 }
+
 /**
  * Toggles selection of an item.
  * 
@@ -351,7 +589,13 @@ Tree.prototype.toggleSelection = function(item) {
 	} else {
 		this.select(item);
 	}
-	this.update();
+//	this.update();
+//	this.focushack.focus();
+}
+
+
+Tree.prototype.toString = function() {
+	return "[object Tree]";
 }
 
 /**
@@ -363,8 +607,31 @@ Tree.prototype.toggleSelection = function(item) {
  */
 Tree.prototype.update = function() {
 
-	if (this.tree == null) {
-		this.tree = document.createElement('ul');
+	if (this.htmlNode == null) {
+		this.htmlNode = document.createElement("ul");
+		this.htmlNode.obj = this;
+		
+		// for keeping track of the focus on the tree widget
+		this.focushack = document.createElement("input");
+		this.focushack.style.position = "absolute";
+		this.focushack.style.left = "-9999px";
+		this.htmlNode.appendChild(this.focushack);
+		
+		this.focushack.handleEvent = function(e) {
+			this.parentNode.obj.handleEvent(e, this);
+		}
+		
+		var tree = this;
+		window.handleEvent = function(e) {
+			tree.handleEvent(e, this);
+		}
+		
+		this.addEventHandler("focus", this, "onFocus", null, this.focushack);
+		this.addEventHandler("blur", this, "onBlur", null, this.focushack);
+		this.addEventHandler("keydown", this, "keyHandler");
+		this.addEventHandler("keydown", this, "keyHandler", null, window);
+		
+		
 	}
 	this.removeClassName("jsWTTreeNoLines");
 	this.removeClassName("jsWTTreeLines");	
@@ -375,9 +642,9 @@ Tree.prototype.update = function() {
 		this.addClassName("jsWTTreeNoLines");
 	}
 
-	this.tree.className = this.sClassName;
-	this.updateItems(this.aTopItems, this.tree);
-	this.parentElement.appendChild(this.tree);
+	this.htmlNode.className = this.sClassName;
+	this.updateItems(this.aTopItems, this.htmlNode);
+	this.parentElement.appendChild(this.htmlNode);
 }
 
 /**

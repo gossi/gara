@@ -1,4 +1,4 @@
-Array.prototype.getKey = function(value) {
+Array.prototype.indexOf = function(value) {
 	var key = false;
 	for( var i = 0; i < this.length; ++i ) {
 		if( this[i] == value ) {
@@ -9,6 +9,12 @@ Array.prototype.getKey = function(value) {
 	
 	return key;
 }
+
+/**
+ * 
+ * @deprecated
+ */
+Array.prototype.getKey = Array.prototype.indexOf;
 
 /**
  * Proves if the searchterm is in the array or not

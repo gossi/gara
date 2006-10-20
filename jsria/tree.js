@@ -35,6 +35,15 @@ function main() {
 	i9.setImage(i9img);
 	
 	t.update();
+	
+//	var itemsDiv = document.getElementById("items");
+//	for (var i = 0; i < t.aItems.length; ++i) {
+//		itemsDiv["innerHTML"] += i + " - " + t.aItems[i].getText() + "<br/>";
+//	}
+//	
+//	var EC = new EmbeddedConsole(jsRIA);
+//	jsRIA.getLog().addWriter(EC);
+//	EC.show();
 }
 
 function selectAll() {
@@ -74,6 +83,7 @@ function addItem() {
 
 function TreeListener() {
 	this.items = new Array();
+
 	this.widgetSelected = function(tree) {
 		this.items = null;
 		this.items = tree.getSelection();
@@ -84,7 +94,7 @@ function TreeListener() {
 		for (var i = 1; i < list.options.length; ++i) {
 			list.options[i] = null;
 		}
-		
+
 		// refill list
 		for (var i = 0; i < this.items.length; ++i) {
 			list.options[i + 1] = new Option(this.items[i].getText());
