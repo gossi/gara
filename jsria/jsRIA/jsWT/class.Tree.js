@@ -60,7 +60,7 @@ Tree.prototype.addItem = function(newItem) {
 	var parentItem = newItem.getParent()
 	if (parentItem == this) {
 		this.aItems.push(newItem);
-		jsRIA.getLog().addMessage("Add Root Item (" + newItem.getText() + ") length: " + this.aItems.length);
+//		jsRIA.getLog().addMessage("Add Root Item (" + newItem.getText() + ") length: " + this.aItems.length);
 	} else {
 		var iIndex = this.aItems.indexOf(parentItem)
 			+ getDescendents(parentItem)
@@ -332,7 +332,7 @@ Tree.prototype.indexOf = function(item) {
 
 Tree.prototype.keyHandler = function(tree, e) {
 	
-	window.status = "keycode: " + e.keyCode;
+//	window.status = "keycode: " + e.keyCode;
 	
 	switch (e.keyCode) {
 		case 38 : // up
@@ -395,7 +395,7 @@ Tree.prototype.keyHandler = function(tree, e) {
 				if (this.activeItem.hasChilds() && this.activeItem.isExpanded()) {
 					next = this.activeItem.getItems()[0];
 				} else if (this.activeItem.hasChilds() && !this.activeItem.isExpanded()) {
-					next = this.aItems[this.aItems.indexOf(this.activeItem) + this.activeItem.getItemCount() + 1];
+					next = this.aItems[this.aItems.indexOf(this.activeItem) + countItems(this.activeItem) + 1];
 				} else {
 					next = this.aItems[this.aItems.indexOf(this.activeItem) + 1];
 				}
@@ -471,6 +471,20 @@ Tree.prototype.keyHandler = function(tree, e) {
 		} else {
 			return item;
 		}
+	}
+	
+	function countItems(item) {
+		var items = 0;
+		var childs = item.getItems();
+		
+		for (var i = 0; i < childs.length; ++i) {
+			items++;
+			if (childs[i].hasChilds()) {
+				items += countItems(childs[i]);
+			}
+		}
+		
+		return items;
 	}
 }
 
