@@ -1,6 +1,4 @@
 function Log(jsRIA) {
-
-	//this.aMessages = new Array();
 	this.aWriter = new Array();
 	this.jsRIA = jsRIA;
 	this.root = new LogFolderNode();
@@ -40,6 +38,7 @@ Log.prototype.popLogFolder = function() {
 	if (this.folders.peek() != this.root) {
 		var returnFolder = this.folders.pop();
 		this.currentFolder = this.folders.peek();
+		this.notifyWriter(-1);
 		return returnFolder;
 	}
 }
@@ -48,23 +47,21 @@ Log.prototype.append = function(node) {
 	if (node instanceof(LogNode)) {
 		node.setParent(this.currentFolder);
 		this.currentFolder.addNode(node);
-
-		if (!node instanceof(LogFolderNode)) {
-			this.notifyWriter(this.currentFolder);
-		}
+		this.notifyWriter(node);
 	}
 }
 
 Log.prototype.addWriter = function(newWriter) {
-	
-	if (!newWriter instanceof(LogWriter)) {
-		throw new WrongObjectException('newWriter is not instance of LogWriter', 'Log', 'addWriter');
-	}
-//	try {
-//		this.jsRIA.getInterfaceTester().isIWriter(newWriter);
-//	} catch (e) {
-//		this.jsRIA.getExceptionHandler().exceptionRaised(e);
+
+//	if (!newWriter instanceof(LogWriter)) {
+//		throw new WrongObjectException('newWriter is not instance of LogWriter', 'Log', 'addWriter');
 //	}
+	try {
+		this.jsRIA.getInterfaceTester().isIWriter(newWriter);
+	}
+	catch (e) {
+		this.jsRIA.getExceptionHandler().exceptionRaised(e);
+	}
 	this.aWriter.push(newWriter);
 
 	// pass the root message to the writer...

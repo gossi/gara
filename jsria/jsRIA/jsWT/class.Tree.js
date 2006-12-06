@@ -68,7 +68,7 @@ Tree.prototype.addItem = function(newItem) {
 
 		this.aItems.splice(iIndex, 0, newItem);
 	}
-	
+
 	function getDescendents(item) {
 		var iChilds = 0;
 		if (item.hasChilds()) {

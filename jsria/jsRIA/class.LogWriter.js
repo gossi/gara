@@ -2,7 +2,8 @@ function LogWriter(jsRIA) {
 	this.jsRIA = jsRIA;
 	this.root = null;
 	this.builds = new Array();
-	this.elements = new Object();	this.html = null;
+	this.elements = new Object();
+	this.html = null;
 }
 
 LogWriter.prototype.setRoot = function(rootNode) {
@@ -23,11 +24,21 @@ LogWriter.prototype.update = function(node) {
 	if (typeof(node) == "undefined") {
 		node = this.root;
 	}
+	
+	if (node != -1 && node != this.root) {
+		node = node.getParent();
+	}
+	
 	this.doUpdate(node);
 }
 
 LogWriter.prototype.doUpdate = function(parentNode) {
-	
+
+	// go up ...
+	if (parentNode == -1) {
+		return;
+	}
+
 	var childs = parentNode.getNodes();
 	
 	for (var i = 0; i < childs.length; ++i) {
@@ -46,7 +57,7 @@ LogWriter.prototype.doUpdate = function(parentNode) {
 			var caption = this.createNode(node);
 			newElement = document.createElement('ul');
 			newElement.style.listStyleImage = "url('"+node.getImage().src+"')";
-			
+
 			if (i + 1 <= childs.length
 			&& this.builds.inArray(childs[i + 1]) ) {
 				parentElement.insertBefore(newElement, childs[i + 1]);

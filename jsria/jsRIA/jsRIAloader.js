@@ -83,6 +83,7 @@ loadScript('class.LogErrorNode.js');
 loadScript('class.Log.js');
 loadScript('class.LogWriter.js');
 loadScript('class.Console.js');
+loadScript('class.Firebug.js');
 
 // load jsRIA 'core'
 loadScript('class.ScriptLoader.js');
