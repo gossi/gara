@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gaia" basedir="." default="compress">
+<project name="gaia" basedir="../" default="build">
 	
 	<property name="dir.src" value="${basedir}/src"/>
-	<property name="dir.build" value="${basedir}/build"/>
+	<property name="dir.build" value="${basedir}/gaia"/>
 	
 	<property name="build.version" value="21012007"/>
 	
@@ -127,8 +127,8 @@
 	
 	</target>
 	
-	<target name="compress" depends="-combine">
-		<java jar="custom_rhino.jar" failonerror="true" fork="true"
+	<target name="-compress" depends="-combine">
+		<java jar="buildscripts/lib/custom_rhino.jar" failonerror="true" fork="true"
 			logerror="true" output="${dir.build}/gaia.js">
 			<arg value="-strict" />
 			<arg value="-opt"/>
@@ -136,5 +136,15 @@
 			<arg value="-c" />
 			<arg value="${dir.build}/gaia.combined.js" />
 		</java>
+	</target>
+	
+	<target name="build" depends="-compress">
+		<copy todir="${dir.build}">
+			<fileset dir="${dir.src}">
+				<include name="res/*"/>
+				<include name="res/images/*"/>
+				<include name="gaia.css"/>
+			</fileset>
+		</copy>
 	</target>
 </project>
