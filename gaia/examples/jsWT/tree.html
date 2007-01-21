@@ -5,11 +5,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>jsWT: Tree</title>
 <link rel="stylesheet" type="text/css" href="../../gaia/gaia.css"/>
-<script type="text/javascript" src="../../gaia/gaia.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="../../gaia/gaia.combined.js"></script>
+<script type="text/javascript"><!--
 function main() {
 	l = new TreeListener();
 	try {
+	t = new Tree(null);
+	} catch(e) {
+		alert(e.message);
+	}
+	/*try {
 	t = new Tree(document.getElementsByTagName("body")[0]);
 	} catch(e) {
 		var sText = null;
@@ -17,7 +22,7 @@ function main() {
 			sText += p + " = " + e[p] + "\n";
 		}
 		alert(sText);
-	}
+	}*/
 	t.addSelectionListener(l);
 	t.addClassName("myTree");
 	
@@ -124,7 +129,7 @@ function TreeListener() {
 		return this.items[iOffset];
 	}
 }
-</script>
+--></script>
 <link rel="stylesheet" href="../examples.css" type="text/css"/>
 <style type="text/css">
 .myTree {
