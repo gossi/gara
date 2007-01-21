@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>jsWT: Tree</title>
+<link rel="stylesheet" type="text/css" href="src/gaia.css"/>
+<!-- <script type="text/javascript" src="src/gaialoader.js"></script>
+<script type="text/javascript">
+gaia.getScriptLoader().loadScript('jsWT/class.TreeItem.js');
+gaia.getScriptLoader().loadScript('jsWT/class.Tree.js');
+gaia.getScriptLoader().loadScript('class.EmbeddedConsole.js');
+gaia.setMainScriptUrl('/gaia/tree.js');
+</script>-->
+<script type="text/javascript" src="build/gaia.js"></script>
+<script type="text/javascript" src="/gaia/tree.js"></script>
+<style type="text/css">
+.myTree {
+	width: 350px;
+	border: 1px solid #444;
+}
+</style>
+</head>
+<body>
+<h1>jsWTTree</h1>
+<fieldset>
+<legend>Tree Control</legend>
+	<a href="javascript:selectAll()">select All</a>
+	<a href="javascript:deselectAll()">deselect All</a>
+	<a href="javascript:showLines()">show Lines</a>
+	<a href="javascript:hideLines()">hide Lines</a>
+	<a href="javascript:addEvent()">add event</a>
+	<fieldset>
+		<legend>Add Item</legend>
+		Parent: <select id="parentList"><option value="tree">*root*</option></select><br/>
+		Name: <input type="text" id="itemName"/><br/>
+		<input type="button" value="add" onclick="addItem()"/>
+	</fieldset>
+</fieldset>
+<!--<ul class="jsWTTree jsWTTreeLines">
+<li><a class="toggler togglerCollapsed">&nbsp;</a><span>elem1</span></li>
+<li><a class="toggler togglerExpanded">&nbsp;</a><span>elem2</span></li>
+	<ul>
+		<li><a class="toggler">&nbsp;</a><span>nested 1</span></li>
+		<li class="bottom"><a class="toggler">&nbsp;</a><span>nested 2</span></li>
+		<ul class="bottom">
+			<li><a class="toggler">&nbsp;</a><span>nested 3</span></li>
+			<li class="bottom"><a class="toggler togglerCollapsed">&nbsp;</a><span>nested 4</span></li>
+		</ul>
+	</ul>
+<li class="bottom"><a class="toggler">&nbsp;</a><span>elem3</span></li>
+</ul>
+-->
+<div id="items">
+</div>
+<script type="text/javascript">
+main();
+</script>
+</body>
+</html>

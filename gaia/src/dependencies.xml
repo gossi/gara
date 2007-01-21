@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entries [
+	<!ATTLIST entry
+		id ID #REQUIRED
+		depends CDATA #IMPLIED>
+]>
+<entries>
+	<!-- 
+	
+	either use
+	<entry id="filename.js" depends="anotherfile.js"/>
+	
+	or
+	
+	<entry id="filename.js [depends="anotherfile.js"]>
+		<depends>filename2.js</depends>
+		<depends>filename3.js</depends>
+		...
+	</entry>
+	-->
+	<entry id="jsWT/class.Item.js" depends="jsWT/class.Widget.js"/>
+	<entry id="jsWT/class.List.js">
+		<depends>jsWT/class.Control.js</depends>
+		<depends>jsWT/class.ItemNotExistsException.js</depends>
+		<depends>jsWT/interfaces.js</depends>
+	</entry>
+	<entry id="jsWT/class.ListItem.js" depends="jsWT/class.Item.js"/>
+	<entry id="jsWT/class.Tree.js">
+		<depends>jsWT/class.Control.js</depends>
+		<depends>jsWT/class.ItemNotExistsException.js</depends>
+		<depends>jsWT/interfaces.js</depends>
+	</entry>
+	<entry id="jsWT/class.TreeItem.js" depends="jsWT/class.Item.js"/>
+	<entry id="jsWT/class.Control.js">
+		<depends>jsWT/class.ControlManager.js</depends>
+		<depends>jsWT/class.Widget.js</depends>
+		<depends>jsWT/class.jsWT.js</depends>
+	</entry>
+	<entry id="jsWT/class.jsWT.js" depends="jsWT/class.ControlManager.js"/>
+</entries>
