@@ -43,11 +43,12 @@ EventListener.prototype.handleEvent = function(e) {
 		e = e.event;
 	}
 	e = e ? e : window.event;
-	e.source = e.target ? e.target : e.srcElement;
-	e.x = e.pageX ? e.pageX : e.clientX;
-	e.y = e.pageY ? e.pageY : e.clientY;
+	e.source = typeof(e.target) != "undefined" ? e.target : e.srcElement;
+	// TODO: Check this!
+//	e.x = e.pageX ? e.pageX : e.clientX;
+//	e.y = e.pageY ? e.pageY : e.clientY;
 	this.event = e;
-	
+
 	// stop bubbling
 	if (this.event.stopPropagation) {
 		this.event.stopPropagation();

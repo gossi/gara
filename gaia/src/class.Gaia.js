@@ -1,6 +1,6 @@
 gaia = {
 	xmlDoc : null,
-	baseUrl : null,
+	baseUrl : "",
 	bDependsDocLoaded : false,
 	sMainScriptUrl : null,
 	bUseBaseUrl : false,
@@ -85,7 +85,7 @@ gaia = {
 		if (typeof(bUseBaseUrl) == "undefined")	{
 			this.bUseBaseUrl = false;
 		}
-	},
+	}
 
 }
 gaia.init();

@@ -1,6 +1,6 @@
 gaia = {
 	xmlDoc : null,
-	baseUrl : null,
+	baseUrl : "",
 	bDependsDocLoaded : false,
 	sMainScriptUrl : null,
 	bUseBaseUrl : false,

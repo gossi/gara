@@ -5,27 +5,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>jsWT: Tree</title>
 <link rel="stylesheet" type="text/css" href="../../gaia/gaia.css"/>
+<script type="text/javascript" src="/gaia/firebug/firebug.js"></script>
 <script type="text/javascript" src="../../gaia/gaia.combined.js"></script>
 <script type="text/javascript"><!--
 function main() {
 	l = new TreeListener();
 	try {
-	t = new Tree(null);
-	} catch(e) {
-		alert(e.message);
-	}
-	/*try {
-	t = new Tree(document.getElementsByTagName("body")[0]);
+		t = new Tree(document.getElementsByTagName("body")[0]);
 	} catch(e) {
 		var sText = null;
 		for (var p in e) {
 			sText += p + " = " + e[p] + "\n";
 		}
 		alert(sText);
-	}*/
+	}
+
 	t.addSelectionListener(l);
 	t.addClassName("myTree");
-	
+
 	var i1 = new TreeItem(t);
 	i1.setText("item1");
 	var i2 = new TreeItem(t);
@@ -53,13 +50,16 @@ function main() {
 	
 	var i8 = new TreeItem(i1);
 	i8.setText("item8");
+
 	
 	var i9img = new Image();
 	i9img.src = "../../gaia/res/images/error.png";
 	var i9 = new TreeItem(i4);
 	i9.setText("item9");
-	
-	i2.setImage(i9img);
+//	alert(t);
+//	i2.setImage(i9img);
+
+
 
 	t.update();
 
@@ -155,7 +155,15 @@ function TreeListener() {
 </fieldset>
 <h2>Tree Widget</h2>
 <script type="text/javascript">
-main();
+	try {
+		main();
+	} catch(e) {
+		var sText = null;
+		for (var p in e) {
+			sText += p + " = " + e[p] + "\n";
+		}
+		alert(sText);
+	}
 </script>
 </body>
 </html>

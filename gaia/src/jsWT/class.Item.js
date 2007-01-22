@@ -152,10 +152,9 @@ Item.prototype.setClassName = function(sClassName) {
  * @type void
  */
 Item.prototype.setImage = function(image) {
-
-	if (!(image instanceof Image) && image != null) {
-		throw new WrongObjectException('image is not instance of Image', 'Item', 'setImage');
-	}
+//	if (!(image instanceof Image) && image != null) {
+//		throw new WrongObjectException('image is not instance of Image', 'Item', 'setImage');
+//	}
 	
 	this.image = image;
 	this.bChanged = true;

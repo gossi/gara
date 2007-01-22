@@ -63,5 +63,5 @@ Firebug.prototype.update = function(node) {
  * @author Thomas Gossmann
  */
 Firebug.prototype.toString = function() {
-	return "Firebug";
+	return "[object Firebug]";
 }

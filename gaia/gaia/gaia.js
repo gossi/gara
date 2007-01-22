@@ -1,24 +1,3 @@
-var baseUrl;
-if(!baseUrl){
-var elements=document.getElementsByTagName("script");
-for(var i=0;i<elements.length;++i){
-if(elements[i].src&&(elements[i].src.indexOf("gaia.js")!=-1)){
-var src=elements[i].src;
-src=src.substring(0,src.lastIndexOf("/"));
-baseUrl=src;
-break;
-}
-}
-}
-var documentBasePath=document.location.href;
-if(documentBasePath.indexOf("?")!=-1){
-documentBasePath=documentBasePath.substring(0,documentBasePath.indexOf("?"));
-}
-var documentURL=documentBasePath;
-var documentBasePath=documentBasePath.substring(0,documentBasePath.lastIndexOf("/"));
-if(baseUrl.indexOf("://")==-1&&baseUrl.charAt(0)!="/"){
-baseUrl=documentBasePath+"/"+baseUrl;
-}
 Function.prototype.inheritsFrom=function(_1){
 if(_1.constructor==Function){
 this.prototype=new _1;
@@ -539,7 +518,7 @@ if(_5f instanceof (LogNode)){
 this.updated.push(_5f);
 };
 Firebug.prototype.toString=function(){
-return "Firebug";
+return "[object Firebug]";
 };
 function EventListener(){
 this.target=null;
@@ -552,9 +531,7 @@ if(e instanceof EventListener){
 e=e.event;
 }
 e=e?e:window.event;
-e.source=e.target?e.target:e.srcElement;
-e.x=e.pageX?e.pageX:e.clientX;
-e.y=e.pageY?e.pageY:e.clientY;
+e.source=typeof (e.target)!="undefined"?e.target:e.srcElement;
 this.event=e;
 if(this.event.stopPropagation){
 this.event.stopPropagation();
@@ -601,7 +578,7 @@ _67.addEventListener(_68,_6a,false);
 }else{
 if(_67.attachEvent){
 _6a=function(e){
-eval(_69+".handleEvent(e)");
+_69.handleEvent(e);
 };
 _67.attachEvent("on"+_68,_6a);
 }else{
@@ -639,7 +616,7 @@ _71.detachEvent("on"+_70.eventType,_70.listener);
 }
 }
 };
-gaia={xmlDoc:null,baseUrl:null,bDependsDocLoaded:false,sMainScriptUrl:null,bUseBaseUrl:false,init:function(){
+gaia={xmlDoc:null,baseUrl:"",bDependsDocLoaded:false,sMainScriptUrl:null,bUseBaseUrl:false,init:function(){
 this.getBaseUrl();
 this.interfaceTester=new InterfaceTester();
 this.console=new Console();
@@ -689,9 +666,9 @@ this.sMainScriptUrl=_78;
 if(typeof (_79)=="undefined"){
 this.bUseBaseUrl=false;
 }
-},};
+}};
 gaia.init();
-if(console){
+if(typeof (console)!="undefined"){
 gaia.getLog().addWriter(new Firebug());
 }
 InterfaceTester.prototype.isFocusListener=function(obj){
@@ -1411,9 +1388,6 @@ this.sClassName=_e9;
 this.bChanged=true;
 };
 Item.prototype.setImage=function(_ea){
-if(!(_ea instanceof Image)&&_ea!=null){
-throw new WrongObjectException("image is not instance of Image","Item","setImage");
-}
 this.image=_ea;
 this.bChanged=true;
 };

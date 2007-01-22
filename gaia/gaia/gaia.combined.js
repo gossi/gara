@@ -1,35 +1,3 @@
-/* Finding script base path from tinymce.moxiecode.com */
-var baseUrl;
-
-// Get script base path
-if (!baseUrl) {
-	var elements = document.getElementsByTagName('script');
-
-	for (var i = 0; i < elements.length; ++i) {
-		if( elements[i].src && (elements[i].src.indexOf("gaia.js") != -1) ) {
-			var src = elements[i].src;
-			src = src.substring(0, src.lastIndexOf('/'));
-
-			baseUrl = src;
-			break;
-		}
-	}
-}
-
-// Get document base path
-var documentBasePath = document.location.href;
-if (documentBasePath.indexOf('?') != -1) {
-	documentBasePath = documentBasePath.substring(0, documentBasePath.indexOf('?'));
-}
-var documentURL = documentBasePath;
-var documentBasePath = documentBasePath.substring(0, documentBasePath.lastIndexOf('/'));
-
-// If not HTTP absolute
-if (baseUrl.indexOf('://') == -1 && baseUrl.charAt(0) != '/') {
-	// If site absolute
-	baseUrl = documentBasePath + "/" + baseUrl;
-}
-
 // for inheritance, from: http://phrogz.net/JS/Classes/OOPinJS2.html
 Function.prototype.inheritsFrom = function(parentClassOrObject) { 
 	if (parentClassOrObject.constructor == Function) { 
@@ -745,7 +713,7 @@ Firebug.prototype.update = function(node) {
  * @author Thomas Gossmann
  */
 Firebug.prototype.toString = function() {
-	return "Firebug";
+	return "[object Firebug]";
 }
 /**
  * Event
@@ -792,11 +760,12 @@ EventListener.prototype.handleEvent = function(e) {
 		e = e.event;
 	}
 	e = e ? e : window.event;
-	e.source = e.target ? e.target : e.srcElement;
-	e.x = e.pageX ? e.pageX : e.clientX;
-	e.y = e.pageY ? e.pageY : e.clientY;
+	e.source = typeof(e.target) != "undefined" ? e.target : e.srcElement;
+	// TODO: Check this!
+//	e.x = e.pageX ? e.pageX : e.clientX;
+//	e.y = e.pageY ? e.pageY : e.clientY;
 	this.event = e;
-	
+
 	// stop bubbling
 	if (this.event.stopPropagation) {
 		this.event.stopPropagation();
@@ -849,7 +818,7 @@ EventManager.prototype.addEventListener = function(domNode, eventType, listener)
 		domNode.addEventListener(eventType, listenerFn, false);
 	} else if (domNode.attachEvent) {
 		listenerFn = function(e) {
-			eval(listener + ".handleEvent(e)");
+			listener.handleEvent(e);
 		}
 		domNode.attachEvent("on" + eventType, listenerFn);
 	} else {
@@ -896,7 +865,7 @@ EventManager.prototype.unregisterAllEvents = function() {
 }
 gaia = {
 	xmlDoc : null,
-	baseUrl : null,
+	baseUrl : "",
 	bDependsDocLoaded : false,
 	sMainScriptUrl : null,
 	bUseBaseUrl : false,
@@ -981,11 +950,11 @@ gaia = {
 		if (typeof(bUseBaseUrl) == "undefined")	{
 			this.bUseBaseUrl = false;
 		}
-	},
+	}
 
 }
 gaia.init();
-if (console) {
+if (typeof(console) != "undefined") {
 	gaia.getLog().addWriter(new Firebug());
 }
 InterfaceTester.prototype.isFocusListener = function(obj) {
@@ -2154,10 +2123,9 @@ Item.prototype.setClassName = function(sClassName) {
  * @type void
  */
 Item.prototype.setImage = function(image) {
-
-	if (!(image instanceof Image) && image != null) {
-		throw new WrongObjectException('image is not instance of Image', 'Item', 'setImage');
-	}
+//	if (!(image instanceof Image) && image != null) {
+//		throw new WrongObjectException('image is not instance of Image', 'Item', 'setImage');
+//	}
 	
 	this.image = image;
 	this.bChanged = true;

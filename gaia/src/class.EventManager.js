@@ -13,7 +13,7 @@ EventManager.prototype.addEventListener = function(domNode, eventType, listener)
 		domNode.addEventListener(eventType, listenerFn, false);
 	} else if (domNode.attachEvent) {
 		listenerFn = function(e) {
-			eval(listener + ".handleEvent(e)");
+			listener.handleEvent(e);
 		}
 		domNode.attachEvent("on" + eventType, listenerFn);
 	} else {

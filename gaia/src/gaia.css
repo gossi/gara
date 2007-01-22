@@ -108,7 +108,10 @@ ul.jsWTTree li span.textBox {
 	max-height: 18px;
 	line-height: 18px;
 	display: block;
-	margin-left: 18px;
+	margin-left: 18px !important;
+	margin-left: 0;
+	float: none !important;
+	float: left;
 }
 
 ul.jsWTTree li span.textBox img {
