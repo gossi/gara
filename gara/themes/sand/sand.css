@@ -1,0 +1,53 @@
+@CHARSET "UTF-8";
+
+/*
+Base color: C78F40
+http://www.colormatch.dk/
+
+-- choclate --
+ockerorange: C68F41
+das oben in blass: C6AB84
+blass: C6B9A5
+zwischen blass und braun / weiße schrift: 846B49
+braun / weiße schrift: 423524
+zwischen braun und braunschmutzblass: 958063
+braunschmutzblass: ADA090	
+
+komplementärfarben:
+C68F41	C6AB84	C6B9A5	846B49	423524	958063	ADA090
+
+-- sand --
+EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
+*/
+
+.sand ul.jsWTList {
+	width: 300px;
+	border: 1px solid #000;
+	height: 450px;
+	overflow: auto;
+	background-color: #EAE6D6;
+	padding: 5px;
+}
+
+.sand ul.jsWTList li span {
+	border: 1px solid #EAE6D6;
+	background-color: #EAE6D6;
+	color: #000;
+	line-height: 21px;
+}
+
+.sand ul.jsWTListActive li.selected span {
+	border: 1px solid #9C9577;
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+.sand ul.jsWTListActive li.active span {
+	border: 1px dashed #000;
+}
+
+.sand ul.jsWTListInactive li.selected span {
+	border: 1px solid #CCC8BA;
+	background-color: #CCC8BA;
+	color: #000;
+}

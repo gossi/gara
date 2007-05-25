@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>gara list</title>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../lib/class-debug.js"></script>
+<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<script type="text/javascript">
+eval(base2.namespace);
+base2.DOM.bind(window);
+</script>
+
+<script type="text/javascript" src="../../src/core/_prepend.js"></script>
+<script type="text/javascript" src="../../src/core/_namespace.js"></script>
+<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/core/gara.js"></script>
+<script type="text/javascript" src="../../src/core/_append.js"></script>
+<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
+<!--
+<script type="text/javascript" src="../../build/gara-core.js"></script>
+<script type="text/javascript" src="../../build/gara-jswt.js"></script>
+-->
+<script type="text/javascript">
+function main() {
+	var l = new List(document.getElementById("container"));
+	
+	var i = new ListItem(l);
+	i.setText("Item 1");
+	
+	var i2 = new ListItem(l);
+	i2.setText("Item 2");
+	
+	var i3 = new ListItem(l);
+	i3.setText("Item 3");
+	
+	var i4 = new ListItem(l);
+	i4.setText("Item 4 - dblclick");
+	
+	var i5 = new ListItem(l);
+	i5.setText("Item 5");
+	
+	l.update();
+
+	i4.addListener("dblclick", new DblClicker());
+	l.addListener("contextmenu", new ContextMenu());
+}
+
+$class("DblClicker", {
+	$constructor : function() {},
+	handleEvent : function(e) {
+		alert("dblclicked item " + e.target.obj);
+	}
+});
+
+$class("ContextMenu", {
+	_contextMenu : null,
+	$constructor : function() {},
+	build : function() {
+		this._contextMenu = document.createElement("div");
+		this._contextMenu.style.position = "absolute";
+		this._contextMenu.style.width = "100px";
+		this._contextMenu.style.height = "30px";
+		this._contextMenu.style.border = "1px solid #000";
+		this._contextMenu.style.backgroundColor = "#FFF";
+		this._contextMenu.style.display = "none";
+		this._contextMenu.innerHTML = "Context Menu";
+		document.getElementsByTagName("body")[0].appendChild(this._contextMenu);
+	},
+
+	handleEvent : function(e) {
+		return false;
+		/*if (e.type == "contextmenu") {
+			if ($class.instanceOf(e.target.obj, ListItem)) {
+//			alert("here");
+//				if (e.which == 2) {
+					this.show(e.pageX, e.pageY);
+//				}
+			}
+			return false;
+		}*/
+	},
+	
+	show : function(x, y) {
+		if (this._contextMenu == null) {
+			this.build();
+		}
+		
+		this._contextMenu.style.left = x + "px";
+		this._contextMenu.style.top = y + "px";
+		this._contextMenu.style.display = "block";
+	},
+});
+onDOMLoaded(main);
+</script>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.List</h1>
+<div id="container" class="sand">
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+/**
+ * @class
+ * @private
+ */
+new function() {

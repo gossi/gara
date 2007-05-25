@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gara" basedir="../" default="-compress">
+	
+	<property name="srcDir" value="${basedir}/src"/>
+	<property name="buildDir" value="${basedir}/build"/>
+
+	<!-- gara core package -->
+	<property name="garaDir" value="${srcDir}/core"/>
+	<property name="garaFile" value="${buildDir}/gara-core.js"/>
+
+	<filelist id="garaFL" dir="${garaDir}">
+		<file name="EventManager.class.js"/>
+		<file name="OutOfBoundsException.class.js"/>
+		<file name="gara.js"/>
+	</filelist>
+
+	<!-- gara jswt package -->
+	<property name="jswtDir" value="${srcDir}/jswt"/>
+	<property name="jswtFile" value="${buildDir}/gara-jswt.js"/>
+
+	<filelist id="jswtFL" dir="${jswtDir}">
+		<file name="FocusListener.interface.js"/>
+		<file name="SelectionListener.interface.js"/>
+		<file name="Widget.class.js"/>
+		<file name="Control.class.js"/>
+		<file name="List.class.js"/>
+		<file name="Item.class.js"/>
+		<file name="ListItem.class.js"/>
+		<file name="ControlManager.class.js"/>
+	</filelist>
+
+	<target name="-cleanup">
+		<delete dir="${buildDir}"/>
+		<mkdir dir="${buildDir}"/>
+		<delete dir="${basedir}/docs/api"/>
+		<delete dir="${basedir}/docs/apixml"/>
+		<mkdir dir="${basedir}/docs/api"/>
+		<mkdir dir="${basedir}/docs/apixml"/>
+		<mkdir dir="${basedir}/docs/apixml/core"/>
+		<mkdir dir="${basedir}/docs/apixml/jswt"/>
+	</target>
+	
+	<target name="-build" depends="-cleanup">
+		<antcall target=".buildPackage">
+			<param name="dir" value="${garaDir}"/>
+			<param name="files" value="garaFL"/>
+			<param name="file" value="${garaFile}"/>
+		</antcall>
+		
+		<antcall target=".buildPackage">
+			<param name="dir" value="${jswtDir}"/>
+			<param name="files" value="jswtFL"/>
+			<param name="file" value="${jswtFile}"/>
+		</antcall>
+	</target>
+	
+	<target name="-combine" depends="-build">
+		<concat destfile="${buildDir}/gara.combined.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js"/>
+		</concat>
+	</target>
+	
+	<target name="-xmldoc" depends="-combine">
+		<java jar="buildscripts/lib/js.jar" failonerror="true" dir="buildscripts/" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/gara"/>
+			<arg value="-d=../docs/apixml" />
+			<arg value="../build/gara.combined.js" />
+		</java>
+		
+		<!-- Core Classes -->
+		<java jar="buildscripts/lib/js.jar" failonerror="true" dir="buildscripts/" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/garaclasses"/>
+			<arg value="-d=../docs/apixml/core" />
+			<arg value="../src/core" />
+		</java>
+		
+		<!-- gara.jswt Classes -->
+		<java jar="buildscripts/lib/js.jar" failonerror="true" dir="buildscripts/" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/garaclasses"/>
+			<arg value="-d=../docs/apixml/jswt" />
+			<arg value="../src/jswt" />
+		</java>
+		
+		<!-- gara.jsface Classes -->
+		
+		<!-- build class hierarchy -->
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/apixml/class_hierarchy.xml" style="${basedir}/buildscripts/doc/class_hierarchy.xsl"/>
+	</target>
+	
+	<target name="-doc" depends="-xmldoc">
+		<copy file="${basedir}/buildscripts/doc/garaapi.css" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/doc/garaapi.js" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/doc/blank.html" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/doc/frameset.html" tofile="${basedir}/docs/api/index.html"/>
+		
+		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_namespaces.html" style="${basedir}/buildscripts/doc/namespaces.xsl"/>
+		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_nav_namespaces.html" style="${basedir}/buildscripts/doc/nav_namespaces.xsl"/>
+		
+		<!-- gara core files -->
+		<xslt basedir="${basedir}/docs/apixml/core" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/doc/class.xsl">
+			<mapper>
+				<regexpmapper from="^([^\\\/]+)\.xml$$" to="gara.\1.html" handledirsep="true"/>
+			</mapper>
+		</xslt>
+		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/gara._tree.html" style="${basedir}/buildscripts/doc/class_tree.xsl">
+			<param name="Namespace" expression="gara"/>
+		</xslt>
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._overview.html" style="${basedir}/buildscripts/doc/overview.xsl">
+			<param name="Namespace" expression="gara"/>
+		</xslt>
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._nav.html" style="${basedir}/buildscripts/doc/nav_namespace.xsl">
+			<param name="Namespace" expression="gara"/>
+		</xslt>
+		
+		<!-- gara.jswt files -->
+		<xslt basedir="${basedir}/docs/apixml/jswt" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/doc/class.xsl">
+			<mapper>
+				<regexpmapper from="^([^\\\/]+)\.xml$$" to="gara.jswt.\1.html" handledirsep="true"/>
+			</mapper>
+		</xslt>
+		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/gara.jswt._tree.html" style="${basedir}/buildscripts/doc/class_tree.xsl">
+			<param name="Namespace" expression="gara.jswt"/>
+		</xslt>
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._overview.html" style="${basedir}/buildscripts/doc/overview.xsl">
+			<param name="Namespace" expression="gara.jswt"/>
+		</xslt>
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._nav.html" style="${basedir}/buildscripts/doc/nav_namespace.xsl">
+			<param name="Namespace" expression="gara.jswt"/>
+		</xslt>
+	</target>
+	
+	<target name="-compress" depends="-doc">
+		<java jar="${basedir}/buildscripts/lib/custom_rhino.jar" failonerror="true" fork="true"
+			logerror="true" output="${buildDir}/gara.compressed.js">
+			<arg value="-strict" />
+			<arg value="-opt"/>
+			<arg value="9" />
+			<arg value="-c" />
+			<arg value="${buildDir}/gara.combined.js" />
+		</java>
+	</target>
+	
+	<target name=".buildPackage">
+		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${dir}" files="_prepend.js"/>
+			<filelist dir="${basedir}/buildscripts/static/" files="head.txt"/>
+			<filelist dir="${dir}" files="_namespace.js" />
+		</concat>
+
+		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist refid="${files}" />
+		</concat>
+		
+		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${dir}" files="_append.js"/>
+			<filelist dir="${basedir}/buildscripts/static/" files="foot.txt" />
+		</concat>
+	</target>
+</project>
