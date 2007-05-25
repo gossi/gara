@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>gara.EventManager</title>
+<link rel="stylesheet" type="text/css" href="garaapi.css"/>
+</head>
+<body>
+<ul class="nav">
+<li>
+<a href="_namespaces.html">Namespaces</a>
+</li>
+<li>
+<a href="gara._overview.html">Overview</a>
+</li>
+<li>
+<a href="gara._tree.html">Class Tree</a>
+</li>
+</ul>
+<h1>EventManager</h1>
+<pre>
+<a href="gara.EventManager.class.html">gara.EventManager</a>
+</pre>
+<hr/>
+<pre>public class <strong>EventManager</strong>
+</pre>
+<p>EventManager is used to store all event listeners throughout the document.
+This helps to keep all listeners stored in one point and also pretend memory
+leaks by releasing all listeners at the unload event.</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+<dt>See Also:</dt>
+<dd>
+<tt>
+<a href="http://ajaxcookbook.org/event-handling-memory-leaks/">http://ajaxcookbook.org/event-handling-memory-leaks/</a>
+</tt>
+</dd>
+</dl>
+<h2>Method Summary</h2>
+<table>
+<tbody>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method__unregisterAllEvents">_unregisterAllEvents</a>()</tt>
+<span class="description">Removes all stored listeners on the page unload.</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">Event</td>
+<td>
+<tt>
+<a href="#method_addListener">addListener</a>(HTMLElement domNode, DOMString type, Object|Function listener)</tt>
+<span class="description">Adds a listener to a specified domNode and store the added event in the
+event manager.</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_handleEvent">handleEvent</a>()</tt>
+<span class="description">handleEvent is used to catch the unload-event of the window and pass
+it to _unregisterAllEvents() to free up memory.</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_removeListener">removeListener</a>(Event event)</tt>
+<span class="description">Removes a specified event</span>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Method Detail</h2>
+<h3 id="method_addListener">addListener</h3>
+<pre>public void <strong>addListener</strong>(HTMLElement domNode, DOMString type, Object|Function listener)</pre>
+<p class="description">Adds a listener to a specified domNode and store the added event in the
+event manager.</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>domNode</tt> - the node where the event is added to</dd>
+<dd>
+<tt>type</tt> - the event type</dd>
+<dd>
+<tt>listener</tt> - the desired action handler</dd>
+<dt>Returns:</dt>
+<dd> generated event-object for this listener</dd>
+</dl>
+<hr/>
+<h3 id="method_removeListener">removeListener</h3>
+<pre>public void <strong>removeListener</strong>(Event event)</pre>
+<p class="description">Removes a specified event</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>event</tt> - object which is returned by addListener()</dd>
+<dt>See Also:</dt>
+<dd>
+<tt></tt>
+</dd>
+</dl>
+<hr/>
+<ul class="nav">
+<li>
+<a href="_namespaces.html">Namespaces</a>
+</li>
+<li>
+<a href="gara._overview.html">Overview</a>
+</li>
+<li>
+<a href="gara._tree.html">Class Tree</a>
+</li>
+</ul>
+</body>
+</html>
