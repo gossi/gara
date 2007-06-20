@@ -51,7 +51,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:call-template name="linkClass">
-										<xsl:with-param name="className" select="concat($Namespace, '.', @name)"/>
+										<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
 									</xsl:call-template>
 								</xsl:otherwise>
 							</xsl:choose>

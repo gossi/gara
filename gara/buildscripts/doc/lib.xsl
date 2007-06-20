@@ -109,29 +109,29 @@
 	</xsl:template>
 	
 	<xsl:template name="linkClass">
-		<xsl:param name="className"/>
+		<xsl:param name="canonicalName"/>
 		<xsl:param name="useCanonicalName" select="'false'"/>
 		
 		<xsl:variable name="namespace">
 			<xsl:call-template name="getNamespace">
-				<xsl:with-param name="Object" select="$className"/>
+				<xsl:with-param name="Object" select="$canonicalName"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
-		<xsl:variable name="class">
+		<xsl:variable name="className">
 			<xsl:call-template name="getClass">
-				<xsl:with-param name="Object" select="$className"/>
+				<xsl:with-param name="Object" select="$canonicalName"/>
 			</xsl:call-template>
 		</xsl:variable>
 		
 		<xsl:variable name="href">
 			<xsl:choose>
-				<xsl:when test="$jsdoc//class[@name = $class and namespace = $namespace]/@isInterface = 'true'">
+				<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace]/@isInterface = 'true'">
 					<xsl:value-of select="$namespace"/>
 					<xsl:if test="$namespace != ''">
 						<xsl:text>.</xsl:text>
 					</xsl:if>
-					<xsl:value-of select="$class"/>
+					<xsl:value-of select="$className"/>
 					<xsl:text>.interface.html</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -139,7 +139,7 @@
 					<xsl:if test="$namespace != ''">
 						<xsl:text>.</xsl:text>
 					</xsl:if>
-					<xsl:value-of select="$class"/>
+					<xsl:value-of select="$className"/>
 					<xsl:text>.class.html</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -147,8 +147,8 @@
 
 		<a href="{$href}">
 			<xsl:choose>
-				<xsl:when test="$useCanonicalName = 'true'"><xsl:value-of select="$className"/></xsl:when>
-				<xsl:otherwise><xsl:value-of select="$class"/></xsl:otherwise>
+				<xsl:when test="$useCanonicalName = 'true'"><xsl:value-of select="$canonicalName"/></xsl:when>
+				<xsl:otherwise><xsl:value-of select="$className"/></xsl:otherwise>
 			</xsl:choose>
 		</a>
 	</xsl:template>
@@ -194,8 +194,8 @@
 		<xsl:param name="namespace"/>
 		
 		<ul class="nav">
-			<li><a href="_namespaces.html">Namespaces</a></li>
-			<li><a href="{$namespace}._overview.html">Overview</a></li>
+			<li><a href="_overview.html">Overview</a></li>
+			<li><a href="{$namespace}._namespace.html">Namespace</a></li>
 			<li><a href="{$namespace}._tree.html">Class Tree</a></li>
 		</ul>
 	</xsl:template>

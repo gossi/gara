@@ -24,20 +24,20 @@
 				<strong><xsl:value-of select="$Namespace"/></strong>
 				
 				<ul id="nav">
-					<xsl:for-each select="//class[namespace = $Namespace]">
+					<xsl:for-each select="//class[namespace = $Namespace and @isPrivate = 'false']">
 						<xsl:sort select="@name"/>
 						<li>
 							<xsl:choose>
 								<xsl:when test="@isInterface = 'true'">
 									<em>
 										<xsl:call-template name="linkClass">
-											<xsl:with-param name="className" select="concat($Namespace, '.', @name)"/>
+											<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
 										</xsl:call-template>
 									</em>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:call-template name="linkClass">
-										<xsl:with-param name="className" select="concat($Namespace, '.', @name)"/>
+										<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
 									</xsl:call-template>
 								</xsl:otherwise>
 							</xsl:choose>
