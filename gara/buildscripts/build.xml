@@ -96,7 +96,7 @@
 		<copy file="${basedir}/buildscripts/doc/blank.html" todir="${basedir}/docs/api"/>
 		<copy file="${basedir}/buildscripts/doc/frameset.html" tofile="${basedir}/docs/api/index.html"/>
 		
-		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_namespaces.html" style="${basedir}/buildscripts/doc/namespaces.xsl"/>
+		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_overview.html" style="${basedir}/buildscripts/doc/overview.xsl"/>
 		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_nav_namespaces.html" style="${basedir}/buildscripts/doc/nav_namespaces.xsl"/>
 		
 		<!-- gara core files -->
@@ -108,7 +108,7 @@
 		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/gara._tree.html" style="${basedir}/buildscripts/doc/class_tree.xsl">
 			<param name="Namespace" expression="gara"/>
 		</xslt>
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._overview.html" style="${basedir}/buildscripts/doc/overview.xsl">
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._namespace.html" style="${basedir}/buildscripts/doc/namespace.xsl">
 			<param name="Namespace" expression="gara"/>
 		</xslt>
 		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._nav.html" style="${basedir}/buildscripts/doc/nav_namespace.xsl">
@@ -124,7 +124,7 @@
 		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/gara.jswt._tree.html" style="${basedir}/buildscripts/doc/class_tree.xsl">
 			<param name="Namespace" expression="gara.jswt"/>
 		</xslt>
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._overview.html" style="${basedir}/buildscripts/doc/overview.xsl">
+		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._namespace.html" style="${basedir}/buildscripts/doc/namespace.xsl">
 			<param name="Namespace" expression="gara.jswt"/>
 		</xslt>
 		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._nav.html" style="${basedir}/buildscripts/doc/nav_namespace.xsl">
