@@ -30,8 +30,7 @@ $class("Control", {
 
 	/**
 	 * @method
-	 * 
-	 * @constructor
+	 *
 	 */
 	$constructor : function() {
 		this.$base();
