@@ -16,13 +16,6 @@ $class("Control", {
 
 	/**
 	 * @field
-	 * Stores the HTMLInputElement that controls the focus of this object
-	 * @private
-	 */
-	_focushack : null,
-
-	/**
-	 * @field
 	 * internal boolean to keep status of a focused or non-focused control
 	 * @private
 	 */
@@ -66,7 +59,17 @@ $class("Control", {
 	 * @returns {void}
 	 */
 	forceFocus : function() {
-		this._focushack.focus();
+		console.log("Control.forceFocus");
+		this._hasFocus = true;
+
+		this.removeClassName(this._baseClass + "Inactive");
+		this.addClassName(this._baseClass + "Active");
+		this.update();
+
+		// notify focus listeners
+		for (var i = 0, len = this._focusListener.length; i < len; ++i) {
+			this._focusListener[i].focusGained(this);
+		}
 	},
 
 	/**
@@ -93,45 +96,15 @@ $class("Control", {
 	 * @returns {void}
 	 */
 	looseFocus : function() {
-		this._focushack.blur();
-	},
-
-	/**
-	 * @method
-	 * Internal handler when the control gains focused
-	 * 
-	 * @private
-	 */
-	onFocus : function(e) {
-		console.log("onfocus");
-		this._hasFocus = true;
-
-		this.removeClassName(this._baseClass + "Inactive");
-		this.addClassName(this._baseClass + "Active");
-		this.update();
-
-		// notify focus listeners
-		for (var i = 0, len = this._focusListener.length; i < len; ++i) {
-			this._focusListener[i].focusGained(this);
-		}
-	},
-
-	/**
-	 * @method
-	 * Internal handler when the control looses focus
-	 * 
-	 * @private
-	 */
-	onBlur : function(e) {
-		console.log("onblur");
+		console.log("Control.looseFocus");
 		this._hasFocus = false;
-
+	
 		this.removeClassName(this._baseClass + "Active");
 		this.addClassName(this._baseClass + "Inactive");
 		this.update();
 
 		// notify focus listeners
-		for (var i = 0, len = this._focusListener; i < len; ++i) {
+		for (var i = 0, len = this._focusListener.length; i < len; ++i) {
 			this._focusListener[i].focusLost(this);
 		}
 	},

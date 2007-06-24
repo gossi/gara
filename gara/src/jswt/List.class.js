@@ -16,6 +16,7 @@ $class("List", {
 
 	$constructor : function(parentNode) {
 		this.$base();
+		this._list = null;
 		this._parentNode = parentNode;
 		this._className = this._baseClass = "jsWTList";
 	},
@@ -134,12 +135,13 @@ $class("List", {
 	handleEvent : function(e) {
 		// special events for the list
 		var obj = e.target.obj || null;
+		console.log("List.handleEvent: " + e.type + " => triggered on " + e.target + " bubbled to " + e.currentTarget + " "  + e.target.obj + " " + e.target.control);
 		switch (e.type) {
 			case "mousedown":
-//				if (!this.isFocusControl()) {
-//					console.log("force focus");
+				if (!this._hasFocus) {
+					console.log("List.handleEvent: force focus");
 					this.forceFocus();
-//				}
+				}
 
 				if ($class.instanceOf(obj, ListItem)) {
 					var item = obj;
@@ -160,15 +162,14 @@ $class("List", {
 						this.select(item);
 					}
 				}
-				console.log("List.handleEvent: mousedown => " + e.target.obj + " " + e.target.control);
 				break;
-			
-//			case "mouseup":
+
+			case "mouseup":
 //				if (!this.isFocusControl()) {
 //					console.log("force focus");
 //					this.forceFocus();
 //				}
-//				break;
+				break;
 
 			case "keydown":
 				this._handleKeyEvent(e);
@@ -371,37 +372,19 @@ $class("List", {
 			this.domref.obj = this;
 			this.domref.control = this;
 
-			// for keeping track of the focus on the tree widget
-			this._focushack = document.createElement("input");
-			this._focushack.obj = this;
-			this._focushack.control = this;
-			this._focushack.style.position = "absolute";
-			this._focushack.style.left = "-9999px";
-			this.domref.appendChild(this._focushack);
-			
-			var em = gara.eventManager;
-			var list = this;
-
-			/* special list event listener */
-			em.addListener(this._focushack, "focus", function(e) {
-				list.onFocus(e);
-			});
-			
-			em.addListener(this._focushack, "blur", function(e) {
-				list.onBlur(e);
-			});
-
 			/* user-defined event listener */
-			for (var type in this._listener) {
-				this._listener[type].forEach(function(elem, index, arr) {
-					gara.eventManager.addListener(this.domref, type, elem);
-				}, this);
-			}
+//			TODO: BUGGY! check this!
+//			for (var type in this._listener) {
+//				this._listener[type].forEach(function(elem, index, arr) {
+//					gara.eventManager.addListener(this.domref, type, elem);
+//				}, this);
+//			}
 
 			/* list event listener */
 			this.addListener("mousedown", this);
-			this.addListener("mouseup", this);
 			this.addListener("keydown", this);
+
+			this._parentNode.appendChild(this.domref);
 		}
 
 		this.domref.className = this._className;
@@ -409,14 +392,12 @@ $class("List", {
 	},
 
 	_updateItems : function() {
-		for (var i = 0, items = this._items.length; i < items; ++i) {
-			var item = this._items[i];
+		this._items.forEach(function(item, index, arr) {
 	
 			// create item ...
 			if (!item.isCreated()) {
 				node = item.create();
 				this.domref.appendChild(node);
-				this._parentNode.appendChild(this.domref);
 			}
 
 			// ... or update it
@@ -424,6 +405,6 @@ $class("List", {
 				item.update();
 				item.releaseChange();
 			}
-		}
+		}, this);
 	}
 });

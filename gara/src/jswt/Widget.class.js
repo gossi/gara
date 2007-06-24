@@ -99,7 +99,7 @@ $class("Widget", {
 
 	/**
 	 * @method
-	 * Sets the class name for the item
+	 * Sets the CSS class for the item
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} className the new class name

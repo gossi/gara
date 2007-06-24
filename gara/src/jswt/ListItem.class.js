@@ -14,6 +14,8 @@ $class("ListItem", {
 		this.$base();
 		this._list = list;
 		this._list.addItem(this);
+		this._txt = null;
+		this._img = null;
 	},
 
 	create : function() {
@@ -42,11 +44,13 @@ $class("ListItem", {
 		this._txt.control = this._list;
 		this._txt.innerHTML = this._text;
 		this.domref.appendChild(this._txt);
-		
+
 		// register listener
 		for (var type in this._listener) {
 			this._listener[type].forEach(function(elem, index, arr) {
-				gara.eventManager.addListener(this.domref, type, elem);
+//				gara.eventManager.addListener(this.domref, type, elem);
+				console.log("ListItem.create: " + arr[index]);
+				this.registerListener(type, elem);
 			}, this);
 		}
 
@@ -54,19 +58,29 @@ $class("ListItem", {
 	},
 
 	handleEvent : function(e) {
-		if (this._listener.hasOwnProperty(e.type)) {
-			for (listener in this._listener[e.type]) {
-				listener.handleEvent(e);
-			}
-		}
+		console.log("ListItem.handleEvent: " + e.type);
+//		if (this._listener.hasOwnProperty(e.type)) {
+//			console.log(this._listener[e.type]);
+//			for (var listener in this._listener[e.type]) {
+////				console.log(listener);
+//				console.log(this._listener[e.type][listener])//.handleEvent(e);
+//			}
+//		}
+//		
+//		e.stopPropagation();
+//		e.preventDefault();
 	},
-	
-	registerListener : function(eventType, listener) {
-		if (this._img != null) {
-			gara.eventManager.addListener(this._img, eventType, listener);
-		}
 
-		gara.eventManager.addListener(this._txt, eventType, listener);
+	registerListener : function(eventType, listener) {
+//		if (this._img != null) {
+//			gara.eventManager.addListener(this._img, eventType, listener);
+//		}
+
+//		gara.eventManager.addListener(this._txt, eventType, listener);
+//		gara.eventManager.addListener(this.domref, eventType, listener);
+		if (this.domref != null) {
+			gara.eventManager.addListener(this.domref, eventType, listener);
+		}
 	},
 
 	update : function() {

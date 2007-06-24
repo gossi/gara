@@ -31,6 +31,7 @@ $class("ControlManager", {
 	},
 
 	focusLost : function(control) {
+		console.log("focus lost");
 		if (!$class.instanceOf(control, Control)) {
 			throw new TypeError("control is not a Control");
 		}
@@ -38,7 +39,6 @@ $class("ControlManager", {
 		if (this._activeControl == control) {
 			this._activeControl = null;
 		}
-		// dummy method
 	},
 
 	handleEvent : function(e) {
@@ -49,11 +49,11 @@ $class("ControlManager", {
 		}
 
 		if (e.type == "mousedown") {
-			console.log("ControlManager.handleEvent: mousedown");
-			if (this._activeControl != null && e.target.control
-				&& e.target.control != this._activeControl) {
-				console.log("loose focus");
-//				this._activeControl.looseFocus();
+			console.log("ControlManager.handleEvent: mousedown, activeControl: " + this._activeControl);
+			if (this._activeControl != null && (e.target.control
+				? e.target.control != this._activeControl : true)) {
+				console.log("ControlManager.handleEvent: loose focus");
+				this._activeControl.looseFocus();
 				this._activeControl = null;
 			}
 		}
