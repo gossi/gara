@@ -159,8 +159,11 @@
 						<xsl:variable name="methodName" select="substring-after(@name, $substr)"/>
 						<xsl:variable name="returnType">
 							<xsl:choose>
-								<xsl:when test="returns/return">
-									<xsl:value-of select="returns/return/@type"/>
+								<xsl:when test="return">
+									<xsl:value-of select="return/@type"/>
+								</xsl:when>
+								<xsl:when test="type">
+									<xsl:value-of select="type"/>
 								</xsl:when>
 								<xsl:otherwise>void</xsl:otherwise>
 							</xsl:choose>
@@ -172,7 +175,7 @@
 							<xsl:call-template name="type">
 								<xsl:with-param name="type" select="$returnType"/>
 							</xsl:call-template>
-							<xsl:text> </xsl:text> 
+							<xsl:text> </xsl:text>
 							<strong><xsl:value-of select="$methodName"/></strong>
 							<xsl:text>(</xsl:text>
 							<xsl:for-each select="params/param">
@@ -242,7 +245,7 @@
 
 		<table class="own">
 			<tbody>
-				<xsl:for-each select="$Objects/*[name() = $type]">
+				<xsl:for-each select="$Objects/*[name() = $type and @isPrivate = 'false']">
 					<xsl:sort select="@name"/>
 					<xsl:variable name="propName" select="substring-after(@name, $substr)"/>
 					<xsl:variable name="returnType">

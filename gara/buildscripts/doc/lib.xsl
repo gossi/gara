@@ -44,7 +44,29 @@
 				<dt>Parameters:</dt>
 				
 				<xsl:for-each select="$Object/params/param">
-					<dd><tt><xsl:value-of select="@name"/></tt> - <xsl:value-of select="description"/></dd>
+					<dd>
+						<tt>
+							<xsl:call-template name="linkClass">
+								<xsl:with-param name="canonicalName" select="@type"/>
+							</xsl:call-template>
+							<xsl:text> </xsl:text>
+							<xsl:value-of select="@name"/>
+						</tt> - <xsl:value-of select="description"/>
+					</dd>
+				</xsl:for-each>
+			</xsl:if>
+			
+			<xsl:if test="count($Object/throws/throw) &gt; 0">
+				<dt>Throws:</dt>
+				
+				<xsl:for-each select="$Object/throws/throw">
+					<dd>
+						<tt>
+							<xsl:call-template name="linkClass">
+								<xsl:with-param name="canonicalName" select="@type"/>
+							</xsl:call-template>
+						</tt> - <xsl:value-of select="description"/>
+					</dd>
 				</xsl:for-each>
 			</xsl:if>
 
@@ -134,23 +156,33 @@
 					<xsl:value-of select="$className"/>
 					<xsl:text>.interface.html</xsl:text>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace]/@isInterface = 'false'">
 					<xsl:value-of select="$namespace"/>
 					<xsl:if test="$namespace != ''">
 						<xsl:text>.</xsl:text>
 					</xsl:if>
 					<xsl:value-of select="$className"/>
 					<xsl:text>.class.html</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="-1"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 
-		<a href="{$href}">
-			<xsl:choose>
-				<xsl:when test="$useCanonicalName = 'true'"><xsl:value-of select="$canonicalName"/></xsl:when>
-				<xsl:otherwise><xsl:value-of select="$className"/></xsl:otherwise>
-			</xsl:choose>
-		</a>
+		<xsl:choose>
+			<xsl:when test="$href = -1">
+				<xsl:value-of select="$canonicalName"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<a href="{$href}">
+					<xsl:choose>
+						<xsl:when test="$useCanonicalName = 'true'"><xsl:value-of select="$canonicalName"/></xsl:when>
+						<xsl:otherwise><xsl:value-of select="$className"/></xsl:otherwise>
+					</xsl:choose>
+				</a>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template name="type">
@@ -178,7 +210,7 @@
 		<xsl:choose>
 			<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace]">
 				<xsl:call-template name="linkClass">
-					<xsl:with-param name="className" select="concat($namespace, '.', $className)"/>
+					<xsl:with-param name="canonicalName" select="concat($namespace, '.', $className)"/>
 				</xsl:call-template>
 				<xsl:if test="contains($type, '[]')">
 					<xsl:text>[]</xsl:text>

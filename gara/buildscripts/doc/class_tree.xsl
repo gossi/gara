@@ -45,7 +45,7 @@
 								<xsl:when test="$jsdoc//class[@name = $className and namespace = $Namespace]/@isInterface = 'true'">
 									<em>
 										<xsl:call-template name="linkClass">
-											<xsl:with-param name="className" select="concat($Namespace, '.', @name)"/>
+											<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
 										</xsl:call-template>
 									</em>
 								</xsl:when>
