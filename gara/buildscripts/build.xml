@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gara" basedir="../" default="-compress">
+<project name="gara" basedir="../" default="deploy">
 	
 	<property name="srcDir" value="${basedir}/src"/>
 	<property name="buildDir" value="${basedir}/build"/>
+	<property name="deployDir" value="${basedir}/gara"/>
+	<property name="libDir" value="${basedir}/lib"/>
 
 	<!-- gara core package -->
 	<property name="garaDir" value="${srcDir}/core"/>
@@ -32,6 +34,8 @@
 	<target name="-cleanup">
 		<delete dir="${buildDir}"/>
 		<mkdir dir="${buildDir}"/>
+		<delete dir="${deployDir}"/>
+		<mkdir dir="${deployDir}"/>
 		<delete dir="${basedir}/docs/api"/>
 		<delete dir="${basedir}/docs/apixml"/>
 		<mkdir dir="${basedir}/docs/api"/>
@@ -55,7 +59,7 @@
 	</target>
 	
 	<target name="-combine" depends="-build">
-		<concat destfile="${buildDir}/gara.combined.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+		<concat destfile="${buildDir}/gara-src.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js"/>
 		</concat>
 	</target>
@@ -65,7 +69,7 @@
 			<arg value="lib/jsDoc.js" />
 			<arg value="-t=templates/gara"/>
 			<arg value="-d=../docs/apixml" />
-			<arg value="../build/gara.combined.js" />
+			<arg value="../build/gara-src.js" />
 		</java>
 		
 		<!-- Core Classes -->
@@ -134,22 +138,48 @@
 	
 	<target name="-compress" depends="-doc">
 		<java jar="${basedir}/buildscripts/lib/custom_rhino.jar" failonerror="true" fork="true"
-			logerror="true" output="${buildDir}/gara.compressed.js">
+			logerror="true" output="${buildDir}/gara-bc.js">
 			<arg value="-strict" />
 			<arg value="-opt"/>
 			<arg value="9" />
 			<arg value="-c" />
-			<arg value="${buildDir}/gara.combined.js" />
+			<arg value="${buildDir}/gara-src.js" />
 		</java>
 	</target>
 	
+	<target name="deploy" depends="-compress">
+		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
+
+		<!-- gara.js (all dependant libs included) -->
+		<concat destfile="${deployDir}/gara.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${libDir}" files="class-min.js"/>
+			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
+			<filelist dir="${deployDir}" files="gara-bc.js" />
+		</concat>
+
+		<!-- gara-c.js ($class lib excluded) -->
+		<concat destfile="${deployDir}/gara-c.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
+			<filelist dir="${deployDir}" files="gara-bc.js" />
+		</concat>
+
+		<!-- gara-b.js (base2 lib excluded) -->
+		<concat destfile="${deployDir}/gara-b.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${libDir}" files="class-min.js"/>
+			<filelist dir="${deployDir}" files="gara-bc.js" />
+		</concat>
+		
+		<!-- copy gara.js for developing examples -->
+		<copy file="${deployDir}/gara.js" todir="${basedir}"/>
+	</target>
+
 	<target name=".buildPackage">
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${dir}" files="_prepend.js"/>
 			<filelist dir="${basedir}/buildscripts/static/" files="head.txt"/>
 			<filelist dir="${dir}" files="_namespace.js" />
 		</concat>
-
+	
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist refid="${files}" />
 		</concat>
@@ -159,4 +189,4 @@
 			<filelist dir="${basedir}/buildscripts/static/" files="foot.txt" />
 		</concat>
 	</target>
-</project>
+	</project>
