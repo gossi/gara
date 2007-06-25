@@ -8,17 +8,24 @@
 $class("Item", {
 	$extends : Widget,
 
-	_changed : false,
-	_image : null,
-	_text : "",
-
+	/**
+	 * @method
+	 * Constructor
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {gara.jswt.Item}
+	 */
 	$constructor : function() {
 		this.$base();
+		this._changed = false;
+		this._image = null;
+		this._text = "";
 	},
 
 	/**
 	 * @method
-	 * Returns the image for that item
+	 * Returns the items image
 	 * 
 	 * @author Thomas Gossmann
 	 * @returns {Image} the items image
@@ -29,7 +36,7 @@ $class("Item", {
 	
 	/**
 	 * @method
-	 * Returns the text
+	 * Returns the items text
 	 * 
 	 * @author Thomas Gossmann
 	 * @return {String} the text for this item
@@ -103,29 +110,17 @@ $class("Item", {
 			throw new TypeError("image not instance of Image");
 		}
 		
-	//	if (!(image instanceof Image) && image != null) {
-	//		throw new WrongObjectException('image is not instance of Image', 'Item', 'setImage');
-	//	}
-		
 		this._image = image;
 		this._changed = true;
 	},
-	
-	/*
-	 * Set wether this item is painted
+
+	/**
+	 * @method
+	 * Set this item selected
 	 * 
 	 * @author Thomas Gossmann
-	 * @param {boolean} bIsPainted true for painted, false for not
-	 * @type void
-	 *
-	Item.prototype.setPainted = function(bIsPainted) {
-		this.bIsPainted = bIsPainted;
-	
-		if (bIsPainted) {
-			this.bChanged = false;
-		}
-	}*/
-	
+	 * @returns {void}
+	 */
 	setSelected : function() {
 		this.addClassName("selected");
 	},
@@ -136,14 +131,21 @@ $class("Item", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} text the new text
-	 * @type {void}
+	 * @returns {void}
 	 */
 	setText : function(text) {
 		this._text = text;
 		this._changed = true;
 	},
 
+	/**
+	 * @method
+	 * Set this item unselected
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	setUnselected : function() {
 		this.removeClassName("selected");
-	},
+	}
 });

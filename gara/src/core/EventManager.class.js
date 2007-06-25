@@ -32,7 +32,7 @@ $class("EventManager", {
 	 * @return {Event} generated event-object for this listener
 	 */
 	addListener : function(domNode, type, listener) {
-		console.log("EventMngr.addListener: " + domNode + " " + type + " " + listener);
+//		console.log("EventMngr.addListener: " + domNode + " " + type + " " + listener);
 		domNode.addEventListener(type, listener, false);
 		
 		var event = {

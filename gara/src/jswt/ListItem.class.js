@@ -1,4 +1,6 @@
 /**
+ * gara ListItem for List Widget
+ * 
  * @class ListItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -6,18 +8,37 @@
  */
 $class("ListItem", {
 	$extends : Item,
-	_list : null,
-	_txt : null,
-	_img : null,
 
+	/**
+	 * @method
+	 * Constructor
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.List} list the List Widget for this item
+	 * @throws {TypeError} if the list is not a List widget
+	 * @returns {gara.jswt.ListItem}
+	 */
 	$constructor : function(list) {
+		if (!$class.instanceOf(list, List)) {
+			throw new TypeError("list is not type of List");
+		}
 		this.$base();
 		this._list = list;
 		this._list.addItem(this);
-		this._txt = null;
+		this._span = null;
+		this._spanText = null;
 		this._img = null;
 	},
 
+	/**
+	 * @method
+	 * Internal creation process of this item
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	create : function() {
 		this.domref = document.createElement("li");
 		this.domref.className = this._className;
@@ -39,50 +60,49 @@ $class("ListItem", {
 			this.domref.appendChild(this._img);
 		}
 
-		this._txt = document.createElement("span");
-		this._txt.obj = this;
-		this._txt.control = this._list;
-		this._txt.innerHTML = this._text;
-		this.domref.appendChild(this._txt);
+		this._spanText = document.createTextNode(this._text);
+		
+		this._span = document.createElement("span");
+		this._span.obj = this;
+		this._span.control = this._list;
+		this._span.appendChild(this._spanText);
+		this.domref.appendChild(this._span);
 
 		// register listener
-		for (var type in this._listener) {
-			this._listener[type].forEach(function(elem, index, arr) {
-//				gara.eventManager.addListener(this.domref, type, elem);
-				console.log("ListItem.create: " + arr[index]);
-				this.registerListener(type, elem);
+		for (var eventType in this._listener) {
+			this._listener[eventType].forEach(function(elem, index, arr) {
+				this.registerListener(eventType, elem);
 			}, this);
 		}
 
 		return this.domref;
 	},
 
-	handleEvent : function(e) {
-		console.log("ListItem.handleEvent: " + e.type);
-//		if (this._listener.hasOwnProperty(e.type)) {
-//			console.log(this._listener[e.type]);
-//			for (var listener in this._listener[e.type]) {
-////				console.log(listener);
-//				console.log(this._listener[e.type][listener])//.handleEvent(e);
-//			}
-//		}
-//		
-//		e.stopPropagation();
-//		e.preventDefault();
-	},
-
+	/**
+	 * @method
+	 * Register listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	registerListener : function(eventType, listener) {
-//		if (this._img != null) {
-//			gara.eventManager.addListener(this._img, eventType, listener);
-//		}
+		if (this._img != null) {
+			gara.eventManager.addListener(this._img, eventType, listener);
+		}
 
-//		gara.eventManager.addListener(this._txt, eventType, listener);
-//		gara.eventManager.addListener(this.domref, eventType, listener);
-		if (this.domref != null) {
-			gara.eventManager.addListener(this.domref, eventType, listener);
+		if (this._span != null) {
+			gara.eventManager.addListener(this._span, eventType, listener);
 		}
 	},
 
+	/**
+	 * @method
+	 * Updates the list item
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	update : function() {
 		// create image
 		if (this.image != null && this._img == null) {
@@ -91,12 +111,12 @@ $class("ListItem", {
 			this._img.control = this._list;
 			this._img.alt = this.sText;
 			this._img.src = this.image.src;
-			this.domref.insertBefore(this._img, this._txt);
+			this.domref.insertBefore(this._img, this._span);
 			
 			// event listener
 			for (var eventType in this._listener) {
-				this._listener[type].forEach(function(elem, index, arr) {
-					gara.eventManager.addListener(this._img, type, elem);
+				this._listener[eventType].forEach(function(elem, index, arr) {
+					this.registerListener(this._img, eventType, elem);
 				}, this);
 			}
 		}
@@ -111,21 +131,20 @@ $class("ListItem", {
 		else if (this._img != null && this.image == null) {
 			this.domref.removeChild(this._img);
 			this._img = null;
-			
+
 			// event listener
 			for (var eventType in this._listener) {
-				this._listener[type].forEach(function(elem, index, arr) {
+				this._listener[eventType].forEach(function(elem, index, arr) {
 					gara.eventManager.removeListener({
 						domNode : this._img,
-						type: type, 
+						type: eventType, 
 						listener : elem
 					});
 				}, this);
 			}
 		}
 
-
-		this._txt.innerHTML = this._text;
+		this._spanText.value = this._text;
 		this.domref.className = this._className;
 	}
 });

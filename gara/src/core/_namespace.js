@@ -38,5 +38,5 @@ $class("Namespace", {
 
 var garaPkg = new Namespace({
 	exports : "onDOMLoaded,Namespace",
-	name : "gara",
+	name : "gara"
 });

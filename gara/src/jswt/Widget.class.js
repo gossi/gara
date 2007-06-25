@@ -26,7 +26,7 @@ function strReplace(string, search, replace) {
  * @namespace gara.jswt
  * @see http://gara.creative2.net
  * @see gara.jswt.List
- * @see <span style="color: #f00">blubb</span>
+ * @see <span style="color: #f00">doc-test... am i red?</span>
  */
 $class("Widget", {
 	/**
@@ -37,6 +37,10 @@ $class("Widget", {
 	 */
 	domref : null,
 
+	/**
+	 * @method
+	 * @private
+	 */
 	$constructor : function() {
 		this._className = "";
 		this._baseClass = "";
@@ -76,7 +80,7 @@ $class("Widget", {
 		return this._className;
 	},
 	
-	handleEvent : $abstract(function(e){}),
+//	handleEvent : $abstract(function(e){}),
 	
 	registerListener : $abstract(function(eventType, listener){}),
 

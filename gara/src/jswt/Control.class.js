@@ -8,28 +8,15 @@ $class("Control", {
 	$extends : Widget,
 
 	/**
-	 * @field
-	 * Stores all focus listener to this control
-	 * @private
-	 */
-	_focusListener : null,
-
-	/**
-	 * @field
-	 * internal boolean to keep status of a focused or non-focused control
-	 * @private
-	 */
-	_hasFocus : false,
-
-	/**
 	 * @method
-	 *
+	 * @private
 	 */
 	$constructor : function() {
 		this.$base();
 
 		// add Control to the ControlManager and add as focus listener
 		this._focusListener = [];
+		this._hasFocus = false;
 
 		ctrlManager.addControl(this);
 		this.addFocusListener(ctrlManager);
@@ -59,7 +46,6 @@ $class("Control", {
 	 * @returns {void}
 	 */
 	forceFocus : function() {
-		console.log("Control.forceFocus");
 		this._hasFocus = true;
 
 		this.removeClassName(this._baseClass + "Inactive");
@@ -96,7 +82,6 @@ $class("Control", {
 	 * @returns {void}
 	 */
 	looseFocus : function() {
-		console.log("Control.looseFocus");
 		this._hasFocus = false;
 	
 		this.removeClassName(this._baseClass + "Active");

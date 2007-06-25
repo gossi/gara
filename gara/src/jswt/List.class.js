@@ -1,4 +1,6 @@
 /**
+ * gara List Widget
+ * 
  * @class List
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -7,21 +9,41 @@
 $class("List", {
 	$extends : Control,
 
-	_selection : [],
-	_selectionListener : [],
-	_items : [],
-	_parentNode : null,
-	_activeItem : null,
-	_shiftItem : null,
-
+	/**
+	 * @method
+	 * Constructor
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {HTMLElement} parentNode parent dom node for the widget
+	 * @returns {gara.jswt.List} list widget
+	 */
 	$constructor : function(parentNode) {
 		this.$base();
 		this._list = null;
+		this._items = [];
+		this._selection = [];
+		this._selectionListener = [];
+		this._activeItem = null;
+		this._shiftItem = null;
 		this._parentNode = parentNode;
 		this._className = this._baseClass = "jsWTList";
 	},
 
+	/**
+	 * @method
+	 * Activates an item
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.ListItem} item the item that should added to the List
+	 * @throws {TypeError} if the item is not a ListItem
+	 * @returns {void}
+	 */
 	_activateItem : function(item) {
+		if (!$class.instanceOf(item, ListItem)) {
+			throw new TypeError("item is not type of ListItem");
+		}
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
@@ -32,6 +54,16 @@ $class("List", {
 		this.update();
 	},
 
+	/**
+	 * @method
+	 * Adds an item to the list (invoked by the constructor of ListItem)
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.ListItem} item the item that should added to the List
+	 * @throws {TypeError} if the item is not a ListItem
+	 * @returns {void}
+	 */
 	addItem : function(item) {
 		if (!$class.instanceOf(item, ListItem)) {
 			throw new TypeError("item is not type of ListItem");
@@ -40,6 +72,7 @@ $class("List", {
 	},
 
 	/**
+	 * @method
 	 * Adds a selection listener on the list
 	 * 
 	 * @author Thomas Gossmann
@@ -55,6 +88,15 @@ $class("List", {
 		this._selectionListener.push(listener);
 	},
 
+	/**
+	 * @method
+	 * Deselects an item
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.ListItem} item the item that should be deselected
+	 * @throws {TypeError} if the item is not a ListItem
+	 * @returns {void}
+	 */
 	deselect : function(item) {
 		if (!$class.instanceOf(item, ListItem)) {
 			throw new TypeError("item not instance of ListItem");
@@ -69,14 +111,22 @@ $class("List", {
 		}
 	},
 
+	/**
+	 * @method
+	 * Deselects all items
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	deselectAll : function() {
 		for (var i = 0, len = this._items.length; i < len; ++i) {
-			this.deselect(this._items[i], true);
+			this.deselect(this._items[i]);
 		}
 		this.update();
 	},
 
 	/**
+	 * @method
 	 * Gets a specified item with a zero-related index
 	 * 
 	 * @author Thomas Gossmann
@@ -93,6 +143,7 @@ $class("List", {
 	},
 
 	/**
+	 * @method
 	 * Returns the amount of the items in the list
 	 * 
 	 * @author Thomas Gossmann
@@ -103,6 +154,7 @@ $class("List", {
 	},
 
 	/**
+	 * @method
 	 * Returns an array with all the items in the list
 	 * 
 	 * @author Thomas Gossmann
@@ -113,6 +165,7 @@ $class("List", {
 	},
 
 	/**
+	 * @method
 	 * Returns an array with the items which are currently selected in the list
 	 * 
 	 * @author Thomas Gossmann
@@ -123,6 +176,7 @@ $class("List", {
 	},
 
 	/**
+	 * @method
 	 * Returns the amount of the selected items in the tree
 	 * 
 	 * @author Thomas Gossmann
@@ -132,14 +186,20 @@ $class("List", {
 		return this._selection.length;
 	},
 
+	/**
+	 * @method
+	 * Handles events on the list. Implements DOMEvent Interface by the W3c.
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Event} e event the users triggers
+	 * @returns {void}
+	 */
 	handleEvent : function(e) {
 		// special events for the list
 		var obj = e.target.obj || null;
-		console.log("List.handleEvent: " + e.type + " => triggered on " + e.target + " bubbled to " + e.currentTarget + " "  + e.target.obj + " " + e.target.control);
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
-					console.log("List.handleEvent: force focus");
 					this.forceFocus();
 				}
 
@@ -163,23 +223,20 @@ $class("List", {
 					}
 				}
 				break;
-
-			case "mouseup":
-//				if (!this.isFocusControl()) {
-//					console.log("force focus");
-//					this.forceFocus();
-//				}
-				break;
-
-			case "keydown":
-				this._handleKeyEvent(e);
-				break;
 		}
 
-//		e.stopPropagation();
-//		e.preventDefault();
+		e.stopPropagation();
 	},
 
+	/**
+	 * @method
+	 * handling key events on the List
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {Event} e event the users triggers
+	 * @returns {void}
+	 */
 	_handleKeyEvent : function(e) {
 	
 	//	window.status = "keycode: " + e.keyCode;
@@ -234,7 +291,7 @@ $class("List", {
 					}
 				}
 				break;
-				
+
 			case 32 : // space
 				if (this._selection.contains(this._activeItem) && e.ctrlKey) {
 					this.deselect(this._activeItem);
@@ -267,11 +324,13 @@ $class("List", {
 	},
 
 	/**
+	 * @method
 	 * Looks for the index of a specified item
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this list
+	 * @throws {TypeError} if the item is not a ListItem
 	 * @returns {int} the index of the specified item
 	 */
 	indexOf : function(item) {
@@ -284,21 +343,39 @@ $class("List", {
 			throw new ItemNotExistsException("item [" + item + "] does not exists in this list");
 			return;
 		}
-	
+
 		return this._items.indexOf(item);
 	},
 
+	/**
+	 * @method
+	 * Notifies selection listener about the changed selection within the List
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	notifySelectionListener : function() {
 		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
 			this._selectionListeners[i].widgetSelected(this);
 		}
 	},
 	
+	/**
+	 * @method
+	 * Register listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	registerListener : function(eventType, listener) {
-		gara.eventManager.addListener(this.domref, eventType, listener);
+		if (this.domref != null) {
+			gara.eventManager.addListener(this.domref, eventType, listener);
+		}
 	},
 
 	/**
+	 * @method
 	 * Removes a selection listener from this list
 	 * 
 	 * @author Thomas Gossmann
@@ -310,18 +387,27 @@ $class("List", {
 			this._selectionListener.remove(listener);
 		}
 	},
-	
+
+	/**
+	 * @method
+	 * Selects an item
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.ListItem} item the item that should be selected
+	 * @throws {TypeError} if the item is not a ListItem
+	 * @returns {void}
+	 */
 	select : function(item, _add) {
 		if (!$class.instanceOf(item, ListItem)) {
 			throw new TypeError("item not instance of ListItem");
 		}
-	
+
 		if (!_add) {
 			while (this._selection.length) {
 				this._selection.pop().setUnselected();
 			}
 		}
-		
+
 		if (!this._selection.contains(item)) {
 			this._selection.push(item);
 			item.setSelected();
@@ -330,8 +416,9 @@ $class("List", {
 			this.notifySelectionListener();
 		}
 	},
-	
+
 	/**
+	 * @method
 	 * Select all items in the list
 	 * 
 	 * @author Thomas Gossmann
@@ -344,27 +431,48 @@ $class("List", {
 		this.update();
 	},
 
-	selectRange : function(item, bAdd) {
-		if (!bAdd) {
+	/**
+	 * @method
+	 * Selects a range. From the item with shift-lock to the passed item.
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.ListItem} item the item that should be selected
+	 * @throws {TypeError} if the item is not a ListItem
+	 * @returns {void}
+	 */
+	selectRange : function(item, _add) {
+		if (!$class.instanceOf(item, ListItem)) {
+			throw new TypeError("item not instance of ListItem");
+		}
+
+		if (!_add) {
 			while (this._selection.length) {
 				this._selection.pop().setUnselected();
 			}
 		}
-		
+
 		var indexShift = this.indexOf(this._shiftItem);
 		var indexItem = this.indexOf(item);
 		var from = indexShift > indexItem ? indexItem : indexShift;
 		var to = indexShift < indexItem ? indexItem : indexShift;
-	
+
 		for (var i = from; i <= to; ++i) {
 			this._selection.push(this._items[i]);
 			this._items[i].setSelected();
 		}
-	
+
 		this.notifySelectionListener();
 		this._activateItem(item);
 	},
-	
+
+	/**
+	 * @method
+	 * Updates the list!
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	update : function() {
 		// create widget if domref equals null
 		if (this.domref == null) {
@@ -372,26 +480,28 @@ $class("List", {
 			this.domref.obj = this;
 			this.domref.control = this;
 
-			/* user-defined event listener */
-//			TODO: BUGGY! check this!
-//			for (var type in this._listener) {
-//				this._listener[type].forEach(function(elem, index, arr) {
-//					gara.eventManager.addListener(this.domref, type, elem);
-//				}, this);
-//			}
+			/* buffer unregistered user-defined listeners */
+			var unregisteredListener = {};			
+			for (var eventType in this._listener) {
+				unregisteredListener[eventType] = this._listener[eventType].concat([]);
+			}
 
-			/* list event listener */
+			/* List event listener */
 			this.addListener("mousedown", this);
-			this.addListener("keydown", this);
+
+			/* register user-defined listeners */
+			for (var eventType in unregisteredListener) {
+				unregisteredListener[eventType].forEach(function(elem, index, arr) {
+					this.registerListener(eventType, elem);
+				}, this);
+			}
 
 			this._parentNode.appendChild(this.domref);
 		}
 
 		this.domref.className = this._className;
-		this._updateItems();
-	},
-
-	_updateItems : function() {
+		
+		// update items
 		this._items.forEach(function(item, index, arr) {
 	
 			// create item ...

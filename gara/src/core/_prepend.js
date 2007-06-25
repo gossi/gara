@@ -11,7 +11,7 @@ if (!Array.prototype.forEach) {
 }
 
 if (!Array.prototype.indexOf) {
-	Array.prototype.contains = function(search, start) {return Array2.search(this,search, start)};
+	Array.prototype.indexOf = function(search, start) {return Array2.indexOf(this,search, start)};
 }
 
 if (!Array.prototype.insertAt) {
