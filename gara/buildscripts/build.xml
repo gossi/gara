@@ -5,6 +5,9 @@
 	<property name="buildDir" value="${basedir}/build"/>
 	<property name="deployDir" value="${basedir}/gara"/>
 	<property name="libDir" value="${basedir}/lib"/>
+	<property name="archiveDir" value="${basedir}/archives"/>
+
+	<property name="version" value="0.01-alpha"/>
 
 	<!-- gara core package -->
 	<property name="garaDir" value="${srcDir}/core"/>
@@ -13,7 +16,7 @@
 	<filelist id="garaFL" dir="${garaDir}">
 		<file name="EventManager.class.js"/>
 		<file name="OutOfBoundsException.class.js"/>
-		<file name="gara.js"/>
+		<file name="onDOMLoaded.function.js"/>
 	</filelist>
 
 	<!-- gara jswt package -->
@@ -31,11 +34,12 @@
 		<file name="ControlManager.class.js"/>
 	</filelist>
 
-	<target name="-cleanup">
+	<target name="-cleanupCommon">
 		<delete dir="${buildDir}"/>
 		<mkdir dir="${buildDir}"/>
-		<delete dir="${deployDir}"/>
-		<mkdir dir="${deployDir}"/>
+	</target>
+
+	<target name="-cleanupDoc" depends="-cleanupCommon">
 		<delete dir="${basedir}/docs/api"/>
 		<delete dir="${basedir}/docs/apixml"/>
 		<mkdir dir="${basedir}/docs/api"/>
@@ -43,8 +47,13 @@
 		<mkdir dir="${basedir}/docs/apixml/core"/>
 		<mkdir dir="${basedir}/docs/apixml/jswt"/>
 	</target>
-	
-	<target name="-build" depends="-cleanup">
+
+	<target name="-cleanupDeploy" depends="-cleanupCommon">
+		<delete dir="${deployDir}"/>
+		<mkdir dir="${deployDir}"/>
+	</target>
+
+	<target name="-build" depends="-cleanupCommon">
 		<antcall target=".buildPackage">
 			<param name="dir" value="${garaDir}"/>
 			<param name="files" value="garaFL"/>
@@ -62,6 +71,17 @@
 		<concat destfile="${buildDir}/gara-src.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js"/>
 		</concat>
+	</target>
+	
+	<target name="-compress" depends="-combine">
+		<java jar="${basedir}/buildscripts/lib/custom_rhino.jar" failonerror="true" fork="true"
+			logerror="true" output="${buildDir}/gara-bc.js">
+			<arg value="-strict" />
+			<arg value="-opt"/>
+			<arg value="9" />
+			<arg value="-c" />
+			<arg value="${buildDir}/gara-src.js" />
+		</java>
 	</target>
 	
 	<target name="-xmldoc" depends="-combine">
@@ -94,7 +114,7 @@
 		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/apixml/class_hierarchy.xml" style="${basedir}/buildscripts/doc/class_hierarchy.xsl"/>
 	</target>
 	
-	<target name="-doc" depends="-xmldoc">
+	<target name="doc" depends="-cleanupDoc,-xmldoc">
 		<copy file="${basedir}/buildscripts/doc/garaapi.css" todir="${basedir}/docs/api"/>
 		<copy file="${basedir}/buildscripts/doc/garaapi.js" todir="${basedir}/docs/api"/>
 		<copy file="${basedir}/buildscripts/doc/blank.html" todir="${basedir}/docs/api"/>
@@ -135,19 +155,8 @@
 			<param name="Namespace" expression="gara.jswt"/>
 		</xslt>
 	</target>
-	
-	<target name="-compress" depends="-doc">
-		<java jar="${basedir}/buildscripts/lib/custom_rhino.jar" failonerror="true" fork="true"
-			logerror="true" output="${buildDir}/gara-bc.js">
-			<arg value="-strict" />
-			<arg value="-opt"/>
-			<arg value="9" />
-			<arg value="-c" />
-			<arg value="${buildDir}/gara-src.js" />
-		</java>
-	</target>
-	
-	<target name="deploy" depends="-compress">
+
+	<target name="deploy" depends="-cleanupDeploy,-compress">
 		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
 
 		<!-- gara.js (all dependant libs included) -->
@@ -172,6 +181,14 @@
 		<!-- copy gara.js for developing examples -->
 		<copy file="${deployDir}/gara.js" todir="${basedir}"/>
 	</target>
+	
+	<target name="distribute" depends="deploy">
+		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
+			<tarfileset dir="${basedir}" includes="examples/,res/,themes/"/>
+			<tarfileset dir="${basedir}/docs" includes="api/"/>
+			<tarfileset dir="${deployDir}" includes="*.js"/>
+		</tar>
+	</target>
 
 	<target name=".buildPackage">
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
@@ -185,8 +202,9 @@
 		</concat>
 		
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
-			<filelist dir="${dir}" files="_append.js"/>
+			<filelist dir="${dir}" files="_ps.js"/>
 			<filelist dir="${basedir}/buildscripts/static/" files="foot.txt" />
+			<filelist dir="${dir}" files="_append.js"/>
 		</concat>
 	</target>
 	</project>
