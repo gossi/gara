@@ -40,19 +40,23 @@
 	</target>
 
 	<target name="-cleanupDoc" depends="-cleanupCommon">
-		<delete dir="${basedir}/docs/api"/>
+		<delete dir="${basedir}/docs/api">
+			<include name="**/*"/>
+		</delete>
 		<delete dir="${basedir}/docs/apixml"/>
-		<mkdir dir="${basedir}/docs/api"/>
 		<mkdir dir="${basedir}/docs/apixml"/>
 		<mkdir dir="${basedir}/docs/apixml/core"/>
 		<mkdir dir="${basedir}/docs/apixml/jswt"/>
 	</target>
-
+	
 	<target name="-cleanupDeploy" depends="-cleanupCommon">
-		<delete dir="${deployDir}"/>
-		<mkdir dir="${deployDir}"/>
+		<delete>
+			<fileset dir="${deployDir}">
+				<include name="**/*"/>
+			</fileset>
+		</delete>
 	</target>
-
+	
 	<target name="-build" depends="-cleanupCommon">
 		<antcall target=".buildPackage">
 			<param name="dir" value="${garaDir}"/>
