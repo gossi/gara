@@ -1,41 +1,41 @@
 if(!Array.prototype.contains){
 Array.prototype.contains=function(_1){
-return Array2.contains(this,_1);
+return base2.Array2.contains(this,_1);
 };
 }
 if(!Array.prototype.forEach){
 Array.prototype.forEach=function(_2,_3){
-return Array2.forEach(this,_2,_3);
+return base2.Array2.forEach(this,_2,_3);
 };
 }
 if(!Array.prototype.indexOf){
 Array.prototype.indexOf=function(_4,_5){
-return Array2.indexOf(this,_4,_5);
+return base2.Array2.indexOf(this,_4,_5);
 };
 }
 if(!Array.prototype.insertAt){
 Array.prototype.insertAt=function(_6,_7){
-return Array2.insertAt(this,_6,_7);
+return base2.Array2.insertAt(this,_6,_7);
 };
 }
 if(!Array.prototype.insertBefore){
 Array.prototype.insertBefore=function(_8,_9){
-return Array2.insertBefore(this,_8,_9);
+return base2.Array2.insertBefore(this,_8,_9);
 };
 }
 if(!Array.prototype.lastIndexOf){
 Array.prototype.lastIndexOf=function(_a,_b){
-return Array2.lastIndexOf(this,_a,_b);
+return base2.Array2.lastIndexOf(this,_a,_b);
 };
 }
 if(!Array.prototype.remove){
 Array.prototype.remove=function(_c){
-return Array2.remove(this,_c);
+return base2.Array2.remove(this,_c);
 };
 }
 if(!Array.prototype.removeAt){
 Array.prototype.removeAt=function(_d){
-return Array2.removeAt(this,_d);
+return base2.Array2.removeAt(this,_d);
 };
 }
 var gara={};
@@ -47,21 +47,21 @@ this.exports=_e.exports||"";
 if(this.name!="gara"){
 this.name="gara."+this.name;
 }
-var _f="gara,"+this.imports.split(",");
+var _f=("gara,"+this.imports).split(",");
 this.imports="";
-forEach(_f,function(v,k,_12){
+_f.forEach(function(v,k,arr){
 if(gara[v]){
 this.imports+=gara[v].namespace;
 }
 },this);
 var _13=this.exports.split(",");
 this.exports="";
-forEach(_13,function(v,k,_16){
+_13.forEach(function(v,k,arr){
 this.exports+=this.name+"."+v+"="+v+";";
 this.namespace+="var "+v+"="+this.name+"."+v+";";
 },this);
 }});
-var _17=new Namespace({exports:"onDOMLoaded,Namespace",name:"gara"});
+var _17=new Namespace({exports:"Namespace",name:"gara"});
 $class("EventManager",{_listeners:[],$constructor:function(){
 window.addEventListener("unload",this,false);
 },addListener:function(_18,_19,_1a){
@@ -83,13 +83,17 @@ while(this._listeners.length>0){
 var _1e=this._listeners.pop();
 this.removeListener(_1e);
 }
+},toString:function(){
+return "[gara.EventManager]";
 }});
 gara.eventManager=new EventManager();
 $class("OutOfBoundsException",{$extends:Exception,$constructor:function(_1f){
 this.message=String(_1f);
 this.name=$class.typeOf(this);
+},toString:function(){
+return "[gara.OutOfBoundsException]";
 }});
-var _20=function(f){
+var _20=gara.onDOMLoaded=function(f){
 if(document.addEventListener){
 document.addEventListener("DOMContentLoaded",f,false);
 }else{
@@ -116,15 +120,25 @@ window.onload=f;
 };
 eval(_17.exports);
 gara.namespace=_17.namespace;
+gara.toString=function(){
+return "[gara]";
 };
+};
+delete Namespace;
+delete EventManager;
+delete OutOfBoundsException;
 gara.jswt={};
 new function(){
-var _24=new gara.Namespace({name:"jswt",exports:"Widget,Control,List,Item,ListItem",imports:"gara"});
+var _24=new gara.Namespace({name:"jswt",exports:"Widget,Control,List,Item,ListItem,FocusListener,SelectionListener",imports:"gara"});
 eval(_24.imports);
 $interface("FocusListener",{focusGained:function(){
 },focusLost:function(){
+},toString:function(){
+return "[gara.jswt.FocusListener]";
 }});
 $interface("SelectionListener",{widgetSelected:function(_25){
+},toString:function(){
+return "[gara.jswt.SelectionListener]";
 }});
 function strReplace(_26,_27,_28){
 output=""+_26;
@@ -158,6 +172,8 @@ this._listener[_2f].remove(_30);
 },setClassName:function(_31){
 this._className=_31;
 this._changed=true;
+},toString:function(){
+return "[gara.jswt.Widget]";
 }});
 $class("Control",{$extends:Widget,$constructor:function(){
 this.$base();
@@ -166,8 +182,8 @@ this._hasFocus=false;
 _32.addControl(this);
 this.addFocusListener(_32);
 },addFocusListener:function(_33){
-if(!$class.implementationOf(_33,FocusListener)){
-throw new TypeError("listener is not a FocusListener");
+if(!$class.implementationOf(_33,gara.jswt.FocusListener)){
+throw new TypeError("listener is not a gara.jswt.FocusListener");
 }
 this._focusListener.push(_33);
 },forceFocus:function(){
@@ -190,12 +206,14 @@ for(var i=0,len=this._focusListener.length;i<len;++i){
 this._focusListener[i].focusLost(this);
 }
 },removeFocusListener:function(_39){
-if(!_39.$class.implementsInterface(FocusListener)){
-throw new TypeError("listener is not a FocusListener");
+if(!_39.$class.implementsInterface(gara.jswt.FocusListener)){
+throw new TypeError("listener is not a gara.jswt.FocusListener");
 }
 if(this._focusListener.contains(_39)){
 this._focusListener.remove(_39);
 }
+},toString:function(){
+return "[gara.jswt.Control";
 },update:$abstract(function(){
 })});
 $class("List",{$extends:Control,$constructor:function(_3a){
@@ -209,8 +227,8 @@ this._shiftItem=null;
 this._parentNode=_3a;
 this._className=this._baseClass="jsWTList";
 },_activateItem:function(_3b){
-if(!$class.instanceOf(_3b,ListItem)){
-throw new TypeError("item is not type of ListItem");
+if(!$class.instanceOf(_3b,gara.jswt.ListItem)){
+throw new TypeError("item is not type of gara.jswt.ListItem");
 }
 if(this._activeItem!=null){
 this._activeItem.setActive(false);
@@ -219,18 +237,18 @@ this._activeItem=_3b;
 this._activeItem.setActive(true);
 this.update();
 },addItem:function(_3c){
-if(!$class.instanceOf(_3c,ListItem)){
-throw new TypeError("item is not type of ListItem");
+if(!$class.instanceOf(_3c,gara.jswt.ListItem)){
+throw new TypeError("item is not type of gara.jswt.ListItem");
 }
 this._items.push(_3c);
 },addSelectionListener:function(_3d){
-if(!$class.instanceOf(_3d,SelectionListener)){
-throw new TypeError("listener is not instance of SelectionListener");
+if(!$class.instanceOf(_3d,gara.jswt.SelectionListener)){
+throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
 }
 this._selectionListener.push(_3d);
 },deselect:function(_3e){
-if(!$class.instanceOf(_3e,ListItem)){
-throw new TypeError("item not instance of ListItem");
+if(!$class.instanceOf(_3e,gara.jswt.ListItem)){
+throw new TypeError("item not instance of gara.jswt.ListItem");
 }
 if(this._selection.contains(_3e)){
 this._selection.remove(_3e);
@@ -264,7 +282,7 @@ case "mousedown":
 if(!this._hasFocus){
 this.forceFocus();
 }
-if($class.instanceOf(obj,ListItem)){
+if($class.instanceOf(obj,gara.jswt.ListItem)){
 var _44=obj;
 if(!e.ctrlKey&&!e.shiftKey){
 this.select(_44,false);
@@ -380,11 +398,11 @@ this._activateItem(this._items[_49]);
 break;
 }
 },indexOf:function(_4a){
-if(!$class.instanceOf(_4a,ListItem)){
-throw new TypeError("item not instance of ListItem (List.indexOf)");
+if(!$class.instanceOf(_4a,gara.jswt.ListItem)){
+throw new TypeError("item not instance of gara.jswt.ListItem");
 }
 if(!this._items.contains(_4a)){
-throw new ItemNotExistsException("item ["+_4a+"] does not exists in this list");
+throw new gara.jswt.ItemNotExistsException("item ["+_4a+"] does not exists in this list");
 return;
 }
 return this._items.indexOf(_4a);
@@ -397,12 +415,15 @@ if(this.domref!=null){
 gara.eventManager.addListener(this.domref,_4d,_4e);
 }
 },removeSelectionListener:function(_4f){
+if(!$class.instanceOf(_4f,gara.jswt.SelectionListener)){
+throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
+}
 if(this._selectionListener.contains(_4f)){
 this._selectionListener.remove(_4f);
 }
 },select:function(_50,_51){
-if(!$class.instanceOf(_50,ListItem)){
-throw new TypeError("item not instance of ListItem");
+if(!$class.instanceOf(_50,gara.jswt.ListItem)){
+throw new TypeError("item not instance of gara.jswt.ListItem");
 }
 if(!_51){
 while(this._selection.length){
@@ -422,8 +443,8 @@ this.select(this._items[i],true);
 }
 this.update();
 },selectRange:function(_54,_55){
-if(!$class.instanceOf(_54,ListItem)){
-throw new TypeError("item not instance of ListItem");
+if(!$class.instanceOf(_54,gara.jswt.ListItem)){
+throw new TypeError("item not instance of gara.jswt.ListItem");
 }
 if(!_55){
 while(this._selection.length){
@@ -440,6 +461,8 @@ this._items[i].setSelected();
 }
 this.notifySelectionListener();
 this._activateItem(_54);
+},toString:function(){
+return "[gara.jswt.List]";
 },update:function(){
 if(this.domref==null){
 this.domref=document.createElement("ul");
@@ -505,10 +528,12 @@ this._text=_65;
 this._changed=true;
 },setUnselected:function(){
 this.removeClassName("selected");
+},toString:function(){
+return "[gara.jswt.Item]";
 }});
 $class("ListItem",{$extends:Item,$constructor:function(_66){
-if(!$class.instanceOf(_66,List)){
-throw new TypeError("list is not type of List");
+if(!$class.instanceOf(_66,gara.jswt.List)){
+throw new TypeError("list is not type of gara.jswt.List");
 }
 this.$base();
 this._list=_66;
@@ -549,6 +574,8 @@ gara.eventManager.addListener(this._img,_6b,_6c);
 if(this._span!=null){
 gara.eventManager.addListener(this._span,_6b,_6c);
 }
+},toString:function(){
+return "[gara.jswt.ListItem]";
 },update:function(){
 if(this.image!=null&&this._img==null){
 this._img=document.createElement("img");
@@ -591,13 +618,13 @@ if(!this._controls.contains(_74)){
 this._controls.push(_74);
 }
 },focusGained:function(_75){
-if(!$class.instanceOf(_75,Control)){
-throw new TypeError("control is not a Control");
+if(!$class.instanceOf(_75,gara.jswt.Control)){
+throw new TypeError("control is not a gara.jswt.Control");
 }
 this._activeControl=_75;
 },focusLost:function(_76){
-if(!$class.instanceOf(_76,Control)){
-throw new TypeError("control is not a Control");
+if(!$class.instanceOf(_76,gara.jswt.Control)){
+throw new TypeError("control is not a gara.jswt.Control");
 }
 if(this._activeControl==_76){
 this._activeControl=null;
@@ -615,15 +642,32 @@ this._activeControl=null;
 }
 }
 },removeControl:function(_78){
+if(!$class.instanceOf(_78,gara.jswt.Control)){
+throw new TypeError("control is not a gara.jswt.Control");
+}
 if(this._controls.contains(_78)){
 if(this._activeControl==_78){
 this._activeControl=null;
 }
 this._controls.remove(_78);
 }
+},toString:function(){
+return "[gara.jswt.ControlManager]";
 }});
 var _32=new ControlManager();
 eval(_24.exports);
 gara.jswt.namespace=_24.namespace;
+gara.jswt.toString=function(){
+return "[gara.jswt]";
 };
+};
+delete Control;
+delete ControlManager;
+delete FocusListener;
+delete Item;
+delete ItemNotExistsException;
+delete List;
+delete ListItem;
+delete SelectionListener;
+delete Widget;
 
