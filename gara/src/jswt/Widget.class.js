@@ -112,5 +112,9 @@ $class("Widget", {
 	setClassName : function(className) {
 		this._className = className;
 		this._changed = true;
+	},
+	
+	toString : function() {
+		return "[gara.jswt.Widget]";
 	}
 });

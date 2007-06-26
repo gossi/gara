@@ -1,6 +1,3 @@
-/** @overview gara toolkit */
-
-
 /**
  * @class gara.Namespace - Namespace definition for the different gara packages
  */
@@ -19,9 +16,9 @@ $class("Namespace", {
 			this.name = "gara." + this.name;
 		}
 		
-		var imports = "gara," + this.imports.split(",");
+		var imports = ("gara," + this.imports).split(",");
 		this.imports = "";
-		forEach(imports, function(v, k, imports) {
+		imports.forEach(function(v, k, arr) {
 			if (gara[v]) {
 				this.imports += gara[v].namespace;
 			}
@@ -29,7 +26,7 @@ $class("Namespace", {
 		
 		var exports = this.exports.split(",");
 		this.exports = "";
-		forEach(exports, function(v, k, exports) {
+		exports.forEach(function(v, k, arr) {
 			this.exports += this.name + "." + v + "=" + v + ";";
 			this.namespace += "var " + v + "=" + this.name + "." + v + ";";
 		}, this);
@@ -37,6 +34,6 @@ $class("Namespace", {
 });
 
 var garaPkg = new Namespace({
-	exports : "onDOMLoaded,Namespace",
+	exports : "Namespace",
 	name : "gara"
 });

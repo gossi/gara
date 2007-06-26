@@ -1,3 +1,9 @@
-//gara.jswt = {};
-eval(jswtPkg.exports);
-gara.jswt.namespace = jswtPkg.namespace;
+delete Control;
+delete ControlManager;
+delete FocusListener;
+delete Item;
+delete ItemNotExistsException;
+delete List;
+delete ListItem;
+delete SelectionListener;
+delete Widget;

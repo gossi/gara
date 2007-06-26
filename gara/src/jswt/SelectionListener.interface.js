@@ -7,5 +7,9 @@
 $interface("SelectionListener", {
 	widgetSelected : function(widget) {
 		
+	},
+	
+	toString : function() {
+		return "[gara.jswt.SelectionListener]";
 	}
 });

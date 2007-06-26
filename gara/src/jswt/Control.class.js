@@ -32,8 +32,8 @@ $class("Control", {
 	 * @returns {void}
 	 */
 	addFocusListener : function(listener) {
-		if (!$class.implementationOf(listener, FocusListener)) {
-			throw new TypeError("listener is not a FocusListener");
+		if (!$class.implementationOf(listener, gara.jswt.FocusListener)) {
+			throw new TypeError("listener is not a gara.jswt.FocusListener");
 		}
 
 		this._focusListener.push(listener);
@@ -103,13 +103,17 @@ $class("Control", {
 	 * @returns {void}
 	 */
 	removeFocusListener : function(listener) {
-		if (!listener.$class.implementsInterface(FocusListener)) {
-			throw new TypeError("listener is not a FocusListener");
+		if (!listener.$class.implementsInterface(gara.jswt.FocusListener)) {
+			throw new TypeError("listener is not a gara.jswt.FocusListener");
 		}
 
 		if (this._focusListener.contains(listener)) {
 			this._focusListener.remove(listener);
 		}
+	},
+
+	toString : function() {
+		return "[gara.jswt.Control";
 	},
 
 	update : $abstract(function() {})

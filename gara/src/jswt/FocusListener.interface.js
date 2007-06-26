@@ -10,5 +10,9 @@ $interface("FocusListener", {
 	},
 	
 	focusLost : function() {
+	},
+	
+	toString : function() {
+		return "[gara.jswt.FocusListener]";
 	}
 });

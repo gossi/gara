@@ -1,2 +1,3 @@
-eval(garaPkg.exports);
-gara.namespace = garaPkg.namespace;
+delete Namespace;
+delete EventManager;
+delete OutOfBoundsException;

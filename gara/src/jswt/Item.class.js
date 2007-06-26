@@ -147,5 +147,9 @@ $class("Item", {
 	 */
 	setUnselected : function() {
 		this.removeClassName("selected");
+	},
+	
+	toString : function() {
+		return "[gara.jswt.Item]";
 	}
 });

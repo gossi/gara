@@ -6,8 +6,12 @@
 $class("ItemNotExistsException", {
 	$extends : Exception,
 	
-	$constructor: function(message) {
+	$constructor : function(message) {
 		this.message = String(message);
 		this.name = $class.typeOf(this);
+	},
+	
+	toString : function() {
+		return "[gara.jswt.ItemNotExistsException]";
 	}
 });

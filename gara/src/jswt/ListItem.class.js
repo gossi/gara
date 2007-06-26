@@ -20,8 +20,8 @@ $class("ListItem", {
 	 * @returns {gara.jswt.ListItem}
 	 */
 	$constructor : function(list) {
-		if (!$class.instanceOf(list, List)) {
-			throw new TypeError("list is not type of List");
+		if (!$class.instanceOf(list, gara.jswt.List)) {
+			throw new TypeError("list is not type of gara.jswt.List");
 		}
 		this.$base();
 		this._list = list;
@@ -94,6 +94,10 @@ $class("ListItem", {
 		if (this._span != null) {
 			gara.eventManager.addListener(this._span, eventType, listener);
 		}
+	},
+	
+	toString : function() {
+		return "[gara.jswt.ListItem]";
 	},
 
 	/**

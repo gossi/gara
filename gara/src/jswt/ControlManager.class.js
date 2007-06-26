@@ -22,16 +22,16 @@ $class("ControlManager", {
 	},
 
 	focusGained : function(control) {
-		if (!$class.instanceOf(control, Control)) {
-			throw new TypeError("control is not a Control");
+		if (!$class.instanceOf(control, gara.jswt.Control)) {
+			throw new TypeError("control is not a gara.jswt.Control");
 		}
 
 		this._activeControl = control;
 	},
 
 	focusLost : function(control) {
-		if (!$class.instanceOf(control, Control)) {
-			throw new TypeError("control is not a Control");
+		if (!$class.instanceOf(control, gara.jswt.Control)) {
+			throw new TypeError("control is not a gara.jswt.Control");
 		}
 
 		if (this._activeControl == control) {
@@ -56,12 +56,20 @@ $class("ControlManager", {
 	},
 
 	removeControl : function(control) {
+		if (!$class.instanceOf(control, gara.jswt.Control)) {
+			throw new TypeError("control is not a gara.jswt.Control");
+		}
+
 		if (this._controls.contains(control)) {
 			if (this._activeControl == control) {
 				this._activeControl = null;
 			}
 			this._controls.remove(control);
 		}
+	},
+	
+	toString : function() {
+		return "[gara.jswt.ControlManager]";
 	}
 });
 

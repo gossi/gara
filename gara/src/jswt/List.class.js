@@ -41,8 +41,8 @@ $class("List", {
 	 * @returns {void}
 	 */
 	_activateItem : function(item) {
-		if (!$class.instanceOf(item, ListItem)) {
-			throw new TypeError("item is not type of ListItem");
+		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
+			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
 		// set a previous active item inactive
 		if (this._activeItem != null) {
@@ -65,8 +65,8 @@ $class("List", {
 	 * @returns {void}
 	 */
 	addItem : function(item) {
-		if (!$class.instanceOf(item, ListItem)) {
-			throw new TypeError("item is not type of ListItem");
+		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
+			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
 		this._items.push(item);
 	},
@@ -81,8 +81,8 @@ $class("List", {
 	 * @returns {void}
 	 */
 	addSelectionListener : function(listener) {
-		if (!$class.instanceOf(listener, SelectionListener)) {
-			throw new TypeError("listener is not instance of SelectionListener");
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
 		}
 
 		this._selectionListener.push(listener);
@@ -98,8 +98,8 @@ $class("List", {
 	 * @returns {void}
 	 */
 	deselect : function(item) {
-		if (!$class.instanceOf(item, ListItem)) {
-			throw new TypeError("item not instance of ListItem");
+		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
+			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
 		if (this._selection.contains(item)) {
@@ -203,7 +203,7 @@ $class("List", {
 					this.forceFocus();
 				}
 
-				if ($class.instanceOf(obj, ListItem)) {
+				if ($class.instanceOf(obj, gara.jswt.ListItem)) {
 					var item = obj;
 
 					if (!e.ctrlKey && !e.shiftKey) {
@@ -334,13 +334,13 @@ $class("List", {
 	 * @returns {int} the index of the specified item
 	 */
 	indexOf : function(item) {
-		if (!$class.instanceOf(item, ListItem)) {
-			throw new TypeError("item not instance of ListItem (List.indexOf)");
+		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
+			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 	
 		if (!this._items.contains(item)) {
 			// TODO: ItemNotExistsException
-			throw new ItemNotExistsException("item [" + item + "] does not exists in this list");
+			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
 			return;
 		}
 
@@ -380,9 +380,14 @@ $class("List", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to remove from this list
+	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @returns {void}
 	 */
 	removeSelectionListener : function(listener) {
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
+		}
+
 		if (this._selectionListener.contains(listener)) {
 			this._selectionListener.remove(listener);
 		}
@@ -398,8 +403,8 @@ $class("List", {
 	 * @returns {void}
 	 */
 	select : function(item, _add) {
-		if (!$class.instanceOf(item, ListItem)) {
-			throw new TypeError("item not instance of ListItem");
+		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
+			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
 		if (!_add) {
@@ -442,8 +447,8 @@ $class("List", {
 	 * @returns {void}
 	 */
 	selectRange : function(item, _add) {
-		if (!$class.instanceOf(item, ListItem)) {
-			throw new TypeError("item not instance of ListItem");
+		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
+			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
 		if (!_add) {
@@ -464,6 +469,10 @@ $class("List", {
 
 		this.notifySelectionListener();
 		this._activateItem(item);
+	},
+	
+	toString : function() {
+		return "[gara.jswt.List]";
 	},
 
 	/**

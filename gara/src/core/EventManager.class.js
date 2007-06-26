@@ -84,6 +84,10 @@ $class("EventManager", {
 			var event = this._listeners.pop();
 			this.removeListener(event);
 		}
+	},
+	
+	toString : function() {
+		return "[gara.EventManager]";
 	}
 });
 
