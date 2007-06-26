@@ -8,10 +8,10 @@
 <body>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara.jswt._overview.html">Overview</a>
+<a href="gara.jswt._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara.jswt._tree.html">Class Tree</a>
@@ -28,15 +28,33 @@
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
-<h2>Method Summary</h2>
+<h2>Field Summary</h2>
 <table>
+<thead>
+<tr>
+<th>Inherited fields from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#field_domref">domref</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Method Sumary</h2>
+<table class="own">
 <tbody>
 <tr>
 <td class="returnType">Image</td>
 <td>
 <tt>
 <a href="#method_getImage">getImage</a>()</tt>
-<span class="description">Returns the image for that item</span>
+<span class="description">Returns the items image</span>
 </td>
 </tr>
 <tr>
@@ -44,7 +62,7 @@
 <td>
 <tt>
 <a href="#method_getText">getText</a>()</tt>
-<span class="description">Returns the text</span>
+<span class="description">Returns the items text</span>
 </td>
 </tr>
 <tr>
@@ -91,16 +109,49 @@
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#method_setSelected">setSelected</a>()</tt>
+<span class="description">Set this item selected</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#method_setText">setText</a>(String text)</tt>
 <span class="description">Sets the text for the item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_setUnselected">setUnselected</a>()</tt>
+<span class="description">Set this item unselected</span>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_setClassName">setClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
+</tt>
 </td>
 </tr>
 </tbody>
 </table>
 <h2>Method Detail</h2>
 <h3 id="method_getImage">getImage</h3>
-<pre>public void <strong>getImage</strong>()</pre>
-<p class="description">Returns the image for that item</p>
+<pre>public Image <strong>getImage</strong>()</pre>
+<p class="description">Returns the items image</p>
 <dl>
 <dt>Returns:</dt>
 <dd> the items image</dd>
@@ -109,8 +160,8 @@
 </dl>
 <hr/>
 <h3 id="method_getText">getText</h3>
-<pre>public void <strong>getText</strong>()</pre>
-<p class="description">Returns the text</p>
+<pre>public String <strong>getText</strong>()</pre>
+<p class="description">Returns the items text</p>
 <dl>
 <dt>Returns:</dt>
 <dd> the text for this item</dd>
@@ -119,7 +170,7 @@
 </dl>
 <hr/>
 <h3 id="method_hasChanged">hasChanged</h3>
-<pre>public void <strong>hasChanged</strong>()</pre>
+<pre>public boolean <strong>hasChanged</strong>()</pre>
 <p class="description">Tells wether there is new data available since last question.</p>
 <dl>
 <dt>Returns:</dt>
@@ -129,7 +180,7 @@
 </dl>
 <hr/>
 <h3 id="method_isCreated">isCreated</h3>
-<pre>public void <strong>isCreated</strong>()</pre>
+<pre>public boolean <strong>isCreated</strong>()</pre>
 <p class="description">Tells wether the item is created or not</p>
 <dl>
 <dt>Returns:</dt>
@@ -152,7 +203,7 @@
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>active</tt> - true for active and false for inactive</dd>
+<tt>boolean active</tt> - true for active and false for inactive</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -163,7 +214,18 @@
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>image</tt> - the new image</dd>
+<tt>Image image</tt> - the new image</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  when image is not instance of Image</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setSelected">setSelected</h3>
+<pre>public void <strong>setSelected</strong>()</pre>
+<p class="description">Set this item selected</p>
+<dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -174,17 +236,25 @@
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>text</tt> - the new text</dd>
+<tt>String text</tt> - the new text</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setUnselected">setUnselected</h3>
+<pre>public void <strong>setUnselected</strong>()</pre>
+<p class="description">Set this item unselected</p>
+<dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara.jswt._overview.html">Overview</a>
+<a href="gara.jswt._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara.jswt._tree.html">Class Tree</a>

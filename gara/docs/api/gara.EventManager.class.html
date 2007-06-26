@@ -8,10 +8,10 @@
 <body>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara._overview.html">Overview</a>
+<a href="gara._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara._tree.html">Class Tree</a>
@@ -37,17 +37,9 @@ leaks by releasing all listeners at the unload event.</p>
 </tt>
 </dd>
 </dl>
-<h2>Method Summary</h2>
-<table>
+<h2>Method Sumary</h2>
+<table class="own">
 <tbody>
-<tr>
-<td class="returnType">void</td>
-<td>
-<tt>
-<a href="#method__unregisterAllEvents">_unregisterAllEvents</a>()</tt>
-<span class="description">Removes all stored listeners on the page unload.</span>
-</td>
-</tr>
 <tr>
 <td class="returnType">Event</td>
 <td>
@@ -55,15 +47,6 @@ leaks by releasing all listeners at the unload event.</p>
 <a href="#method_addListener">addListener</a>(HTMLElement domNode, DOMString type, Object|Function listener)</tt>
 <span class="description">Adds a listener to a specified domNode and store the added event in the
 event manager.</span>
-</td>
-</tr>
-<tr>
-<td class="returnType">void</td>
-<td>
-<tt>
-<a href="#method_handleEvent">handleEvent</a>()</tt>
-<span class="description">handleEvent is used to catch the unload-event of the window and pass
-it to _unregisterAllEvents() to free up memory.</span>
 </td>
 </tr>
 <tr>
@@ -78,17 +61,17 @@ it to _unregisterAllEvents() to free up memory.</span>
 </table>
 <h2>Method Detail</h2>
 <h3 id="method_addListener">addListener</h3>
-<pre>public void <strong>addListener</strong>(HTMLElement domNode, DOMString type, Object|Function listener)</pre>
+<pre>public Event <strong>addListener</strong>(HTMLElement domNode, DOMString type, Object|Function listener)</pre>
 <p class="description">Adds a listener to a specified domNode and store the added event in the
 event manager.</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>domNode</tt> - the node where the event is added to</dd>
+<tt>HTMLElement domNode</tt> - the node where the event is added to</dd>
 <dd>
-<tt>type</tt> - the event type</dd>
+<tt>DOMString type</tt> - the event type</dd>
 <dd>
-<tt>listener</tt> - the desired action handler</dd>
+<tt>Object|Function listener</tt> - the desired action handler</dd>
 <dt>Returns:</dt>
 <dd> generated event-object for this listener</dd>
 </dl>
@@ -99,7 +82,7 @@ event manager.</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>event</tt> - object which is returned by addListener()</dd>
+<tt>Event event</tt> - object which is returned by addListener()</dd>
 <dt>See Also:</dt>
 <dd>
 <tt></tt>
@@ -108,10 +91,10 @@ event manager.</p>
 <hr/>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara._overview.html">Overview</a>
+<a href="gara._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara._tree.html">Class Tree</a>

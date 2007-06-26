@@ -8,10 +8,10 @@
 <body>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara.jswt._overview.html">Overview</a>
+<a href="gara.jswt._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara.jswt._tree.html">Class Tree</a>
@@ -28,14 +28,32 @@
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
-<h2>Method Summary</h2>
+<h2>Field Summary</h2>
 <table>
+<thead>
+<tr>
+<th>Inherited fields from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#field_domref">domref</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Method Sumary</h2>
+<table class="own">
 <tbody>
 <tr>
 <td class="returnType">void</td>
 <td>
 <tt>
-<a href="#method_$constructor.addFocusListener">$constructor.addFocusListener</a>(FocusListener the)</tt>
+<a href="#method_addFocusListener">addFocusListener</a>(FocusListener the)</tt>
 <span class="description">Adds a focus changed listener on the control</span>
 </td>
 </tr>
@@ -43,23 +61,15 @@
 <td class="returnType">void</td>
 <td>
 <tt>
-<a href="#method_$constructor.forceFocus">$constructor.forceFocus</a>()</tt>
+<a href="#method_forceFocus">forceFocus</a>()</tt>
 <span class="description">Forces this control to gain focus</span>
-</td>
-</tr>
-<tr>
-<td class="returnType">void</td>
-<td>
-<tt>
-<a href="#method_$constructor.handleEvent">$constructor.handleEvent</a>()</tt>
-<span class="description"/>
 </td>
 </tr>
 <tr>
 <td class="returnType">boolean</td>
 <td>
 <tt>
-<a href="#method_$constructor.isFocusControl">$constructor.isFocusControl</a>()</tt>
+<a href="#method_isFocusControl">isFocusControl</a>()</tt>
 <span class="description">Tells wether the control has focus or not</span>
 </td>
 </tr>
@@ -67,7 +77,7 @@
 <td class="returnType">void</td>
 <td>
 <tt>
-<a href="#method_$constructor.looseFocus">$constructor.looseFocus</a>()</tt>
+<a href="#method_looseFocus">looseFocus</a>()</tt>
 <span class="description">Forces this control to loose focus</span>
 </td>
 </tr>
@@ -75,71 +85,78 @@
 <td class="returnType">void</td>
 <td>
 <tt>
-<a href="#method_$constructor.onBlur">$constructor.onBlur</a>()</tt>
-<span class="description">Internal handler when the control looses focus</span>
-</td>
-</tr>
-<tr>
-<td class="returnType">void</td>
-<td>
-<tt>
-<a href="#method_$constructor.onFocus">$constructor.onFocus</a>()</tt>
-<span class="description">Internal handler when the control gains focused</span>
-</td>
-</tr>
-<tr>
-<td class="returnType">void</td>
-<td>
-<tt>
-<a href="#method_$constructor.removeFocusListener">$constructor.removeFocusListener</a>(FocusListener the)</tt>
+<a href="#method_removeFocusListener">removeFocusListener</a>(FocusListener the)</tt>
 <span class="description">Removes a focus listener from this control</span>
 </td>
 </tr>
 </tbody>
 </table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_setClassName">setClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
 <h2>Method Detail</h2>
-<h3 id="method_$constructor.addFocusListener">$constructor.addFocusListener</h3>
-<pre>public void <strong>$constructor.addFocusListener</strong>(FocusListener the)</pre>
+<h3 id="method_addFocusListener">addFocusListener</h3>
+<pre>public void <strong>addFocusListener</strong>(FocusListener the)</pre>
 <p class="description">Adds a focus changed listener on the control</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>the</tt> - desired listener to be added to this control</dd>
+<tt>FocusListener the</tt> - desired listener to be added to this control</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the listener is not implementing the FocusListener interface</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
-<h3 id="method_$constructor.forceFocus">$constructor.forceFocus</h3>
-<pre>public void <strong>$constructor.forceFocus</strong>()</pre>
+<h3 id="method_forceFocus">forceFocus</h3>
+<pre>public void <strong>forceFocus</strong>()</pre>
 <p class="description">Forces this control to gain focus</p>
 <hr/>
-<h3 id="method_$constructor.isFocusControl">$constructor.isFocusControl</h3>
-<pre>public void <strong>$constructor.isFocusControl</strong>()</pre>
+<h3 id="method_isFocusControl">isFocusControl</h3>
+<pre>public boolean <strong>isFocusControl</strong>()</pre>
 <p class="description">Tells wether the control has focus or not</p>
 <dl>
 <dt>Returns:</dt>
 <dd> true for having the focus and false if not</dd>
 </dl>
 <hr/>
-<h3 id="method_$constructor.looseFocus">$constructor.looseFocus</h3>
-<pre>public void <strong>$constructor.looseFocus</strong>()</pre>
+<h3 id="method_looseFocus">looseFocus</h3>
+<pre>public void <strong>looseFocus</strong>()</pre>
 <p class="description">Forces this control to loose focus</p>
 <hr/>
-<h3 id="method_$constructor.removeFocusListener">$constructor.removeFocusListener</h3>
-<pre>public void <strong>$constructor.removeFocusListener</strong>(FocusListener the)</pre>
+<h3 id="method_removeFocusListener">removeFocusListener</h3>
+<pre>public void <strong>removeFocusListener</strong>(FocusListener the)</pre>
 <p class="description">Removes a focus listener from this control</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>the</tt> - listener to remove from this control</dd>
+<tt>FocusListener the</tt> - listener to remove from this control</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  wether this is not a FocusListener</dd>
 </dl>
 <hr/>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara.jswt._overview.html">Overview</a>
+<a href="gara.jswt._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara.jswt._tree.html">Class Tree</a>

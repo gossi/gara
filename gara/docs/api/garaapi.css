@@ -13,6 +13,12 @@ h2 {
 table {
 	width: 100%;
 	border-collapse: collapse;
+	margin-bottom: 20px;
+}
+
+table thead {
+	background-color: #EEEEFF;
+	border: 2px outset #000;
 }
 
 table td {
@@ -20,7 +26,7 @@ table td {
 	padding: 2px;
 }
 
-table td tt a {
+table.own td tt a {
 	font-weight: bold;
 }
 

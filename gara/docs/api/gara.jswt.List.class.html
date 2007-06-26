@@ -8,10 +8,10 @@
 <body>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara.jswt._overview.html">Overview</a>
+<a href="gara.jswt._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara.jswt._tree.html">Class Tree</a>
@@ -23,13 +23,31 @@
 </pre>
 <hr/>
 <pre>public class <strong>List</strong>&#13;Extends: Control</pre>
-<p/>
+<p>gara List Widget</p>
 <dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
-<h2>Method Summary</h2>
+<h2>Field Summary</h2>
 <table>
+<thead>
+<tr>
+<th>Inherited fields from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#field_domref">domref</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
+<h2>Method Sumary</h2>
+<table class="own">
 <tbody>
 <tr>
 <td class="returnType">void</td>
@@ -37,6 +55,22 @@
 <tt>
 <a href="#method_addSelectionListener">addSelectionListener</a>(<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener)</tt>
 <span class="description">Adds a selection listener on the list</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_deselect">deselect</a>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</tt>
+<span class="description">Deselects an item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_deselectAll">deselectAll</a>()</tt>
+<span class="description">Deselects all items</span>
 </td>
 </tr>
 <tr>
@@ -84,11 +118,27 @@
 </td>
 </tr>
 <tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_handleEvent">handleEvent</a>(Event e)</tt>
+<span class="description">Handles events on the list. Implements DOMEvent Interface by the W3c.</span>
+</td>
+</tr>
+<tr>
 <td class="returnType">int</td>
 <td>
 <tt>
 <a href="#method_indexOf">indexOf</a>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</tt>
 <span class="description">Looks for the index of a specified item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_notifySelectionListener">notifySelectionListener</a>()</tt>
+<span class="description">Notifies selection listener about the changed selection within the List</span>
 </td>
 </tr>
 <tr>
@@ -103,8 +153,58 @@
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#method_select">select</a>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</tt>
+<span class="description">Selects an item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#method_selectAll">selectAll</a>()</tt>
 <span class="description">Select all items in the list</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_update">update</a>()</tt>
+<span class="description">Updates the list!</span>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Control.class.html">Control</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Control.class.html#method_forceFocus">forceFocus</a>, <a href="gara.jswt.Control.class.html#method_addFocusListener">addFocusListener</a>, <a href="gara.jswt.Control.class.html#method_isFocusControl">isFocusControl</a>, <a href="gara.jswt.Control.class.html#method_looseFocus">looseFocus</a>, <a href="gara.jswt.Control.class.html#method_removeFocusListener">removeFocusListener</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_setClassName">setClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
+</tt>
 </td>
 </tr>
 </tbody>
@@ -116,18 +216,50 @@
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>listener</tt> - the desired listener to be added to this list</dd>
+<tt>
+<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener</tt> - the desired listener to be added to this list</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the listener is not an instance SelectionListener</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_deselect">deselect</h3>
+<pre>public void <strong>deselect</strong>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</pre>
+<p class="description">Deselects an item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>
+<a href="gara.jswt.ListItem.class.html">ListItem</a> item</tt> - the item that should be deselected</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the item is not a ListItem</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_deselectAll">deselectAll</h3>
+<pre>public void <strong>deselectAll</strong>()</pre>
+<p class="description">Deselects all items</p>
+<dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
 <h3 id="method_getItem">getItem</h3>
-<pre>public void <strong>getItem</strong>(int index)</pre>
+<pre>public <a href="gara.jswt.ListItem.class.html">ListItem</a> <strong>getItem</strong>(int index)</pre>
 <p class="description">Gets a specified item with a zero-related index</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>index</tt> - the zero-related index</dd>
+<tt>int index</tt> - the zero-related index</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>
+<a href="gara.OutOfBoundsException.class.html">OutOfBoundsException</a>
+</tt> -  if the index does not live within this list</dd>
 <dt>Returns:</dt>
 <dd> the item</dd>
 <dt>Author:</dt>
@@ -135,7 +267,7 @@
 </dl>
 <hr/>
 <h3 id="method_getItemCount">getItemCount</h3>
-<pre>public void <strong>getItemCount</strong>()</pre>
+<pre>public int <strong>getItemCount</strong>()</pre>
 <p class="description">Returns the amount of the items in the list</p>
 <dl>
 <dt>Returns:</dt>
@@ -145,7 +277,7 @@
 </dl>
 <hr/>
 <h3 id="method_getItems">getItems</h3>
-<pre>public void <strong>getItems</strong>()</pre>
+<pre>public <a href="gara.jswt.ListItem.class.html">ListItem</a>[] <strong>getItems</strong>()</pre>
 <p class="description">Returns an array with all the items in the list</p>
 <dl>
 <dt>Returns:</dt>
@@ -155,7 +287,7 @@
 </dl>
 <hr/>
 <h3 id="method_getSelection">getSelection</h3>
-<pre>public void <strong>getSelection</strong>()</pre>
+<pre>public <a href="gara.jswt.ListItem.class.html">ListItem</a>[] <strong>getSelection</strong>()</pre>
 <p class="description">Returns an array with the items which are currently selected in the list</p>
 <dl>
 <dt>Returns:</dt>
@@ -165,7 +297,7 @@
 </dl>
 <hr/>
 <h3 id="method_getSelectionCount">getSelectionCount</h3>
-<pre>public void <strong>getSelectionCount</strong>()</pre>
+<pre>public int <strong>getSelectionCount</strong>()</pre>
 <p class="description">Returns the amount of the selected items in the tree</p>
 <dl>
 <dt>Returns:</dt>
@@ -174,15 +306,40 @@
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
+<h3 id="method_handleEvent">handleEvent</h3>
+<pre>public void <strong>handleEvent</strong>(Event e)</pre>
+<p class="description">Handles events on the list. Implements DOMEvent Interface by the W3c.</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>Event e</tt> - event the users triggers</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
 <h3 id="method_indexOf">indexOf</h3>
-<pre>public void <strong>indexOf</strong>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</pre>
+<pre>public int <strong>indexOf</strong>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</pre>
 <p class="description">Looks for the index of a specified item</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>item</tt> - the item for the index</dd>
+<tt>
+<a href="gara.jswt.ListItem.class.html">ListItem</a> item</tt> - the item for the index</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this list</dd>
+<dd>
+<tt>TypeError</tt> -  if the item is not a ListItem</dd>
 <dt>Returns:</dt>
 <dd> the index of the specified item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_notifySelectionListener">notifySelectionListener</h3>
+<pre>public void <strong>notifySelectionListener</strong>()</pre>
+<p class="description">Notifies selection listener about the changed selection within the List</p>
+<dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -193,7 +350,26 @@
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>listener</tt> - the listener to remove from this list</dd>
+<tt>
+<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener</tt> - the listener to remove from this list</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the listener is not an instance SelectionListener</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_select">select</h3>
+<pre>public void <strong>select</strong>(<a href="gara.jswt.ListItem.class.html">ListItem</a> item)</pre>
+<p class="description">Selects an item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>
+<a href="gara.jswt.ListItem.class.html">ListItem</a> item</tt> - the item that should be selected</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the item is not a ListItem</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -206,12 +382,20 @@
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
+<h3 id="method_update">update</h3>
+<pre>public void <strong>update</strong>()</pre>
+<p class="description">Updates the list!</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
 <ul class="nav">
 <li>
-<a href="_namespaces.html">Namespaces</a>
+<a href="_overview.html">Overview</a>
 </li>
 <li>
-<a href="gara.jswt._overview.html">Overview</a>
+<a href="gara.jswt._namespace.html">Namespace</a>
 </li>
 <li>
 <a href="gara.jswt._tree.html">Class Tree</a>
