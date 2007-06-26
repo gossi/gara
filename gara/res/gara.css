@@ -39,6 +39,8 @@ abbr, acronym {
 ul.jsWTList {
 	margin-left: 0;
 	padding-left: 0;
+	-moz-user-select: none;
+	outline: none;
 }
 
 ul.jsWTList li {
