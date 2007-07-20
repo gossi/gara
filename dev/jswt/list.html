@@ -27,8 +27,10 @@ base2.DOM.bind(window);
 <script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/List.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_ps.js"></script>
 <!--
@@ -36,13 +38,8 @@ base2.DOM.bind(window);
 <script type="text/javascript" src="../../build/gara-jswt.js"></script>
 -->
 <script type="text/javascript"><!--
-var l;
 function main() {
-	var cm = new ContextMenu()
-	var doubler = new DblClicker();
-	var eh = new EventHandler();
-
-	l = new List(document.getElementById("container"));
+	var l = new List(document.getElementById("container"));
 	
 	var i = new ListItem(l);
 	i.setText("Item 1");
@@ -52,91 +49,16 @@ function main() {
 	
 	var i3 = new ListItem(l);
 	i3.setText("Item 3");
-	i3.addListener("click", eh);
 
 	var i4 = new ListItem(l);
-	i4.setText("Item 4 - dblclick");
+	i4.setText("Item 4");
 	
 	var i5 = new ListItem(l);
 	i5.setText("Item 5");
-	
 
-	l.addListener("contextmenu", cm);
-	l.addListener("mousedown", cm);
 	l.update();
-
-
-
-//	l.addListener("dblclick", doubler);
-//	l.addListener("mousedown", eh);
-
-	i4.addListener("dblclick", doubler);
-	
-	gara.eventManager.addListener(window, "mousedown", cm);
 }
 
-$class("EventHandler", {
-	$constructor : function() {},
-	handleEvent : function(e) {
-		console.log("EventHandler.handleEvent("+e.type+"): " + e.target + ", triggered on " + e.currentTarget + " " + e.target.obj);
-	}
-});
-
-$class("DblClicker", {
-	$constructor : function() {},
-	handleEvent : function(e) {
-		alert(e.type + " item " + e.target.obj);
-	}
-});
-
-$class("ContextMenu", {
-	_contextMenu : null,
-	$constructor : function() {},
-	ev : null,
-	build : function() {
-		this._contextMenu = document.createElement("div");
-		this._contextMenu.style.position = "absolute";
-		this._contextMenu.style.width = "100px";
-		this._contextMenu.style.height = "30px";
-		this._contextMenu.style.border = "1px solid #000";
-		this._contextMenu.style.backgroundColor = "#FFF";
-		this._contextMenu.style.display = "none";
-		this._contextMenu.innerHTML = "Context Menu";
-		document.getElementsByTagName("body")[0].appendChild(this._contextMenu);
-	},
-
-	handleEvent : function(e) {
-		switch (e.type) {
-			case "contextmenu":
-				if (e.which == 3) {
-					window.oncontextmenu = function() {return false;};
-					//this.ev = gara.eventManager.addListener(window, "contextmenu", function() {return false;});
-					this.show(e.pageX, e.pageY);
-				}
-				break;
-
-			case "mousedown":
-				if (this._contextMenu != null) {
-					this.hide();
-				}
-				break;
-		}
-	},
-	
-	hide : function() {
-		this._contextMenu.style.display = "none";
-	},
-	
-	show : function(x, y) {
-		if (this._contextMenu == null) {
-			this.build();
-		}
-		
-		this._contextMenu.style.left = x + "px";
-		this._contextMenu.style.top = y + "px";
-		this._contextMenu.style.display = "block";
-	}
-});
 onDOMLoaded(main);
 --></script>
 </head>
