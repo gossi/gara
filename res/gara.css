@@ -1,37 +1,22 @@
 @CHARSET "UTF-8";
 
-/* YAHOO CSS Reset */
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
-	margin: 0;
-	padding: 0;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-fieldset,img { 
-	border: 0;
-}
-address, caption, cite, code, dfn, em, strong, th, var {
-	font-style: normal;
-	font-weight: normal;
-}
-ol, ul {
-	list-style: none;
-}
-caption, th {
-	text-align: left;
-}
-h1, h2, h3, h4, h5, h6 {
-	font-size: 100%;
-	font-weight: normal;
-}
-q:before, q:after {
-	content: '';
-}
-abbr, acronym {
-	border: 0;
-}
+/*
+YUI-Reset
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.2.2
+*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}ol,ul {list-style:none;}caption,th {text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;}
+
+/*
+YUI-Fonts
+Copyright (c) 2007, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 2.2.2
+*/
+body {font:13px arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}table {font-size:inherit;font:100%;}select, input, textarea {font:99% arial,helvetica,clean,sans-serif;}pre, code {font:115% monospace;*font-size:100%;}body * {line-height:1.22em;}
 
 /* Gara Styles */
 
@@ -46,6 +31,10 @@ ul.jsWTList {
 ul.jsWTList li {
 	margin-left: 0;
 	list-style-type: none;
+}
+
+ul.jsWTList li span {
+	line-height: 21px;
 }
 
 ul.jsWTList li.active {
@@ -72,7 +61,7 @@ ul.jsWTTree, ul.jsWTTree ul {
 }
 
 ul.jsWTTreeLines ul {
-	background-image: url('res/images/line.gif');
+/*	background-image: url('res/images/line.gif');*/
 }
 
 ul.jsWTTreeNoLines ul {
@@ -80,7 +69,6 @@ ul.jsWTTreeNoLines ul {
 }
 
 ul.jsWTTree {
-	padding-left: 0;
 	-moz-user-select: none;
 }
 
@@ -96,67 +84,50 @@ ul.jsWTTree li {
 }
 
 ul.jsWTTreeLines li {
-	background-image: url('res/images/join.gif');
+/*	background-image: url('res/images/join.gif');*/
 }
 
 ul.jsWTTreeNoLines li {
 	background-image: none;
 }
 
-ul.jsWTTree li span.textBox {
+ul.jsWTTree li span.text {
 	cursor: default;
 	padding-left: 3px;
-	height: 18px;
-	max-height: 18px;
+	padding-right: 3px;
+	font-size: 92%;
 	line-height: 18px;
-	display: block;
-	margin-left: 18px !important;
-	margin-left: 0;
-	float: none !important;
-	float: left;
+	width: auto;
 }
 
-ul.jsWTTree li span.textBox img {
+ul.jsWTTree li img {
 	margin-right: 3px;
 	vertical-align: middle;
 }
 
-ul.jsWTTree li span.textBox span.text {
-	background-color: #FFF;
-	font-size: 15px;
-	padding-top: 1px;
-}
-
 ul.jsWTTree li span.textBox span:hover.text {
-	background-color: #EEE;
+/*	background-color: #EEE;*/
 }
 
 ul.jsWTTree li span.textBox span.selected {
-	background-color: #DDD;
+/*	background-color: #DDD;*/
 }
 
 ul.jsWTTree li span.textBox span:hover.selected {
-	background-color: #DDD;
+/*	background-color: #DDD;*/
 	color: #00A;
 }
 
 ul.jsWTTree li span.active {
-	border: 1px dotted #000;
+/*	border: 1px dotted #000;*/
 }
 
 ul.jsWTTree li span.toggler {
 	display: block;
 	width: 18px;
 	height: 18px;
+	max-height: 18px;
 	float: left;
-}
-
-ul.jsWTTree li span.togglerExpanded {
-	background-image: url('res/images/collapse.gif');
-}
-
-ul.jsWTTree li span.togglerCollapsed {
-	background-image: url('res/images/expand.gif');
 }
 
 ul.jsWTTree li.noChilds {
@@ -168,7 +139,7 @@ ul.jsWTTree li.hasChilds {
 }
 
 ul.jsWTTreeLines li.bottom {
-	background-image: url('res/images/joinbottom.gif');
+/*	background-image: url('res/images/joinbottom.gif');*/
 }
 
 ul.jsWTTreeNoLines li.bottom {
