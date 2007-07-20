@@ -4,6 +4,8 @@ delete FocusListener;
 delete Item;
 delete ItemNotExistsException;
 delete List;
+delete Tree;
 delete ListItem;
+delete TreeItem;
 delete SelectionListener;
 delete Widget;
