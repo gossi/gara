@@ -190,7 +190,7 @@
 	
 	<target name="distribute" depends="deploy">
 		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
-			<tarfileset dir="${basedir}" includes="examples/,res/,themes/"/>
+			<tarfileset dir="${basedir}" includes="examples/,res/,themes/,lgpl-2.1.txt"/>
 			<tarfileset dir="${basedir}/docs" includes="api/"/>
 			<tarfileset dir="${deployDir}" includes="*.js"/>
 		</tar>
