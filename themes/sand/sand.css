@@ -20,6 +20,11 @@ C68F41	C6AB84	C6B9A5	846B49	423524	958063	ADA090
 EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 */
 
+
+/**
+ * gara.jswt.List
+ *
+ */
 .sand ul.jsWTList {
 	width: 300px;
 	border: 1px solid #000;
@@ -33,7 +38,10 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	border: 1px solid #EAE6D6;
 	background-color: #EAE6D6;
 	color: #000;
-	line-height: 21px;
+	font-family: Verdana;
+	font-size: 85%;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 
 .sand ul.jsWTListActive li.selected span {
@@ -50,4 +58,72 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	border: 1px solid #CCC8BA;
 	background-color: #CCC8BA;
 	color: #000;
+}
+
+/**
+ * gara.jswt.Tree
+ */
+.sand ul.jsWTTree {
+	width: 300px;
+	border: 1px solid #000;
+	height: 450px;
+	overflow: auto;
+	background-color: #EAE6D6;
+	padding: 5px;
+}
+
+.sand ul.jsWTTreeLines ul {
+	background-image: url('line.gif');
+}
+
+.sand ul.jsWTTreeLines li {
+	background-image: url('join.gif');
+}
+
+.sand ul.jsWTTree li span.text {
+	border: 1px solid #EAE6D6;
+	background-color: #EAE6D6;
+	color: #000;
+	font-family: Verdana;
+	font-size: 85%;
+	padding-top: 2px;
+	padding-bottom: 1px;
+}
+
+.sand ul.jsWTTree li span:hover.text {
+}
+
+.sand ul.jsWTTreeActive li span.selected {
+	border: 1px solid #9C9577;
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+.sand ul.jsWTTreeActive li span:hover.selected {
+}
+
+.sand ul.jsWTTreeActive li span.active {
+	border: 1px dashed #000;
+}
+
+.sand ul.jsWTTreeInactive li span.selected {
+	border: 1px solid #CCC8BA;
+	background-color: #CCC8BA;
+	color: #000;
+}
+
+.sand ul.jsWTTreeLines li.bottom {
+	background-image: url('joinbottom.gif');
+}
+
+.sand ul.jsWTTreeLines ul.bottom {
+	background-image: none;
+}
+
+.sand ul.jsWTTree li span.togglerExpanded {
+	background-image: url('collapse.gif');
+}
+
+.sand ul.jsWTTree li span.togglerCollapsed {
+	background-image: url('expand.gif');
 }
