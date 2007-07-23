@@ -8,10 +8,9 @@
 		encoding="UTF-8"
 		indent="yes"/>
 
-	<xsl:key name="namespaces" match="//class/namespace" use="."/>
 	<xsl:template match="/">
 		<ClassTree>
-			<xsl:for-each select="//class/namespace[count(.|key('namespaces',.)[1]) = 1]">
+			<xsl:for-each select="//class[not(namespace=preceding-sibling::class/namespace)]/namespace">
 				<xsl:variable name="namespace" select="."/>
 				<Namespace name="{.}">
 					<xsl:for-each select="//class[namespace = $namespace and not(extends) and @isPrivate = 'false']">
