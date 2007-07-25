@@ -22,8 +22,12 @@
 */
 
 /**
+ * gara Tree Widget
+ * 
  * @class Tree
+ * @author Thomas Gossmann
  * @namespace gara.jswt
+ * @extends Control
  */
 $class("Tree", {
 	$extends : Control,
@@ -31,17 +35,32 @@ $class("Tree", {
 	$constructor : function(parentNode) {
 		this.$base();
 		this._showLines = true;
+
 		this._shiftItem = null;
 		this._activeItem = null;
 		this._parentNode = parentNode;
 		this._className = this._baseClass = "jsWTTree";
 		
 		this._selection = [];
+		this._selectionListeners = [];
 		this._items = [];
 		this._firstLevelItems = [];
 	},
 
+	/**
+	 * @method
+	 * Activates an item
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.TreeItem} item the new item to be activated
+	 * @throws {TypeError} if the item is not a ListItem
+	 * @returns {void}
+	 */
 	_activateItem : function(item) {
+		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
+			throw new TypeError("item is not type of gara.jswt.TreeItem");
+		}
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
@@ -53,37 +72,24 @@ $class("Tree", {
 	},
 
 	/**
-	 * Adds an item on the top level to this tree. Is automatically done by instantiating a new item.
-	 * 
-	 * @author thomas Gossmann
-	 * @param {TreeItem} item new item for the top level
-	 * @type void
-	 */
-	_addFirstLevelItem : function(item) {
-		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
-			throw new TypeError("item is not type of gara.jswt.TreeItem");
-		}
-
-		this._firstLevelItems.push(item);
-	},
-	
-	/**
+	 * @method
 	 * Adds an item to the tree. This is automatically done by instantiating a new item.
 	 * 
-	 * @author Thomas Gossmann
 	 * @private
-	 * @param {TreeItem} item the new item to be added
-	 * @type void
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.TreeItem} item the new item to be added
 	 * @throws WrongObjectException
+	 * @returns void
 	 */
 	_addItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
-	
-		var parentItem = item.getParent()
-		if (parentItem == this) {
+
+		var parentItem = item.getParentItem()
+		if (parentItem == null) {
 			this._items.push(item);
+			this._firstLevelItems.push(item);
 		} else {
 			var index = this._items.indexOf(parentItem)
 				+ getDescendents(parentItem)
@@ -92,12 +98,12 @@ $class("Tree", {
 			
 			this._items.splice(index, 0, item);
 		}
-	
+
 		function getDescendents(item) {
 			var childs = 0;
-			if (item.hasChilds()) {
+			if (item.getItemCount() > 0) {
 				item.getItems().forEach(function(child, index, arr) {
-					if (child.hasChilds()) {
+					if (child.getItemCount() > 0) {
 						childs += getDescendents(child);
 					}
 					childs++;
@@ -107,13 +113,33 @@ $class("Tree", {
 		}
 	},
 	
+	
 	/**
+	 * @method
+	 * Adds a selection listener on the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this tree
+	 * @throws {TypeError} if the listener is not a SelectionListener
+	 * @returns {void}
+	 */
+	addSelectionListener : function(listener) {
+		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not type of gara.jswt.SelectionListener");
+		}
+		
+		if (!this._selectionListeners.contains(listener)) {
+			this._selectionListeners.push(listener);
+		}
+	},
+	
+	/**
+	 * @method
 	 * Deselects a specific item
 	 * 
 	 * @author Thomas Gossmann
-	 * @type void
-	 * @param {TreeItem} the item to deselect
-	 * @private
+	 * @param {gara.jswt.TreeItem} item the item to deselect
+	 * @returns {void}
 	 */
 	deselect : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -121,20 +147,21 @@ $class("Tree", {
 		}
 	
 		if (this._selection.contains(item)
-				&& item.getTree() == this) {
+				&& item.getParent() == this) {
 			this._selection.remove(item);
-			this.notifySelectionListener();
-			item.setUnselected();
+			this._notifySelectionListener();
+			item.setChecked(false);
 			this._shiftItem = item;
 			this._activateItem(item);
 		}
 	},
 
 	/**
+	 * @method
 	 * Deselect all items in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @type void
+	 * @returns {void}
 	 */
 	deselectAll : function() {
 		for (var i = this._selection.length; i >= 0; --i) {
@@ -142,10 +169,96 @@ $class("Tree", {
 		}
 		this.update();
 	},
+
+	/**
+	 * @method
+	 * Returns a specifiy item with a zero-related index
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the zero-related index
+	 * @throws {gara.OutOfBoundsException} if the index does not live within this tree
+	 * @returns {gara.jswt.TreeItem} the item
+	 */
+	getItem : function(index) {
+		if (index >= this._items.length) {
+			throw new gara.OutOfBoundsException("Your item lives outside of this Tree");
+		}
 	
+		return this._items[index];
+	},
+
+	/**
+	 * @method
+	 * Returns the amount of the items in the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {int} the amount
+	 */
+	getItemCount : function() {
+		return this._items.length;
+	},
+
+	/**
+	 * @method
+	 * Returns an array with all the items in the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {gara.jswt.TreeItem[]} an array with the items
+	 */
+	getItems : function() {
+		return this._items;
+	},
+
+	/**
+	 * @method
+	 * Returns whether the lines of the tree are visible or not
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {boolean} true if the lines are visible and false if they are not
+	 */
+	getLinesVisible : function() {
+		return this._showLines;
+	},
+
+	/**
+	 * @method
+	 * Returns an array with the items which are currently selected in the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {gara.jswt.TreeItem[]}an array with items
+	 */
+	getSelection : function() {
+		return this._selection;
+	},
+
+	/**
+	 * @method
+	 * Returns the amount of the selected items in the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {int} the amount
+	 */
+	getSelectionCount : function() {
+		return this._selection.length;
+	},
+
+	/**
+	 * @method
+	 * Event Handler for the tree
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {Event} W3C-event
+	 * @returns {void}
+	 */
 	handleEvent : function(e) {
-		// special events for the list
+		// special events for the tree
 		var obj = e.target.obj || null;
+		var item = null;
+		
+		if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
+			item = obj;
+		}
 		
 		switch (e.type) {
 			case "mousedown":
@@ -153,38 +266,45 @@ $class("Tree", {
 					this.forceFocus();
 				}
 
-				if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
-					var item = obj;
-
+				if (item != null) {
 					if (e.ctrlKey && !e.shiftKey) {
 						if (this._selection.contains(item)) {
 							this.deselect(item);
 						} else {
-							this.select(item, true);
+							this._select(item, true);
 						}
 					} else if (!e.ctrlKey && e.shiftKey) {
-						this.selectRange(item, false);
+						this._selectShift(item, false);
 					} else if (e.ctrlKey && e.shiftKey) {
-						this.selectRange(item, true);
+						this._selectShift(item, true);
 					} else {
-						this.select(item, false);
+						this._select(item, false);
 					}
 
 				}
 				break;
 
 			case "dblclick":
-				if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
-					var item = obj;
-					
-					item.toggleChilds();
-				}
+				// dummy handler. dblclick event is passed to the item
 				break;
+		}
+
+		if (item != null) {
+			item.handleEvent(e);
 		}
 
 		e.stopPropagation();
 	},
-	
+
+	/**
+	 * @method
+	 * Key Event Handler for the Tree
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {Event} W3C-Event
+	 * @returns {void}
+	 */
 	_handleKeyEvent : function(e) {
 		if (this._activeItem == null) {
 			return;
@@ -194,14 +314,14 @@ $class("Tree", {
 			case 38 : // up
 				// determine previous item
 				var prev;
-				var siblings;
-	
+
 				if (this._activeItem == this._items[0]) {
 					// item is root;
 					prev = false;
 				} else {
-					var parentWidget = this._activeItem.getParent();
-					if (parentWidget == this) {
+					var siblings;
+					var parentWidget = this._activeItem.getParentItem();
+					if (parentWidget == null) {
 						siblings = this._firstLevelItems;
 					} else {
 						siblings = parentWidget.getItems();
@@ -219,12 +339,11 @@ $class("Tree", {
 				
 				if (prev) {
 					if (!e.ctrlKey && !e.shiftKey) {
-						//this.deselect(this._activeItem);
-						this.select(prev, false);
+						this._select(prev, false);
 					} else if (e.ctrlKey && e.shiftKey) {
-						this.selectRange(prev, true);
+						this._selectShift(prev, true);
 					} else if (e.shiftKey) {
-						this.selectRange(prev, false);
+						this._selectShift(prev, false);
 					} else if (e.ctrlKey) {
 						this._activateItem(prev);
 					}
@@ -240,17 +359,17 @@ $class("Tree", {
 				if (this._activeItem == this._items[this._items.length - 1]) {
 					next = false;
 				} else {
-					var parentWidget = this._activeItem.getParent();
-					if (parentWidget == this) {
+					var parentWidget = this._activeItem.getParentItem();
+					if (parentWidget == null) {
 						siblings = this._firstLevelItems;
 					} else {
 						siblings = parentWidget.getItems();
 					}
 					var sibOffset = siblings.indexOf(this._activeItem);
 		
-					if (this._activeItem.hasChilds() && this._activeItem.isExpanded()) {
+					if (this._activeItem.getItemCount() > 0 && this._activeItem.getExpanded()) {
 						next = this._activeItem.getItems()[0];
-					} else if (this._activeItem.hasChilds() && !this._activeItem.isExpanded()) {
+					} else if (this._activeItem.getItemCount() > 0 && !this._activeItem.getExpanded()) {
 						next = this._items[this._items.indexOf(this._activeItem) + countItems(this._activeItem) + 1];
 					} else {
 						next = this._items[this._items.indexOf(this._activeItem) + 1];
@@ -259,12 +378,11 @@ $class("Tree", {
 
 				if (next) {
 					if (!e.ctrlKey && !e.shiftKey) {
-						//this.deselect(this._activeItem);
-						this.select(next, false);
+						this._select(next, false);
 					} else if (e.ctrlKey && e.shiftKey) {
-						this.selectRange(next, true);
+						this._selectShift(next, true);
 					} else if (e.shiftKey) {
-						this.selectRange(next, false);
+						this._selectShift(next, false);
 					} else if (e.ctrlKey) {
 						this._activateItem(next);
 					}
@@ -274,14 +392,14 @@ $class("Tree", {
 			case 37: // left
 				// collapse tree
 				var buffer = this._activeItem;
-				this._activeItem.collapse();
+				this._activeItem.setExpanded(false);
 				this._activateItem(buffer);
 				this.update();
 				break;
 	
 			case 39: // right
 				// expand tree
-				this._activeItem.expand();
+				this._activeItem.setExpanded(true);
 				this.update();
 				break;
 				
@@ -289,15 +407,15 @@ $class("Tree", {
 				if (this._selection.contains(this._activeItem) && e.ctrlKey) {
 					this.deselect(this._activeItem);
 				} else {
-					this.select(this._activeItem, true);
+					this._select(this._activeItem, true);
 				}
 				break;
 				
 			case 36 : // home
 				if (!e.ctrlKey && !e.shiftKey) {
-					this.select(this._items[0], false);
+					this._select(this._items[0], false);
 				} else if (e.shiftKey) {
-					this.selectRange(this._items[0], false);
+					this._selectShift(this._items[0], false);
 				} else if (e.ctrlKey) {
 					this._activateItem(this._items[0]);
 				}
@@ -305,9 +423,9 @@ $class("Tree", {
 				
 			case 35 : // end
 				if (!e.ctrlKey && !e.shiftKey) {
-					this.select(this._items[this._items.length-1], false);
+					this._select(this._items[this._items.length-1], false);
 				} else if (e.shiftKey) {
-					this.selectRange(this._items[this._items.length-1], false);
+					this._selectShift(this._items[this._items.length-1], false);
 				} else if (e.ctrlKey) {
 					this._activateItem(this._items[this._items.length-1]);
 				}
@@ -315,8 +433,8 @@ $class("Tree", {
 		}
 	
 		function getLastItem(item) {
-			if (item.isExpanded() && item.hasChilds()) {
-				return getLastItem(item.getItems()[item.getItems().length - 1]);
+			if (item.getExpanded() && item.getItemCount() > 0) {
+				return getLastItem(item.getItems()[item.getItemCount() - 1]);
 			} else {
 				return item;
 			}
@@ -328,7 +446,7 @@ $class("Tree", {
 			
 			for (var i = 0; i < childs.length; ++i) {
 				items++;
-				if (childs[i].hasChilds()) {
+				if (childs[i].getItemCount() > 0) {
 					items += countItems(childs[i]);
 				}
 			}
@@ -344,7 +462,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tree
-	 * @throws {TypeError} if the item is not a ListItem
+	 * @throws {TypeError} if the item is not a TreeItem
 	 * @returns {int} the index of the specified item
 	 */
 	indexOf : function(item) {
@@ -353,18 +471,28 @@ $class("Tree", {
 		}
 
 		if (!this._items.contains(item)) {
-			//throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
+			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
 			console.log("des item gibts hier ned: " + item.getText());
 			return;
 		}
 
 		return this._items.indexOf(item);
 	},
-	
-	notifySelectionListener : function() {
-		
+
+	/**
+	 * @method
+	 * Notifies all selection listeners about the selection change
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
+	_notifySelectionListener : function() {
+		this._selectionListeners.forEach(function(item, index, arr) {
+			item.widgetSelected(this);
+		}, this);
 	},
-	
+
 	/**
 	 * @method
 	 * Register listeners for this widget. Implementation for gara.jswt.Widget
@@ -378,58 +506,88 @@ $class("Tree", {
 			gara.eventManager.addListener(this.domref, eventType, listener);
 		}
 	},
-	
+
 	/**
+	 * @method
+	 * Removes a selection listener from this tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.SelectionListener} listener the listener to be removed from this tree
+	 * @throws {TypeError} if the listener is not a SelectionListener
+	 * @returns {void}
+	 */
+	removeSelectionListener : function(listener) {
+		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+			throw new TypeError("item is not type of gara.jswt.SelectionListener");
+		}
+
+		if (this._selectionListeners.contains(listener)) {
+			this._selectionListeners.remove(listener);
+		}
+	},
+
+	/**
+	 * @method
 	 * Selects a specific item
-	 * 
+	 *
+	 * @private 
 	 * @author Thomas Gossmann
-	 * @type void
-	 * @param {TreeItem} the item to select
-	 * @param {boolean} true for adding to the current selection, false will select only this item
-	 * @private
+	 * @param {gara.jswt.TreeItem} item the item to select
+	 * @param {boolean} _add true for adding to the current selection, false will select only this item
+	 * @throws {TypeError} if the item is not a TreeItem
+	 * @returns {void}
 	 */
-	select : function(item, _add) {
-		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
-			throw new TypeError("item is not type of gara.jswt.TreeItem");
-		}
-	
-		if (!_add) {
-			while (this._selection.length) {
-				this._selection.pop().setUnselected();
-			}
-		}
-		
-		if (!this._selection.contains(item)
-				&& item.getTree() == this) {
-			this._selection.push(item);
-			item.setSelected();
-			this._shiftItem = item;
-			this._activateItem(item);
-			this.notifySelectionListener();
-		}
-	},
-	
-	/**
-	 * Select all items in the list
-	 * 
-	 * @author Thomas Gossmann
-	 * @type void
-	 */
-	selectAll : function() {
-		this._items.forEach(function(item, index, arr) {
-			this.select(item, true);
-		}, this);
-		this.update();
-	},
-	
-	selectRange : function(item, _add) {
+	_select : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
 		if (!_add) {
 			while (this._selection.length) {
-				this._selection.pop().setUnselected();
+				this._selection.pop().setChecked(false);
+			}
+		}
+
+		if (!this._selection.contains(item)
+				&& item.getParent() == this) {
+			this._selection.push(item);
+			item.setChecked(true);
+			this._shiftItem = item;
+			this._activateItem(item);
+			this._notifySelectionListener();
+		}
+	},
+	
+	/**
+	 * @method
+	 * Select all items in the list
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
+	selectAll : function() {
+		this._items.forEach(function(item, index, arr) {
+			this._select(item, true);
+		}, this);
+		this.update();
+	},
+
+	/**
+	 * @method
+	 * Selects a Range of items. From shiftItem to the passed item.
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
+	_selectShift : function(item, _add) {
+		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
+			throw new TypeError("item is not type of gara.jswt.TreeItem");
+		}
+
+		if (!_add) {
+			while (this._selection.length) {
+				this._selection.pop().setChecked(false);
 			}
 		}
 
@@ -440,17 +598,36 @@ $class("Tree", {
 
 		for (var i = from; i <= to; ++i) {
 			this._selection.push(this._items[i]);
-			this._items[i].setSelected();
+			this._items[i].setChecked(true);
 		}
 
 		this._activateItem(item);
-		this.notifySelectionListener();
+		this._notifySelectionListener();
+	},
+	
+	/**
+	 * @method
+	 * Sets lines visible or invisible.
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {boolean} show true if the lines should be visible or false for invisibility
+	 * @returns {void}
+	 */
+	setLinesVisible : function(show) {
+		this._showLines = show;
 	},
 
 	toString : function() {
 		return "[gara.jswt.Tree]";
 	},
 	
+	/**
+	 * @method
+	 * Updates the widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	update : function() {
 		if (this.domref == null) {
 			this.domref = document.createElement("ul");
@@ -476,7 +653,7 @@ $class("Tree", {
 
 			this._parentNode.appendChild(this.domref);
 		}
-	
+
 		this.removeClassName("jsWTTreeNoLines");
 		this.removeClassName("jsWTTreeLines");	
 	
@@ -490,6 +667,16 @@ $class("Tree", {
 		this._updateItems(this._firstLevelItems, this.domref);
 	},
 	
+	/**
+	 * @method
+	 * Update Items
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.TreeItem[]} items to update
+	 * @param {HTMLElement} parentNode the parent dom node
+	 * @returns {void}  
+	 */
 	_updateItems : function(items, parentNode) {
 		var itemCount = items.length;
 		items.forEach(function(item, index, arr) {
@@ -508,21 +695,21 @@ $class("Tree", {
 			}
 
 	
-			if (item.hasChilds()) {
+			if (item.getItemCount() > 0) {
 				var childContainer = item._getChildContainer();
 				this._updateItems(item.getItems(), childContainer);			
 			}
-	
+
 			if (bottom && item.getClassName().indexOf("bottom") == -1) {
 				item.addClassName("bottom");
-				if (item.hasChilds()) {
-					var cc = item.getChildContainer();
+				if (item.getItemCount() > 0) {
+					var cc = item._getChildContainer();
 					cc.className = "bottom";
 				}
 			} else if (!bottom && item.getClassName().indexOf("bottom") != -1) {
 				item.removeClassName("bottom");
-				if (item.hasChilds()) {
-					var cc = item.getChildContainer();
+				if (item.getItemCount() > 0) {
+					var cc = item._getChildContainer();
 					cc.className = null;
 				}
 			}
