@@ -19,12 +19,33 @@
 </ul>
 <h1>Tree</h1>
 <pre>
-<a href="gara.jswt.Tree.class.html">gara.jswt.Tree</a>
+<a href="gara.jswt.Widget.class.html">gara.jswt.Widget</a>&#13;    └─ <a href="gara.jswt.Control.class.html">gara.jswt.Control</a>&#13;           └─ <a href="gara.jswt.Tree.class.html">gara.jswt.Tree</a>
 </pre>
 <hr/>
-<pre>public class <strong>Tree</strong>
-</pre>
-<p/>
+<pre>public class <strong>Tree</strong>&#13;Extends: Control</pre>
+<p>gara Tree Widget</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<h2>Field Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Inherited fields from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#field_domref">domref</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
 <h2>Method Sumary</h2>
 <table class="own">
 <tbody>
@@ -32,8 +53,16 @@
 <td class="returnType">void</td>
 <td>
 <tt>
-<a href="#method__addFirstLevelItem">_addFirstLevelItem</a>(TreeItem item)</tt>
-<span class="description">Adds an item on the top level to this tree. Is automatically done by instantiating a new item.</span>
+<a href="#method_addSelectionListener">addSelectionListener</a>(<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener)</tt>
+<span class="description">Adds a selection listener on the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_deselect">deselect</a>(<a href="gara.jswt.TreeItem.class.html">TreeItem</a> item)</tt>
+<span class="description">Deselects a specific item</span>
 </td>
 </tr>
 <tr>
@@ -42,6 +71,58 @@
 <tt>
 <a href="#method_deselectAll">deselectAll</a>()</tt>
 <span class="description">Deselect all items in the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a>
+</td>
+<td>
+<tt>
+<a href="#method_getItem">getItem</a>(int index)</tt>
+<span class="description">Returns a specifiy item with a zero-related index</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">int</td>
+<td>
+<tt>
+<a href="#method_getItemCount">getItemCount</a>()</tt>
+<span class="description">Returns the amount of the items in the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a>[]</td>
+<td>
+<tt>
+<a href="#method_getItems">getItems</a>()</tt>
+<span class="description">Returns an array with all the items in the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">boolean</td>
+<td>
+<tt>
+<a href="#method_getLinesVisible">getLinesVisible</a>()</tt>
+<span class="description">Returns whether the lines of the tree are visible or not</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a>[]</td>
+<td>
+<tt>
+<a href="#method_getSelection">getSelection</a>()</tt>
+<span class="description">Returns an array with the items which are currently selected in the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">int</td>
+<td>
+<tt>
+<a href="#method_getSelectionCount">getSelectionCount</a>()</tt>
+<span class="description">Returns the amount of the selected items in the tree</span>
 </td>
 </tr>
 <tr>
@@ -56,28 +137,170 @@
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#method_removeSelectionListener">removeSelectionListener</a>(<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener)</tt>
+<span class="description">Removes a selection listener from this tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#method_selectAll">selectAll</a>()</tt>
 <span class="description">Select all items in the list</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_setLinesVisible">setLinesVisible</a>(boolean show)</tt>
+<span class="description">Sets lines visible or invisible.</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_update">update</a>()</tt>
+<span class="description">Updates the widget</span>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Control.class.html">Control</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Control.class.html#method_forceFocus">forceFocus</a>, <a href="gara.jswt.Control.class.html#method_addFocusListener">addFocusListener</a>, <a href="gara.jswt.Control.class.html#method_isFocusControl">isFocusControl</a>, <a href="gara.jswt.Control.class.html#method_looseFocus">looseFocus</a>, <a href="gara.jswt.Control.class.html#method_removeFocusListener">removeFocusListener</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_setClassName">setClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
+</tt>
 </td>
 </tr>
 </tbody>
 </table>
 <h2>Method Detail</h2>
-<h3 id="method__addFirstLevelItem">_addFirstLevelItem</h3>
-<pre>public void <strong>_addFirstLevelItem</strong>(TreeItem item)</pre>
-<p class="description">Adds an item on the top level to this tree. Is automatically done by instantiating a new item.</p>
+<h3 id="method_addSelectionListener">addSelectionListener</h3>
+<pre>public void <strong>addSelectionListener</strong>(<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener)</pre>
+<p class="description">Adds a selection listener on the tree</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>TreeItem item</tt> - new item for the top level</dd>
+<tt>
+<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener</tt> - the desired listener to be added to this tree</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the listener is not a SelectionListener</dd>
 <dt>Author:</dt>
-<dd>thomas Gossmann</dd>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_deselect">deselect</h3>
+<pre>public void <strong>deselect</strong>(<a href="gara.jswt.TreeItem.class.html">TreeItem</a> item)</pre>
+<p class="description">Deselects a specific item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a> item</tt> - the item to deselect</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
 <h3 id="method_deselectAll">deselectAll</h3>
 <pre>public void <strong>deselectAll</strong>()</pre>
 <p class="description">Deselect all items in the tree</p>
 <dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getItem">getItem</h3>
+<pre>public <a href="gara.jswt.TreeItem.class.html">TreeItem</a> <strong>getItem</strong>(int index)</pre>
+<p class="description">Returns a specifiy item with a zero-related index</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>int index</tt> - the zero-related index</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>
+<a href="gara.OutOfBoundsException.class.html">OutOfBoundsException</a>
+</tt> -  if the index does not live within this tree</dd>
+<dt>Returns:</dt>
+<dd> the item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getItemCount">getItemCount</h3>
+<pre>public int <strong>getItemCount</strong>()</pre>
+<p class="description">Returns the amount of the items in the tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the amount</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getItems">getItems</h3>
+<pre>public <a href="gara.jswt.TreeItem.class.html">TreeItem</a>[] <strong>getItems</strong>()</pre>
+<p class="description">Returns an array with all the items in the tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd> an array with the items</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getLinesVisible">getLinesVisible</h3>
+<pre>public boolean <strong>getLinesVisible</strong>()</pre>
+<p class="description">Returns whether the lines of the tree are visible or not</p>
+<dl>
+<dt>Returns:</dt>
+<dd> true if the lines are visible and false if they are not</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getSelection">getSelection</h3>
+<pre>public <a href="gara.jswt.TreeItem.class.html">TreeItem</a>[] <strong>getSelection</strong>()</pre>
+<p class="description">Returns an array with the items which are currently selected in the tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd>an array with items</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getSelectionCount">getSelectionCount</h3>
+<pre>public int <strong>getSelectionCount</strong>()</pre>
+<p class="description">Returns the amount of the selected items in the tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the amount</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -94,9 +317,24 @@
 <dd>
 <tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this tree</dd>
 <dd>
-<tt>TypeError</tt> -  if the item is not a ListItem</dd>
+<tt>TypeError</tt> -  if the item is not a TreeItem</dd>
 <dt>Returns:</dt>
 <dd> the index of the specified item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_removeSelectionListener">removeSelectionListener</h3>
+<pre>public void <strong>removeSelectionListener</strong>(<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener)</pre>
+<p class="description">Removes a selection listener from this tree</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>
+<a href="gara.jswt.SelectionListener.interface.html">SelectionListener</a> listener</tt> - the listener to be removed from this tree</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the listener is not a SelectionListener</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -104,6 +342,25 @@
 <h3 id="method_selectAll">selectAll</h3>
 <pre>public void <strong>selectAll</strong>()</pre>
 <p class="description">Select all items in the list</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setLinesVisible">setLinesVisible</h3>
+<pre>public void <strong>setLinesVisible</strong>(boolean show)</pre>
+<p class="description">Sets lines visible or invisible.</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>boolean show</tt> - true if the lines should be visible or false for invisibility</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_update">update</h3>
+<pre>public void <strong>update</strong>()</pre>
+<p class="description">Updates the widget</p>
 <dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>

@@ -19,33 +19,308 @@
 </ul>
 <h1>TreeItem</h1>
 <pre>
-<a href="gara.jswt.TreeItem.class.html">gara.jswt.TreeItem</a>
+<a href="gara.jswt.Widget.class.html">gara.jswt.Widget</a>&#13;    └─ <a href="gara.jswt.Item.class.html">gara.jswt.Item</a>&#13;           └─ <a href="gara.jswt.TreeItem.class.html">gara.jswt.TreeItem</a>
 </pre>
 <hr/>
-<pre>public class <strong>TreeItem</strong>
-</pre>
-<p/>
+<pre>public class <strong>TreeItem</strong>&#13;Extends: Item</pre>
+<p>gara TreeItem</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<h2>Field Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Inherited fields from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#field_domref">domref</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
 <h2>Method Sumary</h2>
 <table class="own">
 <tbody>
 <tr>
+<td class="returnType">boolean</td>
+<td>
+<tt>
+<a href="#method_getChecked">getChecked</a>()</tt>
+<span class="description">Returns the checked state for this item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">boolean</td>
+<td>
+<tt>
+<a href="#method_getExpanded">getExpanded</a>()</tt>
+<span class="description">Returns the expanded state for this item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a>
+</td>
+<td>
+<tt>
+<a href="#method_getItem">getItem</a>(int index)</tt>
+<span class="description">Returns a specifiy item with a zero-related index</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">int</td>
+<td>
+<tt>
+<a href="#method_getItemCount">getItemCount</a>()</tt>
+<span class="description">Returns the amount of the items in the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a>[]</td>
+<td>
+<tt>
+<a href="#method_getItems">getItems</a>()</tt>
+<span class="description">Returns an array with all the items in the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.Tree.class.html">Tree</a>
+</td>
+<td>
+<tt>
+<a href="#method_getParent">getParent</a>()</tt>
+<span class="description">Returns the widgets parent, which must be a Tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a>
+</td>
+<td>
+<tt>
+<a href="#method_getParentItem">getParentItem</a>()</tt>
+<span class="description">Returns the item's parent item, which must be a TreeItem or null when the item is a root.</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">int</td>
+<td>
+<tt>
+<a href="#method_indexOf">indexOf</a>(<a href="gara.jswt.TreeItem.class.html">TreeItem</a> item)</tt>
+<span class="description">Looks for the index of a specified item</span>
+</td>
+</tr>
+<tr>
 <td class="returnType">void</td>
 <td>
 <tt>
-<a href="#method_setActive">setActive</a>(boolean bActive)</tt>
-<span class="description">Sets the item active or inactive (Override from Item)</span>
+<a href="#method_removeAll">removeAll</a>()</tt>
+<span class="description">Removes all items from that item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_setActive">setActive</a>(boolean active)</tt>
+<span class="description">Sets the item active or inactive</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_setChecked">setChecked</a>(boolean checked)</tt>
+<span class="description">Sets the checked state for this item</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_setExpanded">setExpanded</a>(boolean expanded)</tt>
+<span class="description">Sets a new expanded state for the item</span>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Item.class.html">Item</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Item.class.html#method_hasChanged">hasChanged</a>, <a href="gara.jswt.Item.class.html#method_setSelected">setSelected</a>, <a href="gara.jswt.Item.class.html#method_releaseChange">releaseChange</a>, <a href="gara.jswt.Item.class.html#method_setActive">setActive</a>, <a href="gara.jswt.Item.class.html#method_getText">getText</a>, <a href="gara.jswt.Item.class.html#method_setUnselected">setUnselected</a>, <a href="gara.jswt.Item.class.html#method_isCreated">isCreated</a>, <a href="gara.jswt.Item.class.html#method_getImage">getImage</a>, <a href="gara.jswt.Item.class.html#method_setText">setText</a>, <a href="gara.jswt.Item.class.html#method_setImage">setImage</a>
+</tt>
+</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Inherited methods from gara.jswt.<a href="gara.jswt.Widget.class.html">Widget</a>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<tt>
+<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_setClassName">setClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
+</tt>
 </td>
 </tr>
 </tbody>
 </table>
 <h2>Method Detail</h2>
-<h3 id="method_setActive">setActive</h3>
-<pre>public void <strong>setActive</strong>(boolean bActive)</pre>
-<p class="description">Sets the item active or inactive (Override from Item)</p>
+<h3 id="method_getChecked">getChecked</h3>
+<pre>public boolean <strong>getChecked</strong>()</pre>
+<p class="description">Returns the checked state for this item</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the checked state</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getExpanded">getExpanded</h3>
+<pre>public boolean <strong>getExpanded</strong>()</pre>
+<p class="description">Returns the expanded state for this item</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the expanded state</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getItem">getItem</h3>
+<pre>public <a href="gara.jswt.TreeItem.class.html">TreeItem</a> <strong>getItem</strong>(int index)</pre>
+<p class="description">Returns a specifiy item with a zero-related index</p>
 <dl>
 <dt>Parameters:</dt>
 <dd>
-<tt>boolean bActive</tt> - true for active and false for inactive</dd>
+<tt>int index</tt> - the zero-related index</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>OutOfBoundsException</tt> -  if the index does not live within this tree</dd>
+<dt>Returns:</dt>
+<dd> the item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getItemCount">getItemCount</h3>
+<pre>public int <strong>getItemCount</strong>()</pre>
+<p class="description">Returns the amount of the items in the tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the amount</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getItems">getItems</h3>
+<pre>public <a href="gara.jswt.TreeItem.class.html">TreeItem</a>[] <strong>getItems</strong>()</pre>
+<p class="description">Returns an array with all the items in the tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd> an array with the items</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getParent">getParent</h3>
+<pre>public <a href="gara.jswt.Tree.class.html">Tree</a> <strong>getParent</strong>()</pre>
+<p class="description">Returns the widgets parent, which must be a Tree</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the parent of this widget</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_getParentItem">getParentItem</h3>
+<pre>public <a href="gara.jswt.TreeItem.class.html">TreeItem</a> <strong>getParentItem</strong>()</pre>
+<p class="description">Returns the item's parent item, which must be a TreeItem or null when the item is a root.</p>
+<dl>
+<dt>Returns:</dt>
+<dd> the parent item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_indexOf">indexOf</h3>
+<pre>public int <strong>indexOf</strong>(<a href="gara.jswt.TreeItem.class.html">TreeItem</a> item)</pre>
+<p class="description">Looks for the index of a specified item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>
+<a href="gara.jswt.TreeItem.class.html">TreeItem</a> item</tt> - the item for the index</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this tree</dd>
+<dd>
+<tt>TypeError</tt> -  if the item is not a TreeItem</dd>
+<dt>Returns:</dt>
+<dd> the index of the specified item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_removeAll">removeAll</h3>
+<pre>public void <strong>removeAll</strong>()</pre>
+<p class="description">Removes all items from that item</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setActive">setActive</h3>
+<pre>public void <strong>setActive</strong>(boolean active)</pre>
+<p class="description">Sets the item active or inactive</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>boolean active</tt> - true for active and false for inactive</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setChecked">setChecked</h3>
+<pre>public void <strong>setChecked</strong>(boolean checked)</pre>
+<p class="description">Sets the checked state for this item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>boolean checked</tt> - the new checked state</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setExpanded">setExpanded</h3>
+<pre>public void <strong>setExpanded</strong>(boolean expanded)</pre>
+<p class="description">Sets a new expanded state for the item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>boolean expanded</tt> - the new expanded state</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
