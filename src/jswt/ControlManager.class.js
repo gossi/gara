@@ -29,14 +29,24 @@
  */
 $class("ControlManager", {
 	$implements : FocusListener,
+	
+	_instance : null,
 
 	$constructor : function() {
 		this._activeControl = null;
 		this._controls = [];
 
-		gara.eventManager.addListener(window, "keydown", this);
-		gara.eventManager.addListener(window, "mousedown", this);
+		gara.EventManager.getInstance().addListener(document, "keydown", this);
+		gara.EventManager.getInstance().addListener(document, "mousedown", this);
 	},
+	
+	getInstance : $static(function() {
+		if (this._instance == null) {
+			this._instance = new ControlManager();
+		}
+
+		return this._instance;
+	}),
 
 	addControl : function(control) {
 		if (!this._controls.contains(control)) {
@@ -95,5 +105,3 @@ $class("ControlManager", {
 		return "[gara.jswt.ControlManager]";
 	}
 });
-
-var ctrlManager = new ControlManager();

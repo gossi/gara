@@ -35,14 +35,29 @@
 $class("EventManager", {
 	/**
 	 * @field
-	 * Stores all listeners
+	 * Stores THE instance
 	 * @private
 	 */
-	_listeners : [],
+	_instance : null,
 
 	$constructor : function() {
-		window.addEventListener("unload", this, false);
+		this._listeners = [];
+		base2.DOM.bind(document);
+		//base2.DOM.bind(window);
+		//window.addEventListener("unload", this, false);
+		var eventMgr = this;
+		window.onunload = function(e) {
+			eventMgr.handleEvent(e);
+		}
 	},
+
+	getInstance : $static(function() {
+		if (this._instance == null) {
+			this._instance = new EventManager();
+		}
+
+		return this._instance;
+	}),
 
 	/**
 	 * @method
@@ -76,9 +91,9 @@ $class("EventManager", {
 	 * @private
 	 */
 	handleEvent : function(e) {
-		if (e.type == "unload") {
+//		if (e.type == "unload") {
 			this._unregisterAllEvents();
-		}
+//		}
 	},
 
 	/**
@@ -113,5 +128,3 @@ $class("EventManager", {
 		return "[gara.EventManager]";
 	}
 });
-
-gara.eventManager = new EventManager();

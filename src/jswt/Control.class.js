@@ -41,8 +41,8 @@ $class("Control", {
 		this._focusListener = [];
 		this._hasFocus = false;
 
-		ctrlManager.addControl(this);
-		this.addFocusListener(ctrlManager);
+		ControlManager.getInstance().addControl(this);
+		this.addFocusListener(ControlManager.getInstance());
 	},
 
 	/**

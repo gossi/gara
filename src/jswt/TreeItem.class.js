@@ -158,6 +158,8 @@ $class("TreeItem", {
 		if (this._hasChilds()) {
 			this._createChildContainer();
 		}
+		
+		base2.DOM.bind(this.domref);
 
 		/* register user-defined listeners */
 		for (var eventType in this._listeners) {
@@ -405,11 +407,11 @@ $class("TreeItem", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this._img != null) {
-			gara.eventManager.addListener(this._img, eventType, listener);
+			gara.EventManager.getInstance().addListener(this._img, eventType, listener);
 		}
 	
 		if (this._span != null) {
-			gara.eventManager.addListener(this._span, eventType, listener);
+			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
 		}
 	},
 
@@ -546,6 +548,7 @@ $class("TreeItem", {
 			this._childContainer = null;
 		}
 
+		this._spanText.nodeValue = this._text;
 		this.domref.className = this._className;
 	}
 });

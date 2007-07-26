@@ -34,6 +34,6 @@ $class("Namespace", {
 });
 
 var garaPkg = new Namespace({
-	exports : "Namespace",
+	exports : "Namespace,EventManager,OutOfBoundsException",
 	name : "gara"
 });

@@ -503,7 +503,7 @@ $class("Tree", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
-			gara.eventManager.addListener(this.domref, eventType, listener);
+			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
 		}
 	},
 
@@ -633,6 +633,7 @@ $class("Tree", {
 			this.domref = document.createElement("ul");
 			this.domref.obj = this;
 			this.domref.control = this;
+			base2.DOM.bind(this.domref);
 
 			/* buffer unregistered user-defined listeners */
 			var unregisteredListener = {};			

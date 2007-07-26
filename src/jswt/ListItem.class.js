@@ -90,6 +90,8 @@ $class("ListItem", {
 		this._span.control = this._list;
 		this._span.appendChild(this._spanText);
 		this.domref.appendChild(this._span);
+		
+		base2.DOM.bind(this.domref);
 
 		// register listener
 		for (var eventType in this._listener) {
@@ -97,7 +99,7 @@ $class("ListItem", {
 				this.registerListener(eventType, elem);
 			}, this);
 		}
-
+		this._changed = false;
 		return this.domref;
 	},
 
@@ -111,11 +113,11 @@ $class("ListItem", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this._img != null) {
-			gara.eventManager.addListener(this._img, eventType, listener);
+			gara.EventManager.getInstance().addListener(this._img, eventType, listener);
 		}
 
 		if (this._span != null) {
-			gara.eventManager.addListener(this._span, eventType, listener);
+			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
 		}
 	},
 	
@@ -132,12 +134,12 @@ $class("ListItem", {
 	 */
 	update : function() {
 		// create image
-		if (this.image != null && this._img == null) {
+		if (this._image != null && this._img == null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
 			this._img.control = this._list;
-			this._img.alt = this.sText;
-			this._img.src = this.image.src;
+			this._img.alt = this._text;
+			this._img.src = this._image.src;
 			this.domref.insertBefore(this._img, this._span);
 			
 			// event listener
@@ -147,22 +149,23 @@ $class("ListItem", {
 				}, this);
 			}
 		}
+		
 
 		// simply update image information
-		else if (this.image != null) {
-			this._img.src = this.image.src;
+		else if (this._image != null) {
+			this._img.src = this._image.src;
 			this._img.alt = this._text;
 		}
 
 		// delete image
-		else if (this._img != null && this.image == null) {
+		else if (this._img != null && this._image == null) {
 			this.domref.removeChild(this._img);
 			this._img = null;
 
 			// event listener
 			for (var eventType in this._listener) {
 				this._listener[eventType].forEach(function(elem, index, arr) {
-					gara.eventManager.removeListener({
+					gara.EventManager.getInstance().removeListener({
 						domNode : this._img,
 						type: eventType, 
 						listener : elem
@@ -171,7 +174,7 @@ $class("ListItem", {
 			}
 		}
 
-		this._spanText.value = this._text;
+		this._spanText.nodeValue = this._text;
 		this.domref.className = this._className;
 	}
 });
