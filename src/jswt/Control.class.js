@@ -41,8 +41,8 @@ $class("Control", {
 		this._focusListener = [];
 		this._hasFocus = false;
 
-		ControlManager.getInstance().addControl(this);
-		this.addFocusListener(ControlManager.getInstance());
+		gara.jswt.ControlManager.getInstance().addControl(this);
+		this.addFocusListener(gara.jswt.ControlManager.getInstance());
 	},
 
 	/**

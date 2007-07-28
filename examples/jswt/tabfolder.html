@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>gara.jswt.tabfolder (example)</title>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../gara.js"></script>
+<script type="text/javascript"><!--
+function main() {
+	var t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.TOP);
+
+	var i1 = new gara.jswt.TabItem(t);
+	i1.setText("Item 1");
+	i1.setContent("Content 1");
+	
+	var i2 = new gara.jswt.TabItem(t);
+	i2.setText("Item 2");
+	i2.setContent("Content 2");
+	
+	var i3 = new gara.jswt.TabItem(t);
+	i3.setText("Item 3");
+	i3.setContent("Content 3");
+	
+	var i4 = new gara.jswt.TabItem(t);
+	i4.setText("Item 4");
+	i4.setContent("Content 4");
+	
+	var i5 = new gara.jswt.TabItem(t);
+	i5.setText("Item 5");
+	i5.setContent("Content 5");
+	
+	t.update();
+}
+
+gara.onDOMLoaded(main);
+--></script>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.TabFolder</h1>
+<div id="container" class="sand">
+</div>
+</body>
+</html>

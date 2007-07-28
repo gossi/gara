@@ -42,7 +42,7 @@ $class("ControlManager", {
 	
 	getInstance : $static(function() {
 		if (this._instance == null) {
-			this._instance = new ControlManager();
+			this._instance = new gara.jswt.ControlManager();
 		}
 
 		return this._instance;
@@ -80,8 +80,8 @@ $class("ControlManager", {
 		}
 
 		if (e.type == "mousedown") {
-			if (this._activeControl != null && e.target.control
-				&& e.target.control != this._activeControl) {
+			if (this._activeControl != null && (e.target.control
+				? e.target.control != this._activeControl : true)) {
 				this._activeControl.looseFocus();
 				this._activeControl = null;
 			}

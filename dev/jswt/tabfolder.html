@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jswt.list (dev)</title>
+<title>gara.jswt.tabfolder (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
@@ -17,39 +17,47 @@
 <script type="text/javascript" src="../../src/core/_ps.js"></script>
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
 <script type="text/javascript" src="../../src/jswt/_namespace.js"></script>
+<script type="text/javascript" src="../../src/jswt/_constants.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_ps.js"></script>
 <script type="text/javascript"><!--
 function main() {
 //	try {
-		var l = new List(document.getElementById("container"));
+		var t = new TabFolder(document.getElementById("container"), gara.jswt.TOP);
+
+		var i1 = new TabItem(t);
+		i1.setText("Item 1");
+		i1.setContent("Content 1");
 		
-		var i = new ListItem(l);
-		i.setText("Item 1");
-		
-		var i2 = new ListItem(l);
+		var i2 = new TabItem(t);
 		i2.setText("Item 2");
+		i2.setContent("Content 2");
 		
-		var i3 = new ListItem(l);
+		var i3 = new TabItem(t);
 		i3.setText("Item 3");
-	
-		var i4 = new ListItem(l);
-		i4.setText("Item 4");
+		i3.setContent("Content 3");
 		
-		var i5 = new ListItem(l);
+		var i4 = new TabItem(t);
+		i4.setText("Item 4");
+		i4.setContent("Content 4");
+		
+		var i5 = new TabItem(t);
 		i5.setText("Item 5");
-	
-		l.update();
+		i5.setContent("Content 5");
+		
+		t.update();
 //	} catch(e) {
 //		var message = "";
 //		for (p in e) {
@@ -63,7 +71,7 @@ onDOMLoaded(main);
 --></script>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.List</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.TabFolder</h1>
 <div id="container" class="sand">
 </div>
 </body>

@@ -158,7 +158,7 @@ $class("List", {
 	 */
 	getItem : function(index) {
 		if (index >= this._items.length) {
-			throw new OutOfBoundsException("Your item lives outside of this list");
+			throw new gara.OutOfBoundsException("Your item lives outside of this list");
 		}
 	
 		return this._items[index];
@@ -378,7 +378,7 @@ $class("List", {
 	 */
 	notifySelectionListener : function() {
 		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
-			this._selectionListeners[i].widgetSelected(this);
+			this._selectionListener[i].widgetSelected(this);
 		}
 	},
 	
@@ -492,7 +492,7 @@ $class("List", {
 		this.notifySelectionListener();
 		this._activateItem(item);
 	},
-	
+
 	toString : function() {
 		return "[gara.jswt.List]";
 	},

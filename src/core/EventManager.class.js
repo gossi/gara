@@ -53,7 +53,7 @@ $class("EventManager", {
 
 	getInstance : $static(function() {
 		if (this._instance == null) {
-			this._instance = new EventManager();
+			this._instance = new gara.EventManager();
 		}
 
 		return this._instance;

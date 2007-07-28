@@ -127,3 +127,85 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 .sand ul.jsWTTree li span.togglerCollapsed {
 	background-image: url('expand.gif');
 }
+
+/**
+ * gara.jswt.TabFolder
+ */
+.sand div.jsWTTabFolder {
+}
+
+.sand ul.jsWTTabbar {
+	height: 23px;
+}
+
+.sand ul.jsWTTabbar li {
+	cursor: default;
+	float: left;
+	padding: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	border: 1px solid #000;
+	margin-right: -1px;
+	font-family: Verdana;
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+.sand div.jsWTTabFolderActive ul.jsWTTabbar li:hover {
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+.sand div.jsWTTabFolderActive ul.jsWTTabbar li.active {
+	background-color: #9C9577;
+	color: #FFF;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.sand div.jsWTTabFolderInactive ul.jsWTTabbar li.active {
+	background-color: #CCC8BA;
+	color: #000;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.sand ul.jsWTTabbarTop li {
+	margin-top: 2px;
+}
+
+.sand div.jsWTTabFolderActive ul.jsWTTabbarTop li:hover {
+}
+
+.sand div.jsWTTabFolderActive ul.jsWTTabbarTop li.active {
+	border-bottom-color: #9C9577;
+	margin-top: 0;
+}
+
+.sand div.jsWTTabFolderInactive ul.jsWTTabbarTop li.active {
+	border-bottom-color: #CCC8BA;
+	margin-top: 0;
+}
+
+.sand ul.jsWTTabbarBottom li {
+	margin-top: -1px;
+	margin-bottom: 2px;
+}
+
+.sand div.jsWTTabFolderActive ul.jsWTTabbarBottom li:hover {
+}
+
+.sand div.jsWTTabFolderActive ul.jsWTTabbarBottom li.active {
+	border-top-color: #9C9577;
+	margin-bottom: 0;
+}
+
+.sand div.jsWTTabFolderInactive ul.jsWTTabbarBottom li.active {
+	border-top-color: #CCC8BA;
+	margin-bottom: 0;
+}
+
+.sand div.jsWTTabFolder div.jsWTTabClientArea {
+	border: 1px solid #000;
+	height: 50px;
+}

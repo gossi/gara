@@ -24,15 +24,18 @@
 	<property name="jswtFile" value="${buildDir}/gara-jswt.js"/>
 
 	<filelist id="jswtFL" dir="${jswtDir}">
+		<file name="_constants.js"/>
 		<file name="FocusListener.interface.js"/>
 		<file name="SelectionListener.interface.js"/>
 		<file name="Widget.class.js"/>
 		<file name="Control.class.js"/>
-		<file name="List.class.js"/>
-		<file name="Tree.class.js"/>
 		<file name="Item.class.js"/>
+		<file name="List.class.js"/>
 		<file name="ListItem.class.js"/>
+		<file name="Tree.class.js"/>
 		<file name="TreeItem.class.js"/>
+		<file name="TabFolder.class.js"/>
+		<file name="TabItem.class.js"/>
 		<file name="ControlManager.class.js"/>
 	</filelist>
 

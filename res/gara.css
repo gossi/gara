@@ -149,3 +149,20 @@ ul.jsWTTreeNoLines li.bottom {
 ul.jsWTTree ul.bottom {
 	background-image: none;
 }
+
+/* TabFolder Control */
+div.jsWTTabFolder {
+}
+
+ul.jsWTTabbar {
+	margin-left: 0;
+	padding-left: 0;
+	-moz-user-select: none;
+	outline: none;
+}
+
+ul.jsWTTabbar li {
+}
+
+div.jsWTTabFolder div.jsWTTabClientArea {
+}
