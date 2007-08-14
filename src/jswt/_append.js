@@ -10,4 +10,5 @@ delete TreeItem;
 delete TabFolder;
 delete TabItem;
 delete SelectionListener;
+delete Composite;
 delete Widget;

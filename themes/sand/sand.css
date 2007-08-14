@@ -26,9 +26,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
  *
  */
 .sand ul.jsWTList {
-	width: 300px;
 	border: 1px solid #000;
-	height: 450px;
 	overflow: auto;
 	background-color: #EAE6D6;
 	padding: 5px;
@@ -64,9 +62,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
  * gara.jswt.Tree
  */
 .sand ul.jsWTTree {
-	width: 300px;
 	border: 1px solid #000;
-	height: 450px;
 	overflow: auto;
 	background-color: #EAE6D6;
 	padding: 5px;
@@ -85,9 +81,6 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	background-color: #EAE6D6;
 	color: #000;
 	font-family: Verdana;
-	font-size: 85%;
-	padding-top: 2px;
-	padding-bottom: 1px;
 }
 
 .sand ul.jsWTTree li span:hover.text {
@@ -207,5 +200,4 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 
 .sand div.jsWTTabFolder div.jsWTTabClientArea {
 	border: 1px solid #000;
-	height: 50px;
 }

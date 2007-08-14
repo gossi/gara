@@ -129,9 +129,9 @@ $class("Item", {
 	 * @returns {void}
 	 */
 	setImage : function(image) {
-		if(!$class.instanceOf(image, Image)) {
-			throw new TypeError("image not instance of Image");
-		}
+//		if(!$class.instanceOf(image, Image)) {
+//			throw new TypeError("image not instance of Image");
+//		}
 		
 		this._image = image;
 		this._changed = true;

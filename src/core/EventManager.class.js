@@ -42,13 +42,14 @@ $class("EventManager", {
 
 	$constructor : function() {
 		this._listeners = [];
-		base2.DOM.bind(document);
+		//base2.DOM.bind(document);
+		base2.DOM.EventTarget(window);
 		//base2.DOM.bind(window);
-		//window.addEventListener("unload", this, false);
-		var eventMgr = this;
-		window.onunload = function(e) {
-			eventMgr.handleEvent(e);
-		}
+		window.addEventListener("unload", this, false);
+//		var eventMgr = this;
+//		window.onunload = function(e) {
+//			eventMgr.handleEvent(e);
+//		}
 	},
 
 	getInstance : $static(function() {

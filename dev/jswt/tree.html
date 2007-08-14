@@ -6,6 +6,7 @@
 <title>gara.jswt.tree (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../garadev.js"></script>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 
@@ -17,22 +18,26 @@
 <script type="text/javascript" src="../../src/core/_ps.js"></script>
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
 <script type="text/javascript" src="../../src/jswt/_namespace.js"></script>
+<script type="text/javascript" src="../../src/jswt/_constants.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_ps.js"></script>
 <script type="text/javascript"><!--
 function main() {
-//	try {
-		t = new Tree(document.getElementById("container"));
+	try {
+		t = new Tree(document.getElementById("container"), gara.jswt.MULTI | gara.jswt.FULL_SELECTION);
 		
 		var i1 = new TreeItem(t);
 		i1.setText("Item 1");
@@ -59,13 +64,13 @@ function main() {
 		i8.setText("Item 8");
 		
 		t.update();
-//	} catch(e) {
-//		var message = "";
-//		for (p in e) {
-//			message += p + ": " + e[p] + "\n";
-//		}
-//		alert(message);
-//	}
+	} catch(e) {
+		var message = "";
+		for (p in e) {
+			message += p + ": " + e[p] + "\n";
+		}
+		console.log(message);
+	}
 }
 
 onDOMLoaded(main);
@@ -73,7 +78,7 @@ onDOMLoaded(main);
 </head>
 <body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Tree</h1>
-<div id="container" class="sand">
+<div id="container" class="sand" style="width: 300px;">
 </div>
 </body>
 </html>

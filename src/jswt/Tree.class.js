@@ -27,18 +27,23 @@
  * @class Tree
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Control
+ * @extends Composite
  */
 $class("Tree", {
-	$extends : Control,
+	$extends : Composite,
 
-	$constructor : function(parentNode) {
-		this.$base();
+	$constructor : function(parent, style) {
+		this.$base(parent, style);
+		
+		// Tree default style
+		if (this._style == gara.jswt.DEFAULT) {
+			this._style = gara.jswt.SINGLE;
+		}
+		
 		this._showLines = true;
 
 		this._shiftItem = null;
 		this._activeItem = null;
-		this._parentNode = parentNode;
 		this._className = this._baseClass = "jsWTTree";
 		
 		this._selection = [];
@@ -95,7 +100,6 @@ $class("Tree", {
 				+ getDescendents(parentItem)
 				+ 1;
 
-			
 			this._items.splice(index, 0, item);
 		}
 
@@ -112,8 +116,7 @@ $class("Tree", {
 			return childs;
 		}
 	},
-	
-	
+
 	/**
 	 * @method
 	 * Adds a selection listener on the tree
@@ -542,7 +545,7 @@ $class("Tree", {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
-		if (!_add) {
+		if (!_add || (this._style & gara.jswt.SINGLE) == gara.jswt.SINGLE) {
 			while (this._selection.length) {
 				this._selection.pop().setChecked(false);
 			}
@@ -591,18 +594,22 @@ $class("Tree", {
 			}
 		}
 
-		var indexShift = this.indexOf(this._shiftItem);
-		var indexItem = this.indexOf(item);
-		var from = indexShift > indexItem ? indexItem : indexShift;
-		var to = indexShift < indexItem ? indexItem : indexShift;
+		if ((this._style & gara.jswt.MULTI) == gara.jswt.MULTI) {
+			var indexShift = this.indexOf(this._shiftItem);
+			var indexItem = this.indexOf(item);
+			var from = indexShift > indexItem ? indexItem : indexShift;
+			var to = indexShift < indexItem ? indexItem : indexShift;
 
-		for (var i = from; i <= to; ++i) {
-			this._selection.push(this._items[i]);
-			this._items[i].setChecked(true);
+			for (var i = from; i <= to; ++i) {
+				this._selection.push(this._items[i]);
+				this._items[i].setChecked(true);
+			}
+
+			this._activateItem(item);			
+			this._notifySelectionListener();
+		} else {
+			this._select(item);
 		}
-
-		this._activateItem(item);
-		this._notifySelectionListener();
 	},
 	
 	/**
@@ -652,16 +659,26 @@ $class("Tree", {
 				}, this);
 			}
 
-			this._parentNode.appendChild(this.domref);
+			/* If parent is not a composite then it *must* be a HTMLElement
+			 * but because of IE there is no cross-browser check. Or no one I know of.
+			 */
+			if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+				this._parent.appendChild(this.domref);
+			}
 		}
 
 		this.removeClassName("jsWTTreeNoLines");
-		this.removeClassName("jsWTTreeLines");	
-	
+		this.removeClassName("jsWTTreeLines");
+		this.removeClassName("jsWTTreeFullSelection");	
+
 		if (this._showLines) {
 			this.addClassName("jsWTTreeLines");
 		} else {
 			this.addClassName("jsWTTreeNoLines");
+		}
+		
+		if ((this._style & gara.jswt.FULL_SELECTION) == gara.jswt.FULL_SELECTION) {
+			this.addClassName("jsWTTreeFullSelection");
 		}
 
 		this.domref.className = this._className;

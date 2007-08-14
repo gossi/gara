@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gara" basedir="../" default="deploy">
+<project name="gara" basedir="../" default="build">
 	
 	<property name="srcDir" value="${basedir}/src"/>
 	<property name="buildDir" value="${basedir}/build"/>
@@ -27,8 +27,10 @@
 		<file name="_constants.js"/>
 		<file name="FocusListener.interface.js"/>
 		<file name="SelectionListener.interface.js"/>
+		<file name="ItemNotExistsException.class.js"/>
 		<file name="Widget.class.js"/>
 		<file name="Control.class.js"/>
+		<file name="Composite.class.js"/>
 		<file name="Item.class.js"/>
 		<file name="List.class.js"/>
 		<file name="ListItem.class.js"/>
@@ -62,7 +64,7 @@
 		</delete>
 	</target>
 	
-	<target name="-build" depends="-cleanupCommon">
+	<target name="-combine" depends="-cleanupCommon">
 		<antcall target=".buildPackage">
 			<param name="dir" value="${garaDir}"/>
 			<param name="files" value="garaFL"/>
@@ -74,9 +76,7 @@
 			<param name="files" value="jswtFL"/>
 			<param name="file" value="${jswtFile}"/>
 		</antcall>
-	</target>
-	
-	<target name="-combine" depends="-build">
+
 		<concat destfile="${buildDir}/gara-src.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js"/>
 		</concat>
@@ -165,7 +165,7 @@
 		</xslt>
 	</target>
 
-	<target name="deploy" depends="-cleanupDeploy,-compress">
+	<target name="build" depends="-cleanupDeploy,-compress">
 		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
 
 		<!-- gara.js (all dependant libs included) -->
@@ -191,7 +191,7 @@
 		<copy file="${deployDir}/gara.js" todir="${basedir}"/>
 	</target>
 	
-	<target name="distribute" depends="deploy">
+	<target name="deploy" depends="build">
 		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
 			<tarfileset dir="${basedir}" includes="examples/,res/,themes/,lgpl-2.1.txt"/>
 			<tarfileset dir="${basedir}/docs" includes="api/"/>

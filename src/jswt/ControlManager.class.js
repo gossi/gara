@@ -36,6 +36,8 @@ $class("ControlManager", {
 		this._activeControl = null;
 		this._controls = [];
 
+		base2.DOM.EventTarget(document);
+
 		gara.EventManager.getInstance().addListener(document, "keydown", this);
 		gara.EventManager.getInstance().addListener(document, "mousedown", this);
 	},
@@ -59,6 +61,8 @@ $class("ControlManager", {
 			throw new TypeError("control is not a gara.jswt.Control");
 		}
 
+//		console.log("ControlManager.focusGained() new active control is: " + control);
+
 		this._activeControl = control;
 	},
 
@@ -73,6 +77,7 @@ $class("ControlManager", {
 	},
 
 	handleEvent : function(e) {
+//		console.log("ControlMananger.handleEvent("+e.type+"): activeControl: " + this._activeControl);
 		if (e.type == "keydown") {
 			if (this._activeControl != null && this._activeControl._handleKeyEvent) {
 				this._activeControl._handleKeyEvent(e);

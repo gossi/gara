@@ -65,6 +65,7 @@ $class("Widget", {
 	 * @private
 	 */
 	$constructor : function() {
+		this.domref = null;
 		this._className = "";
 		this._baseClass = "";
 		this._listener = {};
@@ -82,7 +83,7 @@ $class("Widget", {
 		this._className += " " + className;
 		this._changed = true;
 	},
-	
+
 	addListener : function(eventType, listener) {
 		if (!this._listener.hasOwnProperty(eventType)) {
 			this._listener[eventType] = new Array();
@@ -101,6 +102,10 @@ $class("Widget", {
 	 */
 	getClassName : function() {
 		return this._className;
+	},
+	
+	hasClassName : function(className) {
+		return this._className.indexOf(className) != -1;
 	},
 	
 //	handleEvent : $abstract(function(e){}),
@@ -122,19 +127,6 @@ $class("Widget", {
 	
 	removeListener : function(eventType, listener) {
 		this._listener[eventType].remove(listener);
-	},
-
-	/**
-	 * @method
-	 * Sets the CSS class for the item
-	 * 
-	 * @author Thomas Gossmann
-	 * @param {String} className the new class name
-	 * @returns {void}
-	 */
-	setClassName : function(className) {
-		this._className = className;
-		this._changed = true;
 	},
 	
 	toString : function() {

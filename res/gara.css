@@ -37,6 +37,11 @@ ul.jsWTList li span {
 	line-height: 21px;
 }
 
+ul.jsWTListFullSelection li span {
+	display: block;
+	line-height: 14px;
+}
+
 ul.jsWTList li.active {
 /*	border: 1px dotted #000;*/
 }
@@ -78,8 +83,11 @@ ul.jsWTTree ul {
 
 ul.jsWTTree li {
 	background-repeat: no-repeat;
-/*	height: 18px;
-	max-height: 18px;*/
+	height: auto !important;
+	height: 18px;
+	min-height: 18px;
+	overflow: auto !important;
+	overflow: visible;
 	list-style-type: none;
 }
 
@@ -95,27 +103,23 @@ ul.jsWTTree li span.text {
 	cursor: default;
 	padding-left: 3px;
 	padding-right: 3px;
-	font-size: 92%;
 	line-height: 18px;
 	width: auto;
+	font-size: 85%;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+ul.jsWTTreeFullSelection li span.text {
+	display: block;
+	line-height: 14px;
+	margin-left: 18px;
+	padding-bottom: 1px;
 }
 
 ul.jsWTTree li img {
 	margin-right: 3px;
 	vertical-align: middle;
-}
-
-ul.jsWTTree li span.textBox span:hover.text {
-/*	background-color: #EEE;*/
-}
-
-ul.jsWTTree li span.textBox span.selected {
-/*	background-color: #DDD;*/
-}
-
-ul.jsWTTree li span.textBox span:hover.selected {
-/*	background-color: #DDD;*/
-	color: #00A;
 }
 
 ul.jsWTTree li span.active {

@@ -19,10 +19,10 @@
 </ul>
 <h1>TabFolder</h1>
 <pre>
-<a href="gara.jswt.Widget.class.html">gara.jswt.Widget</a>&#13;    └─ <a href="gara.jswt.Control.class.html">gara.jswt.Control</a>&#13;           └─ <a href="gara.jswt.TabFolder.class.html">gara.jswt.TabFolder</a>
+<a href="gara.jswt.Widget.class.html">gara.jswt.Widget</a>&#13;    └─ <a href="gara.jswt.Control.class.html">gara.jswt.Control</a>&#13;           └─ <a href="gara.jswt.Composite.class.html">gara.jswt.Composite</a>&#13;                  └─ <a href="gara.jswt.TabFolder.class.html">gara.jswt.TabFolder</a>
 </pre>
 <hr/>
-<pre>public class <strong>TabFolder</strong>&#13;Extends: Control</pre>
+<pre>public class <strong>TabFolder</strong>&#13;Extends: Composite</pre>
 <p>gara TabFolder Widget</p>
 <dl>
 <dt>Author:</dt>
@@ -130,8 +130,7 @@
 <td>
 <tt>
 <a href="#method_setSelection">setSelection</a>(mixed arg)</tt>
-<span class="description">setSelection
-Selects the item at the given zero-related index in the tabfolder.
+<span class="description">Selects the item at the given zero-related index in the tabfolder.
 Sets the tabfolders selection the the given array.
 Depends on the parameter</span>
 </td>
@@ -174,7 +173,7 @@ Depends on the parameter</span>
 <tr>
 <td>
 <tt>
-<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_setClassName">setClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
+<a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
 </tt>
 </td>
 </tr>
@@ -274,7 +273,9 @@ Depends on the parameter</span>
 <a href="gara.jswt.TabItem.class.html">TabItem</a> item</tt> - the item for the index</dd>
 <dt>Throws:</dt>
 <dd>
-<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this tabfolder</dd>
+<tt>
+<a href="gara.jswt.ItemNotExistsException.class.html">ItemNotExistsException</a>
+</tt> -  if the item does not exist in this tabfolder</dd>
 <dd>
 <tt>TypeError</tt> -  if the item is not a TabItem</dd>
 <dt>Returns:</dt>
@@ -300,8 +301,7 @@ Depends on the parameter</span>
 <hr/>
 <h3 id="method_setSelection">setSelection</h3>
 <pre>public void <strong>setSelection</strong>(mixed arg)</pre>
-<p class="description">setSelection
-Selects the item at the given zero-related index in the tabfolder.
+<p class="description">Selects the item at the given zero-related index in the tabfolder.
 Sets the tabfolders selection the the given array.
 Depends on the parameter</p>
 <dl>

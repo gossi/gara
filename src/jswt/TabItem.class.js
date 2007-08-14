@@ -195,7 +195,6 @@ $class("TabItem", {
 		}
 
 		this._control = control;
-		this.setContent(control.domref);
 	},
 
 	/**

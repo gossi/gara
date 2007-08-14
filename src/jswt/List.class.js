@@ -38,17 +38,23 @@ $class("List", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @param {HTMLElement} parentNode parent dom node for the widget
+	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
+	 * @param {int} style The style for the list
 	 * @returns {gara.jswt.List} list widget
 	 */
-	$constructor : function(parentNode) {
-		this.$base();
+	$constructor : function(parent, style) {
+		this.$base(parent, style);
+		
+		// List default style
+		if (this._style == gara.jswt.DEFAULT) {
+			this._style = gara.jswt.SINGLE;
+		}
+
 		this._items = [];
 		this._selection = [];
 		this._selectionListener = [];
 		this._activeItem = null;
 		this._shiftItem = null;
-		this._parentNode = parentNode;
 		this._className = this._baseClass = "jsWTList";
 	},
 
@@ -219,6 +225,8 @@ $class("List", {
 	handleEvent : function(e) {
 		// special events for the list
 		var obj = e.target.obj || null;
+		
+//		console.log("List.handleEvent(" + e.type + ")");
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -429,7 +437,7 @@ $class("List", {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
-		if (!_add) {
+		if (!_add || (this._style & gara.jswt.SINGLE) == gara.jswt.SINGLE) {
 			while (this._selection.length) {
 				this._selection.pop().setUnselected();
 			}
@@ -473,24 +481,29 @@ $class("List", {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
+		// only, when selection mode is MULTI
 		if (!_add) {
 			while (this._selection.length) {
 				this._selection.pop().setUnselected();
 			}
 		}
 
-		var indexShift = this.indexOf(this._shiftItem);
-		var indexItem = this.indexOf(item);
-		var from = indexShift > indexItem ? indexItem : indexShift;
-		var to = indexShift < indexItem ? indexItem : indexShift;
+		if ((this._style & gara.jswt.MULTI) == gara.jswt.MULTI) {
+			var indexShift = this.indexOf(this._shiftItem);
+			var indexItem = this.indexOf(item);
+			var from = indexShift > indexItem ? indexItem : indexShift;
+			var to = indexShift < indexItem ? indexItem : indexShift;
 
-		for (var i = from; i <= to; ++i) {
-			this._selection.push(this._items[i]);
-			this._items[i].setSelected();
+			for (var i = from; i <= to; ++i) {
+				this._selection.push(this._items[i]);
+				this._items[i].setSelected();
+			}
+
+			this._activateItem(item);
+			this.notifySelectionListener();
+		} else {
+			this.select(item);
 		}
-
-		this.notifySelectionListener();
-		this._activateItem(item);
 	},
 
 	toString : function() {
@@ -528,14 +541,25 @@ $class("List", {
 				}, this);
 			}
 
-			this._parentNode.appendChild(this.domref);
+			/* If parent is not a composite then it *must* be a HTMLElement
+			 * but because of IE there is no cross-browser check. Or no one I know of.
+			 */
+			if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+				this._parent.appendChild(this.domref);
+			}
+		}
+
+		this.removeClassName("jsWTListFullSelection");
+
+		if ((this._style & gara.jswt.FULL_SELECTION) == gara.jswt.FULL_SELECTION) {
+			this.addClassName("jsWTListFullSelection");
 		}
 
 		this.domref.className = this._className;
-		
+
 		// update items
 		this._items.forEach(function(item, index, arr) {
-	
+
 			// create item ...
 			if (!item.isCreated()) {
 				node = item.create();

@@ -27,18 +27,28 @@
  * @class TabFolder
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Control
+ * @extends Composite
  */
 $class("TabFolder", {
-	$extends : Control,
+	$extends : Composite,
 
-	$constructor : function(parentNode, style) {
-		this.$base();
+	/**
+	 * @method
+	 * 
+	 * @private
+	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
+	 * @param {int} style The style for the list
+	 */
+	$constructor : function(parent, style) {
+		this.$base(parent, style);
 
-		this._style = style || gara.jswt.TOP;
+		// TabFolder default style
+		if (this._style == gara.jswt.DEFAULT) {
+			this._style = gara.jswt.TOP;
+		}
+
 		this._items = [];
 		this._activeItem = null;
-		this._parentNode = parentNode;
 		this._selectionListener = [];
 		this._selection = [];
 
@@ -62,6 +72,7 @@ $class("TabFolder", {
 			throw new TypeError("item is not type of gara.jswt.TabItem");
 		}
 
+		var count = this.getItemCount();
 		this._items.push(item);
 	},
 
@@ -103,8 +114,24 @@ $class("TabFolder", {
 		
 		this._activeItem = item;
 		item._setActive(true);
-		
-		this._clientArea.innerHTML = item.getContent();
+
+		// clean up client area
+		for (var i = 0, len = this._clientArea.childNodes.length; i < len; ++i) {
+			this._clientArea.removeChild(this._clientArea.childNodes[i]);
+		}
+
+		// show new content
+		if(item.getControl() != null) {
+			item.getControl().update();
+			this._clientArea.appendChild(item.getControl().domref);
+		} else {
+			if (typeof(item.getContent()) == "string") {
+				this._clientArea.appendChild(document.createTextNode(item.getContent()));
+			} else {
+				this._clientArea.appendChild(item.getContent());
+			}
+		}
+
 		this.update();
 
 		this._selection = [];
@@ -287,7 +314,7 @@ $class("TabFolder", {
 	},
 	
 	/**
-	 * @method setSelection
+	 * @method
 	 * Selects the item at the given zero-related index in the tabfolder.
 	 * Sets the tabfolders selection the the given array.
 	 * Depends on the parameter
@@ -299,7 +326,7 @@ $class("TabFolder", {
 	 */
 	setSelection : function(arg) {
 		if (typeof(arg) == 'number') {
-			if (index >= this._items.length) {
+			if (arg >= this._items.length) {
 				throw new gara.OutOfBoundsException("Your item lives outside of this tabfolder");
 			}
 			this._activateItem(this._items[arg]);
@@ -308,6 +335,19 @@ $class("TabFolder", {
 				this._activateItem(arg[0]);
 			}
 		}
+	},
+	
+	/**
+	 * @method
+	 * Shows off the content for the client area from the passed item
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.TabItem} item the item with the content
+	 * @returns {void}
+	 */
+	_showContent : function(item) {
+		
 	},
 	
 	toString : function() {
@@ -322,6 +362,7 @@ $class("TabFolder", {
 	 * @returns {void}
 	 */
 	update : function() {
+		var firstBuild = false;
 		if (this.domref == null) {
 			this.domref = document.createElement("div");
 			this.domref.obj = this;
@@ -361,7 +402,14 @@ $class("TabFolder", {
 				}, this);
 			}
 
-			this._parentNode.appendChild(this.domref);
+			/* If parent is not a composite then it *must* be a HTMLElement
+			 * but because of IE there is no cross-browser check. Or no one I know of.
+			 */
+			if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+				this._parent.appendChild(this.domref);
+			}
+
+			firstBuild = true;
 		}
 
 		this.domref.className = this._className;
@@ -380,5 +428,9 @@ $class("TabFolder", {
 				item.releaseChange();
 			}
 		}, this);
+		
+		if (firstBuild && this._items.length) {
+			this._activateItem(this._items[0]);
+		}
 	}
 });

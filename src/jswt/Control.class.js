@@ -34,8 +34,11 @@ $class("Control", {
 	 * @method
 	 * @private
 	 */
-	$constructor : function() {
+	$constructor : function(parent, style) {
 		this.$base();
+		
+		this._parent = parent;
+		this._style = typeof(style) == "undefined" ? gara.jswt.DEFAULT : style;
 
 		// add Control to the ControlManager and add as focus listener
 		this._focusListener = [];
