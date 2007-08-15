@@ -64,7 +64,9 @@ $class("TabItem", {
 		this.domref.className = this._className;
 		this.domref.obj = this;
 		this.domref.control = this._parent;
-		this.domref.title = this._toolTipText;
+		if (this._toolTipText != null) {
+			this.domref.title = this._toolTipText;
+		}
 
 		// set image
 		if (this.image != null) {
