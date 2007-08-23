@@ -30,7 +30,7 @@
 $class("ControlManager", {
 	$implements : FocusListener,
 	
-	_instance : null,
+	_instance : $static(null),
 
 	$constructor : function() {
 		this._activeControl = null;
@@ -79,8 +79,9 @@ $class("ControlManager", {
 	handleEvent : function(e) {
 //		console.log("ControlMananger.handleEvent("+e.type+"): activeControl: " + this._activeControl);
 		if (e.type == "keydown") {
-			if (this._activeControl != null && this._activeControl._handleKeyEvent) {
-				this._activeControl._handleKeyEvent(e);
+//			console.log("ControlManager.handleEvent(keydown) on " + e.target);
+			if (this._activeControl != null && this._activeControl.handleEvent) {
+				this._activeControl.handleEvent(e);
 			}
 		}
 

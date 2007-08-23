@@ -67,6 +67,7 @@ $class("TabItem", {
 		if (this._toolTipText != null) {
 			this.domref.title = this._toolTipText;
 		}
+		base2.DOM.EventTarget(this.domref);
 
 		// set image
 		if (this.image != null) {
@@ -75,6 +76,7 @@ $class("TabItem", {
 			this._img.control = this._parent;
 			this._img.src = this.image.src;
 			this._img.alt = this._text;
+			base2.DOM.EventTarget(this._img);
 
 			// put the image into the dom
 			this.domref.appendChild(this._img);
@@ -87,8 +89,7 @@ $class("TabItem", {
 		this._span.control = this._parent;
 		this._span.appendChild(this._spanText);
 		this.domref.appendChild(this._span);
-
-		base2.DOM.bind(this.domref);
+		base2.DOM.EventTarget(this._span);
 
 		// register listener
 		for (var eventType in this._listener) {
@@ -131,6 +132,29 @@ $class("TabItem", {
 	 */
 	getToolTipText : function() {
 		return this._toolTipText;
+	},
+
+	/**
+	 * @method
+	 * Event handler for this item. Its main use is to pass through keyboard events
+	 * to all listeners.
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {Event} e DOMEvent
+	 * @returns {void} 
+	 */
+	handleEvent : function(e) {
+		
+		switch (e.type) {
+			
+			case "keyup":
+			case "keydown":
+			case "keypress":
+			
+				this._notifyExternalKeyboardListener(e, this, this._parent);
+				break;
+		}
 	},
 
 	/**
@@ -229,6 +253,7 @@ $class("TabItem", {
 			this._img.alt = this._text;
 			this._img.src = this._image.src;
 			this.domref.insertBefore(this._img, this._span);
+			base2.DOM.EventTarget(this._img);
 			
 			// event listener
 			for (var eventType in this._listener) {
@@ -263,5 +288,9 @@ $class("TabItem", {
 
 		this._spanText.nodeValue = this._text;
 		this.domref.className = this._className;
+		
+		if (this._toolTipText != null) {
+			this.domref.title = this._toolTipText;
+		}
 	}
 });

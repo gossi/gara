@@ -120,17 +120,21 @@ $class("TreeItem", {
 		this.domref.className = this._className;
 		this.domref.obj = this;
 		this.domref.control = this._tree;
+		base2.DOM.EventTarget(this.domref);
 	
 		// create item nodes
 		this._toggler = document.createElement("span");
 		this._toggler.obj = this;
 		this._toggler.control = this._tree;
+		base2.DOM.EventTarget(this._toggler);
+		
 		this._span = document.createElement("span");
 		this._span.obj = this;
 		this._span.control = this._tree;
 		this._span.className = "text";
 		this._spanText = document.createTextNode(this._text);
 		this._span.appendChild(this._spanText);
+		base2.DOM.EventTarget(this._span);
 	
 		// set this.toggler
 		this._toggler.className = "toggler";
@@ -147,6 +151,7 @@ $class("TreeItem", {
 			this._img.obj = this;
 			this._img.src = this._image.src;
 			this._img.control = this._tree;
+			base2.DOM.EventTarget(this._img);
 	
 			// put the image into the dom
 			this.domref.appendChild(this._img);
@@ -158,8 +163,6 @@ $class("TreeItem", {
 		if (this._hasChilds()) {
 			this._createChildContainer();
 		}
-		
-		base2.DOM.bind(this.domref);
 
 		/* register user-defined listeners */
 		for (var eventType in this._listeners) {
@@ -179,6 +182,7 @@ $class("TreeItem", {
 	 */
 	_createChildContainer : function() {
 		this._childContainer = document.createElement('ul');
+		base2.DOM.EventTarget(this._childContainer);
 	
 		if (this.getClassName().indexOf("bottom") != -1) { // bottom
 			this._childContainer.className = "bottom";
@@ -323,7 +327,7 @@ $class("TreeItem", {
 	_hasChilds : function() {
 		return this._items.length > 0;
 	},
-	
+
 	/**
 	 * @method
 	 * Internal event handler
@@ -368,6 +372,12 @@ $class("TreeItem", {
 					}
 				}
 				break;
+				
+			case "keyup":
+			case "keydown":
+			case "keypress":
+				this._notifyExternalKeyboardListener(e, this, this._tree);
+				break;
 		}
 	},
 
@@ -388,7 +398,6 @@ $class("TreeItem", {
 
 		if (!this._items.contains(item)) {
 			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
-			console.log("des item gibts hier ned: " + item.getText());
 			return;
 		}
 
@@ -514,6 +523,7 @@ $class("TreeItem", {
 			this._img.alt = this._text;
 			this._img.src = this._image.src;
 			this.domref.insertBefore(this._img, this._span);
+			base2.DOM.EventTarget(this._img);
 		}
 
 		// update image information

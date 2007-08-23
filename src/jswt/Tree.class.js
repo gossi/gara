@@ -290,6 +290,21 @@ $class("Tree", {
 			case "dblclick":
 				// dummy handler. dblclick event is passed to the item
 				break;
+
+			case "keyup":
+			case "keydown":
+			case "keypress":
+			
+				this._items.forEach(function(item, index, arr) {
+					item.handleEvent(e);
+				});
+
+				this._notifyExternalKeyboardListener(e, this, this);
+				
+				if (e.type == "keydown") {
+					this._handleKeyEvent(e);					
+				}
+				break;
 		}
 
 		if (item != null) {
@@ -640,7 +655,7 @@ $class("Tree", {
 			this.domref = document.createElement("ul");
 			this.domref.obj = this;
 			this.domref.control = this;
-			base2.DOM.bind(this.domref);
+			base2.DOM.EventTarget(this._domref);
 
 			/* buffer unregistered user-defined listeners */
 			var unregisteredListener = {};			

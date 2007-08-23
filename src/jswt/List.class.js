@@ -253,6 +253,21 @@ $class("List", {
 					}
 				}
 				break;
+
+			case "keyup":
+			case "keydown":
+			case "keypress":
+			
+				this._items.forEach(function(item, index, arr) {
+					item.handleEvent(e);
+				});
+
+				this._notifyExternalKeyboardListener(e, this, this);
+				
+				if (e.type == "keydown") {
+					this._handleKeyEvent(e);					
+				}
+				break;
 		}
 
 		e.stopPropagation();
@@ -523,7 +538,7 @@ $class("List", {
 			this.domref = document.createElement("ul");
 			this.domref.obj = this;
 			this.domref.control = this;
-			base2.DOM.bind(this.domref);
+			base2.DOM.EventTarget(this.domref);
 
 			/* buffer unregistered user-defined listeners */
 			var unregisteredListener = {};			

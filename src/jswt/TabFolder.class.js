@@ -237,6 +237,19 @@ $class("TabFolder", {
 					this._activateItem(item);
 				}
 				break;
+			
+						
+			case "keyup":
+			case "keydown":
+			case "keypress":
+			
+				this._items.forEach(function(item, index, arr) {
+					item.handleEvent(e);
+				});
+
+				this._notifyExternalKeyboardListener(e, this, this);
+				
+				break;
 		}
 
 		if (e.target != this.domref) {
@@ -367,14 +380,16 @@ $class("TabFolder", {
 			this.domref = document.createElement("div");
 			this.domref.obj = this;
 			this.domref.control = this;
-			base2.DOM.bind(this.domref);
+			base2.DOM.EventTarget(this.domref);
 
 			this._tabbar = document.createElement("ul");
 			this._tabbar.obj = this;
 			this._tabbar.control = this;
+			base2.DOM.EventTarget(this._tabbar);
 
 			this._clientArea = document.createElement("div");
 			this._clientArea.className = "jsWTTabClientArea"
+			base2.DOM.EventTarget(this._clientArea);
 
 			if (this._style == gara.jswt.TOP) {
 				this.domref.appendChild(this._tabbar);

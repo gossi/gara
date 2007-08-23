@@ -77,13 +77,22 @@ $class("Widget", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} className new class
-	 * @type void
+	 * @returns {void}
 	 */
 	addClassName : function(className) {
 		this._className += " " + className;
 		this._changed = true;
 	},
 
+	/**
+	 * @method
+	 * Adds an eventlistener to the widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {String} eventType the type of the event
+	 * @param {Object} listener the listener
+	 * @returns {void}
+	 */
 	addListener : function(eventType, listener) {
 		if (!this._listener.hasOwnProperty(eventType)) {
 			this._listener[eventType] = new Array();
@@ -103,13 +112,49 @@ $class("Widget", {
 	getClassName : function() {
 		return this._className;
 	},
-	
+
+	/**
+	 * @method
+	 * Tests if there is a specified classname existent
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {String} the class name to look for
+	 * @returns {boolean} wether there is this class or not
+	 */
 	hasClassName : function(className) {
 		return this._className.indexOf(className) != -1;
 	},
-	
+
 //	handleEvent : $abstract(function(e){}),
-	
+
+	/**
+	 * @method
+	 * Workaround for passing keyboard events to the widget with focus
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @param {Event} e the event
+	 * @param {gara.jswt.Widget} obj the obj on which the event belongs to
+	 * @param {gara.jswt.Control} control the control to witch the event belongs
+	 * @returns {void}
+	 */
+	_notifyExternalKeyboardListener : function(e, obj, control) {
+		if (this._listener.hasOwnProperty(e.type)) {
+			var keydownListener = this._listener[e.type];
+			
+			keydownListener.forEach(function(item, index, arr) {
+				e.target.obj = obj;
+				e.target.control = control;
+
+				if (typeof(item) == "object" && item.handleEvent) {
+					item.handleEvent(e);
+				} else if (typeof(item) == "function") {
+					eval(item + "()");
+				}
+			});
+		}
+	},
+
 	registerListener : $abstract(function(eventType, listener){}),
 
 	/**
@@ -124,7 +169,16 @@ $class("Widget", {
 		this._className = strReplace(this._className, className, "");
 		this._changed = true;
 	},
-	
+
+	/**
+	 * @method
+	 * Removes a listener from this item
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {String} eventType the type of the event
+	 * @param {Object} listener the listener
+	 * @returns {void}
+	 */
 	removeListener : function(eventType, listener) {
 		this._listener[eventType].remove(listener);
 	},

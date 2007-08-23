@@ -38,7 +38,7 @@ $class("EventManager", {
 	 * Stores THE instance
 	 * @private
 	 */
-	_instance : null,
+	_instance : $static(null),
 
 	$constructor : function() {
 		this._listeners = [];
@@ -71,7 +71,7 @@ $class("EventManager", {
 	 * @return {Event} generated event-object for this listener
 	 */
 	addListener : function(domNode, type, listener) {
-//		console.log("EventMngr.addListener: " + domNode + " " + type + " " + listener);
+//		console.log("EventMngr.addListener: " + domNode.nodeName + " " + type + " " + listener);
 		domNode.addEventListener(type, listener, false);
 		
 		var event = {
@@ -106,7 +106,7 @@ $class("EventManager", {
 	 */
 	removeListener : function(e) {
 		e.domNode.removeEventListener(e.type, e.listener, false);
-		
+
 		if (this._listeners.contains(e)) {
 			this._listeners.remove(e);
 		}
