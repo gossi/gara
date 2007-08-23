@@ -62,6 +62,10 @@ $class("ControlManager", {
 		}
 
 //		console.log("ControlManager.focusGained() new active control is: " + control);
+		
+		if (this._activeControl != null && this._activeControl != control) {
+			this._activeControl.looseFocus();
+		}
 
 		this._activeControl = control;
 	},
