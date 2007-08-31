@@ -30,7 +30,7 @@
  * @extends Composite
  */
 $class("TabFolder", {
-	$extends : Composite,
+	$extends : gara.jswt.Composite,
 
 	/**
 	 * @method
@@ -43,8 +43,8 @@ $class("TabFolder", {
 		this.$base(parent, style);
 
 		// TabFolder default style
-		if (this._style == gara.jswt.DEFAULT) {
-			this._style = gara.jswt.TOP;
+		if (this._style == JSWT.DEFAULT) {
+			this._style = JSWT.TOP;
 		}
 
 		this._items = [];
@@ -391,7 +391,7 @@ $class("TabFolder", {
 			this._clientArea.className = "jsWTTabClientArea"
 			base2.DOM.EventTarget(this._clientArea);
 
-			if (this._style == gara.jswt.TOP) {
+			if (this._style == JSWT.TOP) {
 				this.domref.appendChild(this._tabbar);
 				this.domref.appendChild(this._clientArea);
 				this._tabbar.className = "jsWTTabbar jsWTTabbarTop";

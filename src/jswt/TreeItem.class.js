@@ -30,7 +30,7 @@
  * @extends Item
  */
 $class("TreeItem", {
-	$extends : Item,
+	$extends : gara.jswt.Item,
 
 	$constructor : function(parentWidget) {
 		this.$base();

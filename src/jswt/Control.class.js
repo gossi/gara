@@ -28,7 +28,7 @@
  * @namespace gara.jswt
  */
 $class("Control", {
-	$extends : Widget,
+	$extends : gara.jswt.Widget,
 
 	/**
 	 * @method

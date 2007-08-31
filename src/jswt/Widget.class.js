@@ -41,10 +41,10 @@ function strReplace(string, search, replace) {
  * @class Widget
  * 
  * @summary
- * short description
+ * short description 
  * 
  * @description
- * long description
+ * long description (just testing the doc...)
  * @author Thomas Gossmann
  * @namespace gara.jswt
  * @see http://gara.creative2.net

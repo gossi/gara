@@ -6,19 +6,19 @@
 <title>gara.jswt.list (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<script type="text/javascript" src="../garadev.js"></script>
 
 <script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/_namespace.js"></script>
+<script type="text/javascript" src="../../src/core/Package.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
-<script type="text/javascript" src="../../src/core/_ps.js"></script>
+<script type="text/javascript" src="../../src/core/_append.js"></script>
+
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/_namespace.js"></script>
-<script type="text/javascript" src="../../src/jswt/_constants.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
@@ -33,25 +33,25 @@
 <script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_ps.js"></script>
+<script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
 function main() {
 	try {
-		var l = new List(document.getElementById("container"), gara.jswt.MULTI | gara.jswt.FULL_SELECTION);
+		var l = new gara.jswt.List(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
 
-		var i = new ListItem(l);
+		var i = new gara.jswt.ListItem(l);
 		i.setText("Item 1");
 		
-		var i2 = new ListItem(l);
+		var i2 = new gara.jswt.ListItem(l);
 		i2.setText("Item 2");
 		
-		var i3 = new ListItem(l);
+		var i3 = new gara.jswt.ListItem(l);
 		i3.setText("Item 3");
 
-		var i4 = new ListItem(l);
+		var i4 = new gara.jswt.ListItem(l);
 		i4.setText("Item 4");
 		
-		var i5 = new ListItem(l);
+		var i5 = new gara.jswt.ListItem(l);
 		i5.setText("Item 5");
 	
 		l.update();

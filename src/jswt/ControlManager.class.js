@@ -28,7 +28,7 @@
  * @private
  */
 $class("ControlManager", {
-	$implements : FocusListener,
+	$implements : gara.jswt.FocusListener,
 	
 	_instance : $static(null),
 

@@ -6,19 +6,19 @@
 <title>gara.jswt.tabfolder (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<script type="text/javascript" src="../garadev.js"></script>
 
 <script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/_namespace.js"></script>
+<script type="text/javascript" src="../../src/core/Package.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
-<script type="text/javascript" src="../../src/core/_ps.js"></script>
+<script type="text/javascript" src="../../src/core/_append.js"></script>
+
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/_namespace.js"></script>
-<script type="text/javascript" src="../../src/jswt/_constants.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
@@ -33,29 +33,29 @@
 <script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_ps.js"></script>
+<script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
 function main() {
 	try {
-		var t = new TabFolder(document.getElementById("container"), gara.jswt.TOP);
+		var t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.JSWT.TOP);
 
-		var i1 = new TabItem(t);
+		var i1 = new gara.jswt.TabItem(t);
 		i1.setText("Item 1");
 		i1.setContent("Content 1");
 		
-		var i2 = new TabItem(t);
+		var i2 = new gara.jswt.TabItem(t);
 		i2.setText("Item 2");
 		i2.setContent("Content 2");
 		
-		var i3 = new TabItem(t);
+		var i3 = new gara.jswt.TabItem(t);
 		i3.setText("Item 3");
 		i3.setContent("Content 3");
 		
-		var i4 = new TabItem(t);
+		var i4 = new gara.jswt.TabItem(t);
 		i4.setText("Item 4");
 		i4.setContent("Content 4");
 		
-		var i5 = new TabItem(t);
+		var i5 = new gara.jswt.TabItem(t);
 		i5.setText("Item 5");
 		i5.setContent("Content 5");
 		

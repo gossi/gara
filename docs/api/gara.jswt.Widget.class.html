@@ -24,7 +24,7 @@
 <hr/>
 <pre>public class <strong>Widget</strong>
 </pre>
-<p>long description</p>
+<p>long description (just testing the doc...)</p>
 <dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
@@ -63,6 +63,14 @@
 </td>
 </tr>
 <tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_addListener">addListener</a>(String eventType, Object listener)</tt>
+<span class="description">Adds an eventlistener to the widget</span>
+</td>
+</tr>
+<tr>
 <td class="returnType">String</td>
 <td>
 <tt>
@@ -71,11 +79,27 @@
 </td>
 </tr>
 <tr>
+<td class="returnType">boolean</td>
+<td>
+<tt>
+<a href="#method_hasClassName">hasClassName</a>(String the)</tt>
+<span class="description">Tests if there is a specified classname existent</span>
+</td>
+</tr>
+<tr>
 <td class="returnType">void</td>
 <td>
 <tt>
 <a href="#method_removeClassName">removeClassName</a>(String className)</tt>
 <span class="description">Removes a CSS class name from this item.</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_removeListener">removeListener</a>(String eventType, Object listener)</tt>
+<span class="description">Removes a listener from this item</span>
 </td>
 </tr>
 </tbody>
@@ -98,12 +122,38 @@
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
+<h3 id="method_addListener">addListener</h3>
+<pre>public void <strong>addListener</strong>(String eventType, Object listener)</pre>
+<p class="description">Adds an eventlistener to the widget</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>String eventType</tt> - the type of the event</dd>
+<dd>
+<tt>Object listener</tt> - the listener</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
 <h3 id="method_getClassName">getClassName</h3>
 <pre>public String <strong>getClassName</strong>()</pre>
 <p class="description">Returns the CSS class names</p>
 <dl>
 <dt>Returns:</dt>
 <dd> the class name(s)</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_hasClassName">hasClassName</h3>
+<pre>public boolean <strong>hasClassName</strong>(String the)</pre>
+<p class="description">Tests if there is a specified classname existent</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>String the</tt> - class name to look for</dd>
+<dt>Returns:</dt>
+<dd> wether there is this class or not</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
@@ -115,6 +165,19 @@
 <dt>Parameters:</dt>
 <dd>
 <tt>String className</tt> - the class name that should be removed</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_removeListener">removeListener</h3>
+<pre>public void <strong>removeListener</strong>(String eventType, Object listener)</pre>
+<p class="description">Removes a listener from this item</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>String eventType</tt> - the type of the event</dd>
+<dd>
+<tt>Object listener</tt> - the listener</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>

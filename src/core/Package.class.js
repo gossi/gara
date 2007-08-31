@@ -22,19 +22,29 @@
 */
 
 /**
- * @class Composite
+ * @class Package
  * @author Thomas Gossmann
- * @extends Control
- * @namespace gara.jswt
+ * @namespace gara
  */
-$class("Composite", {
-	$extends : gara.jswt.Control,
+$class("Package", {
+	exports : "",
+	namespace : "",
+	name : "",
+	version : "",
 
-	/**
-	 * @method
-	 * @private
-	 */
-	$constructor : function(parent, style) {
-		this.$base(parent, style);
+	$constructor : function(_data) {
+		this.name = _data.name || "gara";
+		this.imports = _data.imports || "";
+		this.exports = _data.exports || "";
+		
+		if (this.name != "gara") {
+			gara.namespace += "var " + this.name + "=gara." + this.name;
+			this.name = "gara." + this.name;
+		}
+		
+		var exports = this.exports.split(",");
+		exports.forEach(function(v, k, arr) {
+			this.namespace += "var " + v + "=" + this.name + "." + v + ";";
+		}, this);
 	}
 });

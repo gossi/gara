@@ -30,7 +30,7 @@
  * @extends Item
  */
 $class("ListItem", {
-	$extends : Item,
+	$extends : gara.jswt.Item,
 
 	/**
 	 * @method

@@ -27,7 +27,7 @@
  * @namespace gara.jswt
  */
 $class("ItemNotExistsException", {
-	$extends : Exception,
+	$extends : gara.jswt.Exception,
 	
 	$constructor : function(message) {
 		this.message = String(message);

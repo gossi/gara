@@ -30,7 +30,7 @@
  * @extends Control
  */
 $class("List", {
-	$extends : Control,
+	$extends : gara.jswt.Control,
 
 	/**
 	 * @method
@@ -46,8 +46,8 @@ $class("List", {
 		this.$base(parent, style);
 		
 		// List default style
-		if (this._style == gara.jswt.DEFAULT) {
-			this._style = gara.jswt.SINGLE;
+		if (this._style == JSWT.DEFAULT) {
+			this._style = JSWT.SINGLE;
 		}
 
 		this._items = [];
@@ -503,7 +503,7 @@ $class("List", {
 			}
 		}
 
-		if ((this._style & gara.jswt.MULTI) == gara.jswt.MULTI) {
+		if ((this._style & JSWT.MULTI) == JSWT.MULTI) {
 			var indexShift = this.indexOf(this._shiftItem);
 			var indexItem = this.indexOf(item);
 			var from = indexShift > indexItem ? indexItem : indexShift;
@@ -566,7 +566,7 @@ $class("List", {
 
 		this.removeClassName("jsWTListFullSelection");
 
-		if ((this._style & gara.jswt.FULL_SELECTION) == gara.jswt.FULL_SELECTION) {
+		if ((this._style & JSWT.FULL_SELECTION) == JSWT.FULL_SELECTION) {
 			this.addClassName("jsWTListFullSelection");
 		}
 

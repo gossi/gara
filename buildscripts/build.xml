@@ -14,6 +14,7 @@
 	<property name="garaFile" value="${buildDir}/gara-core.js"/>
 
 	<filelist id="garaFL" dir="${garaDir}">
+		<file name="Package.class.js"/>
 		<file name="EventManager.class.js"/>
 		<file name="OutOfBoundsException.class.js"/>
 		<file name="onDOMLoaded.function.js"/>
@@ -24,19 +25,19 @@
 	<property name="jswtFile" value="${buildDir}/gara-jswt.js"/>
 
 	<filelist id="jswtFL" dir="${jswtDir}">
-		<file name="_constants.js"/>
+		<file name="JSWT.class.js"/>
 		<file name="FocusListener.interface.js"/>
 		<file name="SelectionListener.interface.js"/>
 		<file name="ItemNotExistsException.class.js"/>
 		<file name="Widget.class.js"/>
 		<file name="Control.class.js"/>
 		<file name="Composite.class.js"/>
-		<file name="Item.class.js"/>
 		<file name="List.class.js"/>
-		<file name="ListItem.class.js"/>
 		<file name="Tree.class.js"/>
-		<file name="TreeItem.class.js"/>
 		<file name="TabFolder.class.js"/>
+		<file name="Item.class.js"/>
+		<file name="ListItem.class.js"/>
+		<file name="TreeItem.class.js"/>
 		<file name="TabItem.class.js"/>
 		<file name="ControlManager.class.js"/>
 	</filelist>
@@ -78,6 +79,7 @@
 		</antcall>
 
 		<concat destfile="${buildDir}/gara-src.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${basedir}/buildscripts/static" files="arraysupport.txt"/>
 			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js"/>
 		</concat>
 	</target>
@@ -201,9 +203,8 @@
 
 	<target name=".buildPackage">
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
-			<filelist dir="${dir}" files="_prepend.js"/>
 			<filelist dir="${basedir}/buildscripts/static/" files="head.txt"/>
-			<filelist dir="${dir}" files="_namespace.js" />
+			<filelist dir="${dir}" files="_prepend.js" />
 		</concat>
 	
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
@@ -211,9 +212,8 @@
 		</concat>
 		
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
-			<filelist dir="${dir}" files="_ps.js"/>
-			<filelist dir="${basedir}/buildscripts/static/" files="foot.txt" />
 			<filelist dir="${dir}" files="_append.js"/>
+			<filelist dir="${basedir}/buildscripts/static/" files="foot.txt" />
 		</concat>
 	</target>
 	</project>

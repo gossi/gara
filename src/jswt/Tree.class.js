@@ -30,14 +30,14 @@
  * @extends Composite
  */
 $class("Tree", {
-	$extends : Composite,
+	$extends : gara.jswt.Composite,
 
 	$constructor : function(parent, style) {
 		this.$base(parent, style);
 		
 		// Tree default style
-		if (this._style == gara.jswt.DEFAULT) {
-			this._style = gara.jswt.SINGLE;
+		if (this._style == JSWT.DEFAULT) {
+			this._style = JSWT.SINGLE;
 		}
 		
 		this._showLines = true;
@@ -560,7 +560,7 @@ $class("Tree", {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
-		if (!_add || (this._style & gara.jswt.SINGLE) == gara.jswt.SINGLE) {
+		if (!_add || (this._style & JSWT.SINGLE) == JSWT.SINGLE) {
 			while (this._selection.length) {
 				this._selection.pop().setChecked(false);
 			}
@@ -609,7 +609,7 @@ $class("Tree", {
 			}
 		}
 
-		if ((this._style & gara.jswt.MULTI) == gara.jswt.MULTI) {
+		if ((this._style & JSWT.MULTI) == JSWT.MULTI) {
 			var indexShift = this.indexOf(this._shiftItem);
 			var indexItem = this.indexOf(item);
 			var from = indexShift > indexItem ? indexItem : indexShift;
@@ -692,7 +692,7 @@ $class("Tree", {
 			this.addClassName("jsWTTreeNoLines");
 		}
 		
-		if ((this._style & gara.jswt.FULL_SELECTION) == gara.jswt.FULL_SELECTION) {
+		if ((this._style & JSWT.FULL_SELECTION) == JSWT.FULL_SELECTION) {
 			this.addClassName("jsWTTreeFullSelection");
 		}
 

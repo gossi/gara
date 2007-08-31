@@ -1,1 +1,1 @@
-gara.jswt = {};
+$package("gara.jswt");

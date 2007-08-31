@@ -29,7 +29,7 @@
  * @namespace gara.jswt
  */
 $class("Item", {
-	$extends : Widget,
+	$extends : gara.jswt.Widget,
 
 	/**
 	 * @method
