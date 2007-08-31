@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>gara jswt events test</title>
+<link rel="stylesheet" href="../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../themes/sand/sand.css" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.0/build/grids/grids-min.css"/>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.3.0/build/base/base-min.css"/> 
+<script type="text/javascript" src="../gara.js"></script>
+</head>
+<body>
+<div id="doc" class="yui-t7"> 
+	<div id="hd">
+		<h1>gara Event tests</h1>
+	</div> 
+	<div id="bd">
+		<div class="yui-g">
+			<div class="yui-u first"> 
+				<h2>Events on Items</h2>
+				<p>Eventlisteners are added to <strong>items</strong> and should only 
+				dispatched when the event is triggered on the <strong>item</strong> not
+				on anything else.</p>
+			</div>
+		</div>
+		<div class="yui-gd">
+			<div class="yui-u first sand" id="itemTest"> 
+				<h3>Testarea</h3>
+			</div> 
+			<div class="yui-u"> 
+				<h3>Results</h3>
+				<table>
+					<thead>
+						<tr>
+							<td>TestNumber</td>
+							<td>ItemText</td>
+							<td>Passed?</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="A1">
+							<td>A1 - mousedown</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="A2">
+							<td>A2 - mouseup</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="A3">
+							<td>A3 - click</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="A4">
+							<td>A4 - dblclick</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="A5">
+							<td>A5 - keydown</td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div> 
+		</div>
+		<div class="yui-g">
+			<div class="yui-u first"> 
+				<h2>Events on Widgets</h2>
+			</div>
+		</div>
+		<div class="yui-gd">
+			<div class="yui-u first sand" id="widgetTest"> 
+				<h3>Testarea</h3>
+			</div> 
+			<div class="yui-u">
+				<h3>Results</h3>
+				<table>
+					<thead>
+						<tr>
+							<td>TestNumber</td>
+							<td>ItemText</td>
+							<td>Passed?</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="B1">
+							<td>B1 - mousedown</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="B2">
+							<td>B2 - mouseup</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="B3">
+							<td>B3 - click</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="B4">
+							<td>B4 - dblclick</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="B5">
+							<td>B5 - keydown</td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div> 
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="events.js"></script>
+</body>
+</html>
