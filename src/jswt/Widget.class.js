@@ -64,8 +64,12 @@ $class("Widget", {
 	 * @method
 	 * @private
 	 */
-	$constructor : function() {
+	$constructor : function(parent, style) {
 		this.domref = null;
+
+		this._parent = parent;
+		this._style = typeof(style) == "undefined" ? JSWT.DEFAULT : style;
+		
 		this._className = "";
 		this._baseClass = "";
 		this._listener = {};
@@ -111,6 +115,17 @@ $class("Widget", {
 	 */
 	getClassName : function() {
 		return this._className;
+	},
+
+	/**
+	 * @method
+	 * Returns the style for this widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {int} the style 
+	 */
+	getStyle : function() {
+		return this._style;
 	},
 
 	/**

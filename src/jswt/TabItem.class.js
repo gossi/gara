@@ -32,14 +32,14 @@
 $class("TabItem", {
 	$extends : gara.jswt.Item,
 
-	$constructor : function(parentWidget) {
-		this.$base();
+	$constructor : function(parent, style) {
 
-		if (!$class.instanceOf(parentWidget, gara.jswt.TabFolder)) {
+		if (!$class.instanceOf(parent, gara.jswt.TabFolder)) {
 			throw new TypeError("parentWidget is neither a gara.jswt.TabFolder");
 		}
+		
+		this.$base(parent, style);
 
-		this._parent = parentWidget;
 		this._active = false;
 		this._content = null;
 		this._control = null;

@@ -39,8 +39,8 @@ $class("Item", {
 	 * @author Thomas Gossmann
 	 * @returns {gara.jswt.Item}
 	 */
-	$constructor : function() {
-		this.$base();
+	$constructor : function(parent, style) {
+		this.$base(parent, style);
 		this._changed = false;
 		this._image = null;
 		this._text = "";

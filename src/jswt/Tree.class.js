@@ -490,8 +490,6 @@ $class("Tree", {
 
 		if (!this._items.contains(item)) {
 			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
-			console.log("des item gibts hier ned: " + item.getText());
-			return;
 		}
 
 		return this._items.indexOf(item);
@@ -560,7 +558,7 @@ $class("Tree", {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
-		if (!_add || (this._style & JSWT.SINGLE) == JSWT.SINGLE) {
+		if (!_add || (this._style & JSWT.MULTI) != JSWT.MULTI) {
 			while (this._selection.length) {
 				this._selection.pop().setChecked(false);
 			}

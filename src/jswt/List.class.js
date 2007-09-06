@@ -452,7 +452,7 @@ $class("List", {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
-		if (!_add || (this._style & gara.jswt.SINGLE) == gara.jswt.SINGLE) {
+		if (!_add || (this._style & JSWT.SINGLE) == JSWT.SINGLE) {
 			while (this._selection.length) {
 				this._selection.pop().setUnselected();
 			}

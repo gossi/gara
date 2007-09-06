@@ -32,26 +32,27 @@
 $class("TreeItem", {
 	$extends : gara.jswt.Item,
 
-	$constructor : function(parentWidget) {
-		this.$base();
-
-		if (!($class.instanceOf(parentWidget, gara.jswt.Tree) || $class.instanceOf(parentWidget, gara.jswt.TreeItem))) {
-			throw new TypeError("parentWidget is neither a gara.jswt.Tree or gara.jswt.TreeItem");
+	$constructor : function(parent, style) {
+		
+		if (!($class.instanceOf(parent, gara.jswt.Tree) || $class.instanceOf(parent, gara.jswt.TreeItem))) {
+			throw new TypeError("parent is neither a gara.jswt.Tree or gara.jswt.TreeItem");
 		}
+		
+		this.$base(parent, style);
 
 		this._items = new Array();
 		this._expanded = true;
 		this._checked = false;
 		this._changed = false;
 		this._childContainer = null;
-		this._parent = parentWidget;
+		this._parent = parent;
 		this._tree = null;
 
-		if ($class.instanceOf(parentWidget, gara.jswt.Tree)) {
-			this._tree = parentWidget;
-		} else if ($class.instanceOf(parentWidget, gara.jswt.TreeItem)) {
-			this._tree = parentWidget.getParent();
-			parentWidget._addItem(this);
+		if ($class.instanceOf(parent, gara.jswt.Tree)) {
+			this._tree = parent;
+		} else if ($class.instanceOf(parent, gara.jswt.TreeItem)) {
+			this._tree = parent.getParent();
+			parent._addItem(this);
 		}
 		this._tree._addItem(this);
 
@@ -76,10 +77,10 @@ $class("TreeItem", {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
-	
+
 		this._items.push(item);
 	},
-	
+
 	/**
 	 * Internal method for creating a node representing an item. This is used for
 	 * creating a new item or put updated content to an existing node of an earlier

@@ -38,16 +38,17 @@ $class("ListItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @param {gara.jswt.List} list the List Widget for this item
+	 * @param {gara.jswt.List} parent the List Widget for this item
+	 * @param {int} style the style for this item
 	 * @throws {TypeError} if the list is not a List widget
 	 * @returns {gara.jswt.ListItem}
 	 */
-	$constructor : function(list) {
-		if (!$class.instanceOf(list, gara.jswt.List)) {
-			throw new TypeError("list is not type of gara.jswt.List");
+	$constructor : function(parent, style) {
+		if (!$class.instanceOf(parent, gara.jswt.List)) {
+			throw new TypeError("parent is not type of gara.jswt.List");
 		}
-		this.$base();
-		this._list = list;
+		this.$base(parent, style);
+		this._parent = parent;
 		this._list.addItem(this);
 		this._span = null;
 		this._spanText = null;
