@@ -64,6 +64,7 @@ $class("Table", {
 		this._className = this._baseClass = "jsWTTable";
 		
 		this._selection = [];
+		this._selectionListener = [];
 		this._shiftItem = null;
 		this._activeItem = null;
 	},
@@ -90,13 +91,39 @@ $class("Table", {
 		this._items.push(item);
 	},
 
-	_addColumn : function(column) {
+	_addColumn : function(column, index) {
 		if (!$class.instanceOf(column, gara.jswt.TableColumn)) {
 			throw new TypeError("column is not a gara.jswt.TableColumn");
 		}
 
-		this._columns.push(column);
-		this._columnOrder.push(this._columns.length - 1);
+		if (index) {
+			this._columns[index] = column;
+			if (!this._columnOrder.contains(index)) {
+				this._columnOrder.push(index);
+			}
+		} else {
+			this._columns.push(column);
+			this._columnOrder.push(this._columns.length - 1);
+		}
+	},
+	
+	/**
+	 * @method
+	 * Adds a selection listener on the table
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this table
+	 * @throws {TypeError} if the listener is not a SelectionListener
+	 * @returns {void}
+	 */
+	addSelectionListener : function(listener) {
+		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not type of gara.jswt.SelectionListener");
+		}
+		
+		if (!this._selectionListener.contains(listener)) {
+			this._selectionListener.push(listener);
+		}
 	},
 
 	_create : function() {
@@ -153,8 +180,8 @@ $class("Table", {
 		this._thead.appendChild(this._theadRow);
 
 		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
-			this._columns[i].update();
-			this._theadRow.appendChild(this._columns[i].domref);
+			this._columns[this._columnOrder[i]].update();
+			this._theadRow.appendChild(this._columns[this._columnOrder[i]].domref);
 		}
 	},
 	
@@ -180,6 +207,10 @@ $class("Table", {
 		}
 	},
 	
+	getColumnCount : function() {
+		return this._columns.length;
+	},
+	
 	getColumnOrder : function() {
 		return this._columnOrder;
 	},
@@ -190,6 +221,14 @@ $class("Table", {
 
 	getHeaderVisible : function() {
 		return this._headerVisible;
+	},
+	
+	getItemCount : function() {
+		return this._items.length;
+	},
+	
+	getItems : function() {
+		return this._items;
 	},
 
 	getLinesVisible : function() {
@@ -354,13 +393,42 @@ $class("Table", {
 		return this._items.indexOf(item);
 	},
 	
+	/**
+	 * @method
+	 * Notifies all selection listeners about the selection change
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @returns {void}
+	 */
 	_notifySelectionListener : function() {
-		
+		this._selectionListener.forEach(function(item, index, arr) {
+			item.widgetSelected(this);
+		}, this);
 	},
 
 	registerListener : function(eventType, listener) {
 		if (this.domref) {
 			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+		}
+	},
+	
+	/**
+	 * @method
+	 * Removes a selection listener from this table
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.SelectionListener} listener the listener to be removed from this table
+	 * @throws {TypeError} if the listener is not a SelectionListener
+	 * @returns {void}
+	 */
+	removeSelectionListener : function(listener) {
+		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+			throw new TypeError("item is not type of gara.jswt.SelectionListener");
+		}
+
+		if (this._selectionListener.contains(listener)) {
+			this._selectionListener.remove(listener);
 		}
 	},
 	
@@ -430,6 +498,10 @@ $class("Table", {
 			this.select(item);
 		}
 	},
+	
+	setColumnOrder : function(order) {
+		this._columnOrder = order;
+	},
 
 	setHeaderVisible : function(show) {
 		this._headerVisible = show;
@@ -448,8 +520,8 @@ $class("Table", {
 				this._theadRow.removeChild(this._theadRow.childNodes[0]);
 			}
 			for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
-				this._columns[i].update();
-				this._theadRow.appendChild(this._columns[i].domref);
+				this._columns[this._columnOrder[i]].update();
+				this._theadRow.appendChild(this._columns[this._columnOrder[i]].domref);
 			}
 		}
 
@@ -479,12 +551,8 @@ $class("Table", {
 			if (!item.isCreated()) {
 				item._create();
 				this._tbody.appendChild(item.domref);
-			}
-
-			// ... or update it
-			if (item.hasChanged()) {
+			} else {
 				item.update();
-				item.releaseChange();
 			}
 		}, this);
 	}

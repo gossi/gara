@@ -116,6 +116,17 @@ $class("Widget", {
 	getClassName : function() {
 		return this._className;
 	},
+	
+	/**
+	 * @method
+	 * Returns the parent for this widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {gara.jswt.Widget|HTMLElement} the widgets parent
+	 */
+	getParent : function() {
+		return this._parent;
+	},
 
 	/**
 	 * @method

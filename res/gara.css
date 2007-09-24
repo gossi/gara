@@ -170,3 +170,27 @@ ul.jsWTTabbar li {
 
 div.jsWTTabFolder div.jsWTTabClientArea {
 }
+
+/* TabFolder Control */
+table.jsWTTable {
+	width: 100%;
+	-moz-user-select: none;
+	outline: none;
+}
+
+table.jsWTTable thead tr th {
+	white-space: nowrap;
+}
+
+table.jsWTTable thead tr th span {
+	display: none;
+	width: 2px;
+	margin-top: -1px;
+	margin-right: -1px;
+	float: right;
+	cursor: w-resize;
+}
+
+table.jsWTTable thead tr th.operator span {
+	display: block;
+} 

@@ -201,3 +201,52 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 .sand div.jsWTTabFolder div.jsWTTabClientArea {
 	border: 1px solid #000;
 }
+
+/**
+ * gara.jswt.Table
+ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
+ */
+ 
+.sand table.jsWTTable {
+	border-collapse: separate;
+}
+
+.sand table.jsWTTable thead tr th {
+	padding: 2px;
+	background-color: #9C9577;
+	color: #FFF;
+	border: 1px solid;
+	border-left-color: #EAE6D6; 
+	border-top-color: #EAE6D6;
+	border-right-color: #4E4A3B;
+	border-bottom-color: #4E4A3B;
+	cursor: default;
+}
+
+table.jsWTTable thead tr th span {
+	margin-top: -3px;
+	margin-right: -4px !important;
+	margin-bottom: -3px;
+	height: 22px;
+}
+
+.sand table.jsWTTable tbody tr td {
+	padding: 2px;
+	cursor: default;
+}
+
+.sand table.jsWTTableLines tbody tr td {
+	border-bottom: 1px solid #000;
+}
+
+.sand table.jsWTTableNoLines tbody tr td {
+	border-bottom: none;
+}
+
+.sand table.jsWTTableFullSelection tbody tr.selected {
+	background-color: #EAE6D6;
+}
+
+.sand table.jsWTTable tbody tr td.selected {
+	background-color: #EAE6D6;
+}

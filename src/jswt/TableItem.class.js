@@ -33,31 +33,30 @@ $class("TableItem", {
 	$extends : gara.jswt.Item,
 
 	$constructor : function(parent, style) {
-		
 		if (!$class.instanceOf(parent, gara.jswt.Table)) {
 			throw new TypeError("parent is not a gara.jswt.Table");
 		}
-		
+
 		this.$base(parent, style);
 
 		this._table = parent;
 		this._table._addItem(this);
 
 		this._cells = [];
-		
+
 		this._active = false;
 		this._checked = false;
 		this._selected = false;
 
 		this.domref = null;
 	},
-	
+
 	_create : function() {
 		this.domref = document.createElement("tr");
 		this.domref.obj = this;
 		this.domref.control = this._table;
 		base2.DOM.EventTarget(this.domref);
-		
+
 		var order = this._table.getColumnOrder();
 		for (var i = 0, len = order.length; i < len; ++i) {
 			var cell = this._cells[order[i]];
@@ -78,8 +77,22 @@ $class("TableItem", {
 			cell.textNode = document.createTextNode(cell.text);
 			cell.td.appendChild(cell.textNode);
 		}
-		
+
 		this._changed = false;
+	},
+
+	getText : function(index) {
+		if (this._cells[index]) {
+			return this._cells[index].text;
+		}
+		return null;
+	},
+
+	getImage : function(index) {
+		if (this._cells[index]) {
+			return this._cells[index].image;
+		}
+		return null;
 	},
 
 	handleEvent : function(e) {
@@ -89,7 +102,7 @@ $class("TableItem", {
 	registerListener : function(eventType, listener) {
 		
 	},
-	
+
 	setActive : function(active) {
 		this._active = active;
 	},
@@ -99,6 +112,10 @@ $class("TableItem", {
 			image = index;
 		}
 
+		if (typeof(image) == "undefined" || image == null) {
+			return;
+		}
+
 		if ($class.instanceOf(image, Array)) {
 			image.forEach(function(image, index, arr) {
 				if (!this._cells[index]) {
@@ -106,14 +123,14 @@ $class("TableItem", {
 				}
 				this._cells[index].image = image;
 			}, this);
-		} else if (index) {
+		} else if (!isNaN(index)) {
 			if (!this._cells[index]) {
 				this._cells[index] = {};
 			}
 			this._cells[index].image = image;
 		} else {
-			if (!this._cells[index]) {
-				this._cells[index] = {};
+			if (!this._cells[0]) {
+				this._cells[0] = {};
 			}
 			this._cells[0].image = image;
 		}
@@ -138,14 +155,14 @@ $class("TableItem", {
 				}	
 				this._cells[index].text = text;
 			}, this);
-		} else if (index) {
+		} else if (!isNaN(index)) {
 			if (!this._cells[index]) {
 				this._cells[index] = {};
 			}
 			this._cells[index].text = text;
 		} else {
-			if (!this._cells[index]) {
-				this._cells[index] = {};
+			if (!this._cells[0]) {
+				this._cells[0] = {};
 			}
 			this._cells[0].text = text;
 		}
@@ -162,37 +179,40 @@ $class("TableItem", {
 		for (var i = 0, len = order.length; i < len; ++i) {
 			var cell = this._cells[order[i]];
 
-			if (!cell.td) {
-				cell.td = document.createElement("td");
-				cell.td.obj = this;
-				cell.td.control = this._table;
-				base2.DOM.EventTarget(cell.td);
-				cell.textNode = document.createTextNode(cell.text);
-				cell.td.appendChild(cell.textNode);
-			}
-
-			if (cell.image) {
-				if (!cell.img) {
-					cell.img = document.createElement("img");
-					cell.img.obj = this;
-					cell.img.control = this._table;
-					
-					base2.DOM.EventTarget(cell.img);
-					cell.td.insertBefore(cell.img, cell.textNode);
+			if (this.hasChanged()) {
+				if (!cell.td) {
+					cell.td = document.createElement("td");
+					cell.td.obj = this;
+					cell.td.control = this._table;
+					base2.DOM.EventTarget(cell.td);
+					cell.textNode = document.createTextNode(cell.text);
+					cell.td.appendChild(cell.textNode);
 				}
-				cell.img.src = cell.image.src;
-			}
-			
-			cell.td.className = "";
-			
-			if (this._selected && i == 0) {
-				cell.td.className = "selected";
+
+				if (cell.image) {
+					if (!cell.img) {
+						cell.img = document.createElement("img");
+						cell.img.obj = this;
+						cell.img.control = this._table;
+						
+						base2.DOM.EventTarget(cell.img);
+						cell.td.insertBefore(cell.img, cell.textNode);
+					}
+					cell.img.src = cell.image.src;
+				}
+
+				cell.td.className = "";
+
+				if (this._selected && i == 0) {
+					cell.td.className = "selected";
+				}
+
+				cell.textNode.value = cell.text;
 			}
 
-			cell.textNode.value = cell.text;
 			this.domref.appendChild(cell.td);
 		}
-		
+
 		this.removeClassName("selected");
 
 		if (this._selected) {
@@ -200,5 +220,6 @@ $class("TableItem", {
 		}
 
 		this.domref.className = this._className;
+		this.releaseChange();
 	}
 });
