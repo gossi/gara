@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>gara.jswt.table (dev)</title>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../lib/class-debug.js"></script>
+<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<script type="text/javascript" src="../garadev.js"></script>
+
+<script type="text/javascript" src="../../src/core/_prepend.js"></script>
+<script type="text/javascript" src="../../src/core/Package.class.js"></script>
+<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
+<script type="text/javascript" src="../../src/core/_append.js"></script>
+
+<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Table.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TableItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TableColumn.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+<script type="text/javascript"><!--
+function main() {
+	try {
+		var tbl = new gara.jswt.Table(document.getElementById("container"), gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.MULTI);
+		tbl.setHeaderVisible(true);
+		tbl.setLinesVisible(true);
+
+		var col1 = new gara.jswt.TableColumn(tbl, gara.jswt.JSWT.DEFAULT);
+		col1.setText("col 1");
+
+		var col2 = new gara.jswt.TableColumn(tbl, gara.jswt.JSWT.DEFAULT);
+		col2.setText("col 2");
+		
+		var col3 = new gara.jswt.TableColumn(tbl, gara.jswt.JSWT.DEFAULT);
+		col3.setText("col 3");
+		col3.setWidth(110);
+		
+		var i1 = new gara.jswt.TableItem(tbl);
+		i1.setText(["i1, 1", "i1, 2", "i1, 3"]);
+		
+		var i2 = new gara.jswt.TableItem(tbl);
+		i2.setText(["i2, 1", "i2, 2", "i2, 3"]);
+
+		var i3 = new gara.jswt.TableItem(tbl);
+		i3.setText(["i3, 1", "i3, 2", "i3, 3"]);
+
+		tbl.update();
+	} catch(e) {
+		var message = "";
+		for (p in e) {
+			message += p + ": " + e[p] + "\n";
+		}
+		console.error(message);
+	}
+}
+
+onDOMLoaded(main);
+--></script>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Table</h1>
+<div id="container" class="sand" style="width: 300px;">
+</div>
+</body>
+</html>
