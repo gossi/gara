@@ -49,6 +49,7 @@ $class("ListItem", {
 		}
 		this.$base(parent, style);
 		this._parent = parent;
+		this._list = parent;
 		this._list.addItem(this);
 		this._span = null;
 		this._spanText = null;
