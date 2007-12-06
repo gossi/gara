@@ -69,6 +69,7 @@ $class("Widget", {
 
 		this._parent = parent;
 		this._style = typeof(style) == "undefined" ? JSWT.DEFAULT : style;
+		this._data = null;
 		
 		this._className = "";
 		this._baseClass = "";
@@ -115,6 +116,17 @@ $class("Widget", {
 	 */
 	getClassName : function() {
 		return this._className;
+	},
+	
+	/**
+	 * @method
+	 * Returns application based data for this widget, or <code>null</code> if it has not been set
+	 * 
+	 * @author Thomas Gossmann
+	 * @returns {Object} application based data
+	 */
+	getData : function() {
+		return this._data;
 	},
 	
 	/**
@@ -207,6 +219,18 @@ $class("Widget", {
 	 */
 	removeListener : function(eventType, listener) {
 		this._listener[eventType].remove(listener);
+	},
+	
+	/**
+	 * @method
+	 * Sets application based data for this widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Object} data your data for this widget
+	 * @returns {void}
+	 */
+	setData : function(data) {
+		this._data = data;
 	},
 	
 	toString : function() {
