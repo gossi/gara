@@ -521,6 +521,53 @@ $class("List", {
 		}
 	},
 
+	/**
+	 * @method
+	 * Sets the text of an item at a zero-related index
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the index for the item
+	 * @param {String} string the new text for the item
+	 * @throws {TypeError} if the text is not a string
+	 * @throws {gara.OutOfBoundsException} if the index does not live within the List
+	 * @returns {void}
+	 */	
+	setItem : function(index, string) {
+		if (typeof(string) != "string") {
+			throw new TypeError("string is not type of a String");
+		}
+
+		if (index >= this._items.length) {
+			throw new gara.OutOfBoundsException("item is not in List");
+		}
+
+		item[index].setText(string);
+	},
+
+	/**
+	 * @method
+	 * Sets the List's items to be the given Array of items
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} strings the array with item texts
+	 * @throws {TypeError} if the strings are not an Array
+	 * @returns {void}
+	 */
+	setItems : function(strings) {
+		if (!$class.instanceOf(strings, Array)) {
+			throw new TypeError("strings are not an Array");
+		}
+
+		for (var i = 0; i < strings.length; ++i) {
+			if (this._items[i]) {
+				this._items[i].setText(strings[i]);
+			} else {
+				var item = new gara.jswt.ListItem(this);
+				item.setText(strings[i]);
+			}
+		}
+	},
+
 	toString : function() {
 		return "[gara.jswt.List]";
 	},
