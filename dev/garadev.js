@@ -33,6 +33,14 @@ if (!Array.prototype.removeAt) {
 	Array.prototype.removeAt = function(index) {return base2.Array2.removeAt(this, index)};
 }
 
+if (!Array.prototype.clear) {
+	Array.prototype.clear = function() {
+		while (this.length > 0) {
+			this.pop();
+		}
+	}
+}
+
 /* Finding script base path from tinymce.moxiecode.com */
 var baseUrl;
 
