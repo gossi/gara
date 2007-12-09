@@ -27,21 +27,20 @@
  * @class ListItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Item
+ * @extends gara.jswt.Item
  */
 $class("ListItem", {
 	$extends : gara.jswt.Item,
 
 	/**
-	 * @method
+	 * @constructor
 	 * Constructor
 	 * 
-	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.List} parent the List Widget for this item
 	 * @param {int} style the style for this item
 	 * @throws {TypeError} if the list is not a List widget
-	 * @returns {gara.jswt.ListItem}
+	 * @return {gara.jswt.ListItem}
 	 */
 	$constructor : function(parent, style) {
 		if (!$class.instanceOf(parent, gara.jswt.List)) {
@@ -62,7 +61,7 @@ $class("ListItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	create : function() {
 		this.domref = document.createElement("li");
@@ -115,7 +114,7 @@ $class("ListItem", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e DOMEvent
-	 * @returns {void} 
+	 * @return {void} 
 	 */
 	handleEvent : function(e) {
 		
@@ -135,7 +134,7 @@ $class("ListItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	registerListener : function(eventType, listener) {
 		if (this._img != null) {
@@ -156,7 +155,7 @@ $class("ListItem", {
 	 * Updates the list item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	update : function() {
 		// create image

@@ -31,29 +31,29 @@
 $class("JSWT", {
 	/**
 	 * @field
-	 * The <tt>MessageBox</tt> style constant for an ABORT button; the only valid combination is ABORT|RETRY|IGNORE (value is 1<<9).
+	 * The <tt>MessageBox</tt> style constant for an ABORT button; the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;9).
 	 */
 	ABORT : $static(1 << 9), 
 
 	/**
 	 * @field
-	 * Style constant for application modal behavior (value is 1<<16).
+	 * Style constant for application modal behavior (value is 1&lt;&lt;16).
 	 */
 	APPLICATION_MODAL : $static(1 << 16),
 	
 	/**
-	 * Style constant for align bottom behavior (value is 1<<10, since align DOWN and align BOTTOM are considered the same).
+	 * Style constant for align bottom behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).
 	 */
 	BOTTOM : $static(1 << 10),
 	
 	/**
-	 * The <tt>MessageBox</tt> style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1<<8).
+	 * The <tt>MessageBox</tt> style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).
 	 */
 	CANCEL : $static(1 << 8),
 	
 	/**
 	 * @field
-	 * Style constant for close box trim (value is 1<<6, since we do not distinguish between CLOSE style and MENU style).
+	 * Style constant for close box trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
 	CLOSE : $static(1 << 6),
 	
@@ -67,7 +67,7 @@ $class("JSWT", {
 	
 	/**
 	 * @field
-	 * Style constant for align down behavior (value is 1<<10, since align DOWN and align BOTTOM are considered the same).
+	 * Style constant for align down behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).
 	 */
 	DOWN : $static(1 << 10),
 	
@@ -79,73 +79,73 @@ $class("JSWT", {
 	
 	/**
 	 * @field
-	 * Style constant for full row selection behavior (value is 1<<16).
+	 * Style constant for full row selection behavior (value is 1&lt;&lt;16).
 	 */
 	FULL_SELECTION : $static(1 << 16),
 
 	/**
 	 * @field
-	 * The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1<<11).
+	 * The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).
 	 */
 	IGNORE : $static(1 << 11),
 	
 	/**
 	 * @field
-	 * Style constant for shell menu trim (value is 1<<6, since we do not distinguish between CLOSE style and MENU style).
+	 * Style constant for shell menu trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
 	MENU : $static(1 << 6),
 	
 	/**
 	 * @field
-	 * Style constant for multi-selection behavior in lists and multiple line support on text fields (value is 1<<1).
+	 * Style constant for multi-selection behavior in lists and multiple line support on text fields (value is 1&lt;&lt;1).
 	 */
 	MULTI : $static(1 << 1), 
 	
 	/**
 	 * @field
-	 * The <tt>MessageBox</tt> style constant for NO button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1<<7).
+	 * The <tt>MessageBox</tt> style constant for NO button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;7).
 	 */
 	NO : $static(1 << 7),
 	
 	/**
 	 * @field
-	 * The <tt>MessageBox</tt> style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1<<5). 
+	 * The <tt>MessageBox</tt> style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1&lt;&lt;5). 
 	 */
 	OK : $static(1 << 5),
 	 
 	/**
 	 * @field
-	 * The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1<<10).
+	 * The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).
 	 */
 	RETRY : $static(1 << 10),
 	
 	/**
 	 * @field
-	 * Style constant for single selection behavior in lists and single line support on text fields (value is 1<<2).
+	 * Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).
 	 */
 	SINGLE : $static(1 << 2),
 	
 	/**
 	 * @field
-	 * Style constant for system modal behavior (value is 1<<17).
+	 * Style constant for system modal behavior (value is 1&lt;&lt;17).
 	 */
 	SYSTEM_MODAL : $static(1 << 17),
 	
 	/**
 	 * @field
-	 * Style constant for align top behavior (value is 1<<7, since align UP and align TOP are considered the same).
+	 * Style constant for align top behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).
 	 */
 	TOP : $static(1 << 7),
 	
 	/**
 	 * @field
-	 * Style constant for align up behavior (value is 1<<7, since align UP and align TOP are considered the same).
+	 * Style constant for align up behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).
 	 */
 	UP : $static(1 << 7),
 	
 	/**
 	 * @field
-	 * The MessageBox style constant for YES button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1<<6).
+	 * The MessageBox style constant for YES button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;6).
 	 */
 	YES : $static(1 << 6),
 	

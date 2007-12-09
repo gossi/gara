@@ -22,8 +22,7 @@
 */
 
 /**
- * @class SelectionListener
- * @interface
+ * @interface SelectionListener
  * @author Thomas Gossmann
  * @namespace gara.jswt
  */

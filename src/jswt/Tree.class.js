@@ -27,7 +27,7 @@
  * @class Tree
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Composite
+ * @extends gara.jswt.Composite
  */
 $class("Tree", {
 	$extends : gara.jswt.Composite,
@@ -60,7 +60,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the new item to be activated
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_activateItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -84,7 +84,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the new item to be added
 	 * @throws WrongObjectException
-	 * @returns void
+	 * @return void
 	 */
 	_addItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -124,7 +124,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this tree
 	 * @throws {TypeError} if the listener is not a SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
 		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
@@ -142,7 +142,7 @@ $class("Tree", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item to deselect
-	 * @returns {void}
+	 * @return {void}
 	 */
 	deselect : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -164,7 +164,7 @@ $class("Tree", {
 	 * Deselect all items in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	deselectAll : function() {
 		for (var i = this._selection.length; i >= 0; --i) {
@@ -180,7 +180,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {gara.OutOfBoundsException} if the index does not live within this tree
-	 * @returns {gara.jswt.TreeItem} the item
+	 * @return {gara.jswt.TreeItem} the item
 	 */
 	getItem : function(index) {
 		if (index >= this._items.length) {
@@ -195,7 +195,7 @@ $class("Tree", {
 	 * Returns the amount of the items in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the amount
+	 * @return {int} the amount
 	 */
 	getItemCount : function() {
 		return this._items.length;
@@ -217,7 +217,7 @@ $class("Tree", {
 	 * Returns whether the lines of the tree are visible or not
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {boolean} true if the lines are visible and false if they are not
+	 * @return {boolean} true if the lines are visible and false if they are not
 	 */
 	getLinesVisible : function() {
 		return this._showLines;
@@ -228,7 +228,7 @@ $class("Tree", {
 	 * Returns an array with the items which are currently selected in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.TreeItem[]}an array with items
+	 * @return {gara.jswt.TreeItem[]}an array with items
 	 */
 	getSelection : function() {
 		return this._selection;
@@ -239,7 +239,7 @@ $class("Tree", {
 	 * Returns the amount of the selected items in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the amount
+	 * @return {int} the amount
 	 */
 	getSelectionCount : function() {
 		return this._selection.length;
@@ -252,7 +252,7 @@ $class("Tree", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} W3C-event
-	 * @returns {void}
+	 * @return {void}
 	 */
 	handleEvent : function(e) {
 		// special events for the tree
@@ -321,7 +321,7 @@ $class("Tree", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} W3C-Event
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_handleKeyEvent : function(e) {
 		if (this._activeItem == null) {
@@ -481,7 +481,7 @@ $class("Tree", {
 	 * @param {gara.jswt.TreeItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tree
 	 * @throws {TypeError} if the item is not a TreeItem
-	 * @returns {int} the index of the specified item
+	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -501,7 +501,7 @@ $class("Tree", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_notifySelectionListener : function() {
 		this._selectionListeners.forEach(function(item, index, arr) {
@@ -515,7 +515,7 @@ $class("Tree", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
@@ -530,7 +530,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to be removed from this tree
 	 * @throws {TypeError} if the listener is not a SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
 		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
@@ -551,7 +551,7 @@ $class("Tree", {
 	 * @param {gara.jswt.TreeItem} item the item to select
 	 * @param {boolean} _add true for adding to the current selection, false will select only this item
 	 * @throws {TypeError} if the item is not a TreeItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_select : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -579,7 +579,7 @@ $class("Tree", {
 	 * Select all items in the list
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	selectAll : function() {
 		this._items.forEach(function(item, index, arr) {
@@ -594,7 +594,7 @@ $class("Tree", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_selectShift : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -631,7 +631,7 @@ $class("Tree", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {boolean} show true if the lines should be visible or false for invisibility
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setLinesVisible : function(show) {
 		this._showLines = show;
@@ -646,7 +646,7 @@ $class("Tree", {
 	 * Updates the widget
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	update : function() {
 		if (this.domref == null) {
@@ -706,7 +706,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem[]} items to update
 	 * @param {HTMLElement} parentNode the parent dom node
-	 * @returns {void}  
+	 * @return {void}  
 	 */
 	_updateItems : function(items, parentNode) {
 		var itemCount = items.length;

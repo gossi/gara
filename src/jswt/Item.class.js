@@ -25,19 +25,18 @@
  * 'Abstract' Item class
  * @class Item
  * @author Thomas Gossmann
- * @extends Widget
+ * @extends gara.jswt.Widget
  * @namespace gara.jswt
  */
 $class("Item", {
 	$extends : gara.jswt.Widget,
 
 	/**
-	 * @method
-	 * Constructor
+	 * @constructor
+	 * Constructor of gara.jswt.Item
 	 * 
-	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.Item}
+	 * @return {gara.jswt.Item}
 	 */
 	$constructor : function(parent, style) {
 		this.$base(parent, style);
@@ -51,7 +50,7 @@ $class("Item", {
 	 * Returns the items image
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {Image} the items image
+	 * @return {Image} the items image
 	 */
 	getImage : function() {
 		return this._image;
@@ -84,7 +83,7 @@ $class("Item", {
 	 * Tells wether the item is created or not
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {boolean} true if the item is created or false if not
+	 * @return {boolean} true if the item is created or false if not
 	 */
 	isCreated : function() {
 		return this.domref != null;
@@ -95,7 +94,7 @@ $class("Item", {
 	 * Reset the change notification buffer to recognize new changes. 
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	releaseChange : function() {
 		this._changed = false;
@@ -107,7 +106,7 @@ $class("Item", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {boolean} active true for active and false for inactive
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setActive : function(active) {
 		this._active = active;
@@ -126,7 +125,7 @@ $class("Item", {
 	 * @author Thomas Gossmann
 	 * @param {Image} image the new image
 	 * @throws {TypeError} when image is not instance of Image
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setImage : function(image) {
 //		if(!$class.instanceOf(image, Image)) {
@@ -142,7 +141,7 @@ $class("Item", {
 	 * Set this item selected
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setSelected : function() {
 		this.addClassName("selected");
@@ -154,7 +153,7 @@ $class("Item", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} text the new text
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setText : function(text) {
 		this._text = text;
@@ -166,7 +165,7 @@ $class("Item", {
 	 * Set this item unselected
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setUnselected : function() {
 		this.removeClassName("selected");

@@ -27,15 +27,14 @@
  * @class Table
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Composite
+ * @extends gara.jswt.Composite
  */
 $class("Table", {
 	$extends : gara.jswt.Composite,
 
 	/**
-	 * @method
+	 * @constructor
 	 * 
-	 * @private
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
@@ -114,7 +113,7 @@ $class("Table", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this table
 	 * @throws {TypeError} if the listener is not a SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
 		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
@@ -191,7 +190,7 @@ $class("Table", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item to deselect
-	 * @returns {void}
+	 * @return {void}
 	 */
 	deselect : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
@@ -379,7 +378,7 @@ $class("Table", {
 	 * @param {gara.jswt.TableItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this table
 	 * @throws {TypeError} if the item is not a TableItem
-	 * @returns {int} the index of the specified item
+	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
@@ -399,7 +398,7 @@ $class("Table", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_notifySelectionListener : function() {
 		this._selectionListener.forEach(function(item, index, arr) {
@@ -420,7 +419,7 @@ $class("Table", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to be removed from this table
 	 * @throws {TypeError} if the listener is not a SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
 		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
@@ -439,7 +438,7 @@ $class("Table", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TableItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a TableItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	select : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
@@ -468,7 +467,7 @@ $class("Table", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TableItem} item the item
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_selectShift : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {

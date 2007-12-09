@@ -27,7 +27,7 @@
  * @class TreeItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Item
+ * @extends gara.jswt.Item
  */
 $class("TreeItem", {
 	$extends : gara.jswt.Item,
@@ -71,7 +71,7 @@ $class("TreeItem", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item to be added
 	 * @throws {TypeError} when the item is not type of a TreeItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_addItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -89,7 +89,7 @@ $class("TreeItem", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {boolean} wether this item is at the bottom position or not
-	 * @returns {void}
+	 * @return {void}
 	 */
 	create : function(bottom) {
 		/*
@@ -179,7 +179,7 @@ $class("TreeItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_createChildContainer : function() {
 		this._childContainer = document.createElement('ul');
@@ -204,7 +204,7 @@ $class("TreeItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_deselectItems : function() {
 		this._items.forEach(function(child, index, arr) {
@@ -221,7 +221,7 @@ $class("TreeItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {HTMLElement} the child container
+	 * @return {HTMLElement} the child container
 	 */
 	_getChildContainer : function() {
 		if (this._childContainer == null) {
@@ -235,7 +235,7 @@ $class("TreeItem", {
 	 * Returns the checked state for this item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {boolean} the checked state
+	 * @return {boolean} the checked state
 	 */
 	getChecked : function() {
 		return this._checked;
@@ -246,7 +246,7 @@ $class("TreeItem", {
 	 * Returns the expanded state for this item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {boolean} the expanded state
+	 * @return {boolean} the expanded state
 	 */
 	getExpanded : function() {
 		return this._expanded;
@@ -259,7 +259,7 @@ $class("TreeItem", {
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {OutOfBoundsException} if the index does not live within this tree
-	 * @returns {gara.jswt.TreeItem} the item
+	 * @return {gara.jswt.TreeItem} the item
 	 */
 	getItem : function(index) {
 		if (index >= this._items.length) {
@@ -274,7 +274,7 @@ $class("TreeItem", {
 	 * Returns the amount of the items in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the amount
+	 * @return {int} the amount
 	 */
 	getItemCount : function() {
 		return this._items.length;
@@ -296,7 +296,7 @@ $class("TreeItem", {
 	 * Returns the widgets parent, which must be a <tt>Tree</tt>
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.Tree} the parent of this widget
+	 * @return {gara.jswt.Tree} the parent of this widget
 	 */
 	getParent : function() {
 		return this._tree;
@@ -307,7 +307,7 @@ $class("TreeItem", {
 	 * Returns the item's parent item, which must be a <tt>TreeItem</tt> or null when the item is a root.
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.TreeItem} the parent item
+	 * @return {gara.jswt.TreeItem} the parent item
 	 */
 	getParentItem : function() {
 		if (this._parent == this._tree) {
@@ -323,7 +323,7 @@ $class("TreeItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {boolean} true wether there are items or false if there are non
+	 * @return {boolean} true wether there are items or false if there are non
 	 */
 	_hasChilds : function() {
 		return this._items.length > 0;
@@ -336,7 +336,7 @@ $class("TreeItem", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e W3C event
-	 * @returns {void}
+	 * @return {void}
 	 */
 	handleEvent : function(e) {
 		var obj = e.target.obj || null;
@@ -390,7 +390,7 @@ $class("TreeItem", {
 	 * @param {gara.jswt.TreeItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tree
 	 * @throws {TypeError} if the item is not a TreeItem
-	 * @returns {int} the index of the specified item
+	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
@@ -430,7 +430,7 @@ $class("TreeItem", {
 	 * Removes all items from that item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeAll : function() {
 		this._items = [];
@@ -441,7 +441,7 @@ $class("TreeItem", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {boolean} active true for active and false for inactive
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setActive : function(active) {
 		this._active = active;
@@ -461,7 +461,7 @@ $class("TreeItem", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {boolean} checked the new checked state
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setChecked : function(checked) {
 		//TODO: Respect selection flag from tree - if this has been done here...
@@ -480,7 +480,7 @@ $class("TreeItem", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {boolean} expanded the new expanded state
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setExpanded : function(expanded) {
 		this._expanded = expanded;
@@ -502,7 +502,7 @@ $class("TreeItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	update : function() {
 		if (this._hasChilds()) {

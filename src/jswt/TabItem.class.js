@@ -27,7 +27,7 @@
  * @class TabItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Item
+ * @extends gara.jswt.Item
  */
 $class("TabItem", {
 	$extends : gara.jswt.Item,
@@ -57,7 +57,7 @@ $class("TabItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {HTMLElement} the created node
+	 * @return {HTMLElement} the created node
 	 */
 	_create : function() {
 		this.domref = document.createElement("li");
@@ -106,7 +106,7 @@ $class("TabItem", {
 	 * Returns the content for this item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {string} the content;
+	 * @return {string} the content;
 	 */
 	getContent : function() {
 		return this._content;
@@ -117,7 +117,7 @@ $class("TabItem", {
 	 * Returns the content control for this item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.Control} the control
+	 * @return {gara.jswt.Control} the control
 	 */
 	getControl : function() {
 		return this._control;
@@ -128,7 +128,7 @@ $class("TabItem", {
 	 * Returns the tooltip text for this item
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {string} the tooltip text 
+	 * @return {string} the tooltip text 
 	 */
 	getToolTipText : function() {
 		return this._toolTipText;
@@ -142,7 +142,7 @@ $class("TabItem", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e DOMEvent
-	 * @returns {void} 
+	 * @return {void} 
 	 */
 	handleEvent : function(e) {
 		
@@ -163,7 +163,7 @@ $class("TabItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	registerListener : function() {
 		if (this.domref != null) {
@@ -178,7 +178,7 @@ $class("TabItem", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {boolean} the new active state
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_setActive : function(active) {
 		this._active = active;
@@ -199,7 +199,7 @@ $class("TabItem", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {string} content the content
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setContent : function(content) {
 		this._content = content;
@@ -213,7 +213,7 @@ $class("TabItem", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.Control} control the control
 	 * @throws {TypeError} when that is not a gara.jswt.Control
-	 * @returns {void} 
+	 * @return {void} 
 	 */
 	setControl : function(control) {
 		if (!$class.instanceOf(control, gara.jswt.Control)) {
@@ -229,7 +229,7 @@ $class("TabItem", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {string} text the tooltip text
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setToolTipText : function(text) {
 		this._toolTipText = text;
@@ -242,7 +242,7 @@ $class("TabItem", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	update : function() {
 		// create image

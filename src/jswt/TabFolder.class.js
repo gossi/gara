@@ -27,15 +27,13 @@
  * @class TabFolder
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Composite
+ * @extends gara.jswt.Composite
  */
 $class("TabFolder", {
 	$extends : gara.jswt.Composite,
 
 	/**
-	 * @method
-	 * 
-	 * @private
+	 * @constructor
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
@@ -65,7 +63,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item to be added
 	 * @throws {TypeError} if the item is not type of gara.jswt.TabItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_addItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
@@ -83,7 +81,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this tabfolder
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
@@ -101,7 +99,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item to be activated
 	 * @throws {TypeError} if the item is not type of gara.jswt.TabItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_activateItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
@@ -144,7 +142,7 @@ $class("TabFolder", {
 	 * Returns the client area off that tabfolder
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {HTMLElement} the client area node
+	 * @return {HTMLElement} the client area node
 	 */
 	getClientArea : function() {
 		return this._clientArea;
@@ -157,7 +155,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {gara.OutOfBoundsException} if the index does not live within this tabfolder
-	 * @returns {gara.jswt.TabItem} the item
+	 * @return {gara.jswt.TabItem} the item
 	 */
 	getItem : function(index) {
 		if (index >= this._items.length) {
@@ -172,7 +170,7 @@ $class("TabFolder", {
 	 * Returns the amount of the items in the tabfolder
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the amount
+	 * @return {int} the amount
 	 */
 	getItemCount : function() {
 		return this._items.length;
@@ -183,7 +181,7 @@ $class("TabFolder", {
 	 * Returns an array with all the items in the tabfolder
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.TabItem[]} the array with the items
+	 * @return {gara.jswt.TabItem[]} the array with the items
 	 */
 	getItems : function() {
 		return this._items;
@@ -194,7 +192,7 @@ $class("TabFolder", {
 	 * Returns an array with the items which are currently selected in the tabfolder
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.TabItem[]} an array with items
+	 * @return {gara.jswt.TabItem[]} an array with items
 	 */
 	getSelection : function() {
 		return this._selection;
@@ -205,7 +203,7 @@ $class("TabFolder", {
 	 * Returns the zero-related index of the selected item or -1 if there is no item selected
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the index of the selected item
+	 * @return {int} the index of the selected item
 	 */
 	getSelectionIndex : function() {
 		if (this._selection.length) {
@@ -221,7 +219,7 @@ $class("TabFolder", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	handleEvent : function(e) {
 		var obj = e.target.obj || null;
@@ -265,7 +263,7 @@ $class("TabFolder", {
 	 * @param {gara.jswt.TabItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tabfolder
 	 * @throws {TypeError} if the item is not a TabItem
-	 * @returns {int} the index of the specified item
+	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
@@ -285,7 +283,7 @@ $class("TabFolder", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_notifySelectionListener : function() {
 		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
@@ -299,7 +297,7 @@ $class("TabFolder", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
@@ -314,7 +312,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to remove from this tabfolder
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
@@ -335,7 +333,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @param {mixed} arg the given zero-related index or the given array
 	 * @throws {gara.OutOfBoundsException} when there is no item for the given index
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setSelection : function(arg) {
 		if (typeof(arg) == 'number') {
@@ -357,7 +355,7 @@ $class("TabFolder", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item with the content
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_showContent : function(item) {
 		
@@ -372,7 +370,7 @@ $class("TabFolder", {
 	 * updates this tabfolder
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	update : function() {
 		var firstBuild = false;

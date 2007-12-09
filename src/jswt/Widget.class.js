@@ -61,8 +61,7 @@ $class("Widget", {
 	domref : null,
 
 	/**
-	 * @method
-	 * @private
+	 * @constructor
 	 */
 	$constructor : function(parent, style) {
 		this.domref = null;
@@ -82,7 +81,7 @@ $class("Widget", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} className new class
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addClassName : function(className) {
 		this._className += " " + className;
@@ -96,7 +95,7 @@ $class("Widget", {
 	 * @author Thomas Gossmann
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addListener : function(eventType, listener) {
 		if (!this._listener.hasOwnProperty(eventType)) {
@@ -112,7 +111,7 @@ $class("Widget", {
 	 * Returns the CSS class names
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {String} the class name(s)
+	 * @return {String} the class name(s)
 	 */
 	getClassName : function() {
 		return this._className;
@@ -123,7 +122,7 @@ $class("Widget", {
 	 * Returns application based data for this widget, or <code>null</code> if it has not been set
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {Object} application based data
+	 * @return {Object} application based data
 	 */
 	getData : function() {
 		return this._data;
@@ -134,7 +133,7 @@ $class("Widget", {
 	 * Returns the parent for this widget
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.Widget|HTMLElement} the widgets parent
+	 * @return {gara.jswt.Widget|HTMLElement} the widgets parent
 	 */
 	getParent : function() {
 		return this._parent;
@@ -145,7 +144,7 @@ $class("Widget", {
 	 * Returns the style for this widget
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the style 
+	 * @return {int} the style 
 	 */
 	getStyle : function() {
 		return this._style;
@@ -157,7 +156,7 @@ $class("Widget", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} the class name to look for
-	 * @returns {boolean} wether there is this class or not
+	 * @return {boolean} wether there is this class or not
 	 */
 	hasClassName : function(className) {
 		return this._className.indexOf(className) != -1;
@@ -174,7 +173,7 @@ $class("Widget", {
 	 * @param {Event} e the event
 	 * @param {gara.jswt.Widget} obj the obj on which the event belongs to
 	 * @param {gara.jswt.Control} control the control to witch the event belongs
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_notifyExternalKeyboardListener : function(e, obj, control) {
 		if (this._listener.hasOwnProperty(e.type)) {
@@ -201,7 +200,7 @@ $class("Widget", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {String} className the class name that should be removed
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeClassName : function(className) {
 		this._className = strReplace(this._className, className, "");
@@ -215,7 +214,7 @@ $class("Widget", {
 	 * @author Thomas Gossmann
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeListener : function(eventType, listener) {
 		this._listener[eventType].remove(listener);
@@ -227,7 +226,7 @@ $class("Widget", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {Object} data your data for this widget
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setData : function(data) {
 		this._data = data;

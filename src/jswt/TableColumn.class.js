@@ -37,7 +37,7 @@ function getStyle(el, styleProp, ieStyleProp)
  * @class TableColumn
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Item
+ * @extends gara.jswt.Item
  */
 $class("TableColumn", {
 	$extends : gara.jswt.Item,

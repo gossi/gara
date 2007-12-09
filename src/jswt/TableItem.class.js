@@ -27,7 +27,7 @@
  * @class TableItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Item
+ * @extends gara.jswt.Item
  */
 $class("TableItem", {
 	$extends : gara.jswt.Item,

@@ -25,9 +25,10 @@
  * @class ItemNotExistsException
  * @author Thomas Gossmann
  * @namespace gara.jswt
+ * @extends Exception
  */
 $class("ItemNotExistsException", {
-	$extends : gara.jswt.Exception,
+	$extends : Exception,
 	
 	$constructor : function(message) {
 		this.message = String(message);

@@ -24,15 +24,14 @@
 /**
  * @class Composite
  * @author Thomas Gossmann
- * @extends Control
+ * @extends gara.jswt.Control
  * @namespace gara.jswt
  */
 $class("Composite", {
 	$extends : gara.jswt.Control,
 
 	/**
-	 * @method
-	 * @private
+	 * @constructor
 	 */
 	$constructor : function(parent, style) {
 		this.$base(parent, style);

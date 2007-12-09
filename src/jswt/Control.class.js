@@ -24,15 +24,14 @@
 /**
  * @class Control
  * @author Thomas Gossmann
- * @extends Widget
+ * @extends gara.jswt.Widget
  * @namespace gara.jswt
  */
 $class("Control", {
 	$extends : gara.jswt.Widget,
 
 	/**
-	 * @method
-	 * @private
+	 * @constructor
 	 */
 	$constructor : function(parent, style) {
 		this.$base(parent, style);
@@ -52,7 +51,7 @@ $class("Control", {
 	 * @author Thomas Gossmann
 	 * @param {FocusListener} the desired listener to be added to this control
 	 * @throws {TypeError} if the listener is not implementing the FocusListener interface
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addFocusListener : function(listener) {
 		if (!$class.implementationOf(listener, gara.jswt.FocusListener)) {
@@ -66,7 +65,7 @@ $class("Control", {
 	 * @method
 	 * Forces this control to gain focus
 	 * 
-	 * @returns {void}
+	 * @return {void}
 	 */
 	forceFocus : function() {
 		this._hasFocus = true;
@@ -92,7 +91,7 @@ $class("Control", {
 	 * @method
 	 * Tells wether the control has focus or not
 	 * 
-	 * @returns {boolean} true for having the focus and false if not
+	 * @return {boolean} true for having the focus and false if not
 	 */
 	isFocusControl : function() {
 		return this._hasFocus;
@@ -102,7 +101,7 @@ $class("Control", {
 	 * @method
 	 * Forces this control to loose focus
 	 * 
-	 * @returns {void}
+	 * @return {void}
 	 */
 	looseFocus : function() {
 		this._hasFocus = false;
@@ -123,7 +122,7 @@ $class("Control", {
 	 * 
 	 * @param {FocusListener} the listener to remove from this control
 	 * @throws {TypeError} wether this is not a FocusListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeFocusListener : function(listener) {
 		if (!listener.$class.implementsInterface(gara.jswt.FocusListener)) {

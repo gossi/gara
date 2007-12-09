@@ -27,20 +27,19 @@
  * @class List
  * @author Thomas Gossmann
  * @namespace gara.jswt
- * @extends Control
+ * @extends gara.jswt.Control
  */
 $class("List", {
 	$extends : gara.jswt.Control,
 
 	/**
-	 * @method
+	 * @constructor
 	 * Constructor
 	 * 
-	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
-	 * @returns {gara.jswt.List} list widget
+	 * @return {gara.jswt.List} list widget
 	 */
 	$constructor : function(parent, style) {
 		this.$base(parent, style);
@@ -66,7 +65,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should added to the List
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_activateItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
@@ -90,7 +89,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should added to the List
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
@@ -106,7 +105,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this list
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
@@ -123,7 +122,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should be deselected
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	deselect : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
@@ -144,7 +143,7 @@ $class("List", {
 	 * Deselects all items
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	deselectAll : function() {
 		for (var i = 0, len = this._items.length; i < len; ++i) {
@@ -160,7 +159,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {gara.OutOfBoundsException} if the index does not live within this list
-	 * @returns {gara.jswt.ListItem} the item
+	 * @return {gara.jswt.ListItem} the item
 	 */
 	getItem : function(index) {
 		if (index >= this._items.length) {
@@ -175,7 +174,7 @@ $class("List", {
 	 * Returns the amount of the items in the list
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the amount
+	 * @return {int} the amount
 	 */
 	getItemCount : function() {
 		return this._items.length;
@@ -186,7 +185,7 @@ $class("List", {
 	 * Returns an array with all the items in the list
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.ListItem[]} the array with the items
+	 * @return {gara.jswt.ListItem[]} the array with the items
 	 */
 	getItems : function() {
 		return this._items;
@@ -197,7 +196,7 @@ $class("List", {
 	 * Returns an array with the items which are currently selected in the list
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {gara.jswt.ListItem[]} an array with items
+	 * @return {gara.jswt.ListItem[]} an array with items
 	 */
 	getSelection : function() {
 		return this._selection;
@@ -208,7 +207,7 @@ $class("List", {
 	 * Returns the amount of the selected items in the tree
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {int} the amount
+	 * @return {int} the amount
 	 */
 	getSelectionCount : function() {
 		return this._selection.length;
@@ -220,7 +219,7 @@ $class("List", {
 	 * 
 	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
-	 * @returns {void}
+	 * @return {void}
 	 */
 	handleEvent : function(e) {
 		// special events for the list
@@ -280,7 +279,7 @@ $class("List", {
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
-	 * @returns {void}
+	 * @return {void}
 	 */
 	_handleKeyEvent : function(e) {
 	
@@ -376,7 +375,7 @@ $class("List", {
 	 * @param {gara.jswt.ListItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this list
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {int} the index of the specified item
+	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
@@ -397,7 +396,7 @@ $class("List", {
 	 * Notifies selection listener about the changed selection within the List
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	notifySelectionListener : function() {
 		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
@@ -411,12 +410,18 @@ $class("List", {
 	 * 
 	 * @private
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
 		}
+	},
+	
+	removeAll : function() {
+		this._items.forEach(function(item, index, arr) {
+			delete item;
+		}, this);
 	},
 
 	/**
@@ -426,7 +431,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to remove from this list
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @returns {void}
+	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
@@ -445,7 +450,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	select : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
@@ -472,7 +477,7 @@ $class("List", {
 	 * Select all items in the list
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	selectAll : function() {
 		for (var i = 0, len = this._items.length; i < len; ++i) {
@@ -489,7 +494,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @returns {void}
+	 * @return {void}
 	 */
 	selectRange : function(item, _add) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
@@ -530,7 +535,7 @@ $class("List", {
 	 * @param {String} string the new text for the item
 	 * @throws {TypeError} if the text is not a string
 	 * @throws {gara.OutOfBoundsException} if the index does not live within the List
-	 * @returns {void}
+	 * @return {void}
 	 */	
 	setItem : function(index, string) {
 		if (typeof(string) != "string") {
@@ -542,6 +547,8 @@ $class("List", {
 		}
 
 		item[index].setText(string);
+		
+		this.update();
 	},
 
 	/**
@@ -551,7 +558,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @param {Array} strings the array with item texts
 	 * @throws {TypeError} if the strings are not an Array
-	 * @returns {void}
+	 * @return {void}
 	 */
 	setItems : function(strings) {
 		if (!$class.instanceOf(strings, Array)) {
@@ -566,6 +573,8 @@ $class("List", {
 				item.setText(strings[i]);
 			}
 		}
+		
+		this.update();
 	},
 
 	toString : function() {
@@ -577,7 +586,7 @@ $class("List", {
 	 * Updates the list!
 	 * 
 	 * @author Thomas Gossmann
-	 * @returns {void}
+	 * @return {void}
 	 */
 	update : function() {
 		// create widget if domref equals null

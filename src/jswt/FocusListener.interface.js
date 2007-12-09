@@ -22,13 +22,17 @@
 */
 
 /**
- * @class FocusListener
- * @interface
+ * @interface FocusListener
  * @author Thomas Gossmann
  * @namespace gara.jswt
  */
 
 $interface("FocusListener", {
+	
+	/**
+	 * @method
+	 * focus gained [DOCTEST]
+	 */
 	focusGained : function() {
 	},
 	
