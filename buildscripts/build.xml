@@ -6,6 +6,7 @@
 	<property name="deployDir" value="${basedir}/gara"/>
 	<property name="libDir" value="${basedir}/lib"/>
 	<property name="archiveDir" value="${basedir}/archives"/>
+	<property name="docDir" value="${basedir}/docs"/>
 
 	<property name="version" value="0.01-alpha"/>
 
@@ -35,11 +36,34 @@
 		<file name="List.class.js"/>
 		<file name="Tree.class.js"/>
 		<file name="TabFolder.class.js"/>
+		<file name="Table.class.js"/>
 		<file name="Item.class.js"/>
 		<file name="ListItem.class.js"/>
 		<file name="TreeItem.class.js"/>
 		<file name="TabItem.class.js"/>
+		<file name="TableColumn.class.js"/>
+		<file name="TableItem.class.js"/>
 		<file name="ControlManager.class.js"/>
+	</filelist>
+	
+	<!-- gara jsface package -->
+	<property name="jsfaceDir" value="${srcDir}/jsface"/>
+	<property name="jsfaceFile" value="${buildDir}/gara-jsface.js"/>
+
+	<filelist id="jsfaceFL" dir="${jsfaceDir}">
+		<file name="IBaseLabelProvider.interface.js"/>
+		<file name="ILabelProvider.interface.js"/>
+		<file name="ITableLabelProvider.interface.js"/>
+		<file name="LabelProvider.class.js"/>
+		
+		<file name="IContentProvider.interface.js"/>
+		<file name="IStructuredContentProvider.interface.js"/>
+		
+		<file name="Viewer.class.js"/>
+		<file name="ContentViewer.class.js"/>
+		<file name="StructuredViewer.class.js"/>
+		<file name="AbstractListViewer.class.js"/>
+		<file name="ListViewer.class.js"/>
 	</filelist>
 
 	<target name="-cleanupCommon">
@@ -47,16 +71,27 @@
 		<mkdir dir="${buildDir}"/>
 	</target>
 
+	<target name="-cleanupXmlDoc" depends="-cleanupCommon">
+		<delete dir="${basedir}/docs/xml">
+			<include name="**/*.xml"/>
+		</delete>
+	</target>
+	
 	<target name="-cleanupDoc" depends="-cleanupCommon">
 		<delete dir="${basedir}/docs/api">
 			<include name="**/*"/>
 		</delete>
-		<delete dir="${basedir}/docs/apixml"/>
-		<mkdir dir="${basedir}/docs/apixml"/>
-		<mkdir dir="${basedir}/docs/apixml/core"/>
-		<mkdir dir="${basedir}/docs/apixml/jswt"/>
 	</target>
 	
+	<target name="-cleanupJsEclipse" depends="-cleanupCommon">
+		<delete dir="${basedir}/docs/jseclipse">
+			<include name="*.xml"/>
+		</delete>
+		<delete dir="${basedir}/docs/jseclipse-dev">
+			<include name="*.xml"/>
+		</delete>
+	</target>
+
 	<target name="-cleanupDeploy" depends="-cleanupCommon">
 		<delete>
 			<fileset dir="${deployDir}">
@@ -64,7 +99,7 @@
 			</fileset>
 		</delete>
 	</target>
-	
+
 	<target name="-combine" depends="-cleanupCommon">
 		<antcall target=".buildPackage">
 			<param name="dir" value="${garaDir}"/>
@@ -77,122 +112,175 @@
 			<param name="files" value="jswtFL"/>
 			<param name="file" value="${jswtFile}"/>
 		</antcall>
+		
+		<antcall target=".buildPackage">
+			<param name="dir" value="${jsfaceDir}"/>
+			<param name="files" value="jsfaceFL"/>
+			<param name="file" value="${jsfaceFile}"/>
+		</antcall>
 
 		<concat destfile="${buildDir}/gara-src.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${basedir}/buildscripts/static" files="arraysupport.txt"/>
-			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js"/>
+			<filelist dir="${buildDir}" files="gara-core.js,gara-jswt.js,gara-jsface.js"/>
 		</concat>
 	</target>
 	
 	<target name="-compress" depends="-combine">
-		<java jar="${basedir}/buildscripts/lib/custom_rhino.jar" failonerror="true" fork="true"
-			logerror="true" output="${buildDir}/gara-bc.js">
-			<arg value="-strict" />
-			<arg value="-opt"/>
-			<arg value="9" />
-			<arg value="-c" />
+		<java jar="${basedir}/buildscripts/lib/yuicompressor-2.2.5.jar" dir="${basedir}/buildscripts/lib" failonerror="true" fork="true"
+			logerror="true">
+			<arg value="--charset"/>
+			<arg value="utf-8"/>
+			<arg value="-o"/>
+			<arg value="${buildDir}/gara.js"/>
 			<arg value="${buildDir}/gara-src.js" />
 		</java>
 	</target>
-	
-	<target name="-xmldoc" depends="-combine">
-		<java jar="buildscripts/lib/js.jar" failonerror="true" dir="buildscripts/" fork="true">
+
+	<target name="xmldoc" depends="-cleanupXmlDoc,-combine">
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
 			<arg value="lib/jsDoc.js" />
 			<arg value="-t=templates/gara"/>
-			<arg value="-d=../docs/apixml" />
-			<arg value="../build/gara-src.js" />
+			<arg value="-d=../../docs/xml/" />
+			<arg value="../../build/gara-src.js" />
 		</java>
-		
+		<move file="${docDir}/xml/jsdoc.xml" tofile="${docDir}/xml/gara.xml"/>
+
 		<!-- Core Classes -->
-		<java jar="buildscripts/lib/js.jar" failonerror="true" dir="buildscripts/" fork="true">
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
 			<arg value="lib/jsDoc.js" />
 			<arg value="-t=templates/garaclasses"/>
-			<arg value="-d=../docs/apixml/core" />
-			<arg value="../src/core" />
+			<arg value="-d=../../docs/xml/core" />
+			<arg value="../../src/core" />
 		</java>
-		
+
 		<!-- gara.jswt Classes -->
-		<java jar="buildscripts/lib/js.jar" failonerror="true" dir="buildscripts/" fork="true">
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
 			<arg value="lib/jsDoc.js" />
 			<arg value="-t=templates/garaclasses"/>
-			<arg value="-d=../docs/apixml/jswt" />
-			<arg value="../src/jswt" />
+			<arg value="-d=../../docs/xml/jswt" />
+			<arg value="../../src/jswt" />
 		</java>
-		
+
 		<!-- gara.jsface Classes -->
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/garaclasses"/>
+			<arg value="-d=../../docs/xml/jsface" />
+			<arg value="../../src/jsface" />
+		</java>
 		
 		<!-- build class hierarchy -->
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/apixml/class_hierarchy.xml" style="${basedir}/buildscripts/doc/class_hierarchy.xsl"/>
+		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/xml/class_hierarchy.xml" style="${basedir}/buildscripts/xml2doc/class_hierarchy.xsl"/>
 	</target>
 	
-	<target name="doc" depends="-cleanupDoc,-xmldoc">
-		<copy file="${basedir}/buildscripts/doc/garaapi.css" todir="${basedir}/docs/api"/>
-		<copy file="${basedir}/buildscripts/doc/garaapi.js" todir="${basedir}/docs/api"/>
-		<copy file="${basedir}/buildscripts/doc/blank.html" todir="${basedir}/docs/api"/>
-		<copy file="${basedir}/buildscripts/doc/frameset.html" tofile="${basedir}/docs/api/index.html"/>
-		
-		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_overview.html" style="${basedir}/buildscripts/doc/overview.xsl"/>
-		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/_nav_namespaces.html" style="${basedir}/buildscripts/doc/nav_namespaces.xsl"/>
-		
+	<target name="doc" depends="-cleanupDoc,xmldoc">
+		<!-- copy static files -->
+		<copy file="${basedir}/buildscripts/xml2doc/static/garaapi.css" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/xml2doc/static/garaapi.js" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/xml2doc/static/blank.html" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/xml2doc/static/frameset.html" tofile="${basedir}/docs/api/index.html"/>
+
+		<!-- creating frame stuff -->
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/_overview.html" style="${basedir}/buildscripts/xml2doc/overview.xsl"/>
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/_nav_namespaces.html" style="${basedir}/buildscripts/xml2doc/nav_namespaces.xsl"/>
+
 		<!-- gara core files -->
-		<xslt basedir="${basedir}/docs/apixml/core" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/doc/class.xsl">
-			<mapper>
-				<regexpmapper from="^([^\\\/]+)\.xml$$" to="gara.\1.html" handledirsep="true"/>
-			</mapper>
-		</xslt>
-		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/gara._tree.html" style="${basedir}/buildscripts/doc/class_tree.xsl">
-			<param name="Namespace" expression="gara"/>
-		</xslt>
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._namespace.html" style="${basedir}/buildscripts/doc/namespace.xsl">
-			<param name="Namespace" expression="gara"/>
-		</xslt>
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara._nav.html" style="${basedir}/buildscripts/doc/nav_namespace.xsl">
-			<param name="Namespace" expression="gara"/>
-		</xslt>
-		
+		<antcall target=".docPackage">
+			<param name="srcDir" value="${basedir}/docs/xml/core"/>
+			<param name="pkg" value="gara"/>
+		</antcall>
+
 		<!-- gara.jswt files -->
-		<xslt basedir="${basedir}/docs/apixml/jswt" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/doc/class.xsl">
-			<mapper>
-				<regexpmapper from="^([^\\\/]+)\.xml$$" to="gara.jswt.\1.html" handledirsep="true"/>
-			</mapper>
-		</xslt>
-		<xslt in="${basedir}/docs/apixml/class_hierarchy.xml" out="${basedir}/docs/api/gara.jswt._tree.html" style="${basedir}/buildscripts/doc/class_tree.xsl">
-			<param name="Namespace" expression="gara.jswt"/>
-		</xslt>
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._namespace.html" style="${basedir}/buildscripts/doc/namespace.xsl">
-			<param name="Namespace" expression="gara.jswt"/>
-		</xslt>
-		<xslt in="${basedir}/docs/apixml/jsdoc.xml" out="${basedir}/docs/api/gara.jswt._nav.html" style="${basedir}/buildscripts/doc/nav_namespace.xsl">
-			<param name="Namespace" expression="gara.jswt"/>
-		</xslt>
+		<antcall target=".docPackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jswt"/>
+			<param name="pkg" value="gara.jswt"/>
+		</antcall>
+
+		<!-- gara.jsface files -->
+		<antcall target=".docPackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jsface"/>
+			<param name="pkg" value="gara.jsface"/>
+		</antcall>
+	</target>
+	
+	<target name="jsEclipse" depends="-cleanupJsEclipse,xmldoc">
+		<!-- Enduser Versions -->
+		<!-- gara core files -->
+		<antcall target=".jseclipsePackage">
+			<param name="srcDir" value="${basedir}/docs/xml/core"/>
+			<param name="destDir" value="${docDir}/jseclipse"/>
+			<param name="pkg" value="gara"/>
+			<param name="showPrivate" value="false"/>
+		</antcall>
+
+		<!-- gara.jswt files -->
+		<antcall target=".jseclipsePackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jswt"/>
+			<param name="destDir" value="${docDir}/jseclipse"/>
+			<param name="pkg" value="gara.jswt"/>
+			<param name="showPrivate" value="false"/>
+		</antcall>
+
+		<!-- gara.jsface files -->
+		<antcall target=".jseclipsePackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jsface"/>
+			<param name="destDir" value="${docDir}/jseclipse"/>
+			<param name="pkg" value="gara.jsface"/>
+			<param name="showPrivate" value="false"/>
+		</antcall>
+		
+		<!-- gara dev team -->
+		<!-- gara core files -->
+		<antcall target=".jseclipsePackage">
+			<param name="srcDir" value="${basedir}/docs/xml/core"/>
+			<param name="destDir" value="${docDir}/jseclipse-dev"/>
+			<param name="pkg" value="gara"/>
+			<param name="showPrivate" value="true"/>
+		</antcall>
+
+		<!-- gara.jswt files -->
+		<antcall target=".jseclipsePackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jswt"/>
+			<param name="destDir" value="${docDir}/jseclipse-dev"/>
+			<param name="pkg" value="gara.jswt"/>
+			<param name="showPrivate" value="true"/>
+		</antcall>
+
+		<!-- gara.jsface files -->
+		<antcall target=".jseclipsePackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jsface"/>
+			<param name="destDir" value="${docDir}/jseclipse-dev"/>
+			<param name="pkg" value="gara.jsface"/>
+			<param name="showPrivate" value="true"/>
+		</antcall>
 	</target>
 
 	<target name="build" depends="-cleanupDeploy,-compress">
-		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara.js" todir="${deployDir}"/>
 
-		<!-- gara.js (all dependant libs included) -->
-		<concat destfile="${deployDir}/gara.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+		<!-- gara-bc.js (blank version) -->
+		<concat destfile="${deployDir}/gara-bc.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${libDir}" files="class-min.js"/>
 			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
-			<filelist dir="${deployDir}" files="gara-bc.js" />
+			<filelist dir="${deployDir}" files="gara.js" />
 		</concat>
 
-		<!-- gara-c.js ($class lib excluded) -->
+		<!-- gara-c.js ($class lib included) -->
 		<concat destfile="${deployDir}/gara-c.js" outputencoding="utf-8" fixlastline="yes" append="yes">
-			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
-			<filelist dir="${deployDir}" files="gara-bc.js" />
+			<filelist dir="${libDir}" files="class-min.js"/>
+			<filelist dir="${deployDir}" files="gara.js" />
 		</concat>
 
-		<!-- gara-b.js (base2 lib excluded) -->
+		<!-- gara-b.js (base2 lib included) -->
 		<concat destfile="${deployDir}/gara-b.js" outputencoding="utf-8" fixlastline="yes" append="yes">
-			<filelist dir="${libDir}" files="class-min.js"/>
-			<filelist dir="${deployDir}" files="gara-bc.js" />
+			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
+			<filelist dir="${deployDir}" files="gara.js" />
 		</concat>
-		
+
 		<!-- copy gara.js for developing examples -->
-		<copy file="${deployDir}/gara.js" todir="${basedir}"/>
+		<copy file="${deployDir}/gara-bc.js" todir="${basedir}"/>
 	</target>
-	
+
 	<target name="deploy" depends="build">
 		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
 			<tarfileset dir="${basedir}" includes="examples/,res/,themes/,lgpl-2.1.txt"/>
@@ -206,14 +294,47 @@
 			<filelist dir="${basedir}/buildscripts/static/" files="head.txt"/>
 			<filelist dir="${dir}" files="_prepend.js" />
 		</concat>
-	
+
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist refid="${files}" />
 		</concat>
-		
+
 		<concat destfile="${file}" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${dir}" files="_append.js"/>
 			<filelist dir="${basedir}/buildscripts/static/" files="foot.txt" />
 		</concat>
 	</target>
-	</project>
+	
+	<target name=".docPackage">
+		<xslt basedir="${srcDir}" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/xml2doc/class.xsl">
+			<mapper>
+				<regexpmapper from="^([^\\\/]+)\.xml$$" to="${pkg}.\1.html" handledirsep="true"/>
+			</mapper>
+			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+		</xslt>
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/${pkg}._tree.html" style="${basedir}/buildscripts/xml2doc/class_tree.xsl">
+			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
+			<param name="Namespace" expression="${pkg}"/>
+		</xslt>
+		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/api/${pkg}._namespace.html" style="${basedir}/buildscripts/xml2doc/namespace.xsl">
+			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
+			<param name="Namespace" expression="${pkg}"/>
+		</xslt>
+		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/api/${pkg}._nav.html" style="${basedir}/buildscripts/xml2doc/nav_namespace.xsl">
+			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
+			<param name="Namespace" expression="${pkg}"/>
+		</xslt>
+	</target>
+	
+	<target name=".jseclipsePackage">
+		<xslt basedir="${srcDir}" destdir="${destDir}" style="${basedir}/buildscripts/xml2jseclipse/class.xsl">
+			<mapper>
+				<regexpmapper from="^([^\\\/]+)\.class\.xml$$" to="${pkg}.\1.xml" handledirsep="true"/>
+			</mapper>
+			<param name="showPrivate" expression="${showPrivate}"/>
+			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+		</xslt>
+	</target>
+</project>
