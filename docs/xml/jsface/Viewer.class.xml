@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Viewer.class.js" src="../../src/jsface/Viewer.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Viewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Viewer.inputChange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Internal hook Method called when the input to this viewer isinitially set or subsequently changed.<p>The default implementation does nothing. Subclassers may override this method to do something when a viewer's input is set.A typical use is populate the viewer.</p></description>
+						<params>
+							<param type="" name="input">
+								<description>the new input of this viewer, or <code>null</code> if none</description>
+							</param>
+						
+							<param type="" name="oldInput">
+								<description>the old input element or <code>null</code> if there  was previously no input</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

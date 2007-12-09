@@ -1,0 +1,346 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Widget.class.js" src="../../src/jswt/Widget.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Widget" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>long description (just testing the doc...)</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees>
+					<see>http://gara.creative2.net</see>
+				
+					<see></see>
+				
+					<see><span style="color: #f00">doc-test... am i red?</span></see>
+				</sees>
+				
+				
+				
+				<summary>short description</summary>
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields>
+					<field type="HTMLElement" name="Widget.domref" isStatic="false" isPrivate="false">
+						<description>contains the DOM reference of the widget</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				</fields>
+				
+				<methods>
+					<method name="Widget.getStyle" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the style for this widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the style</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.addClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a CSS class to the item</description>
+						<params>
+							<param type="String" name="className">
+								<description>new class</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.removeListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a listener from this item</description>
+						<params>
+							<param type="String" name="eventType">
+								<description>the type of the event</description>
+							</param>
+						
+							<param type="Object" name="listener">
+								<description>the listener</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.getData" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns application based data for this widget, or <code>null</code> if it has not been set</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="Object"> application based data</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.getClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the CSS class names</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="String"> the class name(s)</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.getParent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the parent for this widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.Widget|HTMLElement"> the widgets parent</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.setData" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets application based data for this widget</description>
+						<params>
+							<param type="Object" name="data">
+								<description>your data for this widget</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.hasClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tests if there is a specified classname existent</description>
+						<params>
+							<param type="String" name="the">
+								<description>class name to look for</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> wether there is this class or not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.addListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds an eventlistener to the widget</description>
+						<params>
+							<param type="String" name="eventType">
+								<description>the type of the event</description>
+							</param>
+						
+							<param type="Object" name="listener">
+								<description>the listener</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.removeClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a CSS class name from this item.</description>
+						<params>
+							<param type="String" name="className">
+								<description>the class name that should be removed</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget._notifyExternalKeyboardListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Workaround for passing keyboard events to the widget with focus</description>
+						<params>
+							<param type="Event" name="e">
+								<description>the event</description>
+							</param>
+						
+							<param type="gara.jswt.Widget" name="obj">
+								<description>the obj on which the event belongs to</description>
+							</param>
+						
+							<param type="gara.jswt.Control" name="control">
+								<description>the control to witch the event belongs</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions>
+			<function name="strReplace" isPrivate="true">
+				<description></description>
+				<params></params>
+				
+				<throws></throws>
+				
+				<returns></returns>
+			</function>
+		</functions>
+	</file>
+</files>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Tree" extends="gara.jswt.Composite">
+<item repl="_activateItem()" display="_activateItem() ">
+				&lt;[!CDATA[Activates an item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the new item to be activated<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a ListItem
+				]]&gt;
+				</item>
+<item repl="_addItem()" display="_addItem() ">
+				&lt;[!CDATA[Adds an item to the tree. This is automatically done by instantiating a new item.<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the new item to be added<b>Throws:</b>
+<tt/> - 
+				]]&gt;
+				</item>
+<item repl="_handleKeyEvent()" display="_handleKeyEvent() ">
+				&lt;[!CDATA[Key Event Handler for the Tree<b>Parameters:</b>
+<tt>Event </tt> -  W3C-Event
+				]]&gt;
+				</item>
+<item repl="_notifySelectionListener()" display="_notifySelectionListener() ">
+				&lt;[!CDATA[Notifies all selection listeners about the selection change
+				]]&gt;
+				</item>
+<item repl="_select()" display="_select() ">
+				&lt;[!CDATA[Selects a specific item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the item to select<tt>boolean _add</tt> - true for adding to the current selection, false will select only this item<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a TreeItem
+				]]&gt;
+				</item>
+<item repl="_selectShift()" display="_selectShift() ">
+				&lt;[!CDATA[Selects a Range of items. From shiftItem to the passed item.
+				]]&gt;
+				</item>
+<item repl="_updateItems()" display="_updateItems() ">
+				&lt;[!CDATA[Update Items<b>Parameters:</b>
+<tt>gara.jswt.TreeItem[] items</tt> - to update<tt>HTMLElement parentNode</tt> - the parent dom node
+				]]&gt;
+				</item>
+<item repl="handleEvent()" display="handleEvent() ">
+				&lt;[!CDATA[Event Handler for the tree<b>Parameters:</b>
+<tt>Event </tt> -  W3C-event
+				]]&gt;
+				</item>
+<item repl="registerListener()" display="registerListener() ">
+				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+				]]&gt;
+				</item>
+</completion>

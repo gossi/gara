@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Tree" extends="gara.jswt.Composite">
+<item repl="addSelectionListener()" display="addSelectionListener() ">
+				&lt;[!CDATA[Adds a selection listener on the tree<b>Parameters:</b>
+<tt>gara.jswt.SelectionListener listener</tt> - the desired listener to be added to this tree<b>Throws:</b>
+<tt>TypeError</tt> -  if the listener is not a SelectionListener
+				]]&gt;
+				</item>
+<item repl="deselect()" display="deselect() ">
+				&lt;[!CDATA[Deselects a specific item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the item to deselect
+				]]&gt;
+				</item>
+<item repl="deselectAll()" display="deselectAll() ">
+				&lt;[!CDATA[Deselect all items in the tree
+				]]&gt;
+				</item>
+<item repl="getItem()" display="getItem() ">
+				&lt;[!CDATA[Returns a specifiy item with a zero-related index<b>Parameters:</b>
+<tt>int index</tt> - the zero-related index<b>Throws:</b>
+<tt>gara.OutOfBoundsException</tt> -  if the index does not live within this tree<b>Returns:</b> the item
+				]]&gt;
+				</item>
+<item repl="getItemCount()" display="getItemCount() ">
+				&lt;[!CDATA[Returns the amount of the items in the tree<b>Returns:</b> the amount
+				]]&gt;
+				</item>
+<item repl="getItems()" display="getItems() ">
+				&lt;[!CDATA[Returns an array with all the items in the tree<b>Returns:</b> an array with the items
+				]]&gt;
+				</item>
+<item repl="getLinesVisible()" display="getLinesVisible() ">
+				&lt;[!CDATA[Returns whether the lines of the tree are visible or not<b>Returns:</b> true if the lines are visible and false if they are not
+				]]&gt;
+				</item>
+<item repl="getSelection()" display="getSelection() ">
+				&lt;[!CDATA[Returns an array with the items which are currently selected in the tree<b>Returns:</b>an array with items
+				]]&gt;
+				</item>
+<item repl="getSelectionCount()" display="getSelectionCount() ">
+				&lt;[!CDATA[Returns the amount of the selected items in the tree<b>Returns:</b> the amount
+				]]&gt;
+				</item>
+<item repl="indexOf()" display="indexOf() ">
+				&lt;[!CDATA[Looks for the index of a specified item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the item for the index<b>Throws:</b>
+<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this tree<tt>TypeError</tt> -  if the item is not a TreeItem<b>Returns:</b> the index of the specified item
+				]]&gt;
+				</item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() ">
+				&lt;[!CDATA[Removes a selection listener from this tree<b>Parameters:</b>
+<tt>gara.jswt.SelectionListener listener</tt> - the listener to be removed from this tree<b>Throws:</b>
+<tt>TypeError</tt> -  if the listener is not a SelectionListener
+				]]&gt;
+				</item>
+<item repl="selectAll()" display="selectAll() ">
+				&lt;[!CDATA[Select all items in the list
+				]]&gt;
+				</item>
+<item repl="setLinesVisible()" display="setLinesVisible() ">
+				&lt;[!CDATA[Sets lines visible or invisible.<b>Parameters:</b>
+<tt>boolean show</tt> - true if the lines should be visible or false for invisibility
+				]]&gt;
+				</item>
+<item repl="update()" display="update() ">
+				&lt;[!CDATA[Updates the widget
+				]]&gt;
+				</item>
+</completion>

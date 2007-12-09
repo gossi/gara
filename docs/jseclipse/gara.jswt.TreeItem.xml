@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.TreeItem" extends="gara.jswt.Item">
+<item repl="getChecked()" display="getChecked() ">
+				&lt;[!CDATA[Returns the checked state for this item<b>Returns:</b> the checked state
+				]]&gt;
+				</item>
+<item repl="getExpanded()" display="getExpanded() ">
+				&lt;[!CDATA[Returns the expanded state for this item<b>Returns:</b> the expanded state
+				]]&gt;
+				</item>
+<item repl="getItem()" display="getItem() ">
+				&lt;[!CDATA[Returns a specifiy item with a zero-related index<b>Parameters:</b>
+<tt>int index</tt> - the zero-related index<b>Throws:</b>
+<tt>OutOfBoundsException</tt> -  if the index does not live within this tree<b>Returns:</b> the item
+				]]&gt;
+				</item>
+<item repl="getItemCount()" display="getItemCount() ">
+				&lt;[!CDATA[Returns the amount of the items in the tree<b>Returns:</b> the amount
+				]]&gt;
+				</item>
+<item repl="getItems()" display="getItems() ">
+				&lt;[!CDATA[Returns an array with all the items in the tree<b>Returns:</b> an array with the items
+				]]&gt;
+				</item>
+<item repl="getParent()" display="getParent() ">
+				&lt;[!CDATA[Returns the widgets parent, which must be a Tree<b>Returns:</b> the parent of this widget
+				]]&gt;
+				</item>
+<item repl="getParentItem()" display="getParentItem() ">
+				&lt;[!CDATA[Returns the item's parent item, which must be a TreeItem or null when the item is a root.<b>Returns:</b> the parent item
+				]]&gt;
+				</item>
+<item repl="indexOf()" display="indexOf() ">
+				&lt;[!CDATA[Looks for the index of a specified item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the item for the index<b>Throws:</b>
+<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this tree<tt>TypeError</tt> -  if the item is not a TreeItem<b>Returns:</b> the index of the specified item
+				]]&gt;
+				</item>
+<item repl="removeAll()" display="removeAll() ">
+				&lt;[!CDATA[Removes all items from that item
+				]]&gt;
+				</item>
+<item repl="setActive()" display="setActive() ">
+				&lt;[!CDATA[Sets the item active or inactive<b>Parameters:</b>
+<tt>boolean active</tt> - true for active and false for inactive
+				]]&gt;
+				</item>
+<item repl="setChecked()" display="setChecked() ">
+				&lt;[!CDATA[Sets the checked state for this item<b>Parameters:</b>
+<tt>boolean checked</tt> - the new checked state
+				]]&gt;
+				</item>
+<item repl="setExpanded()" display="setExpanded() ">
+				&lt;[!CDATA[Sets a new expanded state for the item<b>Parameters:</b>
+<tt>boolean expanded</tt> - the new expanded state
+				]]&gt;
+				</item>
+</completion>

@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="TabItem.class.js" src="../../src/jswt/TabItem.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="TabItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TreeItem</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="TabItem.getToolTipText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the tooltip text for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="string"> the tooltip text</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.getContent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the content for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="string"> the content;</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.setContent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets content for this item that appears in the client area of the TabFolder when this item is activated. Use EITHER setContent OR setControl!</description>
+						<params>
+							<param type="string" name="content">
+								<description>the content</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.setToolTipText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the ToolTip text for this item</description>
+						<params>
+							<param type="string" name="text">
+								<description>the tooltip text</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.update" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Update this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.getControl" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the content control for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.Control"> the control</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Event handler for this item. Its main use is to pass through keyboard eventsto all listeners.</description>
+						<params>
+							<param type="Event" name="e">
+								<description>DOMEvent</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem._setActive" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Set a new active state for this item</description>
+						<params>
+							<param type="boolean" name="the">
+								<description>new active state</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.setControl" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets a control for that appears in the client area of the TabFolder when this item is activated</description>
+						<params>
+							<param type="gara.jswt.Control" name="control">
+								<description>the control</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> when that is not a gara.jswt.Control</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Widget implementation to register listener</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem._create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Contstructs the dom for this tabitem</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="HTMLElement"> the created node</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

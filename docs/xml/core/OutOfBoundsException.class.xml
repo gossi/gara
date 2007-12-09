@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="OutOfBoundsException.class.js" src="../../src/core/OutOfBoundsException.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="OutOfBoundsException" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>i'm thrown when somethings going out of bounds</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>Exception</extends>
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

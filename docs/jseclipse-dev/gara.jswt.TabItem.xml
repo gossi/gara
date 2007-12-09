@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.TabItem" extends="gara.jswt.Item">
+<item repl="_create()" display="_create() ">
+				&lt;[!CDATA[Contstructs the dom for this tabitem<b>Returns:</b> the created node
+				]]&gt;
+				</item>
+<item repl="_setActive()" display="_setActive() ">
+				&lt;[!CDATA[Set a new active state for this item<b>Parameters:</b>
+<tt>boolean the</tt> - new active state
+				]]&gt;
+				</item>
+<item repl="handleEvent()" display="handleEvent() ">
+				&lt;[!CDATA[Event handler for this item. Its main use is to pass through keyboard events
+to all listeners.<b>Parameters:</b>
+<tt>Event e</tt> - DOMEvent
+				]]&gt;
+				</item>
+<item repl="registerListener()" display="registerListener() ">
+				&lt;[!CDATA[Widget implementation to register listener
+				]]&gt;
+				</item>
+<item repl="update()" display="update() ">
+				&lt;[!CDATA[Update this item
+				]]&gt;
+				</item>
+</completion>

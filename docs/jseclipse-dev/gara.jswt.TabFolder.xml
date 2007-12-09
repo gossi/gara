@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.TabFolder" extends="gara.jswt.Composite">
+<item repl="_activateItem()" display="_activateItem() ">
+				&lt;[!CDATA[Activates an item and notifies the selection listener<b>Parameters:</b>
+<tt>gara.jswt.TabItem item</tt> - the item to be activated<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not type of gara.jswt.TabItem
+				]]&gt;
+				</item>
+<item repl="_addItem()" display="_addItem() ">
+				&lt;[!CDATA[Adds an item to this tabfolder<b>Parameters:</b>
+<tt>gara.jswt.TabItem item</tt> - the item to be added<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not type of gara.jswt.TabItem
+				]]&gt;
+				</item>
+<item repl="_notifySelectionListener()" display="_notifySelectionListener() ">
+				&lt;[!CDATA[Notifies selection listener about the changed selection within the List
+				]]&gt;
+				</item>
+<item repl="_showContent()" display="_showContent() ">
+				&lt;[!CDATA[Shows off the content for the client area from the passed item<b>Parameters:</b>
+<tt>gara.jswt.TabItem item</tt> - the item with the content
+				]]&gt;
+				</item>
+<item repl="handleEvent()" display="handleEvent() ">
+				&lt;[!CDATA[Handles events for this tabfolder
+				]]&gt;
+				</item>
+<item repl="registerListener()" display="registerListener() ">
+				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+				]]&gt;
+				</item>
+</completion>

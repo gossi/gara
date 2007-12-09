@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.List" extends="gara.jswt.Control">
+<item repl="addSelectionListener()" display="addSelectionListener() ">
+				&lt;[!CDATA[Adds a selection listener on the list<b>Parameters:</b>
+<tt>gara.jswt.SelectionListener listener</tt> - the desired listener to be added to this list<b>Throws:</b>
+<tt>TypeError</tt> -  if the listener is not an instance SelectionListener
+				]]&gt;
+				</item>
+<item repl="deselect()" display="deselect() ">
+				&lt;[!CDATA[Deselects an item<b>Parameters:</b>
+<tt>gara.jswt.ListItem item</tt> - the item that should be deselected<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a ListItem
+				]]&gt;
+				</item>
+<item repl="deselectAll()" display="deselectAll() ">
+				&lt;[!CDATA[Deselects all items
+				]]&gt;
+				</item>
+<item repl="getItem()" display="getItem() ">
+				&lt;[!CDATA[Gets a specified item with a zero-related index<b>Parameters:</b>
+<tt>int index</tt> - the zero-related index<b>Throws:</b>
+<tt>gara.OutOfBoundsException</tt> -  if the index does not live within this list<b>Returns:</b> the item
+				]]&gt;
+				</item>
+<item repl="getItemCount()" display="getItemCount() ">
+				&lt;[!CDATA[Returns the amount of the items in the list<b>Returns:</b> the amount
+				]]&gt;
+				</item>
+<item repl="getItems()" display="getItems() ">
+				&lt;[!CDATA[Returns an array with all the items in the list<b>Returns:</b> the array with the items
+				]]&gt;
+				</item>
+<item repl="getSelection()" display="getSelection() ">
+				&lt;[!CDATA[Returns an array with the items which are currently selected in the list<b>Returns:</b> an array with items
+				]]&gt;
+				</item>
+<item repl="getSelectionCount()" display="getSelectionCount() ">
+				&lt;[!CDATA[Returns the amount of the selected items in the tree<b>Returns:</b> the amount
+				]]&gt;
+				</item>
+<item repl="handleEvent()" display="handleEvent() ">
+				&lt;[!CDATA[Handles events on the list. Implements DOMEvent Interface by the W3c.<b>Parameters:</b>
+<tt>Event e</tt> - event the users triggers
+				]]&gt;
+				</item>
+<item repl="indexOf()" display="indexOf() ">
+				&lt;[!CDATA[Looks for the index of a specified item<b>Parameters:</b>
+<tt>gara.jswt.ListItem item</tt> - the item for the index<b>Throws:</b>
+<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this list<tt>TypeError</tt> -  if the item is not a ListItem<b>Returns:</b> the index of the specified item
+				]]&gt;
+				</item>
+<item repl="notifySelectionListener()" display="notifySelectionListener() ">
+				&lt;[!CDATA[Notifies selection listener about the changed selection within the List
+				]]&gt;
+				</item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() ">
+				&lt;[!CDATA[Removes a selection listener from this list<b>Parameters:</b>
+<tt>gara.jswt.SelectionListener listener</tt> - the listener to remove from this list<b>Throws:</b>
+<tt>TypeError</tt> -  if the listener is not an instance SelectionListener
+				]]&gt;
+				</item>
+<item repl="select()" display="select() ">
+				&lt;[!CDATA[Selects an item<b>Parameters:</b>
+<tt>gara.jswt.ListItem item</tt> - the item that should be selected<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a ListItem
+				]]&gt;
+				</item>
+<item repl="selectAll()" display="selectAll() ">
+				&lt;[!CDATA[Select all items in the list
+				]]&gt;
+				</item>
+<item repl="setItem()" display="setItem() ">
+				&lt;[!CDATA[Sets the text of an item at a zero-related index<b>Parameters:</b>
+<tt>int index</tt> - the index for the item<tt>String string</tt> - the new text for the item<b>Throws:</b>
+<tt>TypeError</tt> -  if the text is not a string<tt>gara.OutOfBoundsException</tt> -  if the index does not live within the List
+				]]&gt;
+				</item>
+<item repl="setItems()" display="setItems() ">
+				&lt;[!CDATA[Sets the List's items to be the given Array of items<b>Parameters:</b>
+<tt>Array strings</tt> - the array with item texts<b>Throws:</b>
+<tt>TypeError</tt> -  if the strings are not an Array
+				]]&gt;
+				</item>
+<item repl="update()" display="update() ">
+				&lt;[!CDATA[Updates the list!
+				]]&gt;
+				</item>
+</completion>

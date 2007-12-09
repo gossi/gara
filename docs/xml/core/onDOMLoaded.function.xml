@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="onDOMLoaded.function.js" src="../../src/core/onDOMLoaded.function.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

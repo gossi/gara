@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.TreeItem" extends="gara.jswt.Item">
+<item repl="_addItem()" display="_addItem() ">
+				&lt;[!CDATA[Adds an item to this item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the item to be added<b>Throws:</b>
+<tt>TypeError</tt> -  when the item is not type of a TreeItem
+				]]&gt;
+				</item>
+<item repl="_createChildContainer()" display="_createChildContainer() ">
+				&lt;[!CDATA[Create container for items
+				]]&gt;
+				</item>
+<item repl="_deselectItems()" display="_deselectItems() ">
+				&lt;[!CDATA[Deselect all child items
+				]]&gt;
+				</item>
+<item repl="_getChildContainer()" display="_getChildContainer() ">
+				&lt;[!CDATA[Returns the child container<b>Returns:</b> the child container
+				]]&gt;
+				</item>
+<item repl="_hasChilds()" display="_hasChilds() ">
+				&lt;[!CDATA[Returns wether there are items or not<b>Returns:</b> true wether there are items or false if there are non
+				]]&gt;
+				</item>
+<item repl="create()" display="create() ">
+				&lt;[!CDATA[Internal method for creating a node representing an item. This is used for
+creating a new item or put updated content to an existing node of an earlier
+painted item.<b>Parameters:</b>
+<tt>boolean wether</tt> - this item is at the bottom position or not
+				]]&gt;
+				</item>
+<item repl="handleEvent()" display="handleEvent() ">
+				&lt;[!CDATA[Internal event handler<b>Parameters:</b>
+<tt>Event e</tt> - W3C event
+				]]&gt;
+				</item>
+<item repl="registerListener()" display="registerListener() ">
+				&lt;[!CDATA[Registers Listener for this widget<b>Parameters:</b>
+<tt>String eventType</tt> - the event type<tt>Object listener</tt> - the listener
+				]]&gt;
+				</item>
+<item repl="update()" display="update() ">
+				&lt;[!CDATA[Updates this item
+				]]&gt;
+				</item>
+</completion>

@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ListItem.class.js" src="../../src/jswt/ListItem.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="ListItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara ListItem for List Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.List" name="parent" isOptional="false">
+							<description>the List Widget for this item</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>the style for this item</description>
+						</param>
+					</params>
+					
+					<throws>
+						<throw type="TypeError">
+							<description> if the list is not a List widget</description>
+						</throw>
+					</throws>
+					
+					<authors>
+						<author>Thomas Gossmann</author>
+					</authors>
+					
+					<sees></sees>
+					
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="ListItem.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Updates the list item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Event handler for this item. Its main use is to pass through keyboard eventsto all listeners.</description>
+						<params>
+							<param type="Event" name="e">
+								<description>DOMEvent</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem.create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Internal creation process of this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

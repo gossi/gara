@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ControlManager.class.js" src="../../src/jswt/ControlManager.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="ControlManager" isStatic="false" isPrivate="true" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

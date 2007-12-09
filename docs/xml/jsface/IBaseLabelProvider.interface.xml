@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="IBaseLabelProvider.interface.js" src="../../src/jsface/IBaseLabelProvider.interface.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces>
+			<interface name="IBaseLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann<p>A label provider maps an element of the viewer's model to an optional image and optional text string used to display the element in the viewer's control.Certain label providers may allow multiple labels per element. This is an "abstract interface", defining methods common to all label providers, but does not actually define the methods to get the label(s) for an element. This interface should never be directly implemented. Most viewers will take either an ILabelProvider or an ITableLabelProvider.</p></author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="IBaseLabelProvider.isLabelProperty" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns whether the label would be affected by a change to the givenproperty of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description></description>
+							</param>
+						
+							<param type="String" name="property">
+								<description></description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> <code>true</code> if the label would be affected, and <code>false</code> if it would be unaffected</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

@@ -1,0 +1,4542 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="gara-src.js" src="../../build/gara-src.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="AbstractListViewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.StructuredViewer</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				
+				<constructor>
+					
+					<description>Top Constructor von die AbstractListViewer</description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="Composite" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>gara.jswt.Control</extends>
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="ContentViewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.Viewer</extends>
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="Control" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>gara.jswt.Widget</extends>
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Control.handleEvent" isStatic="false" isPrivate="true" isAbstract="true">
+						<description></description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.forceFocus" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Forces this control to gain focus</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.addFocusListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a focus changed listener on the control</description>
+						<params>
+							<param type="FocusListener" name="the">
+								<description>desired listener to be added to this control</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not implementing the FocusListener interface</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Control.isFocusControl" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether the control has focus or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true for having the focus and false if not</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.looseFocus" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Forces this control to loose focus</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.removeFocusListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a focus listener from this control</description>
+						<params>
+							<param type="FocusListener" name="the">
+								<description>listener to remove from this control</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> wether this is not a FocusListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="ControlManager" isStatic="false" isPrivate="true" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="EventManager" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>EventManager is used to store all event listeners throughout the document.This helps to keep all listeners stored in one point and also pretend memoryleaks by releasing all listeners at the unload event.</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees>
+					<see>http://ajaxcookbook.org/event-handling-memory-leaks/</see>
+				</sees>
+				
+				
+				
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields>
+					<field type="" name="EventManager._instance" isStatic="false" isPrivate="true">
+						<description>Stores THE instance</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				</fields>
+				
+				<methods>
+					<method name="EventManager.addListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a listener to a specified domNode and store the added event in theevent manager.</description>
+						<params>
+							<param type="HTMLElement" name="domNode">
+								<description>the node where the event is added to</description>
+							</param>
+						
+							<param type="DOMString" name="type">
+								<description>the event type</description>
+							</param>
+						
+							<param type="Object|Function" name="listener">
+								<description>the desired action handler</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="Event"> generated event-object for this listener</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="EventManager._unregisterAllEvents" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Removes all stored listeners on the page unload.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="EventManager.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>handleEvent is used to catch the unload-event of the window and passit to _unregisterAllEvents() to free up memory.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="EventManager.removeListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a specified event</description>
+						<params>
+							<param type="Event" name="event">
+								<description>object which is returned by addListener()</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees>
+							<see></see>
+						</sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="Item" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>'Abstract' Item class</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>gara.jswt.Widget</extends>
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description>Constructor of gara.jswt.Item</description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors>
+						<author>Thomas Gossmann</author>
+					</authors>
+					
+					<sees></sees>
+					
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Item.hasChanged" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether there is new data available since last question.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true if data changed, false if not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setSelected" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Set this item selected</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.releaseChange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Reset the change notification buffer to recognize new changes.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setActive" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the item active or inactive</description>
+						<params>
+							<param type="boolean" name="active">
+								<description>true for active and false for inactive</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.getText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the items text</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="String"> the text for this item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setUnselected" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Set this item unselected</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.isCreated" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether the item is created or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true if the item is created or false if not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.getImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the items image</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="Image"> the items image</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the text for the item</description>
+						<params>
+							<param type="String" name="text">
+								<description>the new text</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the image for the item</description>
+						<params>
+							<param type="Image" name="image">
+								<description>the new image</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> when image is not instance of Image</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="ItemNotExistsException" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>Exception</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="JSWT" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>JSWT class with design constants</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<fields>
+					<field type="" name="JSWT.SYSTEM_MODAL" isStatic="false" isPrivate="false">
+						<description>Style constant for system modal behavior (value is 1&lt;&lt;17).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.RETRY" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.APPLICATION_MODAL" isStatic="false" isPrivate="false">
+						<description>Style constant for application modal behavior (value is 1&lt;&lt;16).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.MULTI" isStatic="false" isPrivate="false">
+						<description>Style constant for multi-selection behavior in lists and multiple line support on text fields (value is 1&lt;&lt;1).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.NO" isStatic="false" isPrivate="false">
+						<description>The <tt>MessageBox</tt> style constant for NO button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;7).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.YES" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for YES button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;6).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.DOWN" isStatic="false" isPrivate="false">
+						<description>Style constant for align down behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.CLOSE" isStatic="false" isPrivate="false">
+						<description>Style constant for close box trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.BOTTOM" isStatic="false" isPrivate="false">
+						<description>Style constant for align bottom behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.FULL_SELECTION" isStatic="false" isPrivate="false">
+						<description>Style constant for full row selection behavior (value is 1&lt;&lt;16).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.TOP" isStatic="false" isPrivate="false">
+						<description>Style constant for align top behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.CANCEL" isStatic="false" isPrivate="false">
+						<description>The <tt>MessageBox</tt> style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.DEFAULT" isStatic="false" isPrivate="false">
+						<description>Indicates that a default should be used (value is 0).NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript operators...</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.MENU" isStatic="false" isPrivate="false">
+						<description>Style constant for shell menu trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.ABORT" isStatic="false" isPrivate="false">
+						<description>The <tt>MessageBox</tt> style constant for an ABORT button; the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;9).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.OK" isStatic="false" isPrivate="false">
+						<description>The <tt>MessageBox</tt> style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1&lt;&lt;5).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.SINGLE" isStatic="false" isPrivate="false">
+						<description>Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.IGNORE" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.UP" isStatic="false" isPrivate="false">
+						<description>Style constant for align up behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.DRAG" isStatic="false" isPrivate="false">
+						<description>Indicates that a user-interface component is being dragged, for example dragging the thumb of a scroll bar (value is 1).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				</fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="LabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				<implements>gara.jsface.ILabelProviderA label provider implementation which, by default, uses an element's toStringvalue for its text and null for its image. This class may be used as is, orsubclassed to provide richer labels. Subclasses may override any of thefollowing methods:<ul><li>isLabelProperty</li><li>getImage</li><li>getText</li></ul></implements>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="List" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara List Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Control</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.Composite|HTMLElement" name="parent" isOptional="false">
+							<description>parent dom node or composite</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>The style for the list</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors>
+						<author>Thomas Gossmann</author>
+					</authors>
+					
+					<sees></sees>
+					
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="List.getSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with the items which are currently selected in the list</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.ListItem[]"> an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to the list (invoked by the constructor of ListItem)</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should added to the List</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List._handleKeyEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>handling key events on the List</description>
+						<params>
+							<param type="Event" name="e">
+								<description>event the users triggers</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.select" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Selects an item</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should be selected</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.deselectAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselects all items</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.notifySelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Notifies selection listener about the changed selection within the List</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.deselect" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselects an item</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should be deselected</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.getItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with all the items in the list</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.ListItem[]"> the array with the items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.handleEvent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Handles events on the list. Implements DOMEvent Interface by the W3c.</description>
+						<params>
+							<param type="Event" name="e">
+								<description>event the users triggers</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.getItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Gets a specified item with a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the zero-related index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> if the index does not live within this list</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="gara.jswt.ListItem"> the item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this list</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to remove from this list</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.selectRange" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a range. From the item with shift-lock to the passed item.</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should be selected</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.setItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the List's items to be the given Array of items</description>
+						<params>
+							<param type="Array" name="strings">
+								<description>the array with item texts</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the strings are not an Array</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Updates the list!</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.selectAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Select all items in the list</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the items in the list</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.setItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the text of an item at a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the index for the item</description>
+							</param>
+						
+							<param type="String" name="string">
+								<description>the new text for the item</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the text is not a string</description>
+							</throw>
+						
+							<throw type="gara.OutOfBoundsException">
+								<description> if the index does not live within the List</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this list</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List._activateItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Activates an item</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should added to the List</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the list</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this list</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.getSelectionCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the selected items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="ListItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara ListItem for List Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.List" name="parent" isOptional="false">
+							<description>the List Widget for this item</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>the style for this item</description>
+						</param>
+					</params>
+					
+					<throws>
+						<throw type="TypeError">
+							<description> if the list is not a List widget</description>
+						</throw>
+					</throws>
+					
+					<authors>
+						<author>Thomas Gossmann</author>
+					</authors>
+					
+					<sees></sees>
+					
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="ListItem.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Updates the list item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Event handler for this item. Its main use is to pass through keyboard eventsto all listeners.</description>
+						<params>
+							<param type="Event" name="e">
+								<description>DOMEvent</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem.create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Internal creation process of this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="ListViewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.AbstractListViewer</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="OutOfBoundsException" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>i'm thrown when somethings going out of bounds</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>Exception</extends>
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="Package" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="StructuredViewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.ContentViewer</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="TabFolder" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TabFolder Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Composite</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.Composite|HTMLElement" name="parent" isOptional="false">
+							<description>parent dom node or composite</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>The style for the list</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="TabFolder.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this tabfolder</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to remove from this tabfolder</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getClientArea" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the client area off that tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="HTMLElement"> the client area node</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.setSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Selects the item at the given zero-related index in the tabfolder.Sets the tabfolders selection the the given array.Depends on the parameter</description>
+						<params>
+							<param type="mixed" name="arg">
+								<description>the given zero-related index or the given array</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> when there is no item for the given index</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to this tabfolder</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item to be added</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not type of gara.jswt.TabItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>updates this tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the items in the tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._activateItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Activates an item and notifies the selection listener</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item to be activated</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not type of gara.jswt.TabItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the tabfolder</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this tabfolder</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getSelectionIndex" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the zero-related index of the selected item or -1 if there is no item selected</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the index of the selected item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Gets a specified item with a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the zero-related index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> if the index does not live within this tabfolder</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="gara.jswt.TabItem"> the item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with all the items in the tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TabItem[]"> the array with the items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Handles events for this tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._showContent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Shows off the content for the client area from the passed item</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item with the content</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this tabfolder</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TabItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with the items which are currently selected in the tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TabItem[]"> an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies selection listener about the changed selection within the List</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="TabItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TreeItem</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="TabItem.getToolTipText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the tooltip text for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="string"> the tooltip text</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.getContent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the content for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="string"> the content;</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.setContent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets content for this item that appears in the client area of the TabFolder when this item is activated. Use EITHER setContent OR setControl!</description>
+						<params>
+							<param type="string" name="content">
+								<description>the content</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.setToolTipText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the ToolTip text for this item</description>
+						<params>
+							<param type="string" name="text">
+								<description>the tooltip text</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.update" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Update this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.getControl" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the content control for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.Control"> the control</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Event handler for this item. Its main use is to pass through keyboard eventsto all listeners.</description>
+						<params>
+							<param type="Event" name="e">
+								<description>DOMEvent</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem._setActive" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Set a new active state for this item</description>
+						<params>
+							<param type="boolean" name="the">
+								<description>new active state</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.setControl" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets a control for that appears in the client area of the TabFolder when this item is activated</description>
+						<params>
+							<param type="gara.jswt.Control" name="control">
+								<description>the control</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> when that is not a gara.jswt.Control</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Widget implementation to register listener</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem._create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Contstructs the dom for this tabitem</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="HTMLElement"> the created node</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="Table" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara Table Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Composite</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.Composite|HTMLElement" name="parent" isOptional="false">
+							<description>parent dom node or composite</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>The style for the list</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Table.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the table</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this table</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.select" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Selects an item</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item that should be selected</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a TableItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table._selectShift" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a Range of items. From shiftItem to the passed item.</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies all selection listeners about the selection change</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.deselect" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselects a specific item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to deselect</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this table</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to be removed from this table</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this table</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TableItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="TableColumn" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TableColumn</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="TableItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TableItem</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+			<class name="Tree" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara Tree Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Composite</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Tree.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Event Handler for the tree</description>
+						<params>
+							<param type="Event" name="">
+								<description> W3C-event</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.selectAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Select all items in the list</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._activateItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Activates an item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the new item to be activated</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with all the items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem[]"> an array with the items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Updates the widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this tree</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TreeItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._handleKeyEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Key Event Handler for the Tree</description>
+						<params>
+							<param type="Event" name="">
+								<description> W3C-Event</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._select" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a specific item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to select</description>
+							</param>
+						
+							<param type="boolean" name="_add">
+								<description>true for adding to the current selection, false will select only this item</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a TreeItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.setLinesVisible" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets lines visible or invisible.</description>
+						<params>
+							<param type="boolean" name="show">
+								<description>true if the lines should be visible or false for invisibility</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getSelectionCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the selected items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.deselectAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselect all items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getLinesVisible" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns whether the lines of the tree are visible or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true if the lines are visible and false if they are not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with the items which are currently selected in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem[]">an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the tree</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this tree</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.deselect" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselects a specific item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to deselect</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this tree</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to be removed from this tree</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._selectShift" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a Range of items. From shiftItem to the passed item.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns a specifiy item with a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the zero-related index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> if the index does not live within this tree</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="gara.jswt.TreeItem"> the item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies all selection listeners about the selection change</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to the tree. This is automatically done by instantiating a new item.</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the new item to be added</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="">
+								<description></description>
+							</throw>
+						</throws>
+						
+						
+						<return type=""></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._updateItems" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Update Items</description>
+						<params>
+							<param type="gara.jswt.TreeItem[]" name="items">
+								<description>to update</description>
+							</param>
+						
+							<param type="HTMLElement" name="parentNode">
+								<description>the parent dom node</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="TreeItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TreeItem</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="TreeItem._createChildContainer" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Create container for items</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Internal event handler</description>
+						<params>
+							<param type="Event" name="e">
+								<description>W3C event</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns a specifiy item with a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the zero-related index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="OutOfBoundsException">
+								<description> if the index does not live within this tree</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="gara.jswt.TreeItem"> the item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem._addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to this item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to be added</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> when the item is not type of a TreeItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem._getChildContainer" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Returns the child container</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="HTMLElement"> the child container</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getChecked" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the checked state for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> the checked state</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with all the items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem[]"> an array with the items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getParent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the widgets parent, which must be a <tt>Tree</tt></description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.Tree"> the parent of this widget</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getParentItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the item's parent item, which must be a <tt>TreeItem</tt> or null when the item is a root.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem"> the parent item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this tree</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TreeItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.removeAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes all items from that item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Registers Listener for this widget</description>
+						<params>
+							<param type="String" name="eventType">
+								<description>the event type</description>
+							</param>
+						
+							<param type="Object" name="listener">
+								<description>the listener</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.setExpanded" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets a new expanded state for the item</description>
+						<params>
+							<param type="boolean" name="expanded">
+								<description>the new expanded state</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem._hasChilds" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Returns wether there are items or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true wether there are items or false if there are non</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem._deselectItems" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Deselect all child items</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Internal method for creating a node representing an item. This is used forcreating a new item or put updated content to an existing node of an earlierpainted item.</description>
+						<params>
+							<param type="boolean" name="wether">
+								<description>this item is at the bottom position or not</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.setActive" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the item active or inactive</description>
+						<params>
+							<param type="boolean" name="active">
+								<description>true for active and false for inactive</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getExpanded" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the expanded state for this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> the expanded state</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.setChecked" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the checked state for this item</description>
+						<params>
+							<param type="boolean" name="checked">
+								<description>the new checked state</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.update" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Updates this item</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="Viewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Viewer.inputChange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Internal hook Method called when the input to this viewer isinitially set or subsequently changed.<p>The default implementation does nothing. Subclassers may override this method to do something when a viewer's input is set.A typical use is populate the viewer.</p></description>
+						<params>
+							<param type="" name="input">
+								<description>the new input of this viewer, or <code>null</code> if none</description>
+							</param>
+						
+							<param type="" name="oldInput">
+								<description>the old input element or <code>null</code> if there  was previously no input</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+			<class name="Widget" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>long description (just testing the doc...)</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees>
+					<see>http://gara.creative2.net</see>
+				
+					<see></see>
+				
+					<see><span style="color: #f00">doc-test... am i red?</span></see>
+				</sees>
+				
+				
+				
+				<summary>short description</summary>
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields>
+					<field type="HTMLElement" name="Widget.domref" isStatic="false" isPrivate="false">
+						<description>contains the DOM reference of the widget</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				</fields>
+				
+				<methods>
+					<method name="Widget.getStyle" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the style for this widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the style</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.addClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a CSS class to the item</description>
+						<params>
+							<param type="String" name="className">
+								<description>new class</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.removeListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a listener from this item</description>
+						<params>
+							<param type="String" name="eventType">
+								<description>the type of the event</description>
+							</param>
+						
+							<param type="Object" name="listener">
+								<description>the listener</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.getData" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns application based data for this widget, or <code>null</code> if it has not been set</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="Object"> application based data</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.getClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the CSS class names</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="String"> the class name(s)</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.getParent" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the parent for this widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.Widget|HTMLElement"> the widgets parent</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.setData" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets application based data for this widget</description>
+						<params>
+							<param type="Object" name="data">
+								<description>your data for this widget</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.hasClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tests if there is a specified classname existent</description>
+						<params>
+							<param type="String" name="the">
+								<description>class name to look for</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> wether there is this class or not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.addListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds an eventlistener to the widget</description>
+						<params>
+							<param type="String" name="eventType">
+								<description>the type of the event</description>
+							</param>
+						
+							<param type="Object" name="listener">
+								<description>the listener</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.removeClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a CSS class name from this item.</description>
+						<params>
+							<param type="String" name="className">
+								<description>the class name that should be removed</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget._notifyExternalKeyboardListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Workaround for passing keyboard events to the widget with focus</description>
+						<params>
+							<param type="Event" name="e">
+								<description>the event</description>
+							</param>
+						
+							<param type="gara.jswt.Widget" name="obj">
+								<description>the obj on which the event belongs to</description>
+							</param>
+						
+							<param type="gara.jswt.Control" name="control">
+								<description>the control to witch the event belongs</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces>
+			<interface name="FocusListener" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="FocusListener.focusGained" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>focus gained [DOCTEST]</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+			<interface name="IBaseLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann<p>A label provider maps an element of the viewer's model to an optional image and optional text string used to display the element in the viewer's control.Certain label providers may allow multiple labels per element. This is an "abstract interface", defining methods common to all label providers, but does not actually define the methods to get the label(s) for an element. This interface should never be directly implemented. Most viewers will take either an ILabelProvider or an ITableLabelProvider.</p></author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="IBaseLabelProvider.isLabelProperty" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns whether the label would be affected by a change to the givenproperty of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description></description>
+							</param>
+						
+							<param type="String" name="property">
+								<description></description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> <code>true</code> if the label would be affected, and <code>false</code> if it would be unaffected</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+			<interface name="IContentProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods></methods>
+			</interface>
+			
+			<interface name="ILabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas GossmannExtends <code>IBaseLabelProvider</code> with the methods to provide the text and/or image for the label of a given element. Used by most structured viewers, except table viewers.</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IBaseLabelProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="ILabelProvider.getImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the image for the label of the given element</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the element for which to provide the label image</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">the image used to label the element, or <code>null</code> if there is no image for the given object</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="ILabelProvider.getText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the text for the label of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the element for which to provide the label text</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">the text string used to label the element, or <code>null</code> if there is no text label for the given object</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+			<interface name="IStructuredContentProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IContentProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods></methods>
+			</interface>
+			
+			<interface name="ITableLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas GossmannExtends <code>IBaseLabelProvider</code> with the methods to provide the textand/or image for each column of a given element. Used by table viewers.</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IBaseLabelProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="ITableLabelProvider.getColumnText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the label text for the given column of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the object representing the entire row, or <code>null</code> indicating that no input object is set in the viewer</description>
+							</param>
+						
+							<param type="int" name="columnIndex">
+								<description>the zero-based index of the column in which the label appears</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">String or or <code>null</code> if there is no text for the given object at columnIndex</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="ITableLabelProvider.getColumnImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the label image for the given column of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the object representing the entire row, or <code>null</code> indicating that no input object is set in the viewer</description>
+							</param>
+						
+							<param type="int" name="columnIndex">
+								<description>the zero-based index of the column in which the label appears</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">Image or <code>null</code> if there is no image for the given object at columnIndex</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+			<interface name="SelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+
+				<fields></fields>
+				
+				<methods></methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions>
+			<function name="" isPrivate="true">
+				<description></description>
+				<params></params>
+				
+				<throws></throws>
+				
+				<returns></returns>
+			</function>
+		
+			<function name="strReplace" isPrivate="true">
+				<description></description>
+				<params></params>
+				
+				<throws></throws>
+				
+				<returns></returns>
+			</function>
+		</functions>
+	</file>
+</files>

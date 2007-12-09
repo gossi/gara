@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.EventManager" extends="">
+<item repl="addListener()" display="addListener() ">
+				&lt;[!CDATA[Adds a listener to a specified domNode and store the added event in the
+event manager.<b>Parameters:</b>
+<tt>HTMLElement domNode</tt> - the node where the event is added to<tt>DOMString type</tt> - the event type<tt>Object|Function listener</tt> - the desired action handler<b>Returns:</b> generated event-object for this listener
+				]]&gt;
+				</item>
+<item repl="removeListener()" display="removeListener() ">
+				&lt;[!CDATA[Removes a specified event<b>Parameters:</b>
+<tt>Event event</tt> - object which is returned by addListener()
+				]]&gt;
+				</item>
+</completion>

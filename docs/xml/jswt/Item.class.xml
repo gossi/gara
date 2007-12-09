@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Item.class.js" src="../../src/jswt/Item.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Item" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>'Abstract' Item class</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>gara.jswt.Widget</extends>
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description>Constructor of gara.jswt.Item</description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors>
+						<author>Thomas Gossmann</author>
+					</authors>
+					
+					<sees></sees>
+					
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Item.hasChanged" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether there is new data available since last question.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true if data changed, false if not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setSelected" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Set this item selected</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.releaseChange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Reset the change notification buffer to recognize new changes.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setActive" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the item active or inactive</description>
+						<params>
+							<param type="boolean" name="active">
+								<description>true for active and false for inactive</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.getText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the items text</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="String"> the text for this item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setUnselected" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Set this item unselected</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.isCreated" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether the item is created or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true if the item is created or false if not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.getImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the items image</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="Image"> the items image</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the text for the item</description>
+						<params>
+							<param type="String" name="text">
+								<description>the new text</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Item.setImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the image for the item</description>
+						<params>
+							<param type="Image" name="image">
+								<description>the new image</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> when image is not instance of Image</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

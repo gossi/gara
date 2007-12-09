@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="TableItem.class.js" src="../../src/jswt/TableItem.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="TableItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TableItem</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

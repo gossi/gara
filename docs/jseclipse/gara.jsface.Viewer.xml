@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jsface.Viewer" extends="">
+<item repl="inputChange()" display="inputChange() ">
+				&lt;[!CDATA[Internal hook Method called when the input to this viewer is
+initially set or subsequently changed.
+
+The default implementation does nothing. Subclassers may override 
+this method to do something when a viewer's input is set.
+A typical use is populate the viewer.
+<b>Parameters:</b>
+<tt> input</tt> - the new input of this viewer, or null if none<tt> oldInput</tt> - the old input element or null if there
+  was previously no input
+				]]&gt;
+				</item>
+</completion>

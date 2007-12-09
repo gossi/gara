@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.TabItem" extends="gara.jswt.Item">
+<item repl="getContent()" display="getContent() ">
+				&lt;[!CDATA[Returns the content for this item<b>Returns:</b> the content;
+				]]&gt;
+				</item>
+<item repl="getControl()" display="getControl() ">
+				&lt;[!CDATA[Returns the content control for this item<b>Returns:</b> the control
+				]]&gt;
+				</item>
+<item repl="getToolTipText()" display="getToolTipText() ">
+				&lt;[!CDATA[Returns the tooltip text for this item<b>Returns:</b> the tooltip text
+				]]&gt;
+				</item>
+<item repl="setContent()" display="setContent() ">
+				&lt;[!CDATA[Sets content for this item that appears in the client area of the TabFolder when 
+this item is activated. Use EITHER setContent OR setControl!<b>Parameters:</b>
+<tt>string content</tt> - the content
+				]]&gt;
+				</item>
+<item repl="setControl()" display="setControl() ">
+				&lt;[!CDATA[Sets a control for that appears in the client area of the TabFolder when this item is activated<b>Parameters:</b>
+<tt>gara.jswt.Control control</tt> - the control<b>Throws:</b>
+<tt>TypeError</tt> -  when that is not a gara.jswt.Control
+				]]&gt;
+				</item>
+<item repl="setToolTipText()" display="setToolTipText() ">
+				&lt;[!CDATA[Sets the ToolTip text for this item<b>Parameters:</b>
+<tt>string text</tt> - the tooltip text
+				]]&gt;
+				</item>
+</completion>

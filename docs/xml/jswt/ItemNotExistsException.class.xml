@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ItemNotExistsException.class.js" src="../../src/jswt/ItemNotExistsException.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="ItemNotExistsException" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>Exception</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

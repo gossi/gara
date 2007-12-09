@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.List" extends="gara.jswt.Control">
+<item repl="_activateItem()" display="_activateItem() ">
+				&lt;[!CDATA[Activates an item<b>Parameters:</b>
+<tt>gara.jswt.ListItem item</tt> - the item that should added to the List<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a ListItem
+				]]&gt;
+				</item>
+<item repl="_handleKeyEvent()" display="_handleKeyEvent() ">
+				&lt;[!CDATA[handling key events on the List<b>Parameters:</b>
+<tt>Event e</tt> - event the users triggers
+				]]&gt;
+				</item>
+<item repl="addItem()" display="addItem() ">
+				&lt;[!CDATA[Adds an item to the list (invoked by the constructor of ListItem)<b>Parameters:</b>
+<tt>gara.jswt.ListItem item</tt> - the item that should added to the List<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a ListItem
+				]]&gt;
+				</item>
+<item repl="registerListener()" display="registerListener() ">
+				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+				]]&gt;
+				</item>
+<item repl="selectRange()" display="selectRange() ">
+				&lt;[!CDATA[Selects a range. From the item with shift-lock to the passed item.<b>Parameters:</b>
+<tt>gara.jswt.ListItem item</tt> - the item that should be selected<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a ListItem
+				]]&gt;
+				</item>
+</completion>

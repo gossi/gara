@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Item" extends="gara.jswt.Widget">
+<item repl="getImage()" display="getImage() ">
+				&lt;[!CDATA[Returns the items image<b>Returns:</b> the items image
+				]]&gt;
+				</item>
+<item repl="getText()" display="getText() ">
+				&lt;[!CDATA[Returns the items text<b>Returns:</b> the text for this item
+				]]&gt;
+				</item>
+<item repl="hasChanged()" display="hasChanged() ">
+				&lt;[!CDATA[Tells wether there is new data available since last question.<b>Returns:</b> true if data changed, false if not
+				]]&gt;
+				</item>
+<item repl="isCreated()" display="isCreated() ">
+				&lt;[!CDATA[Tells wether the item is created or not<b>Returns:</b> true if the item is created or false if not
+				]]&gt;
+				</item>
+<item repl="releaseChange()" display="releaseChange() ">
+				&lt;[!CDATA[Reset the change notification buffer to recognize new changes.
+				]]&gt;
+				</item>
+<item repl="setActive()" display="setActive() ">
+				&lt;[!CDATA[Sets the item active or inactive<b>Parameters:</b>
+<tt>boolean active</tt> - true for active and false for inactive
+				]]&gt;
+				</item>
+<item repl="setImage()" display="setImage() ">
+				&lt;[!CDATA[Sets the image for the item<b>Parameters:</b>
+<tt>Image image</tt> - the new image<b>Throws:</b>
+<tt>TypeError</tt> -  when image is not instance of Image
+				]]&gt;
+				</item>
+<item repl="setSelected()" display="setSelected() ">
+				&lt;[!CDATA[Set this item selected
+				]]&gt;
+				</item>
+<item repl="setText()" display="setText() ">
+				&lt;[!CDATA[Sets the text for the item<b>Parameters:</b>
+<tt>String text</tt> - the new text
+				]]&gt;
+				</item>
+<item repl="setUnselected()" display="setUnselected() ">
+				&lt;[!CDATA[Set this item unselected
+				]]&gt;
+				</item>
+</completion>

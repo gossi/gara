@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="StructuredViewer.class.js" src="../../src/jsface/StructuredViewer.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="StructuredViewer" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.ContentViewer</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

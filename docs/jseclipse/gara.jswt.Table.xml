@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Table" extends="gara.jswt.Composite">
+<item repl="addSelectionListener()" display="addSelectionListener() ">
+				&lt;[!CDATA[Adds a selection listener on the table<b>Parameters:</b>
+<tt>gara.jswt.SelectionListener listener</tt> - the desired listener to be added to this table<b>Throws:</b>
+<tt>TypeError</tt> -  if the listener is not a SelectionListener
+				]]&gt;
+				</item>
+<item repl="deselect()" display="deselect() ">
+				&lt;[!CDATA[Deselects a specific item<b>Parameters:</b>
+<tt>gara.jswt.TreeItem item</tt> - the item to deselect
+				]]&gt;
+				</item>
+<item repl="indexOf()" display="indexOf() ">
+				&lt;[!CDATA[Looks for the index of a specified item<b>Parameters:</b>
+<tt>gara.jswt.TableItem item</tt> - the item for the index<b>Throws:</b>
+<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this table<tt>TypeError</tt> -  if the item is not a TableItem<b>Returns:</b> the index of the specified item
+				]]&gt;
+				</item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() ">
+				&lt;[!CDATA[Removes a selection listener from this table<b>Parameters:</b>
+<tt>gara.jswt.SelectionListener listener</tt> - the listener to be removed from this table<b>Throws:</b>
+<tt>TypeError</tt> -  if the listener is not a SelectionListener
+				]]&gt;
+				</item>
+<item repl="select()" display="select() ">
+				&lt;[!CDATA[Selects an item<b>Parameters:</b>
+<tt>gara.jswt.TableItem item</tt> - the item that should be selected<b>Throws:</b>
+<tt>TypeError</tt> -  if the item is not a TableItem
+				]]&gt;
+				</item>
+</completion>

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ITableLabelProvider.interface.js" src="../../src/jsface/ITableLabelProvider.interface.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces>
+			<interface name="ITableLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas GossmannExtends <code>IBaseLabelProvider</code> with the methods to provide the textand/or image for each column of a given element. Used by table viewers.</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IBaseLabelProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="ITableLabelProvider.getColumnText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the label text for the given column of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the object representing the entire row, or <code>null</code> indicating that no input object is set in the viewer</description>
+							</param>
+						
+							<param type="int" name="columnIndex">
+								<description>the zero-based index of the column in which the label appears</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">String or or <code>null</code> if there is no text for the given object at columnIndex</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="ITableLabelProvider.getColumnImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the label image for the given column of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the object representing the entire row, or <code>null</code> indicating that no input object is set in the viewer</description>
+							</param>
+						
+							<param type="int" name="columnIndex">
+								<description>the zero-based index of the column in which the label appears</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">Image or <code>null</code> if there is no image for the given object at columnIndex</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

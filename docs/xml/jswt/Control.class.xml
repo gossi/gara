@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Control.class.js" src="../../src/jswt/Control.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Control" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>gara.jswt.Widget</extends>
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Control.handleEvent" isStatic="false" isPrivate="true" isAbstract="true">
+						<description></description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.forceFocus" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Forces this control to gain focus</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.addFocusListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a focus changed listener on the control</description>
+						<params>
+							<param type="FocusListener" name="the">
+								<description>desired listener to be added to this control</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not implementing the FocusListener interface</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Control.isFocusControl" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether the control has focus or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true for having the focus and false if not</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.looseFocus" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Forces this control to loose focus</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Control.removeFocusListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a focus listener from this control</description>
+						<params>
+							<param type="FocusListener" name="the">
+								<description>listener to remove from this control</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> wether this is not a FocusListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

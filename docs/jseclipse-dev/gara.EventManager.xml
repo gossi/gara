@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.EventManager" extends="">
+<item repl="_instance" display="_instance">
+				&lt;[!CDATA[Stores THE instance]]&gt;
+				</item>
+<item repl="_unregisterAllEvents()" display="_unregisterAllEvents() ">
+				&lt;[!CDATA[Removes all stored listeners on the page unload.
+				]]&gt;
+				</item>
+<item repl="handleEvent()" display="handleEvent() ">
+				&lt;[!CDATA[handleEvent is used to catch the unload-event of the window and pass
+it to _unregisterAllEvents() to free up memory.
+				]]&gt;
+				</item>
+</completion>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="IStructuredContentProvider.interface.js" src="../../src/jsface/IStructuredContentProvider.interface.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces>
+			<interface name="IStructuredContentProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IContentProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods></methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

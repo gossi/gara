@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Hierarchy>
+<Tree>
+<Class name="EventManager" namespace="gara"/>
+<Class name="JSWT" namespace="gara.jswt"/>
+<Class name="LabelProvider" namespace="gara.jsface"/>
+<Class name="Package" namespace="gara"/>
+<Class name="Viewer" namespace="gara.jsface">
+<Class name="ContentViewer" namespace="gara.jsface">
+<Class name="StructuredViewer" namespace="gara.jsface">
+<Class name="AbstractListViewer" namespace="gara.jsface">
+<Class name="ListViewer" namespace="gara.jsface"/>
+</Class>
+</Class>
+</Class>
+</Class>
+<Class name="Widget" namespace="gara.jswt">
+<Class name="Control" namespace="gara.jswt">
+<Class name="Composite" namespace="gara.jswt">
+<Class name="TabFolder" namespace="gara.jswt"/>
+<Class name="Table" namespace="gara.jswt"/>
+<Class name="Tree" namespace="gara.jswt"/>
+</Class>
+<Class name="List" namespace="gara.jswt"/>
+</Class>
+<Class name="Item" namespace="gara.jswt">
+<Class name="ListItem" namespace="gara.jswt"/>
+<Class name="TabItem" namespace="gara.jswt"/>
+<Class name="TableColumn" namespace="gara.jswt"/>
+<Class name="TableItem" namespace="gara.jswt"/>
+<Class name="TreeItem" namespace="gara.jswt"/>
+</Class>
+</Class>
+<Interface name="FocusListener" namespace="gara.jswt"/>
+<Interface name="IBaseLabelProvider" namespace="gara.jsface">
+<Interface name="ILabelProvider" namespace="gara.jsface"/>
+<Interface name="ITableLabelProvider" namespace="gara.jsface"/>
+</Interface>
+<Interface name="IContentProvider" namespace="gara.jsface">
+<Interface name="IStructuredContentProvider" namespace="gara.jsface"/>
+</Interface>
+<Interface name="SelectionListener" namespace="gara.jswt"/>
+</Tree>
+<Flat>
+<Class name="AbstractListViewer" namespace="gara.jsface" extends="gara.jsface.StructuredViewer"/>
+<Class name="Composite" namespace="gara.jswt" extends="gara.jswt.Control"/>
+<Class name="ContentViewer" namespace="gara.jsface" extends="gara.jsface.Viewer"/>
+<Class name="Control" namespace="gara.jswt" extends="gara.jswt.Widget"/>
+<Class name="EventManager" namespace="gara" extends=""/>
+<Class name="Item" namespace="gara.jswt" extends="gara.jswt.Widget"/>
+<Class name="ItemNotExistsException" namespace="gara.jswt" extends="Exception"/>
+<Class name="JSWT" namespace="gara.jswt" extends=""/>
+<Class name="LabelProvider" namespace="gara.jsface" extends=""/>
+<Class name="List" namespace="gara.jswt" extends="gara.jswt.Control"/>
+<Class name="ListItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="ListViewer" namespace="gara.jsface" extends="gara.jsface.AbstractListViewer"/>
+<Class name="OutOfBoundsException" namespace="gara" extends="Exception"/>
+<Class name="Package" namespace="gara" extends=""/>
+<Class name="StructuredViewer" namespace="gara.jsface" extends="gara.jsface.ContentViewer"/>
+<Class name="TabFolder" namespace="gara.jswt" extends="gara.jswt.Composite"/>
+<Class name="TabItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="Table" namespace="gara.jswt" extends="gara.jswt.Composite"/>
+<Class name="TableColumn" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="TableItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="Tree" namespace="gara.jswt" extends="gara.jswt.Composite"/>
+<Class name="TreeItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="Viewer" namespace="gara.jsface" extends=""/>
+<Class name="Widget" namespace="gara.jswt" extends=""/>
+<Interface name="FocusListener" namespace="gara.jswt" extends=""/>
+<Interface name="IBaseLabelProvider" namespace="gara.jsface" extends=""/>
+<Interface name="IContentProvider" namespace="gara.jsface" extends=""/>
+<Interface name="ILabelProvider" namespace="gara.jsface" extends="gara.jsface.IBaseLabelProvider"/>
+<Interface name="IStructuredContentProvider" namespace="gara.jsface" extends="gara.jsface.IContentProvider"/>
+<Interface name="ITableLabelProvider" namespace="gara.jsface" extends="gara.jsface.IBaseLabelProvider"/>
+<Interface name="SelectionListener" namespace="gara.jswt" extends=""/>
+</Flat>
+</Hierarchy>

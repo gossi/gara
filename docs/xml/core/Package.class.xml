@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Package.class.js" src="../../src/core/Package.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Package" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

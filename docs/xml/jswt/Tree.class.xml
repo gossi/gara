@@ -1,0 +1,588 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Tree.class.js" src="../../src/jswt/Tree.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Tree" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara Tree Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Composite</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Tree.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Event Handler for the tree</description>
+						<params>
+							<param type="Event" name="">
+								<description> W3C-event</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.selectAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Select all items in the list</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._activateItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Activates an item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the new item to be activated</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with all the items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem[]"> an array with the items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Updates the widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this tree</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TreeItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._handleKeyEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Key Event Handler for the Tree</description>
+						<params>
+							<param type="Event" name="">
+								<description> W3C-Event</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._select" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a specific item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to select</description>
+							</param>
+						
+							<param type="boolean" name="_add">
+								<description>true for adding to the current selection, false will select only this item</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a TreeItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.setLinesVisible" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets lines visible or invisible.</description>
+						<params>
+							<param type="boolean" name="show">
+								<description>true if the lines should be visible or false for invisibility</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getSelectionCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the selected items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.deselectAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselect all items in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getLinesVisible" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns whether the lines of the tree are visible or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true if the lines are visible and false if they are not</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with the items which are currently selected in the tree</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem[]">an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the tree</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this tree</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.deselect" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselects a specific item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to deselect</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this tree</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to be removed from this tree</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._selectShift" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a Range of items. From shiftItem to the passed item.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.getItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns a specifiy item with a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the zero-related index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> if the index does not live within this tree</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="gara.jswt.TreeItem"> the item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies all selection listeners about the selection change</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to the tree. This is automatically done by instantiating a new item.</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the new item to be added</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="">
+								<description></description>
+							</throw>
+						</throws>
+						
+						
+						<return type=""></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._updateItems" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Update Items</description>
+						<params>
+							<param type="gara.jswt.TreeItem[]" name="items">
+								<description>to update</description>
+							</param>
+						
+							<param type="HTMLElement" name="parentNode">
+								<description>the parent dom node</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

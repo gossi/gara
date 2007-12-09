@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Table.class.js" src="../../src/jswt/Table.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Table" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara Table Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Composite</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.Composite|HTMLElement" name="parent" isOptional="false">
+							<description>parent dom node or composite</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>The style for the list</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Table.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the table</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this table</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.select" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Selects an item</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item that should be selected</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a TableItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table._selectShift" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Selects a Range of items. From shiftItem to the passed item.</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies all selection listeners about the selection change</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.deselect" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Deselects a specific item</description>
+						<params>
+							<param type="gara.jswt.TreeItem" name="item">
+								<description>the item to deselect</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this table</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to be removed from this table</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this table</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TableItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Table" extends="gara.jswt.Composite">
+<item repl="_notifySelectionListener()" display="_notifySelectionListener() ">
+				&lt;[!CDATA[Notifies all selection listeners about the selection change
+				]]&gt;
+				</item>
+<item repl="_selectShift()" display="_selectShift() ">
+				&lt;[!CDATA[Selects a Range of items. From shiftItem to the passed item.<b>Parameters:</b>
+<tt>gara.jswt.TableItem item</tt> - the item
+				]]&gt;
+				</item>
+</completion>

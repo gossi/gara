@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="EventManager.class.js" src="../../src/core/EventManager.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="EventManager" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>EventManager is used to store all event listeners throughout the document.This helps to keep all listeners stored in one point and also pretend memoryleaks by releasing all listeners at the unload event.</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees>
+					<see>http://ajaxcookbook.org/event-handling-memory-leaks/</see>
+				</sees>
+				
+				
+				
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields>
+					<field type="" name="EventManager._instance" isStatic="false" isPrivate="true">
+						<description>Stores THE instance</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				</fields>
+				
+				<methods>
+					<method name="EventManager.addListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a listener to a specified domNode and store the added event in theevent manager.</description>
+						<params>
+							<param type="HTMLElement" name="domNode">
+								<description>the node where the event is added to</description>
+							</param>
+						
+							<param type="DOMString" name="type">
+								<description>the event type</description>
+							</param>
+						
+							<param type="Object|Function" name="listener">
+								<description>the desired action handler</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="Event"> generated event-object for this listener</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="EventManager._unregisterAllEvents" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Removes all stored listeners on the page unload.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="EventManager.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>handleEvent is used to catch the unload-event of the window and passit to _unregisterAllEvents() to free up memory.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="EventManager.removeListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a specified event</description>
+						<params>
+							<param type="Event" name="event">
+								<description>object which is returned by addListener()</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees>
+							<see></see>
+						</sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

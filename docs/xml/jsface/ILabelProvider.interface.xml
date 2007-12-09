@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ILabelProvider.interface.js" src="../../src/jsface/ILabelProvider.interface.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces>
+			<interface name="ILabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas GossmannExtends <code>IBaseLabelProvider</code> with the methods to provide the text and/or image for the label of a given element. Used by most structured viewers, except table viewers.</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IBaseLabelProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="ILabelProvider.getImage" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the image for the label of the given element</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the element for which to provide the label image</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">the image used to label the element, or <code>null</code> if there is no image for the given object</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="ILabelProvider.getText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the text for the label of the given element.</description>
+						<params>
+							<param type="Object" name="element">
+								<description>the element for which to provide the label text</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="">the text string used to label the element, or <code>null</code> if there is no text label for the given object</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

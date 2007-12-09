@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Widget" extends="">
+<item repl="_notifyExternalKeyboardListener()" display="_notifyExternalKeyboardListener() ">
+				&lt;[!CDATA[Workaround for passing keyboard events to the widget with focus<b>Parameters:</b>
+<tt>Event e</tt> - the event<tt>gara.jswt.Widget obj</tt> - the obj on which the event belongs to<tt>gara.jswt.Control control</tt> - the control to witch the event belongs
+				]]&gt;
+				</item>
+</completion>

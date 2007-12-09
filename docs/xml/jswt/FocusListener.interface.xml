@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="FocusListener.interface.js" src="../../src/jswt/FocusListener.interface.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces>
+			<interface name="FocusListener" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+
+				<fields></fields>
+				
+				<methods>
+					<method name="FocusListener.focusGained" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>focus gained [DOCTEST]</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

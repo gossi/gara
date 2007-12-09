@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<completion prefix="gara.jswt.Widget" extends="">
+<item repl="domref" display="domref">
+				&lt;[!CDATA[contains the DOM reference of the widget]]&gt;
+				</item>
+<item repl="addClassName()" display="addClassName() ">
+				&lt;[!CDATA[Adds a CSS class to the item<b>Parameters:</b>
+<tt>String className</tt> - new class
+				]]&gt;
+				</item>
+<item repl="addListener()" display="addListener() ">
+				&lt;[!CDATA[Adds an eventlistener to the widget<b>Parameters:</b>
+<tt>String eventType</tt> - the type of the event<tt>Object listener</tt> - the listener
+				]]&gt;
+				</item>
+<item repl="getClassName()" display="getClassName() ">
+				&lt;[!CDATA[Returns the CSS class names<b>Returns:</b> the class name(s)
+				]]&gt;
+				</item>
+<item repl="getData()" display="getData() ">
+				&lt;[!CDATA[Returns application based data for this widget, or null if it has not been set<b>Returns:</b> application based data
+				]]&gt;
+				</item>
+<item repl="getParent()" display="getParent() ">
+				&lt;[!CDATA[Returns the parent for this widget<b>Returns:</b> the widgets parent
+				]]&gt;
+				</item>
+<item repl="getStyle()" display="getStyle() ">
+				&lt;[!CDATA[Returns the style for this widget<b>Returns:</b> the style
+				]]&gt;
+				</item>
+<item repl="hasClassName()" display="hasClassName() ">
+				&lt;[!CDATA[Tests if there is a specified classname existent<b>Parameters:</b>
+<tt>String the</tt> - class name to look for<b>Returns:</b> wether there is this class or not
+				]]&gt;
+				</item>
+<item repl="removeClassName()" display="removeClassName() ">
+				&lt;[!CDATA[Removes a CSS class name from this item.<b>Parameters:</b>
+<tt>String className</tt> - the class name that should be removed
+				]]&gt;
+				</item>
+<item repl="removeListener()" display="removeListener() ">
+				&lt;[!CDATA[Removes a listener from this item<b>Parameters:</b>
+<tt>String eventType</tt> - the type of the event<tt>Object listener</tt> - the listener
+				]]&gt;
+				</item>
+<item repl="setData()" display="setData() ">
+				&lt;[!CDATA[Sets application based data for this widget<b>Parameters:</b>
+<tt>Object data</tt> - your data for this widget
+				]]&gt;
+				</item>
+</completion>

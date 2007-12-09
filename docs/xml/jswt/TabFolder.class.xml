@@ -1,0 +1,467 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="TabFolder.class.js" src="../../src/jswt/TabFolder.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="TabFolder" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>gara TabFolder Widget</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Composite</extends>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params>
+						<param type="gara.jswt.Composite|HTMLElement" name="parent" isOptional="false">
+							<description>parent dom node or composite</description>
+						</param>
+					
+						<param type="int" name="style" isOptional="false">
+							<description>The style for the list</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="TabFolder.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this tabfolder</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to remove from this tabfolder</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getClientArea" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the client area off that tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="HTMLElement"> the client area node</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.setSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Selects the item at the given zero-related index in the tabfolder.Sets the tabfolders selection the the given array.Depends on the parameter</description>
+						<params>
+							<param type="mixed" name="arg">
+								<description>the given zero-related index or the given array</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> when there is no item for the given index</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to this tabfolder</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item to be added</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not type of gara.jswt.TabItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>updates this tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the items in the tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._activateItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Activates an item and notifies the selection listener</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item to be activated</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not type of gara.jswt.TabItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a selection listener on the tabfolder</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the desired listener to be added to this tabfolder</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getSelectionIndex" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the zero-related index of the selected item or -1 if there is no item selected</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the index of the selected item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getItem" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Gets a specified item with a zero-related index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the zero-related index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.OutOfBoundsException">
+								<description> if the index does not live within this tabfolder</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="gara.jswt.TabItem"> the item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getItems" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with all the items in the tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TabItem[]"> the array with the items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Handles events for this tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._showContent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Shows off the content for the client area from the passed item</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item with the content</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TabItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this tabfolder</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TabItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder.getSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with the items which are currently selected in the tabfolder</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TabItem[]"> an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabFolder._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies selection listener about the changed selection within the List</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>
