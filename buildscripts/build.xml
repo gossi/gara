@@ -328,7 +328,7 @@
 	</target>
 	
 	<target name=".jseclipsePackage">
-		<xslt basedir="${srcDir}" destdir="${destDir}" style="${basedir}/buildscripts/xml2jseclipse/class.xsl">
+		<xslt basedir="${srcDir}" destdir="${destDir}" style="${basedir}/buildscripts/xml2doc/jseclipse.xsl">
 			<mapper>
 				<regexpmapper from="^([^\\\/]+)\.class\.xml$$" to="${pkg}.\1.xml" handledirsep="true"/>
 			</mapper>
