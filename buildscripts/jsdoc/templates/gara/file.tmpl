@@ -1,0 +1,216 @@
+{#
+	XML Template for JsDoc Toolkit - This is called once for each source file.
+	Author: Thomas Gossmann unigossi@gmail.com
+	Last Modified: [2007-12-09 13:28]
+#}{! var escapeXML = function(xml){return (xml==null)? "" : xml.replace(/&/g, "&amp;").replace(/</g, "&lt;");} !}
+	<file name="{+data.name+}" src="{+data.src+}">
+		<overview><if test="data.getOverview()">
+			<if test="data.getOverview().name"><name>{+data.getOverview().name+}</name>
+			</if><description>{+escapeXML(data.getOverview().description)+}</description><for each="thisEtc" in="data.getOverview().getEtc()">
+			<{+thisEtc.title+}>{+escapeXML(thisEtc.description)+}</{+thisEtc.title+}></for>
+		</if></overview>
+		
+		<classes><if test="data.getClass()"><for each="thisClass" in="data.getClass()" sortby="keys">
+			<class name="{+thisClass.name+}" isStatic="{+thisClass.isStatic+}" isPrivate="{+thisClass.isPrivate+}" isAbstract="{+thisClass.isAbstract+}">
+				<description>{+thisClass.description+}</description>
+				
+				<authors><for each="thisAuthor" in="thisClass.getTag('author')">
+					<author>{+thisAuthor.description+}</author>
+				</for></authors>
+				
+				<sees><for each="thisSee" in="thisClass.getTag('see')">
+					<see>{+thisSee.description+}</see>
+				</for></sees>
+				
+				<if test="thisClass.getEtc()"><for each="thisTag" in="thisClass.getEtc()" sortby="keys">
+				<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+				<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+				</if></for></if>
+				
+				<if test="!thisClass.isStatic && thisClass.getConstructor()">
+				<constructor>
+					<for each="thisCtor" in="thisClass.getConstructor()">
+					<description>{+thisCtor.description+}</description>
+					<params><for each="thisParam" in="thisCtor.getParam()">
+						<param type="{+thisParam.type+}" name="{+thisParam.name+}" isOptional="{+thisParam.isOptional+}">
+							<description>{+thisParam.description+}</description>
+						</param>
+					</for></params>
+					
+					<throws><for each="thisThrow" in="thisCtor.getThrow()">
+						<throw type="{+thisThrow.type+}">
+							<description>{+thisThrow.description+}</description>
+						</throw>
+					</for></throws>
+					
+					<authors><for each="thisAuthor" in="thisCtor.getTag('author')">
+						<author>{+thisAuthor.description+}</author>
+					</for></authors>
+					
+					<sees><for each="thisSee" in="thisCtor.getTag('see')">
+						<see>{+thisSee.description+}</see>
+					</for></sees>
+					
+					<if test="thisCtor.getEtc()"><for each="thisTag" in="thisCtor.getEtc()" sortby="keys">
+					<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+					<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+					</if></for></if>
+					</for>
+				</constructor>
+				</if>
+				<fields><for each="thisField" in="thisClass.getField()">
+					<field type="{+thisField.type+}" name="{+thisField.name+}" isStatic="{+(thisClass.isStatic||thisField.isStatic)+}" isPrivate="{+thisField.isPrivate+}">
+						<description>{+thisField.description+}</description>
+						<authors><for each="thisAuthor" in="thisField.getTag('author')">
+							<author>{+thisAuthor.description+}</author>
+						</for></authors>
+						
+						<sees><for each="thisSee" in="thisField.getTag('see')">
+							<see>{+thisSee.description+}</see>
+						</for></sees>
+						
+						<if test="thisField.getEtc()"><for each="thisTag" in="thisField.getEtc()" sortby="keys">
+						<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+						<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+						</if></for></if>
+					</field>
+				</for></fields>
+				
+				<methods><for each="thisMethod" in="thisClass.getMethod()">
+					<method name="{+thisMethod.name+}" isStatic="{+(thisClass.isStatic||thisMethod.isStatic)+}" isPrivate="{+thisMethod.isPrivate+}" isAbstract="{+thisMethod.isAbstract+}">
+						<description>{+thisMethod.description+}</description>
+						<params><for each="thisParam" in="thisMethod.getParam()">
+							<param type="{+thisParam.type+}" name="{+thisParam.name+}">
+								<description>{+thisParam.description+}</description>
+							</param>
+						</for></params>
+						
+						<throws><for each="thisThrow" in="thisMethod.getThrow()">
+							<throw type="{+thisThrow.type+}">
+								<description>{+thisThrow.description+}</description>
+							</throw>
+						</for></throws>
+						
+						<for each="thisReturn" in="thisMethod.getReturn()">
+						<return type="{+thisReturn.type+}">{+thisReturn.description+}</return>
+						</for>
+						
+						<authors><for each="thisAuthor" in="thisMethod.getTag('author')">
+							<author>{+thisAuthor.description+}</author>
+						</for></authors>
+						
+						<sees><for each="thisSee" in="thisMethod.getTag('see')">
+							<see>{+thisSee.description+}</see>
+						</for></sees>
+						
+						<if test="thisMethod.getEtc()"><for each="thisTag" in="thisMethod.getEtc()" sortby="keys">
+						<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+						<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+						</if></for></if>
+					</method>
+				</for></methods>
+			</class>
+			</for>
+		</if></classes>
+		
+		<interfaces><if test="data.getInterface()"><for each="thisInterface" in="data.getInterface()" sortby="keys">
+			<interface name="{+thisInterface.name+}" isStatic="{+thisInterface.isStatic+}" isPrivate="{+thisInterface.isPrivate+}" isAbstract="{+thisInterface.isAbstract+}">
+				<description>{+thisInterface.description+}</description>
+				
+				<authors><for each="thisAuthor" in="thisInterface.getTag('author')">
+					<author>{+thisAuthor.description+}</author>
+				</for></authors>
+				
+				<sees><for each="thisSee" in="thisInterface.getTag('see')">
+					<see>{+thisSee.description+}</see>
+				</for></sees>
+				
+				<if test="thisInterface.getEtc()"><for each="thisTag" in="thisInterface.getEtc()" sortby="keys">
+				<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+				<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+				</if></for></if>
+
+				<fields><for each="thisField" in="thisInterface.getField()">
+					<field type="{+thisField.type+}" name="{+thisField.name+}" isStatic="{+(thisInterface.isStatic||thisField.isStatic)+}" isPrivate="{+thisField.isPrivate+}">
+						<description>{+thisField.description+}</description>
+						<authors><for each="thisAuthor" in="thisField.getTag('author')">
+							<author>{+thisAuthor.description+}</author>
+						</for></authors>
+						
+						<sees><for each="thisSee" in="thisField.getTag('see')">
+							<see>{+thisSee.description+}</see>
+						</for></sees>
+						
+						<if test="thisField.getEtc()"><for each="thisTag" in="thisField.getEtc()" sortby="keys">
+						<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+						<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+						</if></for></if>
+					</field>
+				</for></fields>
+				
+				<methods><for each="thisMethod" in="thisInterface.getMethod()">
+					<method name="{+thisMethod.name+}" isStatic="{+(thisInterface.isStatic||thisMethod.isStatic)+}" isPrivate="{+thisMethod.isPrivate+}" isAbstract="{+thisMethod.isAbstract+}">
+						<description>{+thisMethod.description+}</description>
+						<params><for each="thisParam" in="thisMethod.getParam()">
+							<param type="{+thisParam.type+}" name="{+thisParam.name+}">
+								<description>{+thisParam.description+}</description>
+							</param>
+						</for></params>
+						
+						<throws><for each="thisThrow" in="thisMethod.getThrow()">
+							<throw type="{+thisThrow.type+}">
+								<description>{+thisThrow.description+}</description>
+							</throw>
+						</for></throws>
+						
+						<for each="thisReturn" in="thisMethod.getReturn()">
+						<return type="{+thisReturn.type+}">{+thisReturn.description+}</return>
+						</for>
+						
+						<authors><for each="thisAuthor" in="thisMethod.getTag('author')">
+							<author>{+thisAuthor.description+}</author>
+						</for></authors>
+						
+						<sees><for each="thisSee" in="thisMethod.getTag('see')">
+							<see>{+thisSee.description+}</see>
+						</for></sees>
+						
+						<if test="thisMethod.getEtc()"><for each="thisTag" in="thisMethod.getEtc()" sortby="keys">
+						<if test="thisTag.title != 'author' && thisTag.title != 'see'">
+						<{+thisTag.title+}><if test="thisTag.name != ''">{+thisTag.name+}</if><if test="thisTag.name == '' && thisTag.description != ''">{+thisTag.description+}</if></{+thisTag.title+}>
+						</if></for></if>
+					</method>
+				</for></methods>
+			</interface>
+			</for>
+		</if></interfaces>
+		
+		<globals><for each="thisGlobal" in="data.getGlobal()">
+			<global name="{+thisGlobal.name+}" isPrivate="{+thisGlobal.isPrivate+}">
+				<description>{+escapeXML(thisGlobal.description)+}</description>
+			</global>
+		</for></globals>
+		
+		<functions><for each="thisFunction" in="data.getFunction()">
+			<function name="{+thisFunction.name+}" isPrivate="{+thisFunction.isPrivate+}">
+				<description>{+escapeXML(thisFunction.description)+}</description>
+				<params><for each="thisParam" in="thisFunction.getParam()">
+					<param type="{+thisParam.type+}" name="{+thisParam.name+}">
+						<description>{+escapeXML(thisParam.description)+}</description>
+					</param>
+				</for></params>
+				
+				<throws><for each="thisThrow" in="thisFunction.getThrow()">
+					<throw type="{+thisThrow.type+}">
+						<description>{+escapeXML(thisThrow.description)+}</description>
+					</throw>
+				</for></throws>
+				
+				<returns><for each="thisReturn" in="thisFunction.getReturn()">
+					<return type="{+thisReturn.type+}">
+						<description>{+escapeXML(thisReturn.description)+}</description>
+					</return>
+				</for></returns>
+			</function>
+		</for></functions>
+	</file>
