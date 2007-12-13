@@ -653,7 +653,7 @@ $class("Tree", {
 			this.domref = document.createElement("ul");
 			this.domref.obj = this;
 			this.domref.control = this;
-			base2.DOM.EventTarget(this._domref);
+			base2.DOM.EventTarget(this.domref);
 
 			/* buffer unregistered user-defined listeners */
 			var unregisteredListener = {};			
@@ -725,7 +725,6 @@ $class("Tree", {
 				item.releaseChange();
 			}
 
-	
 			if (item.getItemCount() > 0) {
 				var childContainer = item._getChildContainer();
 				this._updateItems(item.getItems(), childContainer);			
