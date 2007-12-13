@@ -45,6 +45,10 @@ $class("ListViewer", {
 		return this._list;
 	},
 	
+	getList : function() {
+		return this._list;
+	},
+	
 	_listRemoveAll : function() {
 		this._list.removeAll();
 	},
