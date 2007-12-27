@@ -34,7 +34,8 @@ $class("StructuredViewer", {
 	 * @constructor
 	 */
 	$constructor : function() {
-		
+		this._map = [];
+		this._items = [];
 	},
 
 	_getRawChildren : function(parent) {
@@ -52,8 +53,13 @@ $class("StructuredViewer", {
 	_getRoot : function() {
 		return this._input;
 	},
-	
+
 	_internalRefresh : function() {},
+
+	_mapElement : function(el, item) {
+		this._map.push(el);
+		this._items.push(item);
+	},
 
 	refresh : function(updateLabels) {
 		this._internalRefresh();
@@ -65,6 +71,13 @@ $class("StructuredViewer", {
 	},
 
 	_unmapAllElements : function() {
-		
+		this._map.clear();
+		this._items.clear();
+	},
+
+	_unmapElement : function(el) {
+		var index = this._map.indexOf(el);
+		this._items.removeAt(index);
+		this._map.removeAt(index);
 	}
 });

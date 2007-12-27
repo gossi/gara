@@ -32,13 +32,13 @@ $class("AbstractListViewer", {
 
 	/**
 	 * @constructor
-	 * Top Constructor von die AbstractListViewer
+	 * 
 	 */
 	$constructor : function() {
 	},
-	
-	_createListItem : $abstract(function(element) {}),
-	
+
+	_createListItem : $abstract(function(element, index) {}),
+
 	getControl : $abstract(function() {}),
 
 	_getLabelProviderText : function(labelProvider, element) {
@@ -49,40 +49,61 @@ $class("AbstractListViewer", {
 
 		return text;
 	},
-	
+
 	inputChanged : function(input, oldInput) {
 		this._listRemoveAll();
-		
-		var children = this._getRawChildren(this._getRoot());
 
-		/*
-		 * This is what the original jface code looks like. Well.. due to easier
-		 * image management on websites, we can make this also a little easier
-		 * here :-)
-		 */
-//		var labels = new Array();
-//		
-//		for (var i = 0; i < children.length; ++i) {
-//			var el = children[i];
-//			labels.push(this._getLabelProviderText(this.getLabelProvider(), el));
-//			this._listMap.push(el);
-//		}
-//
-//		this._listSetItems(labels);
+		var children = this._getRawChildren(this._getRoot());
 		
-		for (var i = 0; i < children.length; ++i) {
+		for (var i = 0, len = children.length; i < len; ++i) {
 			var el = children[i];
-			this._createListItem(el);
+			this._mapElement(el, this._createListItem(el));
 		}
 		
-		this.refresh();
+		this._internalRefresh();
 	},
-	
+
 	_internalRefresh : function() {
 		this.getControl().update();
 	},
-	
+
 	_listRemoveAll : $abstract(function() {}),
-	
-	_listSetItems : $abstract(function() {})	
+
+	_listSetItems : $abstract(function() {}),
+
+	refresh : function() {
+		var children = this._getRawChildren(this._getRoot());
+		var handledChildren = [];
+
+		for (var i = 0, len = children.length; i < len; ++i) {
+			var el = children[i];
+
+			// add item
+			if (!this._map.contains(el)) {
+				this._mapElement(el, this._createListItem(el, i));
+			}
+			// update
+			else {
+				var item = this._items[this._map.indexOf(el)];
+				item.setText(this._getLabelProviderText(this.getLabelProvider(), el));
+				item.setImage(this.getLabelProvider().getImage(el));
+			}
+			handledChildren.push(el);
+		}
+
+		// delete loop
+		for (var i = 0, len = this._map.length; i < len; ++i) {
+			var el = this._map[i];
+
+			// delete item in the widget
+			if (!handledChildren.contains(el)) {
+				this.getControl().remove(i);
+				this._unmapElement(el);
+			}
+		}
+
+		delete handledChildren;
+
+		this._internalRefresh();
+	}
 });
