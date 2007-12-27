@@ -58,12 +58,16 @@
 		
 		<file name="IContentProvider.interface.js"/>
 		<file name="IStructuredContentProvider.interface.js"/>
+		<file name="ITreeContentProvider.interface.js"/>
 		
 		<file name="Viewer.class.js"/>
 		<file name="ContentViewer.class.js"/>
 		<file name="StructuredViewer.class.js"/>
 		<file name="AbstractListViewer.class.js"/>
 		<file name="ListViewer.class.js"/>
+		<file name="ColumnViewer.class.js"/>
+		<file name="AbstractTreeViewer.class.js"/>
+		<file name="TreeViewer.class.js"/>
 	</filelist>
 
 	<target name="-cleanupCommon">
