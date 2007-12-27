@@ -78,7 +78,11 @@ $class("TreeItem", {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
-		this._items.insertAt(index, item);
+		if (typeof(index) != "undefined") {
+			this._items.insertAt(index, item);
+		} else {
+			this._items.push(item);
+		}
 	},
 
 	/**
