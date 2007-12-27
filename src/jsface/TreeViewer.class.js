@@ -35,7 +35,7 @@ $class("TreeViewer", {
 	},
 
 	_createTreeItem : function(parent, el, index) {
-		var item = new gara.jswt.TreeItem(parent, JSWT.DEFAULT, index);
+		var item = new gara.jswt.TreeItem(parent, gara.jswt.JSWT.DEFAULT, index);
 		item.setText(this._getLabelProviderText(this.getLabelProvider(), el));
 		item.setImage(this.getLabelProvider().getImage(el));
 		item.setData(el);
