@@ -86,21 +86,39 @@ $class("Tree", {
 	 * @throws WrongObjectException
 	 * @return void
 	 */
-	_addItem : function(item) {
+	_addItem : function(item, index) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
-		var parentItem = item.getParentItem()
+		var parentItem = item.getParentItem();
+		
+		// first level item
 		if (parentItem == null) {
-			this._items.push(item);
-			this._firstLevelItems.push(item);
-		} else {
-			var index = this._items.indexOf(parentItem)
+			var append = typeof(index) == "undefined";
+			
+			var previousItem = this._firstLevelItems[index];
+			if (previousItem) {
+				var nextItemIndex = getDescendents(previousItem) + 1;
+				this._items.insertAt(nextItemIndex, item);
+				this._firstLevelItems.insertAt(index, item);
+			} else {
+				append = true;
+			}
+			
+			if (append) {
+				this._items.push(item);
+				this._firstLevelItems.push(item);
+			}
+			
+		}
+		// childs
+		else {
+			index = this._items.indexOf(parentItem)
 				+ getDescendents(parentItem)
 				+ 1;
 
-			this._items.splice(index, 0, item);
+			this._items.insertAt(index, item);
 		}
 
 		function getDescendents(item) {
@@ -127,7 +145,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
-		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not type of gara.jswt.SelectionListener");
 		}
 		
@@ -187,29 +205,29 @@ $class("Tree", {
 			throw new gara.OutOfBoundsException("Your item lives outside of this Tree");
 		}
 	
-		return this._items[index];
+		return this._firstLevelItems[index];
 	},
 
 	/**
 	 * @method
-	 * Returns the amount of the items in the tree
+	 * Returns the amount of items that are direct items of the tree
 	 * 
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
 	getItemCount : function() {
-		return this._items.length;
+		return this._firstLevelItems.length;
 	},
 
 	/**
 	 * @method
-	 * Returns an array with all the items in the tree
+	 * Returns an array with direct items of the tree
 	 * 
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TreeItem[]} an array with the items
 	 */
 	getItems : function() {
-		return this._items;
+		return this._firstLevelItems;
 	},
 
 	/**
@@ -488,11 +506,11 @@ $class("Tree", {
 			throw new TypeError("item not instance of gara.jswt.TreeItem");
 		}
 
-		if (!this._items.contains(item)) {
+		if (!this._firstLevelItems.contains(item)) {
 			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
 		}
 
-		return this._items.indexOf(item);
+		return this._firstLevelItems.indexOf(item);
 	},
 
 	/**
@@ -520,6 +538,79 @@ $class("Tree", {
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+		}
+	},
+	
+	/**
+	 * @method
+	 * Removes an item from the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the index of the item
+	 * @return {void}
+	 */
+	remove : function(index) {
+		var item = this._firstLevelItems.removeAt(index)[0];
+		this.domref.removeChild(item.domref);
+		delete item;
+	},
+	
+	/**
+	 * @method
+	 * Removes items within an indices range
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} start start index
+	 * @param {int} end end index
+	 * @return {void}
+	 */
+	removeRange : function(start, end) {
+		for (var i = start; i <= end; ++i) {
+			this.remove(i);
+		}
+	},
+	
+	/**
+	 * @method
+	 * Removes items which indices are passed by an array
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} inidices the array with the indices
+	 * @return {void}
+	 */
+	removeFromArray : function(indices) {
+		indices.forEach(function(item, index, arr) {
+			this.remove(index);
+		}, this);
+	},
+	
+	/**
+	 * @method
+	 * Removes all items from the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	removeAll : function() {
+		while (this._firstLevelItems.length) {
+			var item = this._firstLevelItems.pop();
+			this.domref.removeChild(item.domref);
+			delete item;
+		}
+	},
+	
+	/**
+	 * @method
+	 * Removes all items from the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	removeAll : function() {
+		while (this._firstLevelItems.length) {
+			var item = this._firstLevelItems.pop();
+			this.domref.removeChild(item.domref);
+			delete item;
 		}
 	},
 
@@ -608,8 +699,8 @@ $class("Tree", {
 		}
 
 		if ((this._style & JSWT.MULTI) == JSWT.MULTI) {
-			var indexShift = this.indexOf(this._shiftItem);
-			var indexItem = this.indexOf(item);
+			var indexShift = this._items.indexOf(this._shiftItem);
+			var indexItem = this._items.indexOf(item);
 			var from = indexShift > indexItem ? indexItem : indexShift;
 			var to = indexShift < indexItem ? indexItem : indexShift;
 
@@ -711,11 +802,9 @@ $class("Tree", {
 	_updateItems : function(items, parentNode) {
 		var itemCount = items.length;
 		items.forEach(function(item, index, arr) {
-			var bottom = (index + 1) == itemCount;
-
 			// create item ...
 			if (!item.isCreated()) {
-				item.create(bottom);
+				item.create();
 				parentNode.appendChild(item.domref);
 			}
 
@@ -728,20 +817,6 @@ $class("Tree", {
 			if (item.getItemCount() > 0) {
 				var childContainer = item._getChildContainer();
 				this._updateItems(item.getItems(), childContainer);			
-			}
-
-			if (bottom && item.getClassName().indexOf("bottom") == -1) {
-				item.addClassName("bottom");
-				if (item.getItemCount() > 0) {
-					var cc = item._getChildContainer();
-					cc.className = "bottom";
-				}
-			} else if (!bottom && item.getClassName().indexOf("bottom") != -1) {
-				item.removeClassName("bottom");
-				if (item.getItemCount() > 0) {
-					var cc = item._getChildContainer();
-					cc.className = null;
-				}
 			}
 		}, this);
 	}

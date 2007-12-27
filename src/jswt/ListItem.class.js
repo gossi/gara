@@ -22,7 +22,10 @@
 */
 
 /**
+ * @summary
  * gara ListItem for List Widget
+ * 
+ * @description
  * 
  * @class ListItem
  * @author Thomas Gossmann
@@ -39,17 +42,18 @@ $class("ListItem", {
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.List} parent the List Widget for this item
 	 * @param {int} style the style for this item
+	 * @param {int} index index to insert the item at
 	 * @throws {TypeError} if the list is not a List widget
 	 * @return {gara.jswt.ListItem}
 	 */
-	$constructor : function(parent, style) {
+	$constructor : function(parent, style, index) {
 		if (!$class.instanceOf(parent, gara.jswt.List)) {
 			throw new TypeError("parent is not type of gara.jswt.List");
 		}
 		this.$base(parent, style);
 		this._parent = parent;
 		this._list = parent;
-		this._list.addItem(this);
+		this._list._addItem(this, index);
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
@@ -117,13 +121,10 @@ $class("ListItem", {
 	 * @return {void} 
 	 */
 	handleEvent : function(e) {
-		
 		switch (e.type) {
-			
 			case "keyup":
 			case "keydown":
 			case "keypress":
-			
 				this._notifyExternalKeyboardListener(e, this, this._list);
 				break;
 		}

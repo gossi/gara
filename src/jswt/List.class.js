@@ -22,7 +22,11 @@
 */
 
 /**
+ * @summary
  * gara List Widget
+ * 
+ * @description
+ * long description for the List Widget...
  * 
  * @class List
  * @author Thomas Gossmann
@@ -43,7 +47,7 @@ $class("List", {
 	 */
 	$constructor : function(parent, style) {
 		this.$base(parent, style);
-		
+
 		// List default style
 		if (this._style == JSWT.DEFAULT) {
 			this._style = JSWT.SINGLE;
@@ -91,11 +95,16 @@ $class("List", {
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {void}
 	 */
-	addItem : function(item) {
+	_addItem : function(item, index) {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
-		this._items.push(item);
+		
+		if (typeof(index) != "undefined") {
+			this._items.insertAt(index, item);
+		} else {
+			this._items.push(item);
+		}
 	},
 
 	/**
@@ -417,11 +426,63 @@ $class("List", {
 			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
 		}
 	},
-	
-	removeAll : function() {
-		this._items.forEach(function(item, index, arr) {
-			delete item;
+
+	/**
+	 * @method
+	 * Removes an item from the list
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the index of the item
+	 * @return {void}
+	 */
+	remove : function(index) {
+		var item = this._items.removeAt(index)[0];
+		this.domref.removeChild(item.domref);
+		delete item;
+	},
+
+	/**
+	 * @method
+	 * Removes items within an indices range
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} start start index
+	 * @param {int} end end index
+	 * @return {void}
+	 */
+	removeRange : function(start, end) {
+		for (var i = start; i <= end; ++i) {
+			this.remove(i);
+		}
+	},
+
+	/**
+	 * @method
+	 * Removes items which indices are passed by an array
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} inidices the array with the indices
+	 * @return {void}
+	 */
+	removeFromArray : function(indices) {
+		indices.forEach(function(item, index, arr) {
+			this.remove(index);
 		}, this);
+	},
+
+	/**
+	 * @method
+	 * Removes all items from the list
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	removeAll : function() {
+		while (this._items.length) {
+			var item = this._items.pop();
+			this.domref.removeChild(item.domref);
+			delete item;
+		}
 	},
 
 	/**
@@ -633,8 +694,16 @@ $class("List", {
 
 			// create item ...
 			if (!item.isCreated()) {
-				node = item.create();
-				this.domref.appendChild(node);
+				var node = item.create();
+				var nextNode = index == 0 
+					? this.domref.firstChild
+					: arr[index - 1].domref.nextSibling;
+
+				if (!nextNode) {
+					this.domref.appendChild(node);					
+				} else {
+					this.domref.insertBefore(node, nextNode);
+				}
 			}
 
 			// ... or update it

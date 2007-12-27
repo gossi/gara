@@ -32,7 +32,7 @@
 $class("TreeItem", {
 	$extends : gara.jswt.Item,
 
-	$constructor : function(parent, style) {
+	$constructor : function(parent, style, index) {
 		
 		if (!($class.instanceOf(parent, gara.jswt.Tree) || $class.instanceOf(parent, gara.jswt.TreeItem))) {
 			throw new TypeError("parent is neither a gara.jswt.Tree or gara.jswt.TreeItem");
@@ -52,9 +52,9 @@ $class("TreeItem", {
 			this._tree = parent;
 		} else if ($class.instanceOf(parent, gara.jswt.TreeItem)) {
 			this._tree = parent.getParent();
-			parent._addItem(this);
+			parent._addItem(this, index);
 		}
-		this._tree._addItem(this);
+		this._tree._addItem(this, index);
 
 		// domNode references
 		this._img = null;
@@ -73,12 +73,12 @@ $class("TreeItem", {
 	 * @throws {TypeError} when the item is not type of a TreeItem
 	 * @return {void}
 	 */
-	_addItem : function(item) {
+	_addItem : function(item, index) {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 
-		this._items.push(item);
+		this._items.insertAt(index, item);
 	},
 
 	/**
@@ -91,7 +91,7 @@ $class("TreeItem", {
 	 * @param {boolean} wether this item is at the bottom position or not
 	 * @return {void}
 	 */
-	create : function(bottom) {
+	create : function() {
 		/*
 		 * DOM of created item:
 		 * 
@@ -111,12 +111,16 @@ $class("TreeItem", {
 		 *  <span class="text"></span>
 		 * </li>
 		 */
-	
-		if (bottom) {
+
+		var parentItems = this._parent.getItems();
+		
+		this.removeClassName("bottom");
+		if (parentItems.indexOf(this) == parentItems.length - 1) {
+			// if bottom
 			this.addClassName("bottom");
 		}
 
-		// create item node
+		// create item noe
 		this.domref = document.createElement("li");
 		this.domref.className = this._className;
 		this.domref.obj = this;
@@ -157,6 +161,7 @@ $class("TreeItem", {
 			// put the image into the dom
 			this.domref.appendChild(this._img);
 		}
+
 		
 		this.domref.appendChild(this._span);
 	
@@ -424,16 +429,63 @@ $class("TreeItem", {
 			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
 		}
 	},
+	
+	/**
+	 * @method
+	 * Removes an item from the tree-item
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the index of the item
+	 * @return {void}
+	 */
+	remove : function(index) {
+		var item = this._items.removeAt(index)[0];
+		this._childContainer.removeChild(item.domref);
+		delete item;
+	},
 
 	/**
 	 * @method
-	 * Removes all items from that item
+	 * Removes items within an indices range
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} start start index
+	 * @param {int} end end index
+	 * @return {void}
+	 */
+	removeRange : function(start, end) {
+		for (var i = start; i <= end; ++i) {
+			this.remove(i);
+		}
+	},
+
+	/**
+	 * @method
+	 * Removes items which indices are passed by an array
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} inidices the array with the indices
+	 * @return {void}
+	 */
+	removeFromArray : function(indices) {
+		indices.forEach(function(item, index, arr) {
+			this.remove(index);
+		}, this);
+	},
+
+	/**
+	 * @method
+	 * Removes all items from the tree-item
 	 * 
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	removeAll : function() {
-		this._items = [];
+		while (this._items.length) {
+			var item = this._items.pop();
+			this.domref.removeChild(item.domref);
+			delete item;
+		}
 	},
 
 	/**
@@ -552,11 +604,18 @@ $class("TreeItem", {
 				this._childContainer.style.display = "none";
 			}
 		}
-
 		// delete childContainer
 		else if (!this._hasChilds() && this._childContainer != null) {
 			this.domref.removeChild(this._childContainer);
 			this._childContainer = null;
+		}
+		
+		// check for bottom style
+		var parentItems = this._parent.getItems();
+		this.removeClassName("bottom");
+		if (parentItems.indexOf(this) == parentItems.length - 1) {
+			// if bottom
+			this.addClassName("bottom");
 		}
 
 		this._spanText.nodeValue = this._text;
