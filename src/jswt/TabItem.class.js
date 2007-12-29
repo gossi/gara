@@ -70,11 +70,11 @@ $class("TabItem", {
 		base2.DOM.EventTarget(this.domref);
 
 		// set image
-		if (this.image != null) {
+		if (this._image != null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
 			this._img.control = this._parent;
-			this._img.src = this.image.src;
+			this._img.src = this._image.src;
 			this._img.alt = this._text;
 			base2.DOM.EventTarget(this._img);
 

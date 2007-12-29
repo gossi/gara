@@ -77,11 +77,11 @@ $class("ListItem", {
 		this._img = null;
 
 		// set image
-		if (this.image != null) {
+		if (this._image != null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
 			this._img.control = this._list;
-			this._img.src = this.image.src;
+			this._img.src = this._image.src;
 			this._img.alt = this._text;
 
 			// put the image into the dom
