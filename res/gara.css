@@ -31,10 +31,16 @@ ul.jsWTList {
 ul.jsWTList li {
 	margin-left: 0;
 	list-style-type: none;
+	outline: none;
 }
 
 ul.jsWTList li span {
 	line-height: 21px;
+}
+
+ul.jsWTList li img {
+	vertical-align: middle;
+	margin-right: 3px;
 }
 
 ul.jsWTListFullSelection li span {
