@@ -728,6 +728,24 @@ $class("Tree", {
 		this._showLines = show;
 	},
 
+	/**
+	 * @method
+	 * Sets the selection of the tree
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} items the array with the <code>TreeItem</code> items
+	 * @throws {TypeError} if the passed items are not an array
+	 * @return {void}
+	 */	
+	setSelection : function(items) {
+		if (!$class.instanceOf(items, Array)) {
+			throw new TypeError("items are not instance of an Array");
+		}
+
+		this._selection = items;
+		this._notifySelectionListener();
+	},
+
 	toString : function() {
 		return "[gara.jswt.Tree]";
 	},
