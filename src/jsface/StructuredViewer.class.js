@@ -36,7 +36,38 @@ $class("StructuredViewer", {
 	$constructor : function() {
 		this._map = [];
 		this._items = [];
+		
+		this._elementMap = {};
 	},
+	
+	_associate : function(element, item) {
+		var data = item.getData();
+		if (data != element) {
+			if (data != null) {
+				this._disassociate(item);
+			}
+			item.setData(element);
+		}
+
+		this._mapElement(element, item);
+	},
+
+	/**
+	 * Disassociates the given item from its corresponding element. Sets the
+	 * item's data to <code>null</code> and removes the element from the
+	 * element map (if enabled).
+	 * 
+	 * @param item
+	 *            the widget
+	 */
+	_disassociate : function(item) {
+		var element = item.getData();
+
+		this._unmapElement(element, item);
+		item.setData(null);
+	},
+
+	_doUpdateItem : $abstract(function(widget, element){}),
 
 	_getRawChildren : function(parent) {
 		var result = null;
@@ -49,6 +80,10 @@ $class("StructuredViewer", {
 
 		return (result != null) ? result : [0];
 	},
+	
+	_getSortedChildren : function(parent) {
+		return this._getRawChildren(parent);
+	},
 
 	_getRoot : function() {
 		return this._input;
@@ -56,9 +91,10 @@ $class("StructuredViewer", {
 
 	_internalRefresh : function() {},
 
-	_mapElement : function(el, item) {
-		this._map.push(el);
-		this._items.push(item);
+	_mapElement : function(element, item) {
+		if (this._elementMap.hasOwnProperty(element)) {
+			this._elementMap[element] = item;
+		}
 	},
 
 	refresh : function(updateLabels) {
@@ -75,9 +111,15 @@ $class("StructuredViewer", {
 		this._items.clear();
 	},
 
-	_unmapElement : function(el) {
-		var index = this._map.indexOf(el);
-		this._items.removeAt(index);
-		this._map.removeAt(index);
-	}
+	_unmapElement : function(element, item) {
+		if ($class.instanceOf(item, Array)) {
+			this._elementMap[element] = item;
+		} else {
+			delete this._elementMap[element];
+		}
+	},
+
+	_updateItem : function(widget, element) {
+		this._doUpdateItem(widget, element);
+	}, 
 });

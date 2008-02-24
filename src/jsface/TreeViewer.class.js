@@ -55,6 +55,10 @@ $class("TreeViewer", {
 	getControl : function() {
 		return this._tree;
 	},
+	
+	_getViewerRowFromItem : function(item) {
+		return null;
+	},
 
 	getTree : function() {
 		return this._tree;

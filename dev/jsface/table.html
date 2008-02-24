@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jsface.treeviewer (dev)</title>
+<title>gara.jsface.tableviewer (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
@@ -27,54 +27,54 @@
 <script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Table.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TableItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TableColumn.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/_prepend.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/IBaseLabelProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/ILabelProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/LabelProvider.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ITableLabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/LabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/BaseLabelProvider.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/CellLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ColumnLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/WrappedViewerLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/TableColumnViewerLabelProvider.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ITreeContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ITableContentProvider.interface.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/TableViewerRow.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ViewerCell.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerColumn.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerRow.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ContentViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/StructuredViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ColumnViewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/AbstractTreeViewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/TreeViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/AbstractTableViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/TableViewer.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/_append.js"></script>
 <script type="text/javascript"><!--
 $class("Controller", {
-	$implements : [gara.jsface.ILabelProvider, gara.jsface.ITreeContentProvider, gara.jswt.SelectionListener],
+	$implements : [gara.jsface.ITableLabelProvider, gara.jsface.IContentProvider],
 
 	$constructor : function() {
 		this._model = null;
 		this._selectedItem = null;
 	},
 
-	getImage : function(element) {
+	getColumnImage : function(element, columnIndex) {
 		return null;
 	},
 
-	getText : function(element) {
-		return element.name;
-	},
-
-	getChildren : function(parentElement) {
-		return parentElement.hasOwnProperty("childs") ? parentElement.childs : null;
-	},
-
-	getParent : function(element) {
-		return getParentObj(element, model);
+	getColumnText : function(element, columnIndex) {
+		return element[columnIndex];
 	},
 
 	hasChildren : function(element) {
@@ -85,108 +85,31 @@ $class("Controller", {
 		return this._model;
 	},
 
-	getSelectedItem : function() {
-		return this._selectedItem;
-	},
-
 	inputChanged : function(viewer, oldInput, newInput) {
 		this._model = newInput;
 	},
 
 	isLabelProperty : function(element, property) {},
-
-	widgetSelected : function(tree) {
-		this._selectedItem = tree.getSelection()[0];
-		document.getElementById("model_add_parent").value = this._selectedItem.getData().name;
-	}
 });
 
 var model, view, controller;
 
 model = [
-	{name : "item 1"},
-	{name : "item 2"},
-	{name : "item 3",
-	childs : [
-		{name : "item 3.1",
-			childs : [
-				{name : "item 3.1.1"},
-				{name : "item 3.1.2"}
-			]},
-		{name : "item 3.2"}
-	]},
-	{name : "item 4"}
+	["row1.1", "row1.2", "row1.3"],
+	["row2.1", "row2.2", "row2.3"]
 ];
-
-
-// workaround func to get the parent of an obj in our simple model
-function getParentObj(obj, parent) {
-	// parent is model
-	if (typeof(parent) == Array) {
-		parent.contains(obj);
-		return parent;
-	}
-	// parent is a child
-	else {
-		if (parent.hasOwnProperty("childs")) {
-			parent = parent.childs;
-		}
-	}
-
-	for (var i = 0, len = parent.length; i < len; ++i) {
-		if (parent[i].hasOwnProperty("childs")) {
-			if (parent[i].childs.contains(obj)) {
-				return parent[i]; // parent found
-			} else {
-				var found = getParentObj(obj, parent[i]);
-				if (found != null && found.hasOwnProperty("childs") && found.childs.contains(obj)) {
-					return found;
-				}
-			}
-		}
-	}
-	
-	return null;
-}
-
-function addModelData() {
-	var value = document.getElementById("model_add_value").value;
-	var item = controller.getSelectedItem();
-	if (item != null) {
-		var obj = item.getData();
-		if (!obj.hasOwnProperty("childs")) {
-			obj.childs = [];
-		}
-		obj.childs.push({name : value});
-	}
-	
-	view.refresh();
-}
-
-function removeModelData() {
-	var item = controller.getSelectedItem();
-	if (item != null) {
-		var obj = item.getData();
-		var parent = getParentObj(obj, model);
-		if (parent == model) {
-			model.remove(obj);
-		} else {
-			parent.childs.remove(obj);
-		}
-		view.refresh();
-	} else {
-		alert("möp. no item selected");
-	}
-}
 
 function main() {
 	try {
+		var table;
 		controller = new Controller();
-		view = new gara.jsface.TreeViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
+		view = new gara.jsface.TableViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
+		table = view.getTable();
+		var c1 = new gara.jswt.TableColumn(table);
+		c1.setText("bla");
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
 		view.setInput(model);
-		view.getTree().addSelectionListener(controller);
 	} catch(e) {
 		var message = "";
 		for (p in e) {
@@ -198,21 +121,9 @@ function main() {
 
 onDOMLoaded(main);
 --></script>
-<style type="text/css">
-label {display: block;}
-</style>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.TreeViewer</h1>
-<fieldset style="width: 300px; float: right;">
-<legend>Widget Control</legend>
-<label>Add Model Data</label>
-<label>Value: <input type="text" size="9" id="model_add_value"/></label>
-<label>Parent: <input type="text" size="9" id="model_add_parent" readonly="readonly"/></label>
-<input type="button" value="add >>" onclick="addModelData()"/>
-<label>Remove Model Data</label>
-Remove selected element: <input type="button" value="pop" onclick="removeModelData()"/>
-</fieldset>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.TableViewer</h1>
 <div id="container" class="sand" style="width: 300px;">
 </div>
 </body>

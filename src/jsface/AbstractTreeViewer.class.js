@@ -39,6 +39,10 @@ $class("AbstractTreeViewer", {
 	
 	_createTreeItem : $abstract(function(element) {}),
 	
+	_doUpdateItem : function(widget, element) {
+
+	},
+	
 	getControl : $abstract(function() {}),
 
 	_getLabelProviderText : function(labelProvider, element) {
@@ -99,6 +103,7 @@ $class("AbstractTreeViewer", {
 		this._internalRefresh();
 	},
 
+	// @TODO: instead of refreshItems => refresh(parentNode)
 	_refreshItems : function(children, handledCollector) {
 		for (var i = 0, len = children.length; i < len; ++i) {
 			var el = children[i];
@@ -124,7 +129,7 @@ $class("AbstractTreeViewer", {
 		}
 	},
 
-setContentProvider : function(contentProvider) {
+	setContentProvider : function(contentProvider) {
 		if (!$class.instanceOf(contentProvider, gara.jsface.ITreeContentProvider)) {
 			throw new TypeError("contentProvider is not type of gara.jsface.ITreeContentProvider");
 		}

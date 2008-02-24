@@ -65,6 +65,7 @@ $class("AbstractListViewer", {
 
 	_internalRefresh : function() {
 		this.getControl().update();
+		this.getControl().setSelection([]);
 	},
 
 	_listRemoveAll : $abstract(function() {}),
