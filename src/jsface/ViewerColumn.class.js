@@ -23,12 +23,10 @@
 
 /**
  * @class ViewerColumn
- * @extends gara.jsface.ColumnViewer
  * @namespace gara.jsface
  * @author Thomas Gossmann
  */
 $class("ViewerColumn", {
-	$extends : gara.jsface.ColumnViewer,
 
 	COLUMN_VIEWER_KEY : $static("jsface.columnViewer"),
 
@@ -50,7 +48,7 @@ $class("ViewerColumn", {
 		if (!$class.instanceOf(columnOwner, gara.jswt.Widget)) {
 			throw new TypeError("columnOwner not instance of gara.jswt.Widget");
 		}
-		
+
 		columnOwner.setData(this.COLUMN_VIEWER_KEY, this);
 		this._labelProvider = null;
 	},
@@ -72,12 +70,13 @@ $class("ViewerColumn", {
 	 * 
 	 * @param {gara.jsface.CellLabelProvider} labelProvider
 	 *            the new CellLabelProvider
+	 * @param {bool} registerListener
+	 *            wether a listener should registered on the labelProvider or not
 	 */
-	setLabelProvider : function(labelProvider) {
+	setLabelProvider : function(labelProvider, registerListener) {
 		if (!$class.instanceOf(labelProvider, gara.jsface.CellLabelProvider)) {
 			throw new TypeError("labelProvider not instance of gara.jsface.CellLabelProvider");
 		}
-
 		this._labelProvider = labelProvider;
 	},
 

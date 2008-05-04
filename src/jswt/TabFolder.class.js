@@ -234,6 +234,16 @@ $class("TabFolder", {
 
 					this._activateItem(item);
 				}
+				
+				if (e.which == 3 && this._menu != null) {
+					if (this.domref.style.position != "") {
+						this._menu.setLocation(e.layerX, e.layerY);
+					} else {
+						this._menu.setLocation(e.clientX, e.clientY);
+					}
+					this._menu.setVisible(true);
+					return false;
+				}
 				break;
 			
 						

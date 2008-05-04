@@ -1,4 +1,4 @@
-/*	$Id$
+/*	$Id: List.class.js 114 2007-12-27 20:41:27Z tgossmann $
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -23,55 +23,36 @@
 
 /**
  * @summary
- * gara ListItem for List Widget
+ * gara MenuItem Widget
  * 
  * @description
+ * long description for the MenuItem Widget...
  * 
- * @class ListItem
+ * @class MenuItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
  * @extends gara.jswt.Item
  */
-$class("ListItem", {
+$class("MenuItem", {
 	$extends : gara.jswt.Item,
-
-	/**
-	 * @constructor
-	 * Constructor
-	 * 
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.List} parent the List Widget for this item
-	 * @param {int} style the style for this item
-	 * @param {int} index index to insert the item at
-	 * @throws {TypeError} if the list is not a List widget
-	 * @return {gara.jswt.ListItem}
-	 */
+	
 	$constructor : function(parent, style, index) {
-		if (!$class.instanceOf(parent, gara.jswt.List)) {
-			throw new TypeError("parent is not type of gara.jswt.List");
+		if (!$class.instanceOf(parent, gara.jswt.Menu)) {
+			throw new TypeError("parent is not type of gara.jswt.Menu");
 		}
 		this.$base(parent, style);
 		this._parent = parent;
-		this._list = parent;
-		this._list._addItem(this, index);
+		this._menu = parent;
+		this._menu._addItem(this, index);
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
 	},
-
-	/**
-	 * @method
-	 * Internal creation process of this item
-	 * 
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	create : function() {
-		this.domref = document.createElement("li");
-		this.domref.className = this._className;
+	
+	_create : function() {
+		this.domref = document.createElement("li");this.domref.className = this._className;
 		this.domref.obj = this;
-		this.domref.control = this._list;
+		this.domref.control = this._menu;
 
 		// create item nodes
 		this._img = null;
@@ -80,7 +61,7 @@ $class("ListItem", {
 		if (this._image != null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
-			this._img.control = this._list;
+			this._img.control = this._menu;
 			this._img.src = this._image.src;
 			this._img.alt = this._text;
 
@@ -93,7 +74,7 @@ $class("ListItem", {
 		
 		this._span = document.createElement("span");
 		this._span.obj = this;
-		this._span.control = this._list;
+		this._span.control = this._menu;
 		this._span.appendChild(this._spanText);
 		this.domref.appendChild(this._span);
 		
@@ -113,26 +94,6 @@ $class("ListItem", {
 	
 	/**
 	 * @method
-	 * Event handler for this item. Its main use is to pass through keyboard events
-	 * to all listeners.
-	 * 
-	 * @private
-	 * @author Thomas Gossmann
-	 * @param {Event} e DOMEvent
-	 * @return {void} 
-	 */
-	handleEvent : function(e) {
-		switch (e.type) {
-			case "keyup":
-			case "keydown":
-			case "keypress":
-				this._notifyExternalKeyboardListener(e, this, this._list);
-				break;
-		}
-	},
-
-	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.jswt.Widget
 	 * 
 	 * @private
@@ -150,22 +111,15 @@ $class("ListItem", {
 	},
 	
 	toString : function() {
-		return "[gara.jswt.ListItem]";
+		return "[gara.jswt.MenuItem]";
 	},
-
-	/**
-	 * @method
-	 * Updates the list item
-	 * 
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
+	
 	update : function() {
 		// create image
 		if (this._image != null && this._img == null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
-			this._img.control = this._list;
+			this._img.control = this._menu;
 			this._img.alt = this._text;
 			this._img.src = this._image.src;
 			this.domref.insertBefore(this._img, this._span);

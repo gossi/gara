@@ -89,7 +89,7 @@ $class("StructuredViewer", {
 		return this._input;
 	},
 
-	_internalRefresh : function() {},
+	_internalRefresh : $abstract(function(element) {}),
 
 	_mapElement : function(element, item) {
 		if (this._elementMap.hasOwnProperty(element)) {
@@ -97,8 +97,19 @@ $class("StructuredViewer", {
 		}
 	},
 
-	refresh : function(updateLabels) {
-		this._internalRefresh();
+	refresh : function(first, second) {
+		var element, updateLabels;
+		if (typeof(first) == "boolean") {
+			updateLabels = first;
+		} else if (typeof(first) == "Object") {
+			element = first;
+		}
+
+		if (typeof(second) == "boolean") {
+			updateLabels = second;
+		}
+
+		this._internalRefresh(element, updateLabels);
 	},
 
 	setInput : function(input) {

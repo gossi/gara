@@ -45,7 +45,7 @@ $class("AbstractTableViewer", {
 	_doGetColumnCount : $abstract(function() {}),
 
 	_doGetItems : $abstract(function() {}),
-	
+
 	_doRemoveRange : $abstract(function(from, to) {}),
 
 	_doUpdateItem : function(widget, element) {
@@ -94,14 +94,14 @@ $class("AbstractTableViewer", {
 
 		return this._doGetColumn(columnIndex);
 	},
-	
+
 	inputChanged : function(input, oldInput) {
 		this._internalRefresh();
 	},
 
 	_internalCreateNewRowPart : $abstract(function(style, index){}),
 
-	_internalRefresh : function(element) {
+	_internalRefresh : function(element, updateLabels) {
 		if (element == null || element == this._getRoot()) {
 			this._internalRefreshAll();
 		} else {

@@ -1,26 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.TabItem" extends="gara.jswt.Item">
-<item repl="_create()" display="_create() ">
-				&lt;[!CDATA[Contstructs the dom for this tabitem<b>Returns:</b> the created node
-				]]&gt;
-				</item>
-<item repl="_setActive()" display="_setActive() ">
-				&lt;[!CDATA[Set a new active state for this item<b>Parameters:</b>
-<tt>boolean the</tt> - new active state
-				]]&gt;
-				</item>
-<item repl="handleEvent()" display="handleEvent() ">
-				&lt;[!CDATA[Event handler for this item. Its main use is to pass through keyboard events
-to all listeners.<b>Parameters:</b>
-<tt>Event e</tt> - DOMEvent
-				]]&gt;
-				</item>
-<item repl="registerListener()" display="registerListener() ">
-				&lt;[!CDATA[Widget implementation to register listener
-				]]&gt;
-				</item>
-<item repl="update()" display="update() ">
-				&lt;[!CDATA[Update this item
-				]]&gt;
-				</item>
+<item repl="_create()" display="_create() "><![CDATA[Contstructs the dom for this tabitem
+
+
+						Returns:
+						    the created node
+]]></item>
+<item repl="_setActive()" display="_setActive() "><![CDATA[Set a new active state for this item
+
+
+						Parameters:
+						   (boolean) the - new active state
+
+]]></item>
+<item repl="getContent()" display="getContent() "><![CDATA[Returns the content for this item
+
+
+						Returns:
+						    the content;
+]]></item>
+<item repl="getControl()" display="getControl() "><![CDATA[Returns the content control for this item
+
+
+						Returns:
+						    the control
+]]></item>
+<item repl="getToolTipText()" display="getToolTipText() "><![CDATA[Returns the tooltip text for this item
+
+
+						Returns:
+						    the tooltip text
+]]></item>
+<item repl="handleEvent()" display="handleEvent() "><![CDATA[Event handler for this item. Its main use is to pass through keyboard events
+to all listeners.
+
+
+						Parameters:
+						   (Event) e - DOMEvent
+
+]]></item>
+<item repl="registerListener()" display="registerListener() "><![CDATA[Widget implementation to register listener
+
+]]></item>
+<item repl="setContent()" display="setContent() "><![CDATA[Sets content for this item that appears in the client area of the TabFolder when 
+this item is activated. Use EITHER setContent OR setControl!
+
+
+						Parameters:
+						   (string) content - the content
+
+]]></item>
+<item repl="setControl()" display="setControl() "><![CDATA[Sets a control for that appears in the client area of the TabFolder when this item is activated
+
+
+						Parameters:
+						   (gara.jswt.Control) control - the control
+
+
+						Throws:
+						   TypeError -  when that is not a gara.jswt.Control
+
+]]></item>
+<item repl="setToolTipText()" display="setToolTipText() "><![CDATA[Sets the ToolTip text for this item
+
+
+						Parameters:
+						   (string) text - the tooltip text
+
+]]></item>
+<item repl="update()" display="update() "><![CDATA[Update this item
+
+]]></item>
 </completion>

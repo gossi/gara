@@ -1,30 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.List" extends="gara.jswt.Control">
-<item repl="_activateItem()" display="_activateItem() ">
-				&lt;[!CDATA[Activates an item<b>Parameters:</b>
-<tt>gara.jswt.ListItem item</tt> - the item that should added to the List<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not a ListItem
-				]]&gt;
-				</item>
-<item repl="_handleKeyEvent()" display="_handleKeyEvent() ">
-				&lt;[!CDATA[handling key events on the List<b>Parameters:</b>
-<tt>Event e</tt> - event the users triggers
-				]]&gt;
-				</item>
-<item repl="addItem()" display="addItem() ">
-				&lt;[!CDATA[Adds an item to the list (invoked by the constructor of ListItem)<b>Parameters:</b>
-<tt>gara.jswt.ListItem item</tt> - the item that should added to the List<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not a ListItem
-				]]&gt;
-				</item>
-<item repl="registerListener()" display="registerListener() ">
-				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
-				]]&gt;
-				</item>
-<item repl="selectRange()" display="selectRange() ">
-				&lt;[!CDATA[Selects a range. From the item with shift-lock to the passed item.<b>Parameters:</b>
-<tt>gara.jswt.ListItem item</tt> - the item that should be selected<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not a ListItem
-				]]&gt;
-				</item>
+<item repl="_activateItem()" display="_activateItem() "><![CDATA[Activates an item
+
+
+						Parameters:
+						   (gara.jswt.ListItem) item - the item that should added to the List
+
+
+						Throws:
+						   TypeError -  if the item is not a ListItem
+
+]]></item>
+<item repl="_handleKeyEvent()" display="_handleKeyEvent() "><![CDATA[handling key events on the List
+
+
+						Parameters:
+						   (Event) e - event the users triggers
+
+]]></item>
+<item repl="addItem()" display="addItem() "><![CDATA[Adds an item to the list (invoked by the constructor of ListItem)
+
+
+						Parameters:
+						   (gara.jswt.ListItem) item - the item that should added to the List
+
+
+						Throws:
+						   TypeError -  if the item is not a ListItem
+
+]]></item>
+<item repl="addSelectionListener()" display="addSelectionListener() "><![CDATA[Adds a selection listener on the list
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the desired listener to be added to this list
+
+
+						Throws:
+						   TypeError -  if the listener is not an instance SelectionListener
+
+]]></item>
+<item repl="deselect()" display="deselect() "><![CDATA[Deselects an item
+
+
+						Parameters:
+						   (gara.jswt.ListItem) item - the item that should be deselected
+
+
+						Throws:
+						   TypeError -  if the item is not a ListItem
+
+]]></item>
+<item repl="deselectAll()" display="deselectAll() "><![CDATA[Deselects all items
+
+]]></item>
+<item repl="getItem()" display="getItem() "><![CDATA[Gets a specified item with a zero-related index
+
+
+						Parameters:
+						   (int) index - the zero-related index
+
+
+						Throws:
+						   gara.OutOfBoundsException -  if the index does not live within this list
+
+
+						Returns:
+						    the item
+]]></item>
+<item repl="getItemCount()" display="getItemCount() "><![CDATA[Returns the amount of the items in the list
+
+
+						Returns:
+						    the amount
+]]></item>
+<item repl="getItems()" display="getItems() "><![CDATA[Returns an array with all the items in the list
+
+
+						Returns:
+						    the array with the items
+]]></item>
+<item repl="getSelection()" display="getSelection() "><![CDATA[Returns an array with the items which are currently selected in the list
+
+
+						Returns:
+						    an array with items
+]]></item>
+<item repl="getSelectionCount()" display="getSelectionCount() "><![CDATA[Returns the amount of the selected items in the tree
+
+
+						Returns:
+						    the amount
+]]></item>
+<item repl="handleEvent()" display="handleEvent() "><![CDATA[Handles events on the list. Implements DOMEvent Interface by the W3c.
+
+
+						Parameters:
+						   (Event) e - event the users triggers
+
+]]></item>
+<item repl="indexOf()" display="indexOf() "><![CDATA[Looks for the index of a specified item
+
+
+						Parameters:
+						   (gara.jswt.ListItem) item - the item for the index
+
+
+						Throws:
+						   gara.jswt.ItemNotExistsException -  if the item does not exist in this list
+   TypeError -  if the item is not a ListItem
+
+
+						Returns:
+						    the index of the specified item
+]]></item>
+<item repl="notifySelectionListener()" display="notifySelectionListener() "><![CDATA[Notifies selection listener about the changed selection within the List
+
+]]></item>
+<item repl="registerListener()" display="registerListener() "><![CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+
+]]></item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() "><![CDATA[Removes a selection listener from this list
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the listener to remove from this list
+
+
+						Throws:
+						   TypeError -  if the listener is not an instance SelectionListener
+
+]]></item>
+<item repl="select()" display="select() "><![CDATA[Selects an item
+
+
+						Parameters:
+						   (gara.jswt.ListItem) item - the item that should be selected
+
+
+						Throws:
+						   TypeError -  if the item is not a ListItem
+
+]]></item>
+<item repl="selectAll()" display="selectAll() "><![CDATA[Select all items in the list
+
+]]></item>
+<item repl="selectRange()" display="selectRange() "><![CDATA[Selects a range. From the item with shift-lock to the passed item.
+
+
+						Parameters:
+						   (gara.jswt.ListItem) item - the item that should be selected
+
+
+						Throws:
+						   TypeError -  if the item is not a ListItem
+
+]]></item>
+<item repl="setItem()" display="setItem() "><![CDATA[Sets the text of an item at a zero-related index
+
+
+						Parameters:
+						   (int) index - the index for the item
+   (String) string - the new text for the item
+
+
+						Throws:
+						   TypeError -  if the text is not a string
+   gara.OutOfBoundsException -  if the index does not live within the List
+
+]]></item>
+<item repl="setItems()" display="setItems() "><![CDATA[Sets the List's items to be the given Array of items
+
+
+						Parameters:
+						   (Array) strings - the array with item texts
+
+
+						Throws:
+						   TypeError -  if the strings are not an Array
+
+]]></item>
+<item repl="update()" display="update() "><![CDATA[Updates the list!
+
+]]></item>
 </completion>

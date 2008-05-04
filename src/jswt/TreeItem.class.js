@@ -31,6 +31,8 @@
  */
 $class("TreeItem", {
 	$extends : gara.jswt.Item,
+	
+	toggleNode : null,
 
 	$constructor : function(parent, style, index) {
 		
@@ -58,7 +60,6 @@ $class("TreeItem", {
 
 		// domNode references
 		this._img = null;
-		this._toggler = null;
 		this._span = null;
 		this._spanText = null;
 	},
@@ -132,10 +133,10 @@ $class("TreeItem", {
 		base2.DOM.EventTarget(this.domref);
 	
 		// create item nodes
-		this._toggler = document.createElement("span");
-		this._toggler.obj = this;
-		this._toggler.control = this._tree;
-		base2.DOM.EventTarget(this._toggler);
+		this.toggleNode = document.createElement("span");
+		this.toggleNode.obj = this;
+		this.toggleNode.control = this._tree;
+		base2.DOM.EventTarget(this.toggleNode);
 		
 		this._span = document.createElement("span");
 		this._span.obj = this;
@@ -146,13 +147,13 @@ $class("TreeItem", {
 		base2.DOM.EventTarget(this._span);
 	
 		// set this.toggler
-		this._toggler.className = "toggler";
-		this._toggler.className += this._hasChilds() 
+		this.toggleNode.className = "toggler";
+		this.toggleNode.className += this._hasChilds() 
 			? (this._expanded
 				? " togglerExpanded"
 				: " togglerCollapsed")
 			: "";
-		this.domref.appendChild(this._toggler);
+		this.domref.appendChild(this.toggleNode);
 	
 		// set image
 		if (this._image != null) {
@@ -355,7 +356,7 @@ $class("TreeItem", {
 				if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
 					var item = obj;
 
-					if (e.target == this._toggler) {
+					if (e.target == this.toggleNode) {
 						if (this._expanded) {
 							this.setExpanded(false);
 						} else {
@@ -371,7 +372,7 @@ $class("TreeItem", {
 					var item = obj;
 
 					// toggle childs
-					if (e.target != this._toggler) {
+					if (e.target != this.toggleNode) {
 						if (this._expanded) {
 							this.setExpanded(false);
 						} else {
@@ -562,13 +563,13 @@ $class("TreeItem", {
 	 */
 	update : function() {
 		if (this._hasChilds()) {
-			this._toggler.className = strReplace(this._toggler.className, " togglerCollapsed", "");
-			this._toggler.className = strReplace(this._toggler.className, " togglerExpanded", "");
+			this.toggleNode.className = strReplace(this.toggleNode.className, " togglerCollapsed", "");
+			this.toggleNode.className = strReplace(this.toggleNode.className, " togglerExpanded", "");
 	
 			if (this._expanded) {
-				this._toggler.className += " togglerExpanded";
+				this.toggleNode.className += " togglerExpanded";
 			} else {
-				this._toggler.className += " togglerCollapsed";
+				this.toggleNode.className += " togglerCollapsed";
 			}
 		}
 

@@ -67,7 +67,7 @@ $class("Table", {
 		this._shiftItem = null;
 		this._activeItem = null;
 	},
-	
+
 	_activateItem : function(item) {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not type of gara.jswt.TableItem");
@@ -75,19 +75,24 @@ $class("Table", {
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
+			this._activeItem.update();
 		}
 
 		this._activeItem = item;
 		this._activeItem.setActive(true);
-		this.update();
+		this._activeItem.update();
 	},
 
-	_addItem : function(item) {
+	_addItem : function(item, index) {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not a gara.jswt.TableItem");
 		}
 
-		this._items.push(item);
+		if (typeof(index) != "undefined") {
+			this._items.insertAt(index, item);
+		} else {
+			this._items.push(item);
+		}
 	},
 
 	_addColumn : function(column, index) {
@@ -116,13 +121,26 @@ $class("Table", {
 	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
-		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not type of gara.jswt.SelectionListener");
 		}
 		
 		if (!this._selectionListener.contains(listener)) {
 			this._selectionListener.push(listener);
 		}
+	},
+	
+	/**
+	 * @method
+	 * Clears an item at a given index
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the position of the item
+	 * @return {void}
+	 */
+	clear : function(index) {
+		var item = this._items[index];
+		item.clear();
 	},
 
 	_create : function() {
@@ -131,9 +149,7 @@ $class("Table", {
 		this.domref.control = this;
 		base2.DOM.EventTarget(this.domref);
 
-		if (this._headerVisible) {
-			this._createTableHead();
-		}
+		this._createTableHead();
 
 		this._tbody = document.createElement("tbody");
 		this._tbody.obj = this;
@@ -206,6 +222,13 @@ $class("Table", {
 		}
 	},
 	
+	getColumn : function(index) {
+		if (index >= 0 && index < this._columns.length) {
+			return this._columns[index];
+		}
+		return null;
+	},
+	
 	getColumnCount : function() {
 		return this._columns.length;
 	},
@@ -232,6 +255,28 @@ $class("Table", {
 
 	getLinesVisible : function() {
 		return this._linesVisible;
+	},
+
+	/**
+	 * @method
+	 * Returns an array with the items which are currently selected in the table
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {gara.jswt.TreeItem[]}an array with items
+	 */
+	getSelection : function() {
+		return this._selection;
+	},
+
+	/**
+	 * @method
+	 * Returns the amount of the selected items in the table
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {int} the amount
+	 */
+	getSelectionCount : function() {
+		return this._selection.length;
 	},
 
 	handleEvent : function(e) {
@@ -411,7 +456,66 @@ $class("Table", {
 			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
 		}
 	},
+
+	/**
+	 * @method
+	 * Removes an item from the table
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the index of the item
+	 * @return {void}
+	 */
+	remove : function(index) {
+		//this._items[index].dispose();
+		var item = this._items.removeAt(index)[0];
+		this._tbody.removeChild(item.domref);
+		delete item;
+	},
+
+	/**
+	 * @method
+	 * Removes items within an indices range
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} start start index
+	 * @param {int} end end index
+	 * @return {void}
+	 */
+	removeRange : function(start, end) {
+		for (var i = start; i <= end; ++i) {
+			this.remove(start);
+		}
+	},
+
+	/**
+	 * @method
+	 * Removes items whose indices are passed by an array
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} inidices the array with the indices
+	 * @return {void}
+	 */
+	removeFromArray : function(indices) {
+		indices.forEach(function(item, index, arr) {
+			this.remove(index);
+		}, this);
+	},
 	
+	/**
+	 * @method
+	 * Removes all items from the table
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	removeAll : function() {
+		while (this._items.length) {
+			var item = this._items.pop();
+			this.domref.removeChild(item.domref);
+			delete item;
+		}
+	},
+
 	/**
 	 * @method
 	 * Removes a selection listener from this table
@@ -422,8 +526,8 @@ $class("Table", {
 	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
-		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
-			throw new TypeError("item is not type of gara.jswt.SelectionListener");
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not type of gara.jswt.SelectionListener");
 		}
 
 		if (this._selectionListener.contains(listener)) {
@@ -524,9 +628,15 @@ $class("Table", {
 			}
 		}
 
+		if (this._headerVisible) {
+			this._thead.style.display = "table-row-group";
+		} else {
+			this._thead.style.display = "none";
+		}
+
+		this._tbody.className = "";
 		this.removeClassName("jsWTTableNoLines");
 		this.removeClassName("jsWTTableLines");
-		this.removeClassName("jsWTTableFullSelection");	
 
 		if (this._linesVisible) {
 			this.addClassName("jsWTTableLines");
@@ -535,7 +645,7 @@ $class("Table", {
 		}
 
 		if ((this._style & JSWT.FULL_SELECTION) == JSWT.FULL_SELECTION) {
-			this.addClassName("jsWTTableFullSelection");
+			this._tbody.className = "jsWTTableFullSelection";
 		}
 
 		this.domref.className = this._className;

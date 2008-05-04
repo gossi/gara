@@ -42,11 +42,19 @@ $class("JSWT", {
 	APPLICATION_MODAL : $static(1 << 16),
 	
 	/**
+	 * @field
+	 * Style constant for menu bar behavior (value is 1&lt;&lt;1).
+	 */
+	BAR : $static(1 << 1),
+
+	/**
+	 * @field
 	 * Style constant for align bottom behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).
 	 */
 	BOTTOM : $static(1 << 10),
 	
 	/**
+	 * @field
 	 * The <tt>MessageBox</tt> style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).
 	 */
 	CANCEL : $static(1 << 8),
@@ -79,6 +87,12 @@ $class("JSWT", {
 	
 	/**
 	 * @field
+	 * Style constant for drop down menu/list behavior (value is 1&lt;&lt;2).
+	 */
+	DROP_DOWN : $static(1 << 2),
+	
+	/**
+	 * @field
 	 * Style constant for full row selection behavior (value is 1&lt;&lt;16).
 	 */
 	FULL_SELECTION : $static(1 << 16),
@@ -88,37 +102,49 @@ $class("JSWT", {
 	 * The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).
 	 */
 	IGNORE : $static(1 << 11),
-	
+
 	/**
 	 * @field
 	 * Style constant for shell menu trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
 	MENU : $static(1 << 6),
-	
+
 	/**
 	 * @field
 	 * Style constant for multi-selection behavior in lists and multiple line support on text fields (value is 1&lt;&lt;1).
 	 */
 	MULTI : $static(1 << 1), 
-	
+
 	/**
 	 * @field
 	 * The <tt>MessageBox</tt> style constant for NO button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;7).
 	 */
 	NO : $static(1 << 7),
-	
+
+	/**
+	 * A constant known to be zero (0), typically used in operations
+	 * which take bit flags to indicate that "no bits are set".
+	 */
+	NONE : $static(0),
+
 	/**
 	 * @field
 	 * The <tt>MessageBox</tt> style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1&lt;&lt;5). 
 	 */
 	OK : $static(1 << 5),
-	 
+
+	/**
+	 * @field
+	 * Style constant for pop up menu behavior (value is 1&lt;&lt;3).
+	 */
+	POP_UP : $static(1 << 3),
+
 	/**
 	 * @field
 	 * The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).
 	 */
 	RETRY : $static(1 << 10),
-	
+
 	/**
 	 * @field
 	 * Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).

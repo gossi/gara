@@ -1,59 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.TabFolder" extends="gara.jswt.Composite">
-<item repl="addSelectionListener()" display="addSelectionListener() ">
-				&lt;[!CDATA[Adds a selection listener on the tabfolder<b>Parameters:</b>
-<tt>gara.jswt.SelectionListener listener</tt> - the desired listener to be added to this tabfolder<b>Throws:</b>
-<tt>TypeError</tt> -  if the listener is not an instance SelectionListener
-				]]&gt;
-				</item>
-<item repl="getClientArea()" display="getClientArea() ">
-				&lt;[!CDATA[Returns the client area off that tabfolder<b>Returns:</b> the client area node
-				]]&gt;
-				</item>
-<item repl="getItem()" display="getItem() ">
-				&lt;[!CDATA[Gets a specified item with a zero-related index<b>Parameters:</b>
-<tt>int index</tt> - the zero-related index<b>Throws:</b>
-<tt>gara.OutOfBoundsException</tt> -  if the index does not live within this tabfolder<b>Returns:</b> the item
-				]]&gt;
-				</item>
-<item repl="getItemCount()" display="getItemCount() ">
-				&lt;[!CDATA[Returns the amount of the items in the tabfolder<b>Returns:</b> the amount
-				]]&gt;
-				</item>
-<item repl="getItems()" display="getItems() ">
-				&lt;[!CDATA[Returns an array with all the items in the tabfolder<b>Returns:</b> the array with the items
-				]]&gt;
-				</item>
-<item repl="getSelection()" display="getSelection() ">
-				&lt;[!CDATA[Returns an array with the items which are currently selected in the tabfolder<b>Returns:</b> an array with items
-				]]&gt;
-				</item>
-<item repl="getSelectionIndex()" display="getSelectionIndex() ">
-				&lt;[!CDATA[Returns the zero-related index of the selected item or -1 if there is no item selected<b>Returns:</b> the index of the selected item
-				]]&gt;
-				</item>
-<item repl="indexOf()" display="indexOf() ">
-				&lt;[!CDATA[Looks for the index of a specified item<b>Parameters:</b>
-<tt>gara.jswt.TabItem item</tt> - the item for the index<b>Throws:</b>
-<tt>gara.jswt.ItemNotExistsException</tt> -  if the item does not exist in this tabfolder<tt>TypeError</tt> -  if the item is not a TabItem<b>Returns:</b> the index of the specified item
-				]]&gt;
-				</item>
-<item repl="removeSelectionListener()" display="removeSelectionListener() ">
-				&lt;[!CDATA[Removes a selection listener from this tabfolder<b>Parameters:</b>
-<tt>gara.jswt.SelectionListener listener</tt> - the listener to remove from this tabfolder<b>Throws:</b>
-<tt>TypeError</tt> -  if the listener is not an instance SelectionListener
-				]]&gt;
-				</item>
-<item repl="setSelection()" display="setSelection() ">
-				&lt;[!CDATA[Selects the item at the given zero-related index in the tabfolder.
+<item repl="addSelectionListener()" display="addSelectionListener() "><![CDATA[Adds a selection listener on the tabfolder
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the desired listener to be added to this tabfolder
+
+
+						Throws:
+						   TypeError -  if the listener is not an instance SelectionListener
+
+]]></item>
+<item repl="getClientArea()" display="getClientArea() "><![CDATA[Returns the client area off that tabfolder
+
+
+						Returns:
+						    the client area node
+]]></item>
+<item repl="getItem()" display="getItem() "><![CDATA[Gets a specified item with a zero-related index
+
+
+						Parameters:
+						   (int) index - the zero-related index
+
+
+						Throws:
+						   gara.OutOfBoundsException -  if the index does not live within this tabfolder
+
+
+						Returns:
+						    the item
+]]></item>
+<item repl="getItemCount()" display="getItemCount() "><![CDATA[Returns the amount of the items in the tabfolder
+
+
+						Returns:
+						    the amount
+]]></item>
+<item repl="getItems()" display="getItems() "><![CDATA[Returns an array with all the items in the tabfolder
+
+
+						Returns:
+						    the array with the items
+]]></item>
+<item repl="getSelection()" display="getSelection() "><![CDATA[Returns an array with the items which are currently selected in the tabfolder
+
+
+						Returns:
+						    an array with items
+]]></item>
+<item repl="getSelectionIndex()" display="getSelectionIndex() "><![CDATA[Returns the zero-related index of the selected item or -1 if there is no item selected
+
+
+						Returns:
+						    the index of the selected item
+]]></item>
+<item repl="indexOf()" display="indexOf() "><![CDATA[Looks for the index of a specified item
+
+
+						Parameters:
+						   (gara.jswt.TabItem) item - the item for the index
+
+
+						Throws:
+						   gara.jswt.ItemNotExistsException -  if the item does not exist in this tabfolder
+   TypeError -  if the item is not a TabItem
+
+
+						Returns:
+						    the index of the specified item
+]]></item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() "><![CDATA[Removes a selection listener from this tabfolder
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the listener to remove from this tabfolder
+
+
+						Throws:
+						   TypeError -  if the listener is not an instance SelectionListener
+
+]]></item>
+<item repl="setSelection()" display="setSelection() "><![CDATA[Selects the item at the given zero-related index in the tabfolder.
 Sets the tabfolders selection the the given array.
-Depends on the parameter<b>Parameters:</b>
-<tt>mixed arg</tt> - the given zero-related index or the given array<b>Throws:</b>
-<tt>gara.OutOfBoundsException</tt> -  when there is no item for the given index
-				]]&gt;
-				</item>
-<item repl="update()" display="update() ">
-				&lt;[!CDATA[updates this tabfolder
-				]]&gt;
-				</item>
+Depends on the parameter
+
+
+						Parameters:
+						   (mixed) arg - the given zero-related index or the given array
+
+
+						Throws:
+						   gara.OutOfBoundsException -  when there is no item for the given index
+
+]]></item>
+<item repl="update()" display="update() "><![CDATA[updates this tabfolder
+
+]]></item>
 </completion>

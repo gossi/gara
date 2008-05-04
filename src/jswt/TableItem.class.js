@@ -32,7 +32,7 @@
 $class("TableItem", {
 	$extends : gara.jswt.Item,
 
-	$constructor : function(parent, style) {
+	$constructor : function(parent, style, index) {
 		if (!$class.instanceOf(parent, gara.jswt.Table)) {
 			throw new TypeError("parent is not a gara.jswt.Table");
 		}
@@ -40,7 +40,7 @@ $class("TableItem", {
 		this.$base(parent, style);
 
 		this._table = parent;
-		this._table._addItem(this);
+		this._table._addItem(this, index);
 
 		this._cells = [];
 
@@ -49,6 +49,13 @@ $class("TableItem", {
 		this._selected = false;
 
 		this.domref = null;
+	},
+	
+	clear : function() {
+		this._text = "";
+		this._image = null;
+		this._cells = [];
+		this._active = this._checked = false;
 	},
 
 	_create : function() {

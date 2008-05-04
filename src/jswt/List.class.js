@@ -260,12 +260,22 @@ $class("List", {
 						this.select(item);
 					}
 				}
+				
+				if (e.which == 3 && this._menu != null) {
+					if (this.domref.style.position != "") {
+						this._menu.setLocation(e.layerX, e.layerY);
+					} else {
+						this._menu.setLocation(e.clientX, e.clientY);
+					}
+					this._menu.setVisible(true);
+					return false;
+				}
 				break;
 
 			case "keyup":
 			case "keydown":
 			case "keypress":
-			
+
 				this._items.forEach(function(item, index, arr) {
 					item.handleEvent(e);
 				});
@@ -636,6 +646,24 @@ $class("List", {
 		}
 		
 		this.update();
+	},
+	
+	/**
+	 * @method
+	 * Sets the selection of the list
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {Array} items the array with the <code>TreeItem</code> items
+	 * @throws {TypeError} if the passed items are not an array
+	 * @return {void}
+	 */	
+	setSelection : function(items) {
+		if (!$class.instanceOf(items, Array)) {
+			throw new TypeError("items are not instance of an Array");
+		}
+
+		this._selection = items;
+		this.notifySelectionListener();
 	},
 
 	toString : function() {

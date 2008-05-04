@@ -72,7 +72,7 @@ $class("AbstractTreeViewer", {
 	},
 
 	_treeRemoveAll : $abstract(function() {}),
-	
+
 	refresh : function() {
 		var children = this._getRawChildren(this._getRoot());
 		var handledChildren = [];

@@ -69,10 +69,13 @@ $class("Widget", {
 		this._parent = parent;
 		this._style = typeof(style) == "undefined" ? JSWT.DEFAULT : style;
 		this._data = null;
+		this._dataMap = {};
 		
 		this._className = "";
 		this._baseClass = "";
 		this._listener = {};
+		
+		this._disposed = false;
 	},
 
 	/**
@@ -106,6 +109,10 @@ $class("Widget", {
 		this.registerListener(eventType, listener);
 	},
 
+	dispose : function() {
+		this._disposed = true;
+	},
+
 	/**
 	 * @method
 	 * Returns the CSS class names
@@ -116,7 +123,7 @@ $class("Widget", {
 	getClassName : function() {
 		return this._className;
 	},
-	
+
 	/**
 	 * @method
 	 * Returns application based data for this widget, or <code>null</code> if it has not been set
@@ -124,10 +131,17 @@ $class("Widget", {
 	 * @author Thomas Gossmann
 	 * @return {Object} application based data
 	 */
-	getData : function() {
-		return this._data;
+	getData : function(key) {
+		if (typeof(key) == "undefined") {
+			return this._data;
+		} else {
+			if (this._dataMap.hasOwnProperty(key)) {
+				return this._dataMap[key];
+			}
+		}
+		return null;
 	},
-	
+
 	/**
 	 * @method
 	 * Returns the parent for this widget
@@ -163,6 +177,10 @@ $class("Widget", {
 	},
 
 //	handleEvent : $abstract(function(e){}),
+
+	isDisposed : function() {
+		return this._disposed;
+	},
 
 	/**
 	 * @method
@@ -228,8 +246,12 @@ $class("Widget", {
 	 * @param {Object} data your data for this widget
 	 * @return {void}
 	 */
-	setData : function(data) {
-		this._data = data;
+	setData : function(key, data) {
+		if (typeof(data) == "undefined") {
+			this._data = key;
+		} else {
+			this._dataMap[key] = data;
+		}
 	},
 	
 	toString : function() {

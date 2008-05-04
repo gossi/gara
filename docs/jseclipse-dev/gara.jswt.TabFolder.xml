@@ -1,32 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.TabFolder" extends="gara.jswt.Composite">
-<item repl="_activateItem()" display="_activateItem() ">
-				&lt;[!CDATA[Activates an item and notifies the selection listener<b>Parameters:</b>
-<tt>gara.jswt.TabItem item</tt> - the item to be activated<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not type of gara.jswt.TabItem
-				]]&gt;
-				</item>
-<item repl="_addItem()" display="_addItem() ">
-				&lt;[!CDATA[Adds an item to this tabfolder<b>Parameters:</b>
-<tt>gara.jswt.TabItem item</tt> - the item to be added<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not type of gara.jswt.TabItem
-				]]&gt;
-				</item>
-<item repl="_notifySelectionListener()" display="_notifySelectionListener() ">
-				&lt;[!CDATA[Notifies selection listener about the changed selection within the List
-				]]&gt;
-				</item>
-<item repl="_showContent()" display="_showContent() ">
-				&lt;[!CDATA[Shows off the content for the client area from the passed item<b>Parameters:</b>
-<tt>gara.jswt.TabItem item</tt> - the item with the content
-				]]&gt;
-				</item>
-<item repl="handleEvent()" display="handleEvent() ">
-				&lt;[!CDATA[Handles events for this tabfolder
-				]]&gt;
-				</item>
-<item repl="registerListener()" display="registerListener() ">
-				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
-				]]&gt;
-				</item>
+<item repl="_activateItem()" display="_activateItem() "><![CDATA[Activates an item and notifies the selection listener
+
+
+						Parameters:
+						   (gara.jswt.TabItem) item - the item to be activated
+
+
+						Throws:
+						   TypeError -  if the item is not type of gara.jswt.TabItem
+
+]]></item>
+<item repl="_addItem()" display="_addItem() "><![CDATA[Adds an item to this tabfolder
+
+
+						Parameters:
+						   (gara.jswt.TabItem) item - the item to be added
+
+
+						Throws:
+						   TypeError -  if the item is not type of gara.jswt.TabItem
+
+]]></item>
+<item repl="_notifySelectionListener()" display="_notifySelectionListener() "><![CDATA[Notifies selection listener about the changed selection within the List
+
+]]></item>
+<item repl="_showContent()" display="_showContent() "><![CDATA[Shows off the content for the client area from the passed item
+
+
+						Parameters:
+						   (gara.jswt.TabItem) item - the item with the content
+
+]]></item>
+<item repl="addSelectionListener()" display="addSelectionListener() "><![CDATA[Adds a selection listener on the tabfolder
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the desired listener to be added to this tabfolder
+
+
+						Throws:
+						   TypeError -  if the listener is not an instance SelectionListener
+
+]]></item>
+<item repl="getClientArea()" display="getClientArea() "><![CDATA[Returns the client area off that tabfolder
+
+
+						Returns:
+						    the client area node
+]]></item>
+<item repl="getItem()" display="getItem() "><![CDATA[Gets a specified item with a zero-related index
+
+
+						Parameters:
+						   (int) index - the zero-related index
+
+
+						Throws:
+						   gara.OutOfBoundsException -  if the index does not live within this tabfolder
+
+
+						Returns:
+						    the item
+]]></item>
+<item repl="getItemCount()" display="getItemCount() "><![CDATA[Returns the amount of the items in the tabfolder
+
+
+						Returns:
+						    the amount
+]]></item>
+<item repl="getItems()" display="getItems() "><![CDATA[Returns an array with all the items in the tabfolder
+
+
+						Returns:
+						    the array with the items
+]]></item>
+<item repl="getSelection()" display="getSelection() "><![CDATA[Returns an array with the items which are currently selected in the tabfolder
+
+
+						Returns:
+						    an array with items
+]]></item>
+<item repl="getSelectionIndex()" display="getSelectionIndex() "><![CDATA[Returns the zero-related index of the selected item or -1 if there is no item selected
+
+
+						Returns:
+						    the index of the selected item
+]]></item>
+<item repl="handleEvent()" display="handleEvent() "><![CDATA[Handles events for this tabfolder
+
+]]></item>
+<item repl="indexOf()" display="indexOf() "><![CDATA[Looks for the index of a specified item
+
+
+						Parameters:
+						   (gara.jswt.TabItem) item - the item for the index
+
+
+						Throws:
+						   gara.jswt.ItemNotExistsException -  if the item does not exist in this tabfolder
+   TypeError -  if the item is not a TabItem
+
+
+						Returns:
+						    the index of the specified item
+]]></item>
+<item repl="registerListener()" display="registerListener() "><![CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+
+]]></item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() "><![CDATA[Removes a selection listener from this tabfolder
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the listener to remove from this tabfolder
+
+
+						Throws:
+						   TypeError -  if the listener is not an instance SelectionListener
+
+]]></item>
+<item repl="setSelection()" display="setSelection() "><![CDATA[Selects the item at the given zero-related index in the tabfolder.
+Sets the tabfolders selection the the given array.
+Depends on the parameter
+
+
+						Parameters:
+						   (mixed) arg - the given zero-related index or the given array
+
+
+						Throws:
+						   gara.OutOfBoundsException -  when there is no item for the given index
+
+]]></item>
+<item repl="update()" display="update() "><![CDATA[updates this tabfolder
+
+]]></item>
 </completion>

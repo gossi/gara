@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.ListItem" extends="gara.jswt.Item">
-<item repl="create()" display="create() ">
-				&lt;[!CDATA[Internal creation process of this item
-				]]&gt;
-				</item>
-<item repl="handleEvent()" display="handleEvent() ">
-				&lt;[!CDATA[Event handler for this item. Its main use is to pass through keyboard events
-to all listeners.<b>Parameters:</b>
-<tt>Event e</tt> - DOMEvent
-				]]&gt;
-				</item>
-<item repl="registerListener()" display="registerListener() ">
-				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
-				]]&gt;
-				</item>
+<item repl="create()" display="create() "><![CDATA[Internal creation process of this item
+
+]]></item>
+<item repl="handleEvent()" display="handleEvent() "><![CDATA[Event handler for this item. Its main use is to pass through keyboard events
+to all listeners.
+
+
+						Parameters:
+						   (Event) e - DOMEvent
+
+]]></item>
+<item repl="registerListener()" display="registerListener() "><![CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+
+]]></item>
+<item repl="update()" display="update() "><![CDATA[Updates the list item
+
+]]></item>
 </completion>

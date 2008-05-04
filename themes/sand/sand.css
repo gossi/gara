@@ -68,11 +68,11 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	padding: 5px;
 }
 
-.sand ul.jsWTTreeLines ul {
+.sand .jsWTTreeLines ul {
 	background-image: url('line.gif');
 }
 
-.sand ul.jsWTTreeLines li {
+.sand .jsWTTreeLines li {
 	background-image: url('join.gif');
 }
 
@@ -105,11 +105,11 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	color: #000;
 }
 
-.sand ul.jsWTTreeLines li.bottom {
+.sand .jsWTTreeLines li.bottom {
 	background-image: url('joinbottom.gif');
 }
 
-.sand ul.jsWTTreeLines ul.bottom {
+.sand .jsWTTreeLines ul.bottom {
 	background-image: none;
 }
 
@@ -223,7 +223,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	cursor: default;
 }
 
-table.jsWTTable thead tr th span {
+.sand table.jsWTTable thead tr th span {
 	margin-top: -3px;
 	margin-right: -4px !important;
 	margin-bottom: -3px;
@@ -248,5 +248,46 @@ table.jsWTTable thead tr th span {
 }
 
 .sand table.jsWTTable tbody tr td.selected {
+	background-color: #EAE6D6;
+}
+
+/* Menu Widget */
+.sand ul.jsWTMenu {
+	margin: 0;
+	padding: 0;
+	background-image: none;
+	background-color: #CCC8BA;
+	border: 1px solid #000;
+}
+
+.sand ul.jsWTMenu li {
+	margin: 3px;
+	border: 1px solid #CCC8BA;
+	padding-left: 2px;
+	padding-right: 2px;
+	background-image: none;
+}
+
+.sand ul.jsWTMenu li span {
+	background-color: #CCC8BA;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.sand ul.jsWTMenu li img {
+}
+
+.sand ul.jsWTMenu li.active {
+/*	border: 1px dotted #000;*/
+}
+
+.sand ul.jsWTMenu li:hover {
+/*	background-color: #FFF;*/
+	background-color: #EAE6D6;
+	border: 1px solid #000;
+}
+
+.sand ul.jsWTMenu li:hover span {
 	background-color: #EAE6D6;
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.ListItem" extends="gara.jswt.Item">
-<item repl="update()" display="update() ">
-				&lt;[!CDATA[Updates the list item
-				]]&gt;
-				</item>
+<item repl="update()" display="update() "><![CDATA[Updates the list item
+
+]]></item>
 </completion>

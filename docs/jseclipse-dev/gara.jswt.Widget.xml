@@ -1,8 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.Widget" extends="">
-<item repl="_notifyExternalKeyboardListener()" display="_notifyExternalKeyboardListener() ">
-				&lt;[!CDATA[Workaround for passing keyboard events to the widget with focus<b>Parameters:</b>
-<tt>Event e</tt> - the event<tt>gara.jswt.Widget obj</tt> - the obj on which the event belongs to<tt>gara.jswt.Control control</tt> - the control to witch the event belongs
-				]]&gt;
-				</item>
+<item repl="domref" display="domref"><![CDATA[contains the DOM reference of the widget]]></item>
+<item repl="_notifyExternalKeyboardListener()" display="_notifyExternalKeyboardListener() "><![CDATA[Workaround for passing keyboard events to the widget with focus
+
+
+						Parameters:
+						   (Event) e - the event
+   (gara.jswt.Widget) obj - the obj on which the event belongs to
+   (gara.jswt.Control) control - the control to witch the event belongs
+
+]]></item>
+<item repl="addClassName()" display="addClassName() "><![CDATA[Adds a CSS class to the item
+
+
+						Parameters:
+						   (String) className - new class
+
+]]></item>
+<item repl="addListener()" display="addListener() "><![CDATA[Adds an eventlistener to the widget
+
+
+						Parameters:
+						   (String) eventType - the type of the event
+   (Object) listener - the listener
+
+]]></item>
+<item repl="getClassName()" display="getClassName() "><![CDATA[Returns the CSS class names
+
+
+						Returns:
+						    the class name(s)
+]]></item>
+<item repl="getData()" display="getData() "><![CDATA[Returns application based data for this widget, or null if it has not been set
+
+
+						Returns:
+						    application based data
+]]></item>
+<item repl="getParent()" display="getParent() "><![CDATA[Returns the parent for this widget
+
+
+						Returns:
+						    the widgets parent
+]]></item>
+<item repl="getStyle()" display="getStyle() "><![CDATA[Returns the style for this widget
+
+
+						Returns:
+						    the style
+]]></item>
+<item repl="hasClassName()" display="hasClassName() "><![CDATA[Tests if there is a specified classname existent
+
+
+						Parameters:
+						   (String) the - class name to look for
+
+
+						Returns:
+						    wether there is this class or not
+]]></item>
+<item repl="removeClassName()" display="removeClassName() "><![CDATA[Removes a CSS class name from this item.
+
+
+						Parameters:
+						   (String) className - the class name that should be removed
+
+]]></item>
+<item repl="removeListener()" display="removeListener() "><![CDATA[Removes a listener from this item
+
+
+						Parameters:
+						   (String) eventType - the type of the event
+   (Object) listener - the listener
+
+]]></item>
+<item repl="setData()" display="setData() "><![CDATA[Sets application based data for this widget
+
+
+						Parameters:
+						   (Object) data - your data for this widget
+
+]]></item>
 </completion>

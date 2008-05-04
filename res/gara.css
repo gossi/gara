@@ -26,6 +26,7 @@ ul.jsWTList {
 	padding-left: 0;
 	-moz-user-select: none;
 	outline: none;
+	cursor: default;
 }
 
 ul.jsWTList li {
@@ -200,3 +201,49 @@ table.jsWTTable thead tr th span {
 table.jsWTTable thead tr th.operator span {
 	display: block;
 } 
+
+/* Menu Widget */
+ul.jsWTMenu {
+	margin: 0;
+	padding: 0;
+	background-image: none;
+	-moz-user-select: none;
+	outline: none;
+	cursor: default;
+}
+
+ul.jsWTMenu li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	outline: none;
+}
+
+/* Reset. Anyways the menu inherits styles from controls */
+ul.jsWTMenu li span {
+	padding: 0;
+	margin: 0;
+	line-height: 21px;
+}
+
+ul.jsWTMenu li img {
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+ul.jsWTMenu li.active {
+/*	border: 1px dotted #000;*/
+}
+
+ul.jsWTMenu li:hover {
+/*	background-color: #FFF;*/
+}
+
+ul.jsWTMenu li.selected {
+/*	background-color: #DDD;*/
+}
+
+ul.jsWTMenu li:hover.selected {
+/*	background-color: #FFF;
+	color: #00A;*/
+}

@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.Control" extends="gara.jswt.Widget">
-<item repl="addFocusListener()" display="addFocusListener() ">
-				&lt;[!CDATA[Adds a focus changed listener on the control<b>Parameters:</b>
-<tt>FocusListener the</tt> - desired listener to be added to this control<b>Throws:</b>
-<tt>TypeError</tt> -  if the listener is not implementing the FocusListener interface
-				]]&gt;
-				</item>
-<item repl="forceFocus()" display="forceFocus() ">
-				&lt;[!CDATA[Forces this control to gain focus
-				]]&gt;
-				</item>
-<item repl="isFocusControl()" display="isFocusControl() ">
-				&lt;[!CDATA[Tells wether the control has focus or not<b>Returns:</b> true for having the focus and false if not
-				]]&gt;
-				</item>
-<item repl="looseFocus()" display="looseFocus() ">
-				&lt;[!CDATA[Forces this control to loose focus
-				]]&gt;
-				</item>
-<item repl="removeFocusListener()" display="removeFocusListener() ">
-				&lt;[!CDATA[Removes a focus listener from this control<b>Parameters:</b>
-<tt>FocusListener the</tt> - listener to remove from this control<b>Throws:</b>
-<tt>TypeError</tt> -  wether this is not a FocusListener
-				]]&gt;
-				</item>
+<item repl="addFocusListener()" display="addFocusListener() "><![CDATA[Adds a focus changed listener on the control
+
+
+						Parameters:
+						   (FocusListener) the - desired listener to be added to this control
+
+
+						Throws:
+						   TypeError -  if the listener is not implementing the FocusListener interface
+
+]]></item>
+<item repl="forceFocus()" display="forceFocus() "><![CDATA[Forces this control to gain focus
+
+]]></item>
+<item repl="isFocusControl()" display="isFocusControl() "><![CDATA[Tells wether the control has focus or not
+
+
+						Returns:
+						    true for having the focus and false if not
+]]></item>
+<item repl="looseFocus()" display="looseFocus() "><![CDATA[Forces this control to loose focus
+
+]]></item>
+<item repl="removeFocusListener()" display="removeFocusListener() "><![CDATA[Removes a focus listener from this control
+
+
+						Parameters:
+						   (FocusListener) the - listener to remove from this control
+
+
+						Throws:
+						   TypeError -  wether this is not a FocusListener
+
+]]></item>
 </completion>

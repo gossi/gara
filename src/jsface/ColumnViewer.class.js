@@ -77,11 +77,22 @@ $class("ColumnViewer", {
 			|| $class.instanceOf(labelProvider, gara.jsface.CellLabelProvider))) {
 			throw new TypeError("labelProvider is not instance of either gara.jsface.ITableLabelProvider, gara.jsface.ILabelProvider or gara.jsface.CellLabelProvider");
 		}
+		
+		this._updateColumnParts(labelProvider);
 
 		this.$base(labelProvider);
 	},
 
 	toString : function() {
 		return "[gara.jsface.ColumnViewer]";
+	},
+
+	_updateColumnParts : function(labelProvider) {
+		var column, i = 0;
+
+		while ((column = this._getViewerColumn(i++)) != null) {
+			column.setLabelProvider(gara.jsface.CellLabelProvider
+					.createViewerLabelProvider(labelProvider), false);
+		}
 	}
 });

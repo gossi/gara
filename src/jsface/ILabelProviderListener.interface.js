@@ -22,41 +22,10 @@
 */
 
 /**
- * @class BaseLabelProvider
+ * @interface ILabelProviderListener
  * @namespace gara.jsface
  * @author Thomas Gossmann
  */
-$class("BaseLabelProvider", {
-	$implements : [gara.jsface.IBaseLabelProvider],
-	
-	$constructor : function() {
-		this.$base();
-		this._listener = null;
-	},
-	
-	addListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.ILabelProviderListener)) {
-			throw new TypeError("listener not type of gara.jsface.ILabelProviderListener");
-		}
-		
-		if (this._listener == null) {
-			this._listener = [];
-		}
-		
-		this._listener.add(listener);
-	},
-	
-	isLabelProperty : function(element, property) {
-		return true;
-	},
-
-	removeListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.ILabelProviderListener)) {
-			throw new TypeError("listener not type of gara.jsface.ILabelProviderListener");
-		}
-
-		if (this._listener != null && this._listener.contains(listener)) {
-			this._listener.remove(listener);
-		}
-	}
+$interface("ILabelProviderListener", {
+	labelProviderChanged : function() {}
 });

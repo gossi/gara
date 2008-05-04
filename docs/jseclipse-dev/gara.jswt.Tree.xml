@@ -1,48 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <completion prefix="gara.jswt.Tree" extends="gara.jswt.Composite">
-<item repl="_activateItem()" display="_activateItem() ">
-				&lt;[!CDATA[Activates an item<b>Parameters:</b>
-<tt>gara.jswt.TreeItem item</tt> - the new item to be activated<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not a ListItem
-				]]&gt;
-				</item>
-<item repl="_addItem()" display="_addItem() ">
-				&lt;[!CDATA[Adds an item to the tree. This is automatically done by instantiating a new item.<b>Parameters:</b>
-<tt>gara.jswt.TreeItem item</tt> - the new item to be added<b>Throws:</b>
-<tt/> - 
-				]]&gt;
-				</item>
-<item repl="_handleKeyEvent()" display="_handleKeyEvent() ">
-				&lt;[!CDATA[Key Event Handler for the Tree<b>Parameters:</b>
-<tt>Event </tt> -  W3C-Event
-				]]&gt;
-				</item>
-<item repl="_notifySelectionListener()" display="_notifySelectionListener() ">
-				&lt;[!CDATA[Notifies all selection listeners about the selection change
-				]]&gt;
-				</item>
-<item repl="_select()" display="_select() ">
-				&lt;[!CDATA[Selects a specific item<b>Parameters:</b>
-<tt>gara.jswt.TreeItem item</tt> - the item to select<tt>boolean _add</tt> - true for adding to the current selection, false will select only this item<b>Throws:</b>
-<tt>TypeError</tt> -  if the item is not a TreeItem
-				]]&gt;
-				</item>
-<item repl="_selectShift()" display="_selectShift() ">
-				&lt;[!CDATA[Selects a Range of items. From shiftItem to the passed item.
-				]]&gt;
-				</item>
-<item repl="_updateItems()" display="_updateItems() ">
-				&lt;[!CDATA[Update Items<b>Parameters:</b>
-<tt>gara.jswt.TreeItem[] items</tt> - to update<tt>HTMLElement parentNode</tt> - the parent dom node
-				]]&gt;
-				</item>
-<item repl="handleEvent()" display="handleEvent() ">
-				&lt;[!CDATA[Event Handler for the tree<b>Parameters:</b>
-<tt>Event </tt> -  W3C-event
-				]]&gt;
-				</item>
-<item repl="registerListener()" display="registerListener() ">
-				&lt;[!CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
-				]]&gt;
-				</item>
+<item repl="_activateItem()" display="_activateItem() "><![CDATA[Activates an item
+
+
+						Parameters:
+						   (gara.jswt.TreeItem) item - the new item to be activated
+
+
+						Throws:
+						   TypeError -  if the item is not a ListItem
+
+]]></item>
+<item repl="_addItem()" display="_addItem() "><![CDATA[Adds an item to the tree. This is automatically done by instantiating a new item.
+
+
+						Parameters:
+						   (gara.jswt.TreeItem) item - the new item to be added
+
+
+						Throws:
+						    - 
+
+]]></item>
+<item repl="_handleKeyEvent()" display="_handleKeyEvent() "><![CDATA[Key Event Handler for the Tree
+
+
+						Parameters:
+						   (Event)  -  W3C-Event
+
+]]></item>
+<item repl="_notifySelectionListener()" display="_notifySelectionListener() "><![CDATA[Notifies all selection listeners about the selection change
+
+]]></item>
+<item repl="_select()" display="_select() "><![CDATA[Selects a specific item
+
+
+						Parameters:
+						   (gara.jswt.TreeItem) item - the item to select
+   (boolean) _add - true for adding to the current selection, false will select only this item
+
+
+						Throws:
+						   TypeError -  if the item is not a TreeItem
+
+]]></item>
+<item repl="_selectShift()" display="_selectShift() "><![CDATA[Selects a Range of items. From shiftItem to the passed item.
+
+]]></item>
+<item repl="_updateItems()" display="_updateItems() "><![CDATA[Update Items
+
+
+						Parameters:
+						   (gara.jswt.TreeItem[]]]><![CDATA[) items - to update
+   (HTMLElement) parentNode - the parent dom node
+
+]]></item>
+<item repl="addSelectionListener()" display="addSelectionListener() "><![CDATA[Adds a selection listener on the tree
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the desired listener to be added to this tree
+
+
+						Throws:
+						   TypeError -  if the listener is not a SelectionListener
+
+]]></item>
+<item repl="deselect()" display="deselect() "><![CDATA[Deselects a specific item
+
+
+						Parameters:
+						   (gara.jswt.TreeItem) item - the item to deselect
+
+]]></item>
+<item repl="deselectAll()" display="deselectAll() "><![CDATA[Deselect all items in the tree
+
+]]></item>
+<item repl="getItem()" display="getItem() "><![CDATA[Returns a specifiy item with a zero-related index
+
+
+						Parameters:
+						   (int) index - the zero-related index
+
+
+						Throws:
+						   gara.OutOfBoundsException -  if the index does not live within this tree
+
+
+						Returns:
+						    the item
+]]></item>
+<item repl="getItemCount()" display="getItemCount() "><![CDATA[Returns the amount of the items in the tree
+
+
+						Returns:
+						    the amount
+]]></item>
+<item repl="getItems()" display="getItems() "><![CDATA[Returns an array with all the items in the tree
+
+
+						Returns:
+						    an array with the items
+]]></item>
+<item repl="getLinesVisible()" display="getLinesVisible() "><![CDATA[Returns whether the lines of the tree are visible or not
+
+
+						Returns:
+						    true if the lines are visible and false if they are not
+]]></item>
+<item repl="getSelection()" display="getSelection() "><![CDATA[Returns an array with the items which are currently selected in the tree
+
+
+						Returns:
+						   an array with items
+]]></item>
+<item repl="getSelectionCount()" display="getSelectionCount() "><![CDATA[Returns the amount of the selected items in the tree
+
+
+						Returns:
+						    the amount
+]]></item>
+<item repl="handleEvent()" display="handleEvent() "><![CDATA[Event Handler for the tree
+
+
+						Parameters:
+						   (Event)  -  W3C-event
+
+]]></item>
+<item repl="indexOf()" display="indexOf() "><![CDATA[Looks for the index of a specified item
+
+
+						Parameters:
+						   (gara.jswt.TreeItem) item - the item for the index
+
+
+						Throws:
+						   gara.jswt.ItemNotExistsException -  if the item does not exist in this tree
+   TypeError -  if the item is not a TreeItem
+
+
+						Returns:
+						    the index of the specified item
+]]></item>
+<item repl="registerListener()" display="registerListener() "><![CDATA[Register listeners for this widget. Implementation for gara.jswt.Widget
+
+]]></item>
+<item repl="removeSelectionListener()" display="removeSelectionListener() "><![CDATA[Removes a selection listener from this tree
+
+
+						Parameters:
+						   (gara.jswt.SelectionListener) listener - the listener to be removed from this tree
+
+
+						Throws:
+						   TypeError -  if the listener is not a SelectionListener
+
+]]></item>
+<item repl="selectAll()" display="selectAll() "><![CDATA[Select all items in the list
+
+]]></item>
+<item repl="setLinesVisible()" display="setLinesVisible() "><![CDATA[Sets lines visible or invisible.
+
+
+						Parameters:
+						   (boolean) show - true if the lines should be visible or false for invisibility
+
+]]></item>
+<item repl="update()" display="update() "><![CDATA[Updates the widget
+
+]]></item>
 </completion>

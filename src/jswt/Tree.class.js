@@ -66,6 +66,7 @@ $class("Tree", {
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
+
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
@@ -288,20 +289,30 @@ $class("Tree", {
 				}
 
 				if (item != null) {
-					if (e.ctrlKey && !e.shiftKey) {
-						if (this._selection.contains(item)) {
-							this.deselect(item);
+					if (e.target != item.toggleNode) {
+						if (e.ctrlKey && !e.shiftKey) {
+							if (this._selection.contains(item)) {
+								this.deselect(item);
+							} else {
+								this._select(item, true);
+							}
+						} else if (!e.ctrlKey && e.shiftKey) {
+							this._selectShift(item, false);
+						} else if (e.ctrlKey && e.shiftKey) {
+							this._selectShift(item, true);
 						} else {
-							this._select(item, true);
+							this._select(item, false);
 						}
-					} else if (!e.ctrlKey && e.shiftKey) {
-						this._selectShift(item, false);
-					} else if (e.ctrlKey && e.shiftKey) {
-						this._selectShift(item, true);
-					} else {
-						this._select(item, false);
 					}
-
+				}
+				
+				if (e.which == 3 && this._menu != null) {
+					if (this.domref.style.position != "") {
+						this._menu.setLocation(e.layerX, e.layerY);
+					} else {
+						this._menu.setLocation(e.clientX, e.clientY);
+					}
+					this._menu.setVisible(true);
 				}
 				break;
 

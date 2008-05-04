@@ -39,6 +39,7 @@ $class("Control", {
 		// add Control to the ControlManager and add as focus listener
 		this._focusListener = [];
 		this._hasFocus = false;
+		this._menu = null;
 
 		gara.jswt.ControlManager.getInstance().addControl(this);
 		this.addFocusListener(gara.jswt.ControlManager.getInstance());
@@ -132,6 +133,15 @@ $class("Control", {
 		if (this._focusListener.contains(listener)) {
 			this._focusListener.remove(listener);
 		}
+	},
+	
+	setMenu : function(menu) {
+		if (!$class.instanceOf(menu, gara.jswt.Menu)) {
+			throw new TypeError("menu is not a gara.jswt.Menu");
+		}
+
+		this._menu = menu;
+		this.addListener("mousedown", this);
 	},
 
 	toString : function() {
