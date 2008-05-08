@@ -42,6 +42,7 @@ $class("CellLabelProvider", {
 		if ($class.instanceOf(labelProvider, gara.jsface.CellLabelProvider)) {
 			return labelProvider;
 		}
+		return new gara.jsface.WrappedViewerLabelProvider(labelProvider);
 	}),
 
 	update : $abstract(function(cell){})

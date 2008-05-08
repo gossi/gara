@@ -35,9 +35,12 @@
 
 <script type="text/javascript" src="../../src/jsface/IBaseLabelProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/ILabelProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/LabelProvider.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ITableLabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/LabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/BaseLabelProvider.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/CellLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ColumnLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/WrappedViewerLabelProvider.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
@@ -45,9 +48,11 @@
 
 <script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ViewerCell.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerColumn.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ContentViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/StructuredViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ColumnViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/TreeViewerRow.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/AbstractTreeViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/TreeViewer.class.js"></script>
 
@@ -158,9 +163,8 @@ function addModelData() {
 			obj.childs = [];
 		}
 		obj.childs.push({name : value});
+		view.refresh(obj);
 	}
-	
-	view.refresh();
 }
 
 function removeModelData() {

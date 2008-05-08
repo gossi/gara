@@ -49,6 +49,7 @@ $class("Tree", {
 		this._selection = [];
 		this._selectionListeners = [];
 		this._items = [];
+		this._columns = [];
 		this._firstLevelItems = [];
 	},
 
@@ -74,7 +75,7 @@ $class("Tree", {
 
 		this._activeItem = item;
 		this._activeItem.setActive(true);
-		this.update();
+		this._activeItem.update();
 	},
 
 	/**
@@ -190,6 +191,10 @@ $class("Tree", {
 			this.deselect(this._selection[i]);
 		}
 		this.update();
+	},
+	
+	getColumnCount : function() {
+		return this._columns.length;
 	},
 
 	/**

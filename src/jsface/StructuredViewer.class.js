@@ -37,9 +37,9 @@ $class("StructuredViewer", {
 		this._map = [];
 		this._items = [];
 		
-		this._elementMap = {};
+		this._elementMap = null;
 	},
-	
+
 	_associate : function(element, item) {
 		var data = item.getData();
 		if (data != element) {
@@ -69,6 +69,41 @@ $class("StructuredViewer", {
 
 	_doUpdateItem : $abstract(function(widget, element){}),
 
+	_doFindInputItem : $abstract(function(element){}),
+
+	_findItem : $final(function(element) {
+		var results = this._findItems(element);
+		return results.length == 0 ? null : results[0];
+	}),
+
+	_findItems : $final(function(element) {
+		if (!element.hasOwnProperty("__garaUID")) {
+			return [];
+		}
+		var result = this._doFindInputItem(element);
+		if (result != null) {
+			return [result];
+		}
+		
+		if (this._usingElementMap()) {
+			var widgetOrWidgets = null;
+			if (element.hasOwnProperty("__garaUID")
+					&& this._elementMap.hasOwnProperty(element.__garaUID)) {
+				widgetOrWidgets = this._elementMap[element.__garaUID];
+			}
+
+			if (widgetOrWidgets == null) {
+				return [];
+			} else if ($class.instanceOf(widgetOrWidgets, gara.jswt.Widget)) {
+				return [widgetOrWidgets];
+			} else {
+				return widgetOrWidgets;
+			}
+		}
+
+		return [];
+	}),
+
 	_getRawChildren : function(parent) {
 		var result = null;
 		if (parent != null) {
@@ -80,7 +115,7 @@ $class("StructuredViewer", {
 
 		return (result != null) ? result : [0];
 	},
-	
+
 	_getSortedChildren : function(parent) {
 		return this._getRawChildren(parent);
 	},
@@ -89,19 +124,29 @@ $class("StructuredViewer", {
 		return this._input;
 	},
 
-	_internalRefresh : $abstract(function(element) {}),
+	_internalRefresh : $abstract(function(element, updateLabels) {}),
 
 	_mapElement : function(element, item) {
-		if (this._elementMap.hasOwnProperty(element)) {
-			this._elementMap[element] = item;
+		if (this._elementMap == null) {
+			this._elementMap = {};
 		}
+		
+		// generating hash (unique-id)
+		var d = new Date();
+		var id = d.valueOf();
+
+		if (!element.hasOwnProperty("__garaUID")) {
+			element.__garaUID = id;
+		}
+
+		this._elementMap[id] = item;
 	},
 
 	refresh : function(first, second) {
 		var element, updateLabels;
 		if (typeof(first) == "boolean") {
 			updateLabels = first;
-		} else if (typeof(first) == "Object") {
+		} else if (typeof(first) == "object") {
 			element = first;
 		}
 
@@ -123,14 +168,23 @@ $class("StructuredViewer", {
 	},
 
 	_unmapElement : function(element, item) {
+		if (this._elementMap == null 
+				|| !element.hasOwnProperty("__garaUID")) {
+			return;
+		}
+		
 		if ($class.instanceOf(item, Array)) {
-			this._elementMap[element] = item;
+			this._elementMap[element.__garaUID] = item;
 		} else {
-			delete this._elementMap[element];
+			delete this._elementMap[element.__garaUID];
 		}
 	},
 
 	_updateItem : function(widget, element) {
 		this._doUpdateItem(widget, element);
-	}, 
+	},
+	
+	_usingElementMap : function() {
+		return this._elementMap != null;
+	}
 });

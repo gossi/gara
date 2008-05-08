@@ -42,6 +42,9 @@ $class("TreeItem", {
 		
 		this.$base(parent, style);
 
+		this._images = [];
+		this._texts = [];
+
 		this._items = new Array();
 		this._expanded = true;
 		this._checked = false;
@@ -84,6 +87,8 @@ $class("TreeItem", {
 		} else {
 			this._items.push(item);
 		}
+		
+		this._changed = true;
 	},
 
 	/**
@@ -142,7 +147,7 @@ $class("TreeItem", {
 		this._span.obj = this;
 		this._span.control = this._tree;
 		this._span.className = "text";
-		this._spanText = document.createTextNode(this._text);
+		this._spanText = document.createTextNode(this.getText());
 		this._span.appendChild(this._spanText);
 		base2.DOM.EventTarget(this._span);
 	
@@ -159,7 +164,7 @@ $class("TreeItem", {
 		if (this._image != null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
-			this._img.src = this._image.src;
+			this._img.src = this.getImage().src;
 			this._img.control = this._tree;
 			base2.DOM.EventTarget(this._img);
 	
@@ -261,6 +266,12 @@ $class("TreeItem", {
 	getExpanded : function() {
 		return this._expanded;
 	},
+	
+	getImage : function(columnIndex) {
+		if (typeof(columnIndex) == "undefined")
+			columnIndex = 0;
+		return this._images[columnIndex];
+	},
 
 	/**
 	 * @method
@@ -325,6 +336,12 @@ $class("TreeItem", {
 		} else {
 			return this._parent;
 		}
+	},
+
+	getText : function(columnIndex) {
+		if (typeof(columnIndex) == "undefined")
+			columnIndex = 0;
+		return this._texts[columnIndex];
 	},
 
 	/**
@@ -549,6 +566,24 @@ $class("TreeItem", {
 		this._changed = true;
 	},
 	
+	setImage : function(columnIndex, image) {
+		if ($class.instanceOf(columnIndex, Image)) {
+			image = columnIndex;
+			columnIndex = 0;
+		}
+		
+		this._images[columnIndex] = image;
+	},
+	
+	setText : function(columnIndex, text) {
+		if (typeof(columnIndex) == "string") {
+			text = columnIndex;
+			columnIndex = 0;
+		}
+		
+		this._texts[columnIndex] = text;
+	},
+	
 	toString : function() {
 		return "[gara.jswt.TreeItem]";
 	},
@@ -578,20 +613,20 @@ $class("TreeItem", {
 			this._img = document.createElement("img");
 			this._img.obj = this;
 			this._img.control = this._tree;
-			this._img.alt = this._text;
-			this._img.src = this._image.src;
+			this._img.alt = this.getText();
+			this._img.src = this.getImage().src;
 			this.domref.insertBefore(this._img, this._span);
 			base2.DOM.EventTarget(this._img);
 		}
 
 		// update image information
 		else if (this._image != null) {
-			this._img.src = this._image.src;
+			this._img.src = this.getImage().src;
 			this._img.alt = this._text;
 		}
 		
 		// delete image
-		else if (this._img != null && this._image == null) {
+		else if (this._img != null && this.getImage() == null) {
 			this.domref.removeChild(this._img);
 			this._img = null;
 		}
@@ -623,7 +658,7 @@ $class("TreeItem", {
 			this.addClassName("bottom");
 		}
 
-		this._spanText.nodeValue = this._text;
+		this._spanText.nodeValue = this.getText();
 		this.domref.className = this._className;
 	}
 });

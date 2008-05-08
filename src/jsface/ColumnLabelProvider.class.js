@@ -43,6 +43,10 @@ $class("ColumnLabelProvider", {
 		return element == null ? "" : element.toString();
 	},
 	
+	isLabelProperty : function(element, property) {
+		return true;
+	},
+	
 	update : function(cell) {
 		if (!$class.instanceOf(cell, gara.jsface.ViewerCell)) {
 			throw new TypeError("cell is not instance of gara.jsface.ViewerCell");

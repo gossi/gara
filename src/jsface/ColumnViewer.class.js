@@ -38,10 +38,6 @@ $class("ColumnViewer", {
 	},
 
 	_createViewerColumn : function(columnOwner, labelProvider) {
-		if (!$class.instanceOf(columnOwner, gara.jswt.TableColumn)) {
-			throw new TypeError("columnOwner not instance of gara.jswt.TableColumn");
-		}
-
 		if (!$class.instanceOf(labelProvider, gara.jsface.CellLabelProvider)) {
 			throw new TypeError("labelProvider not instance of gara.jsface.CellLabelProvider");
 		}
@@ -50,20 +46,20 @@ $class("ColumnViewer", {
 		column.setLabelProvider(labelProvider, false);
 		return column;
 	},
+	
+	_getColumnViewerOwner : $abstract(function(columnIndex) {}),
 
 	_getViewerColumn : function(columnIndex) {
-		var viewer;
 		var columnOwner = this._getColumnViewerOwner(columnIndex);
 
 		if (columnOwner == null) {
 			return null;
 		}
 
-		viewer = columnOwner.getData(gara.jsface.ViewerColumn.COLUMN_VIEWER_KEY);
+		var viewer = columnOwner.getData(gara.jsface.ViewerColumn.COLUMN_VIEWER_KEY);
 
 		if (viewer == null) {
-			viewer = this._createViewerColumn(columnOwner, gara.jsface.CellLabelProvider
-					.createViewerLabelProvider(this.getLabelProvider()));
+			viewer = this._createViewerColumn(columnOwner, gara.jsface.CellLabelProvider.createViewerLabelProvider(this.getLabelProvider()));
 		}
 
 		return viewer;
@@ -85,6 +81,11 @@ $class("ColumnViewer", {
 
 	toString : function() {
 		return "[gara.jsface.ColumnViewer]";
+	},
+
+	_updateCell : function(rowItem, column, element) {
+		this._cell.update(rowItem, column, element);
+		return this._cell;
 	},
 
 	_updateColumnParts : function(labelProvider) {

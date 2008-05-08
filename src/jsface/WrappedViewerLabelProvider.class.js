@@ -37,6 +37,7 @@ $class("WrappedViewerLabelProvider", {
 		
 		this._labelProvider = this.defaultLabelProvider;
 		this._tableLabelProvider;
+		this._viewerLabelProvider;
 		
 		this.setProviders(labelProvider);
 	},
@@ -54,8 +55,23 @@ $class("WrappedViewerLabelProvider", {
 	},
 
 	setProviders : function(provider) {
-		if ($class.instanceOf(provider, gara.jsface.ITableLabelProvider)) {
-			this._tableLabelProvider = provider;
+//		if ($class.instanceOf(provider, gara.jsface.ITableLabelProvider))
+//			this._tableLabelProvider = provider;
+
+//		if ($class.instanceOf(provider, gara.jsface.IViewerLabelProvider))
+//			this._viewerLabelProvider = provider;
+
+		if ($class.instanceOf(provider, gara.jsface.ILabelProvider))
+			this._labelProvider = provider;
+	},
+	
+	update : function(cell) {
+		if (!$class.instanceOf(cell, gara.jsface.ViewerCell)) {
+			throw new TypeError("cell is not instance of gara.jsface.ViewerCell");
 		}
+		
+		var element = cell.getElement();
+		cell.setText(this.getText(element));
+		cell.setImage(this.getImage(element));
 	}
 });

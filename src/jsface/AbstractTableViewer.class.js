@@ -152,10 +152,6 @@ $class("AbstractTableViewer", {
 		for (var i = min; i < children.length; ++i) {
 			this._createItem(children[i], i);
 		}
-	},
-
-	_updateCell : function(rowItem, column, element) {
-		this._cell.update(rowItem, column, element);
-		return this._cell;
 	}
+
 });
