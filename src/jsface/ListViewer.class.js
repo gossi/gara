@@ -34,8 +34,8 @@ $class("ListViewer", {
 		this._list = new gara.jswt.List(parent, style);
 	},
 	
-	_createListItem : function(el, index) {
-		var item = new gara.jswt.ListItem(this._list, gara.jswt.JSWT.DEFAULT, index);
+	_createListItem : function(el, style, index) {
+		var item = new gara.jswt.ListItem(this._list, style, index);
 		item.setText(this._getLabelProviderText(this.getLabelProvider(), el));
 		item.setImage(this.getLabelProvider().getImage(el));
 		item.setData(el);

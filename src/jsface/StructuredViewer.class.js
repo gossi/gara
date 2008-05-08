@@ -115,6 +115,21 @@ $class("StructuredViewer", {
 
 		return (result != null) ? result : [0];
 	},
+	
+	_getItemFromElementMap : function(element) {
+		var id;
+		if (typeof(element) == "object" && element.hasOwnProperty("__garaUID")) {
+			id = element.__garaUID;
+		} else {
+			id = element;
+		}
+
+		if (this._elementMap.hasOwnProperty(id)) {
+			return this._elementMap[id];
+		}
+		
+		return null;
+	},
 
 	_getSortedChildren : function(parent) {
 		return this._getRawChildren(parent);
@@ -135,8 +150,11 @@ $class("StructuredViewer", {
 		var d = new Date();
 		var id = d.valueOf();
 
-		if (!element.hasOwnProperty("__garaUID")) {
+		if (typeof(element) == "object" 
+				&&!element.hasOwnProperty("__garaUID")) {
 			element.__garaUID = id;
+		} else {
+			id = element;
 		}
 
 		this._elementMap[id] = item;
@@ -163,20 +181,26 @@ $class("StructuredViewer", {
 	},
 
 	_unmapAllElements : function() {
-		this._map.clear();
-		this._items.clear();
+		this._elementMap = {};
 	},
 
 	_unmapElement : function(element, item) {
 		if (this._elementMap == null 
-				|| !element.hasOwnProperty("__garaUID")) {
+				|| !(typeof(element) == "object" && element.hasOwnProperty("__garaUID"))) {
 			return;
 		}
 		
-		if ($class.instanceOf(item, Array)) {
-			this._elementMap[element.__garaUID] = item;
+		var id;
+		if (typeof(element) == "object" && element.hasOwnProperty("__garaUID")) {
+			id = element.__garaUID;
 		} else {
-			delete this._elementMap[element.__garaUID];
+			id = element;
+		}
+		
+		if ($class.instanceOf(item, Array)) {
+			this._elementMap[id] = item;
+		} else {
+			delete this._elementMap[id];
 		}
 	},
 

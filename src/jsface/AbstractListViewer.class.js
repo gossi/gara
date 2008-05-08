@@ -35,9 +35,36 @@ $class("AbstractListViewer", {
 	 * 
 	 */
 	$constructor : function() {
+		this._storedSelection = [];
 	},
 
-	_createListItem : $abstract(function(element, index) {}),
+	_createListItem : $abstract(function(element, style, index) {}),
+	
+	/* Method declared on StructuredViewer. */
+	_doFindInputItem : function(element) {
+		// compare with root
+		var root = this._getRoot();
+		if (root == null) {
+			return null;
+		}
+
+		if (root == element) {
+			return this.getControl();
+		}
+		return null;
+	},
+	
+	_doUpdateItem : function(item, element) {
+		if (item.isDisposed()) {
+			this._unmapElement(element, item);
+			return;
+		}
+
+		item.setText(this._getLabelProviderText(this.getLabelProvider(), element));
+		item.setImage(this.getLabelProvider().getImage(element));
+
+		this._associate(element, item);
+	},
 
 	getControl : $abstract(function() {}),
 
@@ -52,59 +79,51 @@ $class("AbstractListViewer", {
 
 	inputChanged : function(input, oldInput) {
 		this._listRemoveAll();
+		this.getControl().setSelection([]);
 
-		var children = this._getRawChildren(this._getRoot());
-		
-		for (var i = 0, len = children.length; i < len; ++i) {
-			var el = children[i];
-			this._mapElement(el, this._createListItem(el));
-		}
-		
 		this._internalRefresh();
 	},
 
-	_internalRefresh : function() {
+	_internalRefresh : function(element) {
+		if (element == null || element == this._getRoot()) {
+			// store selection
+			var storedSelection = this.getControl().getSelection();
+
+			var children = this._getSortedChildren(this._getRoot());
+			var items = this.getControl().getItems();
+
+			for (var i = 0; i < children.length; i++) {
+				if (typeof(items[i]) != "undefined"
+						&& items[i].getData() == children[i]) {
+					this._updateItem(items[i], children[i]);
+				} else {
+					var item = this._createListItem(children[i], gara.jswt.JSWT.DEFAULT, i);
+					this._associate(children[i], item);
+				}
+			}
+
+			// kill items
+			for (var i = children.length; i < items.length; i++) {
+				if (storedSelection.contains(items[i])) {
+					storedSelection.remove(items[i]);
+				}
+
+				this.getControl().remove(items[i]);
+			}
+
+			// restore selection
+			this.getControl().setSelection(storedSelection);
+		} else {
+			var item = this._getItemFromElementMap(element);
+			if (item != null) {
+				this._updateItem(item, element);
+			}
+		}
+		
 		this.getControl().update();
-		this.getControl().setSelection([]);
 	},
 
 	_listRemoveAll : $abstract(function() {}),
 
-	_listSetItems : $abstract(function() {}),
-
-	refresh : function() {
-		var children = this._getRawChildren(this._getRoot());
-		var handledChildren = [];
-
-		for (var i = 0, len = children.length; i < len; ++i) {
-			var el = children[i];
-
-			// add item
-			if (!this._map.contains(el)) {
-				this._mapElement(el, this._createListItem(el, i));
-			}
-			// update
-			else {
-				var item = this._items[this._map.indexOf(el)];
-				item.setText(this._getLabelProviderText(this.getLabelProvider(), el));
-				item.setImage(this.getLabelProvider().getImage(el));
-			}
-			handledChildren.push(el);
-		}
-
-		// delete loop
-		for (var i = 0, len = this._map.length; i < len; ++i) {
-			var el = this._map[i];
-
-			// delete item in the widget
-			if (!handledChildren.contains(el)) {
-				this.getControl().remove(i);
-				this._unmapElement(el);
-			}
-		}
-
-		delete handledChildren;
-
-		this._internalRefresh();
-	}
+	_listSetItems : $abstract(function() {})
 });

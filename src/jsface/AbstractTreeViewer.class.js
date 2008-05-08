@@ -141,7 +141,7 @@ $class("AbstractTreeViewer", {
 	inputChanged : function(input, oldInput) {
 		this._treeRemoveAll();
 
-		var children = this._getRawChildren(this._getRoot());
+		var children = this._getSortedChildren(this._getRoot());
 
 		for (var i = 0; i < children.length; ++i) {
 			var el = children[i];
@@ -201,62 +201,6 @@ $class("AbstractTreeViewer", {
 	},
 	
 	_newItem : $abstract(function(parent, style, index) {}),
-
-	/*refresh : function() {
-		var children = this._getRawChildren(this._getRoot());
-		var handledChildren = [];
-
-		// adding and updating recursively
-		this._refreshItems(children, handledChildren);		
-
-		// delete loop
-		var tmpMap = this._map.concat([]);
-		for (var i = 0, len = tmpMap.length; i < len; ++i) {
-			var el = tmpMap[i];
-
-			// delete item in the widget
-			if (!handledChildren.contains(el)) {
-				var item = this._items[tmpMap.indexOf(el)];
-				var parent = item.getParentItem();
-				if (parent == null) {
-					parent = item.getParent();
-				}
-				parent.remove(parent.indexOf(item));
-				this._unmapElement(el);
-			}
-		}
-
-		delete handledChildren;
-		delete tmpMap;
-
-		this._internalRefresh();
-	},
-
-	// @TODO: instead of refreshItems => refresh(parentNode)
-	_refreshItems : function(children, handledCollector) {
-		for (var i = 0, len = children.length; i < len; ++i) {
-			var el = children[i];
-
-			// add item
-			if (!this._map.contains(el)) {
-				var parent = this.getContentProvider().getParent(el);
-				var item = this._items[this._map.indexOf(parent)];
-				this._createTreeItem(item, el, i);
-			}
-			// update
-			else {
-				var item = this._items[this._map.indexOf(el)];
-				item.setText(this._getLabelProviderText(this.getLabelProvider(), el));
-				item.setImage(this.getLabelProvider().getImage(el));
-			}
-			handledCollector.push(el);
-
-			// refresh childs
-			if (this.getContentProvider().hasChildren(el)) {
-				this._refreshItems(this.getContentProvider().getChildren(el), handledCollector);
-			}
-		}
-	},*/
 	
 	_setExpanded : $abstract(function(item, expanded) {}),
 	
