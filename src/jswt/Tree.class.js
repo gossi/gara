@@ -640,7 +640,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
-		if (!$class.instanceOf(item, gara.jswt.SelectionListener)) {
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("item is not type of gara.jswt.SelectionListener");
 		}
 
