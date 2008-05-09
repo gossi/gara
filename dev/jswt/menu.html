@@ -79,6 +79,16 @@ function main() {
 		var mi2 = new gara.jswt.MenuItem(menu);
 		mi2.setText("test 2");
 		
+		var menu2 = new gara.jswt.Menu(document.getElementById("menuBar"), gara.jswt.JSWT.DEFAULT);
+		
+		var m2i1 = new gara.jswt.MenuItem(menu2);
+		m2i1.setText("test");
+		
+		var m2i2 = new gara.jswt.MenuItem(menu2);
+		m2i2.setText("test 2");
+		
+		menu2.update();
+		
 		menu.addListener("mousedown", new MenuController());
 		
 		l.setMenu(menu);
@@ -96,6 +106,9 @@ onDOMLoaded(main);
 </head>
 <body style="padding: 10px;" class="sand">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Menu</h1>
+
+<div id="menuBar" class="sand" style="margin-bottom: 10px;"></div>
+
 <div id="container" class="sand" style="width: 300px;">
 </div>
 </body>

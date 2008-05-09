@@ -40,7 +40,7 @@ $class("Menu", {
 		this.$base(parent, style);
 
 		// Menu default style
-		if (this._style == JSWT.DEFAULT) {
+		if ((this._style & JSWT.DEFAULT) == JSWT.DEFAULT) {
 			this._style = JSWT.BAR;
 		}
 
@@ -84,16 +84,23 @@ $class("Menu", {
 	_create : function() {
 		var parentNode = document.getElementsByTagName("body")[0];
 
-//		if ($class.instanceOf(this._parent, gara.jswt.Widget)) {
-//			parentNode = this._parent.domref;
-//		}
+		console.log("Menu.create, style: " + this._style + " drinne: " + ((this._style & JSWT.BAR) == JSWT.BAR));
+
+		if ((this._style & JSWT.BAR) == JSWT.BAR) {
+			console.log("Menu.create: yo!");
+			this.addClassName("jsWTMenuBar");
+			parentNode = this._parent;
+			this._visible = true;
+		}
 
 		this.domref = document.createElement("ul");
 		this.domref.obj = this;
 		this.domref.control = this;
 		
 		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP
-			|| (this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+				|| (this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+			this.addClassName("jsWTMenuDropDown");
+			console.log("Menu.create: mach unsichtbar");
 			this.domref.style.display = "none";
 			this.domref.style.position = "absolute";
 		}

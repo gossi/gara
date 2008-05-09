@@ -291,3 +291,16 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 .sand ul.jsWTMenu li:hover span {
 	background-color: #EAE6D6;
 }
+
+.sand ul.jsWTMenuBar {
+	margin: 0;
+	padding: 0;
+	background-image: none;
+	background-color: #CCC8BA;
+	border: none;
+	height: 29px;
+}
+
+.sand ul.jsWTMenuBar li {
+	float: left;
+}
