@@ -269,7 +269,6 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 }
 
 .sand ul.jsWTMenu li span {
-	background-color: #CCC8BA;
 	border: none;
 	padding: 0;
 	margin: 0;
@@ -289,7 +288,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 }
 
 .sand ul.jsWTMenu li:hover span {
-	background-color: #EAE6D6;
+	/*background-color: #EAE6D6;*/
 }
 
 .sand ul.jsWTMenuBar {
@@ -303,4 +302,71 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 
 .sand ul.jsWTMenuBar li {
 	float: left;
+}
+
+.sand ul.jsWTMenuPopUp,
+.sand ul.jsWTMenuDropDown {
+	margin: 0;
+	padding: 0;
+	background-image: none;
+	background-color: #CCC8BA;
+	border: 1px solid #000;
+}
+
+.sand ul.jsWTMenuPopUp li,
+.sand ul.jsWTMenuDropDown li {
+	margin: 3px;
+	border: 1px solid #CCC8BA;
+	padding-left: 2px;
+	padding-right: 2px;
+	background-image: none;
+	float: none;
+}
+
+.sand ul.jsWTMenuPopUp li span,
+.sand ul.jsWTMenuDropDown li span {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.sand ul.jsWTMenuPopUp li img,
+.sand ul.jsWTMenuDropDown li img {
+}
+
+.sand ul.jsWTMenuPopUp li.active,
+.sand ul.jsWTMenuDropDown li.active {
+/*	border: 1px dotted #000;*/
+}
+
+.sand ul.jsWTMenuPopUp li:hover,
+.sand ul.jsWTMenuDropDown li:hover {
+/*	background-color: #FFF;*/
+	background-color: #EAE6D6;
+	border: 1px solid #000;
+}
+
+.sand ul.jsWTMenuPopUp li:hover span,
+.sand ul.jsWTMenuDropDown li:hover span {
+	/*background-color: #EAE6D6;*/
+}
+
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
+	margin-left: -3px;
+	white-space: nowrap;
+}
+
+.sand ul.jsWTMenuDropDown {
+	width: 150px;
+}
+
+.sand ul.jsWTMenuDropDown li ul {
+	top: -2px;
+	left: 144px;
+}
+
+.sand ul.jsWTMenuDropDown li.jsWTMenuItemCascade  {
+	background-image: url('arrow.gif');
+	background-position: 135px 8px;
+	background-repeat: no-repeat;	
 }

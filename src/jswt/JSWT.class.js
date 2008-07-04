@@ -61,6 +61,15 @@ $class("JSWT", {
 	
 	/**
 	 * @field
+	 * Style constant for cascade behavior (value is 1&lt;&lt;6).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>MenuItem</code></li>
+	 * </ul></p>
+	 */
+	CASCADE : $static(1 << 6),
+	
+	/**
+	 * @field
 	 * Style constant for close box trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
 	CLOSE : $static(1 << 6),

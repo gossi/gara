@@ -217,6 +217,7 @@ ul.jsWTMenu li {
 	padding: 0;
 	list-style-type: none;
 	outline: none;
+	position: relative;
 }
 
 /* Reset. Anyways the menu inherits styles from controls */
@@ -246,4 +247,8 @@ ul.jsWTMenu li.selected {
 ul.jsWTMenu li:hover.selected {
 /*	background-color: #FFF;
 	color: #00A;*/
+}
+
+ul.jsWTMenu {
+	z-index: 500;
 }

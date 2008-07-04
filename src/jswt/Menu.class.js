@@ -48,6 +48,11 @@ $class("Menu", {
 			this._style = JSWT.POP_UP;
 		}
 		
+		if ($class.instanceOf(parent, gara.jswt.MenuItem) 
+				&& (parent.getStyle() & JSWT.CASCADE) != JSWT.CASCADE) {
+			throw new Exception("parent has no JSWT.CASCADE style!");
+		}
+		
 		if ($class.instanceOf(parent, gara.jswt.MenuItem)) {
 			this._style = JSWT.DROP_DOWN;
 		}
@@ -80,38 +85,48 @@ $class("Menu", {
 			this._items.push(item);
 		}
 	},
-	
+
 	_create : function() {
-		var parentNode = document.getElementsByTagName("body")[0];
-
-		console.log("Menu.create, style: " + this._style + " drinne: " + ((this._style & JSWT.BAR) == JSWT.BAR));
-
-		if ((this._style & JSWT.BAR) == JSWT.BAR) {
-			console.log("Menu.create: yo!");
-			this.addClassName("jsWTMenuBar");
-			parentNode = this._parent;
-			this._visible = true;
-		}
+		var parentNode;
 
 		this.domref = document.createElement("ul");
 		this.domref.obj = this;
 		this.domref.control = this;
-		
-		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP
-				|| (this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
-			this.addClassName("jsWTMenuDropDown");
-			console.log("Menu.create: mach unsichtbar");
+		base2.DOM.EventTarget(this.domref);
+
+		if ((this._style & JSWT.BAR) == JSWT.BAR) {
+			this.addClassName("jsWTMenuBar");
+			this._visible = true;
+			parentNode = this._parent;
+		}
+
+		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
+			this.addClassName("jsWTMenuPopUp");
 			this.domref.style.display = "none";
 			this.domref.style.position = "absolute";
+			parentNode = document.getElementsByTagName("body")[0];
 		}
-		
-//		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
-//			parentNode = document.getElementsByTagName("body")[0];
-//		}
+
+		if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+			this.addClassName("jsWTMenuDropDown");
+			this.domref.style.display = "none";
+			this.domref.style.position = "absolute";
+			parentNode = this._parent.domref;
+		}
+
+		/* buffer unregistered user-defined listeners */
+		var unregisteredListener = {};
+		for (var eventType in this._listener) {
+			unregisteredListener[eventType] = this._listener[eventType].concat([]);
+		}
+
+		/* Menu event listener */
+		this.addListener("mouseover", this);
+		this.addListener("mouseout", this);
 
 		/* register user-defined listeners */
-		for (var eventType in this._listener) {
-			this._listener[eventType].forEach(function(elem, index, arr) {
+		for (var eventType in unregisteredListener) {
+			unregisteredListener[eventType].forEach(function(elem, index, arr) {
 				this.registerListener(eventType, elem);
 			}, this);
 		}
@@ -150,14 +165,84 @@ $class("Menu", {
 	handleEvent : function(e) {
 		switch(e.type) {
 			case "mousedown":
-				if ((!e.target.control || e.target.control != this)
-					&& !this._justVisible 
-					&& this._visibleEvent != e) {
-
+				if ((!e.target.control || e.target.control != this) 
+						&& !this._justVisible 
+						&& this._visibleEvent != e
+						&& (this.getStyle() & JSWT.BAR) != JSWT.BAR) {
 					this.setVisible(false);
 				}
 				this._justVisible = false;
 				this._visibleEvent = e;
+				break;
+
+			case "mouseover":
+				if (e.target.obj 
+						&& $class.instanceOf(e.target.obj, gara.jswt.MenuItem)
+						&& this._items.contains(e.target.obj)) {
+					var item = e.target.obj;
+					item.getParent().setVisible(true);
+					if (item.getMenu() != null) {
+						item.getMenu().setVisible(true);
+						item.getMenu().addListener("mouseout", item.getMenu());
+						//item.addListener("mouseout", this);
+						//this._justVisible = item.getMenu();
+					}
+				}
+				
+				if (e.target.obj 
+						&& $class.instanceOf(e.target.obj, gara.jswt.Menu)) {
+					e.target.obj.setVisible(true);
+				}
+
+				/*if (e.target.obj 
+						&& $class.instanceOf(e.target.obj, gara.jswt.Menu)
+						&& e.target.obj != this) {
+					var menu = e.target.obj;
+					menu.addListener("mouseout", menu);
+				}*/
+				break;
+
+			case "mouseout":
+				if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.Menu)
+						&& (e.target.obj.getStyle() & JSWT.BAR) != JSWT.BAR) {
+					var menu = e.target.obj;
+					//console.log("Menu.handleEvent(mouseout), target:" + item.getText());
+					//if (item.getMenu().getVisible()) {
+						//console.log("Menu.handleEvent(mouseout), menu visible, set invis now");
+					//	item.getMenu().setVisible(false);
+					//}
+					//console.log("Menu.handleEvent(mouseout), blur on: " + e.target + ", obj: " + e.target.obj);
+
+					menu.setVisible(false);
+					menu.removeListener("mouseout", menu);
+				}
+				
+				if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
+					var item = e.target.obj;
+					if (item.getMenu() != null) {
+						item.getMenu().setVisible(false);
+						item.getMenu().removeListener("mouseout", item.getMenu());
+					}
+				}
+				
+				/*if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
+					var item = e.target.obj;
+					console.log("Menu.handleEvent(mouseout), blur on:" + item.getText());
+					
+					if (item.getMenu() != null) {
+						item.getMenu().setVisible(false);
+						item.getMenu().removeListener("mouseout", item.getMenu());
+					}
+				}*/
+				/*if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.Menu)) {
+					var menu = e.target.obj;
+					if (menu.getVisible() && this._justVisible != menu) {
+						menu.setVisible(false);
+						menu.update();
+					}
+					
+					this._justVisible = false;
+				}*/
 				break;
 		}
 	},
@@ -207,6 +292,16 @@ $class("Menu", {
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.removeListener("mousedown", this);
 			}
+			
+			var parent = this.getParent();
+			
+			if (parent.getParent() != null
+				&& $class.instanceOf(parent.getParent(), gara.jswt.Menu)
+				&& (parent.getParent().getStyle() & JSWT.BAR) != JSWT.BAR) {
+				
+				console.log("Menu.setVisible(false), parent blurr:" + parent.getParent());
+				parent.getParent().setVisible(false);
+			}
 		}
 	},
 
@@ -219,8 +314,7 @@ $class("Menu", {
 			this._create();
 		}
 
-		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP
-			|| (this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
 			this.domref.style.top = this._y + "px";
 			this.domref.style.left = this._x + "px";
 		}

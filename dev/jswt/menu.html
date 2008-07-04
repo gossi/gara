@@ -84,8 +84,28 @@ function main() {
 		var m2i1 = new gara.jswt.MenuItem(menu2);
 		m2i1.setText("test");
 		
-		var m2i2 = new gara.jswt.MenuItem(menu2);
+		var m2i2 = new gara.jswt.MenuItem(menu2, gara.jswt.JSWT.CASCADE);
 		m2i2.setText("test 2");
+		
+		
+		var m21 = new gara.jswt.Menu(m2i2);
+		m2i2.setMenu(m21);
+		
+		var m21i2 = new gara.jswt.MenuItem(m21);
+		m21i2.setText("sub 2");
+		
+		var m21i1 = new gara.jswt.MenuItem(m21, gara.jswt.JSWT.CASCADE);
+		m21i1.setText("sub 1");
+		
+		
+		var mxy = new gara.jswt.Menu(m21i1);
+		m21i1.setMenu(mxy);
+		
+		var mxi1 = new gara.jswt.MenuItem(mxy);
+		mxi1.setText("sub 1.1");
+		
+		var mxi2 = new gara.jswt.MenuItem(mxy);
+		mxi2.setText("sub 1.2");
 		
 		menu2.update();
 		

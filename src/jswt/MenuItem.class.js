@@ -47,10 +47,12 @@ $class("MenuItem", {
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
+		
+		this._menu = null;
 	},
 	
 	_create : function() {
-		this.domref = document.createElement("li");this.domref.className = this._className;
+		this.domref = document.createElement("li");
 		this.domref.obj = this;
 		this.domref.control = this._menu;
 
@@ -87,9 +89,19 @@ $class("MenuItem", {
 				this.registerListener(eventType, elem);
 			}, this);
 		}
+		
+		if (this._menu != null) {
+			this.addClassName("jsWTMenuItemCascade");
+			this._menu.update();
+		}
 
+		this.domref.className = this._className;
 		this._changed = false;
 		return this.domref;
+	},
+	
+	getMenu : function() {
+		return this._menu;
 	},
 	
 	/**
@@ -108,6 +120,15 @@ $class("MenuItem", {
 		if (this._span != null) {
 			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
 		}
+	},
+	
+	setMenu : function(menu) {
+		if (!$class.instanceOf(menu, gara.jswt.Menu)) {
+			throw new TypeError("menu is not instance of gara.jswt.Menu");
+		}
+
+		this._menu = menu;
+		this._changed = true;
 	},
 	
 	toString : function() {
@@ -132,7 +153,6 @@ $class("MenuItem", {
 				}, this);
 			}
 		}
-		
 
 		// simply update image information
 		else if (this._image != null) {
@@ -155,6 +175,12 @@ $class("MenuItem", {
 					});
 				}, this);
 			}
+		}
+
+		this.removeClassName("jsWTMenuItemCascade");
+		if (this._menu != null) {
+			this.addClassName("jsWTMenuItemCascade");
+			this._menu.update();
 		}
 
 		this._spanText.nodeValue = this._text;
