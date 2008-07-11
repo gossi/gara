@@ -65,7 +65,7 @@ $class("Menu", {
 
 		// flags
 		this._enabled = false;
-		this._visible = false;
+		this._visible = true;
 		this._visibleEvent = null;
 		this._justVisible = false;
 		
@@ -96,11 +96,11 @@ $class("Menu", {
 
 		if ((this._style & JSWT.BAR) == JSWT.BAR) {
 			this.addClassName("jsWTMenuBar");
-			this._visible = true;
 			parentNode = this._parent;
 		}
 
 		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
+			this._visible = false;
 			this.addClassName("jsWTMenuPopUp");
 			this.domref.style.display = "none";
 			this.domref.style.position = "absolute";
@@ -109,7 +109,6 @@ $class("Menu", {
 
 		if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
 			this.addClassName("jsWTMenuDropDown");
-			this.domref.style.display = "none";
 			this.domref.style.position = "absolute";
 			parentNode = this._parent.domref;
 		}
@@ -121,8 +120,8 @@ $class("Menu", {
 		}
 
 		/* Menu event listener */
-		this.addListener("mouseover", this);
-		this.addListener("mouseout", this);
+		//this.addListener("mouseover", this);
+		//this.addListener("mouseout", this);
 
 		/* register user-defined listeners */
 		for (var eventType in unregisteredListener) {
@@ -168,81 +167,11 @@ $class("Menu", {
 				if ((!e.target.control || e.target.control != this) 
 						&& !this._justVisible 
 						&& this._visibleEvent != e
-						&& (this.getStyle() & JSWT.BAR) != JSWT.BAR) {
+						&& (this.getStyle() & JSWT.POP_UP) == JSWT.POP_UP) {
 					this.setVisible(false);
 				}
 				this._justVisible = false;
 				this._visibleEvent = e;
-				break;
-
-			case "mouseover":
-				if (e.target.obj 
-						&& $class.instanceOf(e.target.obj, gara.jswt.MenuItem)
-						&& this._items.contains(e.target.obj)) {
-					var item = e.target.obj;
-					item.getParent().setVisible(true);
-					if (item.getMenu() != null) {
-						item.getMenu().setVisible(true);
-						item.getMenu().addListener("mouseout", item.getMenu());
-						//item.addListener("mouseout", this);
-						//this._justVisible = item.getMenu();
-					}
-				}
-				
-				if (e.target.obj 
-						&& $class.instanceOf(e.target.obj, gara.jswt.Menu)) {
-					e.target.obj.setVisible(true);
-				}
-
-				/*if (e.target.obj 
-						&& $class.instanceOf(e.target.obj, gara.jswt.Menu)
-						&& e.target.obj != this) {
-					var menu = e.target.obj;
-					menu.addListener("mouseout", menu);
-				}*/
-				break;
-
-			case "mouseout":
-				if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.Menu)
-						&& (e.target.obj.getStyle() & JSWT.BAR) != JSWT.BAR) {
-					var menu = e.target.obj;
-					//console.log("Menu.handleEvent(mouseout), target:" + item.getText());
-					//if (item.getMenu().getVisible()) {
-						//console.log("Menu.handleEvent(mouseout), menu visible, set invis now");
-					//	item.getMenu().setVisible(false);
-					//}
-					//console.log("Menu.handleEvent(mouseout), blur on: " + e.target + ", obj: " + e.target.obj);
-
-					menu.setVisible(false);
-					menu.removeListener("mouseout", menu);
-				}
-				
-				if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
-					var item = e.target.obj;
-					if (item.getMenu() != null) {
-						item.getMenu().setVisible(false);
-						item.getMenu().removeListener("mouseout", item.getMenu());
-					}
-				}
-				
-				/*if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
-					var item = e.target.obj;
-					console.log("Menu.handleEvent(mouseout), blur on:" + item.getText());
-					
-					if (item.getMenu() != null) {
-						item.getMenu().setVisible(false);
-						item.getMenu().removeListener("mouseout", item.getMenu());
-					}
-				}*/
-				/*if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.Menu)) {
-					var menu = e.target.obj;
-					if (menu.getVisible() && this._justVisible != menu) {
-						menu.setVisible(false);
-						menu.update();
-					}
-					
-					this._justVisible = false;
-				}*/
 				break;
 		}
 	},
@@ -291,16 +220,6 @@ $class("Menu", {
 			gara.EventManager.getInstance().removeListener({domNode:document,type:"mousedown",listener:this});
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.removeListener("mousedown", this);
-			}
-			
-			var parent = this.getParent();
-			
-			if (parent.getParent() != null
-				&& $class.instanceOf(parent.getParent(), gara.jswt.Menu)
-				&& (parent.getParent().getStyle() & JSWT.BAR) != JSWT.BAR) {
-				
-				console.log("Menu.setVisible(false), parent blurr:" + parent.getParent());
-				parent.getParent().setVisible(false);
 			}
 		}
 	},

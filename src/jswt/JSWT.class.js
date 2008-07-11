@@ -153,6 +153,12 @@ $class("JSWT", {
 	 * The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).
 	 */
 	RETRY : $static(1 << 10),
+	
+	/**
+	 * @field
+	 * Style constant for line separator behavior (value is 1<<1).
+	 */
+	SEPARATOR : $static(1 << 1),
 
 	/**
 	 * @field

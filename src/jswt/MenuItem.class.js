@@ -47,55 +47,83 @@ $class("MenuItem", {
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
+		this._hr = null;
 		
 		this._menu = null;
 	},
-	
+
 	_create : function() {
 		this.domref = document.createElement("li");
 		this.domref.obj = this;
 		this.domref.control = this._menu;
 
-		// create item nodes
-		this._img = null;
-
-		// set image
-		if (this._image != null) {
-			this._img = document.createElement("img");
-			this._img.obj = this;
-			this._img.control = this._menu;
-			this._img.src = this._image.src;
-			this._img.alt = this._text;
-
-			// put the image into the dom
-			this.domref.appendChild(this._img);
-			base2.DOM.EventTarget(this._img);
+		if ((this._style & JSWT.SEPARATOR) == JSWT.SEPARATOR) {
+			this.domref.className = "jsWTMenuItemSeparator";
+			if ((this._parent.getStyle() & JSWT.BAR) != JSWT.BAR) {
+				this._hr = document.createElement("hr");
+				this.domref.appendChild(this._hr);
+			}
+		} else {
+			// create item nodes
+			this._img = null;
+			
+			// set image
+			if (this._image != null) {
+				this._img = document.createElement("img");
+				this._img.obj = this;
+				this._img.control = this._menu;
+				this._img.src = this._image.src;
+				this._img.alt = this._text;
+				
+				// put the image into the dom
+				this.domref.appendChild(this._img);
+				base2.DOM.EventTarget(this._img);
+			}
+			
+			this._spanText = document.createTextNode(this._text);
+			
+			this._span = document.createElement("span");
+			this._span.obj = this;
+			this._span.control = this._menu;
+			this._span.appendChild(this._spanText);
+			this.domref.appendChild(this._span);
+			
+			base2.DOM.EventTarget(this.domref);
+			base2.DOM.EventTarget(this._span);
+			
+			/* buffer unregistered user-defined listeners */
+			var unregisteredListener = {};
+			for (var eventType in this._listener) {
+				unregisteredListener[eventType] = this._listener[eventType].concat([]);
+			}
+			
+			/* Menu event listener */
+			try {
+				var node = this.domref;
+				this.domref.attachEvent("onmouseover", function(){
+					node.className += " hover";
+				});
+				this.domref.attachEvent("onmouseout", function(){
+					node.className = node.className.replace(new RegExp('\\shover', 'g'), '');
+				});
+			} 
+			catch (e) {
+			}
+			
+			/* register user-defined listeners */
+			for (var eventType in unregisteredListener) {
+				unregisteredListener[eventType].forEach(function(elem, index, arr){
+					this.registerListener(eventType, elem);
+				}, this);
+			}
+			
+			if (this._menu != null) {
+				this.addClassName("jsWTMenuItemCascade");
+				this._menu.update();
+			}
+			
+			this.domref.className = this._className;
 		}
-
-		this._spanText = document.createTextNode(this._text);
-		
-		this._span = document.createElement("span");
-		this._span.obj = this;
-		this._span.control = this._menu;
-		this._span.appendChild(this._spanText);
-		this.domref.appendChild(this._span);
-		
-		base2.DOM.EventTarget(this.domref);
-		base2.DOM.EventTarget(this._span);
-
-		// register listener
-		for (var eventType in this._listener) {
-			this._listener[eventType].forEach(function(elem, index, arr) {
-				this.registerListener(eventType, elem);
-			}, this);
-		}
-		
-		if (this._menu != null) {
-			this.addClassName("jsWTMenuItemCascade");
-			this._menu.update();
-		}
-
-		this.domref.className = this._className;
 		this._changed = false;
 		return this.domref;
 	},
@@ -113,6 +141,10 @@ $class("MenuItem", {
 	 * @return {void}
 	 */
 	registerListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+		}
+		
 		if (this._img != null) {
 			gara.EventManager.getInstance().addListener(this._img, eventType, listener);
 		}

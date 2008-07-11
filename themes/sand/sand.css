@@ -281,7 +281,8 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 /*	border: 1px dotted #000;*/
 }
 
-.sand ul.jsWTMenu li:hover {
+.sand ul.jsWTMenu li:hover,
+.sand ul.jsWTMenu li.hover {
 /*	background-color: #FFF;*/
 	background-color: #EAE6D6;
 	border: 1px solid #000;
@@ -302,6 +303,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 
 .sand ul.jsWTMenuBar li {
 	float: left;
+	position: relative;
 }
 
 .sand ul.jsWTMenuPopUp,
@@ -352,21 +354,69 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 }
 
 .sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
-	margin-left: -3px;
+	margin-left: -1px !important;
+	margin-top: 0 !important;
+	margin-top: 18px;
 	white-space: nowrap;
+	left: 0;
+}
+
+/* IE7 hack*/
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
+	*margin-top: 18px !important;
+}
+
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown ul {
+	*margin-top: 0 !important;
 }
 
 .sand ul.jsWTMenuDropDown {
 	width: 150px;
 }
 
-.sand ul.jsWTMenuDropDown li ul {
-	top: -2px;
-	left: 144px;
+.sand ul.jsWTMenuPopUp li,
+.sand ul.jsWTMenuDropDown li {
+	width: 138px !important;
+	width: 144px;
 }
 
-.sand ul.jsWTMenuDropDown li.jsWTMenuItemCascade  {
+/* the chain jsWTMenuBar jsWTMenuDropDown is because IE6 needs some readjusment */
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown  li ul,
+.sand ul.jsWTMenuPopUp li ul,
+.sand ul.jsWTMenuDropDown li ul {
+	top: -2px;
+	left: 145px;
+	margin-top: 0;
+	margin-left: -3px !important;
+}
+
+.sand ul.jsWTMenuPopUp li.jsWTMenuItemCascade,
+.sand ul.jsWTMenuDropDown li.jsWTMenuItemCascade {
 	background-image: url('arrow.gif');
 	background-position: 135px 8px;
 	background-repeat: no-repeat;	
+}
+
+.sand ul.jsWTMenuPopUp li.jsWTMenuItemSeparator,
+.sand ul.jsWTMenuPopUp li.jsWTMenuItemSeparator:hover,
+.sand ul.jsWTMenuDropDown li.jsWTMenuItemSeparator,
+.sand ul.jsWTMenuDropDown li.jsWTMenuItemSeparator:hover {
+	border: 1px solid #CCC8BA;
+	background-color: #CCC8BA;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.sand ul.jsWTMenuBar li.jsWTMenuItemSeparator,
+.sand ul.jsWTMenuBar li.jsWTMenuItemSeparator:hover {
+	border: none;
+	border-left: 1px solid #777;
+	background-color: #CCC8BA;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0;
+	height: 23px;
 }

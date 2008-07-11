@@ -76,13 +76,27 @@ function main() {
 		var mi1 = new gara.jswt.MenuItem(menu);
 		mi1.setText("test");
 		
-		var mi2 = new gara.jswt.MenuItem(menu);
+		var mi2 = new gara.jswt.MenuItem(menu, gara.jswt.JSWT.CASCADE);
 		mi2.setText("test 2");
+		
+		
+		var subpmenu = new gara.jswt.Menu(mi2);
+		mi2.setMenu(subpmenu);
+		
+		var subi1 = new gara.jswt.MenuItem(subpmenu);
+		subi1.setText("sub pop 1"); 
+		
+		var sep = new gara.jswt.MenuItem(subpmenu, gara.jswt.JSWT.SEPARATOR);
+		
+		var subi2 = new gara.jswt.MenuItem(subpmenu);
+		subi2.setText("sub pop 2");
 		
 		var menu2 = new gara.jswt.Menu(document.getElementById("menuBar"), gara.jswt.JSWT.DEFAULT);
 		
 		var m2i1 = new gara.jswt.MenuItem(menu2);
 		m2i1.setText("test");
+		
+		var m2sep = new gara.jswt.MenuItem(menu2, gara.jswt.JSWT.SEPARATOR);
 		
 		var m2i2 = new gara.jswt.MenuItem(menu2, gara.jswt.JSWT.CASCADE);
 		m2i2.setText("test 2");
@@ -120,16 +134,17 @@ function main() {
 		console.log(message);
 	}
 }
-
-onDOMLoaded(main);
 --></script>
 </head>
 <body style="padding: 10px;" class="sand">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Menu</h1>
 
+<h2 style="font-size: 18px; margin-bottom: 10px;">Menu.BAR</h2>
 <div id="menuBar" class="sand" style="margin-bottom: 10px;"></div>
 
+<h2 style="font-size: 18px; margin-bottom: 10px;">Menu.POP_UP</h2>
 <div id="container" class="sand" style="width: 300px;">
 </div>
+<script type="text/javascript">main();</script>
 </body>
 </html>
