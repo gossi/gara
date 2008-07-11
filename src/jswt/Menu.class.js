@@ -120,8 +120,6 @@ $class("Menu", {
 		}
 
 		/* Menu event listener */
-		//this.addListener("mouseover", this);
-		//this.addListener("mouseout", this);
 
 		/* register user-defined listeners */
 		for (var eventType in unregisteredListener) {
