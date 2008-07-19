@@ -420,3 +420,50 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	padding-right: 0;
 	height: 23px;
 }
+
+/* Dialog */
+div.jsWTDialog {
+	
+}
+
+div.jsWTDialogBar {
+	/*background: url('left.gif') no-repeat;*/
+	line-height: 16px;
+	cursor: default;
+}
+
+/* This div is only because of IE6 grrrrr */
+div.jsWTDialogBarLeft {
+	background: url('left.gif') no-repeat;
+	width: 9px;
+	height: 26px;
+	float: left;
+}
+
+div.jsWTDialogBarText {
+	background: url('bar.gif') repeat-x;
+	padding: 5px 5px 5px 0;
+	height: 16px;
+}
+
+div.jsWTDialogBarButtons {
+	background: url('right.gif') no-repeat right top;
+	padding: 5px;
+	height: 16px;
+}
+
+span.jsWTDialogCancelButton {
+	background: url('close.gif') no-repeat;
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 1px 2px 0 0;
+}
+
+span.jsWTDialogCancelButton:hover {
+	background: url('close_hover.gif');
+}
+
+div.jsWTDialogContent {
+	border: 1px solid #B7AE88;
+}

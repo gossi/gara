@@ -20,6 +20,7 @@ body {font:13px arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;
 
 /* Gara Styles */
 
+
 /* List Control */
 ul.jsWTList {
 	margin-left: 0;
@@ -254,4 +255,45 @@ ul.jsWTMenu li:hover.selected {
 
 ul.jsWTMenu {
 	z-index: 500;
+}
+
+
+
+/* Dialog */
+div#jsWTModalLayer {
+	z-index: 550;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: transparent !important;
+	background-color: #FFF;
+	filter: alpha(opacity=1);
+}
+
+div.jsWTDialog {
+	z-index: 600;
+	position: absolute;
+}
+
+div.jsWTDialogBar {
+	-moz-user-select: none;
+	outline: none;
+}
+
+div.jsWTDialogBarText {
+	float: left;
+}
+
+div.jsWTDialogBarButtons {
+	float: left;
+}
+
+div.jsWTDialogBarClearer {
+	clear: both;
+}
+
+div.jsWTDialogContent {
+	mind-width: 70px;
 }
