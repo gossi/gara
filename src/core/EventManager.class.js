@@ -39,17 +39,11 @@ $class("EventManager", {
 	 * @private
 	 */
 	_instance : $static(null),
+	_listeners : $static({}),
 
 	$constructor : function() {
-		this._listeners = [];
-		//base2.DOM.bind(document);
 		base2.DOM.EventTarget(window);
-		//base2.DOM.bind(window);
 		window.addEventListener("unload", this, false);
-//		var eventMgr = this;
-//		window.onunload = function(e) {
-//			eventMgr.handleEvent(e);
-//		}
 	},
 
 	getInstance : $static(function() {
@@ -70,19 +64,30 @@ $class("EventManager", {
 	 * @param {Object|Function} listener the desired action handler
 	 * @return {Event} generated event-object for this listener
 	 */
-	addListener : function(domNode, type, listener) {
-//		console.log("EventMngr.addListener: " + domNode.nodeName + " " + type + " " + listener);
+	addListener : $static(function(domNode, type, listener) {
 		domNode.addEventListener(type, listener, false);
+
+		var d = new Date();
+		var hashAppendix = "" + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
+
+		if (!domNode._garaHash) {
+			domNode._garaHash = domNode.toString() + hashAppendix;
+		}
+
+		if (!listener.hasOwnProperty("_garaHash")) {
+			listener._garaHash = listener.toString() + hashAppendix;
+		}
 		
+		var hash = "" + domNode._garaHash + type + listener._garaHash;
 		var event = {
 			domNode : domNode,
 			type : type,
 			listener : listener
 		}
-		this._listeners.push(event);
+		this._listeners[hash] = event;
 		
 		return event;
-	},
+	}),
 
 	/**
 	 * @method
@@ -92,6 +97,7 @@ $class("EventManager", {
 	 * @private
 	 */
 	handleEvent : function(e) {
+		alert(e.type);
 //		if (e.type == "unload") {
 			this._unregisterAllEvents();
 //		}
@@ -104,13 +110,17 @@ $class("EventManager", {
 	 * @param {Event} event object which is returned by addListener()
 	 * @see addListener
 	 */
-	removeListener : function(e) {
-		e.domNode.removeEventListener(e.type, e.listener, false);
+	removeListener : $static(function(domNode, type, listener) {
+		domNode.removeEventListener(type, listener, false);
 
-		if (this._listeners.contains(e)) {
-			this._listeners.remove(e);
+		if (domNode.hasOwnProperty("_garaHash") && listener.hasOwnProperty("_garaHash")) {
+			var hash = domNode._garaHash + type + listener._garaHash;
+
+			if (this._listeners[hash]) {
+				delete this._listeners[hash];
+			}
 		}
-	},
+	}),
 
 	/**
 	 * @method
@@ -119,13 +129,15 @@ $class("EventManager", {
 	 * @private
 	 */
 	_unregisterAllEvents : function() {
-		while (this._listeners.length > 0) {
-			var event = this._listeners.pop();
-			this.removeListener(event);
+		var hash, e;
+		for (hash in gara.EventManager._listeners) {
+			e = gara.EventManager._listeners[hash];
+			gara.EventManager.removeListener(e.domNode, e.type, e.listener);
 		}
 	},
-	
+
 	toString : function() {
 		return "[gara.EventManager]";
 	}
 });
+gara.eventManager = gara.EventManager.getInstance();

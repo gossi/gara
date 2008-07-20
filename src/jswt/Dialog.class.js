@@ -125,8 +125,8 @@ $class("Dialog", {
 		base2.DOM.EventTarget(this._dialogBar);
 		base2.DOM.EventTarget(this._barCancelButton);
 		
-		gara.EventManager.getInstance().addListener(this.domref, "mousedown", this);
-		gara.EventManager.getInstance().addListener(this._barCancelButton, "mousedown", this);
+		gara.EventManager.addListener(this.domref, "mousedown", this);
+		gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
 		
 		this._parent.appendChild(this.domref);
 	},
@@ -243,24 +243,16 @@ $class("Dialog", {
 				} else if (e.target == this._dialogBar 
 						|| e.target == this._dialogBarText
 						|| e.target == this._dialogBarButtons){
-					gara.EventManager.getInstance().addListener(document, "mousemove", this);
-					gara.EventManager.getInstance().addListener(this._dialogBar, "mouseup", this);
+					gara.EventManager.addListener(document, "mousemove", this);
+					gara.EventManager.addListener(this._dialogBar, "mouseup", this);
 					this._dX = e.clientX - this.domref.offsetLeft;
 					this._dY = e.clientY - this.domref.offsetTop;
 				}
 				break;
 
 			case "mouseup":
-				gara.EventManager.getInstance().removeListener({
-					domNode: document,
-					type: "mousemove",
-					listener: this
-				});
-				gara.EventManager.getInstance().removeListener({
-					domNode: this._dialogBar,
-					type: "mouseup",
-					listener: this
-				});
+				gara.EventManager.removeListener(document, "mousemove", this);
+				gara.EventManager.removeListener(this._dialogBar, "mouseup", this);
 				break;
 
 			case "mousemove":
@@ -277,7 +269,8 @@ $class("Dialog", {
 		}
 	},
 
-	open : $abstract(function() {}),
+	/*open : $abstract(function() {}),*/
+	open: function(){this._create()},
 
 	/**
 	 * @method

@@ -233,8 +233,7 @@ $class("List", {
 	handleEvent : function(e) {
 		// special events for the list
 		var obj = e.target.obj || null;
-		
-//		console.log("List.handleEvent(" + e.type + ")");
+
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -433,7 +432,7 @@ $class("List", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
-			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
 	},
 

@@ -196,7 +196,7 @@ $class("Menu", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
-			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
 	},
 
@@ -210,12 +210,12 @@ $class("Menu", {
 		this.update();
 		if (visible) {
 			this._justVisible = true;
-			gara.EventManager.getInstance().addListener(document, "mousedown", this);
+			gara.EventManager.addListener(document, "mousedown", this);
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.addListener("mousedown", this);
 			}
 		} else {
-			gara.EventManager.getInstance().removeListener({domNode:document,type:"mousedown",listener:this});
+			gara.EventManager.removeListener(document, "mousedown", this);
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.removeListener("mousedown", this);
 			}

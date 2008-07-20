@@ -29,7 +29,7 @@
  */
 $class("ControlManager", {
 	$implements : gara.jswt.FocusListener,
-	
+
 	_instance : $static(null),
 
 	$constructor : function() {
@@ -38,8 +38,8 @@ $class("ControlManager", {
 
 		base2.DOM.EventTarget(document);
 
-		gara.EventManager.getInstance().addListener(document, "keydown", this);
-		gara.EventManager.getInstance().addListener(document, "mousedown", this);
+		gara.EventManager.addListener(document, "keydown", this);
+		gara.EventManager.addListener(document, "mousedown", this);
 	},
 	
 	getInstance : $static(function() {

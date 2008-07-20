@@ -120,8 +120,8 @@ $class("TableColumn", {
 					this.resizeStart = e.clientX;
 					this.startWidth = this._width;
 
-					gara.EventManager.getInstance().addListener(document, "mousemove", this);
-					gara.EventManager.getInstance().addListener(document, "mouseup", this);
+					gara.EventManager.addListener(document, "mousemove", this);
+					gara.EventManager.addListener(document, "mouseup", this);
 				}
 
 				if (e.target == this.domref && this._moveable) {
@@ -158,8 +158,8 @@ $class("TableColumn", {
 					this._shadow.domref.style.opacity = "0.3";
 					this._shadow.domref.style.width = shadowWidth + "px";
 					
-					gara.EventManager.getInstance().addListener(document, "mousemove", this);
-					gara.EventManager.getInstance().addListener(document, "mouseup", this);
+					gara.EventManager.addListener(document, "mousemove", this);
+					gara.EventManager.addListener(document, "mouseup", this);
 				}
 				break;
 			
@@ -183,14 +183,14 @@ $class("TableColumn", {
 
 			case "mouseup":
 				if (this._isResizing) {
-					gara.EventManager.getInstance().removeListener({domNode:document, type:"mousemove", listener:this});
-					gara.EventManager.getInstance().removeListener({domNode:document, type:"mouseup", listener:this});
+					gara.EventManager.removeListener(document, "mousemove", this);
+					gara.EventManager.removeListener(document, "mouseup", this);
 					this._isResizing = false;
 				}
 				
 				if (this._isMoving) {
-					gara.EventManager.getInstance().removeListener({domNode:document, type:"mousemove", listener:this});
-					gara.EventManager.getInstance().removeListener({domNode:document, type:"mouseup", listener:this});
+					gara.EventManager.removeListener(document, "mousemove", this);
+					gara.EventManager.removeListener(document, "mouseup", this);
 					this._isMoving = false;
 					this._table.domref.parentNode.removeChild(this._shadow.domref);
 					

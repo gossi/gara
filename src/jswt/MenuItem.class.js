@@ -142,15 +142,15 @@ $class("MenuItem", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
-			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
 		
 		if (this._img != null) {
-			gara.EventManager.getInstance().addListener(this._img, eventType, listener);
+			gara.EventManager.addListener(this._img, eventType, listener);
 		}
 
 		if (this._span != null) {
-			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
+			gara.EventManager.addListener(this._span, eventType, listener);
 		}
 	},
 	
@@ -200,7 +200,7 @@ $class("MenuItem", {
 			// event listener
 			for (var eventType in this._listener) {
 				this._listener[eventType].forEach(function(elem, index, arr) {
-					gara.EventManager.getInstance().removeListener({
+					gara.EventManager.removeListener({
 						domNode : this._img,
 						type: eventType, 
 						listener : elem

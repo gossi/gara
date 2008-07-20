@@ -141,11 +141,11 @@ $class("ListItem", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this._img != null) {
-			gara.EventManager.getInstance().addListener(this._img, eventType, listener);
+			gara.EventManager.addListener(this._img, eventType, listener);
 		}
 
 		if (this._span != null) {
-			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
+			gara.EventManager.addListener(this._span, eventType, listener);
 		}
 	},
 	
@@ -194,11 +194,7 @@ $class("ListItem", {
 			// event listener
 			for (var eventType in this._listener) {
 				this._listener[eventType].forEach(function(elem, index, arr) {
-					gara.EventManager.getInstance().removeListener({
-						domNode : this._img,
-						type: eventType, 
-						listener : elem
-					});
+					gara.EventManager.removeListener(this._img, eventType, elem);
 				}, this);
 			}
 		}

@@ -167,7 +167,7 @@ $class("TabItem", {
 	 */
 	registerListener : function() {
 		if (this.domref != null) {
-			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
 	},
 
@@ -277,11 +277,7 @@ $class("TabItem", {
 			// event listener
 			for (var eventType in this._listener) {
 				this._listener[eventType].forEach(function(elem, index, arr) {
-					gara.EventManager.getInstance().removeListener({
-						domNode : this._img,
-						type: eventType, 
-						listener : elem
-					});
+					gara.EventManager.removeListener(this._img, eventType, elem);
 				}, this);
 			}
 		}

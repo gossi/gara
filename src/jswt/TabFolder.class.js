@@ -311,7 +311,7 @@ $class("TabFolder", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this.domref != null) {
-			gara.EventManager.getInstance().addListener(this.domref, eventType, listener);
+			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
 	},
 

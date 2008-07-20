@@ -36,7 +36,7 @@ $class("DialogManager", {
 		this._dialogs = [];
 		
 		base2.DOM.EventTarget(document);
-		gara.EventManager.getInstance().addListener(document, "keydown", this);
+		gara.EventManager.addListener(document, "keydown", this);
 	},
 
 	getInstance : $static(function() {

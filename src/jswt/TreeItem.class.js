@@ -444,11 +444,11 @@ $class("TreeItem", {
 	 */
 	registerListener : function(eventType, listener) {
 		if (this._img != null) {
-			gara.EventManager.getInstance().addListener(this._img, eventType, listener);
+			gara.EventManager.addListener(this._img, eventType, listener);
 		}
 	
 		if (this._span != null) {
-			gara.EventManager.getInstance().addListener(this._span, eventType, listener);
+			gara.EventManager.addListener(this._span, eventType, listener);
 		}
 	},
 	
