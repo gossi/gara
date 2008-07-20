@@ -97,7 +97,6 @@ $class("EventManager", {
 	 * @private
 	 */
 	handleEvent : function(e) {
-		alert(e.type);
 //		if (e.type == "unload") {
 			this._unregisterAllEvents();
 //		}
