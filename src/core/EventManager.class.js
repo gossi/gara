@@ -112,7 +112,7 @@ $class("EventManager", {
 	removeListener : $static(function(domNode, type, listener) {
 		domNode.removeEventListener(type, listener, false);
 
-		if (domNode.hasOwnProperty("_garaHash") && listener.hasOwnProperty("_garaHash")) {
+		if (domNode._garaHash && listener.hasOwnProperty("_garaHash")) {
 			var hash = domNode._garaHash + type + listener._garaHash;
 
 			if (this._listeners[hash]) {
