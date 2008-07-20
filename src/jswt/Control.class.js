@@ -81,6 +81,31 @@ $class("Control", {
 		}
 	},
 
+	handleContextMenu : function(e) {
+		switch(e.type) {
+			case "contextmenu":
+				if (this._menu != null) {
+					this._menu.setLocation(e.clientX, e.clientY);
+					this._menu.setVisible(true);
+					e.preventDefault(); // safari
+				}
+				break;
+
+			/* Opera has no contextmenu event, so we go for Ctrl + mousedown 
+			 * See YUI blog for more information:
+			 * http://yuiblog.com/blog/2008/07/17/context-menus-and-focus-in-opera/
+			 */
+			case "mousedown":
+				if (window.opera 
+						&& (e.altKey || e.ctrlKey) 
+						&& this._menu != null) {
+					this._menu.setLocation(e.clientX, e.clientY);
+					this._menu.setVisible(true, e);
+				}
+				break;
+		}
+	},
+
 	/**
 	 * @method
 	 * @abstract
@@ -134,13 +159,14 @@ $class("Control", {
 			this._focusListener.remove(listener);
 		}
 	},
-	
+
 	setMenu : function(menu) {
 		if (!$class.instanceOf(menu, gara.jswt.Menu)) {
 			throw new TypeError("menu is not a gara.jswt.Menu");
 		}
 
 		this._menu = menu;
+		this.addListener("contextmenu", this);
 		this.addListener("mousedown", this);
 	},
 

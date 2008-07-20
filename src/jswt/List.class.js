@@ -259,16 +259,6 @@ $class("List", {
 						this.select(item);
 					}
 				}
-				
-				if (e.which == 3 && this._menu != null) {
-					if (this.domref.style.position != "") {
-						this._menu.setLocation(e.layerX, e.layerY);
-					} else {
-						this._menu.setLocation(e.clientX, e.clientY);
-					}
-					this._menu.setVisible(true);
-					return false;
-				}
 				break;
 
 			case "keyup":
@@ -287,7 +277,13 @@ $class("List", {
 				break;
 		}
 
+		this.handleContextMenu(e);
 		e.stopPropagation();
+		
+		/* in case of ie6, it is necessary to return false while the type of
+		 * the event is "contextmenu" and the menu isn't hidden in ie6
+		 */
+		return false;
 	},
 
 	/**

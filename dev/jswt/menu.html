@@ -43,7 +43,6 @@ $class("MenuController", {
 			var m = e.target.control;
 
 			console.log("MenuItem clicked: " + mi.getText() + ", item checked: " + l.getSelection()[0].getText());
-			m.setVisible(false);
 		}
 	}
 });
@@ -143,8 +142,7 @@ function main() {
 <div id="menuBar" class="sand" style="margin-bottom: 10px;"></div>
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Menu.POP_UP</h2>
-<div id="container" class="sand" style="width: 300px;">
-</div>
+<div id="container" class="sand" style="width: 300px;"></div>
 <script type="text/javascript">main();</script>
 </body>
 </html>

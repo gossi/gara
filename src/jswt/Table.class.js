@@ -308,7 +308,7 @@ $class("Table", {
 						this.select(item);
 					}
 				}
-				
+
 				if ($class.instanceOf(obj, gara.jswt.TableColumn)) {
 					obj.handleEvent(e);
 				}
@@ -330,7 +330,16 @@ $class("Table", {
 				break;
 		}
 
+		if ($class.instanceOf(obj, gara.jswt.TableItem)) {
+			this.handleContextMenu(e);
+		}
+
 		e.stopPropagation();
+		
+		/* in case of ie6, it is necessary to return false while the type of
+		 * the event is "contextmenu" and the menu isn't hidden in ie6
+		 */
+		return false;
 	},
 	
 	_handleKeyEvent : function(e) {

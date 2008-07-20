@@ -42,8 +42,7 @@ $class("MenuItem", {
 		}
 		this.$base(parent, style);
 		this._parent = parent;
-		this._menu = parent;
-		this._menu._addItem(this, index);
+		this._parent._addItem(this, index);
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
@@ -55,7 +54,7 @@ $class("MenuItem", {
 	_create : function() {
 		this.domref = document.createElement("li");
 		this.domref.obj = this;
-		this.domref.control = this._menu;
+		this.domref.control = this._parent;
 
 		if ((this._style & JSWT.SEPARATOR) == JSWT.SEPARATOR) {
 			this.domref.className = "jsWTMenuItemSeparator";
@@ -71,7 +70,7 @@ $class("MenuItem", {
 			if (this._image != null) {
 				this._img = document.createElement("img");
 				this._img.obj = this;
-				this._img.control = this._menu;
+				this._img.control = this._parent;
 				this._img.src = this._image.src;
 				this._img.alt = this._text;
 				
@@ -84,7 +83,7 @@ $class("MenuItem", {
 			
 			this._span = document.createElement("span");
 			this._span.obj = this;
-			this._span.control = this._menu;
+			this._span.control = this._parent;
 			this._span.appendChild(this._spanText);
 			this.domref.appendChild(this._span);
 			

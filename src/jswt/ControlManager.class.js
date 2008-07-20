@@ -60,8 +60,6 @@ $class("ControlManager", {
 		if (!$class.instanceOf(control, gara.jswt.Control)) {
 			throw new TypeError("control is not a gara.jswt.Control");
 		}
-
-//		console.log("ControlManager.focusGained() new active control is: " + control);
 		
 		if (this._activeControl != null && this._activeControl != control) {
 			this._activeControl.looseFocus();
@@ -81,20 +79,20 @@ $class("ControlManager", {
 	},
 
 	handleEvent : function(e) {
-//		console.log("ControlMananger.handleEvent("+e.type+"): activeControl: " + this._activeControl);
-		if (e.type == "keydown") {
-//			console.log("ControlManager.handleEvent(keydown) on " + e.target);
-			if (this._activeControl != null && this._activeControl.handleEvent) {
-				this._activeControl.handleEvent(e);
-			}
-		}
+		switch(e.type) {
+			case "mousedown":
+				if (this._activeControl != null && (e.target.control
+						? e.target.control != this._activeControl : true)) {
+					this._activeControl.looseFocus();
+					this._activeControl = null;
+				}
+				break;
 
-		if (e.type == "mousedown") {
-			if (this._activeControl != null && (e.target.control
-				? e.target.control != this._activeControl : true)) {
-				this._activeControl.looseFocus();
-				this._activeControl = null;
-			}
+			case "keydown":
+				if (this._activeControl != null && this._activeControl.handleEvent) {
+					this._activeControl.handleEvent(e);
+				}
+				break;
 		}
 	},
 

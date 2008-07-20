@@ -67,11 +67,10 @@ $class("Menu", {
 		this._enabled = false;
 		this._visible = true;
 		this._visibleEvent = null;
-		this._justVisible = false;
 		
 		this._className = this._baseClass = "jsWTMenu";
 
-		window.oncontextmenu = function() {return false;};
+		//window.oncontextmenu = function() {return false;};
 	},
 
 	_addItem : function(item, index) {
@@ -162,14 +161,12 @@ $class("Menu", {
 	handleEvent : function(e) {
 		switch(e.type) {
 			case "mousedown":
-				if ((!e.target.control || e.target.control != this) 
-						&& !this._justVisible 
+				if ((e.target.control ? e.target.control != this : true)
 						&& this._visibleEvent != e
 						&& (this.getStyle() & JSWT.POP_UP) == JSWT.POP_UP) {
 					this.setVisible(false);
 				}
-				this._justVisible = false;
-				this._visibleEvent = e;
+				this._visibleEvent = null;
 				break;
 		}
 	},
@@ -205,16 +202,17 @@ $class("Menu", {
 		this._y = y;
 	},
 
-	setVisible : function(visible) {
+	setVisible : function(visible, event) {
 		this._visible = visible;
 		this.update();
 		if (visible) {
-			this._justVisible = true;
+			this._visibleEvent = event;
 			gara.EventManager.addListener(document, "mousedown", this);
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.addListener("mousedown", this);
 			}
 		} else {
+			this._visibleEvent = null;
 			gara.EventManager.removeListener(document, "mousedown", this);
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.removeListener("mousedown", this);
