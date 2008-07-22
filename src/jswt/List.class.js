@@ -303,7 +303,8 @@ $class("List", {
 		}
 
 		switch (e.keyCode) {
-			case 38 : // up
+			case 37: // left
+			case 38: // up
 				// determine previous item
 				var prev = false;
 				var activeIndex = this.indexOf(this._activeItem);
@@ -326,7 +327,8 @@ $class("List", {
 				}
 				break;
 
-			case 40 : // down
+			case 39: // right
+			case 40: // down
 				// determine next item
 				var next = false;
 				var activeIndex = this.indexOf(this._activeItem);
@@ -350,7 +352,7 @@ $class("List", {
 				}
 				break;
 
-			case 32 : // space
+			case 32: // space
 				if (this._selection.contains(this._activeItem) && e.ctrlKey) {
 					this.deselect(this._activeItem);
 				} else {
@@ -358,7 +360,7 @@ $class("List", {
 				}
 				break;
 				
-			case 36 : // home
+			case 36: // home
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[0], false);
 				} else if (e.shiftKey) {
@@ -368,7 +370,7 @@ $class("List", {
 				}
 				break;
 				
-			case 35 : // end
+			case 35: // end
 				var lastOffset = this._items.length - 1;
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[lastOffset], false);
