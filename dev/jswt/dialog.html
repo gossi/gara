@@ -14,24 +14,28 @@
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
+<script type="text/javascript" src="../../src/core/I18n.class.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
 <script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/DialogManager.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Dialog.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/MessageBox.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
-var d;
-function openDialog() {
-	d = new gara.jswt.Dialog(JSWT.APPLICATION_MODAL);
-	d.setText("simple Header");
+var d, JSWT = gara.jswt.JSWT;
+function openMessageBox() {
+	d = new gara.jswt.MessageBox(JSWT.YES | JSWT.ICON_QUESTION);
+	d.setMessage("Do you love it?");
 	d.open();
 }
+
+
 --></script>
 </head>
 <body style="padding: 10px;" class="sand">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Dialog</h1>
-<button onclick="openDialog()">open Dialog</button>
+<button onclick="openMessageBox()">open MessageBox</button>
 </body>
 </html>

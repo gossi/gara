@@ -467,3 +467,47 @@ span.jsWTDialogCancelButton:hover {
 div.jsWTDialogContent {
 	border: 1px solid #B7AE88;
 }
+
+/* MessageBox - extension of Dialog */
+div.jsWTMessageBox {
+	width: 350px;
+}
+
+div.jsWTMessageBox .jsWTDialogBarText {
+	width: 310px;
+}
+
+div.jsWTMessageBox .jsWTDialogContent {
+	background-color: #F7F7FA;
+	padding: 10px;
+}
+
+div.jsWTMessageBox .jsWTMessageBoxContentText {
+	padding: 5px 0;
+	padding-left: 31px;
+}
+
+div.jsWTMessageBox .jsWTIconError,
+div.jsWTMessageBox .jsWTIconInformation,
+div.jsWTMessageBox .jsWTIconQuestion,
+div.jsWTMessageBox .jsWTIconWarning,
+div.jsWTMessageBox .jsWTIconWorking {
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+}
+
+div.jsWTMessageBox .jsWTIconError {
+	background-image: url('icon_error.png');
+}
+div.jsWTMessageBox .jsWTIconInformation {
+	background-image: url('icon_information.png');
+} 
+div.jsWTMessageBox .jsWTIconQuestion {
+	background-image: url('icon_question.png');
+}
+div.jsWTMessageBox .jsWTIconWarning {
+	background-image: url('icon_warning.png');
+}
+div.jsWTMessageBox .jsWTIconWorking {
+	background-image: url('icon_working.gif');
+}

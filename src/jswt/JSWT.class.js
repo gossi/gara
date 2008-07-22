@@ -108,6 +108,36 @@ $class("JSWT", {
 
 	/**
 	 * @field
+	 * The MessageBox style constant for error icon behavior (value is 1).
+	 */
+	ICON_ERROR : $static(1),
+    
+	/**
+	 * @field
+	 * The MessageBox style constant for information icon behavior (value is 1<<1).
+	 */
+	ICON_INFORMATION : $static(1 << 1),
+	
+	/**
+	 * @field
+	 * The MessageBox style constant for question icon behavior (value is 1<<2).
+	 */
+	ICON_QUESTION : $static(1 << 2),
+	
+	/**
+	 * @field
+	 * The MessageBox style constant for warning icon behavior (value is 1<<3).
+	 */
+	ICON_WARNING : $static(1 << 3),
+	
+	/**
+	 * @field
+	 * The MessageBox style constant for "working" icon behavior (value is 1<<4).
+	 */
+	ICON_WORKING : $static(1 << 4),      
+
+	/**
+	 * @field
 	 * The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).
 	 */
 	IGNORE : $static(1 << 11),

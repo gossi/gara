@@ -33,7 +33,8 @@ $class("Dialog", {
 	 */
 	$constructor : function(style) {
 		this._style = style;
-		this._text;
+		this._disposed = false;
+		this._text = " ";
 		
 		this.domref = null;
 		this._parent;
@@ -127,6 +128,7 @@ $class("Dialog", {
 		
 		gara.EventManager.addListener(this.domref, "mousedown", this);
 		gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
+		gara.EventManager.addListener(window, "resize", this);
 		
 		this._parent.appendChild(this.domref);
 	},
@@ -162,6 +164,10 @@ $class("Dialog", {
 	 *  @return {void}
 	 */
 	dispose : function() {
+		gara.EventManager.removeListener(this.domref, "mousedown", this);
+		gara.EventManager.removeListener(this._barCancelButton, "mousedown", this);
+		gara.EventManager.removeListener(window, "resize", this);
+
 		if ((this._style & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
 			this._restoreTabIndexes();
 		}
@@ -172,6 +178,8 @@ $class("Dialog", {
 		if ((this._style & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
 			document.getElementById("jsWTModalLayer").style.display = "none";
 		}
+
+		this._disposed = true;
 	},
 
 	/**
@@ -269,8 +277,7 @@ $class("Dialog", {
 		}
 	},
 
-	/*open : $abstract(function() {}),*/
-	open: function(){this._create()},
+	open : $abstract(function() {}),
 
 	/**
 	 * @method

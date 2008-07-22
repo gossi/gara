@@ -295,5 +295,24 @@ div.jsWTDialogBarClearer {
 }
 
 div.jsWTDialogContent {
-	mind-width: 70px;
+	min-width: 70px;
+}
+
+/* MessageBox - extension of Dialog */
+div.jsWTMessageBox {
+	width: 350px;
+}
+
+div.jsWTMessageBox .jsWTDialogBarText {
+	width: 310px;
+}
+
+div.jsWTMessageBox .jsWTMessageBoxButtonBar {
+	margin-top: 5px;
+	text-align: center;
+}
+
+div.jsWTMessageBox .jsWTMessageBoxButtonBar input {
+	width: 75px;
+	margin: 0 2px;
 }
