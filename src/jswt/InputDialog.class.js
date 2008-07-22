@@ -106,10 +106,8 @@ $class("InputDialog", {
 		
 		
 		// position
-		var width = parseInt(getStyle(this.domref, "width", "width"));
-		var height = parseInt(getStyle(this.domref, "height", "height"));
-		var left = this._getViewportWidth() / 2 - width/2;
-		var top = this._getViewportHeight() / 2 - height/2;
+		var left = this._getViewportWidth() / 2 - this.domref.clientWidth/2;
+		var top = this._getViewportHeight() / 2 - this.domref.clientHeight/2;
 		
 		this.domref.style.left = left + "px";
 		this.domref.style.top = top + "px";
@@ -158,7 +156,7 @@ $class("InputDialog", {
 		}
 	},
 
-	open: function(callback, context){
+	open: function(callback, context) {
 		this._create();
 		this._callback = callback;
 		this._context = context || window;
