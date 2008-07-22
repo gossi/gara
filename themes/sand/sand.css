@@ -469,20 +469,23 @@ div.jsWTDialogContent {
 }
 
 /* MessageBox - extension of Dialog */
-div.jsWTMessageBox {
+div.jsWTMessageBox,
+div.jsWTInputDialog {
 	width: 350px;
 }
 
-div.jsWTMessageBox .jsWTDialogBarText {
+div.jsWTMessageBox .jsWTDialogBarText,
+div.jsWTInputDialog .jsWTDialogBarText {
 	width: 310px;
 }
 
-div.jsWTMessageBox .jsWTDialogContent {
+div.jsWTMessageBox .jsWTDialogContent,
+div.jsWTInputDialog .jsWTDialogContent {
 	background-color: #F7F7FA;
 	padding: 10px;
 }
 
-div.jsWTMessageBox .jsWTMessageBoxContentText {
+div.jsWTMessageBox .jsWTMessageBoxContentText{
 	padding: 5px 0;
 	padding-left: 31px;
 }
@@ -510,4 +513,13 @@ div.jsWTMessageBox .jsWTIconWarning {
 }
 div.jsWTMessageBox .jsWTIconWorking {
 	background-image: url('icon_working.gif');
+}
+
+div.jsWTInputDialog .jsWTInputDialogContentText {
+	padding: 5px 0;
+}
+
+div.jsWTInputDialog .jsWTInputDialogContentText input {
+	display: block;
+	margin: 10px 0 5px 0;
 }

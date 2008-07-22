@@ -22,6 +22,7 @@
 <script type="text/javascript" src="../../src/jswt/DialogManager.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Dialog.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/MessageBox.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/InputDialog.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
 var d, JSWT = gara.jswt.JSWT;
@@ -31,11 +32,20 @@ function openMessageBox() {
 	d.open();
 }
 
+function openInputDialog() {
+	d = new gara.jswt.InputDialog();
+	d.setMessage("Do you love it?");
+	d.setValue("for sure!");
+	d.open(function(response) {
+		console.log("Answer: " + response);
+	});
+}
 
 --></script>
 </head>
 <body style="padding: 10px;" class="sand">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Dialog</h1>
 <button onclick="openMessageBox()">open MessageBox</button>
+<button onclick="openInputDialog()">open InputDialog</button>
 </body>
 </html>

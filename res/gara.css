@@ -299,20 +299,24 @@ div.jsWTDialogContent {
 }
 
 /* MessageBox - extension of Dialog */
-div.jsWTMessageBox {
+div.jsWTMessageBox,
+div.jsWTInputDialog {
 	width: 350px;
 }
 
-div.jsWTMessageBox .jsWTDialogBarText {
+div.jsWTMessageBox .jsWTDialogBarText, 
+div.jsWTInputDialog .jsWTDialogBarText {
 	width: 310px;
 }
 
-div.jsWTMessageBox .jsWTMessageBoxButtonBar {
+div.jsWTMessageBox .jsWTMessageBoxButtonBar, 
+div.jsWTInputDialog .jsWTInputDialogButtonBar {
 	margin-top: 5px;
 	text-align: center;
 }
 
-div.jsWTMessageBox .jsWTMessageBoxButtonBar input {
+div.jsWTMessageBox .jsWTMessageBoxButtonBar input, 
+div.jsWTInputDialog .jsWTInputDialogButtonBar input {
 	width: 75px;
 	margin: 0 2px;
 }
