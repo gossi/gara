@@ -93,10 +93,11 @@ $class("TableColumn", {
 	},
 	
 	_computeWidth : function() {
-		if (this.domref != null) {
+		if (this.domref != null && this.domref.style.display != "none") {
 			var paddingLeft = getStyle(this.domref, "padding-left", "paddingLeft");
 			var paddingRight = getStyle(this.domref, "padding-right", "paddingRight");
-			this._width = this.domref.clientWidth - parseInt(paddingLeft) - parseInt(paddingRight); 
+			this._width = this.domref.clientWidth - parseInt(paddingLeft) - parseInt(paddingRight);
+			//this._width = this.domref.clientWidth; 
 		}
 	},
 	
@@ -113,9 +114,21 @@ $class("TableColumn", {
 			case "mousedown":
 				if (e.target == this._operator && this._resizable) {
 					this._isResizing = true;
-					if (this._width == null || this._width == "auto") {
-						this._computeWidth();
-					}
+
+					this.allColsWidth = 0;
+					var columns = this._table.getColumns();
+					columns.forEach(function(item, index, arr) {
+						var width = item.getWidth();
+						item.domref.style.width = width + "px";
+						this.allColsWidth += width;
+					}, this);
+					
+					var order = this._table.getColumnOrder();
+					var thisColumnIndex = columns.indexOf(this);
+					var thisColumnOrder = order.indexOf(thisColumnIndex);
+					this.nextColumn = columns[order[thisColumnOrder + 1]];
+					this.nextColumn.domref.style.width = "auto";
+					this.lessColsWidth = this.allColsWidth - this.getWidth() - this.nextColumn.getWidth();
 
 					this.resizeStart = e.clientX;
 					this.startWidth = this._width;
@@ -183,6 +196,9 @@ $class("TableColumn", {
 
 			case "mouseup":
 				if (this._isResizing) {
+					var nextWidth = this.allColsWidth - (this.lessColsWidth + this.getWidth()); 
+					this.nextColumn.setWidth(nextWidth);
+					this.nextColumn.domref.style.width = nextWidth + "px";
 					gara.EventManager.removeListener(document, "mousemove", this);
 					gara.EventManager.removeListener(document, "mouseup", this);
 					this._isResizing = false;

@@ -638,7 +638,11 @@ $class("Table", {
 		}
 
 		if (this._headerVisible) {
-			this._thead.style.display = "table-row-group";
+			if (document.all) {
+				this._thead.style.display = "block";
+			} else {
+				this._thead.style.display = "table-row-group";
+			}
 		} else {
 			this._thead.style.display = "none";
 		}
