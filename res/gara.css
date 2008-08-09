@@ -1,27 +1,13 @@
-@CHARSET "UTF-8";
-
-/*
-YUI-Reset
-Copyright (c) 2007, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.net/yui/license.txt
-version: 2.2.2
-*/
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}ol,ul {list-style:none;}caption,th {text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym {border:0;}
-
-/*
-YUI-Fonts
-Copyright (c) 2007, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.net/yui/license.txt
-version: 2.2.2
-*/
-body {font:13px arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}table {font-size:inherit;font:100%;}select, input, textarea {font:99% arial,helvetica,clean,sans-serif;}pre, code {font:115% monospace;*font-size:100%;}body * {line-height:1.22em;}
-
 /* Gara Styles */
 
 
-/* List Control */
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.List
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 ul.jsWTList {
 	margin-left: 0;
 	padding-left: 0;
@@ -67,7 +53,14 @@ ul.jsWTList li:hover.selected {
 	color: #00A;*/
 }
 
-/* Tree Control */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Tree
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 ul.jsWTTree, ul.jsWTTree ul {
 	background-repeat: repeat-y;
 	padding-left: 18px;
@@ -162,7 +155,14 @@ ul.jsWTTree ul.bottom {
 	background-image: none;
 }
 
-/* TabFolder Control */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.TabFolder
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 div.jsWTTabFolder {
 }
 
@@ -203,7 +203,14 @@ table.jsWTTable thead tr th.operator span {
 	display: block;
 } 
 
-/* Menu Widget */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Menu
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 ul.jsWTMenu {
 	margin: 0;
 	padding: 0;
@@ -258,8 +265,13 @@ ul.jsWTMenu {
 }
 
 
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Dialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
 
-/* Dialog */
 div#jsWTModalLayer {
 	z-index: 550;
 	position: absolute;
@@ -298,7 +310,14 @@ div.jsWTDialogContent {
 	min-width: 70px;
 }
 
-/* MessageBox - extension of Dialog */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.MessageBox
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 div.jsWTMessageBox,
 div.jsWTInputDialog {
 	width: 350px;

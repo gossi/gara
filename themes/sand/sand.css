@@ -21,10 +21,13 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 */
 
 
-/**
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * gara.jswt.List
- *
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
+
 .sand ul.jsWTList {
 	border: 1px solid #000;
 	overflow: auto;
@@ -58,9 +61,14 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	color: #000;
 }
 
-/**
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * gara.jswt.Tree
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
+
 .sand ul.jsWTTree {
 	border: 1px solid #000;
 	overflow: auto;
@@ -121,8 +129,12 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	background-image: url('expand.gif');
 }
 
-/**
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * gara.jswt.TabFolder
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
 .sand ul.jsWTTabbarTop {
@@ -203,7 +215,10 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	}
 }
 
-/* Bottom Style */
+
+/*
+ * Bottom Style
+ */
 
 .sand ul.jsWTTabbarBottom {
 	margin: 0;
@@ -310,117 +325,8 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 
 .sand div.jsWTTabFolder {
 }
-/*
-.sand ul.jsWTTabbar {
-	height: 25px !important;
-	height: 20px;
-	
-}
-
-.sand ul.jsWTTabbar li {
-	cursor: default;
-	float: left;
-	font-family: Verdana;
-	color: #000;
-	background: transparent url('left.gif') no-repeat scroll left top;
-	margin: 0;
-	padding: 0 0 0 9px;
-	border: 0;
-}
-
-.sand ul.jsWTTabbar span {
-	background: transparent url('right.gif') no-repeat scroll right top;
-	color: #776655;
-	display: block;
-	float: none;
-	font-weight: bold;
-	padding: 5px 15px 4px 6px;
-	text-decoration: none;
-	white-space: nowrap;
-}
-
-.sand ul.jsWTTabbar li img {
-	float: left;
-	background: transparent url('bar.gif') no-repeat scroll top;
-	padding-top: 6px;
-	padding-right: 3px;
-}
-
-.sand div.jsWTTabFolder ul.jsWTTabbar li:hover {
-	/*background: transparent url('left.gif') no-repeat scroll left top;*
-}
-
-.sand ul.jsWTTabbar li.active {
-	background: transparent url('left_on.gif') no-repeat scroll left top;
-	padding: 0 0 0 9px;
-}
-
-.sand ul.jsWTTabbar li.active span {
-	background: transparent url('right_on.gif') no-repeat scroll right top;
-	color: #333333;
-	padding-bottom: 5px;
-}
-
-.sand ul.jsWTTabbar li.active img {
-	background: transparent url('right_on.gif') no-repeat scroll top;
-}*/
-/*
-.sand div.jsWTTabFolderActive ul.jsWTTabbar li:hover {
-	
-}
-
-.sand div.jsWTTabFolderActive ul.jsWTTabbar li.active {
-	background-color: #9C9577;
-	color: #FFF;
-	padding-top: 3px;
-	padding-bottom: 3px;
-}
-
-.sand div.jsWTTabFolderInactive ul.jsWTTabbar li.active {
-	background-color: #CCC8BA;
-	color: #000;
-	padding-top: 3px;
-	padding-bottom: 3px;
-}
-
-.sand ul.jsWTTabbarTop li {
-	margin-top: 2px;
-}
-
-.sand div.jsWTTabFolderActive ul.jsWTTabbarTop li:hover {
-}
-
-.sand div.jsWTTabFolderActive ul.jsWTTabbarTop li.active {
-	border-bottom-color: #9C9577;
-	margin-top: 0;
-}
-
-.sand div.jsWTTabFolderInactive ul.jsWTTabbarTop li.active {
-	border-bottom-color: #CCC8BA;
-	margin-top: 0;
-}
-
-.sand ul.jsWTTabbarBottom li {
-	margin-top: -1px;
-	margin-bottom: 2px;
-}
-
-.sand div.jsWTTabFolderActive ul.jsWTTabbarBottom li:hover {
-}
-
-.sand div.jsWTTabFolderActive ul.jsWTTabbarBottom li.active {
-	border-top-color: #9C9577;
-	margin-bottom: 0;
-}
-
-.sand div.jsWTTabFolderInactive ul.jsWTTabbarBottom li.active {
-	border-top-color: #CCC8BA;
-	margin-bottom: 0;
-}*/
 
 .sand div.jsWTTabFolder div.jsWTTabClientArea {
-	/*margin-top: -5px !important;
-	margin-top: 0;*/
 	border: 1px solid #000;
 	border-width: 1px 1px 1px 1px;
 	top: 0 !important;
@@ -429,9 +335,12 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	z-index: 200;
 }
 
-/**
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * gara.jswt.Table
- EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
  
 .sand table.jsWTTable {
@@ -488,7 +397,14 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	background-color: #EAE6D6;
 }
 
-/* Menu Widget */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Menu
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 .sand ul.jsWTMenu {
 	margin: 0;
 	padding: 0;
@@ -658,7 +574,14 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	height: 23px;
 }
 
-/* Dialog */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Dialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 div.jsWTDialog {
 	
 }
@@ -705,7 +628,14 @@ div.jsWTDialogContent {
 	border: 1px solid #B7AE88;
 }
 
-/* MessageBox - extension of Dialog */
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.MessageBox
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
 div.jsWTMessageBox,
 div.jsWTInputDialog {
 	width: 350px;

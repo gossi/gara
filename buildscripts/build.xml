@@ -8,7 +8,7 @@
 	<property name="archiveDir" value="${basedir}/archives"/>
 	<property name="docDir" value="${basedir}/docs"/>
 
-	<property name="version" value="0.01-alpha"/>
+	<property name="version" value="0.9-alpha"/>
 
 	<!-- gara core package -->
 	<property name="garaDir" value="${srcDir}/core"/>
@@ -18,7 +18,7 @@
 		<file name="Package.class.js"/>
 		<file name="EventManager.class.js"/>
 		<file name="OutOfBoundsException.class.js"/>
-		<file name="onDOMLoaded.function.js"/>
+		<file name="I18n.class.js"/>
 	</filelist>
 
 	<!-- gara jswt package -->
@@ -48,6 +48,11 @@
 		<file name="ControlManager.class.js"/>
 		<file name="Menu.class.js"/>
 		<file name="MenuItem.class.js"/>
+		
+		<file name="DialogManager.class.js"/>
+		<file name="Dialog.class.js"/>
+		<file name="InputDialog.class.js"/>
+		<file name="MessageBox.class.js"/>
 	</filelist>
 	
 	<!-- gara jsface package -->
@@ -58,13 +63,14 @@
 		<file name="IBaseLabelProvider.interface.js"/>
 		<file name="ILabelProvider.interface.js"/>
 		<file name="ITableLabelProvider.interface.js"/>
+		<file name="ILabelProviderListener.interface.js"/>
 		<file name="LabelProvider.class.js"/>
 		<file name="BaseLabelProvider.class.js"/>
 		<file name="CellLabelProvider.class.js"/>
 		<file name="ColumnLabelProvider.class.js"/>
 		<file name="WrappedViewerLabelProvider.class.js"/>
 		<file name="TableColumnViewerLabelProvider.class.js"/>
-		
+
 		<file name="IContentProvider.interface.js"/>
 		<file name="IStructuredContentProvider.interface.js"/>
 		<file name="ITreeContentProvider.interface.js"/>
@@ -147,13 +153,42 @@
 	</target>
 	
 	<target name="-compress" depends="-combine">
-		<java jar="${basedir}/buildscripts/lib/yuicompressor-2.2.5.jar" dir="${basedir}/buildscripts/lib" failonerror="true" fork="true"
+		
+		<!--
+		$ java -jar yuicompressor-x.y.z.jar
+		Usage: java -jar yuicompressor-x.y.z.jar [options] [input file]
+		
+		  Global Options
+		    -h, - -help                Displays this information
+		    - -type <js|css>           Specifies the type of the input file
+		    - -charset <charset>       Read the input file using <charset>
+		    - -line-break <column>     Insert a line break after the specified column number
+		    -v, - -verbose             Display informational messages and warnings
+		    -o <file>                  Place the output into <file>. Defaults to stdout.
+		
+		  JavaScript Options
+		    - -nomunge                 Minify only, do not obfuscate
+		    - -preserve-semi           Preserve all semicolons
+		    - -disable-optimizations   Disable all micro optimizations
+		-->
+		<java jar="${basedir}/buildscripts/lib/yuicompressor-2.3.6.jar" dir="${basedir}/buildscripts/lib" failonerror="true" fork="true"
 			logerror="true">
 			<arg value="--charset"/>
 			<arg value="utf-8"/>
 			<arg value="-o"/>
 			<arg value="${buildDir}/gara.js"/>
 			<arg value="${buildDir}/gara-src.js" />
+		</java>
+		
+		<java jar="${basedir}/buildscripts/lib/yuicompressor-2.3.6.jar" dir="${basedir}/buildscripts/lib" failonerror="true" fork="true"
+			logerror="true">
+			<arg value="--type"/>
+			<arg value="css"/>
+			<arg value="--charset"/>
+			<arg value="utf-8"/>
+			<arg value="-o"/>
+			<arg value="${buildDir}/gara.css"/>
+			<arg value="${basedir}/res/gara.css"/>
 		</java>
 	</target>
 
@@ -277,32 +312,43 @@
 	</target>
 
 	<target name="build" depends="-cleanupDeploy,-compress">
-		<copy file="${buildDir}/gara.js" todir="${deployDir}"/>
-
 		<!-- gara-bc.js (blank version) -->
-		<concat destfile="${deployDir}/gara-bc.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+		<concat destfile="${buildDir}/gara-bc.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${libDir}" files="class-min.js"/>
 			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
-			<filelist dir="${deployDir}" files="gara.js" />
+			<filelist dir="${buildDir}" files="gara.js" />
 		</concat>
 
 		<!-- gara-c.js ($class lib included) -->
-		<concat destfile="${deployDir}/gara-c.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+		<concat destfile="${buildDir}/gara-c.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${libDir}" files="class-min.js"/>
-			<filelist dir="${deployDir}" files="gara.js" />
+			<filelist dir="${buildDir}" files="gara.js" />
 		</concat>
 
 		<!-- gara-b.js (base2 lib included) -->
-		<concat destfile="${deployDir}/gara-b.js" outputencoding="utf-8" fixlastline="yes" append="yes">
+		<concat destfile="${buildDir}/gara-b.js" outputencoding="utf-8" fixlastline="yes" append="yes">
 			<filelist dir="${libDir}" files="base2-dom-fp.js"/>
-			<filelist dir="${deployDir}" files="gara.js" />
+			<filelist dir="${buildDir}" files="gara.js" />
 		</concat>
 
-		<!-- copy gara.js for developing examples -->
-		<copy file="${deployDir}/gara-bc.js" todir="${basedir}"/>
+		<!-- Css Files -->
+		<concat destfile="${buildDir}/gara-yui-reset-fonts.css" outputencoding="utf-8" fixlastline="yes" append="yes">
+			<filelist dir="${basedir}/res" files="yui-reset-fonts.css"/>
+			<filelist dir="${basedir}/buildscripts/static" files="csshead.txt"/>
+			<filelist dir="${buildDir}" files="gara.css"/>
+		</concat>
+
+		<!-- copy files for developing examples -->
+		<copy file="${buildDir}/gara-bc.js" todir="${basedir}"/>
+		<copy file="${buildDir}/gara-yui-reset-fonts.css" todir="${basedir}/res"/>
 	</target>
 
 	<target name="deploy" depends="build">
+		<copy file="${buildDir}/gara.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara-b.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara-c.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
+
 		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
 			<tarfileset dir="${basedir}" includes="examples/,res/,themes/,lgpl-2.1.txt"/>
 			<tarfileset dir="${basedir}/docs" includes="api/"/>

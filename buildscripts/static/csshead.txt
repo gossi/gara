@@ -1,0 +1,9 @@
+/**
+gara - JavaScript Toolkit
+
+CSS Base
+Copyright (c) 2008, Thomas Gossmann
+Code licensed under the LGPL License:
+http://gara.creative2.net/lgpl-2.1.txt
+version: {$version}
+*/
