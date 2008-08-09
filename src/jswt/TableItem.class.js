@@ -101,6 +101,10 @@ $class("TableItem", {
 		}
 		return null;
 	},
+	
+	dispose : function() {
+		//TODO: KILL!
+	},
 
 	handleEvent : function(e) {
 		

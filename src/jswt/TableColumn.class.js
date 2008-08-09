@@ -101,6 +101,10 @@ $class("TableColumn", {
 		}
 	},
 	
+	dispose : function() {
+		// TODO: KILL!
+	},
+	
 	getWidth : function() {
 		if (this._width == null || this._width == "auto") {
 			this._computeWidth();
@@ -144,7 +148,7 @@ $class("TableColumn", {
 					var order = this._table.getColumns();
 					var offset = order.indexOf(this);
 
-					this._shadow = new gara.jswt.Table(this._table.domref.parentNode, this._table.getStyle());
+					this._shadow = new gara.jswt.Table(document.getElementsByTagName("body")[0], this._table.getStyle());
 					this._shadow.setHeaderVisible(this._table.getHeaderVisible());
 
 					this._table.getColumns().forEach(function(col, index, arr) {
@@ -156,7 +160,7 @@ $class("TableColumn", {
 						}
 					}, this);
 
-					var cols = this._table.getColumnCount();
+					//var cols = this._table.getColumnCount();
 					this._table.getItems().forEach(function(item, index, arr) {
 						var i = new gara.jswt.TableItem(this._shadow);
 						i.setText(item.getText(offset));
@@ -208,7 +212,7 @@ $class("TableColumn", {
 					gara.EventManager.removeListener(document, "mousemove", this);
 					gara.EventManager.removeListener(document, "mouseup", this);
 					this._isMoving = false;
-					this._table.domref.parentNode.removeChild(this._shadow.domref);
+					this._shadow.dispose();
 					
 					delete this._shadow;
 					
@@ -217,12 +221,12 @@ $class("TableColumn", {
 					if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.TableColumn)
 						&& e.target.obj.getParent() == this._table) {
 						var col = e.target.obj;
-						var colIndex = this._table.getColumns().indexOf(col);
 						var colOrder = this._table.getColumnOrder();
+						var colIndex = this._table.getColumns().indexOf(col);
 						var orderIndex = colOrder.indexOf(colIndex);
 						var thisColIndex = this._table.getColumns().indexOf(this);
 						colOrder.remove(thisColIndex);
-						colOrder.insertAt(thisColIndex, orderIndex);
+						colOrder.insertAt(orderIndex, thisColIndex);
 						this._table.update();
 					}
 				}

@@ -222,6 +222,19 @@ $class("Table", {
 		}
 	},
 	
+	dispose : function() {
+		// TODO: Notify Dispose Listener;
+		this._columns.forEach(function(item, index, arr) {
+			item.dispose();
+		}, this);
+		
+		this._items.forEach(function(item, index, arr) {
+			item.dispose();
+		}, this);
+
+		this._parent.removeChild(this.domref);
+	},
+	
 	getColumn : function(index) {
 		if (index >= 0 && index < this._columns.length) {
 			return this._columns[index];

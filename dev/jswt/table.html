@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.table (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara-yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
@@ -14,7 +14,6 @@
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
@@ -66,13 +65,12 @@ function main() {
 		console.error(message);
 	}
 }
-
-onDOMLoaded(main);
 --></script>
 </head>
-<body style="padding: 10px;">
+<body style="padding: 10px;" class="gara">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Table</h1>
 <div id="container" class="sand" style="width: 300px;">
 </div>
+<script type="text/javascript">main();</script>
 </body>
 </html>
