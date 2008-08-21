@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.dialog (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
@@ -23,6 +24,7 @@
 <script type="text/javascript" src="../../src/jswt/Dialog.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/MessageBox.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/InputDialog.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/IframeDialog.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
 var d, JSWT = gara.jswt.JSWT;
@@ -41,11 +43,19 @@ function openInputDialog() {
 	});
 }
 
+function openIframeDialog() {
+	d = new gara.jswt.IframeDialog();
+	d.setWidth(200);
+	d.setHeight(300);
+	d.open("http://schnitzel");
+}
+
 --></script>
 </head>
 <body style="padding: 10px;" class="sand">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Dialog</h1>
 <button onclick="openMessageBox()">open MessageBox</button>
 <button onclick="openInputDialog()">open InputDialog</button>
+<button onclick="openIframeDialog()">open IframeDialog</button>
 </body>
 </html>
