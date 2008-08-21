@@ -37,7 +37,7 @@ $class("Dialog", {
 		this._text = " ";
 		
 		this.domref = null;
-		this._parent;
+		this._parentWindow = window;
 		this._modalLayer = null;
 		this._dialogBar;
 		this._dialogBarLeft;
@@ -82,7 +82,7 @@ $class("Dialog", {
 			modalLayer.style.height = this._getViewportHeight() + "px";
 		}
 
-		this._parent = document.getElementsByTagName("body")[0];
+		this._parent = this._parentWindow.document.getElementsByTagName("body")[0];
 
 		this.domref = document.createElement("div");
 		this.domref.className = "jsWTDialog";
@@ -122,15 +122,19 @@ $class("Dialog", {
 		this._dialogBarButtons.appendChild(this._barCancelButton);
 		this._dialogBar.appendChild(clearer);
 		
+		base2.DOM.EventTarget(this._parentWindow);
+		base2.DOM.EventTarget(this._parentWindow.document);
 		base2.DOM.EventTarget(this.domref);
 		base2.DOM.EventTarget(this._dialogBar);
 		base2.DOM.EventTarget(this._barCancelButton);
 		
 		gara.EventManager.addListener(this.domref, "mousedown", this);
 		gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
-		gara.EventManager.addListener(window, "resize", this);
+		gara.EventManager.addListener(this._parentWindow, "resize", this);
 		
 		this._parent.appendChild(this.domref);
+		
+		gara.jswt.DialogManager.getInstance().activate(this);
 	},
 
 	/**
@@ -251,7 +255,7 @@ $class("Dialog", {
 				} else if (e.target == this._dialogBar 
 						|| e.target == this._dialogBarText
 						|| e.target == this._dialogBarButtons){
-					gara.EventManager.addListener(document, "mousemove", this);
+					gara.EventManager.addListener(this._parentWindow.document, "mousemove", this);
 					gara.EventManager.addListener(this._dialogBar, "mouseup", this);
 					this._dX = e.clientX - this.domref.offsetLeft;
 					this._dY = e.clientY - this.domref.offsetTop;
@@ -259,7 +263,7 @@ $class("Dialog", {
 				break;
 
 			case "mouseup":
-				gara.EventManager.removeListener(document, "mousemove", this);
+				gara.EventManager.removeListener(this._parentWindow.document, "mousemove", this);
 				gara.EventManager.removeListener(this._dialogBar, "mouseup", this);
 				break;
 

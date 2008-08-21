@@ -74,6 +74,14 @@ $class("DialogManager", {
 
 	handleEvent : function(e) {
 		switch(e.type) {
+			case "mousedown":
+				if (e.target.obj 
+						&& $class.instanceOf(e.target.obj, gara.jswt.Dialog)) {
+					console.log("DialogMananger.handleEvent(mousedown)");
+					this.activate(e.target.obj);
+				}
+				break;
+			
 			case "keydown":
 				if (this._activeDialog != null && e.keyCode == 9) {
 					return false;
