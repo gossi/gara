@@ -100,6 +100,28 @@ $class("JSWT", {
 	 */
 	DROP_DOWN : $static(1 << 2),
 	
+	/** 
+	 * JSWT error constant indicating that a menu which needed
+	 * to have the drop down style had some other style instead
+	 * (value is 21).
+	 */
+	ERROR_MENU_NOT_DROP_DOWN : $static(21),
+
+	/** 
+	 * JSWT error constant indicating that an attempt was made to
+	 * invoke an JSWT operation using a widget which had already
+	 * been disposed
+	 * (value is 24). 
+	 */
+	ERROR_WIDGET_DISPOSED : $static(24),
+
+	/** 
+	 * JSWT error constant indicating that a menu item which needed
+	 * to have the cascade style had some other style instead
+	 * (value is 27).
+	 */
+	ERROR_MENUITEM_NOT_CASCADE : $static(27),
+	
 	/**
 	 * @field
 	 * Style constant for full row selection behavior (value is 1&lt;&lt;16).
