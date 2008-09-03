@@ -71,6 +71,10 @@ $class("DialogManager", {
 			this._dialogs.push(dialog);
 		}
 	},
+	
+	getDialogs : function() {
+		return this._dialogs;
+	},
 
 	handleEvent : function(e) {
 		switch(e.type) {

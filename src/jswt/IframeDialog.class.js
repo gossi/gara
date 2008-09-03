@@ -143,14 +143,27 @@ $class("IframeDialog", {
 				if (e.target == this._dialogBar ||
 					e.target == this._dialogBarText ||
 					e.target == this._dialogBarButtons) {
-					this._dialogContent.appendChild(this._overlay);
+					
+					gara.jswt.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
+						if ($class.instanceOf(diag, gara.jswt.IframeDialog)) {
+							diag._showOverlay();
+						}
+					}, this);
 				}
 				break;
 				
 			case "mouseup":
-				this._dialogContent.removeChild(this._overlay);
+				gara.jswt.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
+					if ($class.instanceOf(diag, gara.jswt.IframeDialog)) {
+						diag._hideOverlay();
+					}
+				}, this);
 				break;
 		}
+	},
+	
+	_hideOverlay : function() {
+		this._dialogContent.removeChild(this._overlay);
 	},
 
 	open: function(src, parentWindow) {
@@ -158,6 +171,10 @@ $class("IframeDialog", {
 			this._parentWindow = window.top;
 		}
 		this._create(src);
+	},
+	
+	_showOverlay : function() {
+		this._dialogContent.appendChild(this._overlay);
 	},
 
 	setHeight : function(height) {

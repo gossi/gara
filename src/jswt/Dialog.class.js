@@ -280,6 +280,10 @@ $class("Dialog", {
 				break;
 		}
 	},
+	
+	isDisposed : function() {
+		return this._disposed;
+	},
 
 	open : $abstract(function() {}),
 
