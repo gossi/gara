@@ -121,6 +121,8 @@ ul.jsWTTreeFullSelection li span.text {
 ul.jsWTTree li img {
 	margin-right: 3px;
 	vertical-align: middle;
+	float: left;
+	margin-left: 2px;
 }
 
 ul.jsWTTree li span.active {

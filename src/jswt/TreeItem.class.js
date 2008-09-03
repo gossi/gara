@@ -159,7 +159,8 @@ $class("TreeItem", {
 		this.domref.appendChild(this._toggleNode);
 	
 		// set image
-		if (this._image != null) {
+		console.log("TreeItem.create, image: " + this.getImage());
+		if (this.getImage() != null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
 			this._img.src = this.getImage().src;
@@ -679,7 +680,7 @@ $class("TreeItem", {
 			}
 
 			// create image
-			if (this._image != null && this._img == null) {
+			if (this.getImage() != null && this._img == null) {
 				this._img = document.createElement("img");
 				this._img.obj = this;
 				this._img.control = this._tree;
@@ -690,7 +691,7 @@ $class("TreeItem", {
 			}
 
 			// update image information
-			else if (this._image != null) {
+			else if (this.getImage() != null) {
 				this._img.src = this.getImage().src;
 				this._img.alt = this._text;
 			}
