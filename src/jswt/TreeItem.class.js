@@ -159,7 +159,6 @@ $class("TreeItem", {
 		this.domref.appendChild(this._toggleNode);
 	
 		// set image
-		console.log("TreeItem.create, image: " + this.getImage());
 		if (this.getImage() != null) {
 			this._img = document.createElement("img");
 			this._img.obj = this;
