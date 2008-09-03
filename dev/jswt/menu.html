@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.menu (dev)</title>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
@@ -14,7 +15,6 @@
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
@@ -47,7 +47,7 @@ $class("MenuController", {
 	}
 });
 
-var l;
+var l, menu2;
 
 function main() {
 	try {
@@ -90,7 +90,7 @@ function main() {
 		var subi2 = new gara.jswt.MenuItem(subpmenu);
 		subi2.setText("sub pop 2");
 		
-		var menu2 = new gara.jswt.Menu(document.getElementById("menuBar"), gara.jswt.JSWT.DEFAULT);
+		menu2 = new gara.jswt.Menu(document.getElementById("menuBar"), gara.jswt.JSWT.DEFAULT);
 		
 		var m2i1 = new gara.jswt.MenuItem(menu2);
 		m2i1.setText("test");
@@ -133,12 +133,20 @@ function main() {
 		console.log(message);
 	}
 }
+
+function dispose() {
+	menu2.dispose();
+}
 --></script>
 </head>
 <body style="padding: 10px;" class="sand">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Menu</h1>
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Menu.BAR</h2>
+<fieldset>
+	<legend>Options</legend>
+	<input type="button" value="dispose()" onclick="dispose()"/>
+</fieldset>
 <div id="menuBar" class="sand" style="margin-bottom: 10px;"></div>
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Menu.POP_UP</h2>

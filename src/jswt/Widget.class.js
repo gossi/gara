@@ -67,6 +67,7 @@ $class("Widget", {
 		this.domref = null;
 
 		this._parent = parent;
+		this._parentNode = null;
 		this._style = typeof(style) == "undefined" ? JSWT.DEFAULT : style;
 		this._data = null;
 		this._dataMap = {};
@@ -76,6 +77,7 @@ $class("Widget", {
 		this._listener = {};
 		
 		this._disposed = false;
+		this._disposeListener = [];
 	},
 
 	/**
@@ -93,6 +95,24 @@ $class("Widget", {
 
 	/**
 	 * @method
+	 * Adds a dispose listener to the widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.DisposeListener} listener the listener which gets notified about the disposal
+	 * @return {void}
+	 */
+	addDisposeListener : function(listener) {
+		if (!$class.instanceOf(listener, gara.jswt.DisposeListener)) {
+			throw new TypeError("listener not instance of gara.jswt.DisposeListener");
+		}
+
+		if (!this._disposeListener.contains(listener)) {
+			this._disposeListener.push(listener);
+		}
+	},
+
+	/**
+	 * @method
 	 * Adds an eventlistener to the widget
 	 * 
 	 * @author Thomas Gossmann
@@ -106,11 +126,46 @@ $class("Widget", {
 		}
 
 		this._listener[eventType].push(listener);
-		this.registerListener(eventType, listener);
+		this._registerListener(eventType, listener);
 	},
 
+	/**
+	 * @method
+	 * Checks wether the widget is disposed or not
+	 * 
+	 * @author Thomas Gossmann
+	 * @throws gara.jswt.JSWTException <ul>
+	 * 		<li>gara.jswt.JSWT.ERROR_WIDGET_DISPOSED - If widget is disposed</li>
+	 * </ul>
+	 * 
+	 * @return {void}
+	 */
+	checkWidget : function() {
+		if (this.isDisposed()) {
+			throw new JSWTException(JSWT.ERROR_WIDGET_DISPOSED);
+		}
+	},
+
+	/**
+	 * @method
+	 * Disposes the widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
 	dispose : function() {
 		this._disposed = true;
+		
+		// notify dispose listeners
+		this._disposeListener.forEach(function(item, index, arr) {
+			item.widgetDisposed(this);
+		}, this);
+		
+		for (var type in this._listener) {
+			this._listener[type].forEach(function(item, index, arr) {
+				this.removeListener(type, item);
+			}, this);
+		}
 	},
 
 	/**
@@ -178,6 +233,13 @@ $class("Widget", {
 
 //	handleEvent : $abstract(function(e){}),
 
+	/**
+	 * @method
+	 * Tells wether this widget is disposed or not
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {boolean} true for disposed status otherwise false
+	 */
 	isDisposed : function() {
 		return this._disposed;
 	},
@@ -210,7 +272,7 @@ $class("Widget", {
 		}
 	},
 
-	registerListener : $abstract(function(eventType, listener){}),
+	_registerListener : $abstract(function(eventType, listener){}),
 
 	/**
 	 * @method
@@ -227,6 +289,24 @@ $class("Widget", {
 
 	/**
 	 * @method
+	 * Removes a dispose listener from the widget
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.DisposeListener} listener the listener which should be removed
+	 * @return {void} 
+	 */
+	removeDisposeListener : function(listener) {
+		if (!$class.instanceOf(listener, gara.jswt.DisposeListener)) {
+			throw new TypeError("listener not instance of gara.jswt.DisposeListener");
+		}
+
+		if (this._disposeListener.contains(listener)) {
+			this._disposeListener.remove(listener);
+		}
+	},
+
+	/**
+	 * @method
 	 * Removes a listener from this item
 	 * 
 	 * @author Thomas Gossmann
@@ -235,7 +315,11 @@ $class("Widget", {
 	 * @return {void}
 	 */
 	removeListener : function(eventType, listener) {
-		this._listener[eventType].remove(listener);
+		if (this._listener.hasOwnProperty(eventType) 
+				&& this._listener[eventType].contains(listener)) {
+			this._listener[eventType].remove(listener);
+			this._unregisterListener(eventType, listener);
+		}
 	},
 	
 	/**
@@ -254,7 +338,13 @@ $class("Widget", {
 		}
 	},
 	
+	_setParentNode : function(parentNode) {
+		this._parentNode = parentNode;
+	},
+	
 	toString : function() {
 		return "[gara.jswt.Widget]";
-	}
+	},
+
+	_unregisterListener : $abstract(function(eventType, listener){})
 });

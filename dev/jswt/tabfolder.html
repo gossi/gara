@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.tabfolder (dev)</title>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
@@ -18,6 +19,7 @@
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
 <script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
@@ -34,9 +36,10 @@
 <script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
+var t;
 function main() {
 	try {
-		var t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.JSWT.TOP);
+		t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.JSWT.TOP);
 
 		var img1 = new Image();
 		img1.src = '../../themes/sand/icon_error.png';
@@ -76,12 +79,18 @@ function main() {
 	}
 }
 
-onDOMLoaded(main);
+function dispose() {
+	t.dispose();
+}
 --></script>
 </head>
 <body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.TabFolder</h1>
-<div id="container" class="sand">
-</div>
+<fieldset>
+	<legend>Options</legend>
+	<input type="button" value="dispose()" onclick="dispose()"/>
+</fieldset>
+<div id="container" class="sand"></div>
+<script type="text/javascript">main();</script>
 </body>
 </html>

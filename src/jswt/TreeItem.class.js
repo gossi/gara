@@ -49,7 +49,6 @@ $class("TreeItem", {
 		this._expanded = true;
 		this._checked = false;
 		this._changed = false;
-		this._childContainer = null;
 		this._parent = parent;
 		this._tree = null;
 
@@ -65,6 +64,8 @@ $class("TreeItem", {
 		this._img = null;
 		this._span = null;
 		this._spanText = null;
+		this._toggleNode = null;
+		this._childContainer = null;
 	},
 
 	/**
@@ -78,6 +79,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	_addItem : function(item, index) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
@@ -101,20 +103,10 @@ $class("TreeItem", {
 	 * @param {boolean} wether this item is at the bottom position or not
 	 * @return {void}
 	 */
-	create : function() {
+	_create : function() {
 		/*
 		 * DOM of created item:
 		 * 
-		 * old:
-		 * <li>
-		 *  <span class="toggler [togglerExpanded] [togglerCollapsed]"></span>
-		 *  <span class="textBox">
-		 *   [<img src=""/>]
-		 *   <span class="text"></span>
-		 *  </span>
-		 * </li>
-		 * 
-		 * new:
 		 * <li>
 		 *  <span class="toggler [togglerExpanded] [togglerCollapsed]"></span>
 		 *  [<img src=""/>]
@@ -122,26 +114,32 @@ $class("TreeItem", {
 		 * </li>
 		 */
 
+		if ($class.instanceOf(this._parent, gara.jswt.Tree)) {
+			this._parentNode = this._parent.domref;
+		} else if ($class.instanceOf(this._parent, gara.jswt.TreeItem)) {
+			this._parentNode = this._parent._getChildContainer();
+		}
+
 		var parentItems = this._parent.getItems();
-		
+
 		this.removeClassName("bottom");
 		if (parentItems.indexOf(this) == parentItems.length - 1) {
 			// if bottom
 			this.addClassName("bottom");
 		}
 
-		// create item noe
+		// create item node
 		this.domref = document.createElement("li");
 		this.domref.className = this._className;
 		this.domref.obj = this;
 		this.domref.control = this._tree;
 		base2.DOM.EventTarget(this.domref);
-	
+
 		// create item nodes
-		this.toggleNode = document.createElement("span");
-		this.toggleNode.obj = this;
-		this.toggleNode.control = this._tree;
-		base2.DOM.EventTarget(this.toggleNode);
+		this._toggleNode = document.createElement("span");
+		this._toggleNode.obj = this;
+		this._toggleNode.control = this._tree;
+		base2.DOM.EventTarget(this._toggleNode);
 		
 		this._span = document.createElement("span");
 		this._span.obj = this;
@@ -152,13 +150,13 @@ $class("TreeItem", {
 		base2.DOM.EventTarget(this._span);
 	
 		// set this.toggler
-		this.toggleNode.className = "toggler";
-		this.toggleNode.className += this._hasChilds() 
+		this._toggleNode.className = "toggler";
+		this._toggleNode.className += this._hasChilds() 
 			? (this._expanded
 				? " togglerExpanded"
 				: " togglerCollapsed")
 			: "";
-		this.domref.appendChild(this.toggleNode);
+		this.domref.appendChild(this._toggleNode);
 	
 		// set image
 		if (this._image != null) {
@@ -183,9 +181,11 @@ $class("TreeItem", {
 		/* register user-defined listeners */
 		for (var eventType in this._listeners) {
 			this._listeners[eventType].forEach(function(elem, index, arr) {
-				this.registerListener(eventType, elem);
+				this._registerListener(eventType, elem);
 			}, this);
 		}
+		
+		this._parentNode.appendChild(this.domref);
 	},
 
 	/**
@@ -197,6 +197,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	_createChildContainer : function() {
+		this.checkWidget();
 		this._childContainer = document.createElement('ul');
 		base2.DOM.EventTarget(this._childContainer);
 	
@@ -222,12 +223,44 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	_deselectItems : function() {
+		this.checkWidget();
 		this._items.forEach(function(child, index, arr) {
 			if (child._hasChilds()) {
 				child._deselectItems();
 			}
 			this._tree.deselect(child);
 		}, this);
+	},
+	
+	dispose : function() {
+		this.$base();
+
+		if (this._childContainer != null) {
+			this._items.forEach(function(item, index, arr){
+				item.dispose();
+			}, this);
+
+			this.domref.removeChild(this._childContainer);
+			delete this._childContainer;
+		}
+
+		if (this._img != null) {
+			this.domref.removeChild(this._img);
+			delete this._img;
+			this._image = null;
+		}
+
+		this.domref.removeChild(this._toggleNode);
+		this.domref.removeChild(this._span);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+
+		delete this._toggleNode;
+		delete this._span;
+		delete this._spanText;
+		delete this.domref;
 	},
 
 	/**
@@ -253,6 +286,7 @@ $class("TreeItem", {
 	 * @return {boolean} the checked state
 	 */
 	getChecked : function() {
+		this.checkWidget();
 		return this._checked;
 	},
 	
@@ -264,10 +298,12 @@ $class("TreeItem", {
 	 * @return {boolean} the expanded state
 	 */
 	getExpanded : function() {
+		this.checkWidget();
 		return this._expanded;
 	},
 	
 	getImage : function(columnIndex) {
+		this.checkWidget();
 		if (typeof(columnIndex) == "undefined")
 			columnIndex = 0;
 		return this._images[columnIndex];
@@ -283,6 +319,7 @@ $class("TreeItem", {
 	 * @return {gara.jswt.TreeItem} the item
 	 */
 	getItem : function(index) {
+		this.checkWidget();
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this Tree");
 		}
@@ -339,6 +376,7 @@ $class("TreeItem", {
 	},
 
 	getText : function(columnIndex) {
+		this.checkWidget();
 		if (typeof(columnIndex) == "undefined")
 			columnIndex = 0;
 		return this._texts[columnIndex];
@@ -366,6 +404,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	handleEvent : function(e) {
+		this.checkWidget();
 		var obj = e.target.obj || null;
 
 		switch (e.type) {
@@ -373,7 +412,7 @@ $class("TreeItem", {
 				if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
 					var item = obj;
 
-					if (e.target == this.toggleNode) {
+					if (e.target == this._toggleNode) {
 						if (this._expanded) {
 							this.setExpanded(false);
 						} else {
@@ -385,11 +424,11 @@ $class("TreeItem", {
 				break;
 
 			case "dblclick":
-				if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
+				/*if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
 					var item = obj;
 
 					// toggle childs
-					if (e.target != this.toggleNode) {
+					if (e.target != this._toggleNode) {
 						if (this._expanded) {
 							this.setExpanded(false);
 						} else {
@@ -398,7 +437,7 @@ $class("TreeItem", {
 
 						this._tree.update();
 					}
-				}
+				}*/
 				break;
 				
 			case "keyup":
@@ -420,6 +459,7 @@ $class("TreeItem", {
 	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item not instance of gara.jswt.TreeItem");
 		}
@@ -442,7 +482,7 @@ $class("TreeItem", {
 	 * @param {Object} listener the listener
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this._img != null) {
 			gara.EventManager.addListener(this._img, eventType, listener);
 		}
@@ -461,8 +501,9 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	remove : function(index) {
+		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
-		this._childContainer.removeChild(item.domref);
+		item.dispose();
 		delete item;
 	},
 
@@ -476,6 +517,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	removeRange : function(start, end) {
+		this.checkWidget();
 		for (var i = start; i <= end; ++i) {
 			this.remove(i);
 		}
@@ -490,6 +532,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	removeFromArray : function(indices) {
+		this.checkWidget();
 		indices.forEach(function(item, index, arr) {
 			this.remove(index);
 		}, this);
@@ -503,6 +546,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	removeAll : function() {
+		this.checkWidget();
 		while (this._items.length) {
 			var item = this._items.pop();
 			this.domref.removeChild(item.domref);
@@ -518,6 +562,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	setActive : function(active) {
+		this.checkWidget();
 		this._active = active;
 	
 		if (active) {
@@ -538,7 +583,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	setChecked : function(checked) {
-		//TODO: Respect selection flag from tree - if this has been done here...
+		this.checkWidget();
 		if (checked) {
 			this._span.className = "text selected";
 		} else {
@@ -557,6 +602,7 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	setExpanded : function(expanded) {
+		this.checkWidget();
 		this._expanded = expanded;
 
 		if (!expanded) {
@@ -590,6 +636,24 @@ $class("TreeItem", {
 	
 	/**
 	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this._img != null) {
+			gara.EventManager.removeListener(this._img, eventType, listener);
+		}
+	
+		if (this._span != null) {
+			gara.EventManager.removeListener(this._span, eventType, listener);
+		}
+	},
+	
+	/**
+	 * @method
 	 * Updates this item
 	 * 
 	 * @private
@@ -597,68 +661,82 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	update : function() {
-		if (this._hasChilds()) {
-			this.toggleNode.className = strReplace(this.toggleNode.className, " togglerCollapsed", "");
-			this.toggleNode.className = strReplace(this.toggleNode.className, " togglerExpanded", "");
-	
-			if (this._expanded) {
-				this.toggleNode.className += " togglerExpanded";
-			} else {
-				this.toggleNode.className += " togglerCollapsed";
+		this.checkWidget();
+		
+		if (this.domref == null) {
+			this._create();
+		} else if (this.hasChanged()) {
+			if (this._hasChilds()) {
+				this._toggleNode.className = strReplace(this._toggleNode.className, " togglerCollapsed", "");
+				this._toggleNode.className = strReplace(this._toggleNode.className, " togglerExpanded", "");
+				
+				if (this._expanded) {
+					this._toggleNode.className += " togglerExpanded";
+				}
+				else {
+					this._toggleNode.className += " togglerCollapsed";
+				}
 			}
-		}
 
-		// create image
-		if (this._image != null && this._img == null) {
-			this._img = document.createElement("img");
-			this._img.obj = this;
-			this._img.control = this._tree;
-			this._img.alt = this.getText();
-			this._img.src = this.getImage().src;
-			this.domref.insertBefore(this._img, this._span);
-			base2.DOM.EventTarget(this._img);
-		}
-
-		// update image information
-		else if (this._image != null) {
-			this._img.src = this.getImage().src;
-			this._img.alt = this._text;
-		}
-		
-		// delete image
-		else if (this._img != null && this.getImage() == null) {
-			this.domref.removeChild(this._img);
-			this._img = null;
-		}
-		
-		// if childs are available, create container for them
-		if (this._hasChilds() && this._childContainer == null) {
-			this._createChildContainer();
-		}
-
-		// update expanded state
-		if (this._childContainer != null) {
-			if (this._expanded) {
-				this._childContainer.style.display = "block";
-			} else {
-				this._childContainer.style.display = "none";
+			// create image
+			if (this._image != null && this._img == null) {
+				this._img = document.createElement("img");
+				this._img.obj = this;
+				this._img.control = this._tree;
+				this._img.alt = this.getText();
+				this._img.src = this.getImage().src;
+				this.domref.insertBefore(this._img, this._span);
+				base2.DOM.EventTarget(this._img);
 			}
-		}
-		// delete childContainer
-		else if (!this._hasChilds() && this._childContainer != null) {
-			this.domref.removeChild(this._childContainer);
-			this._childContainer = null;
+
+			// update image information
+			else if (this._image != null) {
+				this._img.src = this.getImage().src;
+				this._img.alt = this._text;
+			}
+
+			// delete image
+			else if (this._img != null && this.getImage() == null) {
+				this.domref.removeChild(this._img);
+				this._img = null;
+			}
+
+			// if childs are available, create container for them
+			if (this._hasChilds() && this._childContainer == null) {
+				this._createChildContainer();
+			}
+
+			// update expanded state
+			if (this._childContainer != null) {
+				if (this._expanded) {
+					this._childContainer.style.display = "block";
+				} else {
+					this._childContainer.style.display = "none";
+				}
+			}
+			// delete childContainer
+			else if (!this._hasChilds() && this._childContainer != null) {
+				this.domref.removeChild(this._childContainer);
+				this._childContainer = null;
+			}
+
+			// check for bottom style
+			var parentItems = this._parent.getItems();
+			this.removeClassName("bottom");
+			if (parentItems.indexOf(this) == parentItems.length - 1) {
+				// if bottom
+				this.addClassName("bottom");
+			}
+
+			this._spanText.nodeValue = this.getText();
+			this.domref.className = this._className;
+
+			this.releaseChange();
 		}
 		
-		// check for bottom style
-		var parentItems = this._parent.getItems();
-		this.removeClassName("bottom");
-		if (parentItems.indexOf(this) == parentItems.length - 1) {
-			// if bottom
-			this.addClassName("bottom");
-		}
-
-		this._spanText.nodeValue = this.getText();
-		this.domref.className = this._className;
+		// update items
+		this._items.forEach(function(item, index, arr) {
+			item.update();
+		}, this);
 	}
 });

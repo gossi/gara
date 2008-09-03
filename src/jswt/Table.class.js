@@ -61,7 +61,7 @@ $class("Table", {
 		this._tbody = null;
 
 		this._className = this._baseClass = "jsWTTable";
-		
+
 		this._selection = [];
 		this._selectionListener = [];
 		this._shiftItem = null;
@@ -69,6 +69,7 @@ $class("Table", {
 	},
 
 	_activateItem : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not type of gara.jswt.TableItem");
 		}
@@ -84,6 +85,7 @@ $class("Table", {
 	},
 
 	_addItem : function(item, index) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not a gara.jswt.TableItem");
 		}
@@ -93,9 +95,11 @@ $class("Table", {
 		} else {
 			this._items.push(item);
 		}
+		item._setParentNode(this._tbody);
 	},
 
 	_addColumn : function(column, index) {
+		this.checkWidget();
 		if (!$class.instanceOf(column, gara.jswt.TableColumn)) {
 			throw new TypeError("column is not a gara.jswt.TableColumn");
 		}
@@ -109,6 +113,7 @@ $class("Table", {
 			this._columns.push(column);
 			this._columnOrder.push(this._columns.length - 1);
 		}
+		column._setParentNode(this._theadRow);
 	},
 	
 	/**
@@ -139,6 +144,7 @@ $class("Table", {
 	 * @return {void}
 	 */
 	clear : function(index) {
+		this.checkWidget();
 		var item = this._items[index];
 		item.clear();
 	},
@@ -149,39 +155,7 @@ $class("Table", {
 		this.domref.control = this;
 		base2.DOM.EventTarget(this.domref);
 
-		this._createTableHead();
-
-		this._tbody = document.createElement("tbody");
-		this._tbody.obj = this;
-		this._tbody.control = this;
-		base2.DOM.EventTarget(this._tbody);
-		this.domref.appendChild(this._tbody);
-		
-		/* buffer unregistered user-defined listeners */
-		var unregisteredListener = {};			
-		for (var eventType in this._listener) {
-			unregisteredListener[eventType] = this._listener[eventType].concat([]);
-		}
-
-		/* List event listener */
-		this.addListener("mousedown", this);
-
-		/* register user-defined listeners */
-		for (var eventType in unregisteredListener) {
-			unregisteredListener[eventType].forEach(function(elem, index, arr) {
-				this.registerListener(eventType, elem);
-			}, this);
-		}
-
-		/* If parent is not a composite then it *must* be a HTMLElement
-		 * but because of IE there is no cross-browser check. Or no one I know of.
-		 */
-		if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
-			this._parent.appendChild(this.domref);
-		}
-	},
-
-	_createTableHead : function() {
+		// table head
 		this._thead = document.createElement("thead");
 		this._thead.obj = this;
 		this._thead.control = this;
@@ -193,13 +167,47 @@ $class("Table", {
 		this._theadRow.control = this;
 		base2.DOM.EventTarget(this._theadRow);
 		this._thead.appendChild(this._theadRow);
-
+		
 		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
+			this._columns[this._columnOrder[i]]._setParentNode(this._theadRow);
 			this._columns[this._columnOrder[i]].update();
-			this._theadRow.appendChild(this._columns[this._columnOrder[i]].domref);
+		}
+
+		// table body
+		this._tbody = document.createElement("tbody");
+		this._tbody.obj = this;
+		this._tbody.control = this;
+		base2.DOM.EventTarget(this._tbody);
+		this.domref.appendChild(this._tbody);
+
+		/* buffer unregistered user-defined listeners */
+		var unregisteredListener = {};			
+		for (var eventType in this._listener) {
+			unregisteredListener[eventType] = this._listener[eventType].concat([]);
+		}
+
+		/* Table event listener */
+		this.addListener("mousedown", this);
+
+		/* register user-defined listeners */
+		for (var eventType in unregisteredListener) {
+			unregisteredListener[eventType].forEach(function(elem, index, arr) {
+				this._registerListener(eventType, elem);
+			}, this);
+		}
+
+		/* If parent is not a composite then it *must* be a HTMLElement
+		 * but because of IE there is no cross-browser check. Or no one I know of.
+		 */
+		if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+			this._parentNode = this._parent;
+		}
+		
+		if (this._parentNode != null) {
+			this._parentNode.appendChild(this.domref);
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Deselects a specific item
@@ -209,10 +217,11 @@ $class("Table", {
 	 * @return {void}
 	 */
 	deselect : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not type of gara.jswt.TableItem");
 		}
-	
+
 		if (this._selection.contains(item)) {
 			this._selection.remove(item);
 			this._notifySelectionListener();
@@ -222,20 +231,42 @@ $class("Table", {
 		}
 	},
 	
+	deselectAll : function() {
+		this.checkWidget();
+		while (this._selection.length) {
+			this.deselect(this._selection.pop());
+		}
+		this.update();
+	},
+
 	dispose : function() {
-		// TODO: Notify Dispose Listener;
-		this._columns.forEach(function(item, index, arr) {
-			item.dispose();
+		this.deselectAll();
+		this.$base();
+		
+		this._columns.forEach(function(col, index, arr) {
+			col.dispose();
 		}, this);
 		
 		this._items.forEach(function(item, index, arr) {
 			item.dispose();
 		}, this);
 
-		this._parent.removeChild(this.domref);
+		this._thead.removeChild(this._theadRow);
+		this.domref.removeChild(this._thead);
+		this.domref.removeChild(this._tbody);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+
+		delete this._theadRow;
+		delete this._thead;
+		delete this._tbody;
+		delete this.domref;
 	},
 	
 	getColumn : function(index) {
+		this.checkWidget();
 		if (index >= 0 && index < this._columns.length) {
 			return this._columns[index];
 		}
@@ -293,6 +324,7 @@ $class("Table", {
 	},
 
 	handleEvent : function(e) {
+		this.checkWidget();
 		var obj = e.target.obj || null;
 		
 //		console.log("List.handleEvent(" + e.type + ")");
@@ -330,7 +362,6 @@ $class("Table", {
 			case "keyup":
 			case "keydown":
 			case "keypress":
-			
 				this._items.forEach(function(item, index, arr) {
 					item.handleEvent(e);
 				});
@@ -356,6 +387,7 @@ $class("Table", {
 	},
 	
 	_handleKeyEvent : function(e) {
+		this.checkWidget();
 		if (this._activeItem == null) {
 			return;
 		}
@@ -448,6 +480,7 @@ $class("Table", {
 	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item not instance of gara.jswt.TableItem");
 		}
@@ -473,7 +506,7 @@ $class("Table", {
 		}, this);
 	},
 
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this.domref) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -488,9 +521,9 @@ $class("Table", {
 	 * @return {void}
 	 */
 	remove : function(index) {
-		//this._items[index].dispose();
+		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
-		this._tbody.removeChild(item.domref);
+		item.dispose();
 		delete item;
 	},
 
@@ -504,6 +537,7 @@ $class("Table", {
 	 * @return {void}
 	 */
 	removeRange : function(start, end) {
+		this.checkWidget();
 		for (var i = start; i <= end; ++i) {
 			this.remove(start);
 		}
@@ -518,6 +552,7 @@ $class("Table", {
 	 * @return {void}
 	 */
 	removeFromArray : function(indices) {
+		this.checkWidget();
 		indices.forEach(function(item, index, arr) {
 			this.remove(index);
 		}, this);
@@ -531,6 +566,7 @@ $class("Table", {
 	 * @return {void}
 	 */
 	removeAll : function() {
+		this.checkWidget();
 		while (this._items.length) {
 			var item = this._items.pop();
 			this.domref.removeChild(item.domref);
@@ -567,6 +603,7 @@ $class("Table", {
 	 * @return {void}
 	 */
 	select : function(item, _add) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item not instance of gara.jswt.TableItem");
 		}
@@ -596,6 +633,7 @@ $class("Table", {
 	 * @return {void}
 	 */
 	_selectShift : function(item, _add) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not type of gara.jswt.TableItem");
 		}
@@ -635,60 +673,70 @@ $class("Table", {
 	setLinesVisible : function(show) {
 		this._linesVisible = show;
 	},
+	
+	toString : function() {
+		return "[gara.jswt.Table]";
+	},
+	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+	},
 
 	update : function() {
+		this.checkWidget();
 		if (this.domref == null) {
 			this._create();
-		} else {
-			// update table head
-			while (this._theadRow.childNodes.length) {
-				this._theadRow.removeChild(this._theadRow.childNodes[0]);
-			}
-			for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
-				this._columns[this._columnOrder[i]].update();
-				this._theadRow.appendChild(this._columns[this._columnOrder[i]].domref);
-			}
+		}
+
+		// update table head
+		while (this._theadRow.childNodes.length) {
+			this._theadRow.removeChild(this._theadRow.childNodes[0]);
+		}
+		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
+			//this._columns[this._columnOrder[i]]._setParentNode(this._theadRow);
+			this._columns[this._columnOrder[i]].update();
+			this._theadRow.appendChild(this._columns[this._columnOrder[i]].domref);
 		}
 
 		if (this._headerVisible) {
-			if (document.all) {
-				this._thead.style.display = "block";
-			} else {
-				this._thead.style.display = "table-row-group";
-			}
-		} else {
+			this._thead.style.display = document.all 
+				? "block" 
+				: "table-row-group";
+		}
+		else {
 			this._thead.style.display = "none";
 		}
-
+		
 		this._tbody.className = "";
 		this.removeClassName("jsWTTableNoLines");
 		this.removeClassName("jsWTTableLines");
-
-		if (this._linesVisible) {
-			this.addClassName("jsWTTableLines");
-		} else {
-			this.addClassName("jsWTTableNoLines");
-		}
-
+		this.addClassName("jsWTTable" + (this._linesVisible ? "" : "No") + "Lines");
+		
 		if ((this._style & JSWT.FULL_SELECTION) == JSWT.FULL_SELECTION) {
 			this._tbody.className = "jsWTTableFullSelection";
 		}
-
+		
 		this.domref.className = this._className;
 
 		// update items
 		this._updateItems();
+		
 	},
 	
 	_updateItems : function() {
 		this._items.forEach(function(item, index, arr) {
-			// create item ...
-			if (!item.isCreated()) {
-				item._create();
-				this._tbody.appendChild(item.domref);
-			} else {
-				item.update();
-			}
+			item._setParentNode(this._tbody);
+			item.update();
 		}, this);
 	}
 });

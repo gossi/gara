@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.tree (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara-yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
@@ -14,11 +14,11 @@
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
 <script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
@@ -31,6 +31,7 @@
 <script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
+var t;
 function main() {
 	try {
 		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
@@ -69,12 +70,19 @@ function main() {
 	}
 }
 
-onDOMLoaded(main);
+function dispose() {
+	t.dispose();
+}
 --></script>
 </head>
 <body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Tree</h1>
+<fieldset>
+	<legend>Options</legend>
+	<input type="button" value="dispose()" onclick="dispose()"/>
+</fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>
+<script type="text/javascript">main();</script>
 </body>
 </html>

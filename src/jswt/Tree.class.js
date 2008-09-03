@@ -64,6 +64,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	_activateItem : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
@@ -89,6 +90,7 @@ $class("Tree", {
 	 * @return void
 	 */
 	_addItem : function(item, index) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
@@ -155,6 +157,40 @@ $class("Tree", {
 			this._selectionListeners.push(listener);
 		}
 	},
+
+	_create : function() {
+		this.domref = document.createElement("ul");
+		this.domref.obj = this;
+		this.domref.control = this;
+		base2.DOM.EventTarget(this.domref);
+
+		/* buffer unregistered user-defined listeners */
+		var unregisteredListener = {};			
+		for (var eventType in this._listener) {
+			unregisteredListener[eventType] = this._listener[eventType].concat([]);
+		}
+
+		/* List event listener */
+		this.addListener("mousedown", this);
+
+		/* register user-defined listeners */
+		for (var eventType in unregisteredListener) {
+			unregisteredListener[eventType].forEach(function(elem, index, arr) {
+				this._registerListener(eventType, elem);
+			}, this);
+		}
+
+		/* If parent is not a composite then it *must* be a HTMLElement
+		 * but because of IE there is no cross-browser check. Or no one I know of.
+		 */
+		if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+			this._parentNode = this._parent;
+		}
+
+		if (this._parentNode != null) {
+			this._parentNode.appendChild(this.domref);
+		}
+	},
 	
 	/**
 	 * @method
@@ -165,6 +201,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	deselect : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
@@ -187,10 +224,25 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	deselectAll : function() {
-		for (var i = this._selection.length; i >= 0; --i) {
-			this.deselect(this._selection[i]);
+		this.checkWidget();
+		while (this._selection.length) {
+			this.deselect(this._selection.pop());
 		}
 		this.update();
+	},
+
+	dispose : function() {
+		this.deselectAll();
+		this.$base();
+
+		this._firstLevelItems.forEach(function(item, index, arr) {
+			item.dispose();
+		}, this);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+		delete this.domref;
 	},
 	
 	getColumnCount : function() {
@@ -207,6 +259,7 @@ $class("Tree", {
 	 * @return {gara.jswt.TreeItem} the item
 	 */
 	getItem : function(index) {
+		this.checkWidget();
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this Tree");
 		}
@@ -279,6 +332,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	handleEvent : function(e) {
+		this.checkWidget();
 		// special events for the tree
 		var obj = e.target.obj || null;
 		var item = null;
@@ -310,10 +364,6 @@ $class("Tree", {
 						}
 					}
 				}
-				break;
-
-			case "dblclick":
-				// dummy handler. dblclick event is passed to the item
 				break;
 
 			case "keyup":
@@ -355,6 +405,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	_handleKeyEvent : function(e) {
+		this.checkWidget();
 		if (this._activeItem == null) {
 			return;
 		}
@@ -515,6 +566,7 @@ $class("Tree", {
 	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item not instance of gara.jswt.TreeItem");
 		}
@@ -548,7 +600,7 @@ $class("Tree", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -563,8 +615,10 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	remove : function(index) {
+		this.checkWidget();
 		var item = this._firstLevelItems.removeAt(index)[0];
-		this.domref.removeChild(item.domref);
+		this._items.remove(item);
+		item.dispose();
 		delete item;
 	},
 	
@@ -658,6 +712,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	_select : function(item, _add) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
@@ -686,6 +741,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	selectAll : function() {
+		this.checkWidget();
 		this._items.forEach(function(item, index, arr) {
 			this._select(item, true);
 		}, this);
@@ -701,6 +757,7 @@ $class("Tree", {
 	 * @return {void}
 	 */
 	_selectShift : function(item, _add) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
@@ -751,6 +808,7 @@ $class("Tree", {
 	 * @return {void}
 	 */	
 	setSelection : function(items) {
+		this.checkWidget();
 		if (!$class.instanceOf(items, Array)) {
 			throw new TypeError("items are not instance of an Array");
 		}
@@ -765,41 +823,29 @@ $class("Tree", {
 	
 	/**
 	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+	},
+	
+	/**
+	 * @method
 	 * Updates the widget
 	 * 
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	update : function() {
+		this.checkWidget();
 		if (this.domref == null) {
-			this.domref = document.createElement("ul");
-			this.domref.obj = this;
-			this.domref.control = this;
-			base2.DOM.EventTarget(this.domref);
-
-			/* buffer unregistered user-defined listeners */
-			var unregisteredListener = {};			
-			for (var eventType in this._listener) {
-				unregisteredListener[eventType] = this._listener[eventType].concat([]);
-			}
-
-			/* List event listener */
-			this.addListener("mousedown", this);
-			this.addListener("dblclick", this);
-
-			/* register user-defined listeners */
-			for (var eventType in unregisteredListener) {
-				unregisteredListener[eventType].forEach(function(elem, index, arr) {
-					this.registerListener(eventType, elem);
-				}, this);
-			}
-
-			/* If parent is not a composite then it *must* be a HTMLElement
-			 * but because of IE there is no cross-browser check. Or no one I know of.
-			 */
-			if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
-				this._parent.appendChild(this.domref);
-			}
+			this._create();
 		}
 
 		this.removeClassName("jsWTTreeNoLines");
@@ -817,38 +863,10 @@ $class("Tree", {
 		}
 
 		this.domref.className = this._className;
-		this._updateItems(this._firstLevelItems, this.domref);
-	},
-	
-	/**
-	 * @method
-	 * Update Items
-	 * 
-	 * @private
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.TreeItem[]} items to update
-	 * @param {HTMLElement} parentNode the parent dom node
-	 * @return {void}  
-	 */
-	_updateItems : function(items, parentNode) {
-		var itemCount = items.length;
-		items.forEach(function(item, index, arr) {
-			// create item ...
-			if (!item.isCreated()) {
-				item.create();
-				parentNode.appendChild(item.domref);
-			}
 
-			// ... or update it
-			if (item.hasChanged()) {
-				item.update();
-				item.releaseChange();
-			}
-
-			if (item.getItemCount() > 0) {
-				var childContainer = item._getChildContainer();
-				this._updateItems(item.getItems(), childContainer);			
-			}
+		// update items		
+		this._firstLevelItems.forEach(function(item, index, arr) {
+			item.update();
 		}, this);
-	}
+	},
 });

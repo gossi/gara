@@ -100,6 +100,25 @@ $class("TabItem", {
 		this._changed = false;
 		return this.domref;
 	},
+	
+	dispose : function() {
+		this.$base();
+
+		if (this._img != null) {
+			this.domref.removeChild(this._img);
+			delete this._img;
+			this._image = null;
+		}
+		
+		this.domref.removeChild(this._span);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+		
+		delete this._span;
+		delete this.domref;
+	},
 
 	/**
 	 * @method
@@ -145,6 +164,7 @@ $class("TabItem", {
 	 * @return {void} 
 	 */
 	handleEvent : function(e) {
+		this.checkWidget();
 		
 		switch (e.type) {
 			
@@ -165,7 +185,7 @@ $class("TabItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function() {
+	_registerListener : function() {
 		if (this.domref != null) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -181,6 +201,7 @@ $class("TabItem", {
 	 * @return {void}
 	 */
 	_setActive : function(active) {
+		this.checkWidget();
 		this._active = active;
 
 		if (active) {
@@ -235,6 +256,24 @@ $class("TabItem", {
 		this._toolTipText = text;
 		this._changed = true;
 	},
+	
+	toString : function() {
+		return "[gara.jswt.TabItem]";
+	},
+
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+	},
 
 	/**
 	 * @method
@@ -245,6 +284,7 @@ $class("TabItem", {
 	 * @return {void}
 	 */
 	update : function() {
+		this.checkWidget();
 		// create image
 		if (this._image != null && this._img == null) {
 			this._img = document.createElement("img");

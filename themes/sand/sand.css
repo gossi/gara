@@ -364,7 +364,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	border-spacing: 0 0;
 }
 
-.sand table.jsWTTable thead tr th span {
+.sand table.jsWTTable thead tr th span.mover {
 	margin-top: -3px !important;
 	margin-right: -4px !important;
 	margin-bottom: -3px !important;
@@ -582,37 +582,37 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-div.jsWTDialog {
+.sand div.jsWTDialog {
 	
 }
 
-div.jsWTDialogBar {
+.sand div.jsWTDialogBar {
 	/*background: url('left.gif') no-repeat;*/
 	line-height: 16px;
 	cursor: default;
 }
 
 /* This div is only because of IE6 grrrrr */
-div.jsWTDialogBarLeft {
-	background: url('left.gif') no-repeat;
+.sand div.jsWTDialogBarLeft {
+	background: url('left_both.gif') no-repeat;
 	width: 9px;
 	height: 26px;
 	float: left;
 }
 
-div.jsWTDialogBarText {
+.sand div.jsWTDialogBarText {
 	background: url('bar.gif') repeat-x;
 	padding: 5px 5px 5px 0;
 	height: 16px;
 }
 
-div.jsWTDialogBarButtons {
-	background: url('right.gif') no-repeat right top;
+.sand div.jsWTDialogBarButtons {
+	background: url('right_both.gif') no-repeat right top;
 	padding: 5px;
 	height: 16px;
 }
 
-span.jsWTDialogCancelButton {
+.sand span.jsWTDialogCancelButton {
 	background: url('close.gif') no-repeat;
 	width: 14px;
 	height: 14px;
@@ -620,11 +620,11 @@ span.jsWTDialogCancelButton {
 	margin: 1px 2px 0 0;
 }
 
-span.jsWTDialogCancelButton:hover {
+.sand span.jsWTDialogCancelButton:hover {
 	background: url('close_hover.gif');
 }
 
-div.jsWTDialogContent {
+.sand div.jsWTDialogContent {
 	border: 1px solid #B7AE88;
 }
 
@@ -636,57 +636,57 @@ div.jsWTDialogContent {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-div.jsWTMessageBox,
-div.jsWTInputDialog {
+.sand div.jsWTMessageBox,
+.sand div.jsWTInputDialog {
 	width: 350px;
 }
 
-div.jsWTMessageBox .jsWTDialogBarText,
-div.jsWTInputDialog .jsWTDialogBarText {
+.sand div.jsWTMessageBox .jsWTDialogBarText,
+.sand div.jsWTInputDialog .jsWTDialogBarText {
 	width: 310px;
 }
 
-div.jsWTMessageBox .jsWTDialogContent,
-div.jsWTInputDialog .jsWTDialogContent {
+.sand div.jsWTMessageBox .jsWTDialogContent,
+.sand div.jsWTInputDialog .jsWTDialogContent {
 	background-color: #F7F7FA;
 	padding: 10px;
 }
 
-div.jsWTMessageBox .jsWTMessageBoxContentText{
+.sand div.jsWTMessageBox .jsWTMessageBoxContentText{
 	padding: 5px 0;
 	padding-left: 31px;
 }
 
-div.jsWTMessageBox .jsWTIconError,
-div.jsWTMessageBox .jsWTIconInformation,
-div.jsWTMessageBox .jsWTIconQuestion,
-div.jsWTMessageBox .jsWTIconWarning,
-div.jsWTMessageBox .jsWTIconWorking {
+.sand div.jsWTMessageBox .jsWTIconError,
+.sand div.jsWTMessageBox .jsWTIconInformation,
+.sand div.jsWTMessageBox .jsWTIconQuestion,
+.sand div.jsWTMessageBox .jsWTIconWarning,
+.sand div.jsWTMessageBox .jsWTIconWorking {
 	background-position: 5px 5px;
 	background-repeat: no-repeat;
 }
 
-div.jsWTMessageBox .jsWTIconError {
+.sand div.jsWTMessageBox .jsWTIconError {
 	background-image: url('icon_error.png');
 }
-div.jsWTMessageBox .jsWTIconInformation {
+.sand div.jsWTMessageBox .jsWTIconInformation {
 	background-image: url('icon_information.png');
 } 
-div.jsWTMessageBox .jsWTIconQuestion {
+.sand div.jsWTMessageBox .jsWTIconQuestion {
 	background-image: url('icon_question.png');
 }
-div.jsWTMessageBox .jsWTIconWarning {
+.sand div.jsWTMessageBox .jsWTIconWarning {
 	background-image: url('icon_warning.png');
 }
-div.jsWTMessageBox .jsWTIconWorking {
+.sand div.jsWTMessageBox .jsWTIconWorking {
 	background-image: url('icon_working.gif');
 }
 
-div.jsWTInputDialog .jsWTInputDialogContentText {
+.sand div.jsWTInputDialog .jsWTInputDialogContentText {
 	padding: 5px 0;
 }
 
-div.jsWTInputDialog .jsWTInputDialogContentText input {
+.sand div.jsWTInputDialog .jsWTInputDialogContentText input {
 	display: block;
 	margin: 10px 0 5px 0;
 }

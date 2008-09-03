@@ -54,6 +54,8 @@ $class("ListItem", {
 		this._parent = parent;
 		this._list = parent;
 		this._list._addItem(this, index);
+		
+		// dom references
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
@@ -67,7 +69,7 @@ $class("ListItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	create : function() {
+	_create : function() {
 		this.domref = document.createElement("li");
 		this.domref.className = this._className;
 		this.domref.obj = this;
@@ -82,7 +84,6 @@ $class("ListItem", {
 			this._img.obj = this;
 			this._img.control = this._list;
 			this._img.src = this._image.src;
-			this._img.alt = this._text;
 
 			// put the image into the dom
 			this.domref.appendChild(this._img);
@@ -103,12 +104,40 @@ $class("ListItem", {
 		// register listener
 		for (var eventType in this._listener) {
 			this._listener[eventType].forEach(function(elem, index, arr) {
-				this.registerListener(eventType, elem);
+				this._registerListener(eventType, elem);
 			}, this);
 		}
+		
+		var items = this._list.getItems();
+		var index = items.indexOf(this);
+		var nextNode = index == 0 
+			? this._parentNode.firstChild
+			: items[index - 1].domref.nextSibling;
 
-		this._changed = false;
-		return this.domref;
+		if (!nextNode) {
+			this._parentNode.appendChild(this.domref);					
+		} else {
+			this._parentNode.insertBefore(this.domref, nextNode);
+		}
+	},
+	
+	dispose : function() {
+		this.$base();
+
+		if (this._img != null) {
+			this.domref.removeChild(this._img);
+			delete this._img;
+			this._image = null;
+		}
+
+		this.domref.removeChild(this._span);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+
+		delete this._span;
+		delete this.domref;
 	},
 	
 	/**
@@ -122,6 +151,7 @@ $class("ListItem", {
 	 * @return {void} 
 	 */
 	handleEvent : function(e) {
+		this.checkWidget();
 		switch (e.type) {
 			case "keyup":
 			case "keydown":
@@ -139,7 +169,7 @@ $class("ListItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this._img != null) {
 			gara.EventManager.addListener(this._img, eventType, listener);
 		}
@@ -152,6 +182,24 @@ $class("ListItem", {
 	toString : function() {
 		return "[gara.jswt.ListItem]";
 	},
+	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this._img != null) {
+			gara.EventManager.removeListener(this._img, eventType, listener);
+		}
+
+		if (this._span != null) {
+			gara.EventManager.removeListener(this._span, eventType, listener);
+		}
+	},
 
 	/**
 	 * @method
@@ -161,45 +209,52 @@ $class("ListItem", {
 	 * @return {void}
 	 */
 	update : function() {
-		// create image
-		if (this._image != null && this._img == null) {
-			this._img = document.createElement("img");
-			this._img.obj = this;
-			this._img.control = this._list;
-			this._img.alt = this._text;
-			this._img.src = this._image.src;
-			this.domref.insertBefore(this._img, this._span);
-			base2.DOM.EventTarget(this._img);
-			
-			// event listener
-			for (var eventType in this._listener) {
-				this._listener[eventType].forEach(function(elem, index, arr) {
-					this.registerListener(this._img, eventType, elem);
-				}, this);
+		this.checkWidget();
+		
+		if (this.domref == null) {
+			this._create();
+		} else {
+			// create image
+			if (this._image != null && this._img == null) {
+				this._img = document.createElement("img");
+				this._img.obj = this;
+				this._img.control = this._list;
+				this._img.alt = this._text;
+				this._img.src = this._image.src;
+				this.domref.insertBefore(this._img, this._span);
+				base2.DOM.EventTarget(this._img);
+				
+				// event listener
+				for (var eventType in this._listener) {
+					this._listener[eventType].forEach(function(elem, index, arr){
+						this.registerListener(this._img, eventType, elem);
+					}, this);
+				}
 			}
+			
+			// simply update image information
+			else if (this._image != null) {
+				this._img.src = this._image.src;
+				this._img.alt = this._text;
+			}
+				
+			// delete image
+			else if (this._img != null && this._image == null) {
+				this.domref.removeChild(this._img);
+				this._img = null;
+				
+				// event listener
+				for (var eventType in this._listener) {
+					this._listener[eventType].forEach(function(elem, index, arr){
+						gara.EventManager.removeListener(this._img, eventType, elem);
+					}, this);
+				}
+			}
+			
+			this._spanText.nodeValue = this._text;
 		}
 		
-
-		// simply update image information
-		else if (this._image != null) {
-			this._img.src = this._image.src;
-			this._img.alt = this._text;
-		}
-
-		// delete image
-		else if (this._img != null && this._image == null) {
-			this.domref.removeChild(this._img);
-			this._img = null;
-
-			// event listener
-			for (var eventType in this._listener) {
-				this._listener[eventType].forEach(function(elem, index, arr) {
-					gara.EventManager.removeListener(this._img, eventType, elem);
-				}, this);
-			}
-		}
-
-		this._spanText.nodeValue = this._text;
 		this.domref.className = this._className;
+		this.releaseChange();
 	}
 });

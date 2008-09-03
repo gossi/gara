@@ -52,6 +52,7 @@ $class("TableItem", {
 	},
 	
 	clear : function() {
+		this.checkWidget();
 		this._text = "";
 		this._image = null;
 		this._cells = [];
@@ -86,9 +87,39 @@ $class("TableItem", {
 		}
 
 		this._changed = false;
+
+		if (this._parentNode != null) {
+			this._parentNode.appendChild(this.domref);
+		}
+	},
+
+	dispose : function() {
+		this.$base();
+
+		var cell;
+		for (var i = 0, len = this._cells.length; i < len; i++) {
+			cell = this._cells[i];
+			if (cell.img) {
+				cell.td.removeChild(cell.img);
+				delete cell.img;
+				cell.image = null;
+			}
+			this.domref.removeChild(cell.td);
+
+			delete cell.td;
+		}
+		this._cells.clear();
+		delete this._cells;
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+
+		delete this.domref;
 	},
 
 	getText : function(index) {
+		this.checkWidget();
 		if (this._cells[index]) {
 			return this._cells[index].text;
 		}
@@ -96,21 +127,18 @@ $class("TableItem", {
 	},
 
 	getImage : function(index) {
+		this.checkWidget();
 		if (this._cells[index]) {
 			return this._cells[index].image;
 		}
 		return null;
-	},
-	
-	dispose : function() {
-		//TODO: KILL!
 	},
 
 	handleEvent : function(e) {
 		
 	},
 
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		
 	},
 
@@ -150,11 +178,13 @@ $class("TableItem", {
 	},
 
 	setSelected : function(selected) {
+		this.checkWidget();
 		this._selected = selected;
 		this._changed = true;
 	},
 
 	setText : function(index, text) {
+		this.checkWidget();
 		if (typeof(text) == "undefined") {
 			text = index;
 		}
@@ -180,48 +210,70 @@ $class("TableItem", {
 
 		this._changed = true;
 	},
+	
+	toString : function() {
+		return "[gara.jswt.TableItem]";
+	},
+	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+
+	},
 
 	update : function() {
-		while (this.domref.childNodes.length) {
-			this.domref.removeChild(this.domref.childNodes[0]);
-		}
-
-		var order = this._table.getColumnOrder();
-		for (var i = 0, len = order.length; i < len; ++i) {
-			var cell = this._cells[order[i]];
-
-			if (this.hasChanged()) {
-				if (!cell.td) {
-					cell.td = document.createElement("td");
-					cell.td.obj = this;
-					cell.td.control = this._table;
-					base2.DOM.EventTarget(cell.td);
-					cell.textNode = document.createTextNode(cell.text);
-					cell.td.appendChild(cell.textNode);
-				}
-
-				if (cell.image) {
-					if (!cell.img) {
-						cell.img = document.createElement("img");
-						cell.img.obj = this;
-						cell.img.control = this._table;
-						
-						base2.DOM.EventTarget(cell.img);
-						cell.td.insertBefore(cell.img, cell.textNode);
-					}
-					cell.img.src = cell.image.src;
-				}
-
-				cell.td.className = "";
-
-				if (this._selected && i == 0) {
-					cell.td.className = "selected";
-				}
-
-				cell.textNode.value = cell.text;
+		this.checkWidget();
+		
+		if (this.domref == null) {
+			this._create();
+		} else {
+			while (this.domref.childNodes.length) {
+				this.domref.removeChild(this.domref.childNodes[0]);
 			}
-
-			this.domref.appendChild(cell.td);
+			
+			var order = this._table.getColumnOrder();
+			for (var i = 0, len = order.length; i < len; ++i) {
+				var cell = this._cells[order[i]];
+				
+				if (this.hasChanged()) {
+					if (!cell.td) {
+						cell.td = document.createElement("td");
+						cell.td.obj = this;
+						cell.td.control = this._table;
+						base2.DOM.EventTarget(cell.td);
+						cell.textNode = document.createTextNode(cell.text);
+						cell.td.appendChild(cell.textNode);
+					}
+					
+					if (cell.image) {
+						if (!cell.img) {
+							cell.img = document.createElement("img");
+							cell.img.obj = this;
+							cell.img.control = this._table;
+							
+							base2.DOM.EventTarget(cell.img);
+							cell.td.insertBefore(cell.img, cell.textNode);
+						}
+						cell.img.src = cell.image.src;
+					}
+					
+					cell.td.className = "";
+					
+					if (this._selected && i == 0) {
+						cell.td.className = "selected";
+					}
+					
+					cell.textNode.value = cell.text;
+				}
+				
+				this.domref.appendChild(cell.td);
+			}
 		}
 
 		this.removeClassName("selected");

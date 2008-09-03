@@ -56,6 +56,7 @@ $class("TableColumn", {
 
 		this._width = null;
 		this._img = null;
+		this._span = null;
 		this._spanText = null
 		this._operator = null;
 		
@@ -70,7 +71,6 @@ $class("TableColumn", {
 		this.domref = document.createElement("th");
 		this.domref.obj = this;
 		this.domref.control = this._table;
-		base2.DOM.EventTarget(this.domref);
 
 		if (this._image != null) {
 			this._img = document.createElement("img");
@@ -83,16 +83,30 @@ $class("TableColumn", {
 		}
 
 		this._operator = document.createElement("span");
+		this._operator.className = "mover";
 		this._operator.obj = this;
 		this._operator.control = this._table;
-		base2.DOM.EventTarget(this._operator);
 		this.domref.appendChild(this._operator);
 
+		this._span = document.createElement("span");
+		this._span.obj = this;
+		this._span.control = this._table;
+		this._span.className = "text";
 		this._spanText = document.createTextNode(this._text);
-		this.domref.appendChild(this._spanText);
+		this._span.appendChild(this._spanText);
+		this.domref.appendChild(this._span);
+
+		base2.DOM.EventTarget(this.domref);		
+		base2.DOM.EventTarget(this._operator);
+		base2.DOM.EventTarget(this._span);
+
+		if (this._parentNode != null) {
+			this._parentNode.appendChild(this.domref);
+		}
 	},
-	
+
 	_computeWidth : function() {
+		this.checkWidget();
 		if (this.domref != null && this.domref.style.display != "none") {
 			var paddingLeft = getStyle(this.domref, "padding-left", "paddingLeft");
 			var paddingRight = getStyle(this.domref, "padding-right", "paddingRight");
@@ -100,20 +114,38 @@ $class("TableColumn", {
 			//this._width = this.domref.clientWidth; 
 		}
 	},
-	
+
 	dispose : function() {
-		// TODO: KILL!
+		this.$base();
+		
+		if (this._img != null) {
+			this.domref.removeChild(this._img);
+			delete this._img;
+			delete this._image;
+		}
+		this.domref.removeChild(this._operator);
+		this.domref.removeChild(this._span);
+		
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+
+		delete this._operator;
+		delete this._span;
+		delete this.domref;
 	},
-	
+
 	getWidth : function() {
+		this.checkWidget();
 		if (this._width == null || this._width == "auto") {
 			this._computeWidth();
 		}
 		
 		return this._width;
 	},
-	
+
 	handleEvent : function(e) {
+		this.checkWidget();
 		switch(e.type) {
 			case "mousedown":
 				if (e.target == this._operator && this._resizable) {
@@ -234,17 +266,59 @@ $class("TableColumn", {
 		}
 	},
 	
-	registerListener : function() {
+	_registerListener : function() {
 		
 	},
 	
 	setWidth : function(width) {
+		this.checkWidget();
 		this._width = width;
 	},
 	
+	toString : function() {
+		return "[gara.jswt.TableColumn]";
+	},
+	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+	},
+	
 	update : function() {
+		this.checkWidget();
 		if (this.domref == null) {
 			this._create();
+		}
+
+		if (this.hasChanged()) {
+			// create image
+			if (this._image != null && this._img == null) {
+				this._img = document.createElement("img");
+				this._img.obj = this;
+				this._img.control = this._table;
+				this._img.src = this._image.src;
+				this.domref.insertBefore(this._img, this._operator);
+				base2.DOM.EventTarget(this._img);
+			}
+
+			// update image information
+			else if (this._image != null) {
+				this._img.src = this._image.src;
+			}
+
+			// delete image
+			else if (this._img != null && this._image == null) {
+				this.domref.removeChild(this._img);
+				this._img = null;
+			}
+
+			this._spanText.nodeValue = this._text;
 		}
 
 		this.removeClassName("operator");
@@ -259,5 +333,7 @@ $class("TableColumn", {
 		if (!isNaN(this._width) && this._width != null) {
 			this.domref.style.width = this._width + "px";
 		}
+
+		this.releaseChange();
 	}
 });

@@ -72,6 +72,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	_activateItem : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
@@ -96,6 +97,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	_addItem : function(item, index) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
@@ -117,11 +119,43 @@ $class("List", {
 	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
+		this.checkWidget();
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
 		}
 
 		this._selectionListener.push(listener);
+	},
+	
+	_create : function() {
+		this.domref = document.createElement("ul");
+		this.domref.obj = this;
+		this.domref.control = this;
+		base2.DOM.EventTarget(this.domref);
+
+		/* buffer unregistered user-defined listeners */
+		var unregisteredListener = {};			
+		for (var eventType in this._listener) {
+			unregisteredListener[eventType] = this._listener[eventType].concat([]);
+		}
+
+		/* List event listener */
+		this.addListener("mousedown", this);
+
+		/* register user-defined listeners */
+		for (var eventType in unregisteredListener) {
+			unregisteredListener[eventType].forEach(function(elem, index, arr) {
+				this._registerListener(eventType, elem);
+			}, this);
+		}
+
+		if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+			this._parentNode = this._parent;
+		}
+
+		if (this._parentNode != null) {
+			this._parentNode.appendChild(this.domref);
+		}
 	},
 
 	/**
@@ -134,6 +168,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	deselect : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
@@ -155,10 +190,25 @@ $class("List", {
 	 * @return {void}
 	 */
 	deselectAll : function() {
+		this.checkWidget();
 		for (var i = 0, len = this._items.length; i < len; ++i) {
 			this.deselect(this._items[i]);
 		}
 		this.update();
+	},
+
+	dispose : function() {
+		this.deselectAll();
+		this.$base();
+
+		this._items.forEach(function(item, index, arr) {
+			item.dispose();
+		}, this);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+		delete this.domref;
 	},
 
 	/**
@@ -171,6 +221,7 @@ $class("List", {
 	 * @return {gara.jswt.ListItem} the item
 	 */
 	getItem : function(index) {
+		this.checkWidget();
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this list");
 		}
@@ -208,6 +259,7 @@ $class("List", {
 	 * @return {gara.jswt.ListItem[]} an array with items
 	 */
 	getSelection : function() {
+		this.checkWidget();
 		return this._selection;
 	},
 
@@ -219,6 +271,7 @@ $class("List", {
 	 * @return {int} the amount
 	 */
 	getSelectionCount : function() {
+		this.checkWidget();
 		return this._selection.length;
 	},
 
@@ -231,6 +284,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	handleEvent : function(e) {
+		this.checkWidget();
 		// special events for the list
 		var obj = e.target.obj || null;
 
@@ -394,6 +448,7 @@ $class("List", {
 	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
@@ -428,7 +483,7 @@ $class("List", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -443,8 +498,9 @@ $class("List", {
 	 * @return {void}
 	 */
 	remove : function(index) {
+		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
-		this.domref.removeChild(item.domref);
+		item.dispose();
 		delete item;
 	},
 
@@ -458,6 +514,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	removeRange : function(start, end) {
+		this.checkWidget();
 		for (var i = start; i <= end; ++i) {
 			this.remove(i);
 		}
@@ -472,6 +529,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	removeFromArray : function(indices) {
+		this.checkWidget();
 		indices.forEach(function(item, index, arr) {
 			this.remove(index);
 		}, this);
@@ -485,6 +543,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	removeAll : function() {
+		this.checkWidget();
 		while (this._items.length) {
 			var item = this._items.pop();
 			this.domref.removeChild(item.domref);
@@ -502,6 +561,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
+		this.checkWidget();
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
 		}
@@ -521,6 +581,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	select : function(item, _add) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
@@ -548,6 +609,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	selectAll : function() {
+		this.checkWidget();
 		for (var i = 0, len = this._items.length; i < len; ++i) {
 			this.select(this._items[i], true);
 		}
@@ -565,6 +627,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	selectRange : function(item, _add) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
@@ -606,6 +669,7 @@ $class("List", {
 	 * @return {void}
 	 */	
 	setItem : function(index, string) {
+		this.checkWidget();
 		if (typeof(string) != "string") {
 			throw new TypeError("string is not type of a String");
 		}
@@ -629,6 +693,7 @@ $class("List", {
 	 * @return {void}
 	 */
 	setItems : function(strings) {
+		this.checkWidget();
 		if (!$class.instanceOf(strings, Array)) {
 			throw new TypeError("strings are not an Array");
 		}
@@ -655,6 +720,7 @@ $class("List", {
 	 * @return {void}
 	 */	
 	setSelection : function(items) {
+		this.checkWidget();
 		if (!$class.instanceOf(items, Array)) {
 			throw new TypeError("items are not instance of an Array");
 		}
@@ -666,6 +732,20 @@ $class("List", {
 	toString : function() {
 		return "[gara.jswt.List]";
 	},
+	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+	},
 
 	/**
 	 * @method
@@ -675,35 +755,10 @@ $class("List", {
 	 * @return {void}
 	 */
 	update : function() {
+		this.checkWidget();
 		// create widget if domref equals null
 		if (this.domref == null) {
-			this.domref = document.createElement("ul");
-			this.domref.obj = this;
-			this.domref.control = this;
-			base2.DOM.EventTarget(this.domref);
-
-			/* buffer unregistered user-defined listeners */
-			var unregisteredListener = {};			
-			for (var eventType in this._listener) {
-				unregisteredListener[eventType] = this._listener[eventType].concat([]);
-			}
-
-			/* List event listener */
-			this.addListener("mousedown", this);
-
-			/* register user-defined listeners */
-			for (var eventType in unregisteredListener) {
-				unregisteredListener[eventType].forEach(function(elem, index, arr) {
-					this.registerListener(eventType, elem);
-				}, this);
-			}
-
-			/* If parent is not a composite then it *must* be a HTMLElement
-			 * but because of IE there is no cross-browser check. Or no one I know of.
-			 */
-			if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
-				this._parent.appendChild(this.domref);
-			}
+			this._create();
 		}
 
 		this.removeClassName("jsWTListFullSelection");
@@ -716,26 +771,8 @@ $class("List", {
 
 		// update items
 		this._items.forEach(function(item, index, arr) {
-
-			// create item ...
-			if (!item.isCreated()) {
-				var node = item.create();
-				var nextNode = index == 0 
-					? this.domref.firstChild
-					: arr[index - 1].domref.nextSibling;
-
-				if (!nextNode) {
-					this.domref.appendChild(node);					
-				} else {
-					this.domref.insertBefore(node, nextNode);
-				}
-			}
-
-			// ... or update it
-			if (item.hasChanged()) {
-				item.update();
-				item.releaseChange();
-			}
+			item._setParentNode(this.domref);
+			item.update();
 		}, this);
 	}
 });

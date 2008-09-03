@@ -190,7 +190,7 @@ table.jsWTTable thead tr th {
 	white-space: nowrap;
 }
 
-table.jsWTTable thead tr th span {
+table.jsWTTable thead tr th span.mover {
 	display: none;
 	width: 2px;
 	margin-top: -1px;
@@ -199,7 +199,7 @@ table.jsWTTable thead tr th span {
 	cursor: w-resize;
 }
 
-table.jsWTTable thead tr th.operator span {
+table.jsWTTable thead tr th.operator span.mover {
 	display: block;
 } 
 
@@ -338,4 +338,16 @@ div.jsWTMessageBox .jsWTMessageBoxButtonBar input,
 div.jsWTInputDialog .jsWTInputDialogButtonBar input {
 	width: 75px;
 	margin: 0 2px;
+}
+
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.IframeDialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+div.jsWTIframeDialog iframe{
+	border: 0;
 }

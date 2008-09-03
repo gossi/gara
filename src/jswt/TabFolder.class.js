@@ -66,6 +66,7 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	_addItem : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
 			throw new TypeError("item is not type of gara.jswt.TabItem");
 		}
@@ -84,6 +85,7 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
+		this.checkWidget();
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
 		}
@@ -102,6 +104,7 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	_activateItem : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
 			throw new TypeError("item is not type of gara.jswt.TabItem");
 		}
@@ -136,6 +139,78 @@ $class("TabFolder", {
 		this._selection.push(item);
 		this._notifySelectionListener();
 	},
+	
+	_create : function() {
+		this.domref = document.createElement("div");
+		this.domref.obj = this;
+		this.domref.control = this;
+		base2.DOM.EventTarget(this.domref);
+
+		this._tabbar = document.createElement("ul");
+		this._tabbar.obj = this;
+		this._tabbar.control = this;
+		base2.DOM.EventTarget(this._tabbar);
+
+		this._clientArea = document.createElement("div");
+		this._clientArea.className = "jsWTTabClientArea"
+		base2.DOM.EventTarget(this._clientArea);
+
+		if (this._style == JSWT.TOP) {
+			this.domref.appendChild(this._tabbar);
+			this.domref.appendChild(this._clientArea);
+			this._tabbar.className = "jsWTTabbar jsWTTabbarTop";
+		} else {
+			this.domref.appendChild(this._clientArea);
+			this.domref.appendChild(this._tabbar);
+			this._tabbar.className = "jsWTTabbar jsWTTabbarBottom";
+		}
+
+		/* buffer unregistered user-defined listeners */
+		var unregisteredListener = {};			
+		for (var eventType in this._listener) {
+			unregisteredListener[eventType] = this._listener[eventType].concat([]);
+		}
+
+		/* List event listener */
+		this.addListener("mousedown", this);
+
+		/* register user-defined listeners */
+		for (var eventType in unregisteredListener) {
+			unregisteredListener[eventType].forEach(function(elem, index, arr) {
+				this.registerListener(eventType, elem);
+			}, this);
+		}
+
+		/* If parent is not a composite then it *must* be a HTMLElement
+		 * but because of IE there is no cross-browser check. Or no one I know of.
+		 */
+		if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
+			this._parentNode = this._parent;
+		}
+
+		if (this._parentNode != null) {
+			this._parentNode.appendChild(this.domref);
+		}
+	},
+	
+	dispose : function() {
+		this.$base();
+
+		this._items.forEach(function(item, index, arr) {
+			item.dispose();
+		}, this);
+
+		this.domref.removeChild(this._tabbar);
+		this.domref.removeChild(this._clientArea);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+		
+		delete this._tabbar;
+		delete this._clientArea;
+		delete this.domref;
+	},
 
 	/**
 	 * @method
@@ -158,6 +233,7 @@ $class("TabFolder", {
 	 * @return {gara.jswt.TabItem} the item
 	 */
 	getItem : function(index) {
+		this.checkWidget();
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this tabfolder");
 		}
@@ -195,6 +271,7 @@ $class("TabFolder", {
 	 * @return {gara.jswt.TabItem[]} an array with items
 	 */
 	getSelection : function() {
+		this.checkWidget();
 		return this._selection;
 	},
 	
@@ -206,6 +283,7 @@ $class("TabFolder", {
 	 * @return {int} the index of the selected item
 	 */
 	getSelectionIndex : function() {
+		this.checkWidget();
 		if (this._selection.length) {
 			return this._items.indexOf(this._selection[0]);
 		} else {
@@ -222,6 +300,7 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	handleEvent : function(e) {
+		this.checkWidget();
 		var obj = e.target.obj || null;
 		switch (e.type) {
 			case "mousedown":
@@ -273,6 +352,7 @@ $class("TabFolder", {
 	 * @return {int} the index of the specified item
 	 */
 	indexOf : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
 			throw new TypeError("item not instance of gara.jswt.TabItem");
 		}
@@ -306,7 +386,7 @@ $class("TabFolder", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -322,6 +402,7 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
+		this.checkWidget();
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
 		}
@@ -343,6 +424,7 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	setSelection : function(arg) {
+		this.checkWidget();
 		if (typeof(arg) == 'number') {
 			if (arg >= this._items.length) {
 				throw new gara.OutOfBoundsException("Your item lives outside of this tabfolder");
@@ -371,6 +453,20 @@ $class("TabFolder", {
 	toString : function() {
 		return "[gara.jswt.TabFolder]";
 	},
+	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+	},
 
 	/**
 	 * @method
@@ -380,55 +476,10 @@ $class("TabFolder", {
 	 * @return {void}
 	 */
 	update : function() {
+		this.checkWidget();
 		var firstBuild = false;
 		if (this.domref == null) {
-			this.domref = document.createElement("div");
-			this.domref.obj = this;
-			this.domref.control = this;
-			base2.DOM.EventTarget(this.domref);
-
-			this._tabbar = document.createElement("ul");
-			this._tabbar.obj = this;
-			this._tabbar.control = this;
-			base2.DOM.EventTarget(this._tabbar);
-
-			this._clientArea = document.createElement("div");
-			this._clientArea.className = "jsWTTabClientArea"
-			base2.DOM.EventTarget(this._clientArea);
-
-			if (this._style == JSWT.TOP) {
-				this.domref.appendChild(this._tabbar);
-				this.domref.appendChild(this._clientArea);
-				this._tabbar.className = "jsWTTabbar jsWTTabbarTop";
-			} else {
-				this.domref.appendChild(this._clientArea);
-				this.domref.appendChild(this._tabbar);
-				this._tabbar.className = "jsWTTabbar jsWTTabbarBottom";
-			}
-
-			/* buffer unregistered user-defined listeners */
-			var unregisteredListener = {};			
-			for (var eventType in this._listener) {
-				unregisteredListener[eventType] = this._listener[eventType].concat([]);
-			}
-
-			/* List event listener */
-			this.addListener("mousedown", this);
-
-			/* register user-defined listeners */
-			for (var eventType in unregisteredListener) {
-				unregisteredListener[eventType].forEach(function(elem, index, arr) {
-					this.registerListener(eventType, elem);
-				}, this);
-			}
-
-			/* If parent is not a composite then it *must* be a HTMLElement
-			 * but because of IE there is no cross-browser check. Or no one I know of.
-			 */
-			if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
-				this._parent.appendChild(this.domref);
-			}
-
+			this._create();
 			firstBuild = true;
 		}
 

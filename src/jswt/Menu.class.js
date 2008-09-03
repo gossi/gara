@@ -74,6 +74,7 @@ $class("Menu", {
 	},
 
 	_addItem : function(item, index) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.MenuItem)) {
 			throw new TypeError("item is not instance of gara.jswt.MenuItem");
 		}
@@ -86,7 +87,6 @@ $class("Menu", {
 	},
 
 	_create : function() {
-		var parentNode;
 
 		this.domref = document.createElement("ul");
 		this.domref.obj = this;
@@ -95,7 +95,7 @@ $class("Menu", {
 
 		if ((this._style & JSWT.BAR) == JSWT.BAR) {
 			this.addClassName("jsWTMenuBar");
-			parentNode = this._parent;
+			this._parentNode = this._parent;
 		}
 
 		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
@@ -103,13 +103,13 @@ $class("Menu", {
 			this.addClassName("jsWTMenuPopUp");
 			this.domref.style.display = "none";
 			this.domref.style.position = "absolute";
-			parentNode = document.getElementsByTagName("body")[0];
+			this._parentNode = document.getElementsByTagName("body")[0];
 		}
 
 		if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
 			this.addClassName("jsWTMenuDropDown");
 			this.domref.style.position = "absolute";
-			parentNode = this._parent.domref;
+			this._parentNode = this._parent.domref;
 		}
 
 		/* buffer unregistered user-defined listeners */
@@ -123,14 +123,28 @@ $class("Menu", {
 		/* register user-defined listeners */
 		for (var eventType in unregisteredListener) {
 			unregisteredListener[eventType].forEach(function(elem, index, arr) {
-				this.registerListener(eventType, elem);
+				this._registerListener(eventType, elem);
 			}, this);
 		}
 
-		parentNode.appendChild(this.domref);
+		this._parentNode.appendChild(this.domref);
+	},
+	
+	dispose : function() {
+		this.$base();
+
+		this._items.forEach(function(item, index, arr) {
+			item.dispose();
+		}, this);
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+		delete this.domref;
 	},
 
 	getItem : function(index) {
+		this.checkWidget();
 		if (index > this._items.length || index < 0) {
 			throw new gara.OutOfBoundsException("Menu doesn't have that much items");
 		}
@@ -159,6 +173,7 @@ $class("Menu", {
 	},
 	
 	handleEvent : function(e) {
+		this.checkWidget();
 		switch(e.type) {
 			case "mousedown":
 				if ((e.target.control ? e.target.control != this : true)
@@ -172,6 +187,7 @@ $class("Menu", {
 	},
 
 	indexOf : function(item) {
+		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.MenuItem)) {
 			throw new TypeError("item is not instance of gara.jswt.MenuItem");
 		}
@@ -191,7 +207,7 @@ $class("Menu", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -203,6 +219,7 @@ $class("Menu", {
 	},
 
 	setVisible : function(visible, event) {
+		this.checkWidget();
 		this._visible = visible;
 		this.update();
 		if (visible) {
@@ -224,7 +241,22 @@ $class("Menu", {
 		return "[gara.jswt.Menu]";
 	},
 
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+	},
+
 	update : function() {
+		this.checkWidget();
 		if (!this.domref) {
 			this._create();
 		}

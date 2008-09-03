@@ -127,6 +127,37 @@ $class("MenuItem", {
 		return this.domref;
 	},
 	
+	dispose : function() {
+		this.$base();
+
+		if (this._menu != null) {
+			this._menu.dispose();
+			delete this._menu;
+		}
+
+		if (this._img != null) {
+			this.domref.removeChild(this._img);
+			delete this._img;
+			this._image = null;
+		}
+		
+		if (this._hr != null) {
+			this.domref.removeChild(this._hr);
+		}
+		
+		if (this._span != null) {
+			this.domref.removeChild(this._span);
+		}
+
+		if (this._parentNode != null) {
+			this._parentNode.removeChild(this.domref);
+		}
+
+		delete this._hr;
+		delete this._span;
+		delete this.domref;
+	},
+	
 	getMenu : function() {
 		return this._menu;
 	},
@@ -139,7 +170,7 @@ $class("MenuItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	registerListener : function(eventType, listener) {
+	_registerListener : function(eventType, listener) {
 		if (this.domref != null) {
 			gara.EventManager.addListener(this.domref, eventType, listener);
 		}
@@ -154,6 +185,7 @@ $class("MenuItem", {
 	},
 	
 	setMenu : function(menu) {
+		this.checkWidget();
 		if (!$class.instanceOf(menu, gara.jswt.Menu)) {
 			throw new TypeError("menu is not instance of gara.jswt.Menu");
 		}
@@ -166,7 +198,30 @@ $class("MenuItem", {
 		return "[gara.jswt.MenuItem]";
 	},
 	
+	/**
+	 * @method
+	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
+	 * 
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	_unregisterListener : function(eventType, listener) {
+		if (this.domref != null) {
+			gara.EventManager.removeListener(this.domref, eventType, listener);
+		}
+		
+		if (this._img != null) {
+			gara.EventManager.removeListener(this._img, eventType, listener);
+		}
+
+		if (this._span != null) {
+			gara.EventManager.removeListener(this._span, eventType, listener);
+		}
+	},
+	
 	update : function() {
+		this.checkWidget();
 		// create image
 		if (this._image != null && this._img == null) {
 			this._img = document.createElement("img");
