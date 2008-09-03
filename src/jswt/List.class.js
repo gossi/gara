@@ -318,10 +318,9 @@ $class("List", {
 			case "keyup":
 			case "keydown":
 			case "keypress":
-
-				this._items.forEach(function(item, index, arr) {
-					item.handleEvent(e);
-				});
+				if (this._activeItem != null) {
+					this._activeItem.handleEvent(e);
+				}
 
 				this._notifyExternalKeyboardListener(e, this, this);
 				
