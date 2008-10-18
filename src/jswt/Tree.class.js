@@ -45,6 +45,7 @@ $class("Tree", {
 		this._shiftItem = null;
 		this._activeItem = null;
 		this._className = this._baseClass = "jsWTTree";
+		this._className += " jsWTTreeInactive";
 		
 		this._selection = [];
 		this._selectionListeners = [];
@@ -867,5 +868,5 @@ $class("Tree", {
 		this._firstLevelItems.forEach(function(item, index, arr) {
 			item.update();
 		}, this);
-	},
+	}
 });

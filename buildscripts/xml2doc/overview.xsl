@@ -21,10 +21,10 @@
 				<h1>Overview</h1>
 				
 				<ul>
-					<xsl:for-each select="//Namespace">
-						<xsl:sort select="@name"/>
+					<xsl:for-each select="//Flat/Class[not(@namespace=preceding-sibling::Class/@namespace)]/@namespace">
+						<xsl:sort select="."/>
 					
-						<li><tt><a href="#" onclick="selectNamespace('{@name}')"><xsl:value-of select="@name"/></a></tt></li>
+						<li><tt><a href="#" onclick="selectNamespace('{.}');"><xsl:value-of select="."/></a></tt></li>
 					</xsl:for-each>
 				</ul>
 			</body>

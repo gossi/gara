@@ -37,6 +37,20 @@ $class("AbstractTableViewer", {
 	_createItem : function(element, index) {
 		this._updateItem(this._internalCreateNewRowPart(gara.jswt.JSWT.NONE, index).getItem(), element);
 	},
+	
+	/* Method declared on StructuredViewer. */
+	_doFindInputItem : function(element) {
+		// compare with root
+		var root = this._getRoot();
+		if (root == null) {
+			return null;
+		}
+
+		if (root == element) {
+			return this.getControl();
+		}
+		return null;
+	},
 
 	_doClear : $abstract(function(index) {}),
 

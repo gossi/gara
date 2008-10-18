@@ -41,7 +41,26 @@
 				
 				<fields></fields>
 				
-				<methods></methods>
+				<methods>
+					<method name="StructuredViewer._disassociate" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Disassociates the given item from its corresponding element. Sets theitem's data to <code>null</code> and removes the element from theelement map (if enabled).</description>
+						<params>
+							<param type="" name="item">
+								<description>the widget</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
 			</class>
 			
 		</classes>

@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="Dialog.class.js" src="../../src/jswt/Dialog.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="Dialog" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="Dialog.getText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the title text from the Dialog</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="String"> the title</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Dialog.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Handling events on the dialog widget</description>
+						<params>
+							<param type="Event" name="e">
+								<description></description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Dialog.setText" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Set the title text</description>
+						<params>
+							<param type="String" name="text">
+								<description>the new title</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Dialog._restoreTabIndexes" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Restores tab indexes when dialog is closedCode below taken from subModal {@link http://gabrito.com/files/subModal/}</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Dialog._disableTabIndexes" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Disable tab indexes when dialog is openedCode below taken from subModal {@link http://gabrito.com/files/subModal/}</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Dialog._getViewportHeight" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Gets height of the viewportCode below taken from - http://www.evolt.org/article/document_body_doctype_switching_and_more/17/30655/Modified 4/22/04 to work with Opera/Moz (by webmaster at subimage dot com)Gets the full width/height because it's different for most browsers.Found on {@link http://gabrito.com/files/subModal/}</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> viewport height</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Dialog._getViewportWidth" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Gets width of the viewportCode below taken from - http://www.evolt.org/article/document_body_doctype_switching_and_more/17/30655/Modified 4/22/04 to work with Opera/Moz (by webmaster at subimage dot com)Gets the full width/height because it's different for most browsers.Found on {@link http://gabrito.com/files/subModal/}</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> viewport width</return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="Dialog._create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Creates the frame for the dialog. Content is populated by aspecialised subclass.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Dialog.dispose" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Deletes and destroys the dialog</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

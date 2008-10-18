@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="InputDialog.class.js" src="../../src/jswt/InputDialog.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="MessageBox" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<extends>gara.jswt.Dialog</extends>
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<constructor>
+					
+					<description></description>
+					<params></params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="MessageBox._create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Creates the frame for the dialog. Content is populated by aspecialised subclass.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

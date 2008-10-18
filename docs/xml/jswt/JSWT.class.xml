@@ -31,6 +31,15 @@
 						
 					</field>
 				
+					<field type="" name="JSWT.POP_UP" isStatic="false" isPrivate="false">
+						<description>Style constant for pop up menu behavior (value is 1&lt;&lt;3).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
 					<field type="" name="JSWT.RETRY" isStatic="false" isPrivate="false">
 						<description>The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).</description>
 						<authors></authors>
@@ -42,6 +51,24 @@
 				
 					<field type="" name="JSWT.APPLICATION_MODAL" isStatic="false" isPrivate="false">
 						<description>Style constant for application modal behavior (value is 1&lt;&lt;16).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.ICON_QUESTION" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for question icon behavior (value is 1&lt;&lt;2).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.ICON_WORKING" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for "working" icon behavior (value is 1&lt;&lt;4).</description>
 						<authors></authors>
 						
 						<sees></sees>
@@ -67,8 +94,26 @@
 						
 					</field>
 				
-					<field type="" name="JSWT.YES" isStatic="false" isPrivate="false">
-						<description>The MessageBox style constant for YES button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;6).</description>
+					<field type="" name="JSWT.SEPARATOR" isStatic="false" isPrivate="false">
+						<description>Style constant for line separator behavior (value is 1&lt;&lt;1).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.CASCADE" isStatic="false" isPrivate="false">
+						<description>Style constant for cascade behavior (value is 1&lt;&lt;6).<p><b>Used By:</b><ul><li><code>MenuItem</code></li></ul></p></description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.BAR" isStatic="false" isPrivate="false">
+						<description>Style constant for menu bar behavior (value is 1&lt;&lt;1).</description>
 						<authors></authors>
 						
 						<sees></sees>
@@ -112,8 +157,35 @@
 						
 					</field>
 				
-					<field type="" name="JSWT.TOP" isStatic="false" isPrivate="false">
-						<description>Style constant for align top behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).</description>
+					<field type="" name="JSWT.ERROR_MENUITEM_NOT_CASCADE" isStatic="false" isPrivate="false">
+						<description>JSWT error constant indicating that a menu item which neededto have the cascade style had some other style instead(value is 27).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.ERROR_MENU_NOT_DROP_DOWN" isStatic="false" isPrivate="false">
+						<description>JSWT error constant indicating that a menu which neededto have the drop down style had some other style instead(value is 21).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.YES" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for YES button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;6).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.ICON_WARNING" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for warning icon behavior (value is 1&lt;&lt;3).</description>
 						<authors></authors>
 						
 						<sees></sees>
@@ -123,6 +195,15 @@
 				
 					<field type="" name="JSWT.CANCEL" isStatic="false" isPrivate="false">
 						<description>The <tt>MessageBox</tt> style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.TOP" isStatic="false" isPrivate="false">
+						<description>Style constant for align top behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).</description>
 						<authors></authors>
 						
 						<sees></sees>
@@ -148,8 +229,35 @@
 						
 					</field>
 				
+					<field type="" name="JSWT.ICON_INFORMATION" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for information icon behavior (value is 1&lt;&lt;1).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
 					<field type="" name="JSWT.ABORT" isStatic="false" isPrivate="false">
 						<description>The <tt>MessageBox</tt> style constant for an ABORT button; the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;9).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.NONE" isStatic="false" isPrivate="false">
+						<description>A constant known to be zero (0), typically used in operationswhich take bit flags to indicate that "no bits are set".</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.ICON_ERROR" isStatic="false" isPrivate="false">
+						<description>The MessageBox style constant for error icon behavior (value is 1).</description>
 						<authors></authors>
 						
 						<sees></sees>
@@ -166,8 +274,17 @@
 						
 					</field>
 				
-					<field type="" name="JSWT.SINGLE" isStatic="false" isPrivate="false">
-						<description>Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).</description>
+					<field type="" name="JSWT.ERROR_WIDGET_DISPOSED" isStatic="false" isPrivate="false">
+						<description>JSWT error constant indicating that an attempt was made toinvoke an JSWT operation using a widget which had alreadybeen disposed(value is 24).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.DROP_DOWN" isStatic="false" isPrivate="false">
+						<description>Style constant for drop down menu/list behavior (value is 1&lt;&lt;2).</description>
 						<authors></authors>
 						
 						<sees></sees>
@@ -177,6 +294,15 @@
 				
 					<field type="" name="JSWT.IGNORE" isStatic="false" isPrivate="false">
 						<description>The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				
+					<field type="" name="JSWT.SINGLE" isStatic="false" isPrivate="false">
+						<description>Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).</description>
 						<authors></authors>
 						
 						<sees></sees>

@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jsface.tableviewer (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara-yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
@@ -46,7 +45,6 @@
 
 <script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ITableContentProvider.interface.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/TableViewerRow.class.js"></script>
@@ -89,7 +87,7 @@ $class("Controller", {
 		this._model = newInput;
 	},
 
-	isLabelProperty : function(element, property) {},
+	isLabelProperty : function(element, property) {}
 });
 
 var model, view, controller;
@@ -105,8 +103,15 @@ function main() {
 		controller = new Controller();
 		view = new gara.jsface.TableViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
 		table = view.getTable();
+		table.setHeaderVisible(true);
 		var c1 = new gara.jswt.TableColumn(table);
 		c1.setText("bla");
+		
+		var c2 = new gara.jswt.TableColumn(table);
+		c2.setText("bla2");
+		
+		var c3 = new gara.jswt.TableColumn(table);
+		c3.setText("bla3");
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
 		view.setInput(model);
@@ -118,13 +123,12 @@ function main() {
 		console.log(message);
 	}
 }
-
-onDOMLoaded(main);
 --></script>
 </head>
 <body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.TableViewer</h1>
 <div id="container" class="sand" style="width: 300px;">
 </div>
+<script type="text/javascript">main();</script>
 </body>
 </html>

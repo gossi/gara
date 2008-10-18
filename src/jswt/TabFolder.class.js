@@ -53,6 +53,7 @@ $class("TabFolder", {
 		this._tabbar = null;
 		this._clientArea = null;
 		this._className = this._baseClass = "jsWTTabFolder";
+		this._className += " jsWTTabFolderInactive";
 	},
 
 	/**

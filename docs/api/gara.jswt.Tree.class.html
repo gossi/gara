@@ -18,31 +18,14 @@
 </li>
 </ul>
 <h1>Tree</h1>
-<pre>gara.jswt.Widget&#13;    └─ gara.jswt.Control&#13;           └─ gara.jswt.Composite&#13;                  └─ gara.jswt.Tree</pre>
+<pre>gara.jswt.Tree</pre>
 <hr/>
-<pre>public class <strong>Tree</strong>&#13;Extends: Composite</pre>
+<pre>public class <strong>Tree</strong>&#13;Extends: gara.jswt.Composite</pre>
 <p>gara Tree Widget</p>
 <dl>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>
-<h2>Field Summary</h2>
-<table>
-<thead>
-<tr>
-<th>Inherited fields from gara.jswt.gara.jswt.Widget</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<tt>
-<a href="gara.jswt.Widget.class.html#field_domref">domref</a>
-</tt>
-</td>
-</tr>
-</tbody>
-</table>
 <h2>Method Sumary</h2>
 <table class="own">
 <tbody>
@@ -83,7 +66,7 @@
 <td>
 <tt>
 <a href="#method_getItemCount">getItemCount</a>()</tt>
-<span class="description">Returns the amount of the items in the tree</span>
+<span class="description">Returns the amount of items that are direct items of the tree</span>
 </td>
 </tr>
 <tr>
@@ -91,7 +74,7 @@
 <td>
 <tt>
 <a href="#method_getItems">getItems</a>()</tt>
-<span class="description">Returns an array with all the items in the tree</span>
+<span class="description">Returns an array with direct items of the tree</span>
 </td>
 </tr>
 <tr>
@@ -130,6 +113,38 @@
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#method_remove">remove</a>(int index)</tt>
+<span class="description">Removes an item from the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_removeAll">removeAll</a>()</tt>
+<span class="description">Removes all items from the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_removeFromArray">removeFromArray</a>(Array inidices)</tt>
+<span class="description">Removes items which indices are passed by an array</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#method_removeRange">removeRange</a>(int start, int end)</tt>
+<span class="description">Removes items within an indices range</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#method_removeSelectionListener">removeSelectionListener</a>(gara.jswt.SelectionListener listener)</tt>
 <span class="description">Removes a selection listener from this tree</span>
 </td>
@@ -154,40 +169,16 @@
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#method_setSelection">setSelection</a>(Array items)</tt>
+<span class="description">Sets the selection of the tree</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#method_update">update</a>()</tt>
 <span class="description">Updates the widget</span>
-</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Inherited methods from gara.jswt.gara.jswt.Control</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<tt>
-<a href="gara.jswt.Control.class.html#method_forceFocus">forceFocus</a>, <a href="gara.jswt.Control.class.html#method_addFocusListener">addFocusListener</a>, <a href="gara.jswt.Control.class.html#method_isFocusControl">isFocusControl</a>, <a href="gara.jswt.Control.class.html#method_looseFocus">looseFocus</a>, <a href="gara.jswt.Control.class.html#method_removeFocusListener">removeFocusListener</a>
-</tt>
-</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Inherited methods from gara.jswt.gara.jswt.Widget</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<tt>
-<a href="gara.jswt.Widget.class.html#method_getStyle">getStyle</a>, <a href="gara.jswt.Widget.class.html#method_addClassName">addClassName</a>, <a href="gara.jswt.Widget.class.html#method_removeListener">removeListener</a>, <a href="gara.jswt.Widget.class.html#method_getData">getData</a>, <a href="gara.jswt.Widget.class.html#method_getClassName">getClassName</a>, <a href="gara.jswt.Widget.class.html#method_getParent">getParent</a>, <a href="gara.jswt.Widget.class.html#method_setData">setData</a>, <a href="gara.jswt.Widget.class.html#method_hasClassName">hasClassName</a>, <a href="gara.jswt.Widget.class.html#method_addListener">addListener</a>, <a href="gara.jswt.Widget.class.html#method_removeClassName">removeClassName</a>
-</tt>
 </td>
 </tr>
 </tbody>
@@ -244,7 +235,7 @@
 <hr/>
 <h3 id="method_getItemCount">getItemCount</h3>
 <pre>public int <strong>getItemCount</strong>()</pre>
-<p class="description">Returns the amount of the items in the tree</p>
+<p class="description">Returns the amount of items that are direct items of the tree</p>
 <dl>
 <dt>Returns:</dt>
 <dd> the amount</dd>
@@ -254,7 +245,7 @@
 <hr/>
 <h3 id="method_getItems">getItems</h3>
 <pre>public gara.jswt.TreeItem[] <strong>getItems</strong>()</pre>
-<p class="description">Returns an array with all the items in the tree</p>
+<p class="description">Returns an array with direct items of the tree</p>
 <dl>
 <dt>Returns:</dt>
 <dd> an array with the items</dd>
@@ -310,6 +301,49 @@
 <dd>Thomas Gossmann</dd>
 </dl>
 <hr/>
+<h3 id="method_remove">remove</h3>
+<pre>public void <strong>remove</strong>(int index)</pre>
+<p class="description">Removes an item from the tree</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>int index</tt> - the index of the item</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_removeAll">removeAll</h3>
+<pre>public void <strong>removeAll</strong>()</pre>
+<p class="description">Removes all items from the tree</p>
+<dl>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_removeFromArray">removeFromArray</h3>
+<pre>public void <strong>removeFromArray</strong>(Array inidices)</pre>
+<p class="description">Removes items which indices are passed by an array</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>Array inidices</tt> - the array with the indices</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_removeRange">removeRange</h3>
+<pre>public void <strong>removeRange</strong>(int start, int end)</pre>
+<p class="description">Removes items within an indices range</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>int start</tt> - start index</dd>
+<dd>
+<tt>int end</tt> - end index</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
 <h3 id="method_removeSelectionListener">removeSelectionListener</h3>
 <pre>public void <strong>removeSelectionListener</strong>(gara.jswt.SelectionListener listener)</pre>
 <p class="description">Removes a selection listener from this tree</p>
@@ -339,6 +373,20 @@
 <dt>Parameters:</dt>
 <dd>
 <tt>boolean show</tt> - true if the lines should be visible or false for invisibility</dd>
+<dt>Author:</dt>
+<dd>Thomas Gossmann</dd>
+</dl>
+<hr/>
+<h3 id="method_setSelection">setSelection</h3>
+<pre>public void <strong>setSelection</strong>(Array items)</pre>
+<p class="description">Sets the selection of the tree</p>
+<dl>
+<dt>Parameters:</dt>
+<dd>
+<tt>Array items</tt> - the array with the TreeItem items</dd>
+<dt>Throws:</dt>
+<dd>
+<tt>TypeError</tt> -  if the passed items are not an array</dd>
 <dt>Author:</dt>
 <dd>Thomas Gossmann</dd>
 </dl>

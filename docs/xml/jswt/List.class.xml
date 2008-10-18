@@ -6,7 +6,7 @@
 		
 		<classes>
 			<class name="List" isStatic="false" isPrivate="false" isAbstract="false">
-				<description>gara List Widget</description>
+				<description>long description for the List Widget...</description>
 				
 				<authors>
 					<author>Thomas Gossmann</author>
@@ -14,6 +14,9 @@
 				
 				<sees></sees>
 				
+				
+				
+				<summary>gara List Widget</summary>
 				
 				
 				
@@ -73,34 +76,6 @@
 						
 					</method>
 				
-					<method name="List.addItem" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Adds an item to the list (invoked by the constructor of ListItem)</description>
-						<params>
-							<param type="gara.jswt.ListItem" name="item">
-								<description>the item that should added to the List</description>
-							</param>
-						</params>
-						
-						<throws>
-							<throw type="TypeError">
-								<description> if the item is not a ListItem</description>
-							</throw>
-						</throws>
-						
-						
-						<return type="void"></return>
-						
-						
-						<authors>
-							<author>Thomas Gossmann</author>
-						</authors>
-						
-						<sees></sees>
-						
-						
-						
-					</method>
-				
 					<method name="List._handleKeyEvent" isStatic="false" isPrivate="true" isAbstract="false">
 						<description>handling key events on the List</description>
 						<params>
@@ -125,39 +100,19 @@
 						
 					</method>
 				
-					<method name="List.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
-						<params></params>
-						
-						<throws></throws>
-						
-						
-						<return type="void"></return>
-						
-						
-						<authors>
-							<author>Thomas Gossmann</author>
-						</authors>
-						
-						<sees></sees>
-						
-						
-						
-					</method>
-				
-					<method name="List.select" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Selects an item</description>
+					<method name="List.removeRange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items within an indices range</description>
 						<params>
-							<param type="gara.jswt.ListItem" name="item">
-								<description>the item that should be selected</description>
+							<param type="int" name="start">
+								<description>start index</description>
+							</param>
+						
+							<param type="int" name="end">
+								<description>end index</description>
 							</param>
 						</params>
 						
-						<throws>
-							<throw type="TypeError">
-								<description> if the item is not a ListItem</description>
-							</throw>
-						</throws>
+						<throws></throws>
 						
 						
 						<return type="void"></return>
@@ -176,6 +131,30 @@
 					<method name="List.deselectAll" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Deselects all items</description>
 						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.removeFromArray" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items which indices are passed by an array</description>
+						<params>
+							<param type="Array" name="inidices">
+								<description>the array with the indices</description>
+							</param>
+						</params>
 						
 						<throws></throws>
 						
@@ -226,6 +205,26 @@
 								<description> if the item is not a ListItem</description>
 							</throw>
 						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.removeAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes all items from the list</description>
+						<params></params>
+						
+						<throws></throws>
 						
 						
 						<return type="void"></return>
@@ -341,6 +340,34 @@
 						
 					</method>
 				
+					<method name="List.select" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Selects an item</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should be selected</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="List.selectRange" isStatic="false" isPrivate="true" isAbstract="false">
 						<description>Selects a range. From the item with shift-lock to the passed item.</description>
 						<params>
@@ -437,6 +464,34 @@
 						
 					</method>
 				
+					<method name="List._addItem" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Adds an item to the list (invoked by the constructor of ListItem)</description>
+						<params>
+							<param type="gara.jswt.ListItem" name="item">
+								<description>the item that should added to the List</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the item is not a ListItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="List.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Returns the amount of the items in the list</description>
 						<params></params>
@@ -478,6 +533,26 @@
 								<description> if the index does not live within the List</description>
 							</throw>
 						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
 						
 						
 						<return type="void"></return>
@@ -553,6 +628,50 @@
 						
 					</method>
 				
+					<method name="List.remove" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes an item from the list</description>
+						<params>
+							<param type="int" name="index">
+								<description>the index of the item</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List._registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="List.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Adds a selection listener on the list</description>
 						<params>
@@ -564,6 +683,34 @@
 						<throws>
 							<throw type="TypeError">
 								<description> if the listener is not an instance SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="List.setSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the selection of the list</description>
+						<params>
+							<param type="Array" name="items">
+								<description>the array with the <code>TreeItem</code> items</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the passed items are not an array</description>
 							</throw>
 						</throws>
 						

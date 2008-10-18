@@ -269,7 +269,7 @@ $class("TableItem", {
 						cell.td.className = "selected";
 					}
 					
-					cell.textNode.value = cell.text;
+					cell.textNode.nodeValue = cell.text;
 				}
 				
 				this.domref.appendChild(cell.td);

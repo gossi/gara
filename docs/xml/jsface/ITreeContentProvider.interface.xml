@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ITreeContentProvider.interface.js" src="../../src/jsface/ITreeContentProvider.interface.js">
+		<overview></overview>
+		
+		<classes></classes>
+		
+		<interfaces>
+			<interface name="ITreeContentProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.IStructuredContentProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+
+				<fields></fields>
+				
+				<methods></methods>
+			</interface>
+			
+		</interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

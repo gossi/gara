@@ -5,9 +5,9 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:exsl="http://exslt.org/common"
 	extension-element-prefixes="exsl">
-
-	<xsl:param name="jsXml"/>
-	<xsl:variable name="jsdoc" select="exsl:node-set(document($jsXml))"/>
+	
+	<xsl:param name="hierarchyPath"/>
+	<xsl:variable name="hierarchy" select="exsl:node-set(document($hierarchyPath))"/>
 
 	<xsl:template name="getNamespace">
 		<xsl:param name="Object" />
@@ -64,7 +64,7 @@
 				<xsl:for-each select="$Object/params/param">
 					<dd>
 						<tt>
-							<xsl:call-template name="linkClass">
+							<xsl:call-template name="linkObject">
 								<xsl:with-param name="canonicalName" select="@type"/>
 							</xsl:call-template>
 							<xsl:text> </xsl:text>
@@ -80,7 +80,7 @@
 				<xsl:for-each select="$Object/throws/throw">
 					<dd>
 						<tt>
-							<xsl:call-template name="linkClass">
+							<xsl:call-template name="linkObject">
 								<xsl:with-param name="canonicalName" select="@type"/>
 							</xsl:call-template>
 						</tt> - <xsl:value-of select="description"/>
@@ -148,9 +148,9 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template name="linkClass">
+	<xsl:template name="linkObject">
 		<xsl:param name="canonicalName"/>
-		<xsl:param name="useCanonicalName" select="'false'"/>
+		<xsl:param name="useCanonicalName" select="false"/>
 		
 		<xsl:variable name="namespace">
 			<xsl:call-template name="getNamespace">
@@ -166,7 +166,7 @@
 		
 		<xsl:variable name="href">
 			<xsl:choose>
-				<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace]/@isInterface = 'true'">
+				<xsl:when test="$hierarchy//Interface[@name = $className and namespace = $namespace]">
 					<xsl:value-of select="$namespace"/>
 					<xsl:if test="$namespace != ''">
 						<xsl:text>.</xsl:text>
@@ -174,7 +174,7 @@
 					<xsl:value-of select="$className"/>
 					<xsl:text>.interface.html</xsl:text>
 				</xsl:when>
-				<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace]/@isInterface = 'false'">
+				<xsl:when test="$hierarchy//Class[@name = $className and namespace = $namespace]">
 					<xsl:value-of select="$namespace"/>
 					<xsl:if test="$namespace != ''">
 						<xsl:text>.</xsl:text>
@@ -195,7 +195,7 @@
 			<xsl:otherwise>
 				<a href="{$href}">
 					<xsl:choose>
-						<xsl:when test="$useCanonicalName = 'true'"><xsl:value-of select="$canonicalName"/></xsl:when>
+						<xsl:when test="$useCanonicalName = true"><xsl:value-of select="$canonicalName"/></xsl:when>
 						<xsl:otherwise><xsl:value-of select="$className"/></xsl:otherwise>
 					</xsl:choose>
 				</a>
@@ -226,8 +226,8 @@
 		</xsl:variable>
 		
 		<xsl:choose>
-			<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace]">
-				<xsl:call-template name="linkClass">
+			<xsl:when test="$hierarchy//Class[@name = $className and namespace = $namespace] or $hierarchy//Interface[@name = $className and namespace = $namespace]">
+				<xsl:call-template name="linkObject">
 					<xsl:with-param name="canonicalName" select="concat($namespace, '.', $className)"/>
 				</xsl:call-template>
 				<xsl:if test="contains($type, '[]')">

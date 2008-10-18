@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="DialogManager.class.js" src="../../src/jswt/DialogManager.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="DialogManager" isStatic="false" isPrivate="true" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

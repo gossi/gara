@@ -136,25 +136,25 @@ $class("JSWT", {
     
 	/**
 	 * @field
-	 * The MessageBox style constant for information icon behavior (value is 1<<1).
+	 * The MessageBox style constant for information icon behavior (value is 1&lt;&lt;1).
 	 */
 	ICON_INFORMATION : $static(1 << 1),
 	
 	/**
 	 * @field
-	 * The MessageBox style constant for question icon behavior (value is 1<<2).
+	 * The MessageBox style constant for question icon behavior (value is 1&lt;&lt;2).
 	 */
 	ICON_QUESTION : $static(1 << 2),
 	
 	/**
 	 * @field
-	 * The MessageBox style constant for warning icon behavior (value is 1<<3).
+	 * The MessageBox style constant for warning icon behavior (value is 1&lt;&lt;3).
 	 */
 	ICON_WARNING : $static(1 << 3),
 	
 	/**
 	 * @field
-	 * The MessageBox style constant for "working" icon behavior (value is 1<<4).
+	 * The MessageBox style constant for "working" icon behavior (value is 1&lt;&lt;4).
 	 */
 	ICON_WORKING : $static(1 << 4),      
 
@@ -208,7 +208,7 @@ $class("JSWT", {
 	
 	/**
 	 * @field
-	 * Style constant for line separator behavior (value is 1<<1).
+	 * Style constant for line separator behavior (value is 1&lt;&lt;1).
 	 */
 	SEPARATOR : $static(1 << 1),
 

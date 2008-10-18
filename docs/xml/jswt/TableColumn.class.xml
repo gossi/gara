@@ -26,7 +26,27 @@
 				
 				<fields></fields>
 				
-				<methods></methods>
+				<methods>
+					<method name="TableColumn._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
 			</class>
 			
 		</classes>

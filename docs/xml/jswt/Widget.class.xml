@@ -60,6 +60,30 @@
 				</fields>
 				
 				<methods>
+					<method name="Widget.addClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a CSS class to the item</description>
+						<params>
+							<param type="String" name="className">
+								<description>new class</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="Widget.getStyle" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Returns the style for this widget</description>
 						<params></params>
@@ -80,11 +104,11 @@
 						
 					</method>
 				
-					<method name="Widget.addClassName" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Adds a CSS class to the item</description>
+					<method name="Widget.removeDisposeListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a dispose listener from the widget</description>
 						<params>
-							<param type="String" name="className">
-								<description>new class</description>
+							<param type="gara.jswt.DisposeListener" name="listener">
+								<description>the listener which should be removed</description>
 							</param>
 						</params>
 						
@@ -92,6 +116,26 @@
 						
 						
 						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.isDisposed" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tells wether this widget is disposed or not</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> true for disposed status otherwise false</return>
 						
 						
 						<authors>
@@ -140,6 +184,54 @@
 						
 						
 						<return type="Object"> application based data</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.checkWidget" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Checks wether the widget is disposed or not</description>
+						<params></params>
+						
+						<throws>
+							<throw type="">
+								<description>gara.jswt.JSWTException <ul>		<li>gara.jswt.JSWT.ERROR_WIDGET_DISPOSED - If widget is disposed</li></ul></description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.addDisposeListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Adds a dispose listener to the widget</description>
+						<params>
+							<param type="gara.jswt.DisposeListener" name="listener">
+								<description>the listener which gets notified about the disposal</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
 						
 						
 						<authors>
@@ -216,18 +308,14 @@
 						
 					</method>
 				
-					<method name="Widget.hasClassName" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Tests if there is a specified classname existent</description>
-						<params>
-							<param type="String" name="the">
-								<description>class name to look for</description>
-							</param>
-						</params>
+					<method name="Widget.dispose" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Disposes the widget</description>
+						<params></params>
 						
 						<throws></throws>
 						
 						
-						<return type="boolean"> wether there is this class or not</return>
+						<return type="void"></return>
 						
 						
 						<authors>
@@ -256,6 +344,30 @@
 						
 						
 						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Widget.hasClassName" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Tests if there is a specified classname existent</description>
+						<params>
+							<param type="String" name="the">
+								<description>class name to look for</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="boolean"> wether there is this class or not</return>
 						
 						
 						<authors>

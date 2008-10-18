@@ -12,11 +12,10 @@
 		indent="yes"
 		doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
-	
+
 	<xsl:import href="lib.xsl"/>
-	<xsl:param name="hierarchyPath"/>
-	<xsl:variable name="hierarchy" select="exsl:node-set(document($hierarchyPath))"/>
 	<xsl:variable name="substr" select="concat(//class/@name, '.')"/>
+	<xsl:variable name="canonicalName" select="concat(//class/namespace, '.', //class/@name)"/>
 
 	<xsl:template match="/">
 		<xsl:variable name="bFields" select="count(//class/fields/*) &gt; 0 and count(//class/fields/field[@isPrivate = 'false']) &gt; 0"/>
@@ -38,7 +37,7 @@
 				<h1><xsl:value-of select="//class/@name"/></h1>
 				<pre>
 					<xsl:call-template name="ClassTree">
-						<xsl:with-param name="canonicalName" select="concat(//class/namespace, '.', //class/@name)"/>
+						<xsl:with-param name="canonicalName" select="$canonicalName"/>
 					</xsl:call-template>
 				</pre>
 				<xsl:variable name="namespace">
@@ -58,10 +57,6 @@
 					<xsl:choose>
 						<xsl:when test="//class/@isPrivate = 'true'">private </xsl:when>
 						<xsl:otherwise>public </xsl:otherwise>
-					</xsl:choose>
-					<xsl:choose>
-						<xsl:when test="//class/@isInterface = 'true'">interface</xsl:when>
-						<xsl:otherwise>class</xsl:otherwise>
 					</xsl:choose>
 					<xsl:text> </xsl:text>
 					<strong><xsl:value-of select="//class/@name"/></strong>
@@ -90,7 +85,7 @@
 					</xsl:if>
 					
 					<xsl:call-template name="Inheritance">
-						<xsl:with-param name="canonicalName" select="concat(//class/namespace, '.', //class/@name)"/>
+						<xsl:with-param name="canonicalName" select="$canonicalName"/>
 						<xsl:with-param name="type" select="'field'"/>
 					</xsl:call-template>
 				</xsl:variable>
@@ -109,13 +104,13 @@
 					</xsl:if>
 					
 					<xsl:call-template name="Inheritance">
-						<xsl:with-param name="canonicalName" select="concat(//class/namespace, '.', //class/@name)"/>
+						<xsl:with-param name="canonicalName" select="$canonicalName"/>
 						<xsl:with-param name="type" select="'method'"/>
 					</xsl:call-template>
 				</xsl:variable>
 				
 				<xsl:if test="$methodSummary != ''">
-					<h2>Method Sumary</h2>
+					<h2>Method Summary</h2>
 					<xsl:copy-of select="$methodSummary"/>
 				</xsl:if>
 
@@ -220,7 +215,7 @@
 				<xsl:with-param name="Object" select="$canonicalName"/>
 			</xsl:call-template>
 		</xsl:variable>
-		<xsl:variable name="HierNode" select="$hierarchy//Namespace[@name = $namespace]//Class[@name = $className]"/>
+		<xsl:variable name="HierNode" select="$hierarchy//Namespace[@name = $namespace]//class[@name = $className]"/>
 		<xsl:variable name="supers" select="number(count($HierNode/ancestor::Class))"/>
 
 		<xsl:if test="$supers &gt; 0">
@@ -234,7 +229,7 @@
 			<xsl:text>└─ </xsl:text>
 		</xsl:if>
 
-		<xsl:call-template name="linkClass">
+		<xsl:call-template name="linkObject">
 			<xsl:with-param name="canonicalName" select="$canonicalName"/>
 			<xsl:with-param name="useCanonicalName" select="'true'"/>
 		</xsl:call-template>
@@ -313,12 +308,12 @@
 			</xsl:call-template>
 		</xsl:variable>
 
-		<xsl:variable name="HierNode" select="$hierarchy//Namespace[@name = $namespace]//Class[@name = $className]"/>
+		<xsl:variable name="HierNode" select="$hierarchy//Namespace[@name = $namespace]//class[@name = $className]"/>
 		<xsl:variable name="supers" select="number(count($HierNode/ancestor::Class))"/>
 		
 		<xsl:if test="$base != 'none'">
 			<xsl:variable name="properties">
-				<xsl:for-each select="$jsdoc//class[@name = $className and namespace = $namespace]/*[name() = concat($type, 's')]/*[name() = $type and @isPrivate = 'false']">
+				<xsl:for-each select="$hierarchy//Class[@name = $className and namespace = $namespace]/*[name() = concat($type, 's')]/*[name() = $type and @isPrivate = 'false']">
 					<xsl:variable name="name" select="substring-after(@name, concat($className, '.'))"/>
 					
 					<xsl:variable name="exists">
@@ -348,7 +343,7 @@
 								<xsl:text> from </xsl:text>
 								<xsl:value-of select="$namespace"/>
 								<xsl:text>.</xsl:text>
-								<xsl:call-template name="linkClass">
+								<xsl:call-template name="linkObject">
 									<xsl:with-param name="canonicalName" select="$canonicalName"/>
 								</xsl:call-template>
 							</th>
@@ -363,7 +358,7 @@
 										<xsl:variable name="href">
 											<xsl:value-of select="concat($namespace, '.', $className, '.')"/>
 											<xsl:choose>
-												<xsl:when test="$jsdoc//class[@name = $className and namespace = $namespace and @isInterface = 'true']">interface</xsl:when>
+												<xsl:when test="$hierarchy//Class[@name = $className and namespace = $namespace and @isInterface = 'true']">interface</xsl:when>
 												<xsl:otherwise>class</xsl:otherwise>
 											</xsl:choose>
 											<xsl:text>.html#</xsl:text>
@@ -419,11 +414,11 @@
 					</xsl:call-template>
 				</xsl:variable>
 
-				<xsl:if test="$jsdoc//class[@name = $className and namespace = $namespace]/*[name() = concat($type, 's')]/*[name() = $type and substring-after(concat($namespace, '.'), @name) = $prop]">
+				<xsl:if test="$hierarchy//class[@name = $className and namespace = $namespace]/*[name() = concat($type, 's')]/*[name() = $type and substring-after(concat($namespace, '.'), @name) = $prop]">
 					<xsl:value-of select="false"/>
 				</xsl:if>
 
-				<xsl:variable name="HierNode" select="$hierarchy//Namespace[@name = $namespace]//Class[@name = $className]"/>
+				<xsl:variable name="HierNode" select="$hierarchy//Namespace[@name = $namespace]//class[@name = $className]"/>
 				<xsl:call-template name="checkInheritance">
 					<xsl:with-param name="canonicalName" select="concat($namespace, '.', $HierNode/parent::Class/@name)"/>
 					<xsl:with-param name="type" select="$type"/>

@@ -8,7 +8,7 @@
 	<property name="archiveDir" value="${basedir}/archives"/>
 	<property name="docDir" value="${basedir}/docs"/>
 
-	<property name="version" value="0.9-alpha"/>
+	<property name="version" value="1.0-beta"/>
 
 	<!-- gara core package -->
 	<property name="garaDir" value="${srcDir}/core"/>
@@ -30,6 +30,7 @@
 		<file name="FocusListener.interface.js"/>
 		<file name="SelectionListener.interface.js"/>
 		<file name="ItemNotExistsException.class.js"/>
+		<file name="JSWTException.class.js"/>
 		<file name="Widget.class.js"/>
 
 		<file name="Control.class.js"/>
@@ -52,6 +53,7 @@
 		<file name="DialogManager.class.js"/>
 		<file name="Dialog.class.js"/>
 		<file name="InputDialog.class.js"/>
+		<file name="IframeDialog.class.js"/>
 		<file name="MessageBox.class.js"/>
 	</filelist>
 	
@@ -91,6 +93,7 @@
 		<file name="ViewerColumn.class.js"/>
 		<file name="ViewerRow.class.js"/>
 		<file name="TableViewerRow.class.js"/>
+		<file name="TreeViewerRow.class.js"/>
 	</filelist>
 
 	<target name="-cleanupCommon">
@@ -120,7 +123,7 @@
 	</target>
 
 	<target name="-cleanupDeploy" depends="-cleanupCommon">
-		<delete>
+		<delete failonerror="false">
 			<fileset dir="${deployDir}">
 				<include name="**/*"/>
 			</fileset>
@@ -343,16 +346,28 @@
 		<copy file="${buildDir}/gara-yui-reset-fonts.css" todir="${basedir}/res"/>
 	</target>
 
-	<target name="deploy" depends="build">
+	<target name="deploy" depends="-cleanupDeploy,build">
+		<mkdir dir="${deployDir}"/>
+		<copy file="${basedir}/README" todir="${deployDir}"/>
+		<copy file="${basedir}/lgpl-2.1.txt" todir="${deployDir}"/>
+		
 		<copy file="${buildDir}/gara.js" todir="${deployDir}"/>
 		<copy file="${buildDir}/gara-b.js" todir="${deployDir}"/>
 		<copy file="${buildDir}/gara-c.js" todir="${deployDir}"/>
 		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
+		
+		<mkdir dir="${deployDir}/res"/>
+		<copy file="${buildDir}/gara.css" todir="${deployDir}/res"/>
+		<copy file="${buildDir}/gara-yui-reset-fonts.css" todir="${deployDir}/res"/>
+		
+		<mkdir dir="${deployDir}/themes"/>
+		<antcall target=".deployTheme">
+			<param name="destDir" value="${deployDir}/themes"/>
+			<param name="theme" value="sand"/>
+		</antcall>
 
 		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
-			<tarfileset dir="${basedir}" includes="examples/,res/,themes/,lgpl-2.1.txt"/>
-			<tarfileset dir="${basedir}/docs" includes="api/"/>
-			<tarfileset dir="${deployDir}" includes="*.js"/>
+			<tarfileset dir="${basedir}/gara" includes="*"/>
 		</tar>
 	</target>
 
@@ -372,6 +387,32 @@
 		</concat>
 	</target>
 	
+	<target name=".deployTheme">
+		<mkdir dir="${destDir}/${theme}"/>
+		<copy todir="${destDir}/${theme}">
+			<fileset dir="themes/${theme}" includes="*"/>
+		</copy>
+		
+		<java jar="${basedir}/buildscripts/lib/yuicompressor-2.3.6.jar" dir="${basedir}/buildscripts/lib" failonerror="true" fork="true"
+			logerror="true">
+			<arg value="--type"/>
+			<arg value="css"/>
+			<arg value="--charset"/>
+			<arg value="utf-8"/>
+			<arg value="-o"/>
+			<arg value="${destDir}/${theme}/${theme}.css"/>
+			<arg value="${destDir}/${theme}/${theme}.css"/>
+		</java>
+		
+		<!--
+			Bug in Yui-Compressor, with Media Queries
+			
+			See: http://sourceforge.net/tracker/index.php?func=detail&aid=1938329&group_id=165715&atid=836476
+		-->
+
+		<replace file="${destDir}/${theme}/${theme}.css" token="@media all and(min-width:0)" value="@media all and (min-width:0)"/>
+	</target>
+	
 	<target name=".docPackage">
 		<xslt basedir="${srcDir}" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/xml2doc/class.xsl">
 			<mapper>
@@ -381,16 +422,16 @@
 			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
 		</xslt>
 		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/${pkg}._tree.html" style="${basedir}/buildscripts/xml2doc/class_tree.xsl">
-			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
-			<param name="Namespace" expression="${pkg}"/>
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+			<param name="namespace" expression="${pkg}"/>
 		</xslt>
 		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/api/${pkg}._namespace.html" style="${basedir}/buildscripts/xml2doc/namespace.xsl">
-			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
-			<param name="Namespace" expression="${pkg}"/>
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+			<param name="namespace" expression="${pkg}"/>
 		</xslt>
-		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/api/${pkg}._nav.html" style="${basedir}/buildscripts/xml2doc/nav_namespace.xsl">
-			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
-			<param name="Namespace" expression="${pkg}"/>
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/${pkg}._nav.html" style="${basedir}/buildscripts/xml2doc/nav_namespace.xsl">
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+			<param name="namespace" expression="${pkg}"/>
 		</xslt>
 	</target>
 	

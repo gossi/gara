@@ -52,6 +52,15 @@
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#field_BAR">BAR</a>
+</tt>
+<span class="description">Style constant for menu bar behavior (value is 1&lt;&lt;1).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#field_BOTTOM">BOTTOM</a>
 </tt>
 <span class="description">Style constant for align bottom behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).</span>
@@ -64,6 +73,18 @@
 <a href="#field_CANCEL">CANCEL</a>
 </tt>
 <span class="description">The MessageBox style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_CASCADE">CASCADE</a>
+</tt>
+<span class="description">Style constant for cascade behavior (value is 1&lt;&lt;6).
+Used By:
+MenuItem
+</span>
 </td>
 </tr>
 <tr>
@@ -108,9 +129,97 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#field_DROP_DOWN">DROP_DOWN</a>
+</tt>
+<span class="description">Style constant for drop down menu/list behavior (value is 1&lt;&lt;2).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ERROR_MENU_NOT_DROP_DOWN">ERROR_MENU_NOT_DROP_DOWN</a>
+</tt>
+<span class="description">JSWT error constant indicating that a menu which needed
+to have the drop down style had some other style instead
+(value is 21).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ERROR_MENUITEM_NOT_CASCADE">ERROR_MENUITEM_NOT_CASCADE</a>
+</tt>
+<span class="description">JSWT error constant indicating that a menu item which needed
+to have the cascade style had some other style instead
+(value is 27).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ERROR_WIDGET_DISPOSED">ERROR_WIDGET_DISPOSED</a>
+</tt>
+<span class="description">JSWT error constant indicating that an attempt was made to
+invoke an JSWT operation using a widget which had already
+been disposed
+(value is 24).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#field_FULL_SELECTION">FULL_SELECTION</a>
 </tt>
 <span class="description">Style constant for full row selection behavior (value is 1&lt;&lt;16).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ICON_ERROR">ICON_ERROR</a>
+</tt>
+<span class="description">The MessageBox style constant for error icon behavior (value is 1).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ICON_INFORMATION">ICON_INFORMATION</a>
+</tt>
+<span class="description">The MessageBox style constant for information icon behavior (value is 1&lt;&lt;1).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ICON_QUESTION">ICON_QUESTION</a>
+</tt>
+<span class="description">The MessageBox style constant for question icon behavior (value is 1&lt;&lt;2).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ICON_WARNING">ICON_WARNING</a>
+</tt>
+<span class="description">The MessageBox style constant for warning icon behavior (value is 1&lt;&lt;3).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_ICON_WORKING">ICON_WORKING</a>
+</tt>
+<span class="description">The MessageBox style constant for "working" icon behavior (value is 1&lt;&lt;4).</span>
 </td>
 </tr>
 <tr>
@@ -153,6 +262,16 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#field_NONE">NONE</a>
+</tt>
+<span class="description">A constant known to be zero (0), typically used in operations
+which take bit flags to indicate that "no bits are set".</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#field_OK">OK</a>
 </tt>
 <span class="description">The MessageBox style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1&lt;&lt;5).</span>
@@ -162,9 +281,27 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 <td class="returnType">void</td>
 <td>
 <tt>
+<a href="#field_POP_UP">POP_UP</a>
+</tt>
+<span class="description">Style constant for pop up menu behavior (value is 1&lt;&lt;3).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
 <a href="#field_RETRY">RETRY</a>
 </tt>
 <span class="description">The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).</span>
+</td>
+</tr>
+<tr>
+<td class="returnType">void</td>
+<td>
+<tt>
+<a href="#field_SEPARATOR">SEPARATOR</a>
+</tt>
+<span class="description">Style constant for line separator behavior (value is 1&lt;&lt;1).</span>
 </td>
 </tr>
 <tr>
@@ -225,6 +362,11 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 </pre>
 <p class="description">Style constant for application modal behavior (value is 1&lt;&lt;16).</p>
 <hr/>
+<h3 id="field_BAR">BAR</h3>
+<pre>public void <strong>BAR</strong>
+</pre>
+<p class="description">Style constant for menu bar behavior (value is 1&lt;&lt;1).</p>
+<hr/>
 <h3 id="field_BOTTOM">BOTTOM</h3>
 <pre>public void <strong>BOTTOM</strong>
 </pre>
@@ -234,6 +376,14 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 <pre>public void <strong>CANCEL</strong>
 </pre>
 <p class="description">The MessageBox style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).</p>
+<hr/>
+<h3 id="field_CASCADE">CASCADE</h3>
+<pre>public void <strong>CASCADE</strong>
+</pre>
+<p class="description">Style constant for cascade behavior (value is 1&lt;&lt;6).
+Used By:
+MenuItem
+</p>
 <hr/>
 <h3 id="field_CLOSE">CLOSE</h3>
 <pre>public void <strong>CLOSE</strong>
@@ -257,10 +407,62 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 </pre>
 <p class="description">Indicates that a user-interface component is being dragged, for example dragging the thumb of a scroll bar (value is 1).</p>
 <hr/>
+<h3 id="field_DROP_DOWN">DROP_DOWN</h3>
+<pre>public void <strong>DROP_DOWN</strong>
+</pre>
+<p class="description">Style constant for drop down menu/list behavior (value is 1&lt;&lt;2).</p>
+<hr/>
+<h3 id="field_ERROR_MENU_NOT_DROP_DOWN">ERROR_MENU_NOT_DROP_DOWN</h3>
+<pre>public void <strong>ERROR_MENU_NOT_DROP_DOWN</strong>
+</pre>
+<p class="description">JSWT error constant indicating that a menu which needed
+to have the drop down style had some other style instead
+(value is 21).</p>
+<hr/>
+<h3 id="field_ERROR_MENUITEM_NOT_CASCADE">ERROR_MENUITEM_NOT_CASCADE</h3>
+<pre>public void <strong>ERROR_MENUITEM_NOT_CASCADE</strong>
+</pre>
+<p class="description">JSWT error constant indicating that a menu item which needed
+to have the cascade style had some other style instead
+(value is 27).</p>
+<hr/>
+<h3 id="field_ERROR_WIDGET_DISPOSED">ERROR_WIDGET_DISPOSED</h3>
+<pre>public void <strong>ERROR_WIDGET_DISPOSED</strong>
+</pre>
+<p class="description">JSWT error constant indicating that an attempt was made to
+invoke an JSWT operation using a widget which had already
+been disposed
+(value is 24).</p>
+<hr/>
 <h3 id="field_FULL_SELECTION">FULL_SELECTION</h3>
 <pre>public void <strong>FULL_SELECTION</strong>
 </pre>
 <p class="description">Style constant for full row selection behavior (value is 1&lt;&lt;16).</p>
+<hr/>
+<h3 id="field_ICON_ERROR">ICON_ERROR</h3>
+<pre>public void <strong>ICON_ERROR</strong>
+</pre>
+<p class="description">The MessageBox style constant for error icon behavior (value is 1).</p>
+<hr/>
+<h3 id="field_ICON_INFORMATION">ICON_INFORMATION</h3>
+<pre>public void <strong>ICON_INFORMATION</strong>
+</pre>
+<p class="description">The MessageBox style constant for information icon behavior (value is 1&lt;&lt;1).</p>
+<hr/>
+<h3 id="field_ICON_QUESTION">ICON_QUESTION</h3>
+<pre>public void <strong>ICON_QUESTION</strong>
+</pre>
+<p class="description">The MessageBox style constant for question icon behavior (value is 1&lt;&lt;2).</p>
+<hr/>
+<h3 id="field_ICON_WARNING">ICON_WARNING</h3>
+<pre>public void <strong>ICON_WARNING</strong>
+</pre>
+<p class="description">The MessageBox style constant for warning icon behavior (value is 1&lt;&lt;3).</p>
+<hr/>
+<h3 id="field_ICON_WORKING">ICON_WORKING</h3>
+<pre>public void <strong>ICON_WORKING</strong>
+</pre>
+<p class="description">The MessageBox style constant for "working" icon behavior (value is 1&lt;&lt;4).</p>
 <hr/>
 <h3 id="field_IGNORE">IGNORE</h3>
 <pre>public void <strong>IGNORE</strong>
@@ -282,15 +484,31 @@ NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript
 </pre>
 <p class="description">The MessageBox style constant for NO button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;7).</p>
 <hr/>
+<h3 id="field_NONE">NONE</h3>
+<pre>public void <strong>NONE</strong>
+</pre>
+<p class="description">A constant known to be zero (0), typically used in operations
+which take bit flags to indicate that "no bits are set".</p>
+<hr/>
 <h3 id="field_OK">OK</h3>
 <pre>public void <strong>OK</strong>
 </pre>
 <p class="description">The MessageBox style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1&lt;&lt;5).</p>
 <hr/>
+<h3 id="field_POP_UP">POP_UP</h3>
+<pre>public void <strong>POP_UP</strong>
+</pre>
+<p class="description">Style constant for pop up menu behavior (value is 1&lt;&lt;3).</p>
+<hr/>
 <h3 id="field_RETRY">RETRY</h3>
 <pre>public void <strong>RETRY</strong>
 </pre>
 <p class="description">The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).</p>
+<hr/>
+<h3 id="field_SEPARATOR">SEPARATOR</h3>
+<pre>public void <strong>SEPARATOR</strong>
+</pre>
+<p class="description">Style constant for line separator behavior (value is 1&lt;&lt;1).</p>
 <hr/>
 <h3 id="field_SINGLE">SINGLE</h3>
 <pre>public void <strong>SINGLE</strong>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="I18n.class.js" src="../../src/core/I18n.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="I18n" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara</namespace>
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

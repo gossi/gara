@@ -10,8 +10,7 @@
 		doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 
-	<xsl:param name="Namespace"/>
-	<xsl:import href="lib.xsl"/>
+	<xsl:param name="namespace"/>
 
 	<xsl:template match="/">
 		<html xmlns="http://www.w3.org/1999/xhtml">
@@ -21,24 +20,20 @@
 			</head>
 			<body>
 				<base target="main"/>
-				<strong><xsl:value-of select="$Namespace"/></strong>
+				<strong><xsl:value-of select="$namespace"/></strong>
 				
 				<ul id="nav">
-					<xsl:for-each select="//class[namespace = $Namespace and @isPrivate = 'false']">
+					<xsl:for-each select="//Flat/*[@namespace = $namespace]">
 						<xsl:sort select="@name"/>
 						<li>
 							<xsl:choose>
-								<xsl:when test="@isInterface = 'true'">
+								<xsl:when test="name(.) = 'Interface'">
 									<em>
-										<xsl:call-template name="linkClass">
-											<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
-										</xsl:call-template>
+										<a href="{concat($namespace, '.', @name, '.interface.html')}"><xsl:value-of select="@name"/></a>
 									</em>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:call-template name="linkClass">
-										<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
-									</xsl:call-template>
+									<a href="{concat($namespace, '.', @name, '.class.html')}"><xsl:value-of select="@name"/></a>
 								</xsl:otherwise>
 							</xsl:choose>
 						</li>

@@ -72,6 +72,13 @@ $class("DialogManager", {
 		}
 	},
 	
+	getActiveDialog : function() {
+		if (this._activeDialog != null) {
+			return this._activeDialog;
+		}
+		return null;
+	},
+	
 	getDialogs : function() {
 		return this._dialogs;
 	},

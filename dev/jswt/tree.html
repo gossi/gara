@@ -36,8 +36,12 @@ function main() {
 	try {
 		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
 		
+		var img = new Image();
+		img.src = "../../themes/sand/icon_information.png";
+		
 		var i1 = new gara.jswt.TreeItem(t);
 		i1.setText("Item 1");
+		i1.setImage(img);
 		
 		var i2 = new gara.jswt.TreeItem(t);
 		i2.setText("Item 2");

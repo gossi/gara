@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="MenuItem.class.js" src="../../src/jswt/MenuItem.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="MenuItem" isStatic="false" isPrivate="false" isAbstract="false">
+				<description>long description for the MenuItem Widget...</description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<summary>gara MenuItem Widget</summary>
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>gara.jswt.Item</extends>
+				
+				
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="MenuItem._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="MenuItem._registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

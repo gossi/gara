@@ -10,8 +10,9 @@
 		doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 
-	<xsl:param name="Namespace"/>
 	<xsl:import href="lib.xsl"/>
+	<xsl:param name="namespace"/>
+	
 
 	<xsl:template match="/">
 		<html xmlns="http://www.w3.org/1999/xhtml">
@@ -21,43 +22,72 @@
 			</head>
 			<body>
 				<xsl:call-template name="navigation">
-					<xsl:with-param name="namespace" select="$Namespace"/>
+					<xsl:with-param name="namespace" select="$namespace"/>
 				</xsl:call-template>
 				<h1>Class Tree</h1>
-				Namespace: <xsl:value-of select="$Namespace"/>
+				<xsl:text>Namespace: </xsl:text>
+				<a href="{concat($namespace, '._namespace.html')}">
+					<xsl:value-of select="$namespace"/>
+				</a>
 				
-				<xsl:call-template name="Classes">
-					<xsl:with-param name="Super" select="//Namespace[@name = $Namespace]"/>
-				</xsl:call-template>
+				<h2>Classes</h2>
+				<xsl:for-each select="//Tree/Class[@namespace = $namespace]">
+					<ul>
+						<li>
+							<tt><a href="{concat($namespace, '.', @name, '.class.html')}"><xsl:value-of select="@name"/></a></tt>
+						
+							<xsl:call-template name="SubClasses">
+								<xsl:with-param name="super" select="."/>
+							</xsl:call-template>
+						</li>
+					</ul>
+				</xsl:for-each>
+				
+				<h2>Interfaces</h2>
+				<xsl:for-each select="//Tree/Interface[@namespace = $namespace]">
+					<ul>
+						<li>
+							<tt><a href="{concat($namespace, '.', @name, '.class.html')}"><xsl:value-of select="@name"/></a></tt>
+						
+							<xsl:call-template name="SubInterfaces">
+								<xsl:with-param name="super" select="."/>
+							</xsl:call-template>
+						</li>
+					</ul>
+				</xsl:for-each>
 			</body>
 		</html>
 	</xsl:template>
 	
-	<xsl:template name="Classes">
-		<xsl:param name="Super"/>
-		<xsl:if test="count($Super/Class) &gt; 0">
+	<xsl:template name="SubClasses">
+		<xsl:param name="super"/>
+		<xsl:if test="count($super/Class[@namespace = $namespace]) &gt; 0">
 			<ul>
-				<xsl:for-each select="$Super/Class">
-					<xsl:variable name="className" select="@name"/>
+				<xsl:for-each select="$super/Class[@namespace = $namespace]">
 					<li>
 						<tt>
-							<xsl:choose>
-								<xsl:when test="$jsdoc//class[@name = $className and namespace = $Namespace]/@isInterface = 'true'">
-									<em>
-										<xsl:call-template name="linkClass">
-											<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
-										</xsl:call-template>
-									</em>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:call-template name="linkClass">
-										<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
-									</xsl:call-template>
-								</xsl:otherwise>
-							</xsl:choose>
+							<a href="{concat($namespace, '.', @name, '.class.html')}"><xsl:value-of select="@name"/></a>
 						</tt>
-						<xsl:call-template name="Classes">
-							<xsl:with-param name="Super" select="."/>
+						<xsl:call-template name="SubClasses">
+							<xsl:with-param name="super" select="."/>
+						</xsl:call-template>
+					</li>
+				</xsl:for-each>
+			</ul>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="SubInterfaces">
+		<xsl:param name="super"/>
+		<xsl:if test="count($super/Interface[@namespace = $namespace]) &gt; 0">
+			<ul>
+				<xsl:for-each select="$super/Interface[@namespace = $namespace]">
+					<li>
+						<tt>
+							<a href="{concat($namespace, '.', @name, '.class.html')}"><xsl:value-of select="@name"/></a>
+						</tt>
+						<xsl:call-template name="SubInterfaces">
+							<xsl:with-param name="super" select="."/>
 						</xsl:call-template>
 					</li>
 				</xsl:for-each>

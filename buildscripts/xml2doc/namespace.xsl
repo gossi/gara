@@ -10,7 +10,7 @@
 		doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 
-	<xsl:param name="Namespace"/>
+	<xsl:param name="namespace"/>
 	<xsl:import href="lib.xsl"/>
 
 	<xsl:template match="/">
@@ -21,31 +21,35 @@
 			</head>
 			<body>
 				<xsl:call-template name="navigation">
-					<xsl:with-param name="namespace" select="$Namespace"/>
+					<xsl:with-param name="namespace" select="$namespace"/>
 				</xsl:call-template>
-				<h1><xsl:value-of select="$Namespace"/></h1>
-				<h2>Summary</h2>
-				
+				<h1><xsl:value-of select="$namespace"/></h1>
+
+				<h2>Classes</h2>
 				<table>
 					<tbody>
-						<xsl:for-each select="//class[namespace = $Namespace and @isPrivate = 'false']">
+						<xsl:for-each select="//class[namespace = $namespace]">
 							<xsl:sort select="@name"/>
 							<tr>
 								<td class="returnType">
-									<xsl:choose>
-										<xsl:when test="@isInterface = 'true'">
-											<em>
-												<xsl:call-template name="linkClass">
-													<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
-												</xsl:call-template>
-											</em>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:call-template name="linkClass">
-												<xsl:with-param name="canonicalName" select="concat($Namespace, '.', @name)"/>
-											</xsl:call-template>
-										</xsl:otherwise>
-									</xsl:choose>
+									<a href="{concat($namespace, '.', @name, '.class.html')}"><xsl:value-of select="@name"/></a>
+								</td>
+								<td>
+									<xsl:value-of select="summary"/>
+								</td>
+							</tr>
+						</xsl:for-each>
+					</tbody>
+				</table>
+
+				<h2>Interfaces</h2>
+				<table>
+					<tbody>
+						<xsl:for-each select="//interface[namespace = $namespace]">
+							<xsl:sort select="@name"/>
+							<tr>
+								<td class="returnType">
+									<a href="{concat($namespace, '.', @name, '.interface.html')}"><xsl:value-of select="@name"/></a>
 								</td>
 								<td>
 									<xsl:value-of select="summary"/>

@@ -27,6 +27,26 @@
 				<fields></fields>
 				
 				<methods>
+					<method name="TabItem._registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Widget implementation to register listener</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="TabItem.getToolTipText" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Returns the tooltip text for this item</description>
 						<params></params>
@@ -35,6 +55,26 @@
 						
 						
 						<return type="string"> the tooltip text</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TabItem._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
 						
 						
 						<authors>
@@ -216,26 +256,6 @@
 								<description> when that is not a gara.jswt.Control</description>
 							</throw>
 						</throws>
-						
-						
-						<return type="void"></return>
-						
-						
-						<authors>
-							<author>Thomas Gossmann</author>
-						</authors>
-						
-						<sees></sees>
-						
-						
-						
-					</method>
-				
-					<method name="TabItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Widget implementation to register listener</description>
-						<params></params>
-						
-						<throws></throws>
 						
 						
 						<return type="void"></return>

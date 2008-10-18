@@ -27,6 +27,34 @@
 				<fields></fields>
 				
 				<methods>
+					<method name="Tree.setSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Sets the selection of the tree</description>
+						<params>
+							<param type="Array" name="items">
+								<description>the array with the <code>TreeItem</code> items</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the passed items are not an array</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="Tree.handleEvent" isStatic="false" isPrivate="true" isAbstract="false">
 						<description>Event Handler for the tree</description>
 						<params>
@@ -100,7 +128,7 @@
 					</method>
 				
 					<method name="Tree.getItems" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Returns an array with all the items in the tree</description>
+						<description>Returns an array with direct items of the tree</description>
 						<params></params>
 						
 						<throws></throws>
@@ -140,7 +168,7 @@
 					</method>
 				
 					<method name="Tree.getItemCount" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Returns the amount of the items in the tree</description>
+						<description>Returns the amount of items that are direct items of the tree</description>
 						<params></params>
 						
 						<throws></throws>
@@ -247,6 +275,26 @@
 						
 					</method>
 				
+					<method name="Tree._registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="Tree.setLinesVisible" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Sets lines visible or invisible.</description>
 						<params>
@@ -254,6 +302,26 @@
 								<description>true if the lines should be visible or false for invisibility</description>
 							</param>
 						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
 						
 						<throws></throws>
 						
@@ -279,6 +347,58 @@
 						
 						
 						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.removeFromArray" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items which indices are passed by an array</description>
+						<params>
+							<param type="Array" name="inidices">
+								<description>the array with the indices</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.removeRange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items within an indices range</description>
+						<params>
+							<param type="int" name="start">
+								<description>start index</description>
+							</param>
+						
+							<param type="int" name="end">
+								<description>end index</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
 						
 						
 						<authors>
@@ -339,6 +459,30 @@
 						
 						
 						<return type="gara.jswt.TreeItem[]">an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Tree.remove" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes an item from the tree</description>
+						<params>
+							<param type="int" name="index">
+								<description>the index of the item</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
 						
 						
 						<authors>
@@ -451,8 +595,8 @@
 						
 					</method>
 				
-					<method name="Tree.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+					<method name="Tree.removeAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes all items from the tree</description>
 						<params></params>
 						
 						<throws></throws>
@@ -535,34 +679,6 @@
 						
 						
 						<return type=""></return>
-						
-						
-						<authors>
-							<author>Thomas Gossmann</author>
-						</authors>
-						
-						<sees></sees>
-						
-						
-						
-					</method>
-				
-					<method name="Tree._updateItems" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Update Items</description>
-						<params>
-							<param type="gara.jswt.TreeItem[]" name="items">
-								<description>to update</description>
-							</param>
-						
-							<param type="HTMLElement" name="parentNode">
-								<description>the parent dom node</description>
-							</param>
-						</params>
-						
-						<throws></throws>
-						
-						
-						<return type="void"></return>
 						
 						
 						<authors>

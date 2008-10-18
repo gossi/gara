@@ -71,6 +71,30 @@
 						
 					</method>
 				
+					<method name="TreeItem._create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Internal method for creating a node representing an item. This is used forcreating a new item or put updated content to an existing node of an earlierpainted item.</description>
+						<params>
+							<param type="boolean" name="wether">
+								<description>this item is at the bottom position or not</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="TreeItem.getItem" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Returns a specifiy item with a zero-related index</description>
 						<params>
@@ -147,6 +171,30 @@
 						
 					</method>
 				
+					<method name="TreeItem.remove" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes an item from the tree-item</description>
+						<params>
+							<param type="int" name="index">
+								<description>the index of the item</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="TreeItem.getChecked" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Returns the checked state for this item</description>
 						<params></params>
@@ -155,6 +203,58 @@
 						
 						
 						<return type="boolean"> the checked state</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.removeFromArray" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items which indices are passed by an array</description>
+						<params>
+							<param type="Array" name="inidices">
+								<description>the array with the indices</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem._registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Registers Listener for this widget</description>
+						<params>
+							<param type="String" name="eventType">
+								<description>the event type</description>
+							</param>
+						
+							<param type="Object" name="listener">
+								<description>the listener</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
 						
 						
 						<authors>
@@ -260,36 +360,8 @@
 					</method>
 				
 					<method name="TreeItem.removeAll" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Removes all items from that item</description>
+						<description>Removes all items from the tree-item</description>
 						<params></params>
-						
-						<throws></throws>
-						
-						
-						<return type="void"></return>
-						
-						
-						<authors>
-							<author>Thomas Gossmann</author>
-						</authors>
-						
-						<sees></sees>
-						
-						
-						
-					</method>
-				
-					<method name="TreeItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Registers Listener for this widget</description>
-						<params>
-							<param type="String" name="eventType">
-								<description>the event type</description>
-							</param>
-						
-							<param type="Object" name="listener">
-								<description>the listener</description>
-							</param>
-						</params>
 						
 						<throws></throws>
 						
@@ -354,30 +426,6 @@
 					<method name="TreeItem._deselectItems" isStatic="false" isPrivate="true" isAbstract="false">
 						<description>Deselect all child items</description>
 						<params></params>
-						
-						<throws></throws>
-						
-						
-						<return type="void"></return>
-						
-						
-						<authors>
-							<author>Thomas Gossmann</author>
-						</authors>
-						
-						<sees></sees>
-						
-						
-						
-					</method>
-				
-					<method name="TreeItem.create" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Internal method for creating a node representing an item. This is used forcreating a new item or put updated content to an existing node of an earlierpainted item.</description>
-						<params>
-							<param type="boolean" name="wether">
-								<description>this item is at the bottom position or not</description>
-							</param>
-						</params>
 						
 						<throws></throws>
 						
@@ -463,6 +511,26 @@
 						
 					</method>
 				
+					<method name="TreeItem._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="TreeItem.update" isStatic="false" isPrivate="true" isAbstract="false">
 						<description>Updates this item</description>
 						<params></params>
@@ -491,6 +559,34 @@
 						
 						
 						<return type="int"> the amount</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="TreeItem.removeRange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items within an indices range</description>
+						<params>
+							<param type="int" name="start">
+								<description>start index</description>
+							</param>
+						
+							<param type="int" name="end">
+								<description>end index</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
 						
 						
 						<authors>

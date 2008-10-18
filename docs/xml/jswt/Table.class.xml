@@ -50,6 +50,78 @@
 				<fields></fields>
 				
 				<methods>
+					<method name="Table.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Looks for the index of a specified item</description>
+						<params>
+							<param type="gara.jswt.TableItem" name="item">
+								<description>the item for the index</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="gara.jswt.ItemNotExistsException">
+								<description> if the item does not exist in this table</description>
+							</throw>
+						
+							<throw type="TypeError">
+								<description> if the item is not a TableItem</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="int"> the index of the specified item</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Notifies all selection listeners about the selection change</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="Table.addSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
 						<description>Adds a selection listener on the table</description>
 						<params>
@@ -106,6 +178,34 @@
 						
 					</method>
 				
+					<method name="Table.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes a selection listener from this table</description>
+						<params>
+							<param type="gara.jswt.SelectionListener" name="listener">
+								<description>the listener to be removed from this table</description>
+							</param>
+						</params>
+						
+						<throws>
+							<throw type="TypeError">
+								<description> if the listener is not a SelectionListener</description>
+							</throw>
+						</throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
 					<method name="Table._selectShift" isStatic="false" isPrivate="true" isAbstract="false">
 						<description>Selects a Range of items. From shiftItem to the passed item.</description>
 						<params>
@@ -130,14 +230,110 @@
 						
 					</method>
 				
-					<method name="Table._notifySelectionListener" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Notifies all selection listeners about the selection change</description>
-						<params></params>
+					<method name="Table.removeRange" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items within an indices range</description>
+						<params>
+							<param type="int" name="start">
+								<description>start index</description>
+							</param>
+						
+							<param type="int" name="end">
+								<description>end index</description>
+							</param>
+						</params>
 						
 						<throws></throws>
 						
 						
 						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.getSelection" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns an array with the items which are currently selected in the table</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jswt.TreeItem[]">an array with items</return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.removeFromArray" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes items whose indices are passed by an array</description>
+						<params>
+							<param type="Array" name="inidices">
+								<description>the array with the indices</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.clear" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Clears an item at a given index</description>
+						<params>
+							<param type="int" name="index">
+								<description>the position of the item</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="Table.getSelectionCount" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Returns the amount of the selected items in the table</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="int"> the amount</return>
 						
 						
 						<authors>
@@ -174,19 +370,15 @@
 						
 					</method>
 				
-					<method name="Table.removeSelectionListener" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Removes a selection listener from this table</description>
+					<method name="Table.remove" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes an item from the table</description>
 						<params>
-							<param type="gara.jswt.SelectionListener" name="listener">
-								<description>the listener to be removed from this table</description>
+							<param type="int" name="index">
+								<description>the index of the item</description>
 							</param>
 						</params>
 						
-						<throws>
-							<throw type="TypeError">
-								<description> if the listener is not a SelectionListener</description>
-							</throw>
-						</throws>
+						<throws></throws>
 						
 						
 						<return type="void"></return>
@@ -202,26 +394,14 @@
 						
 					</method>
 				
-					<method name="Table.indexOf" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Looks for the index of a specified item</description>
-						<params>
-							<param type="gara.jswt.TableItem" name="item">
-								<description>the item for the index</description>
-							</param>
-						</params>
+					<method name="Table.removeAll" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Removes all items from the table</description>
+						<params></params>
 						
-						<throws>
-							<throw type="gara.jswt.ItemNotExistsException">
-								<description> if the item does not exist in this table</description>
-							</throw>
-						
-							<throw type="TypeError">
-								<description> if the item is not a TableItem</description>
-							</throw>
-						</throws>
+						<throws></throws>
 						
 						
-						<return type="int"> the index of the specified item</return>
+						<return type="void"></return>
 						
 						
 						<authors>

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="JSWTException.class.js" src="../../src/jswt/JSWTException.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="JSWTException" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				
+				<namespace>gara.jswt</namespace>
+				
+				
+				<extends>Exception</extends>
+				
+				
+				
+				<constructor>
+					
+					<description>Raises a JSWT Exception</description>
+					<params>
+						<param type="mixed" name="codeOrMessage" isOptional="false">
+							<description>Pass either a code or a message</description>
+						</param>
+					
+						<param type="String" name="message" isOptional="false">
+							<description>Wether code is passed place your message as second</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields>
+					<field type="" name="JSWTException.code" isStatic="false" isPrivate="false">
+						<description>Contains the error code, one of JSWT.ERROR_*</description>
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</field>
+				</fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

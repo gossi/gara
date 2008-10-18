@@ -6,7 +6,7 @@
 		
 		<classes>
 			<class name="ListItem" isStatic="false" isPrivate="false" isAbstract="false">
-				<description>gara ListItem for List Widget</description>
+				<description></description>
 				
 				<authors>
 					<author>Thomas Gossmann</author>
@@ -14,6 +14,9 @@
 				
 				<sees></sees>
 				
+				
+				
+				<summary>gara ListItem for List Widget</summary>
 				
 				
 				
@@ -34,6 +37,10 @@
 					
 						<param type="int" name="style" isOptional="false">
 							<description>the style for this item</description>
+						</param>
+					
+						<param type="int" name="index" isOptional="false">
+							<description>index to insert the item at</description>
 						</param>
 					</params>
 					
@@ -57,8 +64,8 @@
 				<fields></fields>
 				
 				<methods>
-					<method name="ListItem.update" isStatic="false" isPrivate="false" isAbstract="false">
-						<description>Updates the list item</description>
+					<method name="ListItem._create" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Internal creation process of this item</description>
 						<params></params>
 						
 						<throws></throws>
@@ -77,8 +84,8 @@
 						
 					</method>
 				
-					<method name="ListItem.registerListener" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+					<method name="ListItem.update" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Updates the list item</description>
 						<params></params>
 						
 						<throws></throws>
@@ -121,8 +128,28 @@
 						
 					</method>
 				
-					<method name="ListItem.create" isStatic="false" isPrivate="true" isAbstract="false">
-						<description>Internal creation process of this item</description>
+					<method name="ListItem._registerListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Register listeners for this widget. Implementation for gara.jswt.Widget</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="void"></return>
+						
+						
+						<authors>
+							<author>Thomas Gossmann</author>
+						</authors>
+						
+						<sees></sees>
+						
+						
+						
+					</method>
+				
+					<method name="ListItem._unregisterListener" isStatic="false" isPrivate="true" isAbstract="false">
+						<description>Unregister listeners for this widget. Implementation for gara.jswt.Widget</description>
 						<params></params>
 						
 						<throws></throws>

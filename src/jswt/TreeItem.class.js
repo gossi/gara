@@ -613,7 +613,7 @@ $class("TreeItem", {
 	},
 	
 	setImage : function(columnIndex, image) {
-		if ($class.instanceOf(columnIndex, Image)) {
+		if (typeof(image) == "undefined") {
 			image = columnIndex;
 			columnIndex = 0;
 		}

@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Hierarchy>
 <Tree>
+<Class name="BaseLabelProvider" namespace="gara.jsface">
+<Class name="CellLabelProvider" namespace="gara.jsface">
+<Class name="ColumnLabelProvider" namespace="gara.jsface">
+<Class name="WrappedViewerLabelProvider" namespace="gara.jsface">
+<Class name="TableColumnViewerLabelProvider" namespace="gara.jsface"/>
+</Class>
+</Class>
+</Class>
+</Class>
+<Class name="Dialog" namespace="gara.jswt">
+<Class name="MessageBox" namespace="gara.jswt"/>
+</Class>
 <Class name="EventManager" namespace="gara"/>
+<Class name="I18n" namespace="gara"/>
 <Class name="JSWT" namespace="gara.jswt"/>
 <Class name="LabelProvider" namespace="gara.jsface"/>
 <Class name="Package" namespace="gara"/>
@@ -11,9 +24,18 @@
 <Class name="AbstractListViewer" namespace="gara.jsface">
 <Class name="ListViewer" namespace="gara.jsface"/>
 </Class>
+<Class name="ColumnViewer" namespace="gara.jsface">
+<Class name="AbstractTableViewer" namespace="gara.jsface"/>
+<Class name="AbstractTreeViewer" namespace="gara.jsface">
+<Class name="TreeViewer" namespace="gara.jsface"/>
+</Class>
+</Class>
+<Class name="TableViewer" namespace="gara.jsface"/>
 </Class>
 </Class>
 </Class>
+<Class name="ViewerCell" namespace="gara.jsface"/>
+<Class name="ViewerColumn" namespace="gara.jsface"/>
 <Class name="Widget" namespace="gara.jswt">
 <Class name="Control" namespace="gara.jswt">
 <Class name="Composite" namespace="gara.jswt">
@@ -25,11 +47,13 @@
 </Class>
 <Class name="Item" namespace="gara.jswt">
 <Class name="ListItem" namespace="gara.jswt"/>
+<Class name="MenuItem" namespace="gara.jswt"/>
 <Class name="TabItem" namespace="gara.jswt"/>
 <Class name="TableColumn" namespace="gara.jswt"/>
 <Class name="TableItem" namespace="gara.jswt"/>
 <Class name="TreeItem" namespace="gara.jswt"/>
 </Class>
+<Class name="Menu" namespace="gara.jswt"/>
 </Class>
 <Interface name="FocusListener" namespace="gara.jswt"/>
 <Interface name="IBaseLabelProvider" namespace="gara.jsface">
@@ -37,23 +61,38 @@
 <Interface name="ITableLabelProvider" namespace="gara.jsface"/>
 </Interface>
 <Interface name="IContentProvider" namespace="gara.jsface">
-<Interface name="IStructuredContentProvider" namespace="gara.jsface"/>
+<Interface name="IStructuredContentProvider" namespace="gara.jsface">
+<Interface name="ITreeContentProvider" namespace="gara.jsface"/>
 </Interface>
+</Interface>
+<Interface name="ILabelProviderListener" namespace="gara.jsface"/>
 <Interface name="SelectionListener" namespace="gara.jswt"/>
 </Tree>
 <Flat>
 <Class name="AbstractListViewer" namespace="gara.jsface" extends="gara.jsface.StructuredViewer"/>
+<Class name="AbstractTableViewer" namespace="gara.jsface" extends="gara.jsface.ColumnViewer"/>
+<Class name="AbstractTreeViewer" namespace="gara.jsface" extends="gara.jsface.ColumnViewer"/>
+<Class name="BaseLabelProvider" namespace="gara.jsface" extends=""/>
+<Class name="CellLabelProvider" namespace="gara.jsface" extends="gara.jsface.BaseLabelProvider"/>
+<Class name="ColumnLabelProvider" namespace="gara.jsface" extends="gara.jsface.CellLabelProvider"/>
+<Class name="ColumnViewer" namespace="gara.jsface" extends="gara.jsface.StructuredViewer"/>
 <Class name="Composite" namespace="gara.jswt" extends="gara.jswt.Control"/>
 <Class name="ContentViewer" namespace="gara.jsface" extends="gara.jsface.Viewer"/>
 <Class name="Control" namespace="gara.jswt" extends="gara.jswt.Widget"/>
+<Class name="Dialog" namespace="gara.jswt" extends=""/>
 <Class name="EventManager" namespace="gara" extends=""/>
+<Class name="I18n" namespace="gara" extends=""/>
 <Class name="Item" namespace="gara.jswt" extends="gara.jswt.Widget"/>
 <Class name="ItemNotExistsException" namespace="gara.jswt" extends="Exception"/>
 <Class name="JSWT" namespace="gara.jswt" extends=""/>
+<Class name="JSWTException" namespace="gara.jswt" extends="Exception"/>
 <Class name="LabelProvider" namespace="gara.jsface" extends=""/>
 <Class name="List" namespace="gara.jswt" extends="gara.jswt.Control"/>
 <Class name="ListItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
 <Class name="ListViewer" namespace="gara.jsface" extends="gara.jsface.AbstractListViewer"/>
+<Class name="Menu" namespace="gara.jswt" extends="gara.jswt.Widget"/>
+<Class name="MenuItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="MessageBox" namespace="gara.jswt" extends="gara.jswt.Dialog"/>
 <Class name="OutOfBoundsException" namespace="gara" extends="Exception"/>
 <Class name="Package" namespace="gara" extends=""/>
 <Class name="StructuredViewer" namespace="gara.jsface" extends="gara.jsface.ContentViewer"/>
@@ -61,17 +100,28 @@
 <Class name="TabItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
 <Class name="Table" namespace="gara.jswt" extends="gara.jswt.Composite"/>
 <Class name="TableColumn" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="TableColumnViewerLabelProvider" namespace="gara.jsface" extends="gara.jsface.WrappedViewerLabelProvider"/>
 <Class name="TableItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="TableViewer" namespace="gara.jsface" extends="gara.jsface.StructuredViewer"/>
+<Class name="TableViewerRow" namespace="gara.jsface" extends="gara.jsface.ViewerRow"/>
 <Class name="Tree" namespace="gara.jswt" extends="gara.jswt.Composite"/>
 <Class name="TreeItem" namespace="gara.jswt" extends="gara.jswt.Item"/>
+<Class name="TreeViewer" namespace="gara.jsface" extends="gara.jsface.AbstractTreeViewer"/>
+<Class name="TreeViewerRow" namespace="gara.jsface" extends="gara.jsface.ViewerRow"/>
 <Class name="Viewer" namespace="gara.jsface" extends=""/>
+<Class name="ViewerCell" namespace="gara.jsface" extends=""/>
+<Class name="ViewerColumn" namespace="gara.jsface" extends=""/>
+<Class name="ViewerRow" namespace="gara.jsface" extends="gara.jsface.ViewerRow"/>
 <Class name="Widget" namespace="gara.jswt" extends=""/>
+<Class name="WrappedViewerLabelProvider" namespace="gara.jsface" extends="gara.jsface.ColumnLabelProvider"/>
 <Interface name="FocusListener" namespace="gara.jswt" extends=""/>
 <Interface name="IBaseLabelProvider" namespace="gara.jsface" extends=""/>
 <Interface name="IContentProvider" namespace="gara.jsface" extends=""/>
 <Interface name="ILabelProvider" namespace="gara.jsface" extends="gara.jsface.IBaseLabelProvider"/>
+<Interface name="ILabelProviderListener" namespace="gara.jsface" extends=""/>
 <Interface name="IStructuredContentProvider" namespace="gara.jsface" extends="gara.jsface.IContentProvider"/>
 <Interface name="ITableLabelProvider" namespace="gara.jsface" extends="gara.jsface.IBaseLabelProvider"/>
+<Interface name="ITreeContentProvider" namespace="gara.jsface" extends="gara.jsface.IStructuredContentProvider"/>
 <Interface name="SelectionListener" namespace="gara.jswt" extends=""/>
 </Flat>
 </Hierarchy>

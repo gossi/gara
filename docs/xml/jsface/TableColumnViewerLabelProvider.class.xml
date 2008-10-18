@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="TableColumnViewerLabelProvider.class.js" src="../../src/jsface/TableColumnViewerLabelProvider.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="TableColumnViewerLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<extends>gara.jsface.WrappedViewerLabelProvider</extends>
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				
+				<fields></fields>
+				
+				<methods></methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

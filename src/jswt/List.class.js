@@ -59,6 +59,7 @@ $class("List", {
 		this._activeItem = null;
 		this._shiftItem = null;
 		this._className = this._baseClass = "jsWTList";
+		this._className += " jsWTListInactive";
 	},
 
 	/**

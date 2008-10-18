@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<files>
+
+	<file name="ViewerColumn.class.js" src="../../src/jsface/ViewerColumn.class.js">
+		<overview></overview>
+		
+		<classes>
+			<class name="ViewerColumn" isStatic="false" isPrivate="false" isAbstract="false">
+				<description></description>
+				
+				<authors>
+					<author>Thomas Gossmann</author>
+				</authors>
+				
+				<sees></sees>
+				
+				
+				
+				<namespace>gara.jsface</namespace>
+				
+				
+				
+				
+				<constructor>
+					
+					<description>Create a new instance of the receiver at columnIndex.</description>
+					<params>
+						<param type="" name="viewer" isOptional="false">
+							<description>the viewer the column is part of</description>
+						</param>
+					
+						<param type="" name="columnOwner" isOptional="false">
+							<description>the widget owning the viewer in case the widget has no columns           this could be the widget itself</description>
+						</param>
+					</params>
+					
+					<throws></throws>
+					
+					<authors></authors>
+					
+					<sees></sees>
+					
+					
+					
+				</constructor>
+				
+				<fields></fields>
+				
+				<methods>
+					<method name="ViewerColumn.setLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Set the label provider for the column. Subclasses may extend but mustcall the super implementation.</description>
+						<params>
+							<param type="gara.jsface.CellLabelProvider" name="labelProvider">
+								<description>the new CellLabelProvider</description>
+							</param>
+						
+							<param type="bool" name="registerListener">
+								<description>wether a listener should registered on the labelProvider or not</description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="ViewerColumn.refresh" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Refresh the cell</description>
+						<params>
+							<param type="gara.jsface.ViewerCell" name="cell">
+								<description></description>
+							</param>
+						</params>
+						
+						<throws></throws>
+						
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				
+					<method name="ViewerColumn.getLabelProvider" isStatic="false" isPrivate="false" isAbstract="false">
+						<description>Return the label provider for the receiver.</description>
+						<params></params>
+						
+						<throws></throws>
+						
+						
+						<return type="gara.jsface.CellLabelProvider"></return>
+						
+						
+						<authors></authors>
+						
+						<sees></sees>
+						
+						
+					</method>
+				</methods>
+			</class>
+			
+		</classes>
+		
+		<interfaces></interfaces>
+		
+		<globals></globals>
+		
+		<functions></functions>
+	</file>
+</files>

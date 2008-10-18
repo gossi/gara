@@ -61,6 +61,7 @@ $class("Table", {
 		this._tbody = null;
 
 		this._className = this._baseClass = "jsWTTable";
+		this._className += " jsWTTableInactive";
 
 		this._selection = [];
 		this._selectionListener = [];
@@ -289,6 +290,24 @@ $class("Table", {
 		return this._headerVisible;
 	},
 	
+	/**
+	 * @method
+	 * Gets a specified item with a zero-related index
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {int} index the zero-related index
+	 * @throws {gara.OutOfBoundsException} if the requested index is out of bounds
+	 * @return {gara.jswt.TreeItem} the item
+	 */
+	getItem : function(index) {
+		this.checkWidget();
+		if (index >= this._items.length) {
+			throw new gara.OutOfBoundsException("The requested index exceeds the bounds");
+		}
+	
+		return this._items[index];
+	},
+
 	getItemCount : function() {
 		return this._items.length;
 	},
