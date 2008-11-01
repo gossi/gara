@@ -80,6 +80,7 @@ $class("List", {
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
+			this._activeItem.update();
 		}
 
 		this._activeItem = item;
@@ -175,11 +176,11 @@ $class("List", {
 		}
 
 		if (this._selection.contains(item)) {
+			item._setSelected(false);
 			this._selection.remove(item);
-			this.notifySelectionListener();
-			item.setUnselected();
 			this._shiftItem = item;
 			this._activateItem(item);
+			this.notifySelectionListener();
 		}
 	},
 
@@ -587,15 +588,17 @@ $class("List", {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
 
-		if (!_add || (this._style & JSWT.SINGLE) == JSWT.SINGLE) {
+		if (!_add || (this._style & JSWT.MULTI) != JSWT.MULTI) {
 			while (this._selection.length) {
-				this._selection.pop().setUnselected();
+				var i = this._selection.pop();
+				i._setSelected(false);
+				i.update();
 			}
 		}
 
 		if (!this._selection.contains(item)) {
+			item._setSelected(true);
 			this._selection.push(item);
-			item.setSelected();
 			this._shiftItem = item;
 			this._activateItem(item);
 			this.notifySelectionListener();
@@ -611,10 +614,11 @@ $class("List", {
 	 */
 	selectAll : function() {
 		this.checkWidget();
-		for (var i = 0, len = this._items.length; i < len; ++i) {
-			this.select(this._items[i], true);
+		if ((this._style & JSWT.SINGLE) != JSWT.SINGLE) {
+			for (var i = 0, len = this._items.length; i < len; ++i) {
+				this.select(this._items[i], true);
+			}
 		}
-		this.update();
 	},
 
 	/**
@@ -636,7 +640,9 @@ $class("List", {
 		// only, when selection mode is MULTI
 		if (!_add) {
 			while (this._selection.length) {
-				this._selection.pop().setUnselected();
+				var i = this._selection.pop();
+				i._setSelected(false);
+				i.update();
 			}
 		}
 
@@ -648,7 +654,8 @@ $class("List", {
 
 			for (var i = from; i <= to; ++i) {
 				this._selection.push(this._items[i]);
-				this._items[i].setSelected();
+				this._items[i]._setSelected(true);
+				this._items[i].update();
 			}
 
 			this._activateItem(item);

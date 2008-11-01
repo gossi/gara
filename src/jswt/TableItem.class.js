@@ -177,10 +177,9 @@ $class("TableItem", {
 		this._changed = true;
 	},
 
-	setSelected : function(selected) {
+	_setSelected : function(selected) {
 		this.checkWidget();
 		this._selected = selected;
-		this._changed = true;
 	},
 
 	setText : function(index, text) {
@@ -275,7 +274,7 @@ $class("TableItem", {
 				this.domref.appendChild(cell.td);
 			}
 		}
-
+		
 		this.removeClassName("selected");
 
 		if (this._selected) {

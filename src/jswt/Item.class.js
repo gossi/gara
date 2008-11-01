@@ -138,17 +138,6 @@ $class("Item", {
 
 	/**
 	 * @method
-	 * Set this item selected
-	 * 
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	setSelected : function() {
-		this.addClassName("selected");
-	},
-
-	/**
-	 * @method
 	 * Sets the text for the item
 	 * 
 	 * @author Thomas Gossmann
@@ -160,17 +149,6 @@ $class("Item", {
 		this._changed = true;
 	},
 
-	/**
-	 * @method
-	 * Set this item unselected
-	 * 
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	setUnselected : function() {
-		this.removeClassName("selected");
-	},
-	
 	toString : function() {
 		return "[gara.jswt.Item]";
 	}

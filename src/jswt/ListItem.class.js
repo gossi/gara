@@ -59,6 +59,8 @@ $class("ListItem", {
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
+		
+		this._selected = false;
 	},
 
 	/**
@@ -179,6 +181,11 @@ $class("ListItem", {
 		}
 	},
 	
+	_setSelected : function(selected) {
+		this.checkWidget();
+		this._selected = selected;
+	},
+	
 	toString : function() {
 		return "[gara.jswt.ListItem]";
 	},
@@ -254,6 +261,11 @@ $class("ListItem", {
 			this._spanText.nodeValue = this._text;
 		}
 		
+		this.removeClassName("selected");
+
+		if (this._selected) {
+			this.addClassName("selected");
+		}		
 		this.domref.className = this._className;
 		this.releaseChange();
 	}

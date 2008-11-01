@@ -73,6 +73,7 @@ $class("Tree", {
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
+			this._activeItem.update();
 		}
 
 		this._activeItem = item;
@@ -201,19 +202,18 @@ $class("Tree", {
 	 * @param {gara.jswt.TreeItem} item the item to deselect
 	 * @return {void}
 	 */
-	deselect : function(item) {
+	_deselect : function(item) {
 		this.checkWidget();
 		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
 			throw new TypeError("item is not type of gara.jswt.TreeItem");
 		}
 	
-		if (this._selection.contains(item)
-				&& item.getParent() == this) {
+		if (this._selection.contains(item)/* && item.getParent() == this*/) {
+			item._setSelected(false);
 			this._selection.remove(item);
-			this._notifySelectionListener();
-			item.setChecked(false);
 			this._shiftItem = item;
 			this._activateItem(item);
+			this._notifySelectionListener();
 		}
 	},
 
@@ -227,7 +227,7 @@ $class("Tree", {
 	deselectAll : function() {
 		this.checkWidget();
 		while (this._selection.length) {
-			this.deselect(this._selection.pop());
+			this._deselect(this._selection[0]);
 		}
 		this.update();
 	},
@@ -352,7 +352,7 @@ $class("Tree", {
 					if (e.target != item.toggleNode) {
 						if (e.ctrlKey && !e.shiftKey) {
 							if (this._selection.contains(item)) {
-								this.deselect(item);
+								this._deselect(item);
 							} else {
 								this._select(item, true);
 							}
@@ -505,7 +505,7 @@ $class("Tree", {
 				
 			case 32 : // space
 				if (this._selection.contains(this._activeItem) && e.ctrlKey) {
-					this.deselect(this._activeItem);
+					this._deselect(this._activeItem);
 				} else {
 					this._select(this._activeItem, true);
 				}
@@ -665,21 +665,6 @@ $class("Tree", {
 			delete item;
 		}
 	},
-	
-	/**
-	 * @method
-	 * Removes all items from the tree
-	 * 
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	removeAll : function() {
-		while (this._firstLevelItems.length) {
-			var item = this._firstLevelItems.pop();
-			this.domref.removeChild(item.domref);
-			delete item;
-		}
-	},
 
 	/**
 	 * @method
@@ -719,14 +704,15 @@ $class("Tree", {
 
 		if (!_add || (this._style & JSWT.MULTI) != JSWT.MULTI) {
 			while (this._selection.length) {
-				this._selection.pop().setChecked(false);
+				var i = this._selection.pop();
+				i._setSelected(false);
+				i.update();
 			}
 		}
 
-		if (!this._selection.contains(item)
-				&& item.getParent() == this) {
+		if (!this._selection.contains(item)/* && item.getParent() == this*/) {
+			item._setSelected(true);
 			this._selection.push(item);
-			item.setChecked(true);
 			this._shiftItem = item;
 			this._activateItem(item);
 			this._notifySelectionListener();
@@ -742,10 +728,12 @@ $class("Tree", {
 	 */
 	selectAll : function() {
 		this.checkWidget();
-		this._items.forEach(function(item, index, arr) {
-			this._select(item, true);
-		}, this);
-		this.update();
+		if ((this._style & JSWT.SINGLE) != JSWT.SINGLE) {
+			this._items.forEach(function(item, index, arr){
+				this._select(item, true);
+			}, this);
+			this.update();
+		}
 	},
 
 	/**
@@ -764,7 +752,9 @@ $class("Tree", {
 
 		if (!_add) {
 			while (this._selection.length) {
-				this._selection.pop().setChecked(false);
+				var i = this._selection.pop();
+				i._setSelected(false);
+				i.update();
 			}
 		}
 
@@ -776,7 +766,8 @@ $class("Tree", {
 
 			for (var i = from; i <= to; ++i) {
 				this._selection.push(this._items[i]);
-				this._items[i].setChecked(true);
+				this._items[i]._setSelected(true);
+				this._items[i].update();
 			}
 
 			this._activateItem(item);			

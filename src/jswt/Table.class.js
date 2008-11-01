@@ -74,6 +74,7 @@ $class("Table", {
 		if (!$class.instanceOf(item, gara.jswt.TableItem)) {
 			throw new TypeError("item is not type of gara.jswt.TableItem");
 		}
+
 		// set a previous active item inactive
 		if (this._activeItem != null) {
 			this._activeItem.setActive(false);
@@ -224,20 +225,19 @@ $class("Table", {
 		}
 
 		if (this._selection.contains(item)) {
+			item._setSelected(false);
 			this._selection.remove(item);
-			this._notifySelectionListener();
-			item.setSelected(false);
 			this._shiftItem = item;
 			this._activateItem(item);
+			this._notifySelectionListener();
 		}
 	},
 	
 	deselectAll : function() {
 		this.checkWidget();
 		while (this._selection.length) {
-			this.deselect(this._selection.pop());
+			this.deselect(this._selection[0]);
 		}
-		this.update();
 	},
 
 	dispose : function() {
@@ -629,13 +629,15 @@ $class("Table", {
 
 		if (!_add || (this._style & JSWT.MULTI) != JSWT.MULTI) {
 			while (this._selection.length) {
-				this._selection.pop().setSelected(false);
+				var i = this._selection.pop();
+				i._setSelected(false);
+				i.update();
 			}
 		}
 
 		if (!this._selection.contains(item)) {
 			this._selection.push(item);
-			item.setSelected(true);
+			item._setSelected(true);
 			this._shiftItem = item;
 			this._activateItem(item);
 			this._notifySelectionListener();
@@ -659,7 +661,9 @@ $class("Table", {
 
 		if (!_add) {
 			while (this._selection.length) {
-				this._selection.pop().setSelected(false);
+				var i = this._selection.pop();
+				i._setSelected(false);
+				i.update();
 			}
 		}
 
@@ -671,7 +675,8 @@ $class("Table", {
 
 			for (var i = from; i <= to; ++i) {
 				this._selection.push(this._items[i]);
-				this._items[i].setSelected(true);
+				this._items[i]._setSelected(true);
+				this._items[i].update();
 			}
 
 			this._activateItem(item);			

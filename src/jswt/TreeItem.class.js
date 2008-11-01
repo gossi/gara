@@ -48,6 +48,7 @@ $class("TreeItem", {
 		this._items = new Array();
 		this._expanded = true;
 		this._checked = false;
+		this._selected = false;
 		this._changed = false;
 		this._parent = parent;
 		this._tree = null;
@@ -228,7 +229,7 @@ $class("TreeItem", {
 			if (child._hasChilds()) {
 				child._deselectItems();
 			}
-			this._tree.deselect(child);
+			this._tree._deselect(child);
 		}, this);
 	},
 	
@@ -564,14 +565,6 @@ $class("TreeItem", {
 	setActive : function(active) {
 		this.checkWidget();
 		this._active = active;
-	
-		if (active) {
-			this._span.className += " active";
-		} else {
-			this._span.className = this._span.className.replace(/ *active/, "");
-		}
-	
-		this._changed = true;
 	},
 
 	/**
@@ -584,12 +577,6 @@ $class("TreeItem", {
 	 */
 	setChecked : function(checked) {
 		this.checkWidget();
-		if (checked) {
-			this._span.className = "text selected";
-		} else {
-			this._span.className = "text";
-		}
-		
 		this._checked = checked;
 	},
 
@@ -619,6 +606,11 @@ $class("TreeItem", {
 		}
 		
 		this._images[columnIndex] = image;
+	},
+	
+	_setSelected : function(selected) {
+		this.checkWidget();
+		this._selected = selected;
 	},
 	
 	setText : function(columnIndex, text) {
@@ -732,6 +724,18 @@ $class("TreeItem", {
 			this.domref.className = this._className;
 
 			this.releaseChange();
+		}
+
+		if (this._selected) {
+			this._span.className = "text selected";
+		} else {
+			this._span.className = "text";
+		}
+
+		if (this._active) {
+			this._span.className += " active";
+		} else {
+			this._span.className = this._span.className.replace(/ *active/, "");
 		}
 		
 		// update items
