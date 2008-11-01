@@ -104,6 +104,8 @@ $class("InputDialog", {
 
 		this._dialogContent.appendChild(buttons);
 		
+		this._input.focus();
+		
 		
 		// position
 		var left = this._getViewportWidth() / 2 - this.domref.clientWidth/2;
@@ -128,6 +130,13 @@ $class("InputDialog", {
 		}
 		switch(e.type) {
 			case "keydown":
+				// ESC
+				if (e.target == this._input && e.keyCode == 27) {
+					this.dispose();
+					this._callback.call(this._context, null);
+				}
+
+				// ENTER
 				if (e.target == this._input 
 						&& (e.keyCode == 13 || e.keyCode == 10) 
 						&& this._callback != null) {
