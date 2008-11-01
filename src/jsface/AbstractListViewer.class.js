@@ -84,31 +84,83 @@ $class("AbstractListViewer", {
 		this._internalRefresh();
 	},
 
-	_internalRefresh : function(element) {
+	_internalRefresh : function(element, updateLabels) {
 		if (element == null || element == this._getRoot()) {
 			// store selection
 			var storedSelection = this.getControl().getSelection();
 
 			var children = this._getSortedChildren(this._getRoot());
 			var items = this.getControl().getItems();
+			var itemCount = items.length;			
+			var min = Math.min(children.length, items.length);
 
-			for (var i = 0; i < children.length; i++) {
-				if (typeof(items[i]) != "undefined"
-						&& items[i].getData() == children[i]) {
-					this._updateItem(items[i], children[i]);
+			// compare first min items, and update item if necessary
+			// need to do it in two passes:
+			// 1: disassociate old items
+			// 2: associate new items
+			// because otherwise a later disassociate can remove a mapping made for
+			// a previous associate,
+			// making the map inconsistent
+			for (var i = 0; i < min; ++i) {
+				var item = items[i];
+				var oldElement = item.getData();
+				if (oldElement != null) {
+					var newElement = children[i];
+					if (newElement != oldElement) {
+						if (newElement == oldElement) {
+							// update the data to be the new element, since
+							// although the elements
+							// may be equal, they may still have different labels
+							// or children
+							var data = item.getData();
+							if (data != null) {
+								this._unmapElement(data, item);
+							}
+							item.setData(newElement);
+							this._mapElement(newElement, item);
+						} else {
+							this._disassociate(item);
+							// Clear the text and image to force a label update
+							item.setImage(null);
+							item.setText("");
+
+							if (storedSelection.contains(items[i])) {
+								storedSelection.remove(items[i]);
+							}
+						}
+					}
+				}
+			}
+
+			for (var i = 0; i < min; ++i) {
+				var item = items[i];
+				var newElement = children[i];
+				if (item.getData() == null) {
+					// old and new elements are not equal
+					this._associate(newElement, item);
+					this._updateItem(item, newElement);
 				} else {
+					// old and new elements are equal
+					if (updateLabels) {
+						this._updateItem(item, newElement);
+					}
+				}
+			}
+
+			// add any remaining elements
+			if (min < children.length) {
+				for (var i = min; i < children.length; ++i) {
+					//this._createListItem(widget, children[i], i);
 					var item = this._createListItem(children[i], gara.jswt.JSWT.DEFAULT, i);
 					this._associate(children[i], item);
 				}
 			}
 
-			// kill items
-			for (var i = children.length; i < items.length; i++) {
-				if (storedSelection.contains(items[i])) {
-					storedSelection.remove(items[i]);
+			// remove unused items
+			if (min < itemCount) {
+				for (var i = min; i < itemCount; ++i) {
+					this.getControl().remove(i);
 				}
-
-				this.getControl().remove(items[i]);
 			}
 
 			// restore selection

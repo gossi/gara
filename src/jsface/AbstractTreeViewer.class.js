@@ -276,11 +276,6 @@ $class("AbstractTreeViewer", {
 		}
 
 		// Restore expanded state for items that changed position.
-		// Make sure setExpanded is called after updatePlus, since
-		// setExpanded(false) fails if item has no children.
-		// Need to call setExpanded for both expanded and unexpanded
-		// cases since the expanded state can change either way.
-		// This needs to be done in a second loop, see bug 148025.
 		for (var i = 0; i < min; ++i) {
 			var item = items[i];
 			var newElement = elementChildren[i];

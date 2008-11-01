@@ -142,7 +142,7 @@ $class("Widget", {
 	 */
 	checkWidget : function() {
 		if (this.isDisposed()) {
-			throw new JSWTException(JSWT.ERROR_WIDGET_DISPOSED);
+			throw new gara.jswt.JSWTException(JSWT.ERROR_WIDGET_DISPOSED);
 		}
 	},
 

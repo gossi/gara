@@ -545,9 +545,10 @@ $class("List", {
 	removeAll : function() {
 		this.checkWidget();
 		while (this._items.length) {
-			var item = this._items.pop();
+			/*var item = this._items.pop();
 			this.domref.removeChild(item.domref);
-			delete item;
+			delete item;*/
+			this.remove(0);
 		}
 	},
 
