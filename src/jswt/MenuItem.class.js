@@ -47,8 +47,32 @@ $class("MenuItem", {
 		this._spanText = null;
 		this._img = null;
 		this._hr = null;
-		
+
+		this._selectionListener = [];
+
 		this._menu = null;
+		this._enabled = true;
+		this._selected = false;
+	},
+
+	/**
+	 * @method
+	 * Adds a selection listener on the MenuItem
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this menuitem
+	 * @throws {TypeError} if the listener is not an instance SelectionListener
+	 * @return {void}
+	 */
+	addSelectionListener : function(listener) {
+		this.checkWidget();
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
+		}
+
+		if (!this._selectionListener.contains(listener)) {
+			this._selectionListener.push(listener);
+		}
 	},
 
 	_create : function() {
@@ -105,10 +129,8 @@ $class("MenuItem", {
 				this.domref.attachEvent("onmouseout", function(){
 					node.className = node.className.replace(new RegExp('\\shover', 'g'), '');
 				});
-			} 
-			catch (e) {
-			}
-			
+			} catch (e) {}
+
 			/* register user-defined listeners */
 			for (var eventType in unregisteredListener) {
 				unregisteredListener[eventType].forEach(function(elem, index, arr){
@@ -120,11 +142,33 @@ $class("MenuItem", {
 				this.addClassName("jsWTMenuItemCascade");
 				this._menu.update();
 			}
-			
+
+			if (!this._enabled) {
+				this.addClassName("disabled");
+			}
+
+			if (this._selected) {
+				this.addClassName("checked");
+			}
+
 			this.domref.className = this._className;
 		}
 		this._changed = false;
-		return this.domref;
+		this.domref;
+		
+		var index = this._parent.indexOf(this);
+		var parentItems = this._parent.getItems();
+		var parentDomref = this._parent.domref;
+		
+		var nextNode = index == 0 
+			? parentDomref.firstChild
+			: parentItems[index - 1].domref.nextSibling;
+
+		if (!nextNode) {
+			parentDomref.appendChild(this.domref);					
+		} else {
+			parentDomref.insertBefore(this.domref, nextNode);
+		}
 	},
 	
 	dispose : function() {
@@ -158,8 +202,20 @@ $class("MenuItem", {
 		delete this.domref;
 	},
 	
+	getEnabled : function() {
+		return this._enabled;
+	},
+	
 	getMenu : function() {
 		return this._menu;
+	},
+	
+	getParent : function() {
+		return this._parent;
+	},
+	
+	getSelection : function() {
+		return this._selected;
 	},
 	
 	/**
@@ -184,6 +240,71 @@ $class("MenuItem", {
 		}
 	},
 	
+	/**
+	 * @method
+	 * Removes a selection listener from this MenuItem
+	 * 
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.SelectionListener} listener the listener to remove from this menuitem
+	 * @throws {TypeError} if the listener is not an instance SelectionListener
+	 * @return {void}
+	 */
+	removeSelectionListener : function(listener) {
+		this.checkWidget();
+		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
+			throw new TypeError("listener is not instance of gara.jswt.SelectionListener");
+		}
+
+		if (this._selectionListener.contains(listener)) {
+			this._selectionListener.remove(listener);
+		}
+	},
+	
+	_select : function() {
+		if ((this._style & JSWT.SEPARATOR) == JSWT.SEPARATOR 
+				|| !this._enabled) {
+			return;
+		}
+
+		if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
+			this._selected = !this._selected;
+			this._changed = true;
+		}
+
+		this.update();
+
+		// blurring menu, if POP_UP
+		var parent = this;
+		while (parent.getParent && parent.getParent() != null
+				&& ($class.instanceOf(parent.getParent(), gara.jswt.Menu)
+					|| $class.instanceOf(parent.getParent(), gara.jswt.MenuItem)
+				)) {
+			parent = parent.getParent();
+		}
+
+		if ((parent.getStyle() & JSWT.POP_UP) == JSWT.POP_UP) {
+			parent.setVisible(false);
+		}
+
+		// notify selection listener
+		this._selectionListener.forEach(function(listener, index, arr) {
+			listener.widgetSelected(this);
+		}, this);
+	},
+
+	setEnabled : function(enabled) {
+		this._enabled = enabled;
+		this._changed = true;
+	},
+
+	setImage : function(image) {
+		this.$base(image);
+		
+		if (this.domref != null) {
+			this.update();
+		}
+	},
+
 	setMenu : function(menu) {
 		this.checkWidget();
 		if (!$class.instanceOf(menu, gara.jswt.Menu)) {
@@ -193,11 +314,23 @@ $class("MenuItem", {
 		this._menu = menu;
 		this._changed = true;
 	},
-	
+
+	setSelection : function(selected) {
+		this._selected = selected;
+	},
+
+	setText : function(text) {
+		this.$base(text);
+		
+		if (this.domref != null) {
+			this.update();
+		}
+	},
+
 	toString : function() {
 		return "[gara.jswt.MenuItem]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
@@ -219,57 +352,79 @@ $class("MenuItem", {
 			gara.EventManager.removeListener(this._span, eventType, listener);
 		}
 	},
-	
+
 	update : function() {
-		this.checkWidget();
-		// create image
-		if (this._image != null && this._img == null) {
-			this._img = document.createElement("img");
-			this._img.obj = this;
-			this._img.control = this._menu;
-			this._img.alt = this._text;
-			this._img.src = this._image.src;
-			this.domref.insertBefore(this._img, this._span);
-			base2.DOM.EventTarget(this._img);
+		if (!this.domref) {
+			this._create();
+		} else if (this._changed){
+			this.checkWidget();
 			
-			// event listener
-			for (var eventType in this._listener) {
-				this._listener[eventType].forEach(function(elem, index, arr) {
-					this.registerListener(this._img, eventType, elem);
-				}, this);
+			// create image
+			if (this._image != null && this._img == null) {
+				this._img = document.createElement("img");
+				this._img.obj = this;
+				this._img.control = this._menu;
+				this._img.alt = this._text;
+				this._img.src = this._image.src;
+				this.domref.insertBefore(this._img, this._span);
+				base2.DOM.EventTarget(this._img);
+				
+				// event listener
+				for (var eventType in this._listener) {
+					this._listener[eventType].forEach(function(elem, index, arr) {
+						this.registerListener(this._img, eventType, elem);
+					}, this);
+				}
 			}
-		}
-
-		// simply update image information
-		else if (this._image != null) {
-			this._img.src = this._image.src;
-			this._img.alt = this._text;
-		}
-
-		// delete image
-		else if (this._img != null && this._image == null) {
-			this.domref.removeChild(this._img);
-			this._img = null;
-
-			// event listener
-			for (var eventType in this._listener) {
-				this._listener[eventType].forEach(function(elem, index, arr) {
-					gara.EventManager.removeListener({
-						domNode : this._img,
-						type: eventType, 
-						listener : elem
-					});
-				}, this);
+	
+			// simply update image information
+			else if (this._image != null) {
+				this._img.src = this._image.src;
+				this._img.alt = this._text;
 			}
+	
+			// delete image
+			else if (this._img != null && this._image == null) {
+				this.domref.removeChild(this._img);
+				this._img = null;
+	
+				// event listener
+				for (var eventType in this._listener) {
+					this._listener[eventType].forEach(function(elem, index, arr) {
+						gara.EventManager.removeListener({
+							domNode : this._img,
+							type: eventType, 
+							listener : elem
+						});
+					}, this);
+				}
+			}
+	
+			this.removeClassName("disabled");
+			this.removeClassName("checked");
+			this.removeClassName("jsWTMenuItemCascade");
+			if (this._menu != null) {
+				this.addClassName("jsWTMenuItemCascade");
+				this._menu.update();
+			}
+
+			if (!this._enabled) {
+				this.addClassName("disabled");
+			}
+			
+			if (this._selected) {
+				this.addClassName("checked");
+			}
+	
+			this._spanText.nodeValue = this._text;
+			this.domref.className = this._className;
+			
+			this._changed = false;
 		}
 
-		this.removeClassName("jsWTMenuItemCascade");
+		// update sub menu
 		if (this._menu != null) {
-			this.addClassName("jsWTMenuItemCascade");
 			this._menu.update();
 		}
-
-		this._spanText.nodeValue = this._text;
-		this.domref.className = this._className;
 	}
 });

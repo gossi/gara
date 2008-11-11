@@ -58,6 +58,7 @@ $class("Menu", {
 		}
 		
 		this._items = [];
+		this._menuListener = [];
 
 		// location
 		this._x = 0;
@@ -66,7 +67,10 @@ $class("Menu", {
 		// flags
 		this._enabled = false;
 		this._visible = true;
-		this._visibleEvent = null;
+		
+		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
+			this._visible = false;
+		}
 		
 		this._className = this._baseClass = "jsWTMenu";
 
@@ -85,6 +89,17 @@ $class("Menu", {
 			this._items.push(item);
 		}
 	},
+	
+	addMenuListener : function(listener) {
+		this.checkWidget();
+		if (!$class.instanceOf(listener, gara.jswt.MenuListener)) {
+			throw new TypeError("listener is not instance of gara.jswt.MenuListener");
+		}
+		
+		if (!this._menuListener.contains(listener)) {
+			this._menuListener.push(listener);
+		}
+	},
 
 	_create : function() {
 
@@ -99,7 +114,6 @@ $class("Menu", {
 		}
 
 		if ((this._style & JSWT.POP_UP) == JSWT.POP_UP) {
-			this._visible = false;
 			this.addClassName("jsWTMenuPopUp");
 			this.domref.style.display = "none";
 			this.domref.style.position = "absolute";
@@ -119,6 +133,7 @@ $class("Menu", {
 		}
 
 		/* Menu event listener */
+		this.addListener("click", this);
 
 		/* register user-defined listeners */
 		for (var eventType in unregisteredListener) {
@@ -177,13 +192,19 @@ $class("Menu", {
 		switch(e.type) {
 			case "mousedown":
 				if ((e.target.control ? e.target.control != this : true)
-						&& this._visibleEvent != e
-						&& (this.getStyle() & JSWT.POP_UP) == JSWT.POP_UP) {
+						&& (this.getStyle() & JSWT.POP_UP) == JSWT.POP_UP
+						&& !$class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
 					this.setVisible(false);
 				}
-				this._visibleEvent = null;
+				break;
+				
+			case "click":
+				if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
+					e.target.obj._select();
+				}
 				break;
 		}
+		e.stopPropagation();
 	},
 
 	indexOf : function(item) {
@@ -213,6 +234,17 @@ $class("Menu", {
 		}
 	},
 
+	removeMenuListener : function(listener) {
+		this.checkWidget();
+		if (!$class.instanceOf(listener, gara.jswt.MenuListener)) {
+			throw new TypeError("listener is not instance of gara.jswt.MenuListener");
+		}
+
+		if (this._menuListener.contains(listener)) {
+			this._menuListener.remove(listener);
+		}
+	},
+
 	setLocation : function(x, y) {
 		this._x = x;
 		this._y = y;
@@ -223,17 +255,23 @@ $class("Menu", {
 		this._visible = visible;
 		this.update();
 		if (visible) {
-			this._visibleEvent = event;
 			gara.EventManager.addListener(document, "mousedown", this);
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.addListener("mousedown", this);
 			}
+
+			this._menuListener.forEach(function(listener, index, arr) {
+				listener.menuShown(this);
+			}, this);
 		} else {
-			this._visibleEvent = null;
 			gara.EventManager.removeListener(document, "mousedown", this);
 			if ($class.instanceOf(this._parent, gara.jswt.Control)) {
 				this._parent.removeListener("mousedown", this);
 			}
+
+			this._menuListener.forEach(function(listener, index, arr) {
+				listener.menuHidden(this);
+			}, this);
 		}
 	},
 
@@ -277,7 +315,9 @@ $class("Menu", {
 		// update items
 		this._items.forEach(function(item, index, arr) {
 
-			// create item ...
+			item.update();
+			
+			/* create item ...
 			if (!item.isCreated()) {
 				var node = item._create();
 				var nextNode = index == 0 
@@ -295,7 +335,7 @@ $class("Menu", {
 			if (item.hasChanged()) {
 				item.update();
 				item.releaseChange();
-			}
+			}*/
 		}, this);
 	}
 });

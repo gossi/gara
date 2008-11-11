@@ -70,6 +70,17 @@ $class("JSWT", {
 	
 	/**
 	 * @field
+	 * Style constant for check box behavior (value is 1&lt;&lt;5).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>MenuItem</code></li>
+	 * <li><code>Table</code></li>
+	 * <li><code>Tree</code></li>
+	 * </ul></p>
+	 */
+	CHECK : $static(1 << 5),
+	
+	/**
+	 * @field
 	 * Style constant for close box trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
 	CLOSE : $static(1 << 6),
