@@ -180,7 +180,7 @@ $class("TableColumn", {
 					var order = this._table.getColumns();
 					var offset = order.indexOf(this);
 
-					this._shadow = new gara.jswt.Table(document.getElementsByTagName("body")[0], this._table.getStyle());
+					this._shadow = new gara.jswt.Table(document.getElementsByTagName("body")[0], this._table.getStyle() &~ JSWT.CHECK);
 					this._shadow.setHeaderVisible(this._table.getHeaderVisible());
 
 					this._table.getColumns().forEach(function(col, index, arr) {

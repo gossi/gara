@@ -54,13 +54,16 @@ $class("ListItem", {
 		this._parent = parent;
 		this._list = parent;
 		this._list._addItem(this, index);
-		
+
 		// dom references
 		this._span = null;
 		this._spanText = null;
 		this._img = null;
-		
+		this._checkbox = null;
+
 		this._selected = false;
+		this._grayed = false;
+		this._checked = false;
 	},
 
 	/**
@@ -76,6 +79,23 @@ $class("ListItem", {
 		this.domref.className = this._className;
 		this.domref.obj = this;
 		this.domref.control = this._list;
+
+		this._checkbox = document.createElement("input");
+		this._checkbox.type = "checkbox";
+		this._checkbox.obj = this;
+		this._checkbox.control = this._list;
+		this._checkbox.style.display = "none";
+		if (this._grayed) {
+			this._checkbox.disabled = true;
+		}
+		if (this._checked) {
+			this._checkbox.checked = true;
+		}
+		if ((this._list.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+			this._checkbox.style.display = "inline";
+		}
+		
+		this.domref.appendChild(this._checkbox);
 
 		// create item nodes
 		this._img = null;
@@ -141,7 +161,15 @@ $class("ListItem", {
 		delete this._span;
 		delete this.domref;
 	},
-	
+
+	getChecked : function() {
+		return this._checked;
+	},
+
+	getGrayed : function() {
+		return this._grayed;
+	},
+
 	/**
 	 * @method
 	 * Event handler for this item. Its main use is to pass through keyboard events
@@ -178,6 +206,26 @@ $class("ListItem", {
 
 		if (this._span != null) {
 			gara.EventManager.addListener(this._span, eventType, listener);
+		}
+	},
+	
+	setChecked : function(checked) {
+		if (!this._grayed) {
+			this._checked = checked;
+			if (this._checked) {
+				this._checkbox.checked = true;
+			} else {
+				this._checkbox.checked = false;
+			}
+		}
+	},
+	
+	setGrayed : function(grayed) {
+		this._grayed = grayed;
+		if (this._grayed) {
+			this._checkbox.disabled = true;
+		} else {
+			this._checkbox.disabled = false;
 		}
 	},
 	
@@ -256,6 +304,12 @@ $class("ListItem", {
 						gara.EventManager.removeListener(this._img, eventType, elem);
 					}, this);
 				}
+			}
+			
+			if ((this._list.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+				this._checkbox.style.display = "inline";
+			} else {
+				this._checkbox.style.display = "none";
 			}
 			
 			this._spanText.nodeValue = this._text;

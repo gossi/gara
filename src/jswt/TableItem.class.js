@@ -43,9 +43,12 @@ $class("TableItem", {
 		this._table._addItem(this, index);
 
 		this._cells = [];
+		this._checkboxTd = null;
+		this._checkbox = null;
 
 		this._active = false;
 		this._checked = false;
+		this._grayed = false;
 		this._selected = false;
 
 		this.domref = null;
@@ -64,6 +67,22 @@ $class("TableItem", {
 		this.domref.obj = this;
 		this.domref.control = this._table;
 		base2.DOM.EventTarget(this.domref);
+
+		this._checkbox = document.createElement("input");
+		this._checkbox.type = "checkbox";
+		this._checkbox.obj = this;
+		this._checkbox.control = this._table;
+		if (this._grayed) {
+			this._checkbox.disabled = true;
+		}
+		if (this._checked) {
+			this._checkbox.checked = true;
+		}
+		this._checkboxTd = document.createElement("td");
+		this._checkboxTd.appendChild(this._checkbox);
+		if ((this._table.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+			this.domref.appendChild(this._checkboxTd);
+		}
 
 		var order = this._table.getColumnOrder();
 		for (var i = 0, len = order.length; i < len; ++i) {
@@ -117,6 +136,14 @@ $class("TableItem", {
 
 		delete this.domref;
 	},
+	
+	getChecked : function() {
+		return this._checked;
+	},
+	
+	getGrayed : function() {
+		return this._grayed;
+	},
 
 	getText : function(index) {
 		this.checkWidget();
@@ -144,6 +171,26 @@ $class("TableItem", {
 
 	setActive : function(active) {
 		this._active = active;
+	},
+
+	setChecked : function(checked) {
+		if (!this._grayed) {
+			this._checked = checked;
+			if (this._checked) {
+				this._checkbox.checked = true;
+			} else {
+				this._checkbox.checked = false;
+			}
+		}
+	},
+
+	setGrayed : function(grayed) {
+		this._grayed = grayed;
+		if (this._grayed) {
+			this._checkbox.disabled = true;
+		} else {
+			this._checkbox.disabled = false;
+		}
 	},
 
 	setImage : function(index, image) {
@@ -235,7 +282,10 @@ $class("TableItem", {
 			while (this.domref.childNodes.length) {
 				this.domref.removeChild(this.domref.childNodes[0]);
 			}
-			
+			if ((this._table.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+				this.domref.appendChild(this._checkboxTd);
+			}
+
 			var order = this._table.getColumnOrder();
 			for (var i = 0, len = order.length; i < len; ++i) {
 				var cell = this._cells[order[i]];

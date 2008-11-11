@@ -169,7 +169,12 @@ $class("Table", {
 		this._theadRow.control = this;
 		base2.DOM.EventTarget(this._theadRow);
 		this._thead.appendChild(this._theadRow);
-		
+
+		if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
+			var checkboxCol = document.createElement("th");
+			this._theadRow.appendChild(checkboxCol);
+		}
+
 		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
 			this._columns[this._columnOrder[i]]._setParentNode(this._theadRow);
 			this._columns[this._columnOrder[i]].update();
@@ -725,6 +730,11 @@ $class("Table", {
 		// update table head
 		while (this._theadRow.childNodes.length) {
 			this._theadRow.removeChild(this._theadRow.childNodes[0]);
+		}
+		if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
+			var checkboxCol = document.createElement("th");
+			checkboxCol.className = "jsWTTableCheckboxCol";
+			this._theadRow.appendChild(checkboxCol);
 		}
 		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
 			//this._columns[this._columnOrder[i]]._setParentNode(this._theadRow);
