@@ -36,7 +36,7 @@ var l;
 
 function main() {
 	try {
-		l = new gara.jswt.List(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
+		l = new gara.jswt.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
 
 		var i = new gara.jswt.ListItem(l);
 		i.setText("Item 1");
@@ -66,6 +66,20 @@ function main() {
 function dispose() {
 	l.dispose();
 }
+
+function getSelectedItem() {
+	return l.getSelection()[0];
+}
+
+function toggleGrayed() {
+	var item = getSelectedItem();
+	item.setGrayed(!item.getGrayed());
+}
+
+function toggleChecked() {
+	var item = getSelectedItem();
+	item.setChecked(!item.getChecked());
+}
 --></script>
 </head>
 <body style="padding: 10px;">
@@ -73,6 +87,8 @@ function dispose() {
 <fieldset>
 	<legend>Options</legend>
 	<input type="button" value="dispose()" onclick="dispose()"/>
+	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>
+	<input type="button" value="Toggle Grayed" onclick="toggleGrayed()"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;"></div>
 <script type="text/javascript">main();</script>

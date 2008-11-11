@@ -34,7 +34,7 @@
 var t;
 function main() {
 	try {
-		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
+		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.MULTI);
 		
 		var img = new Image();
 		img.src = "../../themes/sand/icon_information.png";
@@ -77,6 +77,14 @@ function main() {
 function dispose() {
 	t.dispose();
 }
+
+function selectAll() {
+	t.selectAll();
+}
+
+function deselectAll() {
+	t.deselectAll();
+}
 --></script>
 </head>
 <body style="padding: 10px;">
@@ -84,6 +92,8 @@ function dispose() {
 <fieldset>
 	<legend>Options</legend>
 	<input type="button" value="dispose()" onclick="dispose()"/>
+	<input type="button" value="selectAll()" onclick="selectAll()"/>
+	<input type="button" value="deselectAll()" onclick="deselectAll()"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>

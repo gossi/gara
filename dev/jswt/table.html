@@ -36,7 +36,7 @@
 var tbl;
 function main() {
 	try {
-		tbl = new gara.jswt.Table(document.getElementById("container"), gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.MULTI);
+		tbl = new gara.jswt.Table(document.getElementById("container"), gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK);
 		tbl.setHeaderVisible(true);
 		tbl.setLinesVisible(true);
 
@@ -72,6 +72,24 @@ function main() {
 function dispose() {
 	tbl.dispose();
 }
+
+function deselectAll() {
+	tbl.deselectAll();
+}
+
+function getSelectedItem() {
+	return tbl.getSelection()[0];
+}
+
+function toggleGrayed() {
+	var item = getSelectedItem();
+	item.setGrayed(!item.getGrayed());
+}
+
+function toggleChecked() {
+	var item = getSelectedItem();
+	item.setChecked(!item.getChecked());
+}
 --></script>
 </head>
 <body style="padding: 10px;" class="sand">
@@ -79,6 +97,9 @@ function dispose() {
 <fieldset>
 	<legend>Options</legend>
 	<input type="button" value="dispose()" onclick="dispose()"/>
+	<input type="button" value="deselectAll()" onclick="deselectAll()"/>
+	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>
+	<input type="button" value="Toggle Grayed" onclick="toggleGrayed()"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>

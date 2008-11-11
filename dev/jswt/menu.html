@@ -21,6 +21,7 @@
 <script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/MenuListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
@@ -36,6 +37,10 @@
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
 <script type="text/javascript"><!--
 $class("MenuController", {
+	$implements : [gara.jswt.MenuListener, gara.jswt.SelectionListener],
+	
+	i : 0,
+	
 	handleEvent : function(e) {
 		if (e.type == "mousedown" && e.target.obj
 				&& $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
@@ -44,10 +49,27 @@ $class("MenuController", {
 
 			console.log("MenuItem clicked: " + mi.getText() + ", item checked: " + l.getSelection()[0].getText());
 		}
-	}
+	},
+	
+	menuShown : function(widget) {
+		console.log("Menu shown");
+		mi1.setText("iterator " + i++);
+	},
+	
+	menuHidden : function(widget) {
+		console.log("Menu hidden");
+	},
+	
+	widgetSelected : function(widget) {
+		if (widget.getSelection()) {
+			subi1.setEnabled(false);
+		} else {
+			subi1.setEnabled(true);
+		}
+	},
 });
 
-var l, menu2;
+var l, menu2, mi1, subi1;
 
 function main() {
 	try {
@@ -72,7 +94,7 @@ function main() {
 		
 		var menu = new gara.jswt.Menu(l);
 		
-		var mi1 = new gara.jswt.MenuItem(menu);
+		mi1 = new gara.jswt.MenuItem(menu);
 		mi1.setText("test");
 		
 		var mi2 = new gara.jswt.MenuItem(menu, gara.jswt.JSWT.CASCADE);
@@ -82,7 +104,7 @@ function main() {
 		var subpmenu = new gara.jswt.Menu(mi2);
 		mi2.setMenu(subpmenu);
 		
-		var subi1 = new gara.jswt.MenuItem(subpmenu);
+		subi1 = new gara.jswt.MenuItem(subpmenu);
 		subi1.setText("sub pop 1"); 
 		
 		var sep = new gara.jswt.MenuItem(subpmenu, gara.jswt.JSWT.SEPARATOR);
@@ -104,7 +126,7 @@ function main() {
 		var m21 = new gara.jswt.Menu(m2i2);
 		m2i2.setMenu(m21);
 		
-		var m21i2 = new gara.jswt.MenuItem(m21);
+		var m21i2 = new gara.jswt.MenuItem(m21, gara.jswt.JSWT.CHECK);
 		m21i2.setText("sub 2");
 		
 		var m21i1 = new gara.jswt.MenuItem(m21, gara.jswt.JSWT.CASCADE);
@@ -122,7 +144,10 @@ function main() {
 		
 		menu2.update();
 		
-		menu.addListener("mousedown", new MenuController());
+		controller = new MenuController();
+		//menu.addListener("mousedown", controller);
+		menu.addMenuListener(controller);
+		m21i2.addSelectionListener(controller);
 		
 		l.setMenu(menu);
 	} catch(e) {
