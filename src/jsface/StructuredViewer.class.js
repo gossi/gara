@@ -37,6 +37,9 @@ $class("StructuredViewer", {
 		this._map = [];
 		this._items = [];
 		
+		this._sorter = null;
+		this._filter = null;
+		
 		this._elementMap = null;
 	},
 
@@ -130,9 +133,23 @@ $class("StructuredViewer", {
 		
 		return null;
 	},
+	
+	_getFilteredChildren : function(parent) {
+		return this._getRawChildren(parent);
+	},
 
 	_getSortedChildren : function(parent) {
-		return this._getRawChildren(parent);
+		var children = this._getFilteredChildren(parent);
+		if (this._sorter != null) {
+			children = this._sorter.sort(this, children);
+		}
+		return children;
+	},
+	
+	getSorter : function() {
+		if ($class.instanceOf(this._sorter, gara.jsface.ViewerSorter)) 
+			return this._sorter;
+		return null;
 	},
 
 	_getRoot : function() {
@@ -178,6 +195,14 @@ $class("StructuredViewer", {
 	setInput : function(input) {
 		this._unmapAllElements();
 		this.$base(input);
+	},
+
+	setSorter : function(sorter) {
+		if (!$class.instanceOf(sorter, gara.jsface.ViewerSorter)) {
+			throw new TypeError("sorter not instance of gara.jsface.ViewerSorter");
+		}
+
+		this._sorter = sorter;
 	},
 
 	_unmapAllElements : function() {
