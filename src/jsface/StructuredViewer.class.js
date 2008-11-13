@@ -38,9 +38,20 @@ $class("StructuredViewer", {
 		this._items = [];
 		
 		this._sorter = null;
-		this._filter = null;
+		this._filters = [];
 		
 		this._elementMap = null;
+	},
+	
+	addFilter : function(filter) {
+		if (!$class.instanceOf(filter, gara.jsface.ViewerFilter)) {
+			throw new TypeError("filter not instance of gara.jsface.ViewerFilter");
+		}
+
+		if (!this._filters.contains(filter)) {
+			this._filters.push(filter);
+		}
+		this.refresh();
 	},
 
 	_associate : function(element, item) {
@@ -120,6 +131,10 @@ $class("StructuredViewer", {
 	},
 	
 	_getItemFromElementMap : function(element) {
+		if (element == null) {
+			return null;
+		}
+		
 		var id;
 		if (typeof(element) == "object" && element.hasOwnProperty("__garaUID")) {
 			id = element.__garaUID;
@@ -135,7 +150,11 @@ $class("StructuredViewer", {
 	},
 	
 	_getFilteredChildren : function(parent) {
-		return this._getRawChildren(parent);
+		var children = this._getRawChildren(parent);
+		this._filters.forEach(function(f, i, a) {
+			children = f.filter(this, parent, children);
+		}, this);
+		return children;
 	},
 
 	_getSortedChildren : function(parent) {
@@ -167,9 +186,12 @@ $class("StructuredViewer", {
 		var d = new Date();
 		var id = d.valueOf();
 
-		if (typeof(element) == "object" 
-				&&!element.hasOwnProperty("__garaUID")) {
-			element.__garaUID = id;
+		if (typeof(element) == "object") {
+			if (!element.hasOwnProperty("__garaUID")) {
+				element.__garaUID = id;
+			} else {
+				id = element.__garaUID;
+			}
 		} else {
 			id = element;
 		}
@@ -191,6 +213,16 @@ $class("StructuredViewer", {
 
 		this._internalRefresh(element, updateLabels);
 	},
+	
+	setFilters : function(filters) {
+		if (filters.length == 0) {
+			this._filters = [];
+		} else {
+			filters.forEach(function(filter, i, a){
+				this.addFilter(filter);
+			}, this);
+		}
+	},
 
 	setInput : function(input) {
 		this._unmapAllElements();
@@ -203,6 +235,7 @@ $class("StructuredViewer", {
 		}
 
 		this._sorter = sorter;
+		this.refresh();
 	},
 
 	_unmapAllElements : function() {
@@ -210,7 +243,7 @@ $class("StructuredViewer", {
 	},
 
 	_unmapElement : function(element, item) {
-		if (this._elementMap == null 
+		if (this._elementMap == null || element == null
 				|| !(typeof(element) == "object" && element.hasOwnProperty("__garaUID"))) {
 			return;
 		}

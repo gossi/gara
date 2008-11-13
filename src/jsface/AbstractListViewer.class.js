@@ -157,10 +157,8 @@ $class("AbstractListViewer", {
 			}
 
 			// remove unused items
-			if (min < itemCount) {
-				for (var i = min; i < itemCount; ++i) {
-					this.getControl().remove(i);
-				}
+			for (var i = 0; (min + i) < itemCount; ++i) {
+				this.getControl().remove(min);
 			}
 
 			// restore selection

@@ -78,7 +78,7 @@ $class("List", {
 			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
 		// set a previous active item inactive
-		if (this._activeItem != null) {
+		if (this._activeItem != null && !this._activeItem.isDisposed()) {
 			this._activeItem.setActive(false);
 			this._activeItem.update();
 		}

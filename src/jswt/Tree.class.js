@@ -71,7 +71,7 @@ $class("Tree", {
 		}
 
 		// set a previous active item inactive
-		if (this._activeItem != null) {
+		if (this._activeItem != null && !this._activeItem.isDisposed()) {
 			this._activeItem.setActive(false);
 			this._activeItem.update();
 		}
@@ -349,6 +349,7 @@ $class("Tree", {
 				}
 
 				if (item != null) {
+					
 					if (e.target != item.toggleNode) {
 						if (e.ctrlKey && !e.shiftKey) {
 							if (this._selection.contains(item)) {
@@ -364,6 +365,7 @@ $class("Tree", {
 							this._select(item, false);
 						}
 					}
+					
 				}
 				break;
 
@@ -618,7 +620,9 @@ $class("Tree", {
 		this.checkWidget();
 		var item = this._firstLevelItems.removeAt(index)[0];
 		this._items.remove(item);
-		item.dispose();
+		if (!item.isDisposed()) {
+			item.dispose();
+		}
 		delete item;
 	},
 	
@@ -710,7 +714,7 @@ $class("Tree", {
 			}
 		}
 
-		if (!this._selection.contains(item)/* && item.getParent() == this*/) {
+		if (!this._selection.contains(item)) {
 			item._setSelected(true);
 			this._selection.push(item);
 			this._shiftItem = item;
@@ -805,6 +809,9 @@ $class("Tree", {
 		}
 
 		this._selection = items;
+		this._selection.forEach(function(item, index, arr) {
+			item._setSelected(true);
+		}, this);
 		this._notifySelectionListener();
 	},
 
@@ -857,7 +864,11 @@ $class("Tree", {
 
 		// update items		
 		this._firstLevelItems.forEach(function(item, index, arr) {
-			item.update();
+			if (item.isDisposed()) {
+				this.remove(index);
+			} else {
+				item.update();
+			}
 		}, this);
 	}
 });

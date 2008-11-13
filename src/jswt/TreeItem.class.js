@@ -251,6 +251,7 @@ $class("TreeItem", {
 			this._image = null;
 		}
 
+		
 		this.domref.removeChild(this._toggleNode);
 		this.domref.removeChild(this._span);
 
@@ -504,7 +505,9 @@ $class("TreeItem", {
 	remove : function(index) {
 		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
-		item.dispose();
+		if (!item.isDisposed()) {
+			//item.dispose();
+		}
 		delete item;
 	},
 
@@ -668,6 +671,8 @@ $class("TreeItem", {
 				else {
 					this._toggleNode.className += " togglerCollapsed";
 				}
+			} else if (!this._hasChilds() && this._childContainer != null) {
+				this._toggleNode.className = "toggler";
 			}
 
 			// create image
@@ -740,7 +745,11 @@ $class("TreeItem", {
 		
 		// update items
 		this._items.forEach(function(item, index, arr) {
-			item.update();
+			if (item.isDisposed()) {
+				this.remove(index);
+			} else {
+				item.update();
+			}
 		}, this);
 	}
 });

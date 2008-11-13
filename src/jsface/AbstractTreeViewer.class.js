@@ -42,6 +42,20 @@ $class("AbstractTreeViewer", {
 		this._updateItem(item, element);
 	},
 	
+	_disassociate : function(item) {
+		this.$base(item);
+		this._disassociateChildren(item);
+	},
+	
+	_disassociateChildren : function(item) {
+		var items = this._getChildren(item);
+		for (var i = 0; i < items.length; i++) {
+			if (items[i].getData() != null) {
+				this._disassociate(items[i]);
+			}
+		}
+	},
+	
 	_doGetColumnCount : function() {
 		return 0;
 	},
@@ -140,14 +154,6 @@ $class("AbstractTreeViewer", {
 
 	inputChanged : function(input, oldInput) {
 		this._treeRemoveAll();
-
-		var children = this._getSortedChildren(this._getRoot());
-
-		for (var i = 0; i < children.length; ++i) {
-			var el = children[i];
-			this._createTreeItem(this.getControl(), el, i);
-		}
-
 		this._internalRefresh();
 	},
 	
@@ -159,7 +165,7 @@ $class("AbstractTreeViewer", {
 				return parent;
 			}
 		}
-
+ 
 		// recurse over children
 		var items = this._getChildren(parent);
 		for (var i = 0; i < items.length; i++) {
@@ -173,6 +179,15 @@ $class("AbstractTreeViewer", {
 	},
 
 	_internalRefresh : function(element, updateLabels) {
+		var test;
+		// save selected elements
+		var selected = [];
+		var selection = this.getControl().getSelection();
+		for (var i = 0; i < selection.length; ++i) {
+			selected.push(selection[i].getData());
+			test = selection[i].getData();
+		}
+		
 		if (element == null || element == this._getRoot()) {
 			this._internalRefreshItems(this.getControl(), this._getRoot(), updateLabels);
 		} else {
@@ -183,6 +198,17 @@ $class("AbstractTreeViewer", {
 				}
 			}
 		}
+
+		// restore selection
+		var selection = [];
+		selected.forEach(function(elem, i, arr) {
+			var item = this._getItemFromElementMap(elem);
+			if (item != null) {
+				selection.push(item);
+			}
+		}, this);
+		this.getControl().update();
+		this.getControl().setSelection(selection);
 		this.getControl().update();
 	},
 	
@@ -224,7 +250,31 @@ $class("AbstractTreeViewer", {
 		}
 
 		var min = Math.min(elementChildren.length, items.length);
+		// dispose of surplus items, optimizing for the case where elements have
+		// been deleted but not reordered, or all elements have been removed.
+		var numItemsToDispose = items.length - min;
+		if (numItemsToDispose > 0) {
+			var children = [];
+			for (var i = 0; i < elementChildren.length; i++) {
+				children.push(elementChildren[i]);
+			}
 
+			var i = 0;
+			while (numItemsToDispose > 0 && i < items.length) {
+				var data = items[i].getData();
+				if (data == null || items.length - i <= numItemsToDispose || !children.contains(data)) {
+					if (data != null) {
+						this._disassociate(items[i]);
+					}
+					items[i].dispose();
+					items.removeAt(i);
+					numItemsToDispose--;
+				} else {
+					i++;
+				}
+			}
+		}
+		
 		// compare first min items, and update item if necessary
 		// need to do it in two passes:
 		// 1: disassociate old items
@@ -237,25 +287,22 @@ $class("AbstractTreeViewer", {
 			var oldElement = item.getData();
 			if (oldElement != null) {
 				var newElement = elementChildren[i];
-				if (newElement != oldElement) {
-					if (newElement == oldElement) {
-						// update the data to be the new element, since
-						// although the elements
-						// may be equal, they may still have different labels
-						// or children
-						var data = item.getData();
-						if (data != null) {
-							this._unmapElement(data, item);
-						}
-						item.setData(newElement);
-						this._mapElement(newElement, item);
-					} else {
-						this._disassociate(item);
-						// Clear the text and image to force a label update
-						item.setImage(null);
-						item.setText("");
-
+				if (newElement == oldElement) {
+					// update the data to be the new element, since
+					// although the elements
+					// may be equal, they may still have different labels
+					// or children
+					var data = item.getData();
+					if (data != null) {
+						this._unmapElement(data, item);
 					}
+					item.setData(newElement);
+					this._mapElement(newElement, item);
+				} else {
+					this._disassociate(item);
+					// Clear the text and image to force a label update
+					item.setImage(null);
+					item.setText("");
 				}
 			}
 		}
@@ -296,20 +343,14 @@ $class("AbstractTreeViewer", {
 				items = this._getChildren(widget);
 				for (var i = min; i < elementChildren.length; ++i) {
 					// Restore expanded state for items that changed position.
-					// Make sure setExpanded is called after updatePlus (called
-					// in createTreeItem), since
-					// setExpanded(false) fails if item has no children.
 					// Only need to call setExpanded if element was expanded
-					// since new items are initially unexpanded.
 					if (expanded.contains(elementChildren[i])) {
 						this._setExpanded(items[i], true);
 					}
 				}
 			}
 		}
-		
-		
-		//this._associate(element, widget);
+
 	},
 
 	setContentProvider : function(contentProvider) {

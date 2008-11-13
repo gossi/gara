@@ -76,7 +76,7 @@ $class("Table", {
 		}
 
 		// set a previous active item inactive
-		if (this._activeItem != null) {
+		if (this._activeItem != null && !this._activeItem.isDisposed()) {
 			this._activeItem.setActive(false);
 			this._activeItem.update();
 		}
