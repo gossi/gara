@@ -8,7 +8,7 @@
 	<property name="archiveDir" value="${basedir}/archives"/>
 	<property name="docDir" value="${basedir}/docs"/>
 
-	<property name="version" value="1.0-beta"/>
+	<property name="version" value="1.0-beta2"/>
 
 	<!-- gara core package -->
 	<property name="garaDir" value="${srcDir}/core"/>
@@ -88,12 +88,16 @@
 		<file name="AbstractTableViewer.class.js"/>
 		<file name="TableViewer.class.js"/>
 		
-		<file name="Viewer.class.js"/>
 		<file name="ViewerCell.class.js"/>
 		<file name="ViewerColumn.class.js"/>
 		<file name="ViewerRow.class.js"/>
 		<file name="TableViewerRow.class.js"/>
 		<file name="TreeViewerRow.class.js"/>
+		
+		<file name="ViewerComparator.class.js"/>
+		<file name="ViewerSorter.class.js"/>
+		<file name="ViewerFilter.class.js"/>
+		<file name="PatternFilter.class.js"/>
 	</filelist>
 
 	<target name="-cleanupCommon">
