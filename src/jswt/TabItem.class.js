@@ -109,11 +109,15 @@ $class("TabItem", {
 			delete this._img;
 			this._image = null;
 		}
-		
+
 		this.domref.removeChild(this._span);
 
 		if (this._parentNode != null) {
 			this._parentNode.removeChild(this.domref);
+		}
+
+		if (this._control != null) {
+			this._control.dispose();
 		}
 		
 		delete this._span;
@@ -128,6 +132,7 @@ $class("TabItem", {
 	 * @return {string} the content;
 	 */
 	getContent : function() {
+		this.checkWidget();
 		return this._content;
 	},
 
@@ -139,6 +144,7 @@ $class("TabItem", {
 	 * @return {gara.jswt.Control} the control
 	 */
 	getControl : function() {
+		this.checkWidget();
 		return this._control;
 	},
 
@@ -150,6 +156,7 @@ $class("TabItem", {
 	 * @return {string} the tooltip text 
 	 */
 	getToolTipText : function() {
+		this.checkWidget();
 		return this._toolTipText;
 	},
 
@@ -223,6 +230,7 @@ $class("TabItem", {
 	 * @return {void}
 	 */
 	setContent : function(content) {
+		this.checkWidget();
 		this._content = content;
 		this._changed = true;
 	},
@@ -237,6 +245,7 @@ $class("TabItem", {
 	 * @return {void} 
 	 */
 	setControl : function(control) {
+		this.checkWidget();
 		if (!$class.instanceOf(control, gara.jswt.Control)) {
 			throw new TypeError("control is not instance of gara.jswt.Control");
 		}
