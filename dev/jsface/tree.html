@@ -19,6 +19,7 @@
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
 <script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
 <script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
@@ -55,6 +56,12 @@
 <script type="text/javascript" src="../../src/jsface/TreeViewerRow.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/AbstractTreeViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/TreeViewer.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerComparator.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerSorter.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerFilter.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/PatternFilter.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/_append.js"></script>
 <script type="text/javascript"><!--
@@ -101,12 +108,14 @@ $class("Controller", {
 	isLabelProperty : function(element, property) {},
 
 	widgetSelected : function(tree) {
-		this._selectedItem = tree.getSelection()[0];
-		document.getElementById("model_add_parent").value = this._selectedItem.getData().name;
+		if (tree.getSelection().length) {
+			this._selectedItem = tree.getSelection()[0];
+			document.getElementById("model_add_parent").value = this._selectedItem.getData().name;
+		}
 	}
 });
 
-var model, view, controller;
+var model, view, controller, filter;
 
 model = [
 	{name : "item 1"},
@@ -185,10 +194,12 @@ function removeModelData() {
 
 function main() {
 	try {
+		filter = new gara.jsface.PatternFilter();
 		controller = new Controller();
-		view = new gara.jsface.TreeViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
+		view = new gara.jsface.TreeViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
+		view.addFilter(filter);
 		view.setInput(model);
 		view.getTree().addSelectionListener(controller);
 	} catch(e) {
@@ -198,6 +209,15 @@ function main() {
 		}
 		console.log(message);
 	}
+}
+
+function filterIt(that) {
+	filter.setPattern(that.value);
+	view.refresh();
+}
+
+function refresh() {
+	view.refresh();
 }
 
 --></script>
@@ -215,6 +235,10 @@ label {display: block;}
 <input type="button" value="add >>" onclick="addModelData()"/>
 <label>Remove Model Data</label>
 Remove selected element: <input type="button" value="pop" onclick="removeModelData()"/>
+<label>Filter</label>
+<input type="text" id="pattern" onkeyup="filterIt(this);"/>
+
+<input type="button" value="refresh" onclick="refresh()"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>

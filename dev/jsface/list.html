@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jsface.listviewer (dev)</title>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
@@ -14,7 +15,6 @@
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
@@ -39,12 +39,19 @@
 
 <script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ITreeContentProvider.interface.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ContentViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/StructuredViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/AbstractListViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ListViewer.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerComparator.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerSorter.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerFilter.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/PatternFilter.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/_append.js"></script>
 <script type="text/javascript"><!--
@@ -74,18 +81,20 @@ $class("Controller", {
 	isLabelProperty : function(element, property) {}
 });
 
-var controller, view;
-var modelA = ["a", "b", "c"];
-var modelB = ["d", "e", "f"];
+var controller, view, filter;
+var modelA = ["ameise", "zebra", "Chamaeleon", "beluga"];
+var modelB = ["düsenflieger", "Ferd", "eimerfahrzeug"];
 var currentModel = modelA;
 
 function main() {
 	try {
+		filter = new gara.jsface.PatternFilter();
 		controller = new Controller();
 		view = new gara.jsface.ListViewer(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
 		view.setInput(modelA);
+		view.addFilter(filter);
 
 	} catch(e) {
 		var message = "";
@@ -103,6 +112,19 @@ function addModelData() {
 	currentModel.insertAt(index, value);
 }
 
+function toggleSorter() {
+	if (view.getSorter() == null) {
+		view.setSorter(new gara.jsface.ViewerSorter());
+	} else {
+		view.setSorter(null);
+	}
+}
+
+function filterIt() {
+	filter.setPattern(document.getElementById("pattern").value);
+	refresh();
+}
+
 function refresh() {
 	view.refresh();
 }
@@ -116,7 +138,6 @@ function popModel() {
 	alert("Popped: " + currentModel.pop());
 }
 
-onDOMLoaded(main);
 --></script>
 <style type="text/css">
 label {display: block;}
@@ -135,11 +156,17 @@ label {display: block;}
 Pop Last Element: <input type="button" value="pop" onclick="popModel()"/>
 <label>Change Model</label>
 Change model: <input type="button" value="change" onclick="changeModel()"/>
+<label>Sorter</label>
+Toggle Sorter: <input type="button" value="toggle" onclick="toggleSorter()" />
+<label>Filter</label>
+<input type="text" size="10" id="pattern"/><input type="button" value="Filter" onclick="filterIt()"/>
 <label>Refresh</label>
 Refresh model: <input type="button" value="refresh" onclick="refresh()"/>
+
 
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>
+<script type="text/javascript">main();</script>
 </body>
 </html>

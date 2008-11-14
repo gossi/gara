@@ -4,7 +4,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.tree (dev)</title>
-<link rel="stylesheet" href="../../res/gara-yui-reset-fonts.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
@@ -34,7 +35,7 @@
 var t;
 function main() {
 	try {
-		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.MULTI);
+		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.CHECK);
 		
 		var img = new Image();
 		img.src = "../../themes/sand/icon_information.png";
@@ -85,6 +86,20 @@ function selectAll() {
 function deselectAll() {
 	t.deselectAll();
 }
+
+function getSelectedItem() {
+	return t.getSelection()[0];
+}
+
+function toggleGrayed() {
+	var item = getSelectedItem();
+	item.setGrayed(!item.getGrayed());
+}
+
+function toggleChecked() {
+	var item = getSelectedItem();
+	item.setChecked(!item.getChecked());
+}
 --></script>
 </head>
 <body style="padding: 10px;">
@@ -94,6 +109,8 @@ function deselectAll() {
 	<input type="button" value="dispose()" onclick="dispose()"/>
 	<input type="button" value="selectAll()" onclick="selectAll()"/>
 	<input type="button" value="deselectAll()" onclick="deselectAll()"/>
+	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>
+	<input type="button" value="Toggle Grayed" onclick="toggleGrayed()"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>
