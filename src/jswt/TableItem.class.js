@@ -136,12 +136,22 @@ $class("TableItem", {
 
 		delete this.domref;
 	},
-	
+
+	/**
+	 * @method
+	 * Returns the checked state for this item
+	 * 
+	 * @author Thomas Gossmann
+	 * @return {boolean} the checked state
+	 */
 	getChecked : function() {
+		this.checkWidget();
+		this._checked = this._checkbox.checked;
 		return this._checked;
 	},
-	
+
 	getGrayed : function() {
+		this.checkWidget();
 		return this._grayed;
 	},
 

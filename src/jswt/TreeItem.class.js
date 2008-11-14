@@ -48,6 +48,7 @@ $class("TreeItem", {
 		this._items = new Array();
 		this._expanded = true;
 		this._checked = false;
+		this._grayed = false;
 		this._selected = false;
 		this._changed = false;
 		this._parent = parent;
@@ -67,6 +68,7 @@ $class("TreeItem", {
 		this._spanText = null;
 		this._toggleNode = null;
 		this._childContainer = null;
+		this._checkbox = null;
 	},
 
 	/**
@@ -136,20 +138,12 @@ $class("TreeItem", {
 		this.domref.control = this._tree;
 		base2.DOM.EventTarget(this.domref);
 
-		// create item nodes
+		// toggler
 		this._toggleNode = document.createElement("span");
 		this._toggleNode.obj = this;
 		this._toggleNode.control = this._tree;
 		base2.DOM.EventTarget(this._toggleNode);
-		
-		this._span = document.createElement("span");
-		this._span.obj = this;
-		this._span.control = this._tree;
-		this._span.className = "text";
-		this._spanText = document.createTextNode(this.getText());
-		this._span.appendChild(this._spanText);
-		base2.DOM.EventTarget(this._span);
-	
+				
 		// set this.toggler
 		this._toggleNode.className = "toggler";
 		this._toggleNode.className += this._hasChilds() 
@@ -158,7 +152,26 @@ $class("TreeItem", {
 				: " togglerCollapsed")
 			: "";
 		this.domref.appendChild(this._toggleNode);
-	
+
+		// checkbox
+		this._checkbox = document.createElement("input");
+		this._checkbox.type = "checkbox";
+		this._checkbox.obj = this;
+		this._checkbox.control = this._list;
+		this._checkbox.style.display = "none";
+		if (this._grayed) {
+			this._checkbox.disabled = true;
+		}
+		if (this._checked) {
+			this._checkbox.checked = true;
+		}
+		if ((this._tree.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+			this._checkbox.style.display = "inline";
+		}
+		
+		this.domref.appendChild(this._checkbox);
+
+
 		// set image
 		if (this.getImage() != null) {
 			this._img = document.createElement("img");
@@ -171,7 +184,15 @@ $class("TreeItem", {
 			this.domref.appendChild(this._img);
 		}
 
-		
+		// span and text
+		this._span = document.createElement("span");
+		this._span.obj = this;
+		this._span.control = this._tree;
+		this._span.className = "text";
+		this._spanText = document.createTextNode(this.getText());
+		this._span.appendChild(this._spanText);
+		base2.DOM.EventTarget(this._span);
+
 		this.domref.appendChild(this._span);
 	
 		// if childs are available, create container for them
@@ -289,9 +310,10 @@ $class("TreeItem", {
 	 */
 	getChecked : function() {
 		this.checkWidget();
+		this._checked = this._checkbox.checked;
 		return this._checked;
 	},
-	
+
 	/**
 	 * @method
 	 * Returns the expanded state for this item
@@ -303,7 +325,12 @@ $class("TreeItem", {
 		this.checkWidget();
 		return this._expanded;
 	},
-	
+
+	getGrayed : function() {
+		this.checkWidget();
+		return this._grayed;
+	},
+
 	getImage : function(columnIndex) {
 		this.checkWidget();
 		if (typeof(columnIndex) == "undefined")
@@ -579,8 +606,14 @@ $class("TreeItem", {
 	 * @return {void}
 	 */
 	setChecked : function(checked) {
-		this.checkWidget();
-		this._checked = checked;
+		if (!this._grayed) {
+			this._checked = checked;
+			if (this._checked) {
+				this._checkbox.checked = true;
+			} else {
+				this._checkbox.checked = false;
+			}
+		}
 	},
 
 	/**
@@ -600,6 +633,15 @@ $class("TreeItem", {
 		}
 		
 		this._changed = true;
+	},
+	
+	setGrayed : function(grayed) {
+		this._grayed = grayed;
+		if (this._grayed) {
+			this._checkbox.disabled = true;
+		} else {
+			this._checkbox.disabled = false;
+		}
 	},
 	
 	setImage : function(columnIndex, image) {
@@ -723,6 +765,12 @@ $class("TreeItem", {
 			if (parentItems.indexOf(this) == parentItems.length - 1) {
 				// if bottom
 				this.addClassName("bottom");
+			}
+
+			if ((this._tree.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+				this._checkbox.style.display = "inline";
+			} else {
+				this._checkbox.style.display = "none";
 			}
 
 			this._spanText.nodeValue = this.getText();

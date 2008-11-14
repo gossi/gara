@@ -163,10 +163,13 @@ $class("ListItem", {
 	},
 
 	getChecked : function() {
+		this.checkWidget();
+		this._checked = this._checkbox.checked;
 		return this._checked;
 	},
 
 	getGrayed : function() {
+		this.checkWidget();
 		return this._grayed;
 	},
 
@@ -306,7 +309,7 @@ $class("ListItem", {
 				}
 			}
 			
-			if ((this._list.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+			if ((this._tree.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
 				this._checkbox.style.display = "inline";
 			} else {
 				this._checkbox.style.display = "none";
