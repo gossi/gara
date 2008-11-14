@@ -35,6 +35,11 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	padding: 5px;
 }
 
+.sand ul.jsWTList li input {
+	margin: 5px 5px 0 5px;
+	float: left;
+}
+
 .sand ul.jsWTList li span {
 	border: 1px solid #EAE6D6;
 	background-color: #EAE6D6;
@@ -82,6 +87,11 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 
 .sand .jsWTTreeLines li {
 	background-image: url('join.gif');
+}
+
+.sand ul.jsWTTree li input {
+	margin: 3px 5px 0 5px;
+	float: left;
 }
 
 .sand ul.jsWTTree li span.text {
@@ -375,6 +385,10 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	float: right;
 }
 
+.sand table.jsWTTable thead tr th.jsWTTableCheckboxCol {
+	width: 15px;
+}
+
 .sand table.jsWTTable tbody tr td {
 	padding: 2px;
 	cursor: default;
@@ -445,6 +459,15 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	/*background-color: #EAE6D6;*/
 }
 
+.sand ul.jsWTMenu li.checked {
+	background-image: url('checked.png');
+	background-position: 4px 8px;
+	background-repeat: no-repeat;
+	padding-left: 14px;
+	width: 126px !important;
+}
+
+
 .sand ul.jsWTMenuBar {
 	margin: 0;
 	padding: 0;
@@ -478,6 +501,11 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	float: none;
 }
 
+.sand ul.jsWTMenuPopUp li.disabled,
+.sand ul.jsWTMenuDropDown li.disabled {
+	color: #777;
+}
+
 .sand ul.jsWTMenuPopUp li span,
 .sand ul.jsWTMenuDropDown li span {
 	border: none;
@@ -504,6 +532,13 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 .sand ul.jsWTMenuPopUp li:hover span,
 .sand ul.jsWTMenuDropDown li:hover span {
 	/*background-color: #EAE6D6;*/
+}
+
+.sand ul.jsWTMenuPopUp li.disabled:hover,
+.sand ul.jsWTMenuDropDown li.disabled:hover {
+	color: #777;
+	background-color: #CCC8BA;
+	border: 1px solid #CCC8BA;
 }
 
 .sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
