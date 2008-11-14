@@ -121,8 +121,7 @@ $class("Tree", {
 		// childs
 		else {
 			index = this._items.indexOf(parentItem)
-				+ getDescendents(parentItem)
-				+ 1;
+				+ getDescendents(parentItem);
 
 			this._items.insertAt(index, item);
 		}
@@ -624,6 +623,15 @@ $class("Tree", {
 			item.dispose();
 		}
 		delete item;
+	},
+	
+	_removeItem : function(item) {
+		this.checkWidget();
+		if (!$class.instanceOf(item, gara.jswt.TreeItem)) {
+			throw new TypeError("item not instance of gara.jswt.TreeItem");
+		}
+		
+		this._items.remove(item);
 	},
 	
 	/**

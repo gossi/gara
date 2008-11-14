@@ -532,8 +532,10 @@ $class("TreeItem", {
 	remove : function(index) {
 		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
+		this._tree._removeItem(item);		
+
 		if (!item.isDisposed()) {
-			//item.dispose();
+			item.dispose();
 		}
 		delete item;
 	},

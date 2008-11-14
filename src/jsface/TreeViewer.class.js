@@ -68,7 +68,7 @@ $class("TreeViewer", {
 	_getChildren : function(widget) {
 		if ($class.instanceOf(widget, gara.jswt.TreeItem)
 				|| $class.instanceOf(widget, gara.jswt.Tree)) {
-			return widget.getItems();
+			return widget.getItems().concat([]);
 		}
 		return null;
 	},

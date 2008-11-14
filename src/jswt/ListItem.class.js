@@ -309,7 +309,7 @@ $class("ListItem", {
 				}
 			}
 			
-			if ((this._tree.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
+			if ((this._list.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
 				this._checkbox.style.display = "inline";
 			} else {
 				this._checkbox.style.display = "none";

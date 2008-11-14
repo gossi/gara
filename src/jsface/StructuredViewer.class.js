@@ -127,9 +127,9 @@ $class("StructuredViewer", {
 			}
 		}
 
-		return (result != null) ? result : [0];
+		return (result != null && $class.instanceOf(result, Array)) ? result : [];
 	},
-	
+
 	_getItemFromElementMap : function(element) {
 		if (element == null) {
 			return null;
