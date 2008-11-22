@@ -83,6 +83,9 @@ $class("TableItem", {
 		if ((this._table.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
 			this.domref.appendChild(this._checkboxTd);
 		}
+		base2.DOM.EventTarget(this._checkbox);
+		gara.EventManager.addListener(this._checkbox, "mousedown", this);
+		gara.EventManager.addListener(this._checkbox, "keydown", this);
 
 		var order = this._table.getColumnOrder();
 		for (var i = 0, len = order.length; i < len; ++i) {
@@ -172,7 +175,13 @@ $class("TableItem", {
 	},
 
 	handleEvent : function(e) {
-		
+		this.checkWidget();
+
+		if (e.target == this._checkbox
+				&& (e.type == "mousedown"
+					|| e.type == "keydown" && e.keyCode == 32)) {
+			e.garaDetail = gara.jswt.JSWT.CHECK;
+		}
 	},
 
 	_registerListener : function(eventType, listener) {
@@ -237,6 +246,7 @@ $class("TableItem", {
 	_setSelected : function(selected) {
 		this.checkWidget();
 		this._selected = selected;
+		this._changed = true;
 	},
 
 	setText : function(index, text) {

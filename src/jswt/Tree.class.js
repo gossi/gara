@@ -41,6 +41,7 @@ $class("Tree", {
 		}
 		
 		this._showLines = true;
+		this._event = null;
 
 		this._shiftItem = null;
 		this._activeItem = null;
@@ -333,14 +334,16 @@ $class("Tree", {
 	 */
 	handleEvent : function(e) {
 		this.checkWidget();
-		// special events for the tree
 		var obj = e.target.obj || null;
 		var item = null;
 		
-		if ($class.instanceOf(obj, gara.jswt.TreeItem)) {
+		if (obj && $class.instanceOf(obj, gara.jswt.TabItem)) {
+			e.item = obj;
 			item = obj;
 		}
-		
+		e.widget = this;
+		this._event = e;
+
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -589,7 +592,7 @@ $class("Tree", {
 	 */
 	_notifySelectionListener : function() {
 		this._selectionListeners.forEach(function(item, index, arr) {
-			item.widgetSelected(this);
+			item.widgetSelected(this._event);
 		}, this);
 	},
 

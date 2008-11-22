@@ -168,6 +168,9 @@ $class("TreeItem", {
 		if ((this._tree.getStyle() & JSWT.CHECK) == JSWT.CHECK) {
 			this._checkbox.style.display = "inline";
 		}
+		base2.DOM.EventTarget(this._checkbox);
+		gara.EventManager.addListener(this._checkbox, "mousedown", this);
+		gara.EventManager.addListener(this._checkbox, "keydown", this);
 		
 		this.domref.appendChild(this._checkbox);
 
@@ -434,6 +437,12 @@ $class("TreeItem", {
 	 */
 	handleEvent : function(e) {
 		this.checkWidget();
+
+		if (e.target == this._checkbox
+				&& (e.type == "mousedown"
+					|| e.type == "keydown" && e.keyCode == 32)) {
+			e.garaDetail = gara.jswt.JSWT.CHECK;
+		}
 		var obj = e.target.obj || null;
 
 		switch (e.type) {

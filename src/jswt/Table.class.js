@@ -63,6 +63,7 @@ $class("Table", {
 		this._className = this._baseClass = "jsWTTable";
 		this._className += " jsWTTableInactive";
 
+		this._event = null;
 		this._selection = [];
 		this._selectionListener = [];
 		this._shiftItem = null;
@@ -351,7 +352,12 @@ $class("Table", {
 		this.checkWidget();
 		var obj = e.target.obj || null;
 		
-//		console.log("List.handleEvent(" + e.type + ")");
+		if (obj && $class.instanceOf(obj, gara.jswt.TableItem)) {
+			e.item = obj;
+		}
+		e.widget = this;
+		this._event = e;
+		
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -526,7 +532,7 @@ $class("Table", {
 	 */
 	_notifySelectionListener : function() {
 		this._selectionListener.forEach(function(item, index, arr) {
-			item.widgetSelected(this);
+			item.widgetSelected(this._event);
 		}, this);
 	},
 

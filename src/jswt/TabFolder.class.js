@@ -49,6 +49,7 @@ $class("TabFolder", {
 		this._activeItem = null;
 		this._selectionListener = [];
 		this._selection = [];
+		this._event = null;
 
 		this._tabbar = null;
 		this._clientArea = null;
@@ -303,6 +304,13 @@ $class("TabFolder", {
 	handleEvent : function(e) {
 		this.checkWidget();
 		var obj = e.target.obj || null;
+		
+		if (obj && $class.instanceOf(obj, gara.jswt.TabItem)) {
+			e.item = obj;
+		}
+		e.widget = this;
+		this._event = e;
+
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -375,7 +383,7 @@ $class("TabFolder", {
 	 */
 	_notifySelectionListener : function() {
 		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
-			this._selectionListener[i].widgetSelected(this);
+			this._selectionListener[i].widgetSelected(this._event);
 		}
 	},
 

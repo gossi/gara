@@ -295,6 +295,10 @@ $class("MenuItem", {
 	setEnabled : function(enabled) {
 		this._enabled = enabled;
 		this._changed = true;
+		
+		if (this.domref != null) {
+			this.update();
+		}
 	},
 
 	setImage : function(image) {

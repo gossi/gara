@@ -121,7 +121,11 @@ $class("ListItem", {
 		this.domref.appendChild(this._span);
 		
 		base2.DOM.EventTarget(this.domref);
+		base2.DOM.EventTarget(this._checkbox);
 		base2.DOM.EventTarget(this._span);
+		
+		gara.EventManager.addListener(this._checkbox, "mousedown", this);
+		gara.EventManager.addListener(this._checkbox, "keydown", this);
 
 		// register listener
 		for (var eventType in this._listener) {
@@ -185,6 +189,13 @@ $class("ListItem", {
 	 */
 	handleEvent : function(e) {
 		this.checkWidget();
+		
+		if (e.target == this._checkbox
+				&& (e.type == "mousedown"
+					|| e.type == "keydown" && e.keyCode == 32)) {
+			e.garaDetail = gara.jswt.JSWT.CHECK;
+		}
+
 		switch (e.type) {
 			case "keyup":
 			case "keydown":

@@ -53,6 +53,7 @@ $class("List", {
 			this._style = JSWT.SINGLE;
 		}
 
+		this._event = null;
 		this._items = [];
 		this._selection = [];
 		this._selectionListener = [];
@@ -289,6 +290,12 @@ $class("List", {
 		this.checkWidget();
 		// special events for the list
 		var obj = e.target.obj || null;
+		
+		if (obj && $class.instanceOf(obj, gara.jswt.ListItem)) {
+			e.item = obj;
+		}
+		e.widget = this;
+		this._event = e;
 
 		switch (e.type) {
 			case "mousedown":
@@ -472,7 +479,7 @@ $class("List", {
 	 */
 	notifySelectionListener : function() {
 		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
-			this._selectionListener[i].widgetSelected(this);
+			this._selectionListener[i].widgetSelected(this._event);
 		}
 	},
 	
@@ -729,12 +736,17 @@ $class("List", {
 	 */	
 	setSelection : function(items) {
 		this.checkWidget();
-		if (!$class.instanceOf(items, Array)) {
-			throw new TypeError("items are not instance of an Array");
+		if ($class.instanceOf(items, Array)) {
+			items.forEach(function(item, index, arr) {
+				if ($class.instanceOf(item, gara.jswt.ListItem)) {
+					this.select(item, true);
+				} else if ($class.instanceOf(item, Number)) {
+					this.select(this._items[item], true);
+				}
+			}, this);
+		} else if ($class.instanceOf(items, Number)) {
+			this.select(this._items[items]);
 		}
-
-		this._selection = items;
-		this.notifySelectionListener();
 	},
 
 	toString : function() {
