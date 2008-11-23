@@ -31,7 +31,23 @@ $class("Viewer", {
 	 * @constructor
 	 */
 	$constructor : function() {
+		this._selectionChangedListeners = [];
+	},
+	
+	addSelectionChangedListener : function(listener) {
+		if (!$class.instanceOf(listener, gara.jsface.ISelectionChangedListener)) {
+			throw new TypeError("listener not instance of gara.jsface.ISelectionChangedListener");
+		}
 		
+		if (!this._selectionChangedListeners.contains(listener)) {
+			this._selectionChangedListeners.push(listener);
+		}
+	},
+	
+	_fireSelectionChanged : function(event) {
+		this._selectionChangedListeners.forEach(function(listener, index, arr) {
+			listener.selectionChanged(event);
+		});
 	},
 
 	getControl : $abstract(function() {}),
@@ -54,6 +70,14 @@ $class("Viewer", {
 	inputChange : function(input, oldInput) {},
 
 	refresh : $abstract(function() {}),
+	
+	removeSelectionChangedListener : function(listener) {
+		if (!$class.instanceOf(listener, gara.jsface.ISelectionChangedListener)) {
+			throw new TypeError("listener not instance of gara.jsface.ISelectionChangedListener");
+		}
+		
+		this._selectionChangedListeners.remove(listener);
+	},
 
 	setInput : $abstract(function(input) {})
 });

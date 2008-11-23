@@ -43,8 +43,8 @@ $class("IframeDialog", {
 	/**
 	 * @constructor
 	 */
-	$constructor : function(style) {
-		this.$base(style);
+	$constructor : function(parent, style) {
+		this.$base(parent, style);
 
 		this._width = 0;
 		this._height = 0;
@@ -80,7 +80,11 @@ $class("IframeDialog", {
 		this._iframe.style.width = "100%";
 		this._iframe.style.height = "100%";
 		this._dialogContent.appendChild(this._iframe);
-		//this._dialogContent.appendChild(this._overlay);
+
+		if ((this._style & gara.jswt.JSWT.ICON_WORKING) == gara.jswt.JSWT.ICON_WORKING) {
+			this._overlay.className = "loading";
+			this._showOverlay();
+		}
 		
 		this.domref.style.width = this._width + "px";
 		this._dialogContent.style.height = this._height + "px";
@@ -136,6 +140,11 @@ $class("IframeDialog", {
 						gara.EventManager.addListener(this._iDoc, "mousedown", this);
 					} catch(e) {}
 				}
+
+				if ((this._style & gara.jswt.JSWT.ICON_WORKING) == gara.jswt.JSWT.ICON_WORKING) {
+					this._overlay.className = "";
+					this._hideOverlay();
+				}
 				break;
 			
 			case "mousedown":
@@ -166,10 +175,7 @@ $class("IframeDialog", {
 		this._dialogContent.removeChild(this._overlay);
 	},
 
-	open: function(src, parentWindow) {
-		if (typeof(parentWindow) == "undefined") {
-			this._parentWindow = window.top;
-		}
+	open: function(src) {
 		this._create(src);
 	},
 	

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Keeko Administration</title>
+
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../lib/class-debug.js"></script>
+<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<script type="text/javascript" src="../garadev.js"></script>
+
+<script type="text/javascript" src="../../src/core/_prepend.js"></script>
+<script type="text/javascript" src="../../src/core/Package.class.js"></script>
+<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/core/_append.js"></script>
+
+<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
+<!--<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>-->
+<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/_prepend.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/IBaseLabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ILabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/LabelProvider.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ITreeContentProvider.interface.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ISelectionChangedListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ICheckStateListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ICheckable.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/CheckStateChangedEvent.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/SelectionChangedEvent.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ContentViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/StructuredViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/AbstractListViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ListViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/CheckboxListViewer.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerComparator.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerSorter.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerFilter.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/PatternFilter.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/_append.js"></script>
+<script type="text/javascript" src="edit.js"></script>
+  </head>
+  <body class="sand window">
+    <div id="content" class="window">
+      <h1>Edit Group</h1>
+      <div id="main" class="diagTabBar">
+        <div id="form">
+          <fieldset>
+
+            <label>Name [i18n]<input type="text" value="Administrator" name="name" id="name" /></label>
+            <label>Active [i18n]</label>
+            <ul class="group grouphorizontal">
+              <li>
+                <label>
+                  <input type="checkbox" value="1" name="active" id="active" checked="checked" disabled="disabled" />
+                </label>
+              </li>
+
+            </ul>
+          </fieldset>
+        </div>
+        <div id="permissions">
+          <div id="modules"></div>
+          <div id="actions"></div>
+        </div>
+      </div>
+      <div id="diagButtonBar">
+
+        <input type="button" id="btnCancel" value="Cancel" />
+        <input type="button" id="btnOk" value="OK" />
+      </div>
+      <script type="text/javascript">
+			var target = 'admin.php?module=Groups&amp;action=edit&amp;format=json&amp;id=3';
+			main([{unixname:"Admin",version:"0.1",id:"1",actions:[{id:"1",moduleId:"1",name:"Dashboard",checked:true},{id:"2",moduleId:"1",name:"Admin Login Screen",checked:true}]},{unixname:"Modules",version:"0.1",id:"2",actions:[{id:"3",moduleId:"2",name:"Modulemanager",checked:true}]},{unixname:"Group Management",version:"0.1",id:"3",actions:[{id:"4",moduleId:"3",name:"List Groups",checked:true},{id:"15",moduleId:"3",name:"read",checked:true},{id:"17",moduleId:"3",name:"Create Group",checked:true},{id:"18",moduleId:"3",name:"Delete Group",checked:true},{id:"19",moduleId:"3",name:"Edit Group",checked:true}]},{unixname:"User Management",version:"0.1",id:"4",actions:[{id:"5",moduleId:"4",name:"Main User Management",checked:true},{id:"6",moduleId:"4",name:"Manage User Fields",checked:true}]},{unixname:"Settings",version:"0.1",id:"5",actions:[{id:"7",moduleId:"5",name:"Settings Configurator",checked:true}]},{unixname:"Pages",version:"0.1",id:"6",actions:[{id:"8",moduleId:"6",name:"Basic Page Management",checked:true}]},{unixname:"Blocks",version:"0.1",id:"7",actions:[{id:"9",moduleId:"7",name:"Basic Block Management",checked:true}]},{unixname:"Menumanager",version:"0.1",id:"8",actions:[{id:"10",moduleId:"8",name:"Menu Builder",checked:true}]},{unixname:"File Manager",version:"0.1",id:"9",actions:[{id:"11",moduleId:"9",name:"File Browser",checked:true},{id:"12",moduleId:"9",name:"Folder Reader",checked:true},{id:"13",moduleId:"9",name:"File Reader",checked:true},{id:"20",moduleId:"9",name:"File Upload",checked:true},{id:"21",moduleId:"9",name:"Rename Files / Folders",checked:true},{id:"22",moduleId:"9",name:"Move Files / Folders",checked:true},{id:"23",moduleId:"9",name:"Copy Files",checked:true},{id:"24",moduleId:"9",name:"Delete Files / Folders",checked:true}]}]);
+		</script>
+    </div>
+  </body>
+</html>
+ 

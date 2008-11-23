@@ -47,6 +47,12 @@
 <script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/ITreeContentProvider.interface.js"></script>
 
+<script type="text/javascript" src="../../src/jsface/ISelectionChangedListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ICheckStateListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ICheckable.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/CheckStateChangedEvent.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/SelectionChangedEvent.class.js"></script>
+
 <script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ViewerCell.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ViewerColumn.class.js"></script>
@@ -66,7 +72,7 @@
 <script type="text/javascript" src="../../src/jsface/_append.js"></script>
 <script type="text/javascript"><!--
 $class("Controller", {
-	$implements : [gara.jsface.ILabelProvider, gara.jsface.ITreeContentProvider, gara.jswt.SelectionListener],
+	$implements : [gara.jsface.ILabelProvider, gara.jsface.ITreeContentProvider, gara.jsface.ISelectionChangedListener],
 
 	$constructor : function() {
 		this._model = null;
@@ -106,12 +112,9 @@ $class("Controller", {
 	},
 
 	isLabelProperty : function(element, property) {},
-
-	widgetSelected : function(tree) {
-		if (tree.getSelection().length) {
-			this._selectedItem = tree.getSelection()[0];
-			document.getElementById("model_add_parent").value = this._selectedItem.getData().name;
-		}
+	
+	selectionChanged : function(event) {
+		document.getElementById("model_add_parent").value = event.getSelection()[0].name;
 	}
 });
 
@@ -201,7 +204,7 @@ function main() {
 		view.setLabelProvider(controller);
 		view.addFilter(filter);
 		view.setInput(model);
-		view.getTree().addSelectionListener(controller);
+		view.addSelectionChangedListener(controller);
 	} catch(e) {
 		var message = "";
 		for (p in e) {

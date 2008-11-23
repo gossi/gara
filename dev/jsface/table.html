@@ -45,6 +45,13 @@
 
 <script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
 <script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ITreeContentProvider.interface.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ISelectionChangedListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ICheckStateListener.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/ICheckable.interface.js"></script>
+<script type="text/javascript" src="../../src/jsface/CheckStateChangedEvent.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/SelectionChangedEvent.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/TableViewerRow.class.js"></script>
@@ -57,10 +64,16 @@
 <script type="text/javascript" src="../../src/jsface/AbstractTableViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/TableViewer.class.js"></script>
 
+<script type="text/javascript" src="../../src/jsface/ViewerComparator.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/ViewerSorter.class.js"></script>
+
+<script type="text/javascript" src="../../src/jsface/ViewerFilter.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/PatternFilter.class.js"></script>
+
 <script type="text/javascript" src="../../src/jsface/_append.js"></script>
 <script type="text/javascript"><!--
 $class("Controller", {
-	$implements : [gara.jsface.ITableLabelProvider, gara.jsface.IContentProvider],
+	$implements : [gara.jsface.ITableLabelProvider, gara.jsface.IContentProvider, gara.jsface.ISelectionChangedListener],
 
 	$constructor : function() {
 		this._model = null;
@@ -87,10 +100,14 @@ $class("Controller", {
 		this._model = newInput;
 	},
 
-	isLabelProperty : function(element, property) {}
+	isLabelProperty : function(element, property) {},
+	
+	selectionChanged : function(event) {
+		//console.log("Selection changed: " + event.getSelection()[0]);
+	}
 });
 
-var model, view, controller;
+var model, view, controller, filter;
 
 model = [
 	["row1.1", "row1.2", "row1.3"],
@@ -100,8 +117,10 @@ model = [
 function main() {
 	try {
 		var table;
+		filter = new gara.jsface.PatternFilter();
 		controller = new Controller();
 		view = new gara.jsface.TableViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
+		view.addFilter(filter);
 		table = view.getTable();
 		table.setHeaderVisible(true);
 		var c1 = new gara.jswt.TableColumn(table);
@@ -114,6 +133,7 @@ function main() {
 		c3.setText("bla3");
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
+		view.addSelectionChangedListener(controller);
 		view.setInput(model);
 	} catch(e) {
 		var message = "";
@@ -123,10 +143,19 @@ function main() {
 		console.log(message);
 	}
 }
+function filterIt(that) {
+	filter.setPattern(that.value);
+	view.refresh();
+}
 --></script>
 </head>
 <body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.TableViewer</h1>
+<fieldset style="width: 300px; float: right;">
+<legend>Widget Control</legend>
+<label>Filter</label>
+<input type="text" id="pattern" onkeyup="filterIt(this);"/>
+</fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>
 <script type="text/javascript">main();</script>

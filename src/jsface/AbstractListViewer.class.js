@@ -54,6 +54,8 @@ $class("AbstractListViewer", {
 		return null;
 	},
 	
+	_doGetSelection : $abstract(function() {}),
+	
 	_doUpdateItem : function(item, element) {
 		if (item.isDisposed()) {
 			this._unmapElement(element, item);
@@ -76,6 +78,19 @@ $class("AbstractListViewer", {
 
 		return text;
 	},
+	
+	_getSelectionFromWidget : function() {
+		var items = this._doGetSelection();
+		var list = [];
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i];
+			var e = item.getData();
+			if (e != null) {
+				list.push(e);
+			}
+		}
+		return list;
+	},
 
 	inputChanged : function(input, oldInput) {
 		this._listRemoveAll();
@@ -87,12 +102,42 @@ $class("AbstractListViewer", {
 	_internalRefresh : function(element, updateLabels) {
 		if (element == null || element == this._getRoot()) {
 			// store selection
-			var storedSelection = this.getControl().getSelection();
+			var selected = [];
+			var selection = this.getControl().getSelection();
+			for (var i = 0; i < selection.length; ++i) {
+				selected.push(selection[i].getData());
+			}
 
-			var children = this._getSortedChildren(this._getRoot());
+			var elementChildren = this._getSortedChildren(this._getRoot());
 			var items = this.getControl().getItems();
 			var itemCount = items.length;			
-			var min = Math.min(children.length, items.length);
+			var min = Math.min(elementChildren.length, items.length);
+			
+			
+			// dispose of items, optimizing for the case where elements have
+			// been deleted but not reordered, or all elements have been removed.
+			var numItemsToDispose = items.length - min;
+			if (numItemsToDispose > 0) {
+				var children = [];
+				for (var i = 0; i < elementChildren.length; i++) {
+					children.push(elementChildren[i]);
+				}
+	
+				var i = 0;
+				while (numItemsToDispose > 0 && i < items.length) {
+					var data = items[i].getData();
+					if (data == null || items.length - i <= numItemsToDispose || !children.contains(data)) {
+						if (data != null) {
+							this._disassociate(items[i]);
+						}
+						items[i].dispose();
+						items.removeAt(i);
+						numItemsToDispose--;
+					} else {
+						i++;
+					}
+				}
+			}
 
 			// compare first min items, and update item if necessary
 			// need to do it in two passes:
@@ -105,13 +150,13 @@ $class("AbstractListViewer", {
 				var item = items[i];
 				var oldElement = item.getData();
 				if (oldElement != null) {
-					var newElement = children[i];
+					var newElement = elementChildren[i];
 					if (newElement != oldElement) {
 						if (newElement == oldElement) {
 							// update the data to be the new element, since
 							// although the elements
 							// may be equal, they may still have different labels
-							// or children
+							// or elementChildren
 							var data = item.getData();
 							if (data != null) {
 								this._unmapElement(data, item);
@@ -134,7 +179,7 @@ $class("AbstractListViewer", {
 
 			for (var i = 0; i < min; ++i) {
 				var item = items[i];
-				var newElement = children[i];
+				var newElement = elementChildren[i];
 				if (item.getData() == null) {
 					// old and new elements are not equal
 					this._associate(newElement, item);
@@ -148,21 +193,25 @@ $class("AbstractListViewer", {
 			}
 
 			// add any remaining elements
-			if (min < children.length) {
-				for (var i = min; i < children.length; ++i) {
-					//this._createListItem(widget, children[i], i);
-					var item = this._createListItem(children[i], gara.jswt.JSWT.DEFAULT, i);
-					this._associate(children[i], item);
+			if (min < elementChildren.length) {
+				for (var i = min; i < elementChildren.length; ++i) {
+					//this._createListItem(widget, elementChildren[i], i);
+					var item = this._createListItem(elementChildren[i], gara.jswt.JSWT.DEFAULT, i);
+					this._associate(elementChildren[i], item);
 				}
 			}
 
-			// remove unused items
-			for (var i = 0; (min + i) < itemCount; ++i) {
-				this.getControl().remove(min);
-			}
-
 			// restore selection
-			this.getControl().setSelection(storedSelection);
+			var selection = [];
+			selected.forEach(function(elem, i, arr) {
+				var item = this._getItemFromElementMap(elem);
+				if (item != null) {
+					selection.push(item);
+				}
+			}, this);
+			this.getControl().update();
+			this.getControl().setSelection(selection);
+			this.getControl().update();
 		} else {
 			var item = this._getItemFromElementMap(element);
 			if (item != null) {

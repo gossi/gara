@@ -59,7 +59,8 @@ $class("AbstractTreeViewer", {
 	_doGetColumnCount : function() {
 		return 0;
 	},
-
+	
+	_doGetSelection : $abstract(function() {}),
 	
 	/* Method declared on StructuredViewer. */
 	_doFindInputItem : function(element) {
@@ -152,6 +153,19 @@ $class("AbstractTreeViewer", {
 		return [];
 	},
 
+	_getSelectionFromWidget : function() {
+		var items = this._doGetSelection();
+		var list = [];
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i];
+			var e = item.getData();
+			if (e != null) {
+				list.push(e);
+			}
+		}
+		return list;
+	},
+
 	inputChanged : function(input, oldInput) {
 		this._treeRemoveAll();
 		this._internalRefresh();
@@ -185,7 +199,6 @@ $class("AbstractTreeViewer", {
 		var selection = this.getControl().getSelection();
 		for (var i = 0; i < selection.length; ++i) {
 			selected.push(selection[i].getData());
-			test = selection[i].getData();
 		}
 		
 		if (element == null || element == this._getRoot()) {

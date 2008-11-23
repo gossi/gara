@@ -31,7 +31,12 @@ $class("TableViewer", {
 	$extends : gara.jsface.AbstractTableViewer,
 	
 	$constructor : function(parent, style) {
-		this._table = new gara.jswt.Table(parent, style);
+		if ($class.instanceOf(parent, gara.jswt.Table)) {
+			this._table = parent;
+		} else {
+			this._table = new gara.jswt.Table(parent, style);
+		}
+		this._hookControl(this._table);
 	},
 	
 	_doClear : function(index) {
@@ -48,6 +53,10 @@ $class("TableViewer", {
 	
 	_doGetItems : function() {
 		return this._table.getItems();
+	},
+	
+	_doGetSelection : function() {
+		return this._table.getSelection();
 	},
 	
 	_doRemoveRange : function(from, to) {

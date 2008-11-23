@@ -31,7 +31,12 @@ $class("TreeViewer", {
 	$extends : gara.jsface.AbstractTreeViewer,
 
 	$constructor : function(parent, style) {
-		this._tree = new gara.jswt.Tree(parent, style);
+		if ($class.instanceOf(parent, gara.jswt.Tree)) {
+			this._tree = parent;
+		} else {
+			this._tree = new gara.jswt.Tree(parent, style);
+		}
+		this._hookControl(this._tree);
 		this._cachedRow = null;
 	},
 	
@@ -63,6 +68,10 @@ $class("TreeViewer", {
 	
 	doGetColumnCount : function() {
 		return this._tree.getColumnCount();
+	},
+	
+	_doGetSelection : function() {
+		return this._tree.getSelection();
 	},
 	
 	_getChildren : function(widget) {

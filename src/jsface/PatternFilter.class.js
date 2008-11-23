@@ -42,12 +42,27 @@ $class("PatternFilter", {
 	},
 
 	_isLeafMatch : function(viewer, element) {
-		var labelText = viewer.getLabelProvider().getText(element);
-
-        if (labelText == null) {
+		var lblProvider = viewer.getLabelProvider();
+		if ($class.instanceOf(lblProvider, gara.jsface.ITableLabelProvider)) {
+			var cols = viewer.getControl().getColumnCount();
+			for (var i = 0; i < cols; ++i) {
+				var labelText = lblProvider.getColumnText(element, i);
+				if (labelText != null) {
+					var result = this._match(labelText);
+					if (result) {
+						return result;
+					}
+				}
+			}
 			return false;
+		} else {
+			var labelText = lblProvider.getText(element);
+			if (labelText == null) {
+				return false;
+			}
+	        return this._match(labelText);
 		}
-        return this._match(labelText);
+
 	},
 
 	_isParentMatch : function(viewer, element) {
@@ -68,7 +83,7 @@ $class("PatternFilter", {
 	},
 
 	_match : function(text) {
-		return text.indexOf(this._pattern) != -1;
+		return text.toLowerCase().indexOf(this._pattern.toLowerCase()) != -1;
 	},
 
 	select : function(viewer, parentElement, element) {

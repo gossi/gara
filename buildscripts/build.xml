@@ -29,6 +29,7 @@
 		<file name="JSWT.class.js"/>
 		<file name="FocusListener.interface.js"/>
 		<file name="SelectionListener.interface.js"/>
+		<file name="MenuListener.interface.js"/>
 		<file name="ItemNotExistsException.class.js"/>
 		<file name="JSWTException.class.js"/>
 		<file name="Widget.class.js"/>
@@ -77,6 +78,13 @@
 		<file name="IStructuredContentProvider.interface.js"/>
 		<file name="ITreeContentProvider.interface.js"/>
 
+		<file name="ISelectionChangedListener.interface.js"/>
+		<file name="ICheckStateListener.interface.js"/>
+		<file name="ICheckable.interface.js"/>
+		
+		<file name="CheckStateChangedEvent.class.js"/>
+		<file name="SelectionChangedEvent.class.js"/>
+		
 		<file name="Viewer.class.js"/>
 		<file name="ContentViewer.class.js"/>
 		<file name="StructuredViewer.class.js"/>
@@ -87,6 +95,8 @@
 		<file name="TreeViewer.class.js"/>
 		<file name="AbstractTableViewer.class.js"/>
 		<file name="TableViewer.class.js"/>
+		
+		<file name="CheckboxListViewer.class.js"/>
 		
 		<file name="ViewerCell.class.js"/>
 		<file name="ViewerColumn.class.js"/>

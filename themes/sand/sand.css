@@ -403,12 +403,20 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	border-bottom: none;
 }
 
-.sand table.jsWTTableFullSelection tbody tr.selected {
+.sand table.jsWTTableActive tbody.jsWTTableFullSelection tr.selected td {
 	background-color: #EAE6D6;
 }
 
-.sand table.jsWTTable tbody tr td.selected {
+.sand table.jsWTTableInactive tbody.jsWTTableFullSelection tr.selected td {
+	background-color: #CCC8BA;
+}
+
+.sand table.jsWTTableActive tbody tr td.selected {
 	background-color: #EAE6D6;
+}
+
+.sand table.jsWTTableInactive tbody tr td.selected {
+	background-color: #CCC8BA;
 }
 
 
@@ -724,4 +732,16 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 .sand div.jsWTInputDialog .jsWTInputDialogContentText input {
 	display: block;
 	margin: 10px 0 5px 0;
+}
+
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.IframeDialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTIframeDialog div.jsWTDialogContent div.loading {
+	background: #FFF url('loading.gif') no-repeat center;
 }

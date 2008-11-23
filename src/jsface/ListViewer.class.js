@@ -29,11 +29,16 @@
  */
 $class("ListViewer", {
 	$extends : gara.jsface.AbstractListViewer,
-	
+
 	$constructor : function(parent, style) {
-		this._list = new gara.jswt.List(parent, style);
+		if ($class.instanceOf(parent, gara.jswt.List)) {
+			this._list = parent;
+		} else {
+			this._list = new gara.jswt.List(parent, style);
+		}
+		this._hookControl(this._list);
 	},
-	
+
 	_createListItem : function(el, style, index) {
 		var item = new gara.jswt.ListItem(this._list, style, index);
 		item.setText(this._getLabelProviderText(this.getLabelProvider(), el));
@@ -41,6 +46,10 @@ $class("ListViewer", {
 		item.setData(el);
 		
 		return item;
+	},
+	
+	_doGetSelection : function() {
+		return this._list.getSelection();
 	},
 	
 	getControl : function() {

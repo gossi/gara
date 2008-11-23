@@ -31,7 +31,14 @@ $class("Dialog", {
 	/**
 	 * @constructor
 	 */
-	$constructor : function(style) {
+	$constructor : function(parent, style) {
+		if (typeof(style) == "undefined") {
+			style = parent;
+			this._parentWindow = window.top;
+		} else {
+			this._parentWindow = parent;
+		}
+
 		this._style = style;
 		this._disposed = false;
 		this._text = " ";

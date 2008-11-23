@@ -28,6 +28,7 @@
  * @author Thomas Gossmann
   */
 $class("StructuredViewer", {
+	$implements : [gara.jswt.SelectionListener],
 	$extends : gara.jsface.ContentViewer,
 
 	/**
@@ -156,6 +157,16 @@ $class("StructuredViewer", {
 		}, this);
 		return children;
 	},
+	
+	_getSelection : function() {
+		var control = this.getControl();
+		if (control == null || control.isDisposed()) {
+			return [];
+		}
+		return this._getSelectionFromWidget();
+	},
+	
+	_getSelectionFromWidget : $abstract(function() {}),
 
 	_getSortedChildren : function(parent) {
 		var children = this._getFilteredChildren(parent);
@@ -173,6 +184,17 @@ $class("StructuredViewer", {
 
 	_getRoot : function() {
 		return this._input;
+	},
+	
+	_hookControl : function(control) {
+		control.addSelectionListener(this);
+	},
+	
+	_handleSelect : function(event) {
+		control = this.getControl();
+		if (control != null && !control.isDisposed()) {
+			this._updateSelection(this._getSelection());
+		}
 	},
 
 	_internalRefresh : $abstract(function(element, updateLabels) {}),
@@ -268,5 +290,14 @@ $class("StructuredViewer", {
 	
 	_usingElementMap : function() {
 		return this._elementMap != null;
+	},
+	
+	_updateSelection : function(selection) {
+		var event = new gara.jsface.SelectionChangedEvent(this, selection);
+		this._fireSelectionChanged(event);
+	},
+	
+	widgetSelected : function(e) {
+		this._handleSelect(e);
 	}
 });

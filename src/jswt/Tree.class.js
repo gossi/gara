@@ -337,7 +337,7 @@ $class("Tree", {
 		var obj = e.target.obj || null;
 		var item = null;
 		
-		if (obj && $class.instanceOf(obj, gara.jswt.TabItem)) {
+		if (obj && $class.instanceOf(obj, gara.jswt.TreeItem)) {
 			e.item = obj;
 			item = obj;
 		}

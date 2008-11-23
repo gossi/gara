@@ -508,6 +508,9 @@ $class("List", {
 	remove : function(index) {
 		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
+		if (this._selection.contains(item)) {
+			this._selection.remove(item);
+		}
 		item.dispose();
 		delete item;
 	},

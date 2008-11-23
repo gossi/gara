@@ -189,6 +189,7 @@ $class("Menu", {
 	
 	handleEvent : function(e) {
 		this.checkWidget();
+		e.widget = this;
 		switch(e.type) {
 			case "mousedown":
 				if ((e.target.control ? e.target.control != this : true)
@@ -200,7 +201,7 @@ $class("Menu", {
 				
 			case "click":
 				if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.MenuItem)) {
-					e.target.obj._select();
+					e.target.obj._select(e);
 				}
 				break;
 		}

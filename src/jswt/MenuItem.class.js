@@ -260,7 +260,8 @@ $class("MenuItem", {
 		}
 	},
 	
-	_select : function() {
+	_select : function(e) {
+		e.item = this;
 		if ((this._style & JSWT.SEPARATOR) == JSWT.SEPARATOR 
 				|| !this._enabled) {
 			return;
@@ -288,7 +289,7 @@ $class("MenuItem", {
 
 		// notify selection listener
 		this._selectionListener.forEach(function(listener, index, arr) {
-			listener.widgetSelected(this);
+			listener.widgetSelected(e);
 		}, this);
 	},
 

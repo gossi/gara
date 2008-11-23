@@ -59,6 +59,8 @@ $class("AbstractTableViewer", {
 	_doGetColumnCount : $abstract(function() {}),
 
 	_doGetItems : $abstract(function() {}),
+	
+	_doGetSelection : $abstract(function() {}),
 
 	_doRemoveRange : $abstract(function(from, to) {}),
 
@@ -107,6 +109,19 @@ $class("AbstractTableViewer", {
 		}
 
 		return this._doGetColumn(columnIndex);
+	},
+	
+	_getSelectionFromWidget : function() {
+		var items = this._doGetSelection();
+		var list = [];
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i];
+			var e = item.getData();
+			if (e != null) {
+				list.push(e);
+			}
+		}
+		return list;
 	},
 
 	inputChanged : function(input, oldInput) {

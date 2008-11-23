@@ -52,6 +52,7 @@
 <script type="text/javascript" src="../../src/jsface/StructuredViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/AbstractListViewer.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ListViewer.class.js"></script>
+<script type="text/javascript" src="../../src/jsface/CheckboxListViewer.class.js"></script>
 
 <script type="text/javascript" src="../../src/jsface/ViewerComparator.class.js"></script>
 <script type="text/javascript" src="../../src/jsface/ViewerSorter.class.js"></script>
@@ -62,10 +63,14 @@
 <script type="text/javascript" src="../../src/jsface/_append.js"></script>
 <script type="text/javascript"><!--
 $class("Controller", {
-	$implements : [gara.jsface.ILabelProvider, gara.jsface.IStructuredContentProvider],
+	$implements : [gara.jsface.ILabelProvider, gara.jsface.IStructuredContentProvider, gara.jsface.ICheckStateListener, gara.jsface.ISelectionChangedListener],
 
 	$constructor : function() {
 		this._model = null;
+	},
+	
+	checkStateChanged : function(event) {
+		//console.log("Check State Changed for: " + this.getText(event.getElement()) + ", checked: " + event.getState());
 	},
 	
 	getImage : function(element) {
@@ -84,24 +89,25 @@ $class("Controller", {
 		this._model = newInput;
 	},
 	
-	isLabelProperty : function(element, property) {}
+	isLabelProperty : function(element, property) {},
+	
+	selectionChanged : function(event) {
+		//console.log("Selection changed: " + this.getText(event.getSelection()[0]));
+	}
 });
 
 var controller, view, filter;
-var modelA = ["ameise", "zebra", "Chamaeleon", "beluga"];
-var modelB = ["düsenflieger", "Ferd", "eimerfahrzeug"];
-var currentModel = modelA;
+var model = ["ameise", "zebra", "Chamaeleon", "beluga"];
 
 function main() {
 	try {
-		filter = new gara.jsface.PatternFilter();
 		controller = new Controller();
-		view = new gara.jsface.ListViewer(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
+		view = new gara.jsface.CheckboxListViewer.newCheckList(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
-		view.setInput(modelA);
-		view.addFilter(filter);
-
+		view.addCheckStateListener(controller);
+		view.addSelectionChangedListener(controller);
+		view.setInput(model);
 	} catch(e) {
 		var message = "";
 		for (p in e) {
@@ -111,39 +117,41 @@ function main() {
 	}
 }
 
-function addModelData() {
-	var value = document.getElementById("model_add_value").value;
-	var index = document.getElementById("model_add_index").value;
-	
-	currentModel.insertAt(index, value);
+var checkedState, grayedState;
+
+function checkAll(state) {
+	view.setAllChecked(state);
 }
 
-function toggleSorter() {
-	if (view.getSorter() == null) {
-		view.setSorter(new gara.jsface.ViewerSorter());
-	} else {
-		view.setSorter(null);
-	}
+function grayAll(state) {
+	view.setAllGrayed(state);
 }
 
-function filterIt() {
-	filter.setPattern(document.getElementById("pattern").value);
-	refresh();
+function toggleSelectedCheckState() {
+	var item = view.getControl().getSelection()[0];
+	item.setChecked(!item.getChecked());
 }
 
-function refresh() {
-	view.refresh();
+function toggleSelectedGrayedState() {
+	var item = view.getControl().getSelection()[0];
+	item.setGrayed(!item.getGrayed());
 }
 
-function changeModel() {
-	currentModel = currentModel == modelA ? modelB : modelA;
-	view.setInput(currentModel);
+function saveCheckedState() {
+	checkedState = view.getCheckedElements();
 }
 
-function popModel() {
-	alert("Popped: " + currentModel.pop());
+function saveGrayedState() {
+	grayedState = view.getGrayedElements();
 }
 
+function restoreCheckedState() {
+	view.setCheckedElements(checkedState);
+}
+
+function restoreGrayedState() {
+	view.setGrayedElements(grayedState);
+}
 --></script>
 <style type="text/css">
 label {display: block;}
@@ -153,23 +161,21 @@ label {display: block;}
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.ListViewer</h1>
 <fieldset style="width: 300px; float: right;">
 <legend>Widget Control</legend>
-<label>Add Model Data</label>
-<label>Value: <input type="text" size="5" id="model_add_value"/></label>
-<label>Index: <input type="text" size="5" id="model_add_index"/></label>
-<input type="button" value="add >>" onclick="addModelData()"/>
-<input type="button" value="currentModel.length" onclick="alert(currentModel.length)"/>
-<label>Remove Model Data</label>
-Pop Last Element: <input type="button" value="pop" onclick="popModel()"/>
-<label>Change Model</label>
-Change model: <input type="button" value="change" onclick="changeModel()"/>
-<label>Sorter</label>
-Toggle Sorter: <input type="button" value="toggle" onclick="toggleSorter()" />
-<label>Filter</label>
-<input type="text" size="10" id="pattern"/><input type="button" value="Filter" onclick="filterIt()"/>
-<label>Refresh</label>
-Refresh model: <input type="button" value="refresh" onclick="refresh()"/>
+<label>Set All:</label>
+<input type="checkbox" id="checkStateAll"/> Checked <input type="button" value="Set Check State" onclick="checkAll(document.getElementById('checkStateAll').checked)"/><br/>
+<input type="checkbox" id="grayedStateAll"/> Grayed <input type="button" value="Set Grayed State" onclick="grayAll(document.getElementById('grayedStateAll').checked)"/>
 
+<label>With Selected:</label>
+<input type="button" onclick="toggleSelectedCheckState()" value="Toggle Checked State"/>
+<input type="button" onclick="toggleSelectedGrayedState()" value="Toggle Grayed State"/>
 
+<label>Savings:</label>
+<input type="button" onclick="saveCheckedState()" value="Save Checked State"/>
+<input type="button" onclick="saveGrayedState()" value="Save Grayed State"/>
+
+<label>Restore:</label>
+<input type="button" onclick="restoreCheckedState()" value="Restore Checked State"/>
+<input type="button" onclick="restoreGrayedState()" value="Restore Grayed State"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>

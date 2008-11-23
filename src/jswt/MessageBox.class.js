@@ -43,8 +43,8 @@ $class("MessageBox", {
 	/**
 	 * @constructor
 	 */
-	$constructor : function(style) {
-		this.$base(style);
+	$constructor : function(parent, style) {
+		this.$base(parent, style);
 		
 		this._callback = null;
 		this._context = window;
