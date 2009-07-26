@@ -13,6 +13,7 @@
 
 <script type="text/javascript" src="../../src/core/_prepend.js"></script>
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
+<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
@@ -43,6 +44,21 @@ function main() {
 		var i1 = new gara.jswt.TreeItem(t);
 		i1.setText("Item 1");
 		i1.setImage(img);
+
+		var i1a = new gara.jswt.TreeItem(t);
+		i1a.setText("Item 1a");
+
+		var i1b = new gara.jswt.TreeItem(t);
+		i1b.setText("Item 1b");
+
+		var i1c = new gara.jswt.TreeItem(t);
+		i1c.setText("Item 1c");
+
+		var i1d = new gara.jswt.TreeItem(t);
+		i1d.setText("Item 1d");
+
+		var i1e = new gara.jswt.TreeItem(t);
+		i1e.setText("Item 1e");
 		
 		var i2 = new gara.jswt.TreeItem(t);
 		i2.setText("Item 2");
@@ -61,9 +77,21 @@ function main() {
 		
 		var i7 = new gara.jswt.TreeItem(i6);
 		i7.setText("Item 7");
+
+		var i7a = new gara.jswt.TreeItem(i7);
+		i7a.setText("Item 7a");
+
+		var i7b = new gara.jswt.TreeItem(i7a);
+		i7b.setText("Item 7b");
+
+		var i7c = new gara.jswt.TreeItem(i7b);
+		i7c.setText("Item 7c");
 		
 		var i8 = new gara.jswt.TreeItem(t);
 		i8.setText("Item 8");
+
+
+		t.setHeight(120);
 		
 		t.update();
 	} catch(e) {

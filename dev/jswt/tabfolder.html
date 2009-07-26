@@ -12,6 +12,7 @@
 
 <script type="text/javascript" src="../../src/core/_prepend.js"></script>
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
+<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
@@ -68,6 +69,9 @@ function main() {
 		var i5 = new gara.jswt.TabItem(t);
 		i5.setText("Item 5");
 		i5.setContent("Content 5");
+
+		/*t.setWidth(450);
+		t.setHeight(300);*/
 		
 		t.update();
 	} catch(e) {

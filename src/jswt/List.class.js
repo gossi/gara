@@ -376,6 +376,18 @@ $class("List", {
 				}
 
 				if (prev) {
+					// update scrolling
+					var h = 0;
+					for (var i = 0; i < (activeIndex - 1); i++) {
+						h += this._items[i].domref.offsetHeight
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+					}
+					if (h < this.domref.scrollTop) {
+						this.domref.scrollTop = h;
+					}
+					
+					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						//this.deselect(this._activeItem);
 						this.select(prev, false);
@@ -401,6 +413,23 @@ $class("List", {
 				}
 
 				if (next) {
+					// update scrolling
+					var h = 0;
+					for (var i = 0; i <= (activeIndex + 1); i++) {
+						h += this._items[i].domref.offsetHeight
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+					}
+					var viewport = this.domref.clientHeight + this.domref.scrollTop
+						- parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
+						- parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
+					if (h > viewport) {
+						this.domref.scrollTop = h - this.domref.clientHeight
+							+ parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
+							+ parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
+					}
+
+					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						//this.deselect(this.activeItem);
 						this.select(next, false);
@@ -421,8 +450,10 @@ $class("List", {
 					this.select(this._activeItem, true);
 				}
 				break;
-				
+
 			case 36: // home
+				this.domref.scrollTop = 0;
+
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[0], false);
 				} else if (e.shiftKey) {
@@ -433,6 +464,8 @@ $class("List", {
 				break;
 				
 			case 35: // end
+				this.domref.scrollTop = this.domref.scrollHeight - this.domref.clientHeight;
+
 				var lastOffset = this._items.length - 1;
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[lastOffset], false);
@@ -783,6 +816,9 @@ $class("List", {
 		if (this.domref == null) {
 			this._create();
 		}
+
+		if (this._height != null) this.domref.style.width = this._width + "px"; 
+		if (this._width != null) this.domref.style.height = this._height + "px";
 
 		this.removeClassName("jsWTListFullSelection");
 

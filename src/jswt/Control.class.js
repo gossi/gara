@@ -41,6 +41,9 @@ $class("Control", {
 		this._hasFocus = false;
 		this._menu = null;
 
+		this._width = null;
+		this._height = null;
+
 		gara.jswt.ControlManager.getInstance().addControl(this);
 		this.addFocusListener(gara.jswt.ControlManager.getInstance());
 	},
@@ -79,6 +82,14 @@ $class("Control", {
 		for (var i = 0, len = this._focusListener.length; i < len; ++i) {
 			this._focusListener[i].focusGained(this);
 		}
+	},
+	
+	getHeight : function() {
+		return this._height;
+	},
+	
+	getWidth : function() {
+		return this._width;
 	},
 
 	handleContextMenu : function(e) {
@@ -159,6 +170,10 @@ $class("Control", {
 			this._focusListener.remove(listener);
 		}
 	},
+	
+	setHeight : function(height) {
+		this._height = height;
+	},
 
 	setMenu : function(menu) {
 		if (!$class.instanceOf(menu, gara.jswt.Menu)) {
@@ -168,6 +183,10 @@ $class("Control", {
 		this._menu = menu;
 		this.addListener("contextmenu", this);
 		this.addListener("mousedown", this);
+	},
+
+	setWidth : function(width) {
+		this._width = width;
 	},
 
 	toString : function() {

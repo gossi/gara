@@ -73,7 +73,7 @@ $class("TabFolder", {
 			throw new TypeError("item is not type of gara.jswt.TabItem");
 		}
 
-		var count = this.getItemCount();
+		item._setClientArea(this._clientArea);
 		this._items.push(item);
 	},
 
@@ -112,14 +112,14 @@ $class("TabFolder", {
 		}
 		
 		if (this._activeItem != null) {
-			this._activeItem.setActive(false);
+			this._activeItem._setActive(false);
 		}
 		
 		this._activeItem = item;
-		item._setActive(true);
+		this._activeItem._setActive(true);
 
 		// clean up client area
-		for (var i = 0, len = this._clientArea.childNodes.length; i < len; ++i) {
+		/*for (var i = 0, len = this._clientArea.childNodes.length; i < len; ++i) {
 			this._clientArea.removeChild(this._clientArea.childNodes[i]);
 		}
 
@@ -133,7 +133,7 @@ $class("TabFolder", {
 			} else {
 				this._clientArea.appendChild(item.getContent());
 			}
-		}
+		}*/
 
 		this.update();
 
@@ -151,6 +151,7 @@ $class("TabFolder", {
 		this._tabbar = document.createElement("ul");
 		this._tabbar.obj = this;
 		this._tabbar.control = this;
+		this._tabbar.className = "jsWTTabbar";
 		base2.DOM.EventTarget(this._tabbar);
 
 		this._clientArea = document.createElement("div");
@@ -160,11 +161,11 @@ $class("TabFolder", {
 		if (this._style == JSWT.TOP) {
 			this.domref.appendChild(this._tabbar);
 			this.domref.appendChild(this._clientArea);
-			this._tabbar.className = "jsWTTabbar jsWTTabbarTop";
+			this.addClassName("jsWTTabFolderTopbar");
 		} else {
 			this.domref.appendChild(this._clientArea);
 			this.domref.appendChild(this._tabbar);
-			this._tabbar.className = "jsWTTabbar jsWTTabbarBottom";
+			this.addClassName("jsWTTabFolderBottombar");
 		}
 
 		/* buffer unregistered user-defined listeners */
@@ -486,16 +487,42 @@ $class("TabFolder", {
 	 */
 	update : function() {
 		this.checkWidget();
-		var firstBuild = false;
 		if (this.domref == null) {
 			this._create();
-			firstBuild = true;
 		}
 
 		this.domref.className = this._className;
+		this.domref.style.width = this._width != null ? this._width + "px" : "auto";
+		this.domref.style.height = this._height != null ? this._height + "px" : "auto";
+
+		this._tabbar.style.width = this._width != null ? this._width + "px" : "auto"
+		this._tabbar.style.width = this._width != null ? this._width + "px" : "auto";
+
+		if (this._height != null) {
+			this._clientArea.style.height = (this._height 
+				- (this._tabbar.offsetHeight
+					+ parseInt(gara.Utils.getStyle(this._tabbar, "margin-top"))
+					+ parseInt(gara.Utils.getStyle(this._tabbar, "margin-bottom")))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-top"))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "border-top-width"))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "border-bottom-width"))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-bottom"))
+				) + "px";
+		}
+
+		if (this._width != null) {
+			this._clientArea.style.width = this._width
+				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-left"))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width"))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width"))
+				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-right"))
+			+ "px";	
+		}
 
 		// update items
 		this._items.forEach(function(item, index, arr) {
+			item._setClientArea(this._clientArea);
+			
 			// create item ...
 			if (!item.isCreated()) {
 				node = item._create();
@@ -509,7 +536,7 @@ $class("TabFolder", {
 			}
 		}, this);
 		
-		if (firstBuild && this._items.length) {
+		if (this._activeItem == null && this._items.length) {
 			this._activateItem(this._items[0]);
 		}
 	}

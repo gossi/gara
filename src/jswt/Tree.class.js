@@ -440,8 +440,26 @@ $class("Tree", {
 						prev = getLastItem(prevSibling);
 					}
 				}
-				
+
 				if (prev) {
+					// update scrolling
+					var h = 0, activeIndex = this._items.indexOf(this._activeItem);
+					for (var i = 0; i < (activeIndex - 1); i++) {
+						h += this._items[i].domref.offsetHeight
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+						if (this._items[i]._hasChilds()) {
+							var childContainer = this._items[i]._getChildContainer();
+							h -= childContainer.offsetHeight
+								+ parseInt(gara.Utils.getStyle(childContainer, "margin-top"))
+								+ parseInt(gara.Utils.getStyle(childContainer, "margin-bottom"));
+						}
+					}
+					if (h < this.domref.scrollTop) {
+						this.domref.scrollTop = h;
+					}
+
+					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						this._select(prev, false);
 					} else if (e.ctrlKey && e.shiftKey) {
@@ -481,6 +499,29 @@ $class("Tree", {
 				}
 
 				if (next) {
+					// update scrolling
+					var h = 0, activeIndex = this._items.indexOf(this._activeItem);
+					for (var i = 0; i <= (activeIndex + 1); i++) {
+						h += this._items[i].domref.offsetHeight
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+						if (this._items[i]._hasChilds()) {
+							var childContainer = this._items[i]._getChildContainer();
+							h -= childContainer.offsetHeight
+								+ parseInt(gara.Utils.getStyle(childContainer, "margin-top"))
+								+ parseInt(gara.Utils.getStyle(childContainer, "margin-bottom"));
+						}
+					}
+					var viewport = this.domref.clientHeight + this.domref.scrollTop
+						- parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
+						- parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
+					if (h > viewport) {
+						this.domref.scrollTop = h - this.domref.clientHeight
+							+ parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
+							+ parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
+					}
+
+					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						this._select(next, false);
 					} else if (e.ctrlKey && e.shiftKey) {
@@ -516,6 +557,8 @@ $class("Tree", {
 				break;
 				
 			case 36 : // home
+				this.domref.scrollTop = 0;
+			
 				if (!e.ctrlKey && !e.shiftKey) {
 					this._select(this._items[0], false);
 				} else if (e.shiftKey) {
@@ -526,6 +569,8 @@ $class("Tree", {
 				break;
 				
 			case 35 : // end
+				this.domref.scrollTop = this.domref.scrollHeight - this.domref.clientHeight;
+			
 				if (!e.ctrlKey && !e.shiftKey) {
 					this._select(this._items[this._items.length-1], false);
 				} else if (e.shiftKey) {
@@ -856,6 +901,9 @@ $class("Tree", {
 		if (this.domref == null) {
 			this._create();
 		}
+
+		if (this._height != null) this.domref.style.width = this._width + "px"; 
+		if (this._width != null) this.domref.style.height = this._height + "px";
 
 		this.removeClassName("jsWTTreeNoLines");
 		this.removeClassName("jsWTTreeLines");

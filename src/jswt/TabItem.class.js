@@ -43,6 +43,10 @@ $class("TabItem", {
 		this._active = false;
 		this._content = null;
 		this._control = null;
+		
+		this._clientArea = null;
+		this._clientContent = null;
+		this._clientAppended = false;
 
 		this._toolTipText = null;
 		this._span = null;
@@ -90,6 +94,23 @@ $class("TabItem", {
 		this._span.appendChild(this._spanText);
 		this.domref.appendChild(this._span);
 		base2.DOM.EventTarget(this._span);
+		
+		this._clientContent = document.createElement("div");
+		this._clientContent.style.display = "none";
+		if(this._control != null) {
+			this._control.update();
+			this._clientContent.appendChild(this._control.domref);
+		} else {
+			if (typeof(this._content) == "string") {
+				this._clientContent.appendChild(document.createTextNode(this._content));
+			} else {
+				this._clientContent.appendChild(this._content);
+			}
+		}
+		if (this._clientArea != null) {
+			this._clientArea.appendChild(this._clientContent);
+			this._clientAppended = true;
+		}
 
 		// register listener
 		for (var eventType in this._listener) {
@@ -219,6 +240,10 @@ $class("TabItem", {
 
 		this._changed = true;
 	},
+	
+	_setClientArea : function(clientArea) {
+		this._clientArea = clientArea;
+	},
 
 	/**
 	 * @method
@@ -329,6 +354,17 @@ $class("TabItem", {
 					gara.EventManager.removeListener(this._img, eventType, elem);
 				}, this);
 			}
+		}
+		
+		if (this._clientArea != null && !this._clientAppended) {
+			this._clientArea.appendChild(this._clientContent);
+			this._clientAppended = true;
+		}
+		
+		if (this._active) {
+			this._clientContent.style.display = "block";
+		} else {
+			this._clientContent.style.display = "none";
 		}
 
 		this._spanText.nodeValue = this._text;

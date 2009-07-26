@@ -16,6 +16,7 @@
 
 	<filelist id="garaFL" dir="${garaDir}">
 		<file name="Package.class.js"/>
+		<file name="Utils.class.js"/>
 		<file name="EventManager.class.js"/>
 		<file name="OutOfBoundsException.class.js"/>
 		<file name="I18n.class.js"/>

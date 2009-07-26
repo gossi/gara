@@ -12,6 +12,7 @@
 
 <script type="text/javascript" src="../../src/core/_prepend.js"></script>
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
+<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
@@ -51,6 +52,14 @@ function main() {
 		
 		var i5 = new gara.jswt.ListItem(l);
 		i5.setText("Item 5");
+
+		var i6 = new gara.jswt.ListItem(l);
+		i6.setText("Item 6");
+
+		var i7 = new gara.jswt.ListItem(l);
+		i7.setText("Item 7");
+		
+		l.setHeight(100);
 	
 		l.update();
 		l.addSelectionListener(new SelLis());

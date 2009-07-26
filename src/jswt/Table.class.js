@@ -59,6 +59,8 @@ $class("Table", {
 		this._thead = null;
 		this._theadRow = null;
 		this._tbody = null;
+		this._tbodyPadding = null;
+		this._paddingFiller = null;
 
 		this._className = this._baseClass = "jsWTTable";
 		this._className += " jsWTTableInactive";
@@ -188,6 +190,21 @@ $class("Table", {
 		base2.DOM.EventTarget(this._tbody);
 		this.domref.appendChild(this._tbody);
 
+		this._tbodyPadding = document.createElement("tbody");
+		this._tbodyPadding.obj = this;
+		this._tbodyPadding.control = this;
+		this._tbodyPadding.style.display = "none";
+		base2.DOM.EventTarget(this._tbodyPadding);
+		this.domref.appendChild(this._tbodyPadding);
+
+		var tr = document.createElement("tr");
+		this._paddingFiller = document.createElement("td");
+		this._paddingFiller.colspan = this._columns.length;
+		this._paddingFiller.appendChild(document.createTextNode("&nbsp;"));
+		tr.appendChild(this._paddingFiller);
+		this._tbodyPadding.appendChild(tr);
+
+		// listeners
 		/* buffer unregistered user-defined listeners */
 		var unregisteredListener = {};			
 		for (var eventType in this._listener) {
@@ -261,6 +278,7 @@ $class("Table", {
 		this._thead.removeChild(this._theadRow);
 		this.domref.removeChild(this._thead);
 		this.domref.removeChild(this._tbody);
+		this.domref.removeChild(this._tbodyPadding);
 
 		if (this._parentNode != null) {
 			this._parentNode.removeChild(this.domref);
@@ -269,6 +287,7 @@ $class("Table", {
 		delete this._theadRow;
 		delete this._thead;
 		delete this._tbody;
+		delete this._tbodyPadding;
 		delete this.domref;
 	},
 	
@@ -433,6 +452,18 @@ $class("Table", {
 				}
 
 				if (prev) {
+					// update scrolling
+					var h = 0;
+					for (var i = 0; i < (activeIndex - 1); i++) {
+						h += this._items[i].domref.offsetHeight
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+					}
+					if (h < this._tbody.scrollTop) {
+						this._tbody.scrollTop = h;
+					}
+					
+					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						//this.deselect(this._activeItem);
 						this.select(prev, false);
@@ -456,6 +487,19 @@ $class("Table", {
 				}
 
 				if (next) {
+					// update scrolling
+					var h = 0;
+					for (var i = 0; i <= (activeIndex + 1); i++) {
+						h += this._items[i].domref.offsetHeight
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
+							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+					}
+					var viewport = this._tbody.clientHeight + this._tbody.scrollTop;
+					if (h > viewport) {
+						this._tbody.scrollTop = h - this._tbody.clientHeight;
+					}
+
+					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						this.select(next, false);
 					} else if (e.ctrlKey && e.shiftKey) {
@@ -477,6 +521,8 @@ $class("Table", {
 				break;
 				
 			case 36 : // home
+				this._tbody.scrollTop = 0;
+			
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[0], false);
 				} else if (e.shiftKey) {
@@ -485,8 +531,10 @@ $class("Table", {
 					this._activateItem(this._items[0]);
 				}
 				break;
-				
+
 			case 35 : // end
+				this._tbody.scrollTop = this._tbody.scrollHeight - this._tbody.clientHeight;
+
 				var lastOffset = this._items.length - 1;
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[lastOffset], false);
@@ -739,6 +787,7 @@ $class("Table", {
 		}
 		if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
 			var checkboxCol = document.createElement("th");
+			checkboxCol.innerHTML = "&nbsp;"; // for IE6
 			checkboxCol.className = "jsWTTableCheckboxCol";
 			this._theadRow.appendChild(checkboxCol);
 		}
@@ -749,11 +798,8 @@ $class("Table", {
 		}
 
 		if (this._headerVisible) {
-			this._thead.style.display = document.all 
-				? "block" 
-				: "table-row-group";
-		}
-		else {
+			this._thead.style.display = document.all ? "block" : "table-row-group";
+		} else {
 			this._thead.style.display = "none";
 		}
 		
@@ -770,7 +816,26 @@ $class("Table", {
 
 		// update items
 		this._updateItems();
+
+		// reset measurement for new calculations
+		this.domref.style.height = "auto";
+		this._thead.style.height = "auto";
+		this._tbody.style.height = "auto";
+		this._tbodyPadding.style.display = "none";
+		if (this._tbody.clientHeight + this._thead.clientHeight > this._height) {
+			this._tbody.style.height = this._height - this._thead.clientHeight + "px";
+		} else if (this._tbody.clientHeight + this._thead.clientHeight < this._height) {
+			this._tbodyPadding.style.display = document.all ? "block" : "table-row-group";
+			this._tbodyPadding.style.height = this._height - (this._tbody.clientHeight + this._thead.clientHeight) + "px";
+			this._paddingFiller.style.height = this._height - (this._tbody.clientHeight + this._thead.clientHeight) + "px";
+			this._paddingFiller.style.visibility = "hidden";
+			this._paddingFiller.colspan = this._columns.length;
+		} else {
+			this._tbody.style.height = "auto";
+		}
 		
+		this.domref.style.width = this._width != null ? this._width + "px" : "";
+		this.domref.style.height = this._height != null ? this._height + "px" : "";
 	},
 	
 	_updateItems : function() {
