@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -36,17 +36,17 @@ $class("AbstractTreeViewer", {
 	 */
 	$constructor : function() {
 	},
-	
+
 	_createTreeItem : function (parent, element, index) {
 		var item = this._newItem(parent, gara.jswt.JSWT.NULL, index);
 		this._updateItem(item, element);
 	},
-	
+
 	_disassociate : function(item) {
 		this.$base(item);
 		this._disassociateChildren(item);
 	},
-	
+
 	_disassociateChildren : function(item) {
 		var items = this._getChildren(item);
 		for (var i = 0; i < items.length; i++) {
@@ -55,13 +55,13 @@ $class("AbstractTreeViewer", {
 			}
 		}
 	},
-	
+
 	_doGetColumnCount : function() {
 		return 0;
 	},
-	
+
 	_doGetSelection : $abstract(function() {}),
-	
+
 	/* Method declared on StructuredViewer. */
 	_doFindInputItem : function(element) {
 		// compare with root
@@ -95,7 +95,7 @@ $class("AbstractTreeViewer", {
 		}
 		return null;
 	},
-	
+
 	_doUpdateItem : function(item, element) {
 		if (item.isDisposed()) {
 			this._unmapElement(element, item);
@@ -104,13 +104,12 @@ $class("AbstractTreeViewer", {
 
 		var viewerRowFromItem = this._getViewerRowFromItem(item);
 		var columnCount = this._doGetColumnCount();
-		if (columnCount == 0) // If no columns are created then fake one
-			columnCount = 1;
+		if (columnCount == 0){columnCount = 1;}
 
 		for (var column = 0; column < columnCount; column++) {
 			var columnViewer = this._getViewerColumn(column);
 			var cellToUpdate = this._updateCell(viewerRowFromItem, column, element);
-			
+
 			columnViewer.refresh(cellToUpdate);
 
 			// As it is possible for user code to run the event
@@ -120,14 +119,14 @@ $class("AbstractTreeViewer", {
 				return;
 			}
 		}
-		
+
 		this._associate(element, item);
 	},
 
 	_getChildren : $abstract(function() {}),
 
 	getControl : $abstract(function() {}),
-	
+
 	_getExpanded : $abstract(function(item) {}),
 
 	_getLabelProviderText : function(labelProvider, element) {
@@ -138,7 +137,7 @@ $class("AbstractTreeViewer", {
 
 		return text;
 	},
-	
+
 	_getRawChildren : function(parent) {
 		var cp = this.getContentProvider();
 		if (parent == this._getRoot()) {
@@ -149,7 +148,7 @@ $class("AbstractTreeViewer", {
 				return result;
 			}
 		}
-		
+
 		return [];
 	},
 
@@ -170,7 +169,7 @@ $class("AbstractTreeViewer", {
 		this._treeRemoveAll();
 		this._internalRefresh();
 	},
-	
+
 	_internalFindItem : function(parent, element) {
 		// compare with node
 		var data = parent.getData();
@@ -179,7 +178,7 @@ $class("AbstractTreeViewer", {
 				return parent;
 			}
 		}
- 
+
 		// recurse over children
 		var items = this._getChildren(parent);
 		for (var i = 0; i < items.length; i++) {
@@ -193,14 +192,13 @@ $class("AbstractTreeViewer", {
 	},
 
 	_internalRefresh : function(element, updateLabels) {
-		var test;
 		// save selected elements
 		var selected = [];
 		var selection = this.getControl().getSelection();
 		for (var i = 0; i < selection.length; ++i) {
 			selected.push(selection[i].getData());
 		}
-		
+
 		if (element == null || element == this._getRoot()) {
 			this._internalRefreshItems(this.getControl(), this._getRoot(), updateLabels);
 		} else {
@@ -224,7 +222,7 @@ $class("AbstractTreeViewer", {
 		this.getControl().setSelection(selection);
 		this.getControl().update();
 	},
-	
+
 	_internalRefreshItems : function(widget, element, updateLabels) {
 		this._updateChildren(widget, element, updateLabels);
 		var children = this._getChildren(widget);
@@ -238,13 +236,13 @@ $class("AbstractTreeViewer", {
 			}
 		}
 	},
-	
+
 	_newItem : $abstract(function(parent, style, index) {}),
-	
+
 	_setExpanded : $abstract(function(item, expanded) {}),
-	
+
 	_treeRemoveAll : $abstract(function() {}),
-	
+
 	_updateChildren : function(widget, parent, updateLabels) {
 		var elementChildren = this._getSortedChildren(parent);
 		var tree = this.getControl();
@@ -287,7 +285,7 @@ $class("AbstractTreeViewer", {
 				}
 			}
 		}
-		
+
 		// compare first min items, and update item if necessary
 		// need to do it in two passes:
 		// 1: disassociate old items

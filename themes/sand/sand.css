@@ -480,12 +480,20 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	/*background-color: #EAE6D6;*/
 }
 
-.sand ul.jsWTMenu li.checked {
-	background-image: url('checked.png');
-	background-position: 4px 8px;
+.sand ul.jsWTMenu li.checkable {
 	background-repeat: no-repeat;
 	padding-left: 14px;
 	width: 126px !important;
+}
+
+.sand ul.jsWTMenu li.check {
+	background-image: url('checked.png');
+	background-position: 4px 8px;
+}
+
+.sand ul.jsWTMenu li.radio {
+	background-image: url('dot.png');
+	background-position: 5px 9px;
 }
 
 

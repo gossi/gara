@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -23,7 +23,7 @@
 
 /**
  * gara TableItem
- * 
+ *
  * @class TableItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -53,13 +53,13 @@ $class("TableItem", {
 
 		this.domref = null;
 	},
-	
+
 	clear : function() {
 		this.checkWidget();
 		this._text = "";
 		this._image = null;
 		this._cells = [];
-		this._active = this._checked = false;
+		this._active = this._checked = this._selected = this._grayed = false;
 	},
 
 	_create : function() {
@@ -143,7 +143,7 @@ $class("TableItem", {
 	/**
 	 * @method
 	 * Returns the checked state for this item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {boolean} the checked state
 	 */
@@ -185,7 +185,7 @@ $class("TableItem", {
 	},
 
 	_registerListener : function(eventType, listener) {
-		
+
 	},
 
 	setActive : function(active) {
@@ -259,7 +259,7 @@ $class("TableItem", {
 			text.forEach(function(text, index, arr) {
 				if (!this._cells[index]) {
 					this._cells[index] = {};
-				}	
+				}
 				this._cells[index].text = text;
 			}, this);
 		} else if (!isNaN(index)) {
@@ -276,15 +276,15 @@ $class("TableItem", {
 
 		this._changed = true;
 	},
-	
+
 	toString : function() {
 		return "[gara.jswt.TableItem]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -295,7 +295,7 @@ $class("TableItem", {
 
 	update : function() {
 		this.checkWidget();
-		
+
 		if (this.domref == null) {
 			this._create();
 		} else {
@@ -309,7 +309,7 @@ $class("TableItem", {
 			var order = this._table.getColumnOrder();
 			for (var i = 0, len = order.length; i < len; ++i) {
 				var cell = this._cells[order[i]];
-				
+
 				if (this.hasChanged()) {
 					if (!cell.td) {
 						cell.td = document.createElement("td");
@@ -319,32 +319,32 @@ $class("TableItem", {
 						cell.textNode = document.createTextNode(cell.text);
 						cell.td.appendChild(cell.textNode);
 					}
-					
+
 					if (cell.image) {
 						if (!cell.img) {
 							cell.img = document.createElement("img");
 							cell.img.obj = this;
 							cell.img.control = this._table;
-							
+
 							base2.DOM.EventTarget(cell.img);
 							cell.td.insertBefore(cell.img, cell.textNode);
 						}
 						cell.img.src = cell.image.src;
 					}
-					
+
 					cell.td.className = "";
-					
+
 					if (this._selected && i == 0) {
 						cell.td.className = "selected";
 					}
-					
+
 					cell.textNode.nodeValue = cell.text;
 				}
-				
+
 				this.domref.appendChild(cell.td);
 			}
 		}
-		
+
 		this.removeClassName("selected");
 
 		if (this._selected) {

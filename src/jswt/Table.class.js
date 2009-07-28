@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -23,7 +23,7 @@
 
 /**
  * gara Table Widget
- * 
+ *
  * @class Table
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -34,7 +34,7 @@ $class("Table", {
 
 	/**
 	 * @constructor
-	 * 
+	 *
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
@@ -120,11 +120,11 @@ $class("Table", {
 		}
 		column._setParentNode(this._theadRow);
 	},
-	
+
 	/**
 	 * @method
 	 * Adds a selection listener on the table
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this table
 	 * @throws {TypeError} if the listener is not a SelectionListener
@@ -134,16 +134,16 @@ $class("Table", {
 		if (!$class.instanceOf(listener, gara.jswt.SelectionListener)) {
 			throw new TypeError("listener is not type of gara.jswt.SelectionListener");
 		}
-		
+
 		if (!this._selectionListener.contains(listener)) {
 			this._selectionListener.push(listener);
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Clears an item at a given index
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the position of the item
 	 * @return {void}
@@ -206,7 +206,7 @@ $class("Table", {
 
 		// listeners
 		/* buffer unregistered user-defined listeners */
-		var unregisteredListener = {};			
+		var unregisteredListener = {};
 		for (var eventType in this._listener) {
 			unregisteredListener[eventType] = this._listener[eventType].concat([]);
 		}
@@ -227,7 +227,7 @@ $class("Table", {
 		if (!$class.instanceOf(this._parent, gara.jswt.Composite)) {
 			this._parentNode = this._parent;
 		}
-		
+
 		if (this._parentNode != null) {
 			this._parentNode.appendChild(this.domref);
 		}
@@ -236,7 +236,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Deselects a specific item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item to deselect
 	 * @return {void}
@@ -255,7 +255,7 @@ $class("Table", {
 			this._notifySelectionListener();
 		}
 	},
-	
+
 	deselectAll : function() {
 		this.checkWidget();
 		while (this._selection.length) {
@@ -266,11 +266,11 @@ $class("Table", {
 	dispose : function() {
 		this.deselectAll();
 		this.$base();
-		
+
 		this._columns.forEach(function(col, index, arr) {
 			col.dispose();
 		}, this);
-		
+
 		this._items.forEach(function(item, index, arr) {
 			item.dispose();
 		}, this);
@@ -290,7 +290,7 @@ $class("Table", {
 		delete this._tbodyPadding;
 		delete this.domref;
 	},
-	
+
 	getColumn : function(index) {
 		this.checkWidget();
 		if (index >= 0 && index < this._columns.length) {
@@ -298,15 +298,15 @@ $class("Table", {
 		}
 		return null;
 	},
-	
+
 	getColumnCount : function() {
 		return this._columns.length;
 	},
-	
+
 	getColumnOrder : function() {
 		return this._columnOrder;
 	},
-	
+
 	getColumns : function() {
 		return this._columns;
 	},
@@ -314,11 +314,11 @@ $class("Table", {
 	getHeaderVisible : function() {
 		return this._headerVisible;
 	},
-	
+
 	/**
 	 * @method
 	 * Gets a specified item with a zero-related index
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {gara.OutOfBoundsException} if the requested index is out of bounds
@@ -329,14 +329,14 @@ $class("Table", {
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("The requested index exceeds the bounds");
 		}
-	
+
 		return this._items[index];
 	},
 
 	getItemCount : function() {
 		return this._items.length;
 	},
-	
+
 	getItems : function() {
 		return this._items;
 	},
@@ -348,7 +348,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Returns an array with the items which are currently selected in the table
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TreeItem[]}an array with items
 	 */
@@ -359,7 +359,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Returns the amount of the selected items in the table
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
@@ -370,13 +370,13 @@ $class("Table", {
 	handleEvent : function(e) {
 		this.checkWidget();
 		var obj = e.target.obj || null;
-		
+
 		if (obj && $class.instanceOf(obj, gara.jswt.TableItem)) {
 			e.item = obj;
 		}
 		e.widget = this;
 		this._event = e;
-		
+
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -385,7 +385,7 @@ $class("Table", {
 
 				if ($class.instanceOf(obj, gara.jswt.TableItem)) {
 					var item = obj;
-					
+
 					if (!e.ctrlKey && !e.shiftKey) {
 						this.select(item, false);
 					} else if (e.ctrlKey && e.shiftKey) {
@@ -416,9 +416,9 @@ $class("Table", {
 				}
 
 				this._notifyExternalKeyboardListener(e, this, this);
-				
+
 				if (e.type == "keydown") {
-					this._handleKeyEvent(e);					
+					this._handleKeyEvent(e);
 				}
 				break;
 		}
@@ -428,13 +428,13 @@ $class("Table", {
 		}
 
 		e.stopPropagation();
-		
+
 		/* in case of ie6, it is necessary to return false while the type of
 		 * the event is "contextmenu" and the menu isn't hidden in ie6
 		 */
 		return false;
 	},
-	
+
 	_handleKeyEvent : function(e) {
 		this.checkWidget();
 		if (this._activeItem == null) {
@@ -446,7 +446,7 @@ $class("Table", {
 				// determine previous item
 				var prev = false;
 				var activeIndex = this.indexOf(this._activeItem);
-				
+
 				if (activeIndex != 0) {
 					prev = this._items[activeIndex - 1];
 				}
@@ -462,7 +462,7 @@ $class("Table", {
 					if (h < this._tbody.scrollTop) {
 						this._tbody.scrollTop = h;
 					}
-					
+
 					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						//this.deselect(this._activeItem);
@@ -481,7 +481,7 @@ $class("Table", {
 				// determine next item
 				var next = false;
 				var activeIndex = this.indexOf(this._activeItem);
-				
+
 				if (activeIndex != this._items.length - 1) {
 					next = this._items[activeIndex + 1];
 				}
@@ -519,10 +519,10 @@ $class("Table", {
 					this.select(this._activeItem, true);
 				}
 				break;
-				
+
 			case 36 : // home
 				this._tbody.scrollTop = 0;
-			
+
 				if (!e.ctrlKey && !e.shiftKey) {
 					this.select(this._items[0], false);
 				} else if (e.shiftKey) {
@@ -546,11 +546,11 @@ $class("Table", {
 				break;
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Looks for the index of a specified item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TableItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this table
@@ -569,11 +569,11 @@ $class("Table", {
 
 		return this._items.indexOf(item);
 	},
-	
+
 	/**
 	 * @method
 	 * Notifies all selection listeners about the selection change
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -593,7 +593,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Removes an item from the table
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the index of the item
 	 * @return {void}
@@ -608,7 +608,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Removes items within an indices range
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} start start index
 	 * @param {int} end end index
@@ -624,7 +624,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Removes items whose indices are passed by an array
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {Array} inidices the array with the indices
 	 * @return {void}
@@ -635,11 +635,11 @@ $class("Table", {
 			this.remove(index);
 		}, this);
 	},
-	
+
 	/**
 	 * @method
 	 * Removes all items from the table
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -655,7 +655,7 @@ $class("Table", {
 	/**
 	 * @method
 	 * Removes a selection listener from this table
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to be removed from this table
 	 * @throws {TypeError} if the listener is not a SelectionListener
@@ -670,11 +670,11 @@ $class("Table", {
 			this._selectionListener.remove(listener);
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Selects an item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TableItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a TableItem
@@ -702,11 +702,11 @@ $class("Table", {
 			this._notifySelectionListener();
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Selects a Range of items. From shiftItem to the passed item.
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TableItem} item the item
@@ -738,13 +738,35 @@ $class("Table", {
 				this._items[i].update();
 			}
 
-			this._activateItem(item);			
+			this._activateItem(item);
 			this._notifySelectionListener();
 		} else {
 			this.select(item);
 		}
 	},
-	
+
+	/**
+	 * @method
+	 * Sets the selection of the tree
+	 *
+	 * @author Thomas Gossmann
+	 * @param {Array} items the array with the <code>TableItem</code> items
+	 * @throws {TypeError} if the passed items are not an array
+	 * @return {void}
+	 */
+	setSelection : function(items) {
+		this.checkWidget();
+		if (!$class.instanceOf(items, Array)) {
+			throw new TypeError("items are not instance of an Array");
+		}
+
+		this._selection = items;
+		this._selection.forEach(function(item, index, arr) {
+			item._setSelected(true);
+		}, this);
+		this._notifySelectionListener();
+	},
+
 	setColumnOrder : function(order) {
 		this._columnOrder = order;
 	},
@@ -752,19 +774,19 @@ $class("Table", {
 	setHeaderVisible : function(show) {
 		this._headerVisible = show;
 	},
-	
+
 	setLinesVisible : function(show) {
 		this._linesVisible = show;
 	},
-	
+
 	toString : function() {
 		return "[gara.jswt.Table]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -802,16 +824,16 @@ $class("Table", {
 		} else {
 			this._thead.style.display = "none";
 		}
-		
+
 		this._tbody.className = "";
 		this.removeClassName("jsWTTableNoLines");
 		this.removeClassName("jsWTTableLines");
 		this.addClassName("jsWTTable" + (this._linesVisible ? "" : "No") + "Lines");
-		
+
 		if ((this._style & JSWT.FULL_SELECTION) == JSWT.FULL_SELECTION) {
 			this._tbody.className = "jsWTTableFullSelection";
 		}
-		
+
 		this.domref.className = this._className;
 
 		// update items
@@ -833,11 +855,11 @@ $class("Table", {
 		} else {
 			this._tbody.style.height = "auto";
 		}
-		
+
 		this.domref.style.width = this._width != null ? this._width + "px" : "";
 		this.domref.style.height = this._height != null ? this._height + "px" : "";
 	},
-	
+
 	_updateItems : function() {
 		this._items.forEach(function(item, index, arr) {
 			item._setParentNode(this._tbody);

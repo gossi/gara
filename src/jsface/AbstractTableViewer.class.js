@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -33,11 +33,11 @@ $class("AbstractTableViewer", {
 	$constructor : function() {
 		this.$base();
 	},
-	
+
 	_createItem : function(element, index) {
 		this._updateItem(this._internalCreateNewRowPart(gara.jswt.JSWT.NONE, index).getItem(), element);
 	},
-	
+
 	/* Method declared on StructuredViewer. */
 	_doFindInputItem : function(element) {
 		// compare with root
@@ -59,7 +59,7 @@ $class("AbstractTableViewer", {
 	_doGetColumnCount : $abstract(function() {}),
 
 	_doGetItems : $abstract(function() {}),
-	
+
 	_doGetSelection : $abstract(function() {}),
 
 	_doRemoveRange : $abstract(function(from, to) {}),
@@ -110,7 +110,7 @@ $class("AbstractTableViewer", {
 
 		return this._doGetColumn(columnIndex);
 	},
-	
+
 	_getSelectionFromWidget : function() {
 		var items = this._doGetSelection();
 		var list = [];
@@ -143,12 +143,22 @@ $class("AbstractTableViewer", {
 	},
 
 	_internalRefreshAll : function() {
+		// save selected elements
+		var selected = [];
+		var selection = this.getControl().getSelection();
+		for (var i = 0; i < selection.length; ++i) {
+			selected.push(selection[i].getData());
+		}
+
 		var children = this._getSortedChildren(this._getRoot());
 		var items = this._doGetItems();
 		var min = Math.min(children.length, items.length);
 
 		for (var i = 0; i < min; ++i) {
 			var item = items[i];
+//			if (item.isDisposed()) {
+//				console.log("AbstractTableViewer.internalRefreshAll 1.run: disposed item: " + item.getText(0));
+//			}
 
 			if (children[i] == item.getData()) {
 				this._updateItem(item, children[i]);
@@ -164,12 +174,16 @@ $class("AbstractTableViewer", {
 			for (var i = min; i < items.length; ++i) {
 				this._disassociate(items[i]);
 			}
-			
+
 			this._doRemoveRange(min, items.length - 1);
 		}
 
 		// update disassociated items
 		for (var i = 0; i < min; ++i) {
+
+//			if (item.isDisposed()) {
+//				console.log("AbstractTableViewer.internalRefreshAll 2. run: disposed item: " + item.getText(0));
+//			}
 
 			var item = items[i];
 			if (item.getData() == null) {
@@ -181,6 +195,18 @@ $class("AbstractTableViewer", {
 		for (var i = min; i < children.length; ++i) {
 			this._createItem(children[i], i);
 		}
+
+		// restore selection
+		selection = [];
+		selected.forEach(function(elem, i, arr) {
+			var item = this._getItemFromElementMap(elem);
+			if (item != null) {
+				selection.push(item);
+			}
+		}, this);
+		this.getControl().update();
+		this.getControl().setSelection(selection);
+		this.getControl().update();
 	}
 
 });
