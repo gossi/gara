@@ -1,10 +1,10 @@
-/*	$Id: $
+/*	$Id$
 
 		gara - Javascript Toolkit
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -34,7 +34,8 @@ $class("DialogManager", {
 	$constructor : function() {
 		this._activeDialog = null;
 		this._dialogs = [];
-		
+		this._recents = [];
+
 		base2.DOM.EventTarget(document);
 		gara.EventManager.addListener(document, "keydown", this);
 	},
@@ -48,7 +49,10 @@ $class("DialogManager", {
 	}),
 
 	activate : function(dialog) {
-		if (!$class.instanceOf(dialog, gara.jswt.Dialog)) {
+//		if (!$class.instanceOf(dialog, gara.jswt.Dialog)) {
+//			throw new TypeError("dialog is not a gara.jswt.Dialog");
+//		}
+		if (!dialog.open) {
 			throw new TypeError("dialog is not a gara.jswt.Dialog");
 		}
 
@@ -56,29 +60,42 @@ $class("DialogManager", {
 			if (this._activeDialog != null) {
 				this._activeDialog.domref.style.zIndex = 600;
 			}
-			
+
 			this._activeDialog = dialog;
-			this._activeDialog.domref.style.zIndex = 601;
+			this._recents.remove(dialog);
+			this._recents.insertAt(0, dialog);
+
+			this._recents.forEach(function(dialog, index) {
+				dialog.domref.style.zIndex = 600 + (this._dialogs.length - index);
+			}, this);
+
+			if ((this._activeDialog.getStyle() & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
+				this._activeDialog.domref.style.zIndex = 651;
+			}
 		}
 	},
 
 	addDialog : function(dialog) {
-		if (!$class.instanceOf(dialog, gara.jswt.Dialog)) {
+//		if (!$class.instanceOf(dialog, gara.jswt.Dialog)) {
+//			throw new TypeError("dialog is not a gara.jswt.Dialog");
+//		}
+		if (!dialog.open) {
 			throw new TypeError("dialog is not a gara.jswt.Dialog");
 		}
 
 		if (!this._dialogs.contains(dialog)) {
 			this._dialogs.push(dialog);
+			this._recents.push(dialog);
 		}
 	},
-	
+
 	getActiveDialog : function() {
 		if (this._activeDialog != null) {
 			return this._activeDialog;
 		}
 		return null;
 	},
-	
+
 	getDialogs : function() {
 		return this._dialogs;
 	},
@@ -86,24 +103,22 @@ $class("DialogManager", {
 	handleEvent : function(e) {
 		switch(e.type) {
 			case "mousedown":
-				if (e.target.obj 
-						&& $class.instanceOf(e.target.obj, gara.jswt.Dialog)) {
-					console.log("DialogMananger.handleEvent(mousedown)");
+				if (e.target.obj
+						&& dialog.open) {
 					this.activate(e.target.obj);
 				}
 				break;
-			
+
 			case "keydown":
 				if (this._activeDialog != null && e.keyCode == 9) {
 					return false;
-				} 
+				}
 				break;
 		}
-
 	},
 
 	removeDialog : function(dialog) {
-		if (!$class.instanceOf(dialog, gara.jswt.Dialog)) {
+		if (!dialog.open) {
 			throw new TypeError("dialog is not a gara.jswt.Dialog");
 		}
 

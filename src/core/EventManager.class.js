@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -27,7 +27,7 @@
  * EventManager is used to store all event listeners throughout the document.
  * This helps to keep all listeners stored in one point and also pretend memory
  * leaks by releasing all listeners at the unload event.
- * 
+ *
  * @see http://ajaxcookbook.org/event-handling-memory-leaks/
  * @author Thomas Gossmann
  * @namespace gara
@@ -58,7 +58,7 @@ $class("EventManager", {
 	 * @method
 	 * Adds a listener to a specified domNode and store the added event in the
 	 * event manager.
-	 * 
+	 *
 	 * @param {HTMLElement} domNode the node where the event is added to
 	 * @param {DOMString} type the event type
 	 * @param {Object|Function} listener the desired action handler
@@ -77,7 +77,7 @@ $class("EventManager", {
 		if (!listener.hasOwnProperty("_garaHash")) {
 			listener._garaHash = listener.toString() + hashAppendix;
 		}
-		
+
 		var hash = "" + domNode._garaHash + type + listener._garaHash;
 		var event = {
 			domNode : domNode,
@@ -85,7 +85,7 @@ $class("EventManager", {
 			listener : listener
 		}
 		this._listeners[hash] = event;
-		
+
 		return event;
 	}),
 
@@ -93,7 +93,7 @@ $class("EventManager", {
 	 * @method
 	 * handleEvent is used to catch the unload-event of the window and pass
 	 * it to _unregisterAllEvents() to free up memory.
-	 * 
+	 *
 	 * @private
 	 */
 	handleEvent : function(e) {
@@ -105,25 +105,27 @@ $class("EventManager", {
 	/**
 	 * @method
 	 * Removes a specified event
-	 * 
+	 *
 	 * @param {Event} event object which is returned by addListener()
 	 * @see addListener
 	 */
 	removeListener : $static(function(domNode, type, listener) {
-		domNode.removeEventListener(type, listener, false);
+		if (domNode) {
+			domNode.removeEventListener(type, listener, false);
 
-		if (domNode._garaHash && listener.hasOwnProperty("_garaHash")) {
-			var hash = domNode._garaHash + type + listener._garaHash;
+			if (domNode._garaHash && listener.hasOwnProperty("_garaHash")) {
+				var hash = domNode._garaHash + type + listener._garaHash;
 
-			if (this._listeners[hash]) {
-				delete this._listeners[hash];
+				if (this._listeners[hash]) {
+					delete this._listeners[hash];
+				}
 			}
 		}
 	}),
 
 	/**
 	 * @method
-	 * 
+	 *
 	 * Removes all stored listeners on the page unload.
 	 * @private
 	 */

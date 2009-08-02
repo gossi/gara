@@ -1,10 +1,10 @@
-/*	$Id: $
+/*	$Id$
 
 		gara - Javascript Toolkit
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -21,16 +21,6 @@
 	===========================================================================
 */
 
-function getStyle(el, styleProp, ieStyleProp)
-{
-	var x = el;
-	if (x.currentStyle)
-		var y = x.currentStyle[ieStyleProp];
-	else if (window.getComputedStyle)
-		var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
-	return y;
-}
-
 /**
  * @class MessageBox
  * @author Thomas Gossmann
@@ -39,7 +29,7 @@ function getStyle(el, styleProp, ieStyleProp)
  */
 $class("IframeDialog", {
 	$extends : gara.jswt.Dialog,
-	
+
 	/**
 	 * @constructor
 	 */
@@ -56,24 +46,24 @@ $class("IframeDialog", {
 
 	/**
 	 * @method
-	 * 
+	 *
 	 * Creates the frame for the dialog. Content is populated by a
 	 * specialised subclass.
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	_create : function(src) {
 		this.$base();
-		
+
 		this._overlay = document.createElement("div");
 		this._overlay.style.position = "absolute";
 		this._overlay.style.left = "0";
 		this._overlay.style.right = "0";
 		this._overlay.style.top = "0";
 		this._overlay.style.bottom = "0";
-		
+
 		this.domref.className += " jsWTIframeDialog";
 		this._iframe = document.createElement("iframe");
 		this._iframe.src = src;
@@ -85,14 +75,14 @@ $class("IframeDialog", {
 			this._overlay.className = "loading";
 			this._showOverlay();
 		}
-		
+
 		this.domref.style.width = this._width + "px";
 		this._dialogContent.style.height = this._height + "px";
 		this._dialogContent.style.position = "relative";
-		
+
 		base2.DOM.EventTarget(this._iframe);
 		base2.DOM.EventTarget(this._dialogContent);
-		
+
 		gara.EventManager.addListener(this._iframe, "load", this);
 
 		this._dialogBarText.appendChild(document.createTextNode(this._title));
@@ -117,10 +107,10 @@ $class("IframeDialog", {
 	getWidth : function() {
 		return this._width;
 	},
-	
+
 	handleEvent : function(e) {
 		this.$base(e);
-		
+
 		switch (e.type) {
 			case "load":
 				if (this._iDoc == null) {
@@ -132,12 +122,12 @@ $class("IframeDialog", {
 						} catch (e) {}
 					}
 				}
-				
+
 				if (this._iDoc != null) {
 					try {
 						this._iDoc.obj = this;
 						base2.DOM.EventTarget(this._iDoc);
-						gara.EventManager.addListener(this._iDoc, "mousedown", this);
+						this._parentWindow.gara.EventManager.addListener(this._iDoc, "mousedown", this);
 					} catch(e) {}
 				}
 
@@ -146,31 +136,31 @@ $class("IframeDialog", {
 					this._hideOverlay();
 				}
 				break;
-			
+
 			case "mousedown":
-				gara.jswt.DialogManager.getInstance().activate(this);
+				this._parentWindow.gara.jswt.DialogManager.getInstance().activate(this);
 				if (e.target == this._dialogBar ||
 					e.target == this._dialogBarText ||
 					e.target == this._dialogBarButtons) {
-					
-					gara.jswt.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
-						if ($class.instanceOf(diag, gara.jswt.IframeDialog)) {
+
+					this._parentWindow.gara.jswt.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
+						if ($class.typeOf(diag) == "gara.jswt.IframeDialog") {
 							diag._showOverlay();
 						}
 					}, this);
 				}
 				break;
-				
+
 			case "mouseup":
-				gara.jswt.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
-					if ($class.instanceOf(diag, gara.jswt.IframeDialog)) {
+				this._parentWindow.gara.jswt.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
+					if ($class.typeOf(diag) == "gara.jswt.IframeDialog") {
 						diag._hideOverlay();
 					}
 				}, this);
 				break;
 		}
 	},
-	
+
 	_hideOverlay : function() {
 		this._dialogContent.removeChild(this._overlay);
 	},
@@ -178,7 +168,7 @@ $class("IframeDialog", {
 	open: function(src) {
 		this._create(src);
 	},
-	
+
 	_showOverlay : function() {
 		this._dialogContent.appendChild(this._overlay);
 	},

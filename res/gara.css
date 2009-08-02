@@ -318,7 +318,7 @@ ul.jsWTMenu {
  */
 
 div#jsWTModalLayer {
-	z-index: 550;
+	z-index: 650;
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -332,6 +332,10 @@ div#jsWTModalLayer {
 div.jsWTDialog {
 	z-index: 600;
 	position: absolute;
+}
+
+div.jsWTDialogModal {
+	z-index: 651;
 }
 
 div.jsWTDialogBar {

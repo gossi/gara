@@ -1,4 +1,4 @@
-/*	$Id: ItemNotExistsException.class.js 91 2007-12-09 18:58:43Z tgossmann $
+/*	$Id$
 
 		gara - Javascript Toolkit
 	===========================================================================

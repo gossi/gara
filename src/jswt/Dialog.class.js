@@ -1,10 +1,10 @@
-/*	$Id: $
+/*	$Id$
 
 		gara - Javascript Toolkit
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -42,9 +42,8 @@ $class("Dialog", {
 		this._style = style;
 		this._disposed = false;
 		this._text = " ";
-		
+
 		this.domref = null;
-		this._parentWindow = window;
 		this._modalLayer = null;
 		this._dialogBar;
 		this._dialogBarLeft;
@@ -56,51 +55,36 @@ $class("Dialog", {
 		this._dX;
 		this._dY;
 
-		
-		this._tabIndexes = [];	
-		this._tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME"]; 
 
-		gara.jswt.DialogManager.getInstance().addDialog(this);
+		this._tabIndexes = [];
+		this._tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME"];
+
+		this._parentWindow.gara.jswt.DialogManager.getInstance().addDialog(this);
 	},
 
 	/**
 	 * @method
-	 * 
+	 *
 	 * Creates the frame for the dialog. Content is populated by a
 	 * specialised subclass.
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	_create : function() {
-		if ((this._style & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
-			this._disableTabIndexes();
-			var modalLayer;
-			if (modalLayer = document.getElementById("jsWTModalLayer")) {
-				modalLayer.style.display = "block";
-			} else {
-				modalLayer = document.createElement("div");
-				modalLayer.id = "jsWTModalLayer";
-				document.getElementsByTagName("body")[0].appendChild(modalLayer);
-			}
-
-			modalLayer.style.width = this._getViewportWidth() + "px";
-			modalLayer.style.height = this._getViewportHeight() + "px";
-		}
-
 		this._parent = this._parentWindow.document.getElementsByTagName("body")[0];
 
 		this.domref = document.createElement("div");
 		this.domref.className = "jsWTDialog";
 		this.domref.obj = this;
-		
+
 		this._dialogBar = document.createElement("div");
 		this._dialogBar.className = "jsWTDialogBar";
-		
+
 		this._dialogContent = document.createElement("div");
 		this._dialogContent.className = "jsWTDialogContent";
-		
+
 		this._dialogBarLeft = document.createElement("div");
 		this._dialogBarLeft.className = "jsWTDialogBarLeft";
 
@@ -128,35 +112,52 @@ $class("Dialog", {
 		this._dialogBarText.appendChild(document.createTextNode(this._text));
 		this._dialogBarButtons.appendChild(this._barCancelButton);
 		this._dialogBar.appendChild(clearer);
-		
+
 		base2.DOM.EventTarget(this._parentWindow);
 		base2.DOM.EventTarget(this._parentWindow.document);
 		base2.DOM.EventTarget(this.domref);
 		base2.DOM.EventTarget(this._dialogBar);
 		base2.DOM.EventTarget(this._barCancelButton);
-		
-		gara.EventManager.addListener(this.domref, "mousedown", this);
-		gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
-		gara.EventManager.addListener(this._parentWindow, "resize", this);
-		
+
+		this._parentWindow.gara.EventManager.addListener(this.domref, "mousedown", this);
+		this._parentWindow.gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
+		this._parentWindow.gara.EventManager.addListener(this._parentWindow, "resize", this);
+
 		this._parent.appendChild(this.domref);
-		
-		gara.jswt.DialogManager.getInstance().activate(this);
+
+		if ((this._style & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
+			this._disableTabIndexes();
+			var modalLayer;
+			if (modalLayer = this._parentWindow.document.getElementById("jsWTModalLayer")) {
+				modalLayer.style.display = "block";
+			} else {
+				modalLayer = this._parentWindow.document.createElement("div");
+				modalLayer.id = "jsWTModalLayer";
+				this._parent.appendChild(modalLayer);
+			}
+
+			modalLayer.style.width = this._getViewportWidth() + "px";
+			modalLayer.style.height = this._getViewportHeight() + "px";
+
+			this.domref.className += " jsWTDialogModal";
+		}
+
+		this._parentWindow.gara.jswt.DialogManager.getInstance().activate(this);
 	},
 
 	/**
 	 * @method
 	 * Disable tab indexes when dialog is opened
-	 * 
+	 *
 	 * Code below taken from subModal {@link http://gabrito.com/files/subModal/}
-	 * 
+	 *
 	 * @private
 	 */
 	_disableTabIndexes : function() {
 		if (document.all) {
 			var i = 0;
 			for (var j = 0; j < this._tabbableTags.length; j++) {
-				var tagElements = document.getElementsByTagName(this._tabbableTags[j]);
+				var tagElements = this._parentWindow.document.getElementsByTagName(this._tabbableTags[j]);
 				for (var k = 0 ; k < tagElements.length; k++) {
 					this._tabIndexes[i] = tagElements[k].tabIndex;
 					tagElements[k].tabIndex="-1";
@@ -169,25 +170,25 @@ $class("Dialog", {
 	/**
 	 * @method
 	 * Deletes and destroys the dialog
-	 * 
+	 *
 	 *  @private
 	 *  @author Thomas Gossmann
 	 *  @return {void}
 	 */
 	dispose : function() {
-		gara.EventManager.removeListener(this.domref, "mousedown", this);
-		gara.EventManager.removeListener(this._barCancelButton, "mousedown", this);
-		gara.EventManager.removeListener(window, "resize", this);
+		this._parentWindow.gara.EventManager.removeListener(this.domref, "mousedown", this);
+		this._parentWindow.gara.EventManager.removeListener(this._barCancelButton, "mousedown", this);
+		this._parentWindow.gara.EventManager.removeListener(window, "resize", this);
 
 		if ((this._style & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
 			this._restoreTabIndexes();
 		}
-		gara.jswt.DialogManager.getInstance().removeDialog(this);
+		this._parentWindow.gara.jswt.DialogManager.getInstance().removeDialog(this);
 		this.domref.obj = null;
 		this._parent.removeChild(this.domref);
-		
+
 		if ((this._style & JSWT.APPLICATION_MODAL) == JSWT.APPLICATION_MODAL) {
-			document.getElementById("jsWTModalLayer").style.display = "none";
+			this._parentWindow.document.getElementById("jsWTModalLayer").style.display = "none";
 		}
 
 		this._disposed = true;
@@ -196,7 +197,7 @@ $class("Dialog", {
 	/**
 	 * @method
 	 * Returns the title text from the Dialog
-	 * 
+	 *
 	 * @return {String} the title
 	 * @author Thomas Gossmann
 	 */
@@ -204,50 +205,54 @@ $class("Dialog", {
 		return this._text;
 	},
 
+	getStyle : function() {
+		return this._style;
+	},
+
 	/**
 	 * @method
 	 * Gets height of the viewport
-	 * 
+	 *
 	 * Code below taken from - http://www.evolt.org/article/document_body_doctype_switching_and_more/17/30655/
 	 * Modified 4/22/04 to work with Opera/Moz (by webmaster at subimage dot com)
 	 * Gets the full width/height because it's different for most browsers.
-	 * 
+	 *
 	 * Found on {@link http://gabrito.com/files/subModal/}
-	 * 
+	 *
 	 * @private
 	 * @return {int} viewport height
 	 */
 	_getViewportHeight : function() {
-		if (window.innerHeight!=window.undefined) return window.innerHeight;
-		if (document.compatMode=='CSS1Compat') return document.documentElement.clientHeight;
-		if (document.body) return document.body.clientHeight;
+		if (this._parentWindow.innerHeight!=window.undefined) return this._parentWindow.innerHeight;
+		if (this._parentWindow.document.compatMode=='CSS1Compat') return this._parentWindow.document.documentElement.clientHeight;
+		if (this._parentWindow.document.body) return this._parentWindow.document.body.clientHeight;
 		return window.undefined;
 	},
 
 	/**
 	 * @method
 	 * Gets width of the viewport
-	 * 
+	 *
 	 * Code below taken from - http://www.evolt.org/article/document_body_doctype_switching_and_more/17/30655/
 	 * Modified 4/22/04 to work with Opera/Moz (by webmaster at subimage dot com)
 	 * Gets the full width/height because it's different for most browsers.
-	 * 
+	 *
 	 * Found on {@link http://gabrito.com/files/subModal/}
-	 * 
+	 *
 	 * @private
 	 * @return {int} viewport width
 	 */
 	_getViewportWidth : function() {
-		if (window.innerWidth!=window.undefined) return window.innerWidth;
-		if (document.compatMode=='CSS1Compat') return document.documentElement.clientWidth;
-		if (document.body) return document.body.clientWidth;
+		if (this._parentWindow.innerWidth!=window.undefined) return this._parentWindow.innerWidth;
+		if (this._parentWindow.document.compatMode=='CSS1Compat') return this._parentWindow.document.documentElement.clientWidth;
+		if (this._parentWindow.document.body) return this._parentWindow.document.body.clientWidth;
 		return window.undefined;
 	},
 
 	/**
 	 * @method
 	 * Handling events on the dialog widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e
@@ -256,22 +261,22 @@ $class("Dialog", {
 	handleEvent : function(e) {
 		switch(e.type) {
 			case "mousedown":
-				gara.jswt.DialogManager.getInstance().activate(this);
+				this._parentWindow.gara.jswt.DialogManager.getInstance().activate(this);
 				if (e.target == this._barCancelButton) {
 					this.dispose();
-				} else if (e.target == this._dialogBar 
+				} else if (e.target == this._dialogBar
 						|| e.target == this._dialogBarText
 						|| e.target == this._dialogBarButtons){
-					gara.EventManager.addListener(this._parentWindow.document, "mousemove", this);
-					gara.EventManager.addListener(this._dialogBar, "mouseup", this);
+					this._parentWindow.gara.EventManager.addListener(this._parentWindow.document, "mousemove", this);
+					this._parentWindow.gara.EventManager.addListener(this._dialogBar, "mouseup", this);
 					this._dX = e.clientX - this.domref.offsetLeft;
 					this._dY = e.clientY - this.domref.offsetTop;
 				}
 				break;
 
 			case "mouseup":
-				gara.EventManager.removeListener(this._parentWindow.document, "mousemove", this);
-				gara.EventManager.removeListener(this._dialogBar, "mouseup", this);
+				this._parentWindow.gara.EventManager.removeListener(this._parentWindow.document, "mousemove", this);
+				this._parentWindow.gara.EventManager.removeListener(this._dialogBar, "mouseup", this);
 				break;
 
 			case "mousemove":
@@ -280,14 +285,14 @@ $class("Dialog", {
 				break;
 
 			case "resize":
-				if (modalLayer = document.getElementById("jsWTModalLayer")) {
+				if (modalLayer = this._parent.document.getElementById("jsWTModalLayer")) {
 					modalLayer.style.width = this._getViewportWidth() + "px";
 					modalLayer.style.height = this._getViewportHeight() + "px";
 				}
 				break;
 		}
 	},
-	
+
 	isDisposed : function() {
 		return this._disposed;
 	},
@@ -297,16 +302,16 @@ $class("Dialog", {
 	/**
 	 * @method
 	 * Restores tab indexes when dialog is closed
-	 * 
+	 *
 	 * Code below taken from subModal {@link http://gabrito.com/files/subModal/}
-	 * 
+	 *
 	 * @private
 	 */
 	_restoreTabIndexes : function() {
 		if (document.all) {
 			var i = 0;
 			for (var j = 0; j < this._tabbableTags.length; j++) {
-				var tagElements = document.getElementsByTagName(this._tabbableTags[j]);
+				var tagElements = this._parent = this._parentWindow.document.getElementsByTagName(this._tabbableTags[j]);
 				for (var k = 0 ; k < tagElements.length; k++) {
 					tagElements[k].tabIndex = this._tabIndexes[i];
 					tagElements[k].tabEnabled = true;
@@ -329,4 +334,4 @@ $class("Dialog", {
 	toString : function() {
 		return "[gara.jswt.Dialog]";
 	}
-});	
+});
