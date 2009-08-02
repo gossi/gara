@@ -36,7 +36,7 @@
 var t;
 function main() {
 	try {
-		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.CHECK);
+		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
 		
 		var img = new Image();
 		img.src = "../../themes/sand/icon_information.png";
@@ -92,6 +92,7 @@ function main() {
 
 
 		t.setHeight(120);
+		t.setWidth(150);
 		
 		t.update();
 	} catch(e) {

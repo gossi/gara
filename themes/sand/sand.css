@@ -151,9 +151,36 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	position: relative;
 }
 
+.sand div.jsWTTabFolder span.more {
+	position: absolute;
+	display: block;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border: 1px solid transparent;
+	width: 10px;
+	font-size: 77%;
+	z-index: 202;
+	background: 1px 1px url('more.png') no-repeat transparent;
+	padding-left: 9px;
+	padding-top: 4px;
+	cursor: default;
+	margin-left: 5px;
+}
+
+.sand div.jsWTTabFolder span.more:hover {
+	border-color: #765;
+	background-color: #EAE6D6;
+}
+
 /*
  * Top Style
  */
+
+.sand div.jsWTTabFolderTopbar span.more {
+	top: 3px;
+	right: 5px;
+}
 
 .sand div.jsWTTabFolderTopbar ul.jsWTTabbar {
 	margin: 0;
@@ -196,8 +223,8 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 .sand div.jsWTTabFolderTopbar ul.jsWTTabbar img {
 	float: left;
 	display: block;
-	padding-top: 5px;
 	padding-right: 3px;
+	margin-left: -6px;
 }
 
 .sand div.jsWTTabFolderTopbar ul.jsWTTabbar > ul span {width:auto;}
@@ -366,13 +393,13 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
  
-.sand table.jsWTTable {
+.sand .jsWTTable table {
 	border-collapse: separate !important;
 	border-collapse: collapse;
 	border-spacing: 0 0;
 }
 
-.sand table.jsWTTable thead tr th {
+.sand .jsWTTable table thead tr th {
 	padding: 2px;
 	background-color: #9C9577;
 	color: #FFF;
@@ -387,7 +414,7 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	border-spacing: 0 0;
 }
 
-.sand table.jsWTTable thead tr th span.mover {
+.sand .jsWTTable table thead tr th span.mover {
 	margin-top: -3px !important;
 	margin-right: -4px !important;
 	margin-bottom: -3px !important;
@@ -398,37 +425,37 @@ EADB98	EAE3C1	EAE6D6	9C9577	4E4A3B	AFAA91	CCC8BA
 	float: right;
 }
 
-.sand table.jsWTTable thead tr th.jsWTTableCheckboxCol {
+.sand .jsWTTable table thead tr th.jsWTTableCheckboxCol {
 	width: 15px;
 }
 
-.sand table.jsWTTable tbody tr td {
+.sand .jsWTTable table tbody tr td {
 	padding: 2px;
 	cursor: default;
 	border-spacing: 0 0;
 }
 
-.sand table.jsWTTableLines tbody tr td {
+.sand .jsWTTableLines table tbody tr td {
 	border-bottom: 1px solid #000;
 }
 
-.sand table.jsWTTableNoLines tbody tr td {
+.sand .jsWTTableNoLines table tbody tr td {
 	border-bottom: none;
 }
 
-.sand table.jsWTTableActive tbody.jsWTTableFullSelection tr.selected td {
+.sand .jsWTTableActive table tbody.jsWTTableFullSelection tr.selected td {
 	background-color: #EAE6D6;
 }
 
-.sand table.jsWTTableInactive tbody.jsWTTableFullSelection tr.selected td {
+.sand .jsWTTableInactive table tbody.jsWTTableFullSelection tr.selected td {
 	background-color: #CCC8BA;
 }
 
-.sand table.jsWTTableActive tbody tr td.selected {
+.sand .jsWTTable tableActive tbody tr td.selected {
 	background-color: #EAE6D6;
 }
 
-.sand table.jsWTTableInactive tbody tr td.selected {
+.sand .jsWTTable tableInactive tbody tr td.selected {
 	background-color: #CCC8BA;
 }
 

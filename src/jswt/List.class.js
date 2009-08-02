@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -24,10 +24,10 @@
 /**
  * @summary
  * gara List Widget
- * 
+ *
  * @description
  * long description for the List Widget...
- * 
+ *
  * @class List
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -39,7 +39,7 @@ $class("List", {
 	/**
 	 * @constructor
 	 * Constructor
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
@@ -66,7 +66,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Activates an item
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should added to the List
@@ -92,7 +92,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Adds an item to the list (invoked by the constructor of ListItem)
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should added to the List
@@ -104,7 +104,7 @@ $class("List", {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item is not type of gara.jswt.ListItem");
 		}
-		
+
 		if (typeof(index) != "undefined") {
 			this._items.insertAt(index, item);
 		} else {
@@ -115,7 +115,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Adds a selection listener on the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this list
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
@@ -129,7 +129,7 @@ $class("List", {
 
 		this._selectionListener.push(listener);
 	},
-	
+
 	_create : function() {
 		this.domref = document.createElement("ul");
 		this.domref.obj = this;
@@ -137,7 +137,7 @@ $class("List", {
 		base2.DOM.EventTarget(this.domref);
 
 		/* buffer unregistered user-defined listeners */
-		var unregisteredListener = {};			
+		var unregisteredListener = {};
 		for (var eventType in this._listener) {
 			unregisteredListener[eventType] = this._listener[eventType].concat([]);
 		}
@@ -164,7 +164,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Deselects an item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should be deselected
 	 * @throws {TypeError} if the item is not a ListItem
@@ -188,7 +188,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Deselects all items
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -217,7 +217,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Gets a specified item with a zero-related index
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {gara.OutOfBoundsException} if the index does not live within this list
@@ -228,14 +228,14 @@ $class("List", {
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this list");
 		}
-	
+
 		return this._items[index];
 	},
 
 	/**
 	 * @method
 	 * Returns the amount of the items in the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
@@ -246,7 +246,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Returns an array with all the items in the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.ListItem[]} the array with the items
 	 */
@@ -257,7 +257,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Returns an array with the items which are currently selected in the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.ListItem[]} an array with items
 	 */
@@ -269,7 +269,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Returns the amount of the selected items in the tree
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
@@ -281,7 +281,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Handles events on the list. Implements DOMEvent Interface by the W3c.
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
 	 * @return {void}
@@ -290,7 +290,7 @@ $class("List", {
 		this.checkWidget();
 		// special events for the list
 		var obj = e.target.obj || null;
-		
+
 		if (obj && $class.instanceOf(obj, gara.jswt.ListItem)) {
 			e.item = obj;
 		}
@@ -332,16 +332,17 @@ $class("List", {
 				}
 
 				this._notifyExternalKeyboardListener(e, this, this);
-				
+
 				if (e.type == "keydown") {
-					this._handleKeyEvent(e);					
+					this._handleKeyEvent(e);
 				}
+				e.preventDefault();
 				break;
 		}
 
 		this.handleContextMenu(e);
 		e.stopPropagation();
-		
+
 		/* in case of ie6, it is necessary to return false while the type of
 		 * the event is "contextmenu" and the menu isn't hidden in ie6
 		 */
@@ -351,14 +352,14 @@ $class("List", {
 	/**
 	 * @method
 	 * handling key events on the List
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
 	 * @return {void}
 	 */
 	_handleKeyEvent : function(e) {
-	
+
 	//	window.status = "keycode: " + e.keyCode;
 		if (this._activeItem == null) {
 			return;
@@ -370,7 +371,7 @@ $class("List", {
 				// determine previous item
 				var prev = false;
 				var activeIndex = this.indexOf(this._activeItem);
-				
+
 				if (activeIndex != 0) {
 					prev = this._items[activeIndex - 1];
 				}
@@ -379,14 +380,17 @@ $class("List", {
 					// update scrolling
 					var h = 0;
 					for (var i = 0; i < (activeIndex - 1); i++) {
-						h += this._items[i].domref.offsetHeight
-							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
-							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+						h += getItemHeight(this._items[i]);
 					}
-					if (h < this.domref.scrollTop) {
-						this.domref.scrollTop = h;
-					}
-					
+					var viewport = this.domref.clientHeight + this.domref.scrollTop
+						- parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
+						- parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
+					var itemAddition = prev.domref.clientHeight
+					- parseInt(gara.Utils.getStyle(prev.domref, "padding-top"))
+					- parseInt(gara.Utils.getStyle(prev.domref, "padding-bottom"));
+//					console.log("List.handleKeyEvent[up], h: " + h + ", viewport: " + viewport + ", clientHeight: " + this.domref.clientHeight + ", scrollTop: " + this.domref.scrollTop);
+					this.domref.scrollTop = h < this.domref.scrollTop ? h : (viewport < h ? h - viewport + itemAddition : this.domref.scrollTop);
+
 					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
 						//this.deselect(this._activeItem);
@@ -398,6 +402,7 @@ $class("List", {
 					} else if (e.ctrlKey) {
 						this._activateItem(prev);
 					}
+
 				}
 				break;
 
@@ -406,7 +411,7 @@ $class("List", {
 				// determine next item
 				var next = false;
 				var activeIndex = this.indexOf(this._activeItem);
-				
+
 				// item is last;
 				if (activeIndex != this._items.length - 1) {
 					next = this._items[activeIndex + 1];
@@ -416,18 +421,18 @@ $class("List", {
 					// update scrolling
 					var h = 0;
 					for (var i = 0; i <= (activeIndex + 1); i++) {
-						h += this._items[i].domref.offsetHeight
-							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-top"))
-							+ parseInt(gara.Utils.getStyle(this._items[i].domref, "margin-bottom"));
+						h += getItemHeight(this._items[i]);
 					}
+					var min = h - getItemHeight(next);
 					var viewport = this.domref.clientHeight + this.domref.scrollTop
 						- parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
 						- parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
-					if (h > viewport) {
-						this.domref.scrollTop = h - this.domref.clientHeight
-							+ parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
-							+ parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
-					}
+					var scrollRange = h - this.domref.clientHeight
+						+ parseInt(gara.Utils.getStyle(this.domref, "padding-top"))
+						+ parseInt(gara.Utils.getStyle(this.domref, "padding-bottom"));
+
+//					console.log("List.handleKeyEvent[down], h: " + h + ", min: " + min + ", viewport: " + viewport + ", scrollRange: " + scrollRange + ", scrollTop: " + this.domref.scrollTop);
+					this.domref.scrollTop = h > viewport ? (scrollRange < 0 ? 0 : scrollRange) : (this.domref.scrollTop > min ? min : this.domref.scrollTop);
 
 					// handle select
 					if (!e.ctrlKey && !e.shiftKey) {
@@ -462,7 +467,7 @@ $class("List", {
 					this._activateItem(this._items[0]);
 				}
 				break;
-				
+
 			case 35: // end
 				this.domref.scrollTop = this.domref.scrollHeight - this.domref.clientHeight;
 
@@ -476,12 +481,19 @@ $class("List", {
 				}
 				break;
 		}
+
+		function getItemHeight(item) {
+			var h = item.domref.offsetHeight
+				+ parseInt(gara.Utils.getStyle(item.domref, "margin-top"))
+				+ parseInt(gara.Utils.getStyle(item.domref, "margin-bottom"));
+			return h;
+		}
 	},
 
 	/**
 	 * @method
 	 * Looks for the index of a specified item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this list
@@ -493,7 +505,7 @@ $class("List", {
 		if (!$class.instanceOf(item, gara.jswt.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.ListItem");
 		}
-	
+
 		if (!this._items.contains(item)) {
 			// TODO: ItemNotExistsException
 			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
@@ -506,7 +518,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Notifies selection listener about the changed selection within the List
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -515,11 +527,11 @@ $class("List", {
 			this._selectionListener[i].widgetSelected(this._event);
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Register listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -533,13 +545,16 @@ $class("List", {
 	/**
 	 * @method
 	 * Removes an item from the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the index of the item
 	 * @return {void}
 	 */
 	remove : function(index) {
 		this.checkWidget();
+		if (index < 0 || index > this._items.length) {
+			throw new gara.OutOfBoundsException("index out of bounds");
+		}
 		var item = this._items.removeAt(index)[0];
 		if (this._selection.contains(item)) {
 			this._selection.remove(item);
@@ -551,7 +566,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Removes items within an indices range
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} start start index
 	 * @param {int} end end index
@@ -567,7 +582,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Removes items which indices are passed by an array
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {Array} inidices the array with the indices
 	 * @return {void}
@@ -582,7 +597,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Removes all items from the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -599,7 +614,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Removes a selection listener from this list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to remove from this list
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
@@ -619,7 +634,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Selects an item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a ListItem
@@ -651,7 +666,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Select all items in the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -667,7 +682,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Selects a range. From the item with shift-lock to the passed item.
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.ListItem} item the item that should be selected
@@ -711,14 +726,14 @@ $class("List", {
 	/**
 	 * @method
 	 * Sets the text of an item at a zero-related index
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the index for the item
 	 * @param {String} string the new text for the item
 	 * @throws {TypeError} if the text is not a string
 	 * @throws {gara.OutOfBoundsException} if the index does not live within the List
 	 * @return {void}
-	 */	
+	 */
 	setItem : function(index, string) {
 		this.checkWidget();
 		if (typeof(string) != "string") {
@@ -730,14 +745,14 @@ $class("List", {
 		}
 
 		item[index].setText(string);
-		
+
 		this.update();
 	},
 
 	/**
 	 * @method
 	 * Sets the List's items to be the given Array of items
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {Array} strings the array with item texts
 	 * @throws {TypeError} if the strings are not an Array
@@ -757,19 +772,19 @@ $class("List", {
 				item.setText(strings[i]);
 			}
 		}
-		
+
 		this.update();
 	},
-	
+
 	/**
 	 * @method
 	 * Sets the selection of the list
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {Array} items the array with the <code>TreeItem</code> items
 	 * @throws {TypeError} if the passed items are not an array
 	 * @return {void}
-	 */	
+	 */
 	setSelection : function(items) {
 		this.checkWidget();
 		if ($class.instanceOf(items, Array)) {
@@ -788,11 +803,11 @@ $class("List", {
 	toString : function() {
 		return "[gara.jswt.List]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -806,7 +821,7 @@ $class("List", {
 	/**
 	 * @method
 	 * Updates the list!
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -817,8 +832,8 @@ $class("List", {
 			this._create();
 		}
 
-		if (this._height != null) this.domref.style.width = this._width + "px"; 
-		if (this._width != null) this.domref.style.height = this._height + "px";
+		if (this._width != null){this.domref.style.width = this._width + "px";}
+		if (this._height != null){this.domref.style.height = this._height + "px";}
 
 		this.removeClassName("jsWTListFullSelection");
 

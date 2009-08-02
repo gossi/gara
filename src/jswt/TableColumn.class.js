@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -21,19 +21,9 @@
 	===========================================================================
 */
 
-function getStyle(el, styleProp, ieStyleProp)
-{
-	var x = el;
-	if (x.currentStyle)
-		var y = x.currentStyle[ieStyleProp];
-	else if (window.getComputedStyle)
-		var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp);
-	return y;
-}
-
 /**
  * gara TableColumn
- * 
+ *
  * @class TableColumn
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -43,7 +33,7 @@ $class("TableColumn", {
 	$extends : gara.jswt.Item,
 
 	$constructor : function(parent, style, index) {
-		
+
 		if (!$class.instanceOf(parent, gara.jswt.Table)) {
 			throw new TypeError("parent is not a gara.jswt.Table");
 		}
@@ -59,10 +49,10 @@ $class("TableColumn", {
 		this._span = null;
 		this._spanText = null
 		this._operator = null;
-		
+
 		this._moveable = true;
 		this._resizable = true;
-		
+
 		this._isMoving = false;
 		this._isResizing = false;
 	},
@@ -96,7 +86,7 @@ $class("TableColumn", {
 		this._span.appendChild(this._spanText);
 		this.domref.appendChild(this._span);
 
-		base2.DOM.EventTarget(this.domref);		
+		base2.DOM.EventTarget(this.domref);
 		base2.DOM.EventTarget(this._operator);
 		base2.DOM.EventTarget(this._span);
 
@@ -108,16 +98,14 @@ $class("TableColumn", {
 	_computeWidth : function() {
 		this.checkWidget();
 		if (this.domref != null && this.domref.style.display != "none") {
-			var paddingLeft = getStyle(this.domref, "padding-left", "paddingLeft");
-			var paddingRight = getStyle(this.domref, "padding-right", "paddingRight");
-			this._width = this.domref.clientWidth - parseInt(paddingLeft) - parseInt(paddingRight);
-			//this._width = this.domref.clientWidth; 
+			this._width = this.domref.offsetWidth;
+			this._width = this._width == 0 ? null : this._width;
 		}
 	},
 
 	dispose : function() {
 		this.$base();
-		
+
 		if (this._img != null) {
 			this.domref.removeChild(this._img);
 			delete this._img;
@@ -125,7 +113,7 @@ $class("TableColumn", {
 		}
 		this.domref.removeChild(this._operator);
 		this.domref.removeChild(this._span);
-		
+
 		if (this._parentNode != null) {
 			this._parentNode.removeChild(this.domref);
 		}
@@ -140,7 +128,15 @@ $class("TableColumn", {
 		if (this._width == null || this._width == "auto") {
 			this._computeWidth();
 		}
-		
+
+		// if last Column and Scrollbar is visible
+		var columns = this._parent.getColumns();
+		var columnOrder = this._parent.getColumnOrder();
+		if (columns[columnOrder[columnOrder.length - 1]] == this
+				&& this._parent.isScrollbarVisible()) {
+			return this._width - 19;
+		}
+
 		return this._width;
 	},
 
@@ -148,6 +144,7 @@ $class("TableColumn", {
 		this.checkWidget();
 		switch(e.type) {
 			case "mousedown":
+				// Resizing Column
 				if (e.target == this._operator && this._resizable) {
 					this._isResizing = true;
 
@@ -155,24 +152,30 @@ $class("TableColumn", {
 					var columns = this._table.getColumns();
 					columns.forEach(function(item, index, arr) {
 						var width = item.getWidth();
-						item.domref.style.width = width + "px";
 						this.allColsWidth += width;
 					}, this);
-					
+
 					var order = this._table.getColumnOrder();
 					var thisColumnIndex = columns.indexOf(this);
 					var thisColumnOrder = order.indexOf(thisColumnIndex);
 					this.nextColumn = columns[order[thisColumnOrder + 1]];
-					this.nextColumn.domref.style.width = "auto";
 					this.lessColsWidth = this.allColsWidth - this.getWidth() - this.nextColumn.getWidth();
 
 					this.resizeStart = e.clientX;
 					this.startWidth = this._width;
+					this.nextStartWidth = this.nextColumn.getWidth();
+					if (this._parent.isScrollbarVisible()) {
+						if (this.nextColumn == columns[order[order.length - 1]]) {
+							this.nextStartWidth += 19;
+						}
+						this.allColsWidth += 19;
+					}
 
 					gara.EventManager.addListener(document, "mousemove", this);
 					gara.EventManager.addListener(document, "mouseup", this);
 				}
 
+				// Moving Column
 				if (e.target == this.domref && this._moveable) {
 					this._isMoving = true;
 
@@ -192,38 +195,43 @@ $class("TableColumn", {
 						}
 					}, this);
 
-					//var cols = this._table.getColumnCount();
 					this._table.getItems().forEach(function(item, index, arr) {
 						var i = new gara.jswt.TableItem(this._shadow);
 						i.setText(item.getText(offset));
 						i.setImage(item.getImage(offset));
 					}, this);
 
-
 					this._shadow.update();
-					this._shadow.domref.style.position = "absolute";					
+					this._shadow.domref.style.position = "absolute";
 					this._shadow.domref.style.left = e.clientX + 16 + "px";
 					this._shadow.domref.style.top = e.clientY + 16 + "px";
 					this._shadow.domref.style.opacity = "0.3";
 					this._shadow.domref.style.width = shadowWidth + "px";
-					
+
 					gara.EventManager.addListener(document, "mousemove", this);
 					gara.EventManager.addListener(document, "mouseup", this);
 				}
 				break;
-			
+
 			case "mousemove":
+				// Resizing
 				if (this._isResizing) {
-					var minWidth = 2;
-					
+					var minWidth = 20;
+
 					var delta = e.clientX - this.resizeStart;
-					this._width = this.startWidth + delta;
-					
-					if (this._width > minWidth) {
+					var width = this.startWidth + delta;
+					var nextWidth = this.nextStartWidth - delta;
+
+					if (width > minWidth && nextWidth > minWidth) {
+						this._width = width;
 						this.domref.style.width = this._width + "px";
+						this.nextColumn.domref.style.width = nextWidth + "px";
+						this.nextColumn.setWidth(nextWidth);
+						this._parent.getItems()[0]._adjustWidth();
 					}
 				}
 
+				// Moving
 				if (this._isMoving) {
 					this._shadow.domref.style.left = e.clientX + 16 + "px";
 					this._shadow.domref.style.top = e.clientY + 16 + "px";
@@ -231,25 +239,24 @@ $class("TableColumn", {
 				break;
 
 			case "mouseup":
+				// Resizing
 				if (this._isResizing) {
-					var nextWidth = this.allColsWidth - (this.lessColsWidth + this.getWidth()); 
-					this.nextColumn.setWidth(nextWidth);
-					this.nextColumn.domref.style.width = nextWidth + "px";
 					gara.EventManager.removeListener(document, "mousemove", this);
 					gara.EventManager.removeListener(document, "mouseup", this);
 					this._isResizing = false;
 				}
-				
+
+				// Moving
 				if (this._isMoving) {
 					gara.EventManager.removeListener(document, "mousemove", this);
 					gara.EventManager.removeListener(document, "mouseup", this);
 					this._isMoving = false;
 					this._shadow.dispose();
-					
+
 					delete this._shadow;
-					
+
 					this._shadow = null;
-				
+
 					if (e.target.obj && $class.instanceOf(e.target.obj, gara.jswt.TableColumn)
 						&& e.target.obj.getParent() == this._table) {
 						var col = e.target.obj;
@@ -265,31 +272,29 @@ $class("TableColumn", {
 				break;
 		}
 	},
-	
-	_registerListener : function() {
-		
-	},
-	
+
+	_registerListener : function() {},
+
 	setWidth : function(width) {
 		this.checkWidget();
 		this._width = width;
 	},
-	
+
 	toString : function() {
 		return "[gara.jswt.TableColumn]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	_unregisterListener : function(eventType, listener) {
 	},
-	
+
 	update : function() {
 		this.checkWidget();
 		if (this.domref == null) {

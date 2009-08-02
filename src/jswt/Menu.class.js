@@ -163,8 +163,7 @@ $class("Menu", {
 	getItem : function(index) {
 		this.checkWidget();
 		if (index > this._items.length || index < 0) {
-			throw new gara.OutOfBoundsException(
-					"Menu doesn't have that much items");
+			throw new gara.OutOfBoundsException("Menu doesn't have that much items");
 		}
 
 		return this._items[index];
@@ -263,8 +262,7 @@ $class("Menu", {
 	removeMenuListener : function(listener) {
 		this.checkWidget();
 		if (!$class.instanceOf(listener, gara.jswt.MenuListener)) {
-			throw new TypeError(
-					"listener is not instance of gara.jswt.MenuListener");
+			throw new TypeError("listener is not instance of gara.jswt.MenuListener");
 		}
 
 		if (this._menuListener.contains(listener)) {

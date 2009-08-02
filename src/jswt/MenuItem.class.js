@@ -52,6 +52,7 @@ $class("MenuItem", {
 
 		this._menu = null;
 		this._enabled = true;
+		this._visible = true;
 		this._selected = false;
 	},
 
@@ -138,28 +139,6 @@ $class("MenuItem", {
 				}, this);
 			}
 
-			if (this._menu != null) {
-				this.addClassName("jsWTMenuItemCascade");
-				this._menu.update();
-			}
-
-			if (!this._enabled) {
-				this.addClassName("disabled");
-			}
-
-			if ((this._style & JSWT.CHECK) == JSWT.CHECK
-					|| (this._style & JSWT.RADIO) == JSWT.RADIO) {
-				this.addClassName("checkable");
-			}
-
-			if (this._selected) {
-				if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
-					this.addClassName("check");
-				} else if ((this._style & JSWT.RADIO) == JSWT.RADIO) {
-					this.addClassName("radio");
-				}
-			}
-
 			this.domref.className = this._className;
 		}
 		this._changed = false;
@@ -225,6 +204,10 @@ $class("MenuItem", {
 
 	getSelection : function() {
 		return this._selected;
+	},
+
+	getVisible : function() {
+		return this._visible;
 	},
 
 	/**
@@ -358,6 +341,15 @@ $class("MenuItem", {
 		}
 	},
 
+	setVisible : function(visible) {
+		this._visible = visible;
+		this._changed = true;
+
+		if (this.domref != null) {
+			this.update();
+		}
+	},
+
 	toString : function() {
 		return "[gara.jswt.MenuItem]";
 	},
@@ -385,11 +377,10 @@ $class("MenuItem", {
 	},
 
 	update : function() {
+		this.checkWidget();
 		if (!this.domref) {
 			this._create();
 		} else if (this._changed){
-			this.checkWidget();
-
 			// create image
 			if (this._image != null && this._img == null) {
 				this._img = document.createElement("img");
@@ -430,39 +421,40 @@ $class("MenuItem", {
 					}, this);
 				}
 			}
-
-			this.removeClassName("disabled");
-			this.removeClassName("checkable");
-			this.removeClassName("check");
-			this.removeClassName("radio");
-			this.removeClassName("jsWTMenuItemCascade");
-			if (this._menu != null) {
-				this.addClassName("jsWTMenuItemCascade");
-				this._menu.update();
-			}
-
-			if (!this._enabled) {
-				this.addClassName("disabled");
-			}
-
-			if ((this._style & JSWT.CHECK) == JSWT.CHECK
-					|| (this._style & JSWT.RADIO) == JSWT.RADIO) {
-				this.addClassName("checkable");
-			}
-
-			if (this._selected) {
-				if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
-					this.addClassName("check");
-				} else if ((this._style & JSWT.RADIO) == JSWT.RADIO) {
-					this.addClassName("radio");
-				}
-			}
-
-			this._spanText.nodeValue = this._text;
-			this.domref.className = this._className;
-
-			this._changed = false;
 		}
+
+		this.removeClassName("disabled");
+		this.removeClassName("checkable");
+		this.removeClassName("check");
+		this.removeClassName("radio");
+		this.removeClassName("jsWTMenuItemCascade");
+		if (this._menu != null) {
+			this.addClassName("jsWTMenuItemCascade");
+			this._menu.update();
+		}
+
+		if (!this._enabled) {
+			this.addClassName("disabled");
+		}
+
+		if ((this._style & JSWT.CHECK) == JSWT.CHECK
+				|| (this._style & JSWT.RADIO) == JSWT.RADIO) {
+			this.addClassName("checkable");
+		}
+
+		if (this._selected) {
+			if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
+				this.addClassName("check");
+			} else if ((this._style & JSWT.RADIO) == JSWT.RADIO) {
+				this.addClassName("radio");
+			}
+		}
+
+		this._spanText.nodeValue = this._text;
+		this.domref.className = this._className;
+		this.domref.style.display = this._visible ? "block" : "none";
+
+		this._changed = false;
 
 		// update sub menu
 		if (this._menu != null) {

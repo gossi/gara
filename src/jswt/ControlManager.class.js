@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -41,7 +41,7 @@ $class("ControlManager", {
 		gara.EventManager.addListener(document, "keydown", this);
 		gara.EventManager.addListener(document, "mousedown", this);
 	},
-	
+
 	getInstance : $static(function() {
 		if (this._instance == null) {
 			this._instance = new gara.jswt.ControlManager();
@@ -60,7 +60,7 @@ $class("ControlManager", {
 		if (!$class.instanceOf(control, gara.jswt.Control)) {
 			throw new TypeError("control is not a gara.jswt.Control");
 		}
-		
+
 		if (this._activeControl != null && this._activeControl != control) {
 			this._activeControl.looseFocus();
 		}
@@ -108,7 +108,7 @@ $class("ControlManager", {
 			this._controls.remove(control);
 		}
 	},
-	
+
 	toString : function() {
 		return "[gara.jswt.ControlManager]";
 	}

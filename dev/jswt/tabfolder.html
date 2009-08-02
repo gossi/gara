@@ -15,7 +15,6 @@
 <script type="text/javascript" src="../../src/core/Utils.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
 
 <script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
@@ -29,10 +28,8 @@
 <script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/Menu.class.js"></script>
+<script type="text/javascript" src="../../src/jswt/MenuItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
 <script type="text/javascript" src="../../src/jswt/_append.js"></script>
@@ -40,7 +37,7 @@
 var t;
 function main() {
 	try {
-		t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.JSWT.TOP);
+		t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.JSWT.DROP_DOWN);
 
 		var img1 = new Image();
 		img1.src = '../../themes/sand/icon_error.png';
@@ -70,8 +67,8 @@ function main() {
 		i5.setText("Item 5");
 		i5.setContent("Content 5");
 
-		/*t.setWidth(450);
-		t.setHeight(300);*/
+		t.setWidth(300);
+		t.setHeight(300);
 		
 		t.update();
 	} catch(e) {

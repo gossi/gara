@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -23,7 +23,7 @@
 
 /**
  * gara TabFolder Widget
- * 
+ *
  * @class TabFolder
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -42,17 +42,33 @@ $class("TabFolder", {
 
 		// TabFolder default style
 		if (this._style == JSWT.DEFAULT) {
-			this._style = JSWT.TOP;
+			this._style = JSWT.TOP | JSWT.MULTI;
+		}
+
+		if (!((this._style & JSWT.TOP) == JSWT.TOP) &&
+				!((this._style & JSWT.BOTTOM) == JSWT.BOTTOM)) {
+			this._style |= JSWT.TOP;
+		}
+
+		if (!((this._style & JSWT.MULTI) == JSWT.MULTI) &&
+				!((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN)) {
+			this._style |= JSWT.MULTI;
 		}
 
 		this._items = [];
+		this._recents = [];
 		this._activeItem = null;
 		this._selectionListener = [];
 		this._selection = [];
+		this._imageQueue = [];
 		this._event = null;
+		this._dropDownMenu = null;
 
+		this._more = null;
+		this._moreText = null;
 		this._tabbar = null;
 		this._clientArea = null;
+
 		this._className = this._baseClass = "jsWTTabFolder";
 		this._className += " jsWTTabFolderInactive";
 	},
@@ -60,7 +76,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * Adds an item to this tabfolder
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item to be added
@@ -73,14 +89,14 @@ $class("TabFolder", {
 			throw new TypeError("item is not type of gara.jswt.TabItem");
 		}
 
-		item._setClientArea(this._clientArea);
 		this._items.push(item);
+		this._recents.push(item);
 	},
 
 	/**
 	 * @method
 	 * Adds a selection listener on the tabfolder
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the desired listener to be added to this tabfolder
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
@@ -98,7 +114,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * Activates an item and notifies the selection listener
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item to be activated
@@ -110,30 +126,16 @@ $class("TabFolder", {
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
 			throw new TypeError("item is not type of gara.jswt.TabItem");
 		}
-		
+
 		if (this._activeItem != null) {
 			this._activeItem._setActive(false);
 		}
-		
+
+		this._recents.remove(item);
+		this._recents.insertAt(0, item);
+
 		this._activeItem = item;
 		this._activeItem._setActive(true);
-
-		// clean up client area
-		/*for (var i = 0, len = this._clientArea.childNodes.length; i < len; ++i) {
-			this._clientArea.removeChild(this._clientArea.childNodes[i]);
-		}
-
-		// show new content
-		if(item.getControl() != null) {
-			item.getControl().update();
-			this._clientArea.appendChild(item.getControl().domref);
-		} else {
-			if (typeof(item.getContent()) == "string") {
-				this._clientArea.appendChild(document.createTextNode(item.getContent()));
-			} else {
-				this._clientArea.appendChild(item.getContent());
-			}
-		}*/
 
 		this.update();
 
@@ -141,7 +143,7 @@ $class("TabFolder", {
 		this._selection.push(item);
 		this._notifySelectionListener();
 	},
-	
+
 	_create : function() {
 		this.domref = document.createElement("div");
 		this.domref.obj = this;
@@ -158,7 +160,7 @@ $class("TabFolder", {
 		this._clientArea.className = "jsWTTabClientArea"
 		base2.DOM.EventTarget(this._clientArea);
 
-		if (this._style == JSWT.TOP) {
+		if ((this._style & JSWT.TOP) == JSWT.TOP) {
 			this.domref.appendChild(this._tabbar);
 			this.domref.appendChild(this._clientArea);
 			this.addClassName("jsWTTabFolderTopbar");
@@ -169,7 +171,7 @@ $class("TabFolder", {
 		}
 
 		/* buffer unregistered user-defined listeners */
-		var unregisteredListener = {};			
+		var unregisteredListener = {};
 		for (var eventType in this._listener) {
 			unregisteredListener[eventType] = this._listener[eventType].concat([]);
 		}
@@ -194,8 +196,31 @@ $class("TabFolder", {
 		if (this._parentNode != null) {
 			this._parentNode.appendChild(this.domref);
 		}
+
+		// drop down initializer for "more" option
+		if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+			this._more = document.createElement("span");
+			this._moreText = document.createTextNode("");
+			this._more.className = "more";
+			this._more.style.display = "none";
+			this.domref.appendChild(this._more);
+			this._more.appendChild(this._moreText);
+			base2.DOM.EventTarget(this._more);
+
+			gara.EventManager.addListener(this._more, "mousedown", this);
+
+			this._dropDownMenu = new gara.jswt.Menu(this, JSWT.DROP_DOWN);
+		}
+
+		// set active item
+		if (this._items.length) {
+			this._activeItem = this._selection.length ? this._selection[0] : this._recents[0];
+			this._activeItem._setActive(true);
+			this._selection = [];
+			this._selection.push(this._activeItem);
+		}
 	},
-	
+
 	dispose : function() {
 		this.$base();
 
@@ -209,7 +234,7 @@ $class("TabFolder", {
 		if (this._parentNode != null) {
 			this._parentNode.removeChild(this.domref);
 		}
-		
+
 		delete this._tabbar;
 		delete this._clientArea;
 		delete this.domref;
@@ -217,19 +242,30 @@ $class("TabFolder", {
 
 	/**
 	 * @method
-	 * Returns the client area off that tabfolder
-	 * 
+	 * Returns the client area off the active TabItem. Takes an TabItem as
+	 * argument to retrieve the client area of that one.
+	 *
 	 * @author Thomas Gossmann
+	 * @param {TabItem|optional} item an item off which the client area should be retriven
 	 * @return {HTMLElement} the client area node
 	 */
-	getClientArea : function() {
-		return this._clientArea;
+	getClientArea : function(item) {
+		if (typeof(item) == "undefined" && this._activeItem != null) {
+			return this._activeItem.getClientArea();
+		} else if ($class.instanceOf(item, gara.jswt.TabItem)) {
+			return item.getClientArea();
+		}
+		return null;
 	},
-	
+
+	_getDropDownMenu : function() {
+		return this._dropDownMenu;
+	},
+
 	/**
 	 * @method
 	 * Gets a specified item with a zero-related index
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {gara.OutOfBoundsException} if the index does not live within this tabfolder
@@ -240,14 +276,14 @@ $class("TabFolder", {
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this tabfolder");
 		}
-	
+
 		return this._items[index];
 	},
 
 	/**
 	 * @method
 	 * Returns the amount of the items in the tabfolder
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
@@ -258,7 +294,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * Returns an array with all the items in the tabfolder
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TabItem[]} the array with the items
 	 */
@@ -269,7 +305,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * Returns an array with the items which are currently selected in the tabfolder
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TabItem[]} an array with items
 	 */
@@ -277,11 +313,11 @@ $class("TabFolder", {
 		this.checkWidget();
 		return this._selection;
 	},
-	
+
 	/**
 	 * @method
 	 * Returns the zero-related index of the selected item or -1 if there is no item selected
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {int} the index of the selected item
 	 */
@@ -294,10 +330,14 @@ $class("TabFolder", {
 		}
 	},
 
+	_getTabbar : function() {
+		return this._tabbar;
+	},
+
 	/**
 	 * @method
 	 * Handles events for this tabfolder
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -305,13 +345,14 @@ $class("TabFolder", {
 	handleEvent : function(e) {
 		this.checkWidget();
 		var obj = e.target.obj || null;
-		
+
 		if (obj && $class.instanceOf(obj, gara.jswt.TabItem)) {
 			e.item = obj;
 		}
-		e.widget = this;
+		if (!e.widget) {
+			e.widget = this;
+		}
 		this._event = e;
-
 		switch (e.type) {
 			case "mousedown":
 				if (!this._hasFocus) {
@@ -323,38 +364,51 @@ $class("TabFolder", {
 
 					this._activateItem(item);
 				}
+
+				if (e.target == this._more) {
+					this._dropDownMenu.setLocation(this._more.offsetLeft, this._more.offsetTop + this._more.offsetHeight + 1);
+					this._dropDownMenu.setVisible(true);
+				}
+
+				if ($class.instanceOf(obj, gara.jswt.MenuItem)) {
+					this._dropDownMenu.setVisible(false);
+					this._activateItem(obj.getData("gara__tabItem"));
+				}
 				break;
-			
-						
+
+
 			case "keyup":
 			case "keydown":
 			case "keypress":
-			
+
 				if (this._activeItem != null) {
 					this._activeItem.handleEvent(e);
 				}
 
 				this._notifyExternalKeyboardListener(e, this, this);
-				
+
+				break;
+			case "load":
+				console.log("TabFolder.handleEvent(load)");
 				break;
 		}
-		
+
 		this.handleContextMenu(e);
 
 		if (e.target != this.domref) {
 			e.stopPropagation();
 		}
-		
+
 		/* in case of ie6, it is necessary to return false while the type of
 		 * the event is "contextmenu" and the menu isn't hidden in ie6
 		 */
 		return false;
 	},
-	
+
 	/**
 	 * @method
 	 * Looks for the index of a specified item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tabfolder
@@ -366,9 +420,9 @@ $class("TabFolder", {
 		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
 			throw new TypeError("item not instance of gara.jswt.TabItem");
 		}
-	
+
 		if (!this._items.contains(item)) {
-			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this list");
+			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this TabFolder");
 		}
 
 		return this._items.indexOf(item);
@@ -377,7 +431,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * Notifies selection listener about the changed selection within the List
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -391,7 +445,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * Register listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -402,10 +456,105 @@ $class("TabFolder", {
 		}
 	},
 
+	_remeasureItems : function(item) {
+		item.width += item.getImage().width;
+		this._imageQueue.remove(item);
+		if (!this._imageQueue.length) {
+			this.update();
+		}
+	},
+
+	/**
+	 * @method
+	 * Removes an item from the <code>TabFolder</code>
+	 *
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.TabItem} item the item to remove
+	 * @return {void}
+	 */
+	remove : function(item) {
+		this.checkWidget();
+		if (!$class.instanceOf(item, gara.jswt.TabItem)) {
+			throw new TypeError("item not instance of gara.jswt.TabItem");
+		}
+
+		this._items.remove(item);
+		if (this._selection.contains(item)) {
+			this._selection.remove(item);
+		}
+		item.dispose();
+		delete item;
+	},
+
+	/**
+	 * @method
+	 * Removes an item from the <code>TabFolder</code>
+	 *
+	 * @author Thomas Gossmann
+	 * @param {int} index the index of the item
+	 * @throws {gara.OutOfBoundsException} when the index is out of bounds
+	 * @return {void}
+	 */
+	removeIndex : function(index) {
+		this.checkWidget();
+		if (index < 0 || index >= this._items.length) {
+			throw new gara.OutOfBoundsException("index not within bounds of the TabFolder");
+		}
+		var item = this._items.removeAt(index)[0];
+		if (this._selection.contains(item)) {
+			this._selection.remove(item);
+		}
+		item.dispose();
+		delete item;
+	},
+
+	/**
+	 * @method
+	 * Removes items within an indices range
+	 *
+	 * @author Thomas Gossmann
+	 * @param {int} start start index
+	 * @param {int} end end index
+	 * @return {void}
+	 */
+	removeRange : function(start, end) {
+		for (var i = start; i <= end; ++i) {
+			this.removeIndex(i);
+		}
+	},
+
+	/**
+	 * @method
+	 * Removes items which indices are passed by an array
+	 *
+	 * @author Thomas Gossmann
+	 * @param {Array} inidices the array with the indices
+	 * @return {void}
+	 */
+	removeFromArray : function(indices) {
+		indices.forEach(function(index) {
+			this.removeIndex(index);
+		}, this);
+	},
+
+	/**
+	 * @method
+	 * Removes all items from the tree
+	 *
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	removeAll : function() {
+		this.checkWidget();
+		while (this._items.length) {
+			this.removeIndex(0);
+		}
+	},
+
 	/**
 	 * @method
 	 * Removes a selection listener from this tabfolder
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.SelectionListener} listener the listener to remove from this tabfolder
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
@@ -421,53 +570,67 @@ $class("TabFolder", {
 			this._selectionListener.remove(listener);
 		}
 	},
-	
+
 	/**
 	 * @method
-	 * Selects the item at the given zero-related index in the tabfolder.
-	 * Sets the tabfolders selection the the given array.
-	 * Depends on the parameter
-	 * 
+	 * Selects the item in the TabFolder.
+	 *
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.TabItem} item the item to select
+	 * @throws {gara.OutOfBoundsException} when the index is out of bounds
+	 * @return {void}
+	 */
+	setSelectionItem : function(item) {
+		this.checkWidget();
+		if (index < 0 || index >= this._items.length) {
+			throw new gara.OutOfBoundsException("index not within bounds of the TabFolder");
+		}
+		this._activateItem(this._items[index]);
+	},
+
+	/**
+	 * @method
+	 * Selects the item at the given zero-related index in the TabFolder.
+	 *
 	 * @author Thomas Gossmann
 	 * @param {mixed} arg the given zero-related index or the given array
+	 * @throws {gara.OutOfBoundsException} when the index is out of bounds
+	 * @return {void}
+	 */
+	setSelectionIndex : function(index) {
+		this.checkWidget();
+		if (index < 0 || index >= this._items.length) {
+			throw new gara.OutOfBoundsException("index not within bounds of the TabFolder");
+		}
+		this._activateItem(this._items[index]);
+	},
+
+	/**
+	 * @method
+	 * Selects the item at the given zero-related index in the TabFolder.
+	 * Takes an array as argument, though the first element within is selected (indices[0])
+	 *
+	 *
+	 * @author Thomas Gossmann
+	 * @param {int[]} indices an array with zero-related indices
 	 * @throws {gara.OutOfBoundsException} when there is no item for the given index
 	 * @return {void}
 	 */
-	setSelection : function(arg) {
+	setSelectionFromArray : function(indices) {
 		this.checkWidget();
-		if (typeof(arg) == 'number') {
-			if (arg >= this._items.length) {
-				throw new gara.OutOfBoundsException("Your item lives outside of this tabfolder");
-			}
-			this._activateItem(this._items[arg]);
-		} else if ($class.instanceOf(arg, Array)) {
-			if (arg.length) {
-				this._activateItem(arg[0]);
-			}
+		if (indices.length) {
+			this._activateItem(indices[0]);
 		}
 	},
-	
-	/**
-	 * @method
-	 * Shows off the content for the client area from the passed item
-	 * 
-	 * @private
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.TabItem} item the item with the content
-	 * @return {void}
-	 */
-	_showContent : function(item) {
-		
-	},
-	
+
 	toString : function() {
 		return "[gara.jswt.TabFolder]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -481,7 +644,7 @@ $class("TabFolder", {
 	/**
 	 * @method
 	 * updates this tabfolder
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -491,15 +654,86 @@ $class("TabFolder", {
 			this._create();
 		}
 
+		// class name and some measurement adjustments
 		this.domref.className = this._className;
 		this.domref.style.width = this._width != null ? this._width + "px" : "auto";
 		this.domref.style.height = this._height != null ? this._height + "px" : "auto";
-
-		this._tabbar.style.width = this._width != null ? this._width + "px" : "auto"
 		this._tabbar.style.width = this._width != null ? this._width + "px" : "auto";
 
+		// update items
+		var width = this._width != null ? this._width : this.domref.clientWidth;
+		var itemsWidth = 0, rows = 1, more = 0, hasImages = false;
+		var itemLoop = (this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN ? this._recents : this._items;
+
+		if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+			var visible = this._more.style.display;
+			this._more.style.display = "block";
+			width = this._more.offsetLeft - parseInt(gara.Utils.getStyle(this._more, "margin-left"));
+			this._more.style.display = visible;
+		}
+
+		itemLoop.forEach(function(item) {
+			if (item.isDisposed()) {
+				this.remove(index);
+			} else {
+				item.update();
+
+				if (!item.width) {
+					item.width = item.domref.offsetWidth;
+					if (item.getImage() != null && navigator.userAgent.toLowerCase().indexOf("webkit") != -1) {
+						this._imageQueue.push(item);
+						// kinda crappy with the .onload but listener wasn't working
+						var self = this;
+						item.getImage().onload = function() {
+							self._remeasureItems(item);
+						}
+					}
+				}
+
+				if ((this._style & JSWT.MULTI) == JSWT.MULTI) {
+					if (itemsWidth + item.domref.offsetWidth > width) {
+						rows++;
+						itemsWidth = item.domref.offsetWidth;
+					} else {
+						itemsWidth += item.domref.offsetWidth;
+					}
+				}
+
+				if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN) {
+					if (itemsWidth + item.width > width) {
+						more++;
+					}
+					itemsWidth += item.width;
+				}
+
+				if (more) {
+					item.domref.style.display = "none";
+					item.getData("gara__menuItem").setVisible(true);
+				} else {
+					item.domref.style.display = "block";
+					item.getData("gara__menuItem").setVisible(false);
+				}
+			}
+		}, this);
+
+//		if (navigator.userAgent.toLowerCase().indexOf("webkit") != -1 && this._imageQueue.length) {
+//			window.setTimeout(this._remeasureItems.call(this), 100);
+//		}
+
+		if ((this._style & JSWT.MULTI) == JSWT.MULTI && rows > 1) {
+			this._tabbar.style.height = ((this._items[0].domref.offsetHeight * rows) - 1) + "px";
+		}
+
+		if ((this._style & JSWT.DROP_DOWN) == JSWT.DROP_DOWN && more) {
+			this._moreText.nodeValue = more;
+			this._more.style.display = "block";
+		} else {
+			this._more.style.display = "none";
+		}
+
+		// more measurement adjustments
 		if (this._height != null) {
-			this._clientArea.style.height = (this._height 
+			this._clientArea.style.height = (this._height
 				- (this._tabbar.offsetHeight
 					+ parseInt(gara.Utils.getStyle(this._tabbar, "margin-top"))
 					+ parseInt(gara.Utils.getStyle(this._tabbar, "margin-bottom")))
@@ -516,28 +750,7 @@ $class("TabFolder", {
 				- parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width"))
 				- parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width"))
 				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-right"))
-			+ "px";	
-		}
-
-		// update items
-		this._items.forEach(function(item, index, arr) {
-			item._setClientArea(this._clientArea);
-			
-			// create item ...
-			if (!item.isCreated()) {
-				node = item._create();
-				this._tabbar.appendChild(node);
-			}
-
-			// ... or update it
-			if (item.hasChanged()) {
-				item.update();
-				item.releaseChange();
-			}
-		}, this);
-		
-		if (this._activeItem == null && this._items.length) {
-			this._activateItem(this._items[0]);
+			+ "px";
 		}
 	}
 });

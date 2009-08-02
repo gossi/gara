@@ -36,7 +36,7 @@
 var tbl;
 function main() {
 	try {
-		tbl = new gara.jswt.Table(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
+		tbl = new gara.jswt.Table(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION); //  | gara.jswt.JSWT.CHECK
 		tbl.setHeaderVisible(true);
 		tbl.setLinesVisible(true);
 
@@ -68,8 +68,7 @@ function main() {
 		var i6 = new gara.jswt.TableItem(tbl);
 		i6.setText(["i6, 1", "i6, 2", "i6, 3"]);
 
-		//tbl.setHeight(400);
-
+		//tbl.setHeight(100);
 		tbl.update();
 	} catch(e) {
 		var message = "";

@@ -32,6 +32,10 @@ ul.jsWTList li img {
 	margin-right: 3px;
 }
 
+ul.jsWTList li input {
+	height: 14px;
+}
+
 ul.jsWTListFullSelection li span {
 	display: block;
 	line-height: 14px;
@@ -64,6 +68,7 @@ ul.jsWTList li:hover.selected {
 
 ul.jsWTTree {
 	overflow: auto;	
+	-moz-user-select: none;
 }
 
 ul.jsWTTree ul {
@@ -83,10 +88,6 @@ ul.jsWTTreeNoLines ul {
 	background-image: none;
 }
 
-ul.jsWTTree {
-	-moz-user-select: none;
-}
-
 ul.jsWTTree ul {
 	clear: left;
 }
@@ -98,6 +99,10 @@ ul.jsWTTree li {
 	min-height: 18px;
 	overflow: visible;
 	list-style-type: none;
+}
+
+ul.jsWTTree li input {
+	height: 14px;
 }
 
 ul.jsWTTreeLines li {
@@ -173,31 +178,46 @@ ul.jsWTTree ul.bottom {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-table.jsWTTable {
+.jsWTTable {
+	position: relative;
+}
+
+.jsWTTable .scroller {
+	overflow: auto;
+}
+
+.jsWTTable table {
 	width: 100%;
 	-moz-user-select: none;
+	user-select: none;
 	outline: none;
 }
 
-table.jsWTTable thead tr th {
-	white-space: nowrap;
+.jsWTTable thead {
+	top: 0;
+	left: 0;
 }
 
-table.jsWTTable thead tr th span.mover {
+.jsWTTable table thead tr th {
+	white-space: nowrap;
+	-moz-user-select: none;
+}
+
+.jsWTTable table thead tr th span.mover {
 	display: none;
-	width: 2px;
+	width: 4px;
 	margin-top: -1px;
 	margin-right: -1px;
 	float: right;
 	cursor: w-resize;
 }
 
-table.jsWTTable thead tr th.operator span.mover {
+.jsWTTable table thead tr th.operator span.mover {
 	display: block;
 } 
 
-table.jsWTTable tbody {
-	overflow: auto;
+.jsWTTable table tbody {
+	overflow-y: auto;
 	overflow-x: hidden;
 }
 
@@ -210,6 +230,11 @@ table.jsWTTable tbody {
  */
 
 div.jsWTTabFolder {
+	position: relative;
+}
+
+div.jsWTTabFolder span.more {
+	position: absolute;
 }
 
 ul.jsWTTabbar {
@@ -217,9 +242,6 @@ ul.jsWTTabbar {
 	padding-left: 0;
 	-moz-user-select: none;
 	outline: none;
-}
-
-ul.jsWTTabbar li {
 }
 
 div.jsWTTabFolder div.jsWTTabClientArea {

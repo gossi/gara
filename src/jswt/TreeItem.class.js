@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -23,7 +23,7 @@
 
 /**
  * gara TreeItem
- * 
+ *
  * @class TreeItem
  * @author Thomas Gossmann
  * @namespace gara.jswt
@@ -31,15 +31,15 @@
  */
 $class("TreeItem", {
 	$extends : gara.jswt.Item,
-	
+
 	toggleNode : null,
 
 	$constructor : function(parent, style, index) {
-		
+
 		if (!($class.instanceOf(parent, gara.jswt.Tree) || $class.instanceOf(parent, gara.jswt.TreeItem))) {
 			throw new TypeError("parent is neither a gara.jswt.Tree or gara.jswt.TreeItem");
 		}
-		
+
 		this.$base(parent, style);
 
 		this._images = [];
@@ -74,7 +74,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Adds an item to this item
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item to be added
@@ -92,7 +92,7 @@ $class("TreeItem", {
 		} else {
 			this._items.push(item);
 		}
-		
+
 		this._changed = true;
 	},
 
@@ -100,7 +100,7 @@ $class("TreeItem", {
 	 * Internal method for creating a node representing an item. This is used for
 	 * creating a new item or put updated content to an existing node of an earlier
 	 * painted item.
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {boolean} wether this item is at the bottom position or not
@@ -109,7 +109,7 @@ $class("TreeItem", {
 	_create : function() {
 		/*
 		 * DOM of created item:
-		 * 
+		 *
 		 * <li>
 		 *  <span class="toggler [togglerExpanded] [togglerCollapsed]"></span>
 		 *  [<img src=""/>]
@@ -143,10 +143,10 @@ $class("TreeItem", {
 		this._toggleNode.obj = this;
 		this._toggleNode.control = this._tree;
 		base2.DOM.EventTarget(this._toggleNode);
-				
+
 		// set this.toggler
 		this._toggleNode.className = "toggler";
-		this._toggleNode.className += this._hasChilds() 
+		this._toggleNode.className += this._hasChilds()
 			? (this._expanded
 				? " togglerExpanded"
 				: " togglerCollapsed")
@@ -171,7 +171,7 @@ $class("TreeItem", {
 		base2.DOM.EventTarget(this._checkbox);
 		gara.EventManager.addListener(this._checkbox, "mousedown", this);
 		gara.EventManager.addListener(this._checkbox, "keydown", this);
-		
+
 		this.domref.appendChild(this._checkbox);
 
 
@@ -182,7 +182,7 @@ $class("TreeItem", {
 			this._img.src = this.getImage().src;
 			this._img.control = this._tree;
 			base2.DOM.EventTarget(this._img);
-	
+
 			// put the image into the dom
 			this.domref.appendChild(this._img);
 		}
@@ -197,7 +197,7 @@ $class("TreeItem", {
 		base2.DOM.EventTarget(this._span);
 
 		this.domref.appendChild(this._span);
-	
+
 		// if childs are available, create container for them
 		if (this._hasChilds()) {
 			this._createChildContainer();
@@ -209,14 +209,14 @@ $class("TreeItem", {
 				this._registerListener(eventType, elem);
 			}, this);
 		}
-		
+
 		this._parentNode.appendChild(this.domref);
 	},
 
 	/**
 	 * @method
 	 * Create container for items
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -225,24 +225,24 @@ $class("TreeItem", {
 		this.checkWidget();
 		this._childContainer = document.createElement('ul');
 		base2.DOM.EventTarget(this._childContainer);
-	
+
 		if (this.getClassName().indexOf("bottom") != -1) { // bottom
 			this._childContainer.className = "bottom";
 		}
-	
+
 		if (this._expanded) {
 			this._childContainer.style.display = "block";
 		} else {
 			this._childContainer.style.display = "none";
 		}
-		
+
 		this.domref.appendChild(this._childContainer);
 	},
 
 	/**
 	 * @method
 	 * Deselect all child items
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -256,7 +256,7 @@ $class("TreeItem", {
 			this._tree._deselect(child);
 		}, this);
 	},
-	
+
 	dispose : function() {
 		this.$base();
 
@@ -275,7 +275,7 @@ $class("TreeItem", {
 			this._image = null;
 		}
 
-		
+
 		this.domref.removeChild(this._toggleNode);
 		this.domref.removeChild(this._span);
 
@@ -292,7 +292,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Returns the child container
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {HTMLElement} the child container
@@ -303,11 +303,11 @@ $class("TreeItem", {
 		}
 		return this._childContainer;
 	},
-	
+
 	/**
 	 * @method
 	 * Returns the checked state for this item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {boolean} the checked state
 	 */
@@ -320,7 +320,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Returns the expanded state for this item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {boolean} the expanded state
 	 */
@@ -336,15 +336,14 @@ $class("TreeItem", {
 
 	getImage : function(columnIndex) {
 		this.checkWidget();
-		if (typeof(columnIndex) == "undefined")
-			columnIndex = 0;
+		if (typeof(columnIndex) == "undefined"){columnIndex = 0;}
 		return this._images[columnIndex];
 	},
 
 	/**
 	 * @method
 	 * Returns a specifiy item with a zero-related index
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {OutOfBoundsException} if the index does not live within this tree
@@ -355,14 +354,14 @@ $class("TreeItem", {
 		if (index >= this._items.length) {
 			throw new gara.OutOfBoundsException("Your item lives outside of this Tree");
 		}
-	
+
 		return this._items[index];
 	},
 
 	/**
 	 * @method
 	 * Returns the amount of the items in the tree
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
@@ -373,7 +372,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Returns an array with all the items in the tree
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TreeItem[]} an array with the items
 	 */
@@ -384,7 +383,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Returns the widgets parent, which must be a <tt>Tree</tt>
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.Tree} the parent of this widget
 	 */
@@ -395,7 +394,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Returns the item's parent item, which must be a <tt>TreeItem</tt> or null when the item is a root.
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TreeItem} the parent item
 	 */
@@ -409,15 +408,14 @@ $class("TreeItem", {
 
 	getText : function(columnIndex) {
 		this.checkWidget();
-		if (typeof(columnIndex) == "undefined")
-			columnIndex = 0;
+		if (typeof(columnIndex) == "undefined"){columnIndex = 0;}
 		return this._texts[columnIndex];
 	},
 
 	/**
 	 * @method
 	 * Returns wether there are items or not
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {boolean} true wether there are items or false if there are non
@@ -429,7 +427,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Internal event handler
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {Event} e W3C event
@@ -477,7 +475,7 @@ $class("TreeItem", {
 					}
 				}*/
 				break;
-				
+
 			case "keyup":
 			case "keydown":
 			case "keypress":
@@ -489,7 +487,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Looks for the index of a specified item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TreeItem} item the item for the index
 	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tree
@@ -513,7 +511,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Registers Listener for this widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @param {String} eventType the event type
@@ -524,16 +522,16 @@ $class("TreeItem", {
 		if (this._img != null) {
 			gara.EventManager.addListener(this._img, eventType, listener);
 		}
-	
+
 		if (this._span != null) {
 			gara.EventManager.addListener(this._span, eventType, listener);
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Removes an item from the tree-item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} index the index of the item
 	 * @return {void}
@@ -541,7 +539,7 @@ $class("TreeItem", {
 	remove : function(index) {
 		this.checkWidget();
 		var item = this._items.removeAt(index)[0];
-		this._tree._removeItem(item);		
+		this._tree._removeItem(item);
 
 		if (!item.isDisposed()) {
 			item.dispose();
@@ -552,7 +550,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Removes items within an indices range
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {int} start start index
 	 * @param {int} end end index
@@ -568,7 +566,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Removes items which indices are passed by an array
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {Array} inidices the array with the indices
 	 * @return {void}
@@ -583,7 +581,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Removes all items from the tree-item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
@@ -598,7 +596,7 @@ $class("TreeItem", {
 
 	/**
 	 * Sets the item active or inactive
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {boolean} active true for active and false for inactive
 	 * @return {void}
@@ -611,7 +609,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Sets the checked state for this item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {boolean} checked the new checked state
 	 * @return {void}
@@ -630,7 +628,7 @@ $class("TreeItem", {
 	/**
 	 * @method
 	 * Sets a new expanded state for the item
-	 * 
+	 *
 	 * @author Thomas Gossmann
 	 * @param {boolean} expanded the new expanded state
 	 * @return {void}
@@ -642,10 +640,10 @@ $class("TreeItem", {
 		if (!expanded) {
 			this._deselectItems();
 		}
-		
+
 		this._changed = true;
 	},
-	
+
 	setGrayed : function(grayed) {
 		this._grayed = grayed;
 		if (this._grayed) {
@@ -654,38 +652,38 @@ $class("TreeItem", {
 			this._checkbox.disabled = false;
 		}
 	},
-	
+
 	setImage : function(columnIndex, image) {
 		if (typeof(image) == "undefined") {
 			image = columnIndex;
 			columnIndex = 0;
 		}
-		
+
 		this._images[columnIndex] = image;
 	},
-	
+
 	_setSelected : function(selected) {
 		this.checkWidget();
 		this._selected = selected;
 	},
-	
+
 	setText : function(columnIndex, text) {
 		if (typeof(columnIndex) == "string") {
 			text = columnIndex;
 			columnIndex = 0;
 		}
-		
+
 		this._texts[columnIndex] = text;
 	},
-	
+
 	toString : function() {
 		return "[gara.jswt.TreeItem]";
 	},
-	
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
@@ -694,30 +692,30 @@ $class("TreeItem", {
 		if (this._img != null) {
 			gara.EventManager.removeListener(this._img, eventType, listener);
 		}
-	
+
 		if (this._span != null) {
 			gara.EventManager.removeListener(this._span, eventType, listener);
 		}
 	},
-	
+
 	/**
 	 * @method
 	 * Updates this item
-	 * 
+	 *
 	 * @private
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	update : function() {
 		this.checkWidget();
-		
+
 		if (this.domref == null) {
 			this._create();
 		} else if (this.hasChanged()) {
 			if (this._hasChilds()) {
 				this._toggleNode.className = strReplace(this._toggleNode.className, " togglerCollapsed", "");
 				this._toggleNode.className = strReplace(this._toggleNode.className, " togglerExpanded", "");
-				
+
 				if (this._expanded) {
 					this._toggleNode.className += " togglerExpanded";
 				}
@@ -801,7 +799,7 @@ $class("TreeItem", {
 		} else {
 			this._span.className = this._span.className.replace(/ *active/, "");
 		}
-		
+
 		// update items
 		this._items.forEach(function(item, index, arr) {
 			if (item.isDisposed()) {
@@ -810,5 +808,10 @@ $class("TreeItem", {
 				item.update();
 			}
 		}, this);
+
+		this.domref.style.width = (this.domref.clientWidth
+				- parseInt(gara.Utils.getStyle(this.domref, "padding-left"))
+				- parseInt(gara.Utils.getStyle(this.domref, "padding-right"))
+				) + "px";
 	}
 });
