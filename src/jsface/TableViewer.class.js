@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -29,7 +29,7 @@
  */
 $class("TableViewer", {
 	$extends : gara.jsface.AbstractTableViewer,
-	
+
 	$constructor : function(parent, style) {
 		if ($class.instanceOf(parent, gara.jswt.Table)) {
 			this._table = parent;
@@ -38,7 +38,7 @@ $class("TableViewer", {
 		}
 		this._hookControl(this._table);
 	},
-	
+
 	_doClear : function(index) {
 		this._table.clear(index);
 	},
@@ -50,15 +50,15 @@ $class("TableViewer", {
 	_doGetColumnCount : function() {
 		return this._table.getColumnCount();
 	},
-	
+
 	_doGetItems : function() {
 		return this._table.getItems();
 	},
-	
+
 	_doGetSelection : function() {
 		return this._table.getSelection();
 	},
-	
+
 	_doRemoveRange : function(from, to) {
 		this._table.removeRange(from, to);
 	},
@@ -80,7 +80,7 @@ $class("TableViewer", {
 
 		return this._cachedRow;
 	},
-	
+
 	_internalCreateNewRowPart : function(style, rowIndex) {
 		var item;
 
@@ -93,19 +93,12 @@ $class("TableViewer", {
 		return this._getViewerRowFromItem(item);
 	},
 
-//	_internalRefresh : function() {
-//		this._table.update();
-//	},
-
-	refresh : function(element) {
-		if (typeof(element) == "undefined") {
-			element = null;
-		}
-		this._internalRefresh(element);
+	refresh : function(element, updateLabels) {
+		this._internalRefresh(element || null, updateLabel || true);
 	},
 
 	_tableRemoveAll : function() {
 		this._table.removeAll();
 	}
-	
+
 });

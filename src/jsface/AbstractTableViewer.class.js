@@ -132,17 +132,17 @@ $class("AbstractTableViewer", {
 
 	_internalRefresh : function(element, updateLabels) {
 		if (element == null || element == this._getRoot()) {
-			this._internalRefreshAll();
+			this._internalRefreshAll(updateLabels);
 		} else {
 			var w = this._findItem(element);
 			if (w != null) {
 				this._updateItem(w, element);
 			}
+			this.getControl().update();
 		}
-		this.getControl().update();
 	},
 
-	_internalRefreshAll : function() {
+	_internalRefreshAll : function(updateLabels) {
 		// save selected elements
 		var selected = [];
 		var selection = this.getControl().getSelection();
@@ -156,13 +156,13 @@ $class("AbstractTableViewer", {
 
 		for (var i = 0; i < min; ++i) {
 			var item = items[i];
-//			if (item.isDisposed()) {
-//				console.log("AbstractTableViewer.internalRefreshAll 1.run: disposed item: " + item.getText(0));
-//			}
 
 			if (children[i] == item.getData()) {
-				this._updateItem(item, children[i]);
-				this._associate(children[i], item);
+				if (updateLabels) {
+					this._updateItem(item, children[i]);
+				} else {
+					this._associate(children[i], item);
+				}
 			} else {
 				this._disassociate(item);
 				this._doClear(i);
@@ -207,6 +207,7 @@ $class("AbstractTableViewer", {
 		this.getControl().update();
 		this.getControl().setSelection(selection);
 		this.getControl().update();
+		// TODO: any better solution for this instead of firing update 2 times?
 	}
 
 });

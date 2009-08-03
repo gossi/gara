@@ -196,6 +196,7 @@ ul.jsWTTree ul.bottom {
 .jsWTTable thead {
 	top: 0;
 	left: 0;
+	position: absolute;
 }
 
 .jsWTTable table thead tr th {

@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jsface.tableviewer (dev)</title>
-<link rel="stylesheet" href="../../res/gara-yui-reset-fonts.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
@@ -11,6 +12,7 @@
 
 <script type="text/javascript" src="../../src/core/_prepend.js"></script>
 <script type="text/javascript" src="../../src/core/Package.class.js"></script>
+<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
 <script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
 <script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
 <script type="text/javascript" src="../../src/core/_append.js"></script>
@@ -126,6 +128,7 @@ function main() {
 		view.addFilter(filter);
 		table = view.getTable();
 		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 		var c1 = new gara.jswt.TableColumn(table);
 		c1.setText("bla");
 		

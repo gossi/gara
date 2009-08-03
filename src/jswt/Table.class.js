@@ -229,10 +229,7 @@ $class("Table", {
 		}
 
 		// intial width calculation for TableColumns
-		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
-			this._columns[this._columnOrder[i]].getWidth();
-		}
-		this._thead.style.width = this.domref.offsetWidth + "px";
+		this._theadRow.style.width = this.domref.offsetWidth + "px";
 	},
 
 	/**
@@ -825,10 +822,19 @@ $class("Table", {
 			this._create();
 		}
 
+
 		// update table head
+		if (this._headerVisible) {
+			this._thead.style.display = document.all ? "block" : "table-row-group";
+		} else {
+			this._thead.style.display = "none";
+		}
+		this._thead.style.position = "static";
+
 		while (this._theadRow.childNodes.length) {
 			this._theadRow.removeChild(this._theadRow.childNodes[0]);
 		}
+
 		if ((this._style & JSWT.CHECK) == JSWT.CHECK) {
 			if (this._checkboxCol == null) {
 				this._checkboxCol = document.createElement("th");
@@ -839,18 +845,21 @@ $class("Table", {
 		} else if (this._checkboxCol != null) {
 			this._theadRow.removeChild(this._checkboxCol);
 		}
+
 		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
 			var col = this._columns[this._columnOrder[i]];
 			col.update();
 			this._theadRow.appendChild(col.domref);
 		}
 
-		if (this._headerVisible) {
-			this._thead.style.display = document.all ? "block" : "table-row-group";
-		} else {
-			this._thead.style.display = "none";
+		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
+			var col = this._columns[this._columnOrder[i]];
+			col.setWidth(col.getWidth());
+			col.update();
 		}
 
+
+		// set table class names
 		this._tbody.className = "";
 		this.removeClassName("jsWTTableNoLines");
 		this.removeClassName("jsWTTableLines");
@@ -862,11 +871,13 @@ $class("Table", {
 
 		this.domref.className = this._className;
 
+
 		// update items
 		this._items.forEach(function(item, index, arr) {
 			item._setParentNode(this._tbody);
 			item.update();
 		}, this);
+
 
 		// reset measurement for new calculations
 		this._thead.style.position = "absolute";
@@ -880,7 +891,11 @@ $class("Table", {
 		this.domref.style.paddingTop = this._thead.offsetHeight + "px";
 		this._scroller.style.height = this._height != null ? (this._height - this._thead.offsetHeight) + "px" : "auto";
 
+
 		// adjustments based on measurements
-		this._items[0]._adjustWidth();
+		if (this._items.length) {
+			this._items[0]._adjustWidth();
+		}
+
 	}
 });

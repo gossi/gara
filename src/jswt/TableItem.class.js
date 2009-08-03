@@ -56,6 +56,7 @@ $class("TableItem", {
 
 	_adjustWidth : function() {
 		var order = this._table.getColumnOrder();
+
 		for (var i = 0, len = order.length; i < len; ++i) {
 			var cell = this._cells[order[i]];
 			cell.td.style.width = this._parent.getColumn(order[i]).getWidth() + "px";
