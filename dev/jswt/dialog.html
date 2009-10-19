@@ -4,38 +4,41 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.dialog (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
 
-<script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/Package.class.js"></script>
-<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
-<script type="text/javascript" src="../../src/core/I18n.class.js"></script>
-<script type="text/javascript" src="../../src/core/_append.js"></script>
+<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara/I18n.class.js"></script>
+<script type="text/javascript" src="../../src/gara/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/DialogManager.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Dialog.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/MessageBox.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/InputDialog.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/IframeDialog.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/DialogManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Dialog.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/MessageBox.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/InputDialog.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/IframeDialog.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
 <script type="text/javascript"><!--
 var d, JSWT = gara.jswt.JSWT;
 function openMessageBox() {
-	d = new gara.jswt.MessageBox(JSWT.YES | JSWT.ICON_QUESTION);
+	d = new gara.jswt.widgets.MessageBox(JSWT.YES | JSWT.ICON_QUESTION);
 	d.setMessage("Do you love it?");
 	d.open();
 }
 
 function openInputDialog() {
-	d = new gara.jswt.InputDialog();
+	d = new gara.jswt.widgets.InputDialog();
 	d.setMessage("Do you love it?");
 	d.setValue("for sure!");
 	d.open(function(response) {
@@ -44,7 +47,7 @@ function openInputDialog() {
 }
 
 function openIframeDialog() {
-	d = new gara.jswt.IframeDialog(gara.jswt.JSWT.ICON_WORKING);
+	d = new gara.jswt.widgets.IframeDialog(gara.jswt.JSWT.ICON_WORKING);
 	d.setWidth(640);
 	d.setHeight(480);
 	d.open("dialog.html?wurst=salami");
@@ -53,7 +56,7 @@ function openIframeDialog() {
 --></script>
 </head>
 <body style="padding: 10px; background-color: #FFF;" class="sand">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Dialog</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Dialog</h1>
 <button onclick="openMessageBox()">open MessageBox</button>
 <button onclick="openInputDialog()">open InputDialog</button>
 <button onclick="openIframeDialog()">open IframeDialog</button>

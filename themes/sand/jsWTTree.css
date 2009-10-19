@@ -1,0 +1,102 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Tree
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand ul.jsWTTree {
+	border: 1px solid #000;
+	overflow: auto;
+	background-color: #EAE6D6;
+	padding: 0;
+}
+
+.sand ul.jsWTTree li .jsWTCheckbox {
+	margin: 3px 5px 0 1px;
+	float: left;
+}
+
+.sand ul.jsWTTree li span.text {
+	background-color: #EAE6D6;
+	color: #000;
+	font-family: Verdana;
+	font-size: 85%;
+	line-height: 18px;
+	padding: 1px 3px;
+}
+
+ul.jsWTTree li img {
+	margin-right: 3px;
+	vertical-align: middle;
+	float: left;
+	margin-left: 2px;
+}
+
+.sand ul.jsWTTreeFullSelection li span.text {
+	display: block;
+	line-height: 16px;
+	margin-left: 18px;
+}
+
+/* === Selected Item === */
+/* Inactive */
+.sand ul.jsWTTree li[aria-selected=true] > span.text {
+	background-color: #CCC8BA;
+	color: #000;
+}
+
+/* Active */
+.sand ul.jsWTTree:focus li[aria-selected=true] > span.text  {
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+/* --- checkbox & image --- */
+.sand ul.jsWTTree li[aria-selected=true] > span.jsWTCheckbox,
+.sand ul.jsWTTreeFullSelection li[aria-selected=true] > img  {
+	opacity: 0.7;
+	background-color: #CCC8BA;
+}
+
+.sand ul.jsWTTree:focus li[aria-selected=true] > span.jsWTCheckbox,
+.sand ul.jsWTTreeFullSelection:focus li[aria-selected=true] > img {
+	opacity: 0.7;
+	background-color: #9C9577;
+}
+
+/* === Active Item === */
+.sand ul.jsWTTree:focus li span.active {
+	outline: 1px dotted #000;
+}
+
+.sand ul.jsWTTreeFullSelection:focus li span.active {
+	margin: 0 1px 0 18px;
+	line-height: 16px;
+}
+
+/* === Lines === */
+.sand .jsWTTreeLines ul.bottom {
+	background-image: none;
+}
+
+.sand .jsWTTreeLines ul {
+	background-image: url('line.gif');
+}
+
+.sand .jsWTTreeLines li.bottom {
+	background-image: url('joinbottom.gif');
+}
+
+.sand .jsWTTreeLines li {
+	background-image: url('join.gif');
+}
+
+/* Toggler */
+.sand ul.jsWTTree li span.togglerExpanded {
+	background-image: url('collapse.gif');
+}
+
+.sand ul.jsWTTree li span.togglerCollapsed {
+	background-image: url('expand.gif');
+}

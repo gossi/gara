@@ -11,91 +11,81 @@
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
 
-<script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/Package.class.js"></script>
-<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
-<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/_append.js"></script>
+<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/gara/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.events/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Tree.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/TreeItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
 <script type="text/javascript"><!--
-var t;
+var tree;
 function main() {
 	try {
-		t = new gara.jswt.Tree(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
-		
-		var img = new Image();
-		img.src = "../../themes/sand/icon_information.png";
-		
-		var i1 = new gara.jswt.TreeItem(t);
-		i1.setText("Item 1");
-		i1.setImage(img);
+		tree = new gara.jswt.widgets.Tree(document.getElementById("container"), gara.jswt.JSWT.CHECK);
 
-		var i1a = new gara.jswt.TreeItem(t);
-		i1a.setText("Item 1a");
+		var treeItem = new gara.jswt.widgets.TreeItem(tree).setText("Item 1");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 1a");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 1b");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 1c");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 1d");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 1e");
+		var i2 = new gara.jswt.widgets.TreeItem(tree).setText("Item 2");
+		var i3 = new gara.jswt.widgets.TreeItem(i2).setText("Item 3");
+		new gara.jswt.widgets.TreeItem(i3).setText("Item 4");
+		new gara.jswt.widgets.TreeItem(i3).setText("Item 5");
+		var i6 = new gara.jswt.widgets.TreeItem(i2).setText("Item 6");
+		var i7 = new gara.jswt.widgets.TreeItem(i6).setText("Item 7");
+		var i7a = new gara.jswt.widgets.TreeItem(i7).setText("Item 7a");
+		var i7b = new gara.jswt.widgets.TreeItem(i7a).setText("Item 7b");
+		new gara.jswt.widgets.TreeItem(i7b).setText("Item 7c");
+		new gara.jswt.widgets.TreeItem(i2).setText("This is a really long description on a listItem, that should go far far out of preset bounds");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 8");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 9");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 10");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 11");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 12");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 13");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 14");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 15");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 16");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 17");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 18");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 19");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 20");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 21");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 22");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 23");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 24");
+		new gara.jswt.widgets.TreeItem(tree).setText("Item 25");
 
-		var i1b = new gara.jswt.TreeItem(t);
-		i1b.setText("Item 1b");
-
-		var i1c = new gara.jswt.TreeItem(t);
-		i1c.setText("Item 1c");
-
-		var i1d = new gara.jswt.TreeItem(t);
-		i1d.setText("Item 1d");
-
-		var i1e = new gara.jswt.TreeItem(t);
-		i1e.setText("Item 1e");
-		
-		var i2 = new gara.jswt.TreeItem(t);
-		i2.setText("Item 2");
-		
-		var i3 = new gara.jswt.TreeItem(i2);
-		i3.setText("Item 3");
-		
-		var i4 = new gara.jswt.TreeItem(i3);
-		i4.setText("Item 4");
-		
-		var i5 = new gara.jswt.TreeItem(i3);
-		i5.setText("Item 5");
-		
-		var i6 = new gara.jswt.TreeItem(i2);
-		i6.setText("Item 6");
-		
-		var i7 = new gara.jswt.TreeItem(i6);
-		i7.setText("Item 7");
-
-		var i7a = new gara.jswt.TreeItem(i7);
-		i7a.setText("Item 7a");
-
-		var i7b = new gara.jswt.TreeItem(i7a);
-		i7b.setText("Item 7b");
-
-		var i7c = new gara.jswt.TreeItem(i7b);
-		i7c.setText("Item 7c");
-		
-		var i8 = new gara.jswt.TreeItem(t);
-		i8.setText("Item 8");
-
-
-		t.setHeight(120);
-		t.setWidth(150);
-		
-		t.update();
+		tree.setWidth(300);
+		tree.setHeight(200);
+		tree.update();
 	} catch(e) {
+		console.log("Catched Exception:");
 		var message = "";
 		for (p in e) {
 			message += p + ": " + e[p] + "\n";
@@ -105,19 +95,19 @@ function main() {
 }
 
 function dispose() {
-	t.dispose();
+	tree.dispose();
 }
 
 function selectAll() {
-	t.selectAll();
+	tree.selectAll();
 }
 
 function deselectAll() {
-	t.deselectAll();
+	tree.deselectAll();
 }
 
 function getSelectedItem() {
-	return t.getSelection()[0];
+	return tree.getSelection()[0];
 }
 
 function toggleGrayed() {
@@ -135,11 +125,15 @@ function toggleChecked() {
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Tree</h1>
 <fieldset>
 	<legend>Options</legend>
-	<input type="button" value="dispose()" onclick="dispose()"/>
+	<!--<input type="button" value="dispose()" onclick="dispose()"/>
 	<input type="button" value="selectAll()" onclick="selectAll()"/>
 	<input type="button" value="deselectAll()" onclick="deselectAll()"/>
-	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>
+	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>-->
 	<input type="button" value="Toggle Grayed" onclick="toggleGrayed()"/>
+	<input type="button" value="getTopItem()" onclick="console.log('Top Item: '+tree.getTopItem().getText())"/>
+	<input type="button" value="showSelection()" onclick="tree.showSelection()"/>
+	<input type="button" value="showItem(Item 20)" onclick="tree.showItem(tree.getItems()[19])"/>
+	<input type="button" value="setTopItem(Item 10)" onclick="tree.setTopItem(tree.getItems()[9])"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>

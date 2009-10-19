@@ -1,0 +1,127 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Dialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTDialog {
+	
+}
+
+.sand div.jsWTDialogBar {
+	/*background: url('left.gif') no-repeat;*/
+	line-height: 16px;
+	cursor: default;
+}
+
+/* This div is only because of IE6 grrrrr */
+.sand div.jsWTDialogBarLeft {
+	background: url('left_both.gif') no-repeat;
+	width: 9px;
+	height: 26px;
+	float: left;
+}
+
+.sand div.jsWTDialogBarText {
+	background: url('bar.gif') repeat-x;
+	padding: 5px 5px 5px 0;
+	height: 16px;
+}
+
+.sand div.jsWTDialogBarButtons {
+	background: url('right_both.gif') no-repeat right top;
+	padding: 5px;
+	height: 16px;
+}
+
+.sand span.jsWTDialogCancelButton {
+	background: url('close.gif') no-repeat;
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 1px 2px 0 0;
+}
+
+.sand span.jsWTDialogCancelButton:hover {
+	background: url('close_hover.gif');
+}
+
+.sand div.jsWTDialogContent {
+	border: 1px solid #B7AE88;
+}
+
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.MessageBox
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTMessageBox,
+.sand div.jsWTInputDialog {
+	width: 350px;
+}
+
+.sand div.jsWTMessageBox .jsWTDialogBarText,
+.sand div.jsWTInputDialog .jsWTDialogBarText {
+	width: 310px;
+}
+
+.sand div.jsWTMessageBox .jsWTDialogContent,
+.sand div.jsWTInputDialog .jsWTDialogContent {
+	background-color: #F7F7FA;
+	padding: 10px;
+}
+
+.sand div.jsWTMessageBox .jsWTMessageBoxContentText{
+	padding: 5px 0;
+	padding-left: 31px;
+}
+
+.sand div.jsWTMessageBox .jsWTIconError,
+.sand div.jsWTMessageBox .jsWTIconInformation,
+.sand div.jsWTMessageBox .jsWTIconQuestion,
+.sand div.jsWTMessageBox .jsWTIconWarning,
+.sand div.jsWTMessageBox .jsWTIconWorking {
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+}
+
+.sand div.jsWTMessageBox .jsWTIconError {
+	background-image: url('icon_error.png');
+}
+.sand div.jsWTMessageBox .jsWTIconInformation {
+	background-image: url('icon_information.png');
+} 
+.sand div.jsWTMessageBox .jsWTIconQuestion {
+	background-image: url('icon_question.png');
+}
+.sand div.jsWTMessageBox .jsWTIconWarning {
+	background-image: url('icon_warning.png');
+}
+.sand div.jsWTMessageBox .jsWTIconWorking {
+	background-image: url('icon_working.gif');
+}
+
+.sand div.jsWTInputDialog .jsWTInputDialogContentText {
+	padding: 5px 0;
+}
+
+.sand div.jsWTInputDialog .jsWTInputDialogContentText input {
+	display: block;
+	margin: 10px 0 5px 0;
+}
+
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.IframeDialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTIframeDialog div.jsWTDialogContent div.loading {
+	background: #FFF url('loading.gif') no-repeat center;
+}

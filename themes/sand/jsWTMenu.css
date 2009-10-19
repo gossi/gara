@@ -1,0 +1,152 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Menu
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand ul.jsWTMenu {
+	margin: 0;
+	padding: 0;
+	background: none;
+	font-family: Verdana;
+}
+
+.sand ul.jsWTMenu li {
+	border: 0;
+	background: none;
+	padding: 0 5px;
+}
+
+.sand ul.jsWTMenu li span {
+	line-height: 18px;
+	font-size: 85%;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.sand ul.jsWTMenu li.active {
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+.sand ul.jsWTMenu li[aria-disabled=true] > span.text {
+	color: #777;
+}
+
+.sand ul.jsWTMenu li[aria-disabled=true] > img {
+	opacity: 0.5;
+}
+
+.sand ul.jsWTMenu li.jsWTMenuItemCheck,
+.sand ul.jsWTMenu li.jsWTMenuItemRadio {
+	background-repeat: no-repeat;
+	padding-left: 14px;
+}
+
+.sand ul.jsWTMenu li.jsWTMenuItemCheck[aria-checked=true] {
+	background-image: url('checked.png');
+	background-position: 4px 8px;
+}
+
+.sand ul.jsWTMenu li.jsWTMenuItemRadio[aria-checked=true] {
+	background-image: url('dot.png');
+	background-position: 5px 8px;
+}
+
+.sand ul.jsWTMenuBar {
+	margin: 0;
+	padding: 0;
+	background-image: none;
+	background-color: #CCC8BA;
+	height: 21px;
+}
+
+.sand ul.jsWTMenuBar li {
+	float: left;
+	position: relative;
+}
+
+.sand ul.jsWTMenuBar li span {
+	line-height: 21px;
+}
+
+.sand ul.jsWTMenuPopUp,
+.sand ul.jsWTMenuDropDown {
+	margin: 0;
+	padding: 2px;
+	background-image: none;
+	background-color: #EAE6D6;
+	color: #000;
+	border: 1px solid #000;
+	width: 150px;
+}
+
+.sand ul.jsWTMenuPopUp li,
+.sand ul.jsWTMenuDropDown li {
+	background-image: none;
+	float: none;
+}
+
+.sand ul.jsWTMenuPopUp li span,
+.sand ul.jsWTMenuDropDown li span {
+	border: none;
+	padding: 0;
+	margin: 0;
+	line-height: 18px;
+}
+
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
+	margin-left: -1px !important;
+	margin-top: 0 !important;
+	margin-top: 18px;
+	white-space: nowrap;
+	left: 1px;
+}
+
+/* IE hacks */
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
+	*margin-top: 17px !important;
+	*margin-top: 16px;
+}
+
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown ul {
+	*margin-top: 0 !important;
+}
+
+/* the chain jsWTMenuBar jsWTMenuDropDown is because IE6 needs some readjusment */
+.sand ul.jsWTMenuBar ul.jsWTMenuDropDown  li ul,
+.sand ul.jsWTMenuPopUp li ul,
+.sand ul.jsWTMenuDropDown li ul {
+	top: -2px;
+	left: 145px;
+	margin-top: 0;
+	margin-left: -3px !important;
+}
+
+.sand ul.jsWTMenuPopUp li.jsWTMenuItemCascade,
+.sand ul.jsWTMenuDropDown li.jsWTMenuItemCascade {
+	background-image: url('arrow.gif');
+	background-position: 135px 8px;
+	background-repeat: no-repeat;	
+}
+
+.sand ul.jsWTMenuBar li.jsWTMenuItemSeparator {
+	border: none;
+	width: 5px;
+	margin: 0;
+	padding: 0;
+	height: 21px;
+}
+
+.sand ul.jsWTMenuPopUp li.jsWTMenuItemSeparator,
+.sand ul.jsWTMenuDropDown li.jsWTMenuItemSeparator {
+	border: 0;
+	background: none;
+	margin: 0;
+	padding: 0;
+	height: auto;
+	width: auto;
+}
+

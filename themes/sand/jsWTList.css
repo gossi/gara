@@ -1,0 +1,76 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.List
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand ul.jsWTList {
+	border: 1px solid #000;
+	overflow: auto;
+	background-color: #EAE6D6;
+}
+
+.sand ul.jsWTList li .jsWTCheckbox {
+	margin: 3px 5px 0 5px;
+}
+
+.sand ul.jsWTList li span.text {
+	background-color: #EAE6D6;
+	color: #000;
+	font-family: Verdana;
+	font-size: 85%;
+	line-height: 18px;
+	padding: 1px 3px;
+}
+
+.sand ul.jsWTListFullSelection li img {
+	float: left;
+	margin-top: 1px;
+}
+
+.sand ul.jsWTListFullSelection li span.text {
+	padding: 0;
+}
+
+/* === Selection === */
+.sand ul.jsWTList li[aria-selected=true] span.text {
+	background-color: #CCC8BA;
+	color: #000;
+}
+
+.sand ul.jsWTList:focus li[aria-selected=true] span.text {
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+/* --- checkbox & image --- */
+.sand ul.jsWTList li[aria-selected=true] span.jsWTCheckbox,
+.sand ul.jsWTListFullSelection li[aria-selected=true] img {
+	opacity: 0.7;
+	background-color: #CCC8BA;
+}
+
+.sand ul.jsWTList:focus li[aria-selected=true] span.jsWTCheckbox,
+.sand ul.jsWTListFullSelection:focus li[aria-selected=true] img {
+	opacity: 0.7;
+	background-color: #9C9577;
+}
+
+/* === Active Item State === */
+.sand ul.jsWTList:focus li.active span.text {
+	outline: 1px dotted #000;
+}
+
+.sand ul.jsWTListFullSelection:focus li.active span.text {
+	margin: 1px 1px 0 1px;
+	line-height: 17px;
+}
+
+.sand ul.jsWTListFullSelection:focus li.active img {
+	margin-top: 0;
+}
+
+.sand ul.jsWTListFullSelection:focus li.active span.jsWTCheckbox {
+	margin: 2px 5px 0;
+}

@@ -10,59 +10,80 @@
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
 
-<script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/Package.class.js"></script>
-<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
-<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/_append.js"></script>
+<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/gara/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/List.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/ListItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.events/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/List.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
+
 <script type="text/javascript"><!--
-var l;
+var list;
 
 function main() {
 	try {
-		l = new gara.jswt.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
+		list = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI);
 
-		var i = new gara.jswt.ListItem(l);
-		i.setText("Item 1");
+		new gara.jswt.widgets.ListItem(list).setText("Item 1");
+		new gara.jswt.widgets.ListItem(list).setText("Item 2");
+		new gara.jswt.widgets.ListItem(list).setText("Item 3");
+		new gara.jswt.widgets.ListItem(list).setText("Item 4");
+		new gara.jswt.widgets.ListItem(list).setText("Item 5");
+		new gara.jswt.widgets.ListItem(list).setText("Item 6");
+		new gara.jswt.widgets.ListItem(list).setText("Item 7");
+		new gara.jswt.widgets.ListItem(list).setText("Item 8");
+		new gara.jswt.widgets.ListItem(list).setText("Item 9");
+		new gara.jswt.widgets.ListItem(list).setText("Item 10");
+		new gara.jswt.widgets.ListItem(list).setText("Item 12");
+		new gara.jswt.widgets.ListItem(list).setText("Item 13");
+		new gara.jswt.widgets.ListItem(list).setText("Item 14");
+		new gara.jswt.widgets.ListItem(list).setText("Item 15");
+		new gara.jswt.widgets.ListItem(list).setText("Item 16");
+		new gara.jswt.widgets.ListItem(list).setText("Item 17");
+		new gara.jswt.widgets.ListItem(list).setText("Item 18");
+		new gara.jswt.widgets.ListItem(list).setText("Item 19");
+		new gara.jswt.widgets.ListItem(list).setText("Item 20");
+		new gara.jswt.widgets.ListItem(list).setText("Item 21");
+		new gara.jswt.widgets.ListItem(list).setText("Item 22");
+		new gara.jswt.widgets.ListItem(list).setText("Item 23");
+		new gara.jswt.widgets.ListItem(list).setText("Item 24");
+		new gara.jswt.widgets.ListItem(list).setText("Item 25");
 		
-		var i2 = new gara.jswt.ListItem(l);
-		i2.setText("Item 2");
 		
-		var i3 = new gara.jswt.ListItem(l);
-		i3.setText("Item 3");
 
-		var i4 = new gara.jswt.ListItem(l);
-		i4.setText("Item 4");
-		
-		var i5 = new gara.jswt.ListItem(l);
-		i5.setText("Item 5");
+		list.setHeight(200);
+		list.update();
 
-		var i6 = new gara.jswt.ListItem(l);
-		i6.setText("Item 6");
-
-		var i7 = new gara.jswt.ListItem(l);
-		i7.setText("Item 7");
-		
-		l.setHeight(100);
-	
-		l.update();
-		l.addSelectionListener(new SelLis());
+		var listener = new Listener();
+		list.addSelectionListener(listener);
+		list.addMouseListener(listener);
+		list.addKeyListener(listener);
+		list.addListener("keydown", listener);
+		list.addListener("mousedown", listener);
+		list.getItems()[2].addListener("mousedown", listener);
 	} catch(e) {
 		var message = "";
 		for (p in e) {
@@ -72,22 +93,49 @@ function main() {
 	}
 }
 
-$class("SelLis", {
-	$implements : [gara.jswt.SelectionListener],
+$class("Listener", {
+	$implements : [gara.jswt.events.SelectionListener, gara.jswt.events.MouseListener, gara.jswt.events.KeyListener],
 	$constructor : function (){},
 	widgetSelected : function(e) {
 		var item = e.item;
 		var widget = e.widget;
-		var checked = e.garaDetail == gara.jswt.JSWT.CHECK || false;
+		var checked = e.detail == gara.jswt.JSWT.CHECK || false;
+//		console.log("Item: " + item + ", widget: " + widget + ", checked: " + checked);
+		console.log("Listener.widgetSelected, widget: " + e.widget + ", item: " + e.item);
+	},
+
+	handleEvent : function(e) {
+//		console.log("Listener.handleEvent("+e.type+"), widget: " + e.target.widget + ", target: " + e.target + ", bubbling: " + e.bubbles);
+	},
+
+	mouseDoubleClick : function(e) {
+		
+	},
+
+	mouseDown : function(e) {
+//		console.log("Listener.mouseDown, widget: " + e.widget + ", item: " + e.item);
+	},
+
+	mouseUp : function(e) {
+		
+	},
+
+	keyPressed : function(e) {
+//		console.log("Listener.keyPressed, widget: " + e.widget + ", item: " + e.item);
+	},
+
+	keyReleased : function(e) {
+		 
 	}
+	
 })
 
 function dispose() {
-	l.dispose();
+	list.dispose();
 }
 
 function getSelectedItem() {
-	return l.getSelection()[0];
+	return list.getSelection()[0];
 }
 
 function toggleGrayed() {
@@ -99,15 +147,25 @@ function toggleChecked() {
 	var item = getSelectedItem();
 	item.setChecked(!item.getChecked());
 }
+
+function getTopItem() {
+	var item = list.getTopItem();
+	console.log("Top Item: " + item.getText());
+}
 --></script>
 </head>
 <body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.List</h1>
 <fieldset>
 	<legend>Options</legend>
+	<!-- 
 	<input type="button" value="dispose()" onclick="dispose()"/>
-	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>
+	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>-->
 	<input type="button" value="Toggle Grayed" onclick="toggleGrayed()"/>
+	<input type="button" value="getTopItem()" onclick="getTopItem()"/>
+	<input type="button" value="showSelection()" onclick="list.showSelection()"/>
+	<input type="button" value="showItem(Item 20)" onclick="list.showItem(list.getItems()[19])"/>
+	<input type="button" value="setTopItem(Item 10)" onclick="list.setTopItem(list.getItems()[9])"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;"></div>
 <script type="text/javascript">main();</script>

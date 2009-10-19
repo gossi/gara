@@ -1,5 +1,50 @@
 /* gara Styles */
-
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara Reset & Fonts 
+ * based on YUI-Resets-Fonts (v2.2.2) Copyright (c) 2007, Yahoo! Inc. (BSD-License)
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+.gara div, div.gara,
+.gara ul, ul.gara,
+.gara li, li.gara,
+.gara input, input.gara,
+.gara textarea, textarea.gara,
+.gara td, .gara th {
+	margin: 0;
+	padding: 0;
+}
+.gara img {
+	border: 0;
+}
+ul.gara  {
+	list-style: none;
+}
+.gara th {
+	text-align: left;
+	font-style: normal;
+	font-weight: normal;
+}
+.gara {
+	font: 13px arial,helvetica,clean,sans-serif;
+	*font-size: small;
+	*font: x-small;
+}
+.gara table, table.gara {
+	font-size: inherit;
+	font: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.gara select, select.gara,
+.gara input, input.gara,
+.gara textarea, textarea.gara {
+	font: 99% arial,helvetica,clean,sans-serif;
+}
+.gara * {
+	line-height: 1.22em;
+}
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
@@ -9,22 +54,24 @@
  */
 
 ul.jsWTList {
-	margin-left: 0;
-	padding-left: 0;
-	-moz-user-select: none;
-	outline: none;
 	cursor: default;
-	overflow: auto;
+	overflow: auto;	
+	outline: none;
+	-moz-user-select: none;
+	user-select: none;
 }
 
 ul.jsWTList li {
-	margin-left: 0;
 	list-style-type: none;
-	outline: none;
 }
 
-ul.jsWTList li span {
-	line-height: 21px;
+ul.jsWTList li .jsWTCheckbox {
+	float: left;
+}
+
+ul.jsWTList li span.text {
+	white-space: nowrap;
+	width: auto;
 }
 
 ul.jsWTList li img {
@@ -32,30 +79,8 @@ ul.jsWTList li img {
 	margin-right: 3px;
 }
 
-ul.jsWTList li input {
-	height: 14px;
-}
-
-ul.jsWTListFullSelection li span {
+ul.jsWTListFullSelection li span.text {
 	display: block;
-	line-height: 14px;
-}
-
-ul.jsWTList li.active {
-/*	border: 1px dotted #000;*/
-}
-
-ul.jsWTList li:hover {
-/*	background-color: #FFF;*/
-}
-
-ul.jsWTList li.selected {
-/*	background-color: #DDD;*/
-}
-
-ul.jsWTList li:hover.selected {
-/*	background-color: #FFF;
-	color: #00A;*/
 }
 
 
@@ -67,8 +92,15 @@ ul.jsWTList li:hover.selected {
  */
 
 ul.jsWTTree {
+	cursor: default;
 	overflow: auto;	
+	outline: none;
 	-moz-user-select: none;
+	user-select: none;
+}
+
+ul.jsWTTree * {
+	outline: none;
 }
 
 ul.jsWTTree ul {
@@ -78,10 +110,6 @@ ul.jsWTTree ul {
 ul.jsWTTree, ul.jsWTTree ul {
 	background-repeat: repeat-y;
 	padding-left: 18px;
-}
-
-ul.jsWTTreeLines ul {
-/*	background-image: url('res/images/line.gif');*/
 }
 
 ul.jsWTTreeNoLines ul {
@@ -94,19 +122,12 @@ ul.jsWTTree ul {
 
 ul.jsWTTree li {
 	background-repeat: no-repeat;
-	height: auto !important;
+/*	height: auto !important;
 	height: 18px;
-	min-height: 18px;
+	min-height: 18px;*/
 	overflow: visible;
 	list-style-type: none;
-}
-
-ul.jsWTTree li input {
-	height: 14px;
-}
-
-ul.jsWTTreeLines li {
-/*	background-image: url('res/images/join.gif');*/
+	white-space: nowrap;
 }
 
 ul.jsWTTreeNoLines li {
@@ -114,32 +135,8 @@ ul.jsWTTreeNoLines li {
 }
 
 ul.jsWTTree li span.text {
-	cursor: default;
-	padding-left: 3px;
-	padding-right: 3px;
-	line-height: 18px;
+	white-space: nowrap;
 	width: auto;
-	font-size: 85%;
-	padding-top: 1px;
-	padding-bottom: 1px;
-}
-
-ul.jsWTTreeFullSelection li span.text {
-	display: block;
-	line-height: 14px;
-	margin-left: 18px;
-	padding-bottom: 1px;
-}
-
-ul.jsWTTree li img {
-	margin-right: 3px;
-	vertical-align: middle;
-	float: left;
-	margin-left: 2px;
-}
-
-ul.jsWTTree li span.active {
-/*	border: 1px dotted #000;*/
 }
 
 ul.jsWTTree li span.toggler {
@@ -156,10 +153,6 @@ ul.jsWTTree li.noChilds {
 
 ul.jsWTTree li.hasChilds {
 	padding-left: 0;
-}
-
-ul.jsWTTreeLines li.bottom {
-/*	background-image: url('res/images/joinbottom.gif');*/
 }
 
 ul.jsWTTreeNoLines li.bottom {
@@ -186,11 +179,15 @@ ul.jsWTTree ul.bottom {
 	overflow: auto;
 }
 
+.jsWTTableShadow .scroller {
+	overflow: hidden;
+}
+
 .jsWTTable table {
 	width: 100%;
+	outline: none;
 	-moz-user-select: none;
 	user-select: none;
-	outline: none;
 }
 
 .jsWTTable thead {
@@ -201,7 +198,6 @@ ul.jsWTTree ul.bottom {
 
 .jsWTTable table thead tr th {
 	white-space: nowrap;
-	-moz-user-select: none;
 }
 
 .jsWTTable table thead tr th span.mover {
@@ -218,8 +214,8 @@ ul.jsWTTree ul.bottom {
 } 
 
 .jsWTTable table tbody {
-	overflow-y: auto;
-	overflow-x: hidden;
+	/*overflow-y: auto;*/
+	overflow: hidden;
 }
 
 
@@ -272,14 +268,12 @@ ul.jsWTMenu li {
 	list-style-type: none;
 	outline: none;
 	position: relative;
-	overflow: hidden;
 }
 
 /* Reset. Anyways the menu inherits styles from controls */
 ul.jsWTMenu li span {
 	padding: 0;
 	margin: 0;
-	line-height: 21px;
 }
 
 ul.jsWTMenu li img {
@@ -287,26 +281,7 @@ ul.jsWTMenu li img {
 	margin-right: 3px;
 }
 
-ul.jsWTMenu li.active {
-/*	border: 1px dotted #000;*/
-}
-
-ul.jsWTMenu li:hover,
-ul.jsWTMenu li.hover {
-/*	background-color: #FFF;*/
-	overflow: visible;
-}
-
-ul.jsWTMenu li.selected {
-/*	background-color: #DDD;*/
-}
-
-ul.jsWTMenu li:hover.selected {
-/*	background-color: #FFF;
-	color: #00A;*/
-}
-
-ul.jsWTMenu {
+ul.jsWTMenuDropDown, ul.jsWTMenuPopUp {
 	z-index: 500;
 }
 

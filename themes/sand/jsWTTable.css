@@ -1,0 +1,158 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Table
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .jsWTTable {
+	outline: none;
+	border: 1px solid #000;
+}
+
+.sand .jsWTTable table {
+	border-collapse: separate !important;
+	border-collapse: collapse;
+	border-spacing: 0 0;
+}
+
+.sand .jsWTTable table thead tr th {
+	padding: 2px;
+	/*background-color: #9C9577;*/
+	background-color: #AFAA91;
+	color: #000;
+	border: 1px solid;
+	border-left-color: #EAE6D6; 
+	border-top-color: #EAE6D6;
+	border-right-color: #4E4A3B;
+	border-bottom-color: #4E4A3B;
+	cursor: default;
+	position: relative;
+	z-index: 200;
+	border-spacing: 0 0;
+}
+
+.sand .jsWTTable th span.text {
+	line-height: 13px;
+}
+
+.sand .jsWTTable th,
+.sand .jsWTTable td {
+	font-family: Verdana;
+	font-size: 85%;
+/*	line-height: 18px;*/
+}
+
+.sand .jsWTTable table thead tr th span.mover {
+	margin-top: -3px !important;
+	margin-right: -4px !important;
+	margin-bottom: -3px !important;
+	margin-top: -1px;
+	margin-right: -1px;
+	height: 18px;
+	z-index: 201;
+	float: right;
+}
+
+.sand .jsWTTable table .jsWTTableCheckboxCol {
+	width: 11px;
+	padding: 2px 5px;
+}
+
+.sand .jsWTTable tbody td {
+	cursor: default;
+	border-spacing: 0 0;
+}
+
+.sand .jsWTTableLines tbody td {
+	border-bottom: 1px solid #A1A1A1;
+}
+
+.sand .jsWTTableNoLines tbody td {
+	border-bottom: none;
+}
+
+.sand .jsWTTable .scroller {
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+.sand .jsWTTable span.text {
+	line-height: 18px;
+	margin-left: 1px;
+	padding: 1px 3px;
+}
+
+.sand .jsWTTable .jsWTTableFullSelection span.text {
+	display: block;
+	padding: 0 1px;
+}
+
+.sand .jsWTTable td img {
+	float: left;
+	margin: 1px 3px 1px 1px;
+}
+
+.sand .jsWTTableCheckbox td.first {
+	/*padding-left: 2px;*/
+}
+
+/* === Selection === */
+/* Inactive */
+.sand .jsWTTable tr[aria-selected=true] td.first span.text {
+	background-color: #CCC8BA;
+}
+
+/* Active */
+.sand .jsWTTable:focus tr[aria-selected=true] td.first span.text{
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+/* === Full Selection === */
+/* --- Inactive --- */
+.sand .jsWTTable .jsWTTableFullSelection tr[aria-selected=true] td {
+	background-color: #CCC8BA;
+}
+
+/* --- Active --- */
+.sand .jsWTTable:focus .jsWTTableFullSelection tr[aria-selected=true] td {
+	background-color: #9C9577;
+	color: #FFF;
+}
+
+/* --- checkbox & image --- */
+CSS2.1: .sand .jsWTTable tr[aria-selected=true] span.jsWTCheckbox,
+.sand .jsWTTable .jsWTTableFullSelection tr[aria-selected=true] img {
+	opacity: 0.7;
+	background-color: #CCC8BA;
+}
+
+.sand .jsWTTable:focus tr[aria-selected=true] span.jsWTCheckbox,
+.sand .jsWTTable .jsWTTableFullSelection:focus tr[aria-selected=true] img {
+	opacity: 0.7;
+	background-color: #9C9577;
+}
+
+/* === Active Item State === */
+.sand .jsWTTable:focus tr.active td.first span.text {
+	outline: 1px dotted #000;
+}
+
+.sand .jsWTTableLines:focus tr.active td.first span.text {
+	margin-right: 1px;
+}
+
+.sand .jsWTTableNoLines:focus tr.active td.first span.text {
+	margin: 1px;
+	line-height: 18px;
+}
+
+.sand .jsWTTableNoLines:focus .jsWTTableFullSelection tr.active td.first span.text {
+	margin: 1px;
+	line-height: 16px;
+}
+
+/* .sand .jsWTTable:focus .jsWTTableFullSelection tr.active td.first {
+	outline: 1px dotted #DD0;
+}*/

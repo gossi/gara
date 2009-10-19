@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jswt.tabfolder (dev)</title>
+<title>gara.jswt.widgets.tabfolder (dev)</title>
 <link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
@@ -10,34 +10,43 @@
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
 
-<script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/Package.class.js"></script>
-<script type="text/javascript" src="../../src/core/Utils.class.js"></script>
-<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/_append.js"></script>
+<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/gara/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Menu.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/MenuItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/TabFolder.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/TabItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.events/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Label.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/TabFolder.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/TabItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
 <script type="text/javascript"><!--
 var t;
 function main() {
 	try {
-		t = new gara.jswt.TabFolder(document.getElementById("container"), gara.jswt.JSWT.DROP_DOWN);
+		t = new gara.jswt.widgets.TabFolder(document.getElementById("container"), gara.jswt.JSWT.DROP_DOWN);
 
 		var img1 = new Image();
 		img1.src = '../../themes/sand/icon_error.png';
@@ -45,31 +54,31 @@ function main() {
 		var img2 = new Image();
 		img2.src = '../../themes/sand/icon_warning.png';
 
-		var i1 = new gara.jswt.TabItem(t);
+		var i1 = new gara.jswt.widgets.TabItem(t);
 		i1.setText("Item 1");
-		i1.setContent("Content 1");
+		i1.setControl(new gara.jswt.widgets.Label(t).setText("Content 1"));
 		
-		var i2 = new gara.jswt.TabItem(t);
+		var i2 = new gara.jswt.widgets.TabItem(t);
 		i2.setText("Item 2");
 		i2.setImage(img1);
-		i2.setContent("Content 2");
+		i2.setControl(new gara.jswt.widgets.Label(t).setText("Content 2"));
 		
-		var i3 = new gara.jswt.TabItem(t);
+		var i3 = new gara.jswt.widgets.TabItem(t);
 		i3.setText("Item 3");
-		i3.setContent("Content 3");
+		i3.setControl(new gara.jswt.widgets.Label(t).setText("Content 3"));
 		
-		var i4 = new gara.jswt.TabItem(t);
+		var i4 = new gara.jswt.widgets.TabItem(t);
 		i4.setText("Item 4");
 		i4.setImage(img2);
-		i4.setContent("Content 4");
+		i4.setControl(new gara.jswt.widgets.Label(t).setText("Content 4"));
 		
-		var i5 = new gara.jswt.TabItem(t);
+		var i5 = new gara.jswt.widgets.TabItem(t);
 		i5.setText("Item 5");
-		i5.setContent("Content 5");
+		i5.setControl(new gara.jswt.widgets.Label(t).setText("Content 5"));
 
 		t.setWidth(300);
 		t.setHeight(300);
-		
+
 		t.update();
 	} catch(e) {
 		var message = "";
@@ -86,7 +95,7 @@ function dispose() {
 --></script>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.TabFolder</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.TabFolder</h1>
 <fieldset>
 	<legend>Options</legend>
 	<input type="button" value="dispose()" onclick="dispose()"/>

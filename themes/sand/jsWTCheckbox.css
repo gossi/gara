@@ -1,0 +1,25 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Checkbox
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .jsWTCheckbox {
+	display: block;
+	width: 13px;
+	height: 13px;
+	background-image: url('checkbox.png');
+}
+
+.sand .jsWTCheckboxGrayedChecked {
+	background-image: url('checkbox-grayed-checked.png');
+}
+
+.sand .jsWTCheckboxGrayed {
+	background-image: url('checkbox-grayed.png');
+}
+
+.sand .jsWTCheckboxChecked {
+	background-image: url('checkbox-checked.png');
+}
