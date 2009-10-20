@@ -94,7 +94,7 @@ $class("TableViewer", {
 	},
 
 	refresh : function(element, updateLabels) {
-		this._internalRefresh(element || null, updateLabel || true);
+		this._internalRefresh(element || null, updateLabels || true);
 	},
 
 	_tableRemoveAll : function() {

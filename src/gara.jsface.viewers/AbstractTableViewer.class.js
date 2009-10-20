@@ -196,6 +196,8 @@ $class("AbstractTableViewer", {
 			this._createItem(children[i], i);
 		}
 
+		this.getControl().update();
+
 		// restore selection
 		selection = [];
 		selected.forEach(function(elem, i, arr) {
@@ -204,9 +206,7 @@ $class("AbstractTableViewer", {
 				selection.push(item);
 			}
 		}, this);
-		this.getControl().update();
 		this.getControl().setSelection(selection);
-		this.getControl().update();
 		// TODO: any better solution for this instead of firing update 2 times?
 	}
 

@@ -141,7 +141,6 @@ $class("Dialog", {
 		this._parentWindow.gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
 
 		this._parent.appendChild(this.handle);
-
 		this._parentWindow.gara.jswt.widgets.DialogManager.getInstance().activate(this);
 	},
 

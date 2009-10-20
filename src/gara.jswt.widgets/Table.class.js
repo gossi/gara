@@ -50,6 +50,7 @@ $class("Table", {
 		this._items = [];
 		this._columns = [];
 		this._columnOrder = [];
+		this._virtualColumn = null;
 
 		// flags
 		this._headerVisible = false;
@@ -133,13 +134,13 @@ $class("Table", {
 	 * Adds a selection listener on the table
 	 *
 	 * @author Thomas Gossmann
-	 * @param {gara.jswt.widgets.SelectionListener} listener the desired listener to be added to this table
+	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this table
 	 * @throws {TypeError} if the listener is not a SelectionListener
 	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jswt.widgets.SelectionListener)) {
-			throw new TypeError("listener is not type of gara.jswt.widgets.SelectionListener");
+		if (!$class.instanceOf(listener, gara.jswt.events.SelectionListener)) {
+			throw new TypeError("listener is not type of gara.jswt.events.SelectionListener");
 		}
 
 		if (!this._selectionListener.contains(listener)) {
@@ -222,17 +223,6 @@ $class("Table", {
 			this.addClass("jsWTTableCheckbox");
 		}
 
-		// creating columns
-		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
-			this._columns[this._columnOrder[i]]._setParentNode(this._theadRow);
-			this._columns[this._columnOrder[i]].update();
-		}
-		if (!this._columns.length) {
-			var virtualColumn = new gara.jswt.widgets.TableColumn(this);
-			virtualColumn._setParentNode(this._theadRow);
-			virtualColumn.update();
-		}
-
 		// table body
 		this._tbody = document.createElement("tbody");
 		this._tbody.id = this.getId() + "-tbody";
@@ -245,6 +235,12 @@ $class("Table", {
 		if ((this._style & JSWT.FULL_SELECTION) == JSWT.FULL_SELECTION) {
 			this._tbody.className = "jsWTTableFullSelection";
 		}
+
+		// create column header (to calculate width later)
+//		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
+//			this._columns[this._columnOrder[i]]._setParentNode(this._theadRow);
+//			this._columns[this._columnOrder[i]].update();
+//		}
 
 		// css
 		this.setClass("jsWTTableLines", this._linesVisible);
@@ -796,13 +792,13 @@ $class("Table", {
 	 * Removes a selection listener from this table
 	 *
 	 * @author Thomas Gossmann
-	 * @param {gara.jswt.widgets.SelectionListener} listener the listener to be removed from this table
+	 * @param {gara.jswt.events.SelectionListener} listener the listener to be removed from this table
 	 * @throws {TypeError} if the listener is not a SelectionListener
 	 * @return {void}
 	 */
 	removeSelectionListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jswt.widgets.SelectionListener)) {
-			throw new TypeError("listener is not type of gara.jswt.widgets.SelectionListener");
+		if (!$class.instanceOf(listener, gara.jswt.events.SelectionListener)) {
+			throw new TypeError("listener is not type of gara.jswt.events.SelectionListener");
 		}
 
 		if (this._selectionListener.contains(listener)) {
@@ -886,6 +882,10 @@ $class("Table", {
 	},
 
 	selectArray : function(indices) {
+		if (!indices.length) {
+			return;
+		}
+
 		if (indices.length > 1 && (this._style & JSWT.MULTI) == JSWT.MULTI) {
 			indices.forEach(function(index) {
 				if (!this._selection.contains(this._items[index])) {
@@ -1064,6 +1064,10 @@ $class("Table", {
 		// update table head
 		this._thead.style.position = "static";
 
+		if (this._virtualColumn && this._columns.length) {
+			this._virtualColumn.dispose();
+			this._virtualColumn = null;
+		}
 		while (this._theadRow.childNodes.length && this._columns.length) {
 			this._theadRow.removeChild(this._theadRow.childNodes[0]);
 		}
@@ -1072,18 +1076,33 @@ $class("Table", {
 			this._theadRow.appendChild(this._checkboxCol);
 		}
 
-		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
-			var col = this._columns[this._columnOrder[i]];
-			col.update();
-			this._theadRow.appendChild(col.handle);
+		// add virtual column if no columns present
+		if (!this._columns.length) {
+			this._virtualColumn = new gara.jswt.widgets.TableColumn(this);
+			this._virtualColumn._setParentNode(this._theadRow);
+			this._virtualColumn.update();
+			this._columns = [];
+			this._columnOrder = [];
 		}
 
+		// adding cols
+		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
+			var col = this._columns[this._columnOrder[i]];
+
+			if (col.isDisposed()) {
+				this._columns.remove(col);
+			} else {
+				col._setParentNode(this._theadRow);
+				col.update();
+				this._theadRow.appendChild(col.handle);
+			}
+		}
+
+		// setting col width
 		for (var i = 0, len = this._columnOrder.length; i < len; ++i) {
 			var col = this._columns[this._columnOrder[i]];
 			col.setWidth(col.getWidth() + (i == (len - 1) && this.getVerticalScrollbar() ? 19 : 0));
-			col.update();
 		}
-
 
 		// update items
 		this._items.forEach(function(item, index, arr) {

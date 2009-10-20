@@ -163,7 +163,6 @@ $class("TableColumn", {
 		this.checkWidget();
 		switch(e.type) {
 			case "mousedown":
-				console.log("TableColumn.handleEvent(mousedown)");
 				// Resizing Column
 				if (e.target == this._operator && this._resizable) {
 					this._isResizing = true;
@@ -325,6 +324,10 @@ $class("TableColumn", {
 		this.checkWidget();
 		this._width = width;
 
+		if (this.handle) {
+			this.handle.style.width = this._width + "px";
+		}
+
 		return this;
 	},
 
@@ -352,8 +355,8 @@ $class("TableColumn", {
 		var columnOrder = this._table.getColumnOrder();
 		this.setClass("operator", this._table.getColumns()[columnOrder[columnOrder.length - 1]] != this);
 
-		if (!isNaN(this._width) && this._width != null) {
-			this.handle.style.width = this._width + "px";
-		}
+//		if (!isNaN(this._width) && this._width != null) {
+//			this.handle.style.width = this._width + "px";
+//		}
 	}
 });
