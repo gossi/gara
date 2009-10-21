@@ -151,28 +151,22 @@ $class("AbstractListViewer", {
 				var oldElement = item.getData();
 				if (oldElement != null) {
 					var newElement = elementChildren[i];
-					if (newElement != oldElement) {
-						if (newElement == oldElement) {
-							// update the data to be the new element, since
-							// although the elements
-							// may be equal, they may still have different labels
-							// or elementChildren
-							var data = item.getData();
-							if (data != null) {
-								this._unmapElement(data, item);
-							}
-							item.setData(newElement);
-							this._mapElement(newElement, item);
-						} else {
-							this._disassociate(item);
-							// Clear the text and image to force a label update
-							item.setImage(null);
-							item.setText("");
-
-							if (storedSelection.contains(items[i])) {
-								storedSelection.remove(items[i]);
-							}
+					if (newElement == oldElement) {
+						// update the data to be the new element, since
+						// although the elements
+						// may be equal, they may still have different labels
+						// or elementChildren
+						var data = item.getData();
+						if (data != null) {
+							this._unmapElement(data, item);
 						}
+						item.setData(newElement);
+						this._mapElement(newElement, item);
+					} else {
+						this._disassociate(item);
+						// Clear the text and image to force a label update
+						item.setImage(null);
+						item.setText("");
 					}
 				}
 			}
@@ -205,21 +199,19 @@ $class("AbstractListViewer", {
 			var selection = [];
 			selected.forEach(function(elem, i, arr) {
 				var item = this._getItemFromElementMap(elem);
-				if (item != null) {
+				if (item != null && !item.isDisposed()) {
 					selection.push(item);
 				}
 			}, this);
 			this.getControl().update();
 			this.getControl().setSelection(selection);
-			this.getControl().update();
 		} else {
 			var item = this._getItemFromElementMap(element);
 			if (item != null) {
 				this._updateItem(item, element);
 			}
+			this.getControl().update();
 		}
-
-		this.getControl().update();
 	},
 
 	_listRemoveAll : $abstract(function() {}),

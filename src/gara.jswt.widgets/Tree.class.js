@@ -153,13 +153,13 @@ $class("Tree", {
 	 * Adds a selection listener on the tree
 	 *
 	 * @author Thomas Gossmann
-	 * @param {gara.jswt.widgets.SelectionListener} listener the desired listener to be added to this tree
+	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this tree
 	 * @throws {TypeError} if the listener is not a SelectionListener
 	 * @return {void}
 	 */
 	addSelectionListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jswt.widgets.SelectionListener)) {
-			throw new TypeError("listener is not type of gara.jswt.widgets.SelectionListener");
+		if (!$class.instanceOf(listener, gara.jswt.events.SelectionListener)) {
+			throw new TypeError("listener is not type of gara.jswt.events.SelectionListener");
 		}
 
 		if (!this._selectionListeners.contains(listener)) {
@@ -263,6 +263,10 @@ $class("Tree", {
 		}
 
 		this.$base(e);
+	},
+
+	getColumnCount : function() {
+		return 0;
 	},
 
 	/**
@@ -857,16 +861,26 @@ $class("Tree", {
 		this.checkWidget();
 
 		while (this._selection.length) {
-			this._selection.pop()._setSelected(false);
+			var item = this._selection.pop();
+			if (!item.isDisposed()) {
+				item._setSelected(false);
+			}
 		}
 
 		if ($class.instanceOf(items, Array)) {
-			items.forEach(function(item) {
-				item._setSelected(true);
-			}, this);
-			this._notifySelectionListener();
-		} else if ($class.instanceOf(items, gara.jswt.widgets.TreeItem)) {
-			this.select(this.indexOf(items));
+			if (items.length > 1 && (this._style & JSWT.MULTI) == JSWT.MULTI) {
+				items.forEach(function(item) {
+					if (!this._selection.contains(item)) {
+						item._setSelected(true);
+						this._selection.push(item);
+					}
+				}, this);
+				this._notifySelectionListener();
+			} else if (items.length) {
+				this._selectAdd(items[items.length - 1], true);
+			}
+		} else if ($class.instanceOf(items, gara.jswt.widgets.ListItem)) {
+			this._selectAdd(this.indexOf(items), true);
 		}
 		return this;
 	},

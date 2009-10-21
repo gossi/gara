@@ -790,6 +790,10 @@ $class("List", {
 	},
 
 	selectArray : function(indices) {
+		if (!indices.length) {
+			return;
+		}
+
 		if (indices.length > 1 && (this._style & JSWT.MULTI) == JSWT.MULTI) {
 			indices.forEach(function(index) {
 				if (!this._selection.contains(this._items[index])) {
@@ -871,11 +875,25 @@ $class("List", {
 		this.checkWidget();
 
 		while (this._selection.length) {
-			this._selection.pop()._setSelected(false);
+			var item = this._selection.pop();
+			if (!item.isDisposed()) {
+				item._setSelected(false);
+			}
 		}
 
 		if ($class.instanceOf(items, Array)) {
-			this.selectArray(items);
+			if (items.length > 1 && (this._style & JSWT.MULTI) == JSWT.MULTI) {
+				items.forEach(function(item) {
+					if (!this._selection.contains(item)) {
+						item._setSelected(true);
+						this._selection.push(item);
+					}
+				}, this);
+				this._notifySelectionListener();
+			} else if (items.length) {
+				this.select(this._items.indexOf(items[items.length - 1]));
+			}
+
 		} else if ($class.instanceOf(items, gara.jswt.widgets.ListItem)) {
 			this.select(this.indexOf(items));
 		}

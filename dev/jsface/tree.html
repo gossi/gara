@@ -3,76 +3,86 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jsface.treeviewer (dev)</title>
-<link rel="stylesheet" href="../../res/gara-yui-reset-fonts.css" type="text/css"/>
+<title>gara.jsface.viewers.treeviewer (dev)</title>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
 
-<script type="text/javascript" src="../../src/core/_prepend.js"></script>
-<script type="text/javascript" src="../../src/core/Package.class.js"></script>
-<script type="text/javascript" src="../../src/core/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/core/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/core/onDOMLoaded.function.js"></script>
-<script type="text/javascript" src="../../src/core/_append.js"></script>
+<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/gara/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/JSWTException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/FocusListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/SelectionListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jswt/ItemNotExistsException.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/ControlManager.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Item.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Control.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/Tree.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/TreeItem.class.js"></script>
-<script type="text/javascript" src="../../src/jswt/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/IBaseLabelProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ILabelProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ITableLabelProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/LabelProvider.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/BaseLabelProvider.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/CellLabelProvider.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/ColumnLabelProvider.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/WrappedViewerLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Tree.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/TreeItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/IContentProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/IStructuredContentProvider.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ITreeContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/_prepend.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/ISelectionChangedListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ICheckStateListener.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/ICheckable.interface.js"></script>
-<script type="text/javascript" src="../../src/jsface/CheckStateChangedEvent.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/SelectionChangedEvent.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/IBaseLabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ILabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ITableLabelProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/LabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/BaseLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/CellLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ColumnLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/WrappedViewerLabelProvider.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/TableColumnViewerLabelProvider.class.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/Viewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/ViewerCell.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/ViewerColumn.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/ContentViewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/StructuredViewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/ColumnViewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/TreeViewerRow.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/AbstractTreeViewer.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/TreeViewer.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/IContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/IStructuredContentProvider.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ITreeContentProvider.interface.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/ViewerComparator.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/ViewerSorter.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ISelectionChangedListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ICheckStateListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ICheckable.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/CheckStateChangedEvent.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/SelectionChangedEvent.class.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/ViewerFilter.class.js"></script>
-<script type="text/javascript" src="../../src/jsface/PatternFilter.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/Viewer.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/TreeViewerRow.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ViewerCell.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ViewerColumn.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ViewerRow.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ContentViewer.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/StructuredViewer.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ColumnViewer.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/AbstractTreeViewer.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/TreeViewer.class.js"></script>
 
-<script type="text/javascript" src="../../src/jsface/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ViewerComparator.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ViewerSorter.class.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jsface.viewers/ViewerFilter.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.viewers/PatternFilter.class.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jsface.viewers/_append.js"></script>
 <script type="text/javascript"><!--
 $class("Controller", {
-	$implements : [gara.jsface.ILabelProvider, gara.jsface.ITreeContentProvider, gara.jsface.ISelectionChangedListener],
+	$implements : [gara.jsface.viewers.ILabelProvider, gara.jsface.viewers.ITreeContentProvider, gara.jsface.viewers.ISelectionChangedListener],
 
 	$constructor : function() {
 		this._model = null;
@@ -197,9 +207,9 @@ function removeModelData() {
 
 function main() {
 	try {
-		filter = new gara.jsface.PatternFilter();
+		filter = new gara.jsface.viewers.PatternFilter();
 		controller = new Controller();
-		view = new gara.jsface.TreeViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
+		view = new gara.jsface.viewers.TreeViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
 		view.setContentProvider(controller);
 		view.setLabelProvider(controller);
 		view.addFilter(filter);
@@ -229,7 +239,7 @@ label {display: block;}
 </style>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.TreeViewer</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.viewers.TreeViewer</h1>
 <fieldset style="width: 300px; float: right;">
 <legend>Widget Control</legend>
 <label>Add Model Data</label>

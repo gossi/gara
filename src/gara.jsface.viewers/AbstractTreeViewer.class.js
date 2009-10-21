@@ -220,7 +220,6 @@ $class("AbstractTreeViewer", {
 		}, this);
 		this.getControl().update();
 		this.getControl().setSelection(selection);
-		this.getControl().update();
 	},
 
 	_internalRefreshItems : function(widget, element, updateLabels) {
