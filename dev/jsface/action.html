@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>gara.jswt.widgets.menu (dev)</title>
+<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
+<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../lib/class-debug.js"></script>
+<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<script type="text/javascript" src="../garadev.js"></script>
+
+<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.class.js"></script>
+<script type="text/javascript" src="../../src/gara/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.events/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/List.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/ListItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jsface.action/_prepend.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.action/IAction.interface.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.action/ActionChangedListener.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.action/Action.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.action/MenuManager.class.js"></script>
+<script type="text/javascript" src="../../src/gara.jsface.action/_append.js"></script>
+<script type="text/javascript"><!--
+$class("WarnAction", {
+	$extends : gara.jsface.action.Action,
+	getText : function() {
+		return "Warning";
+	},
+	getImage : function() {
+		var img = new Image();
+		img.src = "../../themes/sand/icon_warning.png";
+		return img;
+	},
+	getEnabled : function() {
+		return true;
+	},
+	run : function() {
+		console.warn("invoked Warning");
+	}	
+});
+
+$class("ErrorAction", {
+	$extends : gara.jsface.action.Action,
+	getText : function() {
+		return "Error";
+	},
+	getImage : function() {
+		var img = new Image();
+		img.src = "../../themes/sand/icon_error.png";
+		return img;
+	},
+	getEnabled : function() {
+		return true;
+	},
+	run : function() {
+		console.error("invoked Error");
+	}	
+});
+
+$class("InfoAction", {
+	$extends : gara.jsface.action.Action,
+	getText : function() {
+		return "Information";
+	},
+	getImage : function() {
+		var img = new Image();
+		img.src = "../../themes/sand/icon_information.png";
+		return img;
+	},
+	getEnabled : function() {
+		return true;
+	},
+	run : function() {
+		console.log("invoked Information");
+	}	
+});
+
+
+
+var l;
+
+function main() {
+	try {
+		l = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.MULTI);
+
+		var i = new gara.jswt.widgets.ListItem(l);
+		i.setText("Item 1");
+		
+		var i2 = new gara.jswt.widgets.ListItem(l);
+		i2.setText("Item 2");
+		
+		var i3 = new gara.jswt.widgets.ListItem(l);
+		i3.setText("Item 3");
+
+		var i4 = new gara.jswt.widgets.ListItem(l);
+		i4.setText("Item 4");
+		
+		var i5 = new gara.jswt.widgets.ListItem(l);
+		i5.setText("Item 5");
+	
+		l.update();
+
+		// create actions
+		var warn = new WarnAction();
+		var err = new ErrorAction();
+		var info = new InfoAction();
+
+		var mgr = new gara.jsface.action.MenuManager();
+		var sub = new gara.jsface.action.MenuManager("Extended");
+		sub.addAction(warn);
+		sub.addAction(err);
+		sub.addAction(info);
+		mgr.addMenuManager(sub);
+
+		mgr.createMenuBar(document.getElementById("menuBar"));
+		mgr.createContextMenu(l);
+		
+	} catch(e) {
+		var message = "";
+		for (p in e) {
+			message += p + ": " + e[p] + "\n";
+		}
+		console.log(message);
+	}
+}
+
+function dispose() {
+	menu2.dispose();
+}
+--></script>
+</head>
+<body style="padding: 10px;" class="sand">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Menu</h1>
+
+<h2 style="font-size: 18px; margin-bottom: 10px;">Menu.BAR</h2>
+<fieldset>
+	<legend>Options</legend>
+	<input type="button" value="dispose()" onclick="dispose()"/>
+</fieldset>
+<div id="menuBar" class="sand" style="margin-bottom: 10px;"></div>
+
+<h2 style="font-size: 18px; margin-bottom: 10px;">Menu.POP_UP</h2>
+<div id="container" class="sand" style="width: 300px;"></div>
+<script type="text/javascript">main();</script>
+</body>
+</html>

@@ -112,8 +112,6 @@ $class("AbstractTreeViewer", {
 
 			columnViewer.refresh(cellToUpdate);
 
-			// As it is possible for user code to run the event
-			// loop check here.
 			if (item.isDisposed()) {
 				this._unmapElement(element, item);
 				return;
@@ -336,7 +334,9 @@ $class("AbstractTreeViewer", {
 		for (var i = 0; i < min; ++i) {
 			var item = items[i];
 			var newElement = elementChildren[i];
-			this._setExpanded(item, expanded.contains(newElement));
+			if (expanded.contains(newElement)) {
+				this._setExpanded(item, true);
+			}
 		}
 
 		// add any remaining elements
@@ -360,7 +360,6 @@ $class("AbstractTreeViewer", {
 				}
 			}
 		}
-
 	},
 
 	setContentProvider : function(contentProvider) {

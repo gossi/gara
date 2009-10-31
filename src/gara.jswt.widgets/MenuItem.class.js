@@ -310,16 +310,17 @@ $class("MenuItem", {
 
 	setSelection : function(selected) {
 		// select when enabled and either radio or check type
-		if (this._enabled &&
-				((this._style & JSWT.RADIO) == JSWT.RADIO
-				|| (this._style & JSWT.CHECK) == JSWT.CHECK)) {
+		if (this._enabled) {
 			var e = {
 				item : this,
 				widget : this._parent
 			};
 
-			this._selected = selected;
-			this.handle.setAttribute("aria-checked", this._selected);
+			if (((this._style & JSWT.RADIO) == JSWT.RADIO
+					|| (this._style & JSWT.CHECK) == JSWT.CHECK)) {
+				this._selected = selected;
+				this.handle.setAttribute("aria-checked", this._selected);
+			}
 
 			if ((this._style & JSWT.RADIO) == JSWT.RADIO) {
 				if (!this._parent._managingRadioChecks) {

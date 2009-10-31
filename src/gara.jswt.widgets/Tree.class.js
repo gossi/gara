@@ -711,6 +711,7 @@ $class("Tree", {
 		}
 
 		this._items.remove(item);
+		this._rootLevelItems.remove(item);
 	},
 
 	/**
@@ -723,6 +724,7 @@ $class("Tree", {
 	removeAll : function() {
 		this.checkWidget();
 		this._items = [];
+		this._rootLevelItems = [];
 	},
 
 	/**
@@ -964,12 +966,17 @@ $class("Tree", {
 		this.handle.style.height = this._height != null ? (this._height - parseInt(gara.Utils.getStyle(this.handle, "padding-top")) - parseInt(gara.Utils.getStyle(this.handle, "padding-bottom")) - parseInt(gara.Utils.getStyle(this.handle, "border-top-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-bottom-width"))) + "px" : "auto";
 
 		// update items
-		this._rootLevelItems.forEach(function(item, index, arr) {
+		var i = 0;
+		var len = this._rootLevelItems.length;
+		while (i < len) {
+			var item = this._rootLevelItems[i];
 			if (item.isDisposed()) {
 				this._removeItem(item);
+				len--;
 			} else {
 				item.update();
+				i++;
 			}
-		}, this);
+		}
 	}
 });

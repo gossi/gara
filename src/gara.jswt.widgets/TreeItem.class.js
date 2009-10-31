@@ -644,15 +644,19 @@ $class("TreeItem", {
 	setExpanded : function(expanded) {
 		this.checkWidget();
 		this._expanded = expanded;
-		this.handle.setAttribute("aria-expanded", this._expanded);
+		if (this.handle) {
+			this.handle.setAttribute("aria-expanded", this._expanded);
+		}
 
 		if (!expanded) {
 			this._deselectItems();
 		}
 
-		this._toggleNode.className = "toggler" + (this._hasChilds()
-			? (this._expanded ? " togglerExpanded" : " togglerCollapsed")
-			: "");
+		if (this._toggleNode) {
+			this._toggleNode.className = "toggler" + (this._hasChilds()
+				? (this._expanded ? " togglerExpanded" : " togglerCollapsed")
+				: "");
+		}
 
 		// update child container
 		if (this._childContainer != null) {
@@ -695,7 +699,9 @@ $class("TreeItem", {
 	_setSelected : function(selected) {
 		this.checkWidget();
 		this._selected = selected;
-		this.handle.setAttribute("aria-selected", this._selected);
+		if (this.handle) {
+			this.handle.setAttribute("aria-selected", this._selected);
+		}
 	},
 
 	setText : function(columnIndex, text) {
@@ -707,7 +713,7 @@ $class("TreeItem", {
 		this._texts[columnIndex] = text;
 
 		if (this.handle) {
-			this._spanText.nodeValue = this._text;
+			this._spanText.nodeValue = text;
 		}
 		return this;
 	},
@@ -748,12 +754,6 @@ $class("TreeItem", {
 		if (this.handle == null) {
 			this._create();
 		} else if (this._changed) {
-			if (this._hasChilds()) {
-				this._toggleNode.className = "toggler " + (this._expanded ? "togglerExpanded" : "togglerCollapsed");
-			} else if (!this._hasChilds() && this._childContainer != null) {
-				this._toggleNode.className = "toggler";
-			}
-
 			// if childs are available, create container for them
 			if (this._hasChilds() && this._childContainer == null) {
 				this._createChildContainer();
@@ -769,13 +769,25 @@ $class("TreeItem", {
 		}
 
 		// update items
-		this._items.forEach(function(item, index) {
+		var i = 0;
+		var len = this._items.length;
+		while (i < len) {
+			var item = this._items[i];
 			if (item.isDisposed()) {
-				this.remove(index);
+				this.remove(i);
+				len--;
 			} else {
 				item.update();
+				i++;
 			}
-		}, this);
+		}
+
+
+		if (this._hasChilds()) {
+			this._toggleNode.className = "toggler " + (this._expanded ? "togglerExpanded" : "togglerCollapsed");
+		} else if (!this._hasChilds() && this._childContainer != null) {
+			this._toggleNode.className = "toggler";
+		}
 
 		// check for bottom style
 		var parentItems = this._parent.getItems();
