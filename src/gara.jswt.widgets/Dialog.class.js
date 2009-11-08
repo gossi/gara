@@ -102,6 +102,11 @@ $class("Dialog", {
 		this.handle = document.createElement("div");
 		this.handle.className = this._classes.join(" ");
 		this.handle.widget = this;
+		this.handle.id = this.getId();
+		this.handle.role = "dialog";
+
+		base2.DOM.Event(this.handle);
+		this.handle.setAttribute("aria-labelledby", this.getId() + "-label");
 
 		this._dialogBar = document.createElement("div");
 		this._dialogBar.className = "jsWTDialogBar";
@@ -114,6 +119,7 @@ $class("Dialog", {
 
 		this._dialogBarText = document.createElement("div");
 		this._dialogBarText.className = "jsWTDialogBarText";
+		this._dialogBarText.id = this.getId() + "-label";
 
 		this._dialogBarButtons = document.createElement("div");
 		this._dialogBarButtons.className = "jsWTDialogBarButtons";
@@ -175,6 +181,7 @@ $class("Dialog", {
 	 *  @return {void}
 	 */
 	dispose : function() {
+		this.$base();
 		this._parentWindow.gara.EventManager.removeListener(this.handle, "mousedown", this);
 		this._parentWindow.gara.EventManager.removeListener(this._barCancelButton, "mousedown", this);
 		this._parentWindow.gara.EventManager.removeListener(window, "resize", this);

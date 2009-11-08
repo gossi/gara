@@ -63,9 +63,13 @@ $class("MessageBox", {
 	_create : function() {
 		this.$base();
 
+		this.handle.role = "alertdialog";
 		this.handle.className += " jsWTMessageBox";
+		this.handle.setAttribute("aria-describedby", this.getId()+"-message");
+
 		var text = document.createElement("div");
 		text.className = "jsWTMessageBoxContentText";
+		text.id = this.getId() + "-message";
 		text.appendChild(document.createTextNode(this._message));
 
 		// ICON_ERROR, ICON_INFORMATION, ICON_QUESTION, ICON_WARNING, ICON_WORKING
@@ -98,7 +102,6 @@ $class("MessageBox", {
 			this._btnOk = document.createElement("input");
 			this._btnOk.type = "button";
 			this._btnOk.value = gara.i18n.get("ok");
-			base2.DOM.EventTarget(this._btnOk);
 			buttons.appendChild(this._btnOk);
 			gara.EventManager.addListener(this._btnOk, "click", this);
 		}
@@ -107,7 +110,6 @@ $class("MessageBox", {
 			this._btnYes = document.createElement("input");
 			this._btnYes.type = "button";
 			this._btnYes.value = gara.i18n.get("yes");
-			base2.DOM.EventTarget(this._btnYes);
 			buttons.appendChild(this._btnYes);
 			gara.EventManager.addListener(this._btnYes, "click", this);
 		}
@@ -116,7 +118,6 @@ $class("MessageBox", {
 			this._btnNo = document.createElement("input");
 			this._btnNo.type = "button";
 			this._btnNo.value = gara.i18n.get("no");
-			base2.DOM.EventTarget(this._btnNo);
 			buttons.appendChild(this._btnNo);
 			gara.EventManager.addListener(this._btnNo, "click", this);
 		}
@@ -125,7 +126,6 @@ $class("MessageBox", {
 			this._btnAbort = document.createElement("input");
 			this._btnAbort.type = "button";
 			this._btnAbort.value = gara.i18n.get("abort");
-			base2.DOM.EventTarget(this._btnAbort);
 			buttons.appendChild(this._btnAbort);
 			gara.EventManager.addListener(this._btnAbort, "click", this);
 		}
@@ -134,7 +134,6 @@ $class("MessageBox", {
 			this._btnRetry = document.createElement("input");
 			this._btnRetry.type = "button";
 			this._btnRetry.value = gara.i18n.get("retry");
-			base2.DOM.EventTarget(this._btnRetry);
 			buttons.appendChild(this._btnRetry);
 			gara.EventManager.addListener(this._btnRetry, "click", this);
 		}
@@ -143,7 +142,6 @@ $class("MessageBox", {
 			this._btnIgnore = document.createElement("input");
 			this._btnIgnore.type = "button";
 			this._btnIgnore.value = gara.i18n.get("ignore");
-			base2.DOM.EventTarget(this._btnIgnore);
 			buttons.appendChild(this._btnIgnore);
 			gara.EventManager.addListener(this._btnIgnore, "click", this);
 		}
@@ -152,7 +150,6 @@ $class("MessageBox", {
 			this._btnCancel = document.createElement("input");
 			this._btnCancel.type = "button";
 			this._btnCancel.value = gara.i18n.get("cancel");
-			base2.DOM.EventTarget(this._btnCancel);
 			buttons.appendChild(this._btnCancel);
 			gara.EventManager.addListener(this._btnCancel, "click", this);
 		}
