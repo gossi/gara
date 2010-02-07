@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*	$Id: SelectionListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -21,21 +21,13 @@
 	===========================================================================
 */
 
+gara.provide("gara.jswt.events.SelectionListener");
+
 /**
- * @interface FocusListener
+ * @interface SelectionListener
  * @author Thomas Gossmann
- * @namespace gara.jswt
+ * @namespace gara.jswt.events
  */
-
-$interface("FocusListener", {
-
-	/**
-	 * @method
-	 * focus gained [DOCTEST]
-	 */
-	focusGained : function() {
-	},
-
-	focusLost : function() {
-	}
+gara.Interface("gara.jswt.events.SelectionListener", {
+	widgetSelected : function(widget) {}
 });

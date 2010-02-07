@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -21,21 +21,15 @@
 	===========================================================================
 */
 
+gara.provide("gara.jswt.events.MenuListener");
+
 /**
  * @interface MenuListener
  * @author Thomas Gossmann
- * @namespace gara.jswt
+ * @namespace gara.jswt.events
  */
-$interface("MenuListener", {
-	menuHidden : function(widget) {
-		
-	},
-	
-	menuShown : function(widget) {
-		
-	},
-	
-	toString : function() {
-		return "[gara.jswt.MenuListener]";
-	}
+gara.Interface("gara.jswt.events.MenuListener", {
+	menuHidden : function(widget) {},
+
+	menuShown : function(widget) {}
 });

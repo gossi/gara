@@ -21,13 +21,15 @@
 	===========================================================================
 */
 
+gara.provide("gara.jswt.events.MouseListener");
+
 /**
  * @interface MouseListener
  * @author Thomas Gossmann
  * @namespace gara.jswt.events
  */
 
-$interface("MouseListener", {
+gara.Interface("gara.jswt.events.MouseListener", {
 
 	/**
 	 * @method
@@ -58,9 +60,5 @@ $interface("MouseListener", {
 	 * @param {Event} e an event containing information about the mouse button release
 	 * @return {void}
 	 */
-	mouseUp : function(e) {},
-
-	toString : function() {
-		return "[gara.jswt.events.MouseListener]";
-	}
+	mouseUp : function(e) {}
 });

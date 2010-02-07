@@ -1,1 +1,0 @@
-$package("gara.jswt.events");

@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*	$Id $
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -21,34 +21,14 @@
 	===========================================================================
 */
 
+gara.provide("gara.jswt.events.DisposeListener");
+
 /**
- * @interface KeyListener
+ * @interface DisposeListener
  * @author Thomas Gossmann
  * @namespace gara.jswt.events
  */
 
-$interface("KeyListener", {
-
-	/**
-	 * @method
-	 * Sent when a key is pressed on the system keyboard.
-	 * Notice: This is triggered on an "keydown" event.
-	 *
-	 * @author Thomas Gossmann
-	 * @param {Event} e an event containing information about the key press
-	 */
-	keyPressed : function(e) {},
-
-	/**
-	 * @method
-	 * Sent when a key is released on the system keyboard.
-	 *
-	 * @author Thomas Gossmann
-	 * @param {Event} e an event containing information about the key release
-	 */
-	keyReleased : function(e) {},
-
-	toString : function() {
-		return "[gara.jswt.events.KeyListener]";
-	}
+gara.Interface("gara.jswt.events.DisposeListener", {
+	widgetDisposed : function() {}
 });
