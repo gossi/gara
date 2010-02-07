@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+gara.provide("gara.EventManager");
+
 /**
  * @class EventManager
  * @description
@@ -32,21 +34,20 @@
  * @author Thomas Gossmann
  * @namespace gara
  */
-$class("EventManager", {
+gara.Class("gara.EventManager", {
 	/**
 	 * @field
 	 * Stores THE instance
 	 * @private
 	 */
-	_instance : $static(null),
-	_listeners : $static({}),
+	_instance : gara.static(null),
+	_listeners : gara.static({}),
 
 	$constructor : function() {
-		base2.DOM.EventTarget(window);
 		window.addEventListener("unload", this, false);
 	},
 
-	getInstance : $static(function() {
+	getInstance : gara.static(function() {
 		if (this._instance == null) {
 			this._instance = new gara.EventManager();
 		}
@@ -65,9 +66,11 @@ $class("EventManager", {
 	 * @param {boolean} [useCapture] boolean flag indicating to use capture or bubble (false is default here)
 	 * @return {Event} generated event-object for this listener
 	 */
-	addListener : $static(function(domNode, type, listener, useCapture) {
+	addListener : gara.static(function(domNode, type, listener, useCapture) {
 		base2.DOM.EventTarget(domNode);
 		domNode.addEventListener(type, listener, useCapture || false);
+
+//		console.log("EventManager.addListener " + type + " on " + domNode);
 
 		var d = new Date();
 		var hashAppendix = "" + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
@@ -111,7 +114,7 @@ $class("EventManager", {
 	 * @param {Event} event object which is returned by addListener()
 	 * @see addListener
 	 */
-	removeListener : $static(function(domNode, type, listener) {
+	removeListener : gara.static(function(domNode, type, listener) {
 		if (domNode) {
 			domNode.removeEventListener(type, listener, false);
 
@@ -137,10 +140,9 @@ $class("EventManager", {
 			e = gara.EventManager._listeners[hash];
 			gara.EventManager.removeListener(e.domNode, e.type, e.listener);
 		}
-	},
-
-	toString : function() {
-		return "[gara.EventManager]";
 	}
 });
-gara.eventManager = gara.EventManager.getInstance();
+
+(function() {
+var eventManager = gara.EventManager.getInstance();
+})();

@@ -4,7 +4,7 @@
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+gara.provide("gara.OutOfBoundsException");
+
 /**
  * @class OutOfBoundsException
  * @description
@@ -29,11 +31,11 @@
  * @extends Exception
  * @namespace gara
  */
-$class("OutOfBoundsException", {
+gara.Class("gara.OutOfBoundsException", {
 	$extends : Exception,
-	
+
 	$constructor: function(message) {
 		this.message = String(message);
-		this.name = $class.typeOf(this);
+		this.name = gara.typeOf(this);
 	}
 });

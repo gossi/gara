@@ -1,10 +1,10 @@
-/*	$Id: I18n.class.js 182 2009-08-02 22:34:06Z tgossmann $
+/*	$Id $
 
 		gara - Javascript Toolkit
 	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
-	
+
 		Homepage:
 			http://gara.creative2.net
 
@@ -21,35 +21,25 @@
 	===========================================================================
 */
 
+gara.provide("gara.Utils");
+
 /**
- * @class I18n
+ * @class Utils
  * @author Thomas Gossmann
  * @namespace gara
  */
-$class("I18n", {
-	$constructor : function() {
-		this._map = {
-			ok: "Ok",
-			cancel: "Cancel",
-			yes : "Yes",
-			no : "No",
-			retry : "Retry",
-			abort : "Abort",
-			ignore : "Ignore"
-		};
-	},
-	
-	get : function(key) {
-		if (this._map.hasOwnProperty(key)) {
-			return this._map[key];
+gara.Class("gara.Utils", {
+	$constructor : function() {},
+	getStyle : gara.static(function(element, styleProp) {
+		var style = "";
+		if (document.defaultView && document.defaultView.getComputedStyle){
+			style = document.defaultView.getComputedStyle(element, "").getPropertyValue(styleProp);
+		} else if(element.currentStyle){
+			styleProp = styleProp.replace(/\-(\w)/g, function (match, p1){
+				return p1.toUpperCase();
+			});
+			style = element.currentStyle[styleProp];
 		}
-		
-		return null;
-	},
-	
-	set : function(key, value) {
-		this._map[key] = value;
-	}
+		return style;
+	})
 });
-
-gara.i18n = new gara.I18n();
