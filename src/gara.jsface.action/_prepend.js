@@ -1,1 +1,0 @@
-$package("gara.jsface.action");
