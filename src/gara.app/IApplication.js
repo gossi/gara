@@ -21,19 +21,12 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.IStructuredContentProvider");
-
-$package("gara.jsface.viewers");
-
 /**
- * @interface IStructuredContentProvider
- * @extends gara.jsface.viewers.IContentProvider
- * @namespace gara.jsface.viewers
+ * @interface IApplication
+ * @namespace gara.app
  * @author Thomas Gossmann
  */
-$interface("IStructuredContentProvider", {
-	$extends : gara.jsface.viewers.IContentProvider,
-
-	getElements : function(inputElement) {}
+$interface("IApplication", {
+	start : function(){},
+	stop: function(){}
 });
-$package("");
