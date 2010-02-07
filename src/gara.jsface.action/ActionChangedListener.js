@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+gara.provide("gara.jsface.action.ActionChangedListener");
+
 /**
  * @interface ActionChangedListener
  * @namespace gara.jsface.action

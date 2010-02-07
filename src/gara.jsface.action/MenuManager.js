@@ -21,12 +21,22 @@
 	===========================================================================
 */
 
+gara.provide("gara.jsface.action.MenuManager");
+
+gara.provide("gara.jsface.action.ActionChangedListener");
+gara.provide("gara.jsface.action.IAction");
+gara.provide("gara.jswt.JSWT");
+gara.provide("gara.jswt.events.SelectionListener");
+gara.provide("gara.jswt.widgets.Control");
+gara.provide("gara.jswt.widgets.Menu");
+gara.provide("gara.jswt.widgets.MenuItem");
+
 /**
  * @class MenuManager
  * @namespace gara.jsface.action
  * @author Thomas Gossmann
  */
-$class("MenuManager", {
+gara.Class("MenuManager", {
 	$implements : [gara.jswt.events.SelectionListener, gara.jsface.action.ActionChangedListener],
 
 	$constructor : function(text, image) {
@@ -43,7 +53,7 @@ $class("MenuManager", {
 	},
 
 	addAction : function(action) {
-		if (!$class.instanceOf(action, gara.jsface.action.IAction)) {
+		if (!gara.instanceOf(action, gara.jsface.action.IAction)) {
 			throw new TypeError("action not instance of gara.jsface.action.IAction");
 		}
 
@@ -54,7 +64,7 @@ $class("MenuManager", {
 	},
 
 	addMenuManager : function(manager) {
-		if (!$class.instanceOf(manager, gara.jsface.action.MenuManager)) {
+		if (!gara.instanceOf(manager, gara.jsface.action.MenuManager)) {
 			throw new TypeError("manager not instance of gara.jsface.action.MenuManager");
 		}
 
@@ -64,7 +74,7 @@ $class("MenuManager", {
 	},
 
 	createContextMenu : function(control) {
-		if (!$class.instanceOf(control, gara.jswt.widgets.Control)) {
+		if (!gara.instanceOf(control, gara.jswt.widgets.Control)) {
 			throw new TypeError("control ist not instance of gara.jswt.widgets.Control");
 		}
 
@@ -88,7 +98,7 @@ $class("MenuManager", {
 		menuItem.setData(item);
 		menuItem.addSelectionListener(this);
 
-		if ($class.instanceOf(item, gara.jsface.action.MenuManager)
+		if (gara.instanceOf(item, gara.jsface.action.MenuManager)
 				&& item.getSize()) {
 			this._createSubmenu(menuItem, item);
 		}
@@ -102,7 +112,7 @@ $class("MenuManager", {
 	},
 
 	fillMenu : function(menu) {
-		if (!$class.instanceOf(menu, gara.jswt.widgets.Menu)) {
+		if (!gara.instanceOf(menu, gara.jswt.widgets.Menu)) {
 			throw new TypeError("menu ist not instance of gara.jswt.widgets.Menu");
 		}
 
@@ -132,7 +142,7 @@ $class("MenuManager", {
 	},
 
 	removeAction : function(action) {
-		if (!$class.instanceOf(action, gara.jsface.action.IAction)) {
+		if (!gara.instanceOf(action, gara.jsface.action.IAction)) {
 			throw new TypeError("action not instance of gara.jsface.action.IAction");
 		}
 
@@ -153,11 +163,11 @@ $class("MenuManager", {
 	},
 
 	update : function(ma) {
-		if ($class.instanceOf(ma, gara.jswt.widgets.Menu)) {
+		if (gara.instanceOf(ma, gara.jswt.widgets.Menu)) {
 			this.updateMenu(ma);
 		}
 
-		else if ($class.instanceOf(ma, keeko.IAction)) {
+		else if (gara.instanceOf(ma, gara.jsface.action.IAction)) {
 			this.updateAction(ma);
 		}
 
@@ -195,7 +205,7 @@ $class("MenuManager", {
 			menuItem.setEnabled(item.getEnabled());
 			menuItem.setData(item);
 
-			if ($class.instanceOf(item, gara.jsface.item.MenuManager)) {
+			if (gara.instanceOf(item, gara.jsface.action.MenuManager)) {
 				if (item.submenu) {
 					item.update(item.submenu);
 				} else {
@@ -221,9 +231,9 @@ $class("MenuManager", {
 	},
 
 	widgetSelected : function(event) {
-		if ($class.instanceOf(event.item, gara.jswt.widgets.MenuItem)) {
+		if (gara.instanceOf(event.item, gara.jswt.widgets.MenuItem)) {
 			var action = event.item.getData();
-			if ($class.instanceOf(action, gara.jsface.action.IAction)) {
+			if (gara.instanceOf(action, gara.jsface.action.IAction)) {
 				action.run();
 			}
 		}

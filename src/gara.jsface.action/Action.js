@@ -21,6 +21,11 @@
 	===========================================================================
 */
 
+gara.provide("gara.jsface.action.Action");
+
+gara.require("gara.jsface.action.IAction");
+gara.require("gara.jsface.action.ActionChangedListener");
+
 /**
  * @class Action
  * @namespace gara.jsface.action

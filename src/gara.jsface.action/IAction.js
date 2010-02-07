@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+gara.provide("gara.jsface.action.IAction");
+
 /**
  * @interface IAction
  * @namespace gara.jsface.action
