@@ -1,0 +1,122 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Checkbox
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .jsWTButtonPush {
+	height: 22px;
+ 	background: url('button-start.png') no-repeat;
+ 	padding-left: 9px;
+ 	display: inline-block;
+ 	outline: none;
+ 	user-select: none;
+ 	-moz-user-select: none;
+}
+
+.sand .jsWTButtonPush .door {
+	background: url('button-end.png') right;
+	height: 21px;
+	line-height: 20px;
+	display: inline-block;
+	padding: 1px 9px 0 0;
+}
+
+.sand .jsWTButtonPush[aria-pressed=true] {
+	background-image: url('button-pressed-start.png');
+}
+
+.sand .jsWTButtonPush[aria-pressed=true] .door {
+	background-image: url('button-pressed-end.png');
+}
+
+.sand .jsWTButtonPush img {
+	margin: 0 4px -2px 0;
+}
+
+.sand .jsWTButtonPush .text {
+	line-height: 20px;
+}
+
+.sand .jsWTButtonPush[aria-disabled=true] {
+	opacity: 0.5;
+}
+
+.sand .jsWTButtonPush[aria-disabled=false]:focus .text {
+	outline: 1px dotted #000;
+}
+
+/* general checkbox & radio styles */
+.sand .jsWTButtonCheckbox,
+.sand .jsWTButtonRadio {
+	background: no-repeat 1px 2px;
+	padding-left: 17px;
+ 	display: inline-block;
+ 	margin-right: 2px;
+ 	position: relative;
+ 	outline: none;
+ 	user-select: none;
+ 	-moz-user-select: none;
+}
+
+.sand .jsWTButtonCheckbox .focus,
+.sand .jsWTButtonRadio .focus {
+	position: absolute;
+	top: 2px;
+	left: 1px;
+	width: 13px;
+	height: 13px;
+}
+
+.sand .jsWTButtonCheckbox img,
+.sand .jsWTButtonRadio img {
+	margin-right: 2px;
+	float: left;
+}
+
+.sand .jsWTButtonCheckbox .text,
+.sand .jsWTButtonRadio .text {
+	line-height: 16px;
+	display: inline-block;
+	
+}
+
+.sand .jsWTButtonCheckbox[aria-disabled=false]:focus .focus,
+.sand .jsWTButtonRadio[aria-disabled=false]:focus .focus {
+	outline: 1px dotted #000;
+}
+
+/* checkbox images */
+.sand .jsWTButtonCheckbox {
+	background-image: url('checkbox.png');
+}
+
+.sand .jsWTButtonCheckbox[aria-checked=true] {
+	background-image: url('checkbox-checked.png');
+}
+
+.sand .jsWTButtonCheckbox[aria-disabled=true] {
+	background-image: url('checkbox-grayed.png');
+}
+
+.sand .jsWTButtonCheckbox[aria-disabled=true][aria-checked=true] {
+	background-image: url('checkbox-grayed-checked.png');
+}
+
+/* radio images */
+.sand .jsWTButtonRadio {
+	background-image: url('radio.png');
+}
+
+.sand .jsWTButtonRadio[aria-checked=true] {
+	background-image: url('radio-checked.png');
+}
+
+.sand .jsWTButtonRadio[aria-disabled=true] {
+	background-image: url('radio-grayed.png');
+}
+
+.sand .jsWTButtonRadio[aria-disabled=true][aria-checked=true] {
+	background-image: url('radio-grayed-checked.png');
+}

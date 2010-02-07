@@ -3,44 +3,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.list (dev)</title>
-<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../lib/class-debug.js"></script>
-<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
 
-<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
-<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
-<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/gara/OutOfBoundsException.class.js"></script>
-<script type="text/javascript" src="../../src/gara/_append.js"></script>
+<script type="text/javascript" src="../../src/gara/EventManager.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.js"></script>
 
-<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.js"></script>
 
-<script type="text/javascript" src="../../src/gara.jswt.events/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.interface.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.interface.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.interface.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.interface.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/_append.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/DisposeListener.js"></script>
 
-<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/List.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/ListItem.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
-
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/List.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/ListItem.js"></script>
 <script type="text/javascript"><!--
+//gara.require("gara.jswt.widgets.List");
 var list;
 
 function main() {
@@ -75,7 +65,7 @@ function main() {
 		
 
 		list.setHeight(200);
-		list.update();
+		//list.update();
 
 		var listener = new Listener();
 		list.addSelectionListener(listener);
@@ -93,7 +83,7 @@ function main() {
 	}
 }
 
-$class("Listener", {
+gara.Class("Listener", {
 	$implements : [gara.jswt.events.SelectionListener, gara.jswt.events.MouseListener, gara.jswt.events.KeyListener],
 	$constructor : function (){},
 	widgetSelected : function(e) {
@@ -101,7 +91,7 @@ $class("Listener", {
 		var widget = e.widget;
 		var checked = e.detail == gara.jswt.JSWT.CHECK || false;
 //		console.log("Item: " + item + ", widget: " + widget + ", checked: " + checked);
-		console.log("Listener.widgetSelected, widget: " + e.widget + ", item: " + e.item);
+//		console.log("Listener.widgetSelected, widget: " + e.widget + ", item: " + e.item);
 	},
 
 	handleEvent : function(e) {

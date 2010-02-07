@@ -2,12 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jswt.widgets.tabfolder (dev)</title>
+<title>gara.jswt.button (dev)</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<!-- <script type="text/javascript" src="../../lib/class-debug.js"></script>
-<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>-->
-<!-- <script type="text/javascript" src="../../src/gara.js"></script>-->
 <script type="text/javascript" src="../garadev.js"></script>
 
 <script type="text/javascript" src="../../src/gara/EventManager.js"></script>
@@ -28,55 +25,33 @@
 <script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Button.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Label.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/TabItem.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/TabFolder.js"></script>
-
 <script type="text/javascript"><!--
-//gara.require("gara.jswt.widgets.TabFolder");
-//gara.require("gara.jswt.widgets.Label");
-var t;
+
 function main() {
 	try {
-		t = new gara.jswt.widgets.TabFolder(document.getElementById("container"), gara.jswt.JSWT.DROP_DOWN);
-		//var e = new gara.jswt.widgets.FocusManager();
-
-		var img1 = new Image();
-		img1.src = '../../themes/sand/icon_error.png';
+		var img = new Image();
+		img.src = '../../themes/sand/icon_information.png';
 		
 		var img2 = new Image();
 		img2.src = '../../themes/sand/icon_warning.png';
+		
+		
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Hoo ");
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Woo ").setImage(img).setEnabled(false);
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Foo ").setEnabled(false).setSelection(true);
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Boo ").setImage(img2);
 
-		var i1 = new gara.jswt.widgets.TabItem(t);
-		i1.setText("Item 1");
-		i1.setControl(new gara.jswt.widgets.Label(t).setText("Content 1"));
-		
-		var i2 = new gara.jswt.widgets.TabItem(t);
-		i2.setText("Item 2");
-		i2.setImage(img1);
-		i2.setControl(new gara.jswt.widgets.Label(t).setText("Content 2"));
-		
-		var i3 = new gara.jswt.widgets.TabItem(t);
-		i3.setText("Item 3");
-		i3.setControl(new gara.jswt.widgets.Label(t).setText("Content 3"));
-		
-		var i4 = new gara.jswt.widgets.TabItem(t);
-		i4.setText("Item 4");
-		i4.setImage(img2);
-		i4.setControl(new gara.jswt.widgets.Label(t).setText("Content 4"));
-		
-		var i5 = new gara.jswt.widgets.TabItem(t);
-		i5.setText("Item 5");
-		i5.setControl(new gara.jswt.widgets.Label(t).setText("Content 5"));
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Woo ").setImage(img2).setEnabled(false);
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Hoo ");
+		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Boo ").setImage(img2);
 
-		t.setWidth(300);
-		t.setHeight(300);
-
-		t.update();
+		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Woo").setImage(img2);
+		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Hoo");
+		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Boo").setImage(img2).setEnabled(false);
+		
 	} catch(e) {
 		var message = "";
 		for (p in e) {
@@ -86,18 +61,17 @@ function main() {
 	}
 }
 
-function dispose() {
-	t.dispose();
-}
 --></script>
+<style type="text/css">
+#container .jsWTButtonRadio {
+	display: block;
+}
+</style>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.TabFolder</h1>
-<fieldset>
-	<legend>Options</legend>
-	<input type="button" value="dispose()" onclick="dispose()"/>
-</fieldset>
-<div id="container" class="sand"></div>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Button</h1>
+<div id="container" class="sand">
+</div>
 <script type="text/javascript">main();</script>
 </body>
 </html>

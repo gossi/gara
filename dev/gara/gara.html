@@ -2,8 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>gara</title>
-<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
+<title>gara.loader</title>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
@@ -11,10 +10,14 @@
 <script type="text/javascript" src="../garadev.js"></script>
 <script type="text/javascript" src="../../src/gara.js"></script>
 <script type="text/javascript">
-
+gara.require("gara.jswt.widgets.List");
+console.log(gara.jswt.widgets.List);
 </script>
 </head>
 <body>
-<h1>gara dynamic loader</h1>
+Testing gara dynamic loader
+<pre>gara.require("gara.jswt.widgets.List");
+console.log(gara.jswt.widgets.List);
+</pre>
 </body>
 </html>

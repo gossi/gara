@@ -8,28 +8,10 @@
 <script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
-
-<script type="text/javascript" src="../../src/gara/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara/Package.class.js"></script>
-<script type="text/javascript" src="../../src/gara/Utils.class.js"></script>
-<script type="text/javascript" src="../../src/gara/EventManager.class.js"></script>
-<script type="text/javascript" src="../../src/gara/I18n.class.js"></script>
-<script type="text/javascript" src="../../src/gara/_append.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWT.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWTException.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/_append.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.widgets/_prepend.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/DialogManager.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Dialog.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/MessageBox.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/InputDialog.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/IframeDialog.class.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/_append.js"></script>
 <script type="text/javascript"><!--
+gara.require("gara.jswt.widgets.MessageBox");
+gara.require("gara.jswt.widgets.InputDialog");
+gara.require("gara.jswt.widgets.IframeDialog");
 var d, JSWT = gara.jswt.JSWT;
 function openMessageBox() {
 	d = new gara.jswt.widgets.MessageBox(JSWT.YES | JSWT.ICON_QUESTION);

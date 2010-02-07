@@ -38,8 +38,6 @@
 	Usage:
 		Include the following files in your document:
 		
-			/res/gara-yui-reset-fonts.css
+			/res/gara.css
 			/themes/[theme]/[theme].css
-			/gara.js
-			
-		If you use YUI's reset and fonts, you can use gara.css instead.
+			/gara.js (see above)
