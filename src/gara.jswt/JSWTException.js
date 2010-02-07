@@ -1,4 +1,4 @@
-/*	$Id: ItemNotExistsException.class.js 91 2007-12-09 18:58:43Z tgossmann $
+/*	$Id: JSWTException.class.js 182 2009-08-02 22:34:06Z tgossmann $
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -21,17 +21,39 @@
 	===========================================================================
 */
 
+gara.provide("gara.jswt.JSWTException");
+
 /**
- * @class ItemNotExistsException
+ * @class JSWTException
  * @author Thomas Gossmann
  * @namespace gara.jswt
  * @extends Exception
  */
-$class("ItemNotExists_Exception", {
+gara.Class("gara.jswt.JSWTException", {
 	$extends : Exception,
 
-	$constructor : function(message) {
+	/**
+	 * @field
+	 * Contains the error code, one of JSWT.ERROR_*
+	 */
+	code : null,
+
+	/**
+	 * @constructor
+	 * Raises a JSWT Exception
+	 *
+	 * @param {mixed} codeOrMessage Pass either a code or a message
+	 * @param {String} message Wether code is passed place your message as second
+	 */
+	$constructor : function(codeOrMessage, message) {
+		var code;
+		if (typeof(message) == "undefined") {
+			message = codeOrMessage;
+		} else {
+			code = codeOrMessage;
+		}
+		this.code = code;
 		this.message = String(message);
-		this.name = $class.typeOf(this);
+		this.name = gara.typeOf(this);
 	}
 });
