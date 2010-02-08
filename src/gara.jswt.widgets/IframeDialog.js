@@ -24,6 +24,8 @@
 gara.provide("gara.jswt.widgets.IframeDialog");
 
 gara.use("gara.jswt.JSWT");
+gara.use("gara.jswt.widgets.DialogManager");
+
 gara.require("gara.jswt.widgets.Dialog");
 
 /**
@@ -47,6 +49,8 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 		this._iframe;
 		this._overlay;
 		this._iDoc = null;
+
+		this._composite;
 	},
 
 	/**
@@ -59,9 +63,11 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_create : function(src) {
-		this.$base();
+	_createContents : function(parent, src) {
+		// css
+		this.addClass("jsWTIframeDialog");
 
+		this._composite = parent;
 		this._overlay = document.createElement("div");
 		this._overlay.style.position = "absolute";
 		this._overlay.style.left = "0";
@@ -69,12 +75,11 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 		this._overlay.style.top = "0";
 		this._overlay.style.bottom = "0";
 
-		this.handle.className += " jsWTIframeDialog";
 		this._iframe = document.createElement("iframe");
 		this._iframe.src = src;
 		this._iframe.style.width = "100%";
 		this._iframe.style.height = "100%";
-		this._dialogContent.appendChild(this._iframe);
+		parent.handle.appendChild(this._iframe);
 
 		if ((this._style & gara.jswt.JSWT.ICON_WORKING) == gara.jswt.JSWT.ICON_WORKING) {
 			this._overlay.className = "loading";
@@ -82,13 +87,13 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 		}
 
 		this.handle.style.width = this._width + "px";
-		this._dialogContent.style.height = this._height + "px";
-		this._dialogContent.style.position = "relative";
+		parent.handle.style.height = this._height + "px";
+		parent.handle.style.position = "relative";
 
 		gara.EventManager.addListener(this._iframe, "load", this);
 
-		this._dialogBarText.appendChild(document.createTextNode(this._title));
-		this._dialogBarText.style.width = (this._width - 40) + "px";
+		this._dialogBarTitle.appendChild(document.createTextNode(this._title));
+		this._dialogBarTitle.style.width = (this._width - 40) + "px";
 
 		// position
 		var left = this._getViewportWidth() / 2 - this.handle.clientWidth/2;
@@ -115,23 +120,20 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 
 		switch (e.type) {
 			case "load":
-				if (this._iDoc == null) {
-					try {
-						this._iDoc = this._iframe.contentDocument; // W3C
-					} catch (e) {
-						try {
-							this._iDoc = this._iframe.document; // IE (6?)
-						} catch (e) {}
-					}
-				}
-
-				if (this._iDoc != null) {
-					try {
-						this._iDoc.obj = this;
-						base2.DOM.EventTarget(this._iDoc);
-						this._parentWindow.gara.EventManager.addListener(this._iDoc, "mousedown", this);
-					} catch(e) {}
-				}
+//				var iWin = null;
+//				try {
+//					iWin = this._iframe.contentWindow; // W3C
+//				} catch (e) {
+//					try {
+//						iWin = this._iframe.document; // IE (6?)
+//					} catch (e) {}
+//				}
+//
+//				if (iWin != null) {
+//					try {
+//						this.setText(iWin.title);
+//					} catch(e) {}
+//				}
 
 				if ((this._style & gara.jswt.JSWT.ICON_WORKING) == gara.jswt.JSWT.ICON_WORKING) {
 					this._overlay.className = "";
@@ -142,7 +144,7 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 			case "mousedown":
 				this._parentWindow.gara.jswt.widgets.DialogManager.getInstance().activate(this);
 				if (e.target == this._dialogBar ||
-					e.target == this._dialogBarText ||
+					e.target == this._dialogBarTitle ||
 					e.target == this._dialogBarButtons) {
 
 					this._parentWindow.gara.jswt.widgets.DialogManager.getInstance().getDialogs().forEach(function(diag, index, arr) {
@@ -164,15 +166,15 @@ gara.Class("gara.jswt.widgets.IframeDialog", {
 	},
 
 	_hideOverlay : function() {
-		this._dialogContent.removeChild(this._overlay);
+		this._composite.handle.removeChild(this._overlay);
 	},
 
 	open: function(src) {
-		this._create(src);
+		this._createContents(this._create(), src);
 	},
 
 	_showOverlay : function() {
-		this._dialogContent.appendChild(this._overlay);
+		this._composite.handle.appendChild(this._overlay);
 	},
 
 	setHeight : function(height) {

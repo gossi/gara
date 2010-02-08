@@ -67,6 +67,7 @@ gara.Class("gara.jswt.widgets.Dialog", {
 		this._dY;
 
 		this._tabIndexes = [];
+		this._tabIndexElements = [];
 		this._tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME","DIV","UL","SPAN"];
 
 		this._parentWindow.gara.jswt.widgets.DialogManager.getInstance().addDialog(this);
@@ -124,9 +125,11 @@ gara.Class("gara.jswt.widgets.Dialog", {
 		this._dialogBarLeft = document.createElement("div");
 		this._dialogBarLeft.className = "jsWTDialogBarLeft";
 
-		this._dialogBarText = document.createElement("div");
-		this._dialogBarText.className = "jsWTDialogBarText";
-		this._dialogBarText.id = this.getId() + "-label";
+		this._dialogBarTitle = document.createElement("div");
+		this._dialogBarTitle.className = "jsWTDialogBarText";
+		this._dialogBarTitle.id = this.getId() + "-label";
+
+		this._dialogBarText = document.createTextNode(this._text);
 
 		this._dialogBarButtons = document.createElement("div");
 		this._dialogBarButtons.className = "jsWTDialogBarButtons";
@@ -139,9 +142,9 @@ gara.Class("gara.jswt.widgets.Dialog", {
 
 		this.handle.appendChild(this._dialogBar);
 		this._dialogBar.appendChild(this._dialogBarLeft);
-		this._dialogBar.appendChild(this._dialogBarText);
+		this._dialogBar.appendChild(this._dialogBarTitle);
 		this._dialogBar.appendChild(this._dialogBarButtons);
-		this._dialogBarText.appendChild(document.createTextNode(this._text));
+		this._dialogBarTitle.appendChild(this._dialogBarText);
 		this._dialogBarButtons.appendChild(this._barCancelButton);
 		this._dialogBar.appendChild(clearer);
 
@@ -167,17 +170,16 @@ gara.Class("gara.jswt.widgets.Dialog", {
 	 * @private
 	 */
 	_disableTabIndexes : function() {
-//		if (document.all) {
-			var i = 0;
-			for (var j = 0; j < this._tabbableTags.length; j++) {
-				var tagElements = this._parentWindow.document.getElementsByTagName(this._tabbableTags[j]);
-				for (var k = 0 ; k < tagElements.length; k++) {
-					this._tabIndexes[i] = tagElements[k].tabIndex;
-					tagElements[k].tabIndex = "-1";
-					i++;
-				}
+		var i = 0;
+		for (var j = 0; j < this._tabbableTags.length; j++) {
+			var tagElements = this._parentWindow.document.getElementsByTagName(this._tabbableTags[j]);
+			for (var k = 0 ; k < tagElements.length; k++) {
+				this._tabIndexes[i] = tagElements[k].tabIndex;
+				this._tabIndexElements[i] = tagElements[k];
+				tagElements[k].tabIndex = "-1";
+				i++;
 			}
-//		}
+		}
 	},
 
 	/**
@@ -280,7 +282,7 @@ gara.Class("gara.jswt.widgets.Dialog", {
 				if (e.target == this._barCancelButton) {
 					this.dispose();
 				} else if (e.target == this._dialogBar
-						|| e.target == this._dialogBarText
+						|| e.target == this._dialogBarTitle
 						|| e.target == this._dialogBarButtons){
 					this._parentWindow.gara.EventManager.addListener(this._parentWindow.document, "mousemove", this);
 					this._parentWindow.gara.EventManager.addListener(this._dialogBar, "mouseup", this);
@@ -325,17 +327,12 @@ gara.Class("gara.jswt.widgets.Dialog", {
 	 * @private
 	 */
 	_restoreTabIndexes : function() {
-//		if (document.all) {
-			var i = 0;
-			for (var j = 0; j < this._tabbableTags.length; j++) {
-				var tagElements = this._parent = this._parentWindow.document.getElementsByTagName(this._tabbableTags[j]);
-				for (var k = 0 ; k < tagElements.length; k++) {
-					tagElements[k].tabIndex = this._tabIndexes[i];
-					tagElements[k].tabEnabled = true;
-					i++;
-				}
-			}
-//		}
+		for (var i = 0, len = this._tabIndexElements.length; i < len; ++i) {
+			this._tabIndexElements[i].tabIndex = this._tabIndexes[i];
+		}
+
+		this._tabIndexes = [];
+		this._tabIndexElements = [];
 	},
 
 	/**
@@ -346,6 +343,9 @@ gara.Class("gara.jswt.widgets.Dialog", {
 	 */
 	setText : function(text) {
 		this._text = text;
+		if (this._dialogBarText) {
+			this._dialogBarText.nodeValue = text;
+		}
 	},
 
 	_unregisterListener : function() {}

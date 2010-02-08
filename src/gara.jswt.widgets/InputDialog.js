@@ -22,6 +22,12 @@
 */
 
 gara.provide("gara.jswt.widgets.InputDialog");
+
+gara.use("gara.jswt.events.KeyListener");
+gara.use("gara.jswt.events.ModifyListener");
+gara.use("gara.jswt.events.SelectionListener");
+
+gara.use("gara.jswt.widgets.Composite");
 gara.use("gara.jswt.widgets.Button");
 gara.use("gara.jswt.widgets.Label");
 gara.use("gara.jswt.widgets.Text");
@@ -50,6 +56,8 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 		this._value = "";
 		this._style |= gara.jswt.JSWT.APPLICATION_MODAL;
 
+		this._txt;
+		this._buttons;
 		this._input;
 		this._btnOk;
 		this._btnCancel;
@@ -69,47 +77,45 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 	 * @return {void}
 	 */
 	_createContents : function(parent) {
-		new gara.jswt.widgets.Label(parent).setText(this._message).addClass("jsWTInputDialogContentText");
+		var self = this;
 
+		this._txt = new gara.jswt.widgets.Label(parent).setText(this._message).addClass("jsWTInputDialogContentText");
 		this._input = new gara.jswt.widgets.Text(parent).setText(this._value).addModifyListener(new gara.Class({
 			$implements : gara.jswt.events.ModifyListener,
 			modifyText : function(e) {
 				if (e.type == "keydown") {
 					switch(e.keyCode) {
-						case gara.jswt.JSWT.ENTER:	this._doOk();		break;
-						case gara.jswt.JSWT.ESC:	this._doCancel();	break;
+						case gara.jswt.JSWT.ENTER:	self._doOk();		break;
+						case gara.jswt.JSWT.ESC:	self._doCancel();	break;
 					}
 				}
 			}
-		}));
+		}))
+		this._input.forceFocus();
 
-//		var text = document.createElement("div");
-//		text.className = "jsWTInputDialogContentText";
-//		text.appendChild(document.createTextNode(this._message));
-
-//		this._input = document.createElement("input");
-//		this._input.type = "text";
-//		this._input.value = this._value;
-//		base2.DOM.EventTarget(this._input);
-//		gara.EventManager.addListener(this._input, "keydown", this);
-//
-//		text.appendChild(this._input);
-//		this._dialogContent.appendChild(text);
 		var buttonHandler = new gara.Class({
-			$implements : gara.jswt.events.SelectionListener,
+			$implements : [gara.jswt.events.SelectionListener, gara.jswt.events.KeyListener],
+			keyPressed : function(e) {
+				if (e.keyCode == gara.jswt.JSWT.ESC) {
+					self._doCancel();
+				}
+			},
+			keyReleased : function(e) {},
 			widgetSelected : function(e) {
 				switch (e.widget) {
-				case this._btnOk:		this._doOk();		break;
-				case this._btnCancel:	this._doCancel();	break;
+					case self._btnOk:		self._doOk();		break;
+					case self._btnCancel:	self._doCancel();	break;
 				}
 			}
 		});
 
-		var buttons = new gara.jswt.widgets.Composite(parent).addClass("jsWTInputDialogButtonBar");
-		this._btnOk = new gara.jswt.widgets.Button(buttons).setText(gara.i18n.get("gara.ok")).addSelectionListener(buttonHandler);
-		this._btnCancel = new gara.jswt.widgets.Button(buttons).setText(gara.i18n.get("gara.cancel")).addSelectionListener(buttonHandler);
-
-		this._input.forceFocus();
+		this._buttons = new gara.jswt.widgets.Composite(parent).addClass("jsWTInputDialogButtonBar");
+		this._btnOk = new gara.jswt.widgets.Button(this._buttons).setText(gara.i18n.get("gara.ok"))
+			.addSelectionListener(buttonHandler)
+			.addKeyListener(buttonHandler);
+		this._btnCancel = new gara.jswt.widgets.Button(this._buttons).setText(gara.i18n.get("gara.cancel"))
+			.addSelectionListener(buttonHandler)
+			.addKeyListener(buttonHandler);
 
 		// position
 		var left = this._getViewportWidth() / 2 - this.handle.clientWidth/2;
@@ -119,12 +125,37 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 		this.handle.style.top = top + "px";
 	},
 
-	_doOk : function() {
+	dispose : function() {
+		this._txt.dispose();
+		this._input.dispose();
+		this._btnOk.dispose();
+		this._btnCancel.dispose();
+		this._buttons.dispose();
 
+		delete this._txt;
+		delete this._input;
+		delete this._btnOk;
+		delete this._btnCancel;
+		delete this._buttons;
+
+		this.$base();
+	},
+
+	_doOk : function() {
+		var response = this._input.getText();
+		this.dispose();
+
+		if (this._callback != null) {
+			this._callback.call(this._context, response);
+		}
 	},
 
 	_doCancel : function() {
+		this.dispose();
 
+		if (this._callback != null) {
+			this._callback.call(this._context, null);
+		}
 	},
 
 	getMessage : function() {
@@ -139,41 +170,6 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 		this.$base(e);
 		if (this._disposed && this._callback != null) {
 			this._callback.call(this._context, null);
-		}
-		switch(e.type) {
-			case "keydown":
-				// ESC
-				if (e.target == this._input && e.keyCode == 27) {
-					this.dispose();
-					this._callback.call(this._context, null);
-				}
-
-				// ENTER
-				if (e.target == this._input
-						&& (e.keyCode == 13 || e.keyCode == 10)
-						&& this._callback != null) {
-					this.dispose();
-					this._callback.call(this._context, this._input.value);
-				}
-				break;
-
-			case "click":
-				var response;
-				switch(e.target) {
-					case this._btnOk:
-						response = this._input.value;
-						break;
-
-					default:
-					case this._btnCancel:
-						response = null;
-						break;
-				}
-				this.dispose();
-				if (this._callback != null) {
-					this._callback.call(this._context, response);
-				}
-				break;
 		}
 	},
 

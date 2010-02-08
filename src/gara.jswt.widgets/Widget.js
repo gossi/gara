@@ -87,7 +87,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 *
 	 * @author Thomas Gossmann
 	 * @param {String} className new class
-	 * @return {void}
+	 * @return {gara.jswt.widgets.Widget}
 	 */
 	addClass : function(className) {
 		if (!this._classes.contains(className)) {
@@ -95,6 +95,21 @@ gara.Class("gara.jswt.widgets.Widget", {
 			if (this.handle != null) {
 				this.handle.className = this._classes.join(" ");
 			}
+		}
+		return this;
+	},
+
+	/**
+	 * @method
+	 * Adds multiple CSS classes to the <code>Widget</code>
+	 *
+	 * @author Thomas Gossmann
+	 * @param {String[]} classNames new classes in an array
+	 * @return {gara.jswt.widgets.Widget}
+	 */
+	addClasses : function(classNames) {
+		for (var i = 0, len = classNames.length; i < len; i++) {
+			this.addClass(classNames[i]);
 		}
 		return this;
 	},
@@ -152,7 +167,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 */
 	checkWidget : function() {
 		if (this.isDisposed()) {
-			throw new gara.jswt.gara.jswt.JSWTException(gara.jswt.JSWT.ERROR_WIDGET_DISPOSED);
+			throw new gara.jswt.JSWTException(gara.jswt.JSWT.ERROR_WIDGET_DISPOSED);
 		}
 	},
 

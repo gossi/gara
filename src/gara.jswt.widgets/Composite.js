@@ -41,6 +41,17 @@ gara.Class("gara.jswt.widgets.Composite", {
 	 */
 	$constructor : function(parent, style) {
 		this.$base(parent, style);
+		this._isComposite = false;
+	},
+
+	dispose : function() {
+		this.$base();
+
+		if (this._parentNode != null && this._isComposite) {
+			this._parentNode.removeChild(this.handle);
+		}
+
+		delete this.handle;
 	},
 
 	_createWidget : function(element, preventAppending) {
@@ -48,6 +59,7 @@ gara.Class("gara.jswt.widgets.Composite", {
 			this.addClass("jsWTComposite");
 			this.$base("div");
 			this.handle.tabIndex = -1;
+			this._isComposite = true;
 		} else {
 			this.$base(element, preventAppending);
 		}

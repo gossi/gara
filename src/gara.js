@@ -343,7 +343,7 @@ function $class(name, descriptor) {
 	var lambda = false;
 	if (typeof(descriptor) == "undefined") {
 		descriptor = name;
-		name = "lambda";
+		name = "lambda" + (new Date().getTime() / 1000);
 		lambda = true;
 	}
 

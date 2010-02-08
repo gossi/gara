@@ -26,8 +26,10 @@
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Button.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Label.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Text.js"></script>
 <script type="text/javascript"><!--
 
 function main() {
@@ -49,8 +51,20 @@ function main() {
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Boo ").setImage(img2);
 
 		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Woo").setImage(img2);
-		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Hoo");
+		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Hoo").addSelectionListener(
+			new gara.Class({
+				$implements: gara.jswt.events.SelectionListener,
+				widgetSelected : function(e) {
+					console.log("selected: " + e.widget.getText());
+				}
+			})
+		);
 		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Boo").setImage(img2).setEnabled(false);
+
+		new gara.jswt.widgets.Label(document.getElementById("container")).setText("SalamiS");
+		new gara.jswt.widgets.Text(document.getElementById("container")).setText("Salami");
+		new gara.jswt.widgets.Text(document.getElementById("container"), gara.jswt.JSWT.PASSWORD).setText("Salami");
+		new gara.jswt.widgets.Text(document.getElementById("container"), gara.jswt.JSWT.MULTI).setText("Salami");
 		
 	} catch(e) {
 		var message = "";

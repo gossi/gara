@@ -179,16 +179,14 @@ gara.Class("gara.jswt.widgets.Button", {
 	},
 
 	dispose : function() {
-		this.$base();
+//		this.$base();
 
-		this._items.forEach(function(item, index, arr) {
-			item.dispose();
-		}, this);
-
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
-		}
-		delete this.handle;
+//		this._selectionListener = [];
+//
+//		if (this._parentNode != null) {
+//			this._parentNode.removeChild(this.handle);
+//		}
+//		delete this.handle;
 	},
 
 	_getSiblingButtons : function() {

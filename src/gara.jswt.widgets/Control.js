@@ -33,13 +33,8 @@ gara.use("gara.jswt.events.MouseListener");
 gara.use("gara.jswt.widgets.Composite");
 gara.use("gara.jswt.widgets.Menu");
 
-// order is strict!
 gara.require("gara.jswt.widgets.Widget");
 gara.require("gara.jswt.widgets.FocusManager");
-
-
-
-
 
 /**
  * @class Control
@@ -97,6 +92,7 @@ gara.Class("gara.jswt.widgets.Control", {
 		if (!this._focusListener.contains(listener)) {
 			this._focusListener.push(listener);
 		}
+		return this;
 	},
 
 	/**
@@ -124,6 +120,7 @@ gara.Class("gara.jswt.widgets.Control", {
 			this.addListener("keyup", this);
 			this._initKeyListener = true;
 		}
+		return this;
 	},
 
 	/**
@@ -152,6 +149,7 @@ gara.Class("gara.jswt.widgets.Control", {
 			this.addListener("dblclick", this);
 			this._initMouseListener = true;
 		}
+		return this;
 	},
 
 	_createWidget : function(element, preventAppending) {
