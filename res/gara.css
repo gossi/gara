@@ -376,3 +376,20 @@ div.jsWTInputDialog .jsWTInputDialogButtonBar input {
 div.jsWTIframeDialog iframe{
 	border: 0;
 }
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Label
+ * gara.jswt.Composite
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.jsWTLabel,
+.jsWTComposite {
+	cursor: default;
+	overflow: auto;	
+	outline: none;
+	-moz-user-select: none;
+	user-select: none;
+}

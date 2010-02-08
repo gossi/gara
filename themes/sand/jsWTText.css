@@ -1,0 +1,13 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Text
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .jsWTText,
+.sand .jsWTPassword,
+.sand .jsWTMultiText {
+	font-size: 83%;
+	margin-right: 5px;
+}

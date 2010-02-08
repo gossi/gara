@@ -1,6 +1,6 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Checkbox
+ * gara.jswt.Button
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -13,6 +13,7 @@
  	outline: none;
  	user-select: none;
  	-moz-user-select: none;
+ 	margin-right: 5px;
 }
 
 .sand .jsWTButtonPush .door {
