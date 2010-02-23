@@ -978,6 +978,7 @@ gara.Class("gara.jswt.widgets.Table", {
 
 	setHeight : function(height) {
 		this._height = height;
+		var heightSub = parseInt(gara.Utils.getStyle(this.handle, "padding-top")) + parseInt(gara.Utils.getStyle(this.handle, "padding-bottom")) + parseInt(gara.Utils.getStyle(this.handle, "border-top-width")) + parseInt(gara.Utils.getStyle(this.handle, "border-bottom-width"));
 		this.handle.style.height = this._height != null ? (this._height - (this._headerVisible ? this._thead.offsetHeight : 0) - heightSub) + "px" : "";
 		return this;
 	},

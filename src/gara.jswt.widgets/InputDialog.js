@@ -86,7 +86,6 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 				if (e.type == "keydown") {
 					switch(e.keyCode) {
 						case gara.jswt.JSWT.ENTER:	self._doOk();		break;
-						case gara.jswt.JSWT.ESC:	self._doCancel();	break;
 					}
 				}
 			}
@@ -139,6 +138,10 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 		delete this._buttons;
 
 		this.$base();
+
+		if (this._callback != null) {
+			this._callback.call(this._context, null);
+		}
 	},
 
 	_doOk : function() {
@@ -152,10 +155,6 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 
 	_doCancel : function() {
 		this.dispose();
-
-		if (this._callback != null) {
-			this._callback.call(this._context, null);
-		}
 	},
 
 	getMessage : function() {
@@ -174,7 +173,7 @@ gara.Class("gara.jswt.widgets.InputDialog", {
 	},
 
 	open: function(callback, context) {
-		this._createContents(this._create());
+		this._create();
 		this._callback = callback;
 		this._context = context || window;
 	},

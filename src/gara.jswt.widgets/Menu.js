@@ -49,10 +49,8 @@ gara.Class("gara.jswt.widgets.Menu", {
 
 	$constructor : function(parent, style) {
 		// style
-		style = style || gara.jswt.JSWT.BAR;
-
 		if (gara.instanceOf(parent, gara.jswt.widgets.MenuItem)
-				&& (style & gara.jswt.JSWT.CASCADE) != gara.jswt.JSWT.CASCADE) {
+				&& (parent.getStyle() & gara.jswt.JSWT.CASCADE) != gara.jswt.JSWT.CASCADE) {
 			throw new Exception("parent has no gara.jswt.JSWT.CASCADE style!");
 		}
 
@@ -78,7 +76,7 @@ gara.Class("gara.jswt.widgets.Menu", {
 		this._visible = (style & gara.jswt.JSWT.BAR) == gara.jswt.JSWT.BAR; // bar = true
 		this._menuBarDropDownShown = false;
 
-		this.$base(parent, style);
+		this.$base(parent, style || gara.jswt.JSWT.BAR);
 	},
 
 	_activateItem : function(item) {
@@ -150,6 +148,10 @@ gara.Class("gara.jswt.widgets.Menu", {
 			this._parentNode = this._parent;
 			this.handle.setAttribute("role", "menubar");
 			this.handle.tabIndex = 0;
+
+			if (gara.instanceOf(this._parent, gara.jswt.widgets.Composite)) {
+				this._parentNode = this._parent.handle;
+			}
 		}
 
 		if ((this._style & gara.jswt.JSWT.POP_UP) == gara.jswt.JSWT.POP_UP) {
@@ -161,9 +163,11 @@ gara.Class("gara.jswt.widgets.Menu", {
 		}
 
 		if ((this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN) {
+			console.log("Menu.createWidget(drop-down);");
 			this.addClass("jsWTMenuDropDown");
 			this.handle.style.position = "absolute";
 			this._parentNode = this._parent.handle;
+			console.log(this._parentNode + " - " + this._parent);
 		}
 
 		this._parentNode.appendChild(this.handle);

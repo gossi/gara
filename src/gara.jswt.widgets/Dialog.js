@@ -41,13 +41,8 @@ gara.Class("gara.jswt.widgets.Dialog", {
 	/**
 	 * @constructor
 	 */
-	$constructor : function(parentWindow, style) {
-		if (typeof(style) == "undefined") {
-			style = parentWindow;
-			this._parentWindow = window.top;
-		} else {
-			this._parentWindow = parentWindow;
-		}
+	$constructor : function(style) {
+		this._parentWindow = window;
 
 		this.$base(this._parentWindow.document.getElementsByTagName("body")[0], style);
 
@@ -98,8 +93,6 @@ gara.Class("gara.jswt.widgets.Dialog", {
 				this._parent.appendChild(modalLayer);
 			}
 
-//			modalLayer.style.width = this._getViewportWidth() + "px";
-//			modalLayer.style.height = this._getViewportHeight() + "px";
 			modalLayer.style.position = "absolute";
 			modalLayer.style.top = "0";
 			modalLayer.style.bottom = "0";
@@ -153,13 +146,54 @@ gara.Class("gara.jswt.widgets.Dialog", {
 
 		// append to DOM and DiagMng
 		this._parentWindow.gara.EventManager.addListener(this.handle, "mousedown", this);
+		this._parentWindow.gara.EventManager.addListener(this.handle, "keydown", this);
 		this._parentWindow.gara.EventManager.addListener(this._barCancelButton, "mousedown", this);
 
 		this._parent.appendChild(this.handle);
 		this._parentWindow.gara.jswt.widgets.DialogManager.getInstance().activate(this);
 
-		return this._dialogContent;
+		this._createContents(this._dialogContent);
+
+		// adding key-listener for ESC-Close
+		var self = this;
+		var keyListener = new gara.Class({
+			$implements : gara.jswt.events.KeyListener,
+
+			keyPressed : function(e) {},
+			keyReleased : function(e) {
+				if (e.keyCode == gara.jswt.JSWT.ESC) {
+					self.dispose();
+				}
+			}
+		});
+
+		function addKeyListener(parent) {
+			if (gara.instanceOf(parent, gara.jswt.widgets.Composite)) {
+				parent.getChildren().forEach(function(w) {
+					if (gara.instanceOf(w, gara.jswt.widgets.Control)) {
+						w.addKeyListener(keyListener);
+					}
+					addKeyListener(w);
+				}, self);
+			}
+		}
+		addKeyListener(this._dialogContent);
+
+		// setting focus to first control
+		function setFocus(parent) {
+			if (gara.instanceOf(parent, gara.jswt.widgets.Composite)) {
+				parent.getChildren().forEach(function(w) {
+					if (gara.instanceOf(w, gara.jswt.widgets.Control)) {
+						return w.forceFocus();
+					}
+					setFocus(w);
+				}, self);
+			}
+		}
+		setFocus(this._dialogContent);
 	},
+
+	_createContents : gara.abstract(function() {}),
 
 	/**
 	 * @method
@@ -299,6 +333,10 @@ gara.Class("gara.jswt.widgets.Dialog", {
 			case "mousemove":
 				this.handle.style.left = (e.clientX - this._dX) + "px";
 				this.handle.style.top = (e.clientY - this._dY) + "px";
+				break;
+
+			case "keydown":
+				console.log("Dialog.handleEvent(keydown): " + e.keyCode);
 				break;
 
 			case "resize":

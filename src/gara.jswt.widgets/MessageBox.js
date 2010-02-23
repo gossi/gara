@@ -50,13 +50,12 @@ gara.Class("gara.jswt.widgets.MessageBox", {
 		this._callback = null;
 		this._context = window;
 		this._message = "";
-		this._style |= gara.jswt.JSWT.APPLICATION_MODAL;
 
 		this._msg;
 		this._buttonBar;
 		this._buttons = {};
 
-		this.$base(parent, style);
+		this.$base(parent, style); //  | gara.jswt.JSWT.APPLICATION_MODAL
 	},
 
 	/**
@@ -151,6 +150,13 @@ gara.Class("gara.jswt.widgets.MessageBox", {
 		this.handle.style.top = top + "px";
 	},
 
+	dispose : function() {
+		this.$base();
+		if (this._callback != null) {
+			this._callback.call(this._context, gara.jswt.JSWT.CANCEL);
+		}
+	},
+
 	getMessage : function() {
 		return this._message;
 	},
@@ -163,7 +169,7 @@ gara.Class("gara.jswt.widgets.MessageBox", {
 	},
 
 	open: function(callback, context){
-		this._createContents(this._create());
+		this._create();
 		this._callback = callback || null;
 		this._context = context || window;
 	},

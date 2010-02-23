@@ -24,12 +24,12 @@
 gara = {};
 
 (function() {
-base2.JavaScript.bind(window);
 
 gara.config = {
 	global : window,
 	baseUrl : "./",
-	disableIncludes : false
+	disableIncludes : false,
+	libPath : "lib"
 };
 
 // Get script base path
@@ -56,8 +56,7 @@ for (var i = 0; i < elements.length; ++i) {
 //}
 
 if (typeof(garaConfig) == "object") {
-	var e;
-	for (e in garaConfig) {
+	for (var e in garaConfig) {
 		gara.config[e] = garaConfig[e];
 	}
 }
@@ -178,6 +177,11 @@ loadUse = function(resource) {
 		}
 	}
 }
+
+if (typeof(base2) == "undefined" || typeof(base2.DOM) == "undefined") {
+	gara.loadScript(gara.config.libPath + "/base2-dom-fp.js");
+}
+base2.JavaScript.bind(window);
 
 //##############################################################################
 //The $class Library, version 1.5-debug
@@ -1114,7 +1118,4 @@ gara.implementationOf = $class.implementationOf;
 gara.typeOf = $class.typeOf;
 gara.resolve = $class.resolve;
 
-if (typeof(base2) == "undefined" && typeof(base2.DOM) == "undefined") {
-	gara.loadScript(gara.config.baseUrl + "/base2-dom-fp.js");
-}
 })();
