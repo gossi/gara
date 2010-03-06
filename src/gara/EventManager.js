@@ -44,6 +44,7 @@ gara.Class("gara.EventManager", {
 	_listeners : gara.static({}),
 
 	$constructor : function() {
+		base2.DOM.EventTarget(window);
 		window.addEventListener("unload", this, false);
 	},
 

@@ -57,8 +57,9 @@ ul.jsWTList {
 	cursor: default;
 	overflow: auto;	
 	outline: none;
-	-moz-user-select: none;
 	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 ul.jsWTList li {
@@ -95,8 +96,9 @@ ul.jsWTTree {
 	cursor: default;
 	overflow: auto;	
 	outline: none;
-	-moz-user-select: none;
 	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 ul.jsWTTree * {
@@ -173,27 +175,24 @@ ul.jsWTTree ul.bottom {
 
 .jsWTTable {
 	position: relative;
+	cursor: default;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 .jsWTTable .scroller {
 	overflow: auto;
 }
 
-.jsWTTableShadow .scroller {
-	overflow: hidden;
-}
-
 .jsWTTable table {
 	width: 100%;
-	outline: none;
-	-moz-user-select: none;
-	user-select: none;
 }
 
 .jsWTTable thead {
 	top: 0;
 	left: 0;
-	position: absolute;
+	position: relative;
 }
 
 .jsWTTable table thead tr th {
@@ -218,6 +217,17 @@ ul.jsWTTree ul.bottom {
 	overflow: hidden;
 }
 
+/* Shadow Table (when reordering columns)*/
+.jsWTTableShadow {
+	position: absolute;
+	opacity: 0.3;
+	z-index: 450;
+}
+
+.jsWTTableShadow .scroller {
+	overflow: hidden;
+}
+
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
@@ -234,11 +244,14 @@ div.jsWTTabFolder span.more {
 	position: absolute;
 }
 
-ul.jsWTTabbar {
+ul.jsWTTabFolderBar {
 	margin-left: 0;
 	padding-left: 0;
-	-moz-user-select: none;
+	cursor: default;
 	outline: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 div.jsWTTabFolder div.jsWTTabClientArea {
@@ -257,9 +270,11 @@ ul.jsWTMenu {
 	margin: 0;
 	padding: 0;
 	background-image: none;
-	-moz-user-select: none;
 	outline: none;
 	cursor: default;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 ul.jsWTMenu li {
@@ -315,8 +330,10 @@ div.jsWTDialogModal {
 }
 
 div.jsWTDialogBar {
-	-moz-user-select: none;
 	outline: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 div.jsWTDialogBarText {
@@ -379,6 +396,22 @@ div.jsWTIframeDialog iframe{
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
+ * gara.jswt.Button
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.jsWTButton {
+	cursor: default;
+	overflow: auto;	
+	outline: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
  * gara.jswt.Label
  * gara.jswt.Composite
  * 
@@ -390,6 +423,7 @@ div.jsWTIframeDialog iframe{
 	cursor: default;
 	overflow: auto;	
 	outline: none;
+	/*user-select: none;
 	-moz-user-select: none;
-	user-select: none;
+	-webkit-user-select: none;*/
 }

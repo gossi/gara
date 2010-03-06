@@ -61,16 +61,6 @@ gara.Class("gara.jswt.widgets.Scrollable", {
 		this.$base(e);
 	},
 
-	_preventScrolling : function(e) {
-		if (e.keyCode == gara.jswt.JSWT.ARROW_UP || e.keyCode == gara.jswt.JSWT.ARROW_DOWN
-				|| e.keyCode == gara.jswt.JSWT.ARROW_LEFT || e.keyCode == gara.jswt.JSWT.ARROW_RIGHT
-				|| e.keyCode == gara.jswt.JSWT.PAGE_UP || e.keyCode == gara.jswt.JSWT.PAGE_DOWN
-				|| e.keyCode == gara.jswt.JSWT.HOME || e.keyCode == gara.jswt.JSWT.END
-				|| e.keyCode == gara.jswt.JSWT.SPACE || (e.keyCode == 65 && e.ctrlKey)) {
-			e.preventDefault();
-		}
-	},
-
 	_scrolledHandle : function() {
 		return this.handle;
 	}

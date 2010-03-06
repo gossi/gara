@@ -2,24 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>jswt ARIA Test Page</title>
+<title>gara Control Widgets</title>
+<!-- <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../garadev.js"></script>-->
+
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<!--[if lte IE 6]> 
-<link rel="stylesheet" href="../../themes/sand/sandIE6.css" type="text/css"/>
-<![endif]-->
-<script type="text/javascript" src="../../lib/class-debug.js"></script>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
-<!-- <script type="text/javascript" src="../garadev.js"></script>-->
 <script type="text/javascript" src="../../src/gara.js"></script>
 <script type="text/javascript"><!--
-gara.require("gara.jswt.widgets.Label");
 gara.require("gara.jswt.widgets.Menu");
 gara.require("gara.jswt.widgets.TabFolder");
 gara.require("gara.jswt.widgets.Table");
 gara.require("gara.jswt.widgets.List");
 gara.require("gara.jswt.widgets.Tree");
-var list, table, tree, tab, menu;
+gara.require("gara.jswt.widgets.Button");
+gara.require("gara.jswt.widgets.Label");
+gara.require("gara.jswt.widgets.Text");
+var list, table, tree, tab, menu, tbl;
 
 gara.Class("WidgetListener", {
 	$implements : gara.jswt.events.FocusListener,
@@ -27,11 +28,11 @@ gara.Class("WidgetListener", {
 	$constructor : function() {},
 
 	focusGained : function(e) {
-		console.log("Focus gained: " + e.widget);
+		//console.log("Focus gained: " + e.widget);
 	},
 
 	focusLost : function(e) {
-		console.log("Focus lost: " + e.widget);
+		//console.log("Focus lost: " + e.widget);
 	}
 	
 });
@@ -48,22 +49,12 @@ function main() {
 	var imgWarning = new Image();
 	imgWarning.src = '../../themes/sand/icon_warning.png';
 
-	// List Widget
-	list = new gara.jswt.widgets.List(document.getElementById("list"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI  | gara.jswt.JSWT.FULL_SELECTION); //
-
-	new gara.jswt.widgets.ListItem(list).setText("Item 1");
-	new gara.jswt.widgets.ListItem(list).setText("Item 2").setImage(imgInfo);
-	new gara.jswt.widgets.ListItem(list).setText("Item 3");
-	new gara.jswt.widgets.ListItem(list).setText("Item 4").setImage(imgWarning);
-	new gara.jswt.widgets.ListItem(list).setText("Item 5");
-	new gara.jswt.widgets.ListItem(list).setText("Item 6");
-	new gara.jswt.widgets.ListItem(list).setText("Item 7");
-
-	list.setHeight(200);
-	list.update();
+	// Init TabFolder
+	tab = new gara.jswt.widgets.TabFolder(document.getElementById("tab"), gara.jswt.JSWT.DROP_DOWN);
 
 	// Tree Widget
-	tree = new gara.jswt.widgets.Tree(document.getElementById("tree"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
+	tree = new gara.jswt.widgets.Tree(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
+	tree.setHeight(200);
 
 	var treeItem = new gara.jswt.widgets.TreeItem(tree).setText("Item 1").setImage(imgInfo);
 	new gara.jswt.widgets.TreeItem(tree).setText("Item 1a");
@@ -82,13 +73,24 @@ function main() {
 	new gara.jswt.widgets.TreeItem(i7b).setText("Item 7c");
 	new gara.jswt.widgets.TreeItem(tree).setText("Item 8");
 
-	tree.setHeight(200);
-	tree.update();
 
+	// List Widget
+	list = new gara.jswt.widgets.List(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI  | gara.jswt.JSWT.FULL_SELECTION); //
+	list.setHeight(200);
+
+	new gara.jswt.widgets.ListItem(list).setText("Item 1");
+	new gara.jswt.widgets.ListItem(list).setText("Item 2").setImage(imgInfo);
+	new gara.jswt.widgets.ListItem(list).setText("Item 3");
+	new gara.jswt.widgets.ListItem(list).setText("Item 4").setImage(imgWarning);
+	new gara.jswt.widgets.ListItem(list).setText("Item 5");
+	new gara.jswt.widgets.ListItem(list).setText("Item 6");
+	new gara.jswt.widgets.ListItem(list).setText("Item 7");
+	
 	// Table Widget
-	table = new gara.jswt.widgets.Table(document.getElementById("table"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION); // | gara.jswt.JSWT.CHECK  
+	table = new gara.jswt.widgets.Table(tab, gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION); // | gara.jswt.JSWT.CHECK  
 	table.setHeaderVisible(true);
 	table.setLinesVisible(false);
+	table.setHeight(200);
 
 	new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 1");
 	new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 2");
@@ -101,20 +103,31 @@ function main() {
 	new gara.jswt.widgets.TableItem(table).setText(["Item5, 1", "i5, 2", "i5, 3"]);
 	new gara.jswt.widgets.TableItem(table).setText(["Item6, 1", "i6, 2", "i6, 3"]);
 
-	table.setHeight(200);
-	table.update();
-
-	// TabFolder Widget
-	tab = new gara.jswt.widgets.TabFolder(document.getElementById("tab"), gara.jswt.JSWT.DROP_DOWN);
-
-	new gara.jswt.widgets.TabItem(tab).setText("Item 1").setControl(new gara.jswt.widgets.Label(tab).setText("Content 1"));
-	new gara.jswt.widgets.TabItem(tab).setText("Item 2").setImage(imgError).setControl(new gara.jswt.widgets.Label(tab).setText("Content 2"));
-	new gara.jswt.widgets.TabItem(tab).setText("Item 3").setControl(new gara.jswt.widgets.Label(tab).setText("Content 3"));
-	new gara.jswt.widgets.TabItem(tab).setText("Item 4").setImage(imgWarning).setControl(new gara.jswt.widgets.Label(tab).setText("Content 4"));
-	new gara.jswt.widgets.TabItem(tab).setText("Item 5").setControl(new gara.jswt.widgets.Label(tab).setText("Content 5"));
+	// TabItems
+	new gara.jswt.widgets.TabItem(tab).setText("List Widget").setControl(list);
+	new gara.jswt.widgets.TabItem(tab).setText("Tree Widget").setControl(tree);
+	new gara.jswt.widgets.TabItem(tab).setText("Table Widget").setControl(table);
 
 	tab.setHeight(200);
-	tab.update();
+
+
+	// Table Widget (extra)
+	tbl = new gara.jswt.widgets.Table(document.getElementById("table"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION); // | gara.jswt.JSWT.CHECK  
+	tbl.setHeaderVisible(true);
+	tbl.setLinesVisible(false);
+	tbl.setHeight(200);
+	tbl.setWidth(400);
+
+	new gara.jswt.widgets.TableColumn(tbl, gara.jswt.JSWT.DEFAULT).setText("col 1");
+	new gara.jswt.widgets.TableColumn(tbl, gara.jswt.JSWT.DEFAULT).setText("col 2");
+	new gara.jswt.widgets.TableColumn(tbl, gara.jswt.JSWT.DEFAULT).setText("col 3");
+
+	new gara.jswt.widgets.TableItem(tbl).setText(["Item1, 1", "i1, 2", "i1, 3"]);
+	new gara.jswt.widgets.TableItem(tbl).setText(["Item2, 1", "i2, 2", "i2, 3"]).setImage([imgInfo]);
+	new gara.jswt.widgets.TableItem(tbl).setText(["Item3, 1", "i3, 2", "i3, 3"]);
+	new gara.jswt.widgets.TableItem(tbl).setText(["Item4, 1", "i4, 2", "i4, 3"]).setImage([imgWarning]);
+	new gara.jswt.widgets.TableItem(tbl).setText(["Item5, 1", "i5, 2", "i5, 3"]);
+	new gara.jswt.widgets.TableItem(tbl).setText(["Item6, 1", "i6, 2", "i6, 3"]);
 
 	// Menu Widget
 	menu = new gara.jswt.widgets.Menu(document.getElementById("menu"));
@@ -157,8 +170,9 @@ function main() {
 
 	// listeners
 	var widgetListener = new WidgetListener();
+	menu.addFocusListener(widgetListener);
 	tab.addFocusListener(widgetListener);
-	table.addFocusListener(widgetListener);
+	list.addFocusListener(widgetListener);
 
 	// focussing menu
 	gara.EventManager.addListener(document, "keydown", function(e) {
@@ -166,6 +180,44 @@ function main() {
 			menu.handle.focus();
 		}
 	});
+
+	// buttons
+	new gara.jswt.widgets.Button(document.getElementById("buttons")).setText("Simple Button");
+	new gara.jswt.widgets.Button(document.getElementById("buttons")).setText("Simple Button width Image").setImage(imgInfo);
+	new gara.jswt.widgets.Button(document.getElementById("buttons")).setText("Simple disabled Button").setEnabled(false);
+	new gara.jswt.widgets.Button(document.getElementById("buttons")).setText("Simple disabled Button width Image").setImage(imgInfo).setEnabled(false);
+
+	// radio buttons
+	new gara.jswt.widgets.Button(document.getElementById("radios"), gara.jswt.JSWT.RADIO).setText("Woo (disabled)").setImage(imgWarning).setEnabled(false);
+	new gara.jswt.widgets.Button(document.getElementById("radios"), gara.jswt.JSWT.RADIO).setText("Hoo");
+	new gara.jswt.widgets.Button(document.getElementById("radios"), gara.jswt.JSWT.RADIO).setText("Foo (disabled)").setEnabled(false);
+	new gara.jswt.widgets.Button(document.getElementById("radios"), gara.jswt.JSWT.RADIO).setText("Boo").setImage(imgError);
+
+	// checkbox buttons
+	new gara.jswt.widgets.Button(document.getElementById("checks"), gara.jswt.JSWT.CHECK).setText("Hoo");
+	new gara.jswt.widgets.Button(document.getElementById("checks"), gara.jswt.JSWT.CHECK).setText("Woo (disabled)").setImage(imgInfo).setEnabled(false);
+	new gara.jswt.widgets.Button(document.getElementById("checks"), gara.jswt.JSWT.CHECK).setText("Foo (disabled)").setEnabled(false).setSelection(true);
+	new gara.jswt.widgets.Button(document.getElementById("checks"), gara.jswt.JSWT.CHECK).setText("Boo").setImage(imgWarning);
+
+	// radio buttons (vertical)
+	new gara.jswt.widgets.Button(document.getElementById("radiosVert"), gara.jswt.JSWT.RADIO | gara.jswt.JSWT.VERTICAL).setText("Hoo").setEnabled(true);
+	new gara.jswt.widgets.Button(document.getElementById("radiosVert"), gara.jswt.JSWT.RADIO | gara.jswt.JSWT.VERTICAL).setText("Foo (disabled)").setEnabled(false);
+	new gara.jswt.widgets.Button(document.getElementById("radiosVert"), gara.jswt.JSWT.RADIO | gara.jswt.JSWT.VERTICAL).setText("Boo").setImage(imgError);
+	new gara.jswt.widgets.Button(document.getElementById("radiosVert"), gara.jswt.JSWT.RADIO | gara.jswt.JSWT.VERTICAL).setText("Woo (disabled)").setImage(imgWarning).setEnabled(false);
+
+	// checkbox buttons (vertical)
+	new gara.jswt.widgets.Button(document.getElementById("checksVert"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.VERTICAL).setText("Hoo");
+	new gara.jswt.widgets.Button(document.getElementById("checksVert"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.VERTICAL).setText("Woo (disabled)").setImage(imgInfo).setEnabled(false);
+	new gara.jswt.widgets.Button(document.getElementById("checksVert"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.VERTICAL).setText("Foo (disabled)").setEnabled(false).setSelection(true);
+	new gara.jswt.widgets.Button(document.getElementById("checksVert"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.VERTICAL).setText("Boo").setImage(imgWarning);
+
+	// texts & labels
+	new gara.jswt.widgets.Label(document.getElementById("text")).setText("Label before Text");
+	new gara.jswt.widgets.Text(document.getElementById("text"));
+
+	new gara.jswt.widgets.Label(document.getElementById("password")).setText("Label before Password");
+	new gara.jswt.widgets.Text(document.getElementById("password"), gara.jswt.JSWT.PASSWORD);
+	new gara.jswt.widgets.Text(document.getElementById("multiline"), gara.jswt.JSWT.MULTI).setText("Here we have a multiline text container with width 350px and height 80px.").setWidth(350).setHeight(80);
 }
 --></script>
 <style type="text/css">
@@ -185,22 +237,45 @@ h2 {
 </style>
 </head>
 <body style="padding: 10px;" role="application" class="sand">
-<h1>ARIA Test Page</h1>
-<p>Who needs a mouse... btw?</p>
-<div id="menu" style="width: 650px; margin-bottom: 20px;">
+<h1>gara Control Widgets</h1>
+<p>Who needs a mouse... btw?<br/>Hint: Hit Ctrl + Alt to focus menu.<br/>List Widget owns a Context Menu. Press Shift + F10 or the Context Menu key to reveal it.</p>
+<div id="menu" style="width: 750px; margin-bottom: 20px;">
 <h2>Menu Widget</h2>
 </div>
-<div id="list" style="width: 300px; float: left;">
-<h2>List Widget</h2>
-</div>
-<div id="tree" style="width: 300px; margin-left: 350px;">
-<h2>Tree Widget</h2>
-</div>
-<div id="table" style="width: 300px; float: left; margin-top: 20px;">
-<h2>Table Widget</h2>
-</div>
-<div id="tab" style="width: 300px; margin-left: 350px; margin-top: 20px;">
+<div id="tab" style="width: 750px; margin-bottom: 20px;">
 <h2>TabFolder Widget</h2>
+</div>
+
+<div id="buttons" style="margin-bottom: 20px; width: 750px;">
+<h2>Buttons</h2>
+</div>
+
+<div id="radios" style="width: 350px; margin-bottom: 20px; margin-right: 50px; float: left; clear: right;">
+<h2>Radio Buttons</h2>
+</div>
+
+<div id="checks" style="margin-bottom: 20px;">
+<h2>Checkbox Buttons</h2>
+</div>
+
+<div id="radiosVert" style="width: 350px; margin-bottom: 20px; margin-right: 50px; float: left;">
+<h2>Radio Buttons (vertical)</h2>
+</div>
+
+<div id="checksVert" style="margin-bottom: 20px;">
+<h2>Checkbox Buttons (vertical)</h2>
+</div>
+
+<div id="text" style="width: 350px; margin-bottom: 20px; margin-right: 50px; float: left;">
+<h2>Text</h2>
+</div>
+
+<div id="password" style="margin-bottom: 20px;">
+<h2>Password</h2>
+</div>
+
+<div id="multiline" style="margin-bottom: 20px;">
+<h2>Multiline Text</h2>
 </div>
 <script type="text/javascript">main();</script>
 </body>

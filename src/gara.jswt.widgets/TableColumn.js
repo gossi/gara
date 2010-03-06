@@ -50,7 +50,7 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 		this.$base(parent, style);
 
 		this._table = parent;
-		this._table._addColumn(this, index);
+		this._parentNode = this._table._addColumn(this, index);
 		this._shadow = null;
 
 		this._width = null;
@@ -64,6 +64,7 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 
 		this._isMoving = false;
 		this._isResizing = false;
+		this._create();
 	},
 
 	_create : function() {
@@ -119,8 +120,23 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 		this.handle.appendChild(this._span);
 
 		if (this._parentNode != null) {
+			var thead = this._parentNode.parentNode;
+			thead.style.position = "relative";
 			this._parentNode.appendChild(this.handle);
+			var cols = this._parent.getColumns();
+			var colsWidth = 0;
+			var parentWidth = this._parentNode.clientWidth;
+			for (var i = 0, len = cols.length; i < len - 1; ++i) {
+				var width = Math.floor(parentWidth / len);
+				colsWidth += width;
+				cols[i].setWidth(width);
+				cols[i].setClass("operator", true);
+			}
+			this.setWidth(parentWidth - colsWidth);
+			thead.style.position = "absolute";
 		}
+
+		this._parent._updateMeasurements();
 	},
 
 	_computeWidth : function() {
@@ -212,6 +228,7 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 
 					this._shadow = new gara.jswt.widgets.Table(document.getElementsByTagName("body")[0], this._table.getStyle() &~ gara.jswt.JSWT.CHECK);
 					this._shadow.setHeaderVisible(this._table.getHeaderVisible());
+					this._shadow.setLinesVisible(this._table.getLinesVisible());
 					this._shadow.setHeight(this._table.getHeight());
 					this._shadow.addClass("jsWTTableShadow");
 
@@ -229,11 +246,11 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 						i.setImage(item.getImage(offset));
 					}, this);
 
-					this._shadow.update();
-					this._shadow.handle.style.position = "absolute";
-					this._shadow.handle.style.left = e.clientX + 16 + "px";
-					this._shadow.handle.style.top = e.clientY + 16 + "px";
-					this._shadow.handle.style.opacity = "0.3";
+//					this._shadow.update();
+					if (!e.pageX){e.pageX = e.clientX + document.documentElement.scrollLeft;}
+					if (!e.pageY){e.pageY = e.clientY + document.documentElement.scrollTop;}
+					this._shadow.handle.style.left = e.pageX + 16 + "px";
+					this._shadow.handle.style.top = e.pageY + 16 + "px";
 
 					gara.EventManager.addListener(document, "mousemove", this);
 					gara.EventManager.addListener(document, "mouseup", this);
@@ -260,8 +277,10 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 
 				// Moving
 				if (this._isMoving) {
-					this._shadow.handle.style.left = e.clientX + 16 + "px";
-					this._shadow.handle.style.top = e.clientY + 16 + "px";
+					if (!e.pageX){e.pageX = e.clientX + document.documentElement.scrollLeft;}
+					if (!e.pageY){e.pageY = e.clientY + document.documentElement.scrollTop;}
+					this._shadow.handle.style.left = e.pageX + 16 + "px";
+					this._shadow.handle.style.top = e.pageY + 16 + "px";
 				}
 				break;
 
@@ -359,9 +378,5 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 
 		var columnOrder = this._table.getColumnOrder();
 		this.setClass("operator", this._table.getColumns()[columnOrder[columnOrder.length - 1]] != this);
-
-//		if (!isNaN(this._width) && this._width != null) {
-//			this.handle.style.width = this._width + "px";
-//		}
 	}
 });

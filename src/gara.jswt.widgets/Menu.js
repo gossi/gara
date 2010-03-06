@@ -28,11 +28,11 @@ gara.use("gara.OutOfBoundsException");
 
 gara.use("gara.jswt.events.MenuListener");
 
-gara.use("gara.jswt.widgets.MenuItem");
-gara.use("gara.jswt.widgets.Control");
-
 gara.require("gara.jswt.JSWT");
 gara.require("gara.jswt.widgets.Composite");
+gara.require("gara.jswt.widgets.Control");
+gara.require("gara.jswt.widgets.MenuItem");
+
 
 /**
  * @summary gara Menu Widget
@@ -62,6 +62,11 @@ gara.Class("gara.jswt.widgets.Menu", {
 			style |= gara.jswt.JSWT.DROP_DOWN;
 		}
 
+		if ((style & gara.jswt.JSWT.POP_UP) != gara.jswt.JSWT.POP_UP
+				&& (style & gara.jswt.JSWT.DROP_DOWN) != gara.jswt.JSWT.DROP_DOWN) {
+			style |= gara.jswt.JSWT.BAR;
+		}
+
 		// private members
 		this._items = [];
 		this._menuListener = [];
@@ -76,7 +81,7 @@ gara.Class("gara.jswt.widgets.Menu", {
 		this._visible = (style & gara.jswt.JSWT.BAR) == gara.jswt.JSWT.BAR; // bar = true
 		this._menuBarDropDownShown = false;
 
-		this.$base(parent, style || gara.jswt.JSWT.BAR);
+		this.$base(parent, style);
 	},
 
 	_activateItem : function(item) {
@@ -147,7 +152,6 @@ gara.Class("gara.jswt.widgets.Menu", {
 			this.addClass("jsWTMenuBar");
 			this._parentNode = this._parent;
 			this.handle.setAttribute("role", "menubar");
-			this.handle.tabIndex = 0;
 
 			if (gara.instanceOf(this._parent, gara.jswt.widgets.Composite)) {
 				this._parentNode = this._parent.handle;
@@ -156,6 +160,7 @@ gara.Class("gara.jswt.widgets.Menu", {
 
 		if ((this._style & gara.jswt.JSWT.POP_UP) == gara.jswt.JSWT.POP_UP) {
 			this.addClass("jsWTMenuPopUp");
+			this.handle.tabIndex = -1;
 			this.handle.style.position = "absolute";
 			this.handle.style.top = this._y + "px";
 			this.handle.style.left = this._x + "px";
@@ -163,11 +168,10 @@ gara.Class("gara.jswt.widgets.Menu", {
 		}
 
 		if ((this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN) {
-			console.log("Menu.createWidget(drop-down);");
 			this.addClass("jsWTMenuDropDown");
+			this.handle.tabIndex = -1;
 			this.handle.style.position = "absolute";
 			this._parentNode = this._parent.handle;
-			console.log(this._parentNode + " - " + this._parent);
 		}
 
 		this._parentNode.appendChild(this.handle);
@@ -186,9 +190,21 @@ gara.Class("gara.jswt.widgets.Menu", {
 		delete this.handle;
 	},
 
-	forceFocus : function(e) {
+	focusGained : function(e) {
 		if (this._items.length && this._activeItem == null) {
 			this._activateItem(this._items[0]);
+		}
+
+		this.$base(e);
+	},
+
+	focusLost : function(e) {
+		if (this._activeItem) {
+			if (this._activeItem.getMenu() != null && this._activeItem.getMenu().getVisible()) {
+				this._activeItem.getMenu().setVisible(false);
+			}
+			this._activeItem._setActive(false);
+			this._activeItem = null;
 		}
 
 		this.$base(e);
@@ -453,18 +469,6 @@ gara.Class("gara.jswt.widgets.Menu", {
 		return this._visible;
 	},
 
-	looseFocus : function(e) {
-		if (this._activeItem) {
-			if (this._activeItem.getMenu() != null && this._activeItem.getMenu().getVisible()) {
-				this._activeItem.getMenu().setVisible(false);
-			}
-			this._activeItem._setActive(false);
-			this._activeItem = null;
-		}
-
-		this.$base(e);
-	},
-
 	/**
 	 * @method Register listeners for this widget. Implementation for
 	 *         gara.jswt.Widget
@@ -488,6 +492,12 @@ gara.Class("gara.jswt.widgets.Menu", {
 		if (this._menuListener.contains(listener)) {
 			this._menuListener.remove(listener);
 		}
+	},
+
+	setEnabled : function(enabled) {
+		this.$base(enabled);
+		this.handle.tabIndex = this._enabled && (style & gara.jswt.JSWT.BAR) == gara.jswt.JSWT.BAR ? 0 : -1;
+		return this;
 	},
 
 	setLocation : function(x, y) {

@@ -4,14 +4,35 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.tree (dev)</title>
-<link rel="stylesheet" href="../../res/yui-reset-fonts.css" type="text/css"/>
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../lib/class-debug.js"></script>
-<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
 <script type="text/javascript" src="../garadev.js"></script>
+
+<script type="text/javascript" src="../../src/gara/EventManager.js"></script>
+<script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
+<script type="text/javascript" src="../../src/gara/Utils.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt/JSWT.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt/JSWTException.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.events/DisposeListener.js"></script>
+
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Tree.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/TreeItem.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.js"></script>
+<script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.js"></script>
 <script type="text/javascript"><!--
-gara.require("gara.jswt.widgets.Tree");
 var tree;
 function main() {
 	try {
@@ -54,7 +75,6 @@ function main() {
 
 		tree.setWidth(300);
 		tree.setHeight(200);
-		tree.update();
 	} catch(e) {
 		console.log("Catched Exception:");
 		var message = "";

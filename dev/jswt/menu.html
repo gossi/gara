@@ -6,14 +6,7 @@
 <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
 <link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
-<script type="text/javascript">
-var garaConfig = {
-	disableIncludes : true,
-	libPath : "../../lib",
-	//baseUrl : "../../src"
-}
-</script>
-<script type="text/javascript" src="../../src/gara.js"></script>
+<script type="text/javascript" src="../garadev.js"></script>
 
 <script type="text/javascript" src="../../src/gara/EventManager.js"></script>
 <script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
@@ -40,13 +33,6 @@ var garaConfig = {
 <script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.js"></script>
 <script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.js"></script>
 <script type="text/javascript"><!--
-/*function x() {
-	whoops();
-}
-x();*/
-gara.require("gara.jswt.widgets.Menu");
-gara.require("gara.jswt.widgets.Tree");
-
 gara.Class("MenuController", {
 	$implements : [gara.jswt.events.MenuListener, gara.jswt.events.SelectionListener],
 	
@@ -58,13 +44,13 @@ gara.Class("MenuController", {
 			var mi = e.target.widget;
 			var m = e.target.control;
 
-			console.log("MenuItem clicked: " + mi.getText() + ", item checked: " + l.getSelection()[0].getText());
+			//console.log("MenuItem clicked: " + mi.getText() + ", item checked: " + l.getSelection()[0].getText());
 		}
 	},
 	
 	menuShown : function(widget) {
 		console.log("Menu shown");
-		mi1.setText("iterator " + i++);
+		//mi1.setText("iterator " + i++);
 	},
 	
 	menuHidden : function(widget) {
@@ -73,9 +59,9 @@ gara.Class("MenuController", {
 	
 	widgetSelected : function(e) {
 		if (e.item.getSelection()) {
-			subi1.setEnabled(false);
+	//		subi1.setEnabled(false);
 		} else {
-			subi1.setEnabled(true);
+		//	subi1.setEnabled(true);
 		}
 	}
 });
@@ -84,16 +70,16 @@ var l, menu2, mi1, subi1;
 
 function main() {
 	//try {
-		l = new gara.jswt.widgets.Tree(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
+		var t = new gara.jswt.widgets.Tree(document.getElementById("container"));
 
-		new gara.jswt.widgets.TreeItem(l).setText("Item 1");
-		new gara.jswt.widgets.TreeItem(l).setText("Item 2");
-		new gara.jswt.widgets.TreeItem(l).setText("Item 3");
-		new gara.jswt.widgets.TreeItem(l).setText("Item 4");
-		new gara.jswt.widgets.TreeItem(l).setText("Item 5");
+		new gara.jswt.widgets.TreeItem(t).setText("Item 1");
+		new gara.jswt.widgets.TreeItem(t).setText("Item 2");
+		new gara.jswt.widgets.TreeItem(t).setText("Item 3");
+		new gara.jswt.widgets.TreeItem(t).setText("Item 4");
+		new gara.jswt.widgets.TreeItem(t).setText("Item 5");
 
 		// submenu
-		var menu = new gara.jswt.widgets.Menu(l);
+		var menu = new gara.jswt.widgets.Menu(t);
 		
 		mi1 = new gara.jswt.widgets.MenuItem(menu).setText("test");
 		var mi2 = new gara.jswt.widgets.MenuItem(menu, gara.jswt.JSWT.CASCADE).setText("test 2");
@@ -105,9 +91,8 @@ function main() {
 		new gara.jswt.widgets.MenuItem(subpmenu, gara.jswt.JSWT.SEPARATOR);
 		new gara.jswt.widgets.MenuItem(subpmenu).setText("sub pop 2");
 
-		l.setMenu(menu);
+		t.setMenu(menu);
 
-		console.log("submenu done");
 		// menubar
 		menu2 = new gara.jswt.widgets.Menu(document.getElementById("menuBar"), gara.jswt.JSWT.NO_RADIO_GROUP);
 		

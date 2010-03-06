@@ -49,9 +49,8 @@ gara.Class("gara.jswt.widgets.Composite", {
 
 		if (this._parentNode != null && this._isComposite) {
 			this._parentNode.removeChild(this.handle);
+			delete this.handle;
 		}
-
-		delete this.handle;
 	},
 
 	_createWidget : function(element, preventAppending) {

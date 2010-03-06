@@ -10,6 +10,10 @@
 	border: 1px solid #000;
 }
 
+.sand .jsWTTabClientArea div[role=tabpanel] > .jsWTTable {
+	border: 0;
+}
+
 .sand .jsWTTable table {
 	border-collapse: separate !important;
 	border-collapse: collapse;

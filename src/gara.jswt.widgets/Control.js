@@ -58,6 +58,10 @@ gara.Class("gara.jswt.widgets.Control", {
 		this._initMouseListener = false;
 		this._initKeyListener = false;
 
+		// mouse coords for context menu
+		this._mouseX = 0;
+		this._mouseY = 0;
+
 		// measurements
 		this._width = null;
 		this._height = null;
@@ -269,6 +273,11 @@ gara.Class("gara.jswt.widgets.Control", {
 					listener.mouseUp(e);
 				}, this);
 				break;
+
+			case "mousemove":
+				this._mouseX = (e.pageX || e.clientX + document.documentElement.scrollLeft) + 1;
+				this._mouseY = (e.pageY || e.clientY + document.documentElement.scrollTop) + 1;
+				break;
 		}
 	},
 
@@ -278,7 +287,7 @@ gara.Class("gara.jswt.widgets.Control", {
 				// context menu on shift + F10
 				if (this._menu != null && e.shiftKey && e.keyCode == gara.jswt.JSWT.F10) {
 					this._menu.update();
-					this._menu.setLocation(e.clientX, e.clientY);
+					this._menu.setLocation(this._mouseX, this._mouseY);
 					this._menu.setVisible(true, e);
 					e.preventDefault();
 				}
@@ -287,7 +296,7 @@ gara.Class("gara.jswt.widgets.Control", {
 			case "contextmenu":
 				if (this._menu != null) {
 					this._menu.update();
-					this._menu.setLocation(e.clientX, e.clientY);
+					this._menu.setLocation(this._mouseX, this._mouseY);
 					this._menu.setVisible(true, e);
 					e.preventDefault(); // hide browser context menu
 				}
@@ -302,7 +311,7 @@ gara.Class("gara.jswt.widgets.Control", {
 						&& (e.altKey || e.ctrlKey)
 						&& this._menu != null) {
 					this._menu.update();
-					this._menu.setLocation(e.clientX, e.clientY);
+					this._menu.setLocation(this._mouseX, this._mouseY);
 					this._menu.setVisible(true, e);
 				}
 				break;
@@ -327,6 +336,16 @@ gara.Class("gara.jswt.widgets.Control", {
 	 */
 	looseFocus : function() {
 		this.handle.blur();
+	},
+
+	_preventScrolling : function(e) {
+		if (e.keyCode == gara.jswt.JSWT.ARROW_UP || e.keyCode == gara.jswt.JSWT.ARROW_DOWN
+				|| e.keyCode == gara.jswt.JSWT.ARROW_LEFT || e.keyCode == gara.jswt.JSWT.ARROW_RIGHT
+				|| e.keyCode == gara.jswt.JSWT.PAGE_UP || e.keyCode == gara.jswt.JSWT.PAGE_DOWN
+				|| e.keyCode == gara.jswt.JSWT.HOME || e.keyCode == gara.jswt.JSWT.END
+				|| e.keyCode == gara.jswt.JSWT.SPACE || (e.keyCode == 65 && e.ctrlKey)) {
+			e.preventDefault();
+		}
 	},
 
 	/**
@@ -360,16 +379,30 @@ gara.Class("gara.jswt.widgets.Control", {
 	},
 
 	setMenu : function(menu) {
-		if (!gara.instanceOf(menu, gara.jswt.widgets.Menu)) {
+		if (menu != null && !gara.instanceOf(menu, gara.jswt.widgets.Menu)) {
 			throw new TypeError("menu is not a gara.jswt.widgets.Menu");
 		}
 
-		this._menu = menu;
-		this.addListener("contextmenu", this);
-		this.addListener("mousedown", this);
+		// remove menu
+		if (this._menu && menu == null) {
+			this.removeListener("contextmenu", this);
+			this.removeListener("mousedown", this);
+			gara.EventManager.removeListener(document, "mousemove", this);
 
-		this.handle.setAttribute("aria-haspopup", true);
-		this.handle.setAttribute("aria-owns", this._menu.getId());
+			this.handle.setAttribute("aria-haspopup", false);
+			this.handle.removeAttribute("aria-owns");
+		}
+
+		// set menu
+		else {
+			this.addListener("contextmenu", this);
+			this.addListener("mousedown", this);
+			gara.EventManager.addListener(document, "mousemove", this);
+
+			this.handle.setAttribute("aria-haspopup", true);
+			this.handle.setAttribute("aria-owns", menu.getId());
+		}
+		this._menu = menu;
 		return this;
 	},
 

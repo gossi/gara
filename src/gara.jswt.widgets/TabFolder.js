@@ -107,6 +107,7 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 			this._selection = [];
 			this._selection.push(this._activeItem);
 		}
+		this.update();
 	},
 
 	/**
@@ -156,6 +157,13 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 
 		this.update();
 
+		if (this._activeItem.getControl() != null
+				&& gara.instanceOf(this._activeItem.getControl(), gara.jswt.widgets.Scrollable)) {
+			this._activeItem.getControl().setHeight(this._clientArea.offsetHeight - parseInt(gara.Utils.getStyle(this._clientArea, "border-top-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-bottom-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-top")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-bottom")));
+			this._activeItem.getControl().setWidth(this._clientArea.offsetWidth - parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-left")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-right")));
+			this._activeItem.getControl().update();
+		}
+
 		this._selection = [];
 		this._selection.push(item);
 		this._notifySelectionListener();
@@ -175,7 +183,7 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 		this._tabbar.id = this.getId() + "-tablist";
 		this._tabbar.widget = this;
 		this._tabbar.control = this;
-		this._tabbar.className = "jsWTTabbar";
+		this._tabbar.className = "jsWTTabFolderBar";
 		base2.DOM.Event(this._tabbar);
 		this._tabbar.setAttribute("role", "tablist");
 
@@ -591,6 +599,19 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 		return this._clientArea;
 	},
 
+	setHeight : function(height) {
+		this.$base(height);
+//		console.log("TabFolder.setHeight: " + height);
+		this._updateMeasurements();
+		if (this._activeItem != null && this._activeItem.getControl() != null
+				&& gara.instanceOf(this._activeItem.getControl(), gara.jswt.widgets.Scrollable)) {
+			var clientHeight = this._clientArea.offsetHeight - parseInt(gara.Utils.getStyle(this._clientArea, "border-top-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-bottom-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-top")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-bottom"));
+			this._activeItem.getClientArea().style.height = clientHeight + "px";
+			this._activeItem.getControl().setHeight(clientHeight);
+		}
+		return this;
+	},
+
 	/**
 	 * @method
 	 * Selects the item in the TabFolder.
@@ -646,6 +667,16 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 		return this;
 	},
 
+	setWidth : function(width) {
+		this.$base(width);
+		this._updateMeasurements();
+		if (this._activeItem != null && this._activeItem.getControl() != null
+				&& gara.instanceOf(this._activeItem.getControl(), gara.jswt.widgets.Scrollable)) {
+			this._activeItem.getControl().setWidth(this._clientArea.offsetWidth - parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-left")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-right")));
+		}
+		return this;
+	},
+
 	/**
 	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
@@ -668,6 +699,10 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	update : function() {
 		this.checkWidget();
 
+		this._updateMeasurements();
+	},
+
+	_updateMeasurements : function() {
 		// class name and some measurement adjustments
 		this.handle.style.width = this._width != null ? this._width + "px" : "auto";
 		this.handle.style.height = this._height != null ? this._height + "px" : "auto";

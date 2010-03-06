@@ -11,6 +11,10 @@
 	background-color: #EAE6D6;
 }
 
+.sand .jsWTTabClientArea div[role=tabpanel] > .jsWTList {
+	border: 0;
+}
+
 .sand ul.jsWTList li .jsWTCheckbox {
 	margin: 3px 5px 0 5px;
 }
@@ -67,10 +71,10 @@
 	line-height: 17px;
 }
 
-.sand ul.jsWTListFullSelection:focus li.active img {
+.sand ul.jsWTListFullSelection li.active img {
 	margin-top: 0;
 }
 
-.sand ul.jsWTListFullSelection:focus li.active span.jsWTCheckbox {
+.sand ul.jsWTListFullSelection li.active span.jsWTCheckbox {
 	margin: 2px 5px 0;
 }

@@ -69,7 +69,20 @@ gara.Class("gara.jswt.widgets.Button", {
 		this._selected = false;
 		this._selectionListener = [];
 
-		this.$base(parent, style || gara.jswt.JSWT.PUSH);
+		// make PUSH-Button when no other is styled
+		if (!((style & gara.jswt.JSWT.PUSH) == gara.jswt.JSWT.PUSH
+				|| (style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO
+				|| (style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK)) {
+			style |= gara.jswt.JSWT.PUSH;
+		}
+
+		// make default orientation
+		if (!((style & gara.jswt.JSWT.VERTICAL) == gara.jswt.JSWT.VERTICAL
+				|| (style & gara.jswt.JSWT.HORIZONTAL) == gara.jswt.JSWT.HORIZONTAL)) {
+			style |= gara.jswt.JSWT.HORIZONTAL;
+		}
+
+		this.$base(parent, style);
 	},
 
 	/**
@@ -113,6 +126,8 @@ gara.Class("gara.jswt.widgets.Button", {
 		// css
 		this.addClass("jsWTButton");
 		this.setClass("jsWTButtonPush", (this._style & gara.jswt.JSWT.PUSH) == gara.jswt.JSWT.PUSH);
+		this.setClass("jsWTButtonHorizontal", (this._style & gara.jswt.JSWT.HORIZONTAL) == gara.jswt.JSWT.HORIZONTAL);
+		this.setClass("jsWTButtonVertical", (this._style & gara.jswt.JSWT.VERTICAL) == gara.jswt.JSWT.VERTICAL);
 
 		// checkbox
 		if ((this._style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
@@ -189,7 +204,7 @@ gara.Class("gara.jswt.widgets.Button", {
 //		delete this.handle;
 	},
 
-	_getSiblingButtons : function() {
+	_getSiblingRadioButtons : function() {
 		var controls;
 		// parent is composite
 		if (gara.instanceOf(this._parent, gara.jswt.widgets.Composite)) {
@@ -207,28 +222,31 @@ gara.Class("gara.jswt.widgets.Button", {
 				}
 			}
 		}
-		var buttons = [];
-		controls.forEach(function(control) {
-			if (gara.instanceOf(control, gara.jswt.widgets.Button)) {
-				buttons.push(control);
-			}
-		}, this);
+		var buttons = [this];
+		var index = controls.indexOf(this);
+		for (var i = index - 1; i >= 0 && gara.instanceOf(controls[i], gara.jswt.widgets.Button) && (controls[i].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO; --i) {
+			buttons.unshift(controls[i]);
+		}
+
+		for (var i = index + 1; i < controls.length && gara.instanceOf(controls[i], gara.jswt.widgets.Button) && (controls[i].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO; ++i) {
+			buttons.push(controls[i]);
+		}
 		return buttons;
 	},
 
 	focusGained : function(e) {
 		if((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
-			var buttons = this._getSiblingButtons();
+			var buttons = this._getSiblingRadioButtons();
 			var current = buttons.indexOf(this);
 			var prev = current - 1;
 			var next = current + 1;
 
-			while (buttons[prev] && (buttons[prev].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
+			while (buttons[prev]) {
 				buttons[prev].handle.tabIndex = -1;
 				prev--;
 			}
 
-			while (buttons[next] && (buttons[next].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
+			while (buttons[next]) {
 				buttons[next].handle.tabIndex = -1;
 				next++;
 			}
@@ -300,64 +318,83 @@ gara.Class("gara.jswt.widgets.Button", {
 		switch (e.type) {
 			case "keyup":
 				this.handle.setAttribute("aria-pressed", false);
+				this._preventScrolling(e);
 				break;
 
 			case "keydown":
-				if (e.keyCode == gara.jswt.JSWT.SPACE) {
-					this.handle.setAttribute("aria-pressed", true);
-					this.setSelection((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO ? true : !this.getSelection());
-				}
-
-				var buttons = this._getSiblingButtons();
-				var current = buttons.indexOf(this);
-
 				switch (e.keyCode) {
+					case gara.jswt.JSWT.SPACE:
+						this.handle.setAttribute("aria-pressed", true);
+						this.setSelection((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO ? true : !this.getSelection());
+						break;
+
 					case gara.jswt.JSWT.ARROW_DOWN:
 					case gara.jswt.JSWT.ARROW_RIGHT:
+						var buttons = this._getSiblingRadioButtons();
+						var current = buttons.indexOf(this);
 						var next = current + 1;
 
-						// when current button is last radio, get the first one
-						if ((buttons[next].getStyle() & gara.jswt.JSWT.RADIO) != gara.jswt.JSWT.RADIO || !buttons[next].getEnabled()) {
-							next--;
-							while ((buttons[next].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO && buttons[next].getEnabled()) {
-								next--;
-							}
-							next++;
+						// set to first radio button, when we are at the end
+						if (next >= buttons.length) {
+							next = 0;
 						}
 
-						if ((buttons[next].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO && buttons[next].getEnabled()) {
-							if (!e.ctrlKey) {
-								buttons[next].setSelection(true);
+						// iterate over next radio buttons, take next enabled button, jump to the beginning if we hit the end
+						while (next <= buttons.length) {
+							if (buttons[next].getEnabled()) {
+								break;
 							}
-							buttons[next].forceFocus();
+
+							next = next < buttons.length - 1 ? next + 1 : buttons.length - 1;
+
+							// next control not a radio button, get the first one
+							if (next <= buttons.length && !buttons[next].getEnabled()) {
+								next = 0;
+							}
 						}
+
+						if (!e.ctrlKey) {
+							buttons[next].setSelection(true);
+						}
+						buttons[next].forceFocus();
 						break;
 
 					case gara.jswt.JSWT.ARROW_UP:
 					case gara.jswt.JSWT.ARROW_LEFT:
+						var buttons = this._getSiblingRadioButtons();
+						var current = buttons.indexOf(this);
 						var prev = current - 1;
 
-						// when current button is first radio, get the last one
-						if ((buttons[prev].getStyle() & gara.jswt.JSWT.RADIO) != gara.jswt.JSWT.RADIO || !buttons[prev].getEnabled()) {
-							prev++;
-							while ((buttons[prev].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO && buttons[prev].getEnabled()) {
-								prev++;
-							}
-							prev--;
+						// get the last radio button, when we are at the first position
+						if (prev < 0) {
+							prev = buttons.length - 1;
 						}
 
-						if ((buttons[prev].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO && buttons[prev].getEnabled()) {
-							if (!e.ctrlKey) {
-								buttons[prev].setSelection(true);
+						// iterate over previous radio buttons, take next enabled button, jump to the end if we hit first
+						while (prev >= 0) {
+							if (buttons[prev].getEnabled()) {
+								break;
 							}
-							buttons[prev].forceFocus();
+
+							prev = prev > 0 ? prev - 1 : 0;
+
+							// prev control not a radio button, get the last
+							if (prev >= 0 && !buttons[prev].getEnabled()) {
+								prev = buttons.length - 1;
+							}
 						}
+
+						if (!e.ctrlKey) {
+							buttons[prev].setSelection(true);
+						}
+						buttons[prev].forceFocus();
 						break;
 
 					case gara.jswt.JSWT.ENTER:
 						this._notifySelectionListener();
 						break;
 				}
+				this._preventScrolling(e);
 				break;
 		}
 	},
@@ -447,17 +484,17 @@ gara.Class("gara.jswt.widgets.Button", {
 
 			// if radio uncheck siblings
 			if ((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO && selected) {
-				var buttons = this._getSiblingButtons();
+				var buttons = this._getSiblingRadioButtons();
 				var current = buttons.indexOf(this);
 				var prev = current - 1;
 				var next = current + 1;
 
-				while (buttons[prev] && (buttons[prev].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
+				while (buttons[prev]) {
 					buttons[prev].setSelection(false);
 					prev--;
 				}
 
-				while (buttons[next] && (buttons[next].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
+				while (buttons[next]) {
 					buttons[next].setSelection(false);
 					next++;
 				}

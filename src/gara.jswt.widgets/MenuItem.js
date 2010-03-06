@@ -50,7 +50,6 @@ gara.Class("gara.jswt.widgets.MenuItem", {
 			throw new TypeError("parent is not type of gara.jswt.widgets.Menu");
 		}
 		this.$base(parent, style);
-		this._parent = parent;
 		this._parent._addItem(this, index);
 		this._span = null;
 		this._spanText = null;
@@ -63,6 +62,8 @@ gara.Class("gara.jswt.widgets.MenuItem", {
 		this._enabled = true;
 		this._visible = true;
 		this._selected = false;
+
+		this._create();
 	},
 
 	/**
@@ -276,7 +277,7 @@ gara.Class("gara.jswt.widgets.MenuItem", {
 	setEnabled : function(enabled) {
 		this._enabled = enabled;
 		if (this.handle != null) {
-			this.handle.setAttribute("role", "aria-disabled", !this._enabled);
+			this.handle.setAttribute("aria-disabled", !this._enabled);
 		}
 
 		return this;

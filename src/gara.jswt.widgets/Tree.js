@@ -879,6 +879,16 @@ gara.Class("gara.jswt.widgets.Tree", {
 		return this;
 	},
 
+//	setWidth : function(width) {
+//		console.log("Tree.setWidth (padding-left)" + gara.Utils.getStyle(this.handle, "padding-left"));
+//		console.log("Tree.setWidth (padding-right)" + gara.Utils.getStyle(this.handle, "padding-right"));
+//		console.log("Tree.setWidth (border-left-width)" + gara.Utils.getStyle(this.handle, "border-left-width"));
+//		console.log("Tree.setWidth (border-right-width)" + gara.Utils.getStyle(this.handle, "border-right-width"));
+//		this.$base(width);
+//		console.log("Tree.setWidth: " + width);
+//		return this;
+//	},
+
 	showItem : function(item) {
 		if (!gara.instanceOf(item, gara.jswt.widgets.TreeItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.TreeItem");

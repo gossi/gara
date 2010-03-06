@@ -75,6 +75,8 @@ gara.Class("gara.jswt.widgets.TreeItem", {
 		this._toggleNode = null;
 		this._childContainer = null;
 		this._checkbox = null;
+
+		this._create();
 	},
 
 	/**
@@ -217,6 +219,13 @@ gara.Class("gara.jswt.widgets.TreeItem", {
 		} else {
 			this._parentNode.insertBefore(this.handle, nextNode);
 		}
+
+		// update bottom style
+		var parentItems = this._parent.getItems();
+		if (parentItems.length > 1) {
+			parentItems[parentItems.length - 2].update();
+		}
+		this.setClass("bottom", parentItems.indexOf(this) == parentItems.length - 1);
 
 		// if childs are available, create container for them
 		if (this._hasChilds()) {
@@ -755,21 +764,15 @@ gara.Class("gara.jswt.widgets.TreeItem", {
 	update : function() {
 		this.checkWidget();
 
-		if (this.handle == null) {
-			this._create();
-		} else if (this._changed) {
-			// if childs are available, create container for them
-			if (this._hasChilds() && this._childContainer == null) {
-				this._createChildContainer();
-			}
+		// if childs are available, create container for them
+		if (this._hasChilds() && this._childContainer == null) {
+			this._createChildContainer();
+		}
 
-			// delete childContainer
-			else if (!this._hasChilds() && this._childContainer != null) {
-				this.handle.removeChild(this._childContainer);
-				this._childContainer = null;
-			}
-
-			this._changed = false;
+		// delete childContainer
+		else if (!this._hasChilds() && this._childContainer != null) {
+			this.handle.removeChild(this._childContainer);
+			this._childContainer = null;
 		}
 
 		// update items
@@ -795,6 +798,9 @@ gara.Class("gara.jswt.widgets.TreeItem", {
 
 		// check for bottom style
 		var parentItems = this._parent.getItems();
-		this.setClass("bottom", parentItems.indexOf(this) == parentItems.length - 1)
+		this.setClass("bottom", parentItems.indexOf(this) == parentItems.length - 1);
+		if (this._childContainer != null) {
+			this._childContainer.className = parentItems.indexOf(this) == parentItems.length - 1 ? "bottom" : "";
+		}
 	}
 });

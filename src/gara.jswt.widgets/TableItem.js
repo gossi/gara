@@ -48,7 +48,7 @@ gara.Class("gara.jswt.widgets.TableItem", {
 		this.$base(parent, style);
 
 		this._table = parent;
-		this._table._addItem(this, index);
+		this._parentNode = this._table._addItem(this, index);
 
 		this._cells = [];
 		this._checkboxTd = null;
@@ -59,7 +59,7 @@ gara.Class("gara.jswt.widgets.TableItem", {
 		this._grayed = false;
 		this._selected = false;
 
-		this.handle = null;
+		this._create();
 	},
 
 	_adjustWidth : function() {
@@ -67,7 +67,9 @@ gara.Class("gara.jswt.widgets.TableItem", {
 
 		for (var i = 0, len = order.length; i < len; ++i) {
 			var cell = this._cells[order[i]];
-			cell.td.style.width = this._parent.getColumn(order[i]).getWidth() + "px";
+			if (cell && cell.td) {
+				cell.td.style.width = this._parent.getColumn(order[i]).getWidth() + "px";
+			}
 		}
 	},
 
@@ -109,7 +111,7 @@ gara.Class("gara.jswt.widgets.TableItem", {
 		}
 
 		var order = this._table.getColumnOrder();
-		for (var i = 0, len = order.length; i < len; ++i) {
+		for (var i = 0, cols = order.length, cells = this._cells.length; i < cols && i < cells; ++i) {
 			var cell = this._cells[order[i]];
 			this._createCell(cell);
 			this.handle.appendChild(cell.td);
@@ -121,6 +123,8 @@ gara.Class("gara.jswt.widgets.TableItem", {
 		if (this._parentNode != null) {
 			this._parentNode.appendChild(this.handle);
 		}
+
+		this._parent._updateMeasurements();
 	},
 
 	_createCell : function(cell) {
@@ -160,6 +164,22 @@ gara.Class("gara.jswt.widgets.TableItem", {
 
 		base2.DOM.Event(cell.span);
 		cell.span.setAttribute("role", "presentation");
+
+		// append cell to row
+		var order = this._table.getColumnOrder();
+		var offset = order.indexOf(index); // offset = index of cell in column order
+		var i = 0;
+
+		for (; i < offset; ++i) {
+			var c = this._cells[order[i]];
+
+			if (!c.td) {
+				this._createCell(c);
+			}
+			c.td.className = i == 0 ? "first" : "";
+		}
+		this.handle.appendChild(cell.td);
+		cell.td.className = i == 0 ? "first" : "";
 	},
 
 	dispose : function() {
@@ -177,7 +197,7 @@ gara.Class("gara.jswt.widgets.TableItem", {
 
 			delete cell.td;
 		}
-		this._cells.clear();
+		this._cells = null;
 		delete this._cells;
 
 		if (this._parentNode != null) {
@@ -278,44 +298,34 @@ gara.Class("gara.jswt.widgets.TableItem", {
 	setImage : function(index, image) {
 		if (!image) {
 			image = index;
-			index = "x";
+			index = 0;
 		}
 
 		if (typeof(image) == "undefined" || image == null) {
 			return;
 		}
 
+		var self = this;
 		if (gara.instanceOf(image, Array)) {
 			image.forEach(function(image, index, arr) {
 				if (!this._cells[index]) {
 					this._cells[index] = {};
 				}
-				var cell = this._cells[index];
-				cell.image = image;
-				if (cell.td) {
-					cell.img = image.src;
-					cell.img.style.display = "";
-				}
-
+				updateCell(this._cells[index], image);
 			}, this);
-		} else if (!isNaN(index)) {
+		} else {
 			if (!this._cells[index]) {
 				this._cells[index] = {};
 			}
-			var cell = this._cells[index];
+			updateCell(this._cells[index], image);
+		}
+
+		function updateCell(cell, image) {
 			cell.image = image;
-			if (cell.td) {
-				cell.img = image.src;
-				cell.img.style.display = "";
-			}
-		} else {
-			if (!this._cells[0]) {
-				this._cells[0] = {};
-			}
-			var cell = this._cells[0];
-			cell.image = image;
-			if (cell.td) {
-				cell.img = image.src;
+			if (!cell.td) {
+				self._createCell(cell);
+			} else {
+				cell.img.src = image.src;
 				cell.img.style.display = "";
 			}
 		}
@@ -333,38 +343,29 @@ gara.Class("gara.jswt.widgets.TableItem", {
 		this.checkWidget();
 		if (typeof(text) == "undefined") {
 			text = index;
-			index = "x";
+			index = 0;
 		}
 
+		var self = this;
 		if (gara.instanceOf(text, Array)) {
 			text.forEach(function(text, index, arr) {
 				if (!this._cells[index]) {
 					this._cells[index] = {};
 				}
-				this._cells[index].text = text;
-				var cell = this._cells[index];
-				cell.text = text;
-				if (cell.td) {
-					cell.textNode.value = text;
-				}
+				updateCell(this._cells[index], text);
 			}, this);
-		} else if (!isNaN(index)) {
+		} else {
 			if (!this._cells[index]) {
 				this._cells[index] = {};
 			}
-			this._cells[index].text = text;
-			var cell = this._cells[index];
+			updateCell(this._cells[index], text);
+		}
+
+		function updateCell(cell, text) {
 			cell.text = text;
-			if (cell.td) {
-				cell.textNode.value = text;
-			}
-		} else {
-			if (!this._cells[0]) {
-				this._cells[0] = {};
-			}
-			var cell = this._cells[0];
-			cell.text = text;
-			if (cell.td) {
+			if (!cell.td) {
+				self._createCell(cell);
+			} else {
 				cell.textNode.value = text;
 			}
 		}
@@ -406,21 +407,6 @@ gara.Class("gara.jswt.widgets.TableItem", {
 				if (!cell.td) {
 					this._createCell(cell);
 				}
-//				else if (this._changed) {
-//					if (cell.image) {
-//						if (!cell.img) {
-//							cell.img = document.createElement("img");
-//							cell.img.widget = this;
-//							cell.img.control = this._table;
-//							cell.td.insertBefore(cell.img, cell.textNode);
-//						}
-//						cell.img.src = cell.image.src;
-//					} else if (!cell.image && cell.img) {
-//						cell.td.removeChild(this.img);
-//						cell.img = null;
-//					}
-//					cell.textNode.nodeValue = cell.text;
-//				}
 				cell.td.className = i == 0 ? "first" : "";
 				this.handle.appendChild(cell.td);
 			}

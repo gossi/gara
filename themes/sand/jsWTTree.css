@@ -12,6 +12,10 @@
 	padding: 0;
 }
 
+.sand .jsWTTabClientArea div[role=tabpanel] > .jsWTTree {
+	border: 0;
+}
+
 .sand ul.jsWTTree li .jsWTCheckbox {
 	margin: 3px 5px 0 1px;
 	float: left;

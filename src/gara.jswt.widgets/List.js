@@ -858,6 +858,22 @@ gara.Class("gara.jswt.widgets.List", {
 		}
 	},
 
+//	setHeight : function(height) {
+//		this.$base(height);
+//		console.log("List.setHeight: " + height);
+//		return this;
+//	},
+
+//	setWidth : function(width) {
+//		console.log("List.setWidth (padding-left)" + gara.Utils.getStyle(this.handle, "padding-left"));
+//		console.log("List.setWidth (padding-right)" + gara.Utils.getStyle(this.handle, "padding-right"));
+//		console.log("List.setWidth (border-left-width)" + gara.Utils.getStyle(this.handle, "border-left-width"));
+//		console.log("List.setWidth (border-right-width)" + gara.Utils.getStyle(this.handle, "border-right-width"));
+//		this.$base(width);
+//		console.log("List.setWidth: " + width);
+//		return this;
+//	},
+
 	/**
 	 * @method
 	 * Sets the selection of the <code>List</code>

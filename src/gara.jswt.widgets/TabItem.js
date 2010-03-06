@@ -67,6 +67,7 @@ gara.Class("gara.jswt.widgets.TabItem", {
 		this._img = null;
 		this._clientArea = null;
 
+		this._create();
 		this._parent._addItem(this);
 	},
 
@@ -283,6 +284,10 @@ gara.Class("gara.jswt.widgets.TabItem", {
 			this.handle.setAttribute("aria-selected", this._active);
 			this._clientArea.setAttribute("aria-hidden", !this._active);
 			this._clientArea.style.display = this._active ? "block" : "none";
+
+			if (active) {
+				this._clientArea.style.height = this._parent.getClientArea().clientHeight + "px";
+			}
 		}
 	},
 
@@ -302,7 +307,9 @@ gara.Class("gara.jswt.widgets.TabItem", {
 		}
 
 		this._control = control;
-		this._control.update();
+		this._control.setHeight(this._parent.getClientArea().clientHeight);
+		this._control.setWidth(this._parent.getClientArea().clientWidth);
+
 		if (this._clientArea) {
 			this._clientArea.innerHTML = "";
 			this._clientArea.appendChild(this._control.handle);
@@ -402,9 +409,7 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 */
 	update : function() {
 		this.checkWidget();
-		if (this.handle == null) {
-			this._create();
-		}
+
 		// update ClientArea content
 		if (this._control != null) {
 			this._control.update();
