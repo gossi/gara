@@ -19,68 +19,71 @@
 		Lesser General Public License for more details.
 
 	===========================================================================
-*/
+ */
 
 gara.provide("gara.EventManager");
 
 /**
  * @class EventManager
- * @description
- * EventManager is used to store all event listeners throughout the document.
- * This helps to keep all listeners stored in one point and also pretend memory
- * leaks by releasing all listeners at the unload event.
+ * @description EventManager is used to store all event listeners throughout the
+ *              document. This helps to keep all listeners stored in one point
+ *              and also pretend memory leaks by releasing all listeners at the
+ *              unload event.
  *
  * @see http://ajaxcookbook.org/event-handling-memory-leaks/
  * @author Thomas Gossmann
  * @namespace gara
  */
-gara.Class("gara.EventManager", {
+gara.Singleton("gara.EventManager", {
 	/**
-	 * @field
-	 * Stores THE instance
+	 * @field Stores listeners
 	 * @private
 	 */
-	_instance : gara.static(null),
-	_listeners : gara.static({}),
+	listeners : {},
 
 	$constructor : function() {
 		base2.DOM.EventTarget(window);
 		window.addEventListener("unload", this, false);
 	},
 
-	getInstance : gara.static(function() {
-		if (this._instance == null) {
-			this._instance = new gara.EventManager();
-		}
-
-		return this._instance;
-	}),
+	// getInstance : gara.static(function() {
+	// if (this._instance == null) {
+	// this._instance = new gara.EventManager();
+	// }
+	//
+	// return this._instance;
+	// }),
 
 	/**
-	 * @method
-	 * Adds a listener to a specified domNode and store the added event in the
-	 * event manager.
+	 * @method Adds a listener to a specified domNode and store the added event
+	 *         in the event manager.
 	 *
-	 * @param {HTMLElement} domNode the node where the event is added to
-	 * @param {DOMString} type the event type
-	 * @param {Object|Function} listener the desired action handler
-	 * @param {boolean} [useCapture] boolean flag indicating to use capture or bubble (false is default here)
+	 * @param {HTMLElement}
+	 *            domNode the node where the event is added to
+	 * @param {DOMString}
+	 *            type the event type
+	 * @param {Object|Function}
+	 *            listener the desired action handler
+	 * @param {boolean}
+	 *            [useCapture] boolean flag indicating to use capture or bubble
+	 *            (false is default here)
 	 * @return {Event} generated event-object for this listener
 	 */
-	addListener : gara.static(function(domNode, type, listener, useCapture) {
+	addListener : function(domNode, type, listener, useCapture) {
 		base2.DOM.EventTarget(domNode);
 		domNode.addEventListener(type, listener, useCapture || false);
 
-//		console.log("EventManager.addListener " + type + " on " + domNode);
+		// console.log("EventManager.addListener " + type + " on " + domNode);
 
 		var d = new Date();
-		var hashAppendix = "" + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
+		var hashAppendix = "" + d.getDay() + d.getHours() + d.getMinutes()
+				+ d.getSeconds() + d.getMilliseconds();
 
 		if (!domNode._garaHash) {
 			domNode._garaHash = domNode.toString() + hashAppendix;
 		}
 
-		if (!listener.hasOwnProperty("_garaHash")) {
+		if (!Object.prototype.hasOwnProperty.call(listener, "_garaHash")) {
 			listener._garaHash = listener.toString() + hashAppendix;
 		}
 
@@ -89,45 +92,42 @@ gara.Class("gara.EventManager", {
 			domNode : domNode,
 			type : type,
 			listener : listener
-		}
-		this._listeners[hash] = event;
+		};
+		this.listeners[hash] = event;
 
 		return event;
-	}),
+	},
 
 	/**
-	 * @method
-	 * handleEvent is used to catch the unload-event of the window and pass
-	 * it to _unregisterAllEvents() to free up memory.
+	 * @method handleEvent is used to catch the unload-event of the window and
+	 *         pass it to unregisterAllEvents() to free up memory.
 	 *
 	 * @private
 	 */
 	handleEvent : function(e) {
-//		if (e.type == "unload") {
-			this._unregisterAllEvents();
-//		}
+		this.unregisterAllEvents();
 	},
 
 	/**
-	 * @method
-	 * Removes a specified event
+	 * @method Removes a specified event
 	 *
-	 * @param {Event} event object which is returned by addListener()
+	 * @param {Event}
+	 *            event object which is returned by addListener()
 	 * @see addListener
 	 */
-	removeListener : gara.static(function(domNode, type, listener) {
+	removeListener : function(domNode, type, listener) {
 		if (domNode) {
 			domNode.removeEventListener(type, listener, false);
 
 			if (domNode._garaHash && listener.hasOwnProperty("_garaHash")) {
 				var hash = domNode._garaHash + type + listener._garaHash;
 
-				if (this._listeners[hash]) {
-					delete this._listeners[hash];
+				if (this.listeners[hash]) {
+					delete this.listeners[hash];
 				}
 			}
 		}
-	}),
+	},
 
 	/**
 	 * @method
@@ -135,15 +135,11 @@ gara.Class("gara.EventManager", {
 	 * Removes all stored listeners on the page unload.
 	 * @private
 	 */
-	_unregisterAllEvents : function() {
+	unregisterAllEvents : function() {
 		var hash, e;
-		for (hash in gara.EventManager._listeners) {
-			e = gara.EventManager._listeners[hash];
-			gara.EventManager.removeListener(e.domNode, e.type, e.listener);
+		for (hash in this.listeners) {
+			e = this.listeners[hash];
+			this.removeListener(e.domNode, e.type, e.listener);
 		}
 	}
 });
-
-(function() {
-var eventManager = gara.EventManager.getInstance();
-})();

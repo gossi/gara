@@ -29,7 +29,7 @@ gara.provide("gara.jswt.events.KeyListener");
  * @namespace gara.jswt.events
  */
 
-gara.Interface("gara.jswt.events.KeyListener", {
+gara.Class("gara.jswt.events.KeyListener", {
 
 	/**
 	 * @method

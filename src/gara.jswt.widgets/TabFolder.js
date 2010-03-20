@@ -1,7 +1,7 @@
 /*	$Id: TabFolder.class.js 181 2009-08-02 20:51:16Z tgossmann $
 
 		gara - Javascript Toolkit
-	===========================================================================
+	================================================================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
@@ -18,21 +18,18 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	===========================================================================
+	================================================================================================================
 */
 
 gara.provide("gara.jswt.widgets.TabFolder");
 
 gara.use("gara.EventManager");
-gara.use("gara.OutOfBoundsException");
-gara.use("gara.Utils");
-gara.use("gara.jswt.events.SelectionListener");
-gara.use("gara.jswt.widgets.TabItem")
+gara.use("gara.jswt.JSWT");
+//gara.use("gara.jswt.widgets.TabItem");
 gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.MenuItem");
 
-gara.require("gara.jswt.JSWT");
-gara.require("gara.jswt.widgets.Composite");
+gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * gara TabFolder Widget
@@ -42,72 +39,173 @@ gara.require("gara.jswt.widgets.Composite");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Composite
  */
-gara.Class("gara.jswt.widgets.TabFolder", {
+function() {gara.Class("gara.jswt.widgets.TabFolder", {
 	$extends : gara.jswt.widgets.Composite,
+
+	/**
+	 * @field
+	 * The <code>TabFolder</code>'s items.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.TabItem[]}
+	 */
+	items : [],
+
+	/**
+	 * @field
+	 * The recent activated items.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.TabItem[]}
+	 */
+	recents : [],
+
+	/**
+	 * @field
+	 * Contains the active item.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.TabItem}
+	 */
+	activeItem : null,
+
+	/**
+	 * @field
+	 * Contains a collection of selection listeners, that will be notified
+	 * when selection changes.
+	 *
+	 * @private
+	 * @type {gara.jswt.events.SelectionListener[]}
+	 */
+	selectionListeners : [],
+
+	/**
+	 * @field
+	 * Contains the current selection.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.TabItem[]}
+	 */
+	selection : [],
+
+	/**
+	 * @field
+	 * A queue of images which are currently being loaded and which size is
+	 * calculated afterwards.
+	 * (Safari workaround, width and height are not available after an image's
+	 * src is added)
+	 *
+	 * @private
+	 * @type {Image[]}
+	 */
+	imageQueue : [],
+
+	/**
+	 * @field
+	 * Contains the <code>Menu</code> for invisible <code>TabItem</code>'s.
+	 *
+	 * @private
+	 * @type {}
+	 */
+	dropDownMenu : null,
+
+	/**
+	 * @field
+	 * More's DOM reference.
+	 *
+	 * @private
+	 * @type {}
+	 */
+	more : null,
+
+	/**
+	 * @field
+	 * More's text DOM reference.
+	 *
+	 * @private
+	 * @type {}
+	 */
+	moreText : null,
+
+	/**
+	 * @field
+	 * Tabbar's DOM reference.
+	 *
+	 * @private
+	 * @type {}
+	 */
+	tabbar : null,
+
+	/**
+	 * @field
+	 * ClientArea's DOM reference.
+	 *
+	 * @private
+	 * @type {}
+	 */
+	clientArea : null,
 
 	/**
 	 * @constructor
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
-	$constructor : function(parent, style) {
+	$constructor : function (parent, style) {
+		this.items = [];
+		this.recents = [];
+		this.activeItem = null;
+		this.selectionListeners = [];
+		this.selection = [];
+		this.imageQueue = [];
+		this.event = null;
+		this.dropDownMenu = null;
 
-
-		this._items = [];
-		this._recents = [];
-		this._activeItem = null;
-		this._selectionListener = [];
-		this._selection = [];
-		this._imageQueue = [];
-		this._event = null;
-		this._dropDownMenu = null;
-
-		this._more = null;
-		this._moreText = null;
-		this._tabbar = null;
-		this._clientArea = null;
+		this.more = null;
+		this.moreText = null;
+		this.tabbar = null;
+		this.clientArea = null;
 
 		// style
-		style = style || gara.jswt.JSWT.TOP | gara.jswt.JSWT.MULTI
-		if (!((style & gara.jswt.JSWT.TOP) == gara.jswt.JSWT.TOP) &&
-				!((style & gara.jswt.JSWT.BOTTOM) == gara.jswt.JSWT.BOTTOM)) {
+		style = style || gara.jswt.JSWT.TOP | gara.jswt.JSWT.DROP_DOWN;
+		if (!((style & gara.jswt.JSWT.TOP) === gara.jswt.JSWT.TOP) &&
+				!((style & gara.jswt.JSWT.BOTTOM) === gara.jswt.JSWT.BOTTOM)) {
 			style |= gara.jswt.JSWT.TOP;
 		}
 
-		if (!((style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) &&
-				!((style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN)) {
-			style |= gara.jswt.JSWT.MULTI;
+		if (!((style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) &&
+				!((style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN)) {
+			style |= gara.jswt.JSWT.DROP_DOWN;
 		}
 
-		this.$base(parent, style);
+		this.$super(parent, style);
 	},
 
 	/**
 	 * @method
-	 * Adds an item to this tabfolder
+	 * Adds an item to this <code>TabFolder</code>
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TabItem} item the item to be added
 	 * @throws {TypeError} if the item is not type of gara.jswt.widgets.TabItem
 	 * @return {void}
 	 */
-	_addItem : function(item) {
+	addItem : function (item) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.TabItem)) {
+		if (!(item instanceof gara.jswt.widgets.TabItem)) {
 			throw new TypeError("item is not type of gara.jswt.widgets.TabItem");
 		}
 
-		this._items.push(item);
-		this._recents.push(item);
+		this.items.push(item);
+		this.recents.push(item);
 
-		if (this._activeItem == null) {
-			this._activeItem = item;
-			this._activeItem._setActive(true);
-			this._selection = [];
-			this._selection.push(this._activeItem);
+		if (this.activeItem === null) {
+			this.activeItem = item;
+			this.activeItem.setActive(true);
+			this.selection = [];
+			this.selection.push(this.activeItem);
 		}
-		this.update();
+
+		return this.tabbar;
 	},
 
 	/**
@@ -119,13 +217,11 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @return {void}
 	 */
-	addSelectionListener : function(listener) {
+	addSelectionListener : function (listener) {
 		this.checkWidget();
-		if (!gara.instanceOf(listener, gara.jswt.events.SelectionListener)) {
-			throw new TypeError("listener is not instance of gara.jswt.events.SelectionListener");
+		if (!this.selectionListeners.contains(listener)) {
+			this.selectionListeners.push(listener);
 		}
-
-		this._selectionListener.push(listener);
 	},
 
 	/**
@@ -133,44 +229,60 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * Activates an item and notifies the selection listener
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TabItem} item the item to be activated
 	 * @throws {TypeError} if the item is not type of gara.jswt.widgets.TabItem
 	 * @return {void}
 	 */
-	_activateItem : function(item) {
+	activateItem : function (item) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.TabItem)) {
+		if (!(item instanceof gara.jswt.widgets.TabItem)) {
 			throw new TypeError("item is not type of gara.jswt.widgets.TabItem");
 		}
 
-		if (this._activeItem != null) {
-			this._activeItem._setActive(false);
+		if (this.activeItem !== null) {
+			this.activeItem.setActive(false);
 		}
 
-		this._recents.remove(item);
-		this._recents.insertAt(0, item);
+		this.recents.remove(item);
+		this.recents.insertAt(0, item);
 
-		this._activeItem = item;
-		this._activeItem._setActive(true);
-		this._tabbar.setAttribute("aria-activedescendant", this._activeItem.getId());
+		this.activeItem = item;
+		this.activeItem.setActive(true);
+		this.tabbar.setAttribute("aria-activedescendant", this.activeItem.getId());
 
-		this.update();
+		this.updateMeasurements();
 
-		if (this._activeItem.getControl() != null
-				&& gara.instanceOf(this._activeItem.getControl(), gara.jswt.widgets.Scrollable)) {
-			this._activeItem.getControl().setHeight(this._clientArea.offsetHeight - parseInt(gara.Utils.getStyle(this._clientArea, "border-top-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-bottom-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-top")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-bottom")));
-			this._activeItem.getControl().setWidth(this._clientArea.offsetWidth - parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-left")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-right")));
-			this._activeItem.getControl().update();
+		if (this.activeItem.getControl() !== null
+				&& this.activeItem.getControl() instanceof gara.jswt.widgets.Scrollable) {
+			this.activeItem.getControl().setHeight(this.clientArea.offsetHeight - gara.getNumStyle(this.clientArea, "border-top-width") - gara.getNumStyle(this.clientArea, "border-bottom-width") - gara.getNumStyle(this.clientArea, "padding-top") - gara.getNumStyle(this.clientArea, "padding-bottom"));
+			this.activeItem.getControl().setWidth(this.clientArea.offsetWidth - gara.getNumStyle(this.clientArea, "border-left-width") - gara.getNumStyle(this.clientArea, "border-right-width") - gara.getNumStyle(this.clientArea, "padding-left") - gara.getNumStyle(this.clientArea, "padding-right"));
+			this.activeItem.getControl().update();
 		}
 
-		this._selection = [];
-		this._selection.push(item);
-		this._notifySelectionListener();
+		this.selection = [];
+		this.selection.push(item);
+		this.notifySelectionListener();
 	},
 
-	_createWidget : function() {
-		this.$base("div");
+	/**
+	 * @method
+	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
+	 *
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	bindListener : function (eventType, listener) {
+		gara.EventManager.addListener(this.handle, eventType, listener);
+	},
+
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createWidget : function () {
+		this.createHandle("div");
 
 		// css
 		this.addClass("jsWTTabFolder");
@@ -179,58 +291,56 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 		this.addListener("mousedown", this);
 
 		// nodes
-		this._tabbar = document.createElement("ul");
-		this._tabbar.id = this.getId() + "-tablist";
-		this._tabbar.widget = this;
-		this._tabbar.control = this;
-		this._tabbar.className = "jsWTTabFolderBar";
-		base2.DOM.Event(this._tabbar);
-		this._tabbar.setAttribute("role", "tablist");
+		this.tabbar = document.createElement("ul");
+		this.tabbar.id = this.getId() + "-tablist";
+		this.tabbar.widget = this;
+		this.tabbar.control = this;
+		this.tabbar.className = "jsWTTabFolderBar";
+		this.tabbar.setAttribute("role", "tablist");
 
-		this._clientArea = document.createElement("div");
-		this._clientArea.className = "jsWTTabClientArea";
+		this.clientArea = document.createElement("div");
+		this.clientArea.className = "jsWTTabClientArea";
 
-		if ((this._style & gara.jswt.JSWT.TOP) == gara.jswt.JSWT.TOP) {
-			this.handle.appendChild(this._tabbar);
-			this.handle.appendChild(this._clientArea);
+		if ((this.style & gara.jswt.JSWT.TOP) === gara.jswt.JSWT.TOP) {
+			this.handle.appendChild(this.tabbar);
+			this.handle.appendChild(this.clientArea);
 			this.addClass("jsWTTabFolderTopbar");
 		} else {
-			this.handle.appendChild(this._clientArea);
-			this.handle.appendChild(this._tabbar);
+			this.handle.appendChild(this.clientArea);
+			this.handle.appendChild(this.tabbar);
 			this.addClass("jsWTTabFolderBottombar");
 		}
 
 		// drop down initializer for "more" option
-		if ((this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN) {
-			this._more = document.createElement("span");
-			this._moreText = document.createTextNode("");
-			this._more.className = "more";
-			this._more.style.display = "none";
-			this.handle.appendChild(this._more);
-			this._more.appendChild(this._moreText);
+		if ((this.style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN) {
+			this.more = document.createElement("span");
+			this.moreText = document.createTextNode("");
+			this.more.className = "more";
+			this.more.style.display = "none";
+			this.handle.appendChild(this.more);
+			this.more.appendChild(this.moreText);
 
-			gara.EventManager.addListener(this._more, "mousedown", this);
-			this._dropDownMenu = new gara.jswt.widgets.Menu(this, gara.jswt.JSWT.DROP_DOWN);
-			this._dropDownMenu.update();
+			gara.EventManager.addListener(this.more, "mousedown", this);
+			this.dropDownMenu = new gara.jswt.widgets.Menu(this, gara.jswt.JSWT.DROP_DOWN);
 		}
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		this.$super();
 
-		this._items.forEach(function(item, index, arr) {
+		this.items.forEach(function (item, index, arr) {
 			item.dispose();
 		}, this);
 
-		this.handle.removeChild(this._tabbar);
-		this.handle.removeChild(this._clientArea);
+		this.handle.removeChild(this.tabbar);
+		this.handle.removeChild(this.clientArea);
 
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
+		if (this.parentNode !== null) {
+			this.parentNode.removeChild(this.handle);
 		}
 
-		delete this._tabbar;
-		delete this._clientArea;
+		delete this.tabbar;
+		delete this.clientArea;
 		delete this.handle;
 	},
 
@@ -243,36 +353,40 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 //	 * @param {gara.jswt.widgets.TabItem|optional} item an item off which the client area should be retriven
 //	 * @return {HTMLElement} the client area node
 //	 */
-//	getClientArea : function(item) {
-////		if (typeof(item) == "undefined" && this._activeItem != null) {
-////			return this._activeItem.getClientArea();
+//	getClientArea : function (item) {
+////		if (typeof(item) === "undefined" && this.activeItem !== null) {
+////			return this.activeItem.getClientArea();
 ////		} else if (gara.instanceOf(item, gara.jswt.TabItem)) {
 ////			return item.getClientArea();
 ////		}
 ////		return null;
-//		return this._clientArea;
+//		return this.clientArea;
 //	},
 
-	_getDropDownMenu : function() {
-		return this._dropDownMenu;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getDropDownMenu : function () {
+		return this.dropDownMenu;
 	},
 
 	/**
 	 * @method
 	 * Gets a specified item with a zero-related index
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
-	 * @throws {gara.OutOfBoundsException} if the index does not live within this tabfolder
+	 * @throws {RangeError} when there is no item at the given index
 	 * @return {gara.jswt.widgets.TabItem} the item
 	 */
-	getItem : function(index) {
+	getItem : function (index) {
 		this.checkWidget();
-		if (index >= this._items.length) {
-			throw new gara.OutOfBoundsException("Your item lives outside of this tabfolder");
+		if (typeof(this.items.indexOf(index)) == "undefined") {
+			throw new RangeError("There is no item for the given index");
 		}
 
-		return this._items[index];
+		return this.items[index];
 	},
 
 	/**
@@ -282,51 +396,53 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
-	getItemCount : function() {
-		return this._items.length;
+	getItemCount : function () {
+		return this.items.length;
 	},
 
 	/**
 	 * @method
 	 * Returns an array with all the items in the tabfolder
 	 *
-	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TabItem[]} the array with the items
 	 */
-	getItems : function() {
-		return this._items;
+	getItems : function () {
+		return this.items;
 	},
 
 	/**
 	 * @method
 	 * Returns an array with the items which are currently selected in the tabfolder
 	 *
-	 * @author Thomas Gossmann
 	 * @return {gara.jswt.TabItem[]} an array with items
 	 */
-	getSelection : function() {
+	getSelection : function () {
 		this.checkWidget();
-		return this._selection;
+		return this.selection;
 	},
 
 	/**
 	 * @method
 	 * Returns the zero-related index of the selected item or -1 if there is no item selected
 	 *
-	 * @author Thomas Gossmann
 	 * @return {int} the index of the selected item
 	 */
-	getSelectionIndex : function() {
+	getSelectionIndex : function () {
 		this.checkWidget();
-		if (this._selection.length) {
-			return this._items.indexOf(this._selection[0]);
+		if (this.selection.length) {
+			return this.items.indexOf(this.selection[0]);
 		} else {
 			return -1;
 		}
 	},
 
-	_getTabbar : function() {
-		return this._tabbar;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getTabbar : function () {
+		return this.tabbar;
 	},
 
 	/**
@@ -334,29 +450,28 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * Handles events for this tabfolder
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	handleEvent : function(e) {
+	handleEvent : function (e) {
 		this.checkWidget();
 
 		// special events for the list
 		var widget = e.target.widget || null;
-		e.item = widget && gara.instanceOf(widget, gara.jswt.widgets.TabItem) ? widget : this._activeItem;
+		e.item = widget && widget instanceof gara.jswt.widgets.TabItem ? widget : this.activeItem;
 		e.widget = this;
-		this._event = e;
+		this.event = e;
 
-		this._handleMouseEvents(e);
-		if (this._menu != null && this._menu.isVisible()) {
-			this._menu.handleEvent(e);
+		this.handleMouseEvents(e);
+		if (this.menu !== null && this.menu.isVisible()) {
+			this.menu.handleEvent(e);
 		} else {
-			this._handleKeyEvents(e);
-			this._handleContextMenu(e);
+			this.handleKeyEvents(e);
+			this.handleMenu(e);
 		}
 
-		this.$base(e);
+		this.$super(e);
 
-		if (e.item != null) {
+		if (e.item !== null) {
 			e.item.handleEvent(e);
 		}
 
@@ -367,67 +482,83 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 		return false;
 	},
 
-	_handleMouseEvents : function(e) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleMouseEvents : function (e) {
 		switch (e.type) {
-			case "mousedown":
-				if (e.target == this._more) {
-					this._dropDownMenu.setLocation(this._more.offsetLeft, this._more.offsetTop + this._more.offsetHeight + 1);
-					this._dropDownMenu.setVisible(true);
-				} else {
-					this._activateItem(e.item);
-				}
+		case "mousedown":
+			if (e.target === this.more) {
+				this.dropDownMenu.setLocation(this.more.offsetLeft, this.more.offsetTop + this.more.offsetHeight + 1);
+				this.dropDownMenu.setVisible(true);
+			} else {
+				this.activateItem(e.item);
+			}
 
-				if (gara.instanceOf(e.target.widget, gara.jswt.widgets.MenuItem)) {
-					this._dropDownMenu.setVisible(false);
-					this._activateItem(e.target.widget.getData("gara__tabItem"));
-				}
-				break;
+//			if (e.target.widget instanceof gara.jswt.widgets.MenuItem) {
+//				this.dropDownMenu.setVisible(false);
+//				this.activateItem(e.target.widget.getData("gara__tabItem"));
+//			}
+			break;
 		}
 	},
 
-	_handleKeyEvents : function(e) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleKeyEvents : function (e) {
 		switch (e.type) {
 			case "keydown":
-				this._handleKeyNavigation(e);
+				this.handleKeyNavigation(e);
 				break;
 		}
 	},
 
-	_handleKeyNavigation : function(e) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleKeyNavigation : function (e) {
+		var nextIndex, prevIndex;
 		switch (e.keyCode) {
-			// left
-			case gara.jswt.JSWT.ARROW_LEFT:
-				if (this._activeItem != null) {
-					var prevIndex = this.indexOf(this._activeItem) - 1;
-					if (prevIndex >= 0) {
-						this._activateItem(this._items[prevIndex]);
-					}
+		// left
+		case gara.jswt.JSWT.ARROW_LEFT:
+			if (this.activeItem !== null) {
+				prevIndex = this.indexOf(this.activeItem) - 1;
+				if (prevIndex >= 0) {
+					this.activateItem(this.items[prevIndex]);
 				}
-				break;
+			}
+			break;
 
-			// right
-			case gara.jswt.JSWT.ARROW_RIGHT:
-				if (this._activeItem != null) {
-					var nextIndex = this.indexOf(this._activeItem) + 1;
-					if (nextIndex < this._items.length) {
-						this._activateItem(this._items[nextIndex]);
-					}
+		// right
+		case gara.jswt.JSWT.ARROW_RIGHT:
+			if (this.activeItem !== null) {
+				nextIndex = this.indexOf(this.activeItem) + 1;
+				if (nextIndex < this.items.length) {
+					this.activateItem(this.items[nextIndex]);
 				}
-				break;
+			}
+			break;
 
-			// home
-			case gara.jswt.JSWT.HOME:
-				if (this._items.length) {
-					this._activateItem(this._items[0]);
-				}
-				break;
+		// home
+		case gara.jswt.JSWT.HOME:
+			if (this.items.length) {
+				this.activateItem(this.items[0]);
+			}
+			break;
 
-			// end
-			case gara.jswt.JSWT.END:
-				if (this._items.length) {
-					this._activateItem(this._items[this._items.length - 1]);
-				}
-				break;
+		// end
+		case gara.jswt.JSWT.END:
+			if (this.items.length) {
+				this.activateItem(this.items[this.items.length - 1]);
+			}
+			break;
 		}
 	},
 
@@ -435,23 +566,17 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Looks for the index of a specified item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TabItem} item the item for the index
-	 * @throws {gara.jswt.ItemNotExistsException} if the item does not exist in this tabfolder
 	 * @throws {TypeError} if the item is not a gara.jswt.widgets.TabItem
 	 * @return {int} the index of the specified item
 	 */
-	indexOf : function(item) {
+	indexOf : function (item) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.TabItem)) {
+		if (!(item instanceof gara.jswt.widgets.TabItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.TabItem");
 		}
 
-		if (!this._items.contains(item)) {
-			throw new gara.jswt.ItemNotExistsException("item [" + item + "] does not exists in this TabFolder");
-		}
-
-		return this._items.indexOf(item);
+		return this.items.indexOf(item);
 	},
 
 	/**
@@ -459,32 +584,26 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * Notifies selection listener about the changed selection within the List
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_notifySelectionListener : function() {
-		for (var i = 0, len = this._selectionListener.length; i < len; ++i) {
-			this._selectionListener[i].widgetSelected(this._event);
-		}
+	notifySelectionListener : function () {
+		this.selectionListeners.forEach(function (listener) {
+			if (listener.widgetSelected) {
+				listener.widgetSelected(this.event);
+			}
+		}, this);
 	},
 
 	/**
 	 * @method
-	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
 	 */
-	_registerListener : function(eventType, listener) {
-		gara.EventManager.addListener(this.handle, eventType, listener);
-	},
-
-	_remeasureItems : function(item) {
+	remeasureItems : function (item) {
 		item.width += item.getImage().width;
-		this._imageQueue.remove(item);
-		if (!this._imageQueue.length) {
-			this.update();
+		this.imageQueue.remove(item);
+		if (!this.imageQueue.length) {
+			this.updateMeasurements();
 		}
 	},
 
@@ -492,19 +611,18 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Removes an item from the <code>TabFolder</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TabItem} item the item to remove
 	 * @return {void}
 	 */
-	remove : function(item) {
+	remove : function (item) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.TabItem)) {
+		if (!(item instanceof gara.jswt.widgets.TabItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.TabItem");
 		}
 
-		this._items.remove(item);
-		if (this._selection.contains(item)) {
-			this._selection.remove(item);
+		this.items.remove(item);
+		if (this.selection.contains(item)) {
+			this.selection.remove(item);
 		}
 		item.dispose();
 		delete item;
@@ -514,19 +632,19 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Removes an item from the <code>TabFolder</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the index of the item
-	 * @throws {gara.OutOfBoundsException} when the index is out of bounds
+	 * @throws {RangeError} when there is no item at the given index
 	 * @return {void}
 	 */
-	removeIndex : function(index) {
+	removeIndex : function (index) {
+		var item;
 		this.checkWidget();
-		if (index < 0 || index >= this._items.length) {
-			throw new gara.OutOfBoundsException("index not within bounds of the TabFolder");
+		if (typeof(this.items.indexOf(index)) == "undefined") {
+			throw new RangeError("There is no item for the given index");
 		}
-		var item = this._items.removeAt(index)[0];
-		if (this._selection.contains(item)) {
-			this._selection.remove(item);
+		item = this.items.removeAt(index)[0];
+		if (this.selection.contains(item)) {
+			this.selection.remove(item);
 		}
 		item.dispose();
 		delete item;
@@ -536,12 +654,11 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Removes items within an indices range
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} start start index
 	 * @param {int} end end index
 	 * @return {void}
 	 */
-	removeRange : function(start, end) {
+	removeRange : function (start, end) {
 		for (var i = start; i <= end; ++i) {
 			this.removeIndex(i);
 		}
@@ -551,12 +668,11 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Removes items which indices are passed by an array
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Array} inidices the array with the indices
 	 * @return {void}
 	 */
-	removeFromArray : function(indices) {
-		indices.forEach(function(index) {
+	removeFromArray : function (indices) {
+		indices.forEach(function (index) {
 			this.removeIndex(index);
 		}, this);
 	},
@@ -568,9 +684,9 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	removeAll : function() {
+	removeAll : function () {
 		this.checkWidget();
-		while (this._items.length) {
+		while (this.items.length) {
 			this.removeIndex(0);
 		}
 	},
@@ -579,35 +695,34 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Removes a selection listener from this tabfolder
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this tabfolder
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @return {void}
 	 */
-	removeSelectionListener : function(listener) {
+	removeSelectionListener : function (listener) {
 		this.checkWidget();
-		if (!gara.instanceOf(listener, gara.jswt.events.SelectionListener)) {
-			throw new TypeError("listener is not instance of gara.jswt.events.SelectionListener");
-		}
-
-		if (this._selectionListener.contains(listener)) {
-			this._selectionListener.remove(listener);
-		}
+		this.selectionListeners.remove(listener);
 	},
 
-	_scrolledHandle : function() {
-		return this._clientArea;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	scrolledHandle : function () {
+		return this.clientArea;
 	},
 
-	setHeight : function(height) {
-		this.$base(height);
+	setHeight : function (height) {
+		var clientHeight;
+		this.$super(height);
 //		console.log("TabFolder.setHeight: " + height);
-		this._updateMeasurements();
-		if (this._activeItem != null && this._activeItem.getControl() != null
-				&& gara.instanceOf(this._activeItem.getControl(), gara.jswt.widgets.Scrollable)) {
-			var clientHeight = this._clientArea.offsetHeight - parseInt(gara.Utils.getStyle(this._clientArea, "border-top-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-bottom-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-top")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-bottom"));
-			this._activeItem.getClientArea().style.height = clientHeight + "px";
-			this._activeItem.getControl().setHeight(clientHeight);
+		this.updateMeasurements();
+		if (this.activeItem !== null && this.activeItem.getControl() !== null
+				&& this.activeItem.getControl() instanceof gara.jswt.widgets.Scrollable) {
+			clientHeight = this.clientArea.offsetHeight - gara.getNumStyle(this.clientArea, "border-top-width") - gara.getNumStyle(this.clientArea, "border-bottom-width") - gara.getNumStyle(this.clientArea, "padding-top") - gara.getNumStyle(this.clientArea, "padding-bottom");
+			this.activeItem.getClientArea().style.height = clientHeight + "px";
+			this.activeItem.getControl().setHeight(clientHeight);
 		}
 		return this;
 	},
@@ -616,17 +731,16 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Selects the item in the TabFolder.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.TabItem} item the item to select
-	 * @throws {gara.OutOfBoundsException} when the index is out of bounds
+	 * @throws {RangeError} when there is no item at the given index
 	 * @return {void}
 	 */
-	setSelectionItem : function(item) {
+	setSelectionItem : function (item) {
 		this.checkWidget();
-		if (index < 0 || index >= this._items.length) {
-			throw new gara.OutOfBoundsException("index not within bounds of the TabFolder");
+		if (typeof(this.items.indexOf(index)) == "undefined") {
+			throw new RangeError("There is no item for the given index");
 		}
-		this._activateItem(this._items[index]);
+		this.activateItem(this.items[index]);
 		return this;
 	},
 
@@ -634,17 +748,16 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * Selects the item at the given zero-related index in the TabFolder.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {mixed} arg the given zero-related index or the given array
-	 * @throws {gara.OutOfBoundsException} when the index is out of bounds
+	 * @throws {RangeError} when there is no item at the given index
 	 * @return {void}
 	 */
-	setSelectionIndex : function(index) {
+	setSelectionIndex : function (index) {
 		this.checkWidget();
-		if (index < 0 || index >= this._items.length) {
-			throw new gara.OutOfBoundsException("index not within bounds of the TabFolder");
+		if (typeof(this.items.indexOf(index)) == "undefined") {
+			throw new RangeError("There is no item for the given index");
 		}
-		this._activateItem(this._items[index]);
+		this.activateItem(this.items[index]);
 		return this;
 	},
 
@@ -653,26 +766,28 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * Selects the item at the given zero-related index in the TabFolder.
 	 * Takes an array as argument, though the first element within is selected (indices[0])
 	 *
-	 *
-	 * @author Thomas Gossmann
 	 * @param {int[]} indices an array with zero-related indices
-	 * @throws {gara.OutOfBoundsException} when there is no item for the given index
 	 * @return {void}
 	 */
-	setSelectionFromArray : function(indices) {
+	setSelectionFromArray : function (indices) {
 		this.checkWidget();
 		if (indices.length) {
-			this._activateItem(indices[0]);
+			this.activateItem(indices[0]);
 		}
 		return this;
 	},
 
-	setWidth : function(width) {
-		this.$base(width);
-		this._updateMeasurements();
-		if (this._activeItem != null && this._activeItem.getControl() != null
-				&& gara.instanceOf(this._activeItem.getControl(), gara.jswt.widgets.Scrollable)) {
-			this._activeItem.getControl().setWidth(this._clientArea.offsetWidth - parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-left")) - parseInt(gara.Utils.getStyle(this._clientArea, "padding-right")));
+	setWidth : function (width) {
+		var clientWidth;
+		this.$super(width);
+		this.updateMeasurements();
+		if (this.activeItem !== null) {
+			var clientWidth = this.clientArea.offsetWidth - gara.getNumStyle(this.clientArea, "border-left-width") - gara.getNumStyle(this.clientArea, "border-right-width") - gara.getNumStyle(this.clientArea, "padding-left") - gara.getNumStyle(this.clientArea, "padding-right");
+			this.activeItem.getClientArea().style.width = clientWidth + "px";
+			if (this.activeItem.getControl() !== null
+					&& this.activeItem.getControl() instanceof gara.jswt.widgets.Scrollable) {
+				this.activeItem.getControl().setWidth(clientWidth);
+			}
 		}
 		return this;
 	},
@@ -682,10 +797,9 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * Unregister listeners for this widget. Implementation for gara.jswt.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
+	unbindListener : function (eventType, listener) {
 		gara.EventManager.removeListener(this.handle, eventType, listener);
 	},
 
@@ -693,52 +807,60 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 	 * @method
 	 * updates this tabfolder
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	update : function() {
+	update : function () {
 		this.checkWidget();
 
-		this._updateMeasurements();
+		this.updateMeasurements();
 	},
 
-	_updateMeasurements : function() {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	updateMeasurements : function () {
+		var width, itemsWidth = 0, rows = 1, more = 0, hasImages = false, itemLoop,
+			visible;
+
 		// class name and some measurement adjustments
-		this.handle.style.width = this._width != null ? this._width + "px" : "auto";
-		this.handle.style.height = this._height != null ? this._height + "px" : "auto";
-		this._tabbar.style.width = this._width != null ? this._width + "px" : "auto";
+		this.handle.style.width = this.width !== null ? this.width + "px" : "auto";
+		this.handle.style.height = this.height !== null ? this.height + "px" : "auto";
+		this.tabbar.style.width = this.width !== null ? this.width + "px" : "auto";
 
 		// update items
-		var width = this._width != null ? this._width : this.handle.clientWidth;
-		var itemsWidth = 0, rows = 1, more = 0, hasImages = false;
-		var itemLoop = (this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN ? this._recents : this._items;
+		width = this.width !== null ? this.width : this.handle.clientWidth;
+		itemLoop = (this.style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN ? this.recents : this.items;
 
-		if ((this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN) {
-			var visible = this._more.style.display;
-			this._more.style.display = "block";
-			width = this._more.offsetLeft - parseInt(gara.Utils.getStyle(this._more, "margin-left"));
-			this._more.style.display = visible;
+		if ((this.style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN) {
+			visible = this.more.style.display;
+			this.more.style.display = "block";
+			width = this.more.offsetLeft - gara.getNumStyle(this.more, "margin-left");
+			this.more.style.display = visible;
 		}
 
-		itemLoop.forEach(function(item) {
+		itemLoop.forEach(function (item) {
+			var self = this;
 			if (item.isDisposed()) {
 				this.remove(index);
 			} else {
+				item.handle.style.display = "block";
 				item.update();
+				item.width = item.handle.offsetWidth;
+
 
 				if (!item.width) {
-					item.width = item.handle.offsetWidth;
-					if (item.getImage() != null && navigator.userAgent.toLowerCase().indexOf("webkit") != -1) {
-						this._imageQueue.push(item);
+					if (item.getImage() !== null && navigator.userAgent.toLowerCase().indexOf("webkit") !== -1) {
+						this.imageQueue.push(item);
 						// kinda crappy with the .onload but listener wasn't working
-						var self = this;
-						item.getImage().onload = function() {
-							self._remeasureItems(item);
+						item.getImage().onload = function () {
+							self.remeasureItems(item);
 						}
 					}
 				}
 
-				if ((this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) {
+				if ((this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) {
 					if (itemsWidth + item.handle.offsetWidth > width) {
 						rows++;
 						itemsWidth = item.handle.offsetWidth;
@@ -747,54 +869,54 @@ gara.Class("gara.jswt.widgets.TabFolder", {
 					}
 				}
 
-				if ((this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN) {
+				if ((this.style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN) {
 					if (itemsWidth + item.width > width) {
 						more++;
 					}
 					itemsWidth += item.width;
-				}
 
-				if (more) {
-					item.handle.style.display = "none";
-					item.getData("gara__menuItem").setVisible(true);
-				} else {
-					item.handle.style.display = "block";
-					item.getData("gara__menuItem").setVisible(false);
+					if (more) {
+						item.handle.style.display = "none";
+						item.getData("gara__menuItem").setVisible(true);
+					} else {
+						item.handle.style.display = "block";
+						item.getData("gara__menuItem").setVisible(false);
+					}
 				}
 			}
 		}, this);
 
-		if ((this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI && rows > 1) {
-			this._tabbar.style.height = ((this._items[0].handle.offsetHeight * rows) - 1) + "px";
+		if ((this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI && rows > 1) {
+			this.tabbar.style.height = ((this.items[0].handle.offsetHeight * rows) - 1) + "px";
 		}
 
-		if ((this._style & gara.jswt.JSWT.DROP_DOWN) == gara.jswt.JSWT.DROP_DOWN && more) {
-			this._moreText.nodeValue = more;
-			this._more.style.display = "block";
-		} else {
-			this._more.style.display = "none";
+		if ((this.style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN && more) {
+			this.moreText.nodeValue = more;
+			this.more.style.display = "block";
+		} else if ((this.style & gara.jswt.JSWT.DROP_DOWN) === gara.jswt.JSWT.DROP_DOWN && !more) {
+			this.more.style.display = "none";
 		}
 
 		// more measurement adjustments
-		if (this._height != null) {
-			this._clientArea.style.height = (this._height
-				- (this._tabbar.offsetHeight
-					+ parseInt(gara.Utils.getStyle(this._tabbar, "margin-top"))
-					+ parseInt(gara.Utils.getStyle(this._tabbar, "margin-bottom")))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-top"))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "border-top-width"))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "border-bottom-width"))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-bottom"))
+		if (this.height !== null) {
+			this.clientArea.style.height = (this.height
+				- (this.tabbar.offsetHeight
+					+ gara.getNumStyle(this.tabbar, "margin-top")
+					+ gara.getNumStyle(this.tabbar, "margin-bottom"))
+				- gara.getNumStyle(this.clientArea, "margin-top")
+				- gara.getNumStyle(this.clientArea, "border-top-width")
+				- gara.getNumStyle(this.clientArea, "border-bottom-width")
+				- gara.getNumStyle(this.clientArea, "margin-bottom")
 				) + "px";
 		}
 
-		if (this._width != null) {
-			this._clientArea.style.width = this._width
-				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-left"))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "border-left-width"))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "border-right-width"))
-				- parseInt(gara.Utils.getStyle(this._clientArea, "margin-right"))
+		if (this.width !== null) {
+			this.clientArea.style.width = this.width
+				- gara.getNumStyle(this.clientArea, "margin-left")
+				- gara.getNumStyle(this.clientArea, "border-left-width")
+				- gara.getNumStyle(this.clientArea, "border-right-width")
+				- gara.getNumStyle(this.clientArea, "margin-right")
 			+ "px";
 		}
 	}
-});
+})});

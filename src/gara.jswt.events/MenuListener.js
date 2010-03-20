@@ -28,7 +28,7 @@ gara.provide("gara.jswt.events.MenuListener");
  * @author Thomas Gossmann
  * @namespace gara.jswt.events
  */
-gara.Interface("gara.jswt.events.MenuListener", {
+gara.Class("gara.jswt.events.MenuListener", {
 	menuHidden : function(widget) {},
 
 	menuShown : function(widget) {}

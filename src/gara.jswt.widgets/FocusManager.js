@@ -33,84 +33,126 @@ gara.require("gara.EventManager");
  * @namespace gara.jswt.widgets
  * @private
  */
-gara.Class("gara.jswt.widgets.FocusManager", {
+gara.ready(function() {gara.Singleton("gara.jswt.widgets.FocusManager", {
 
-	_instance : gara.static(null),
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type gara.jswt.wigets.Widget
+	 */
+	activeWidget : null,
 
-	$constructor : function() {
-		this._activeWidget = null;
-		this._widgets = [];
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Array
+	 */
+	widgets : [],
 
+	$constructor : function () {
 		gara.EventManager.addListener(document, "keydown", this);
 		gara.EventManager.addListener(document, "keypress", this);
 		gara.EventManager.addListener(document, "keyup", this);
 //		gara.EventManager.addListener(document, "mousedown", this);
 	},
 
-	getInstance : gara.static(function() {
-		if (this._instance == null) {
-			this._instance = new gara.jswt.widgets.FocusManager();
-		}
-
-		return this._instance;
-	}),
-
-	addWidget : gara.static(function(widget) {
-		if (!gara.instanceOf(widget, gara.jswt.widgets.Widget)) {
+	/**
+	 * @method
+	 * Adds a widget to the FocusManager. The FocusManager registers itself
+	 * at the widget.
+	 *
+	 * @param {gara.jswt.widgets.Widget} widget the widget
+	 * @return {void}
+	 */
+	addWidget : function (widget) {
+		if (!(widget instanceof gara.jswt.widgets.Widget)) {
 			throw new TypeError("widget is not a gara.jswt.widgets.Widget");
 		}
 
-		var self = this.getInstance();
-		if (!self._widgets.contains(widget)) {
-			self._widgets.push(widget);
-			widget.addListener("focus", self);
-			widget.addListener("blur", self);
-		}
-	}),
-
-	handleEvent : function(e) {
-		switch(e.type) {
-			case "keydown":
-			case "keypress":
-			case "keyup":
-				if (this._activeWidget != null && this._activeWidget.handleEvent) {
-					this._activeWidget.handleEvent(e);
-				}
-				break;
-
-			case "focus":
-				if (gara.instanceOf(e.target.widget, gara.jswt.widgets.Widget)) {
-					if (e.target.widget.focusGained) {
-						e.target.widget.focusGained(e);
-					}
-					this._activeWidget = e.target.widget;
-				}
-				break;
-
-			case "blur":
-				if (gara.instanceOf(e.target.widget, gara.jswt.widgets.Widget)) {
-					if (e.target.widget.focusLost) {
-						e.target.widget.focusLost(e);
-					}
-					this._activeWidget = null;
-				}
-				break;
+		if (!this.widgets.contains(widget)) {
+			this.widgets.push(widget);
+			widget.addDisposeListener(this);
+			widget.addListener("focus", this);
+			widget.addListener("blur", this);
 		}
 	},
 
-	removeWidget : gara.static(function(widget) {
-		if (!gara.instanceOf(widget, gara.jswt.widgets.Widget)) {
+	/**
+	 * @method
+	 * Internal event handler to pass keyboard events and focussing the acitve
+	 * widget
+	 *
+	 * @private
+	 * @param {Event} e the event
+	 * @return {void}
+	 */
+	handleEvent : function (e) {
+		switch (e.type) {
+		case "keydown":
+		case "keypress":
+		case "keyup":
+			if (this.activeWidget !== null && this.activeWidget.handleEvent) {
+				this.activeWidget.handleEvent(e);
+			}
+			break;
+
+		case "focus":
+			if (e.target.widget instanceof gara.jswt.widgets.Widget) {
+				if (e.target.widget.focusGained) {
+					e.target.widget.focusGained(e);
+				}
+				this.activeWidget = e.target.widget;
+			}
+			break;
+
+		case "blur":
+			if (e.target.widget instanceof gara.jswt.widgets.Widget) {
+				if (e.target.widget.focusLost) {
+					e.target.widget.focusLost(e);
+				}
+				this.activeWidget = null;
+			}
+			break;
+		}
+	},
+
+	/**
+	 * @method
+	 * Removes a widget from the FocusManager. The FocusManager removes the
+	 * previous registered when added with addWidget.
+	 *
+	 * @param {gara.jswt.widgets.Widget} widget the widget
+	 * @return {void}
+	 */
+	removeWidget : function (widget) {
+		if (!(widget instanceof gara.jswt.widgets.Widget)) {
 			throw new TypeError("widget is not a gara.jswt.widgets.Widget");
 		}
 
-		var self = this.getInstance();
-		if (self._widgets.contains(widget)) {
-			if (self._activeWidget == widget) {
-				self._activeWidget = null;
+		if (this.widgets.contains(widget)) {
+			if (this.activeWidget === widget) {
+				this.activeWidget = null;
 			}
-			widget.removeListener("focus", self);
-			widget.removeListener("blur", self);
-			self._widgets.remove(widget);
+			widget.removeDisposeListener(this);
+			widget.removeListener("focus", this);
+			widget.removeListener("blur", this);
+			this.widgets.remove(widget);
 		}
-	})
-});
+	},
+
+	/**
+	 * @method
+	 * Implementation for the the DisposeListener. Once a Widget from
+	 * FocusManager's Collection gets disposed we will be notified about that
+	 * event here and can remove the widget from the FocusManager as well.
+	 *
+	 * @private
+	 * @param {gara.jswt.widget.Widget} widget the disposed Widget
+	 * @return {void}
+	 */
+	widgetDisposed : function (widget) {
+		this.removeWidget(widget);
+	}
+})});

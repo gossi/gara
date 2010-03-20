@@ -23,11 +23,10 @@
 
 gara.provide("gara.jswt.widgets.Button");
 
-gara.use("gara.jswt.events.SelectionListener");
+gara.use("gara.jswt.JSWT");
 gara.use("gara.jswt.widgets.Composite");
 
-gara.require("gara.jswt.JSWT");
-gara.require("gara.jswt.widgets.Control");
+gara.parent("gara.jswt.widgets.Control",
 
 
 /**
@@ -42,47 +41,121 @@ gara.require("gara.jswt.widgets.Control");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Control
  */
-gara.Class("gara.jswt.widgets.Button", {
+function() {gara.Class("gara.jswt.widgets.Button", {
 	$extends : gara.jswt.widgets.Control,
+
+	/**
+	 * @field
+	 * Contains the text.
+	 *
+	 * @private
+	 * @type {String}
+	 */
+	text : "",
+
+	/**
+	 * @field
+	 * Contains the image.
+	 *
+	 * @private
+	 * @type {Image}
+	 */
+	image : null,
+
+	// nodes
+	/**
+	 * @field
+	 * Img's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	img : null,
+
+	/**
+	 * @field
+	 * Span's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	span : null,
+
+	/**
+	 * @field
+	 * Span's text DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	spanText : null,
+
+	/**
+	 * @field
+	 * The event that triggers the press.
+	 *
+	 * @private
+	 * @type {Event}
+	 */
+	pressEvent : null,
+
+	// selection
+	/**
+	 * @field
+	 * Contains the selection
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	selected : false,
+
+	/**
+	 * @field
+	 * Contains a collection of listeners, that will be notified, when the
+	 * selection changes.
+	 *
+	 * @private
+	 * @type {gara.jswt.events.SelectionListener[]}
+	 */
+	selectionListeners : [],
 
 	/**
 	 * @constructor
 	 * Constructor
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
-	$constructor : function(parent, style) {
+	$constructor : function (parent, style) {
 		// content
-		this._text = "";
-		this._image = null;
+		this.text = "";
+		this.image = null;
 
 		// nodes
-		this._img = null;
-		this._span = null;
-		this._spanText = null;
+		this.img = null;
+		this.span = null;
+		this.spanText = null;
 
-		this._pressEvent = null;
+		this.pressEvent = null;
 
 		// selection
-		this._selected = false;
-		this._selectionListener = [];
+		this.selected = false;
+		this.selectionListeners = [];
 
 		// make PUSH-Button when no other is styled
-		if (!((style & gara.jswt.JSWT.PUSH) == gara.jswt.JSWT.PUSH
-				|| (style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO
-				|| (style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK)) {
+		if (!((style & gara.jswt.JSWT.PUSH) === gara.jswt.JSWT.PUSH
+				|| (style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO
+				|| (style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK)) {
 			style |= gara.jswt.JSWT.PUSH;
 		}
 
 		// make default orientation
-		if (!((style & gara.jswt.JSWT.VERTICAL) == gara.jswt.JSWT.VERTICAL
-				|| (style & gara.jswt.JSWT.HORIZONTAL) == gara.jswt.JSWT.HORIZONTAL)) {
+		if (!((style & gara.jswt.JSWT.VERTICAL) === gara.jswt.JSWT.VERTICAL
+				|| (style & gara.jswt.JSWT.HORIZONTAL) === gara.jswt.JSWT.HORIZONTAL)) {
 			style |= gara.jswt.JSWT.HORIZONTAL;
 		}
 
-		this.$base(parent, style);
+		this.$super(parent, style);
 	},
 
 	/**
@@ -94,53 +167,56 @@ gara.Class("gara.jswt.widgets.Button", {
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @return {void}
 	 */
-	addSelectionListener : function(listener) {
+	addSelectionListener : function (listener) {
 		this.checkWidget();
-		if (!gara.instanceOf(listener, gara.jswt.events.SelectionListener)) {
-			throw new TypeError("listener is not instance of gara.jswt.events.SelectionListener");
+		if (!this.selectionListeners.contains(listener)) {
+			this.selectionListeners.push(listener);
 		}
-
-		this._selectionListener.push(listener);
 		return this;
 	},
 
-	getImage : function() {
-		return this._image;
+	/**
+	 * @method
+	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	bindListener : function (eventType, listener) {
+		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
-	getSelection : function() {
-		return this._selected;
-	},
-
-	getText : function() {
-		return this._text;
-	},
-
-	_createWidget : function() {
-		this.$base("span");
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createWidget : function () {
+		var focus, door;
+		this.createHandle("span");
 
 		this.handle.setAttribute("role", "button");
-		this.handle.setAttribute("aria-disabled", !this._enabled);
+		this.handle.setAttribute("aria-disabled", !this.enabled);
 		this.handle.setAttribute("aria-labelledby", this.getId()+"-label");
 
 		// css
 		this.addClass("jsWTButton");
-		this.setClass("jsWTButtonPush", (this._style & gara.jswt.JSWT.PUSH) == gara.jswt.JSWT.PUSH);
-		this.setClass("jsWTButtonHorizontal", (this._style & gara.jswt.JSWT.HORIZONTAL) == gara.jswt.JSWT.HORIZONTAL);
-		this.setClass("jsWTButtonVertical", (this._style & gara.jswt.JSWT.VERTICAL) == gara.jswt.JSWT.VERTICAL);
+		this.setClass("jsWTButtonPush", (this.style & gara.jswt.JSWT.PUSH) === gara.jswt.JSWT.PUSH);
+		this.setClass("jsWTButtonHorizontal", (this.style & gara.jswt.JSWT.HORIZONTAL) === gara.jswt.JSWT.HORIZONTAL);
+		this.setClass("jsWTButtonVertical", (this.style & gara.jswt.JSWT.VERTICAL) === gara.jswt.JSWT.VERTICAL);
 
 		// checkbox
-		if ((this._style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
+		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
 			this.addClass("jsWTButtonCheckbox");
 			this.handle.setAttribute("role", "checkbox");
-			this.handle.setAttribute("aria-checked", this._selected);
+			this.handle.setAttribute("aria-checked", this.selected);
 		}
 
 		// radio
-		if ((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
+		if ((this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO) {
 			this.addClass("jsWTButtonRadio");
 			this.handle.setAttribute("role", "radio");
-			this.handle.setAttribute("aria-checked", this._selected);
+			this.handle.setAttribute("aria-checked", this.selected);
 		}
 
 		// listeners
@@ -148,98 +224,116 @@ gara.Class("gara.jswt.widgets.Button", {
 		this.addListener("mouseup", this);
 
 		// nodes
-		var focus = document.createElement("span");
+		focus = document.createElement("span");
 		focus.widget = this;
 		focus.className = "focus";
-		base2.DOM.Event(focus);
 		focus.setAttribute("role", "presentation");
 
-		var door = document.createElement("span");
+		door = document.createElement("span");
 		door.widget = this;
 		door.className = "door";
-		base2.DOM.Event(door);
 		door.setAttribute("role", "presentation");
 
 		// create image node
-		this._img = document.createElement("img");
-		this._img.id = this.getId() + "-image";
-		this._img.widget = this;
-		this._img.control = this._list;
-
-		base2.DOM.Event(this._img);
-		this._img.setAttribute("role", "presentation");
+		this.img = document.createElement("img");
+		this.img.id = this.getId() + "-image";
+		this.img.widget = this;
+		this.img.control = this.list;
+		this.img.setAttribute("role", "presentation");
 
 		// set image
-		if (this._image != null) {
-			this._img.src = this._image.src;
+		if (this.image !== null) {
+			this.img.src = this.image.src;
 		} else {
-			this._img.style.display = "none";
+			this.img.style.display = "none";
 		}
 
 		// creating text node
-		this._spanText = document.createTextNode(this._text);
-		this._span = document.createElement("span");
-		this._span.id = this.getId()+"-label";
-		this._span.widget = this;
-		this._span.control = this._list;
-		this._span.className = "text";
-		this._span.appendChild(this._spanText);
-		base2.DOM.Event(this._span);
-		this._span.setAttribute("role", "presentation");
+		this.spanText = document.createTextNode(this.text);
+		this.span = document.createElement("span");
+		this.span.id = this.getId()+"-label";
+		this.span.widget = this;
+		this.span.control = this.list;
+		this.span.className = "text";
+		this.span.appendChild(this.spanText);
+		this.span.setAttribute("role", "presentation");
 
 		this.handle.appendChild(focus);
 		this.handle.appendChild(door);
-		door.appendChild(this._img);
-		door.appendChild(this._span);
+		door.appendChild(this.img);
+		door.appendChild(this.span);
 	},
 
-	dispose : function() {
-//		this.$base();
+	dispose : function () {
+//		this.$super();
 
-//		this._selectionListener = [];
+//		this.selectionListener = [];
 //
-//		if (this._parentNode != null) {
-//			this._parentNode.removeChild(this.handle);
+//		if (this.parentNode !== null) {
+//			this.parentNode.removeChild(this.handle);
 //		}
 //		delete this.handle;
 	},
 
-	_getSiblingRadioButtons : function() {
-		var controls;
+	getImage : function () {
+		return this.image;
+	},
+
+	getSelection : function () {
+		return this.selected;
+	},
+
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getSiblingRadioButtons : function () {
+		var controls, childs, i, child, buttons, index;
 		// parent is composite
-		if (gara.instanceOf(this._parent, gara.jswt.widgets.Composite)) {
-			controls = this._parent.getChildren();
+		if (this.parent instanceof gara.jswt.widgets.Composite) {
+			controls = this.parent.getChildren();
 		}
 
 		// parent is dom node
 		else {
 			controls = [];
-			var childs = this._parent.childNodes;
-			for (var i = 0, len = childs.length; i < len; i++) {
-				var child = childs[i];
-				if (child.widget && gara.instanceOf(child.widget, gara.jswt.widgets.Control)) {
+			childs = this.parent.childNodes;
+			for (i = 0, len = childs.length; i < len; i++) {
+				child = childs[i];
+				if (child.widget && child.widget instanceof gara.jswt.widgets.Control) {
 					controls.push(child.widget);
 				}
 			}
 		}
-		var buttons = [this];
-		var index = controls.indexOf(this);
-		for (var i = index - 1; i >= 0 && gara.instanceOf(controls[i], gara.jswt.widgets.Button) && (controls[i].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO; --i) {
+		buttons = [this];
+		index = controls.indexOf(this);
+		for (i = index - 1; i >= 0 && controls[i] instanceof gara.jswt.widgets.Button && (controls[i].getStyle() & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO; --i) {
 			buttons.unshift(controls[i]);
 		}
 
-		for (var i = index + 1; i < controls.length && gara.instanceOf(controls[i], gara.jswt.widgets.Button) && (controls[i].getStyle() & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO; ++i) {
+		for (i = index + 1; i < controls.length && controls[i] instanceof gara.jswt.widgets.Button && (controls[i].getStyle() & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO; ++i) {
 			buttons.push(controls[i]);
 		}
 		return buttons;
 	},
 
-	focusGained : function(e) {
-		if((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO) {
-			var buttons = this._getSiblingRadioButtons();
-			var current = buttons.indexOf(this);
-			var prev = current - 1;
-			var next = current + 1;
+	getText : function () {
+		return this.text;
+	},
+
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	focusGained : function (e) {
+		var buttons, current, prev, next;
+		if((this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO) {
+			buttons = this.getSiblingRadioButtons();
+			current = buttons.indexOf(this);
+			prev = current - 1;
+			next = current + 1;
 
 			while (buttons[prev]) {
 				buttons[prev].handle.tabIndex = -1;
@@ -254,7 +348,7 @@ gara.Class("gara.jswt.widgets.Button", {
 			this.handle.tabIndex = 0;
 		}
 
-		this.$base(e);
+		this.$super(e);
 	},
 
 	/**
@@ -262,30 +356,29 @@ gara.Class("gara.jswt.widgets.Button", {
 	 * Handles events on the list. Implements DOMEvent Interface by the W3c.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
 	 * @return {void}
 	 */
-	handleEvent : function(e) {
+	handleEvent : function (e) {
 		this.checkWidget();
 
-		if (!this._enabled) {
+		if (!this.enabled) {
 			return;
 		}
 
 		// special events for the list
 		e.widget = this;
-		this._event = e;
+		this.event = e;
 
-		this._handleMouseEvents(e);
-		if (this._menu != null && this._menu.isVisible()) {
-			this._menu.handleEvent(e);
+		this.handleMouseEvents(e);
+		if (this.menu !== null && this.menu.isVisible()) {
+			this.menu.handleEvent(e);
 		} else {
-			this._handleKeyEvents(e);
-			this._handleContextMenu(e);
+			this.handleKeyEvents(e);
+			this.handleMenu(e);
 		}
 
-		this.$base(e);
+		this.$super(e);
 
 		e.stopPropagation();
 		/* in case of ie6, it is necessary to return false while the type of
@@ -294,108 +387,119 @@ gara.Class("gara.jswt.widgets.Button", {
 		return false;
 	},
 
-	_handleMouseEvents : function(e) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleMouseEvents : function (e) {
 		switch (e.type) {
-			case "mousedown":
-				this.handle.setAttribute("aria-pressed", true);
-				this._pressEvent = gara.EventManager.addListener(document, "mouseup", this);
-				break;
+		case "mousedown":
+			this.handle.setAttribute("aria-pressed", true);
+			this.pressEvent = gara.EventManager.addListener(document, "mouseup", this);
+			break;
 
-			case "mouseup":
-				this.handle.setAttribute("aria-pressed", false);
-				if (this._pressEvent != null) {
-					gara.EventManager.removeListener(document, "mouseup", this);
-					this._pressEvent = null;
-				}
-				if (e.target.widget && e.target.widget == this) {
-					this.setSelection((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO ? true : !this.getSelection());
-				}
-				break;
+		case "mouseup":
+			this.handle.setAttribute("aria-pressed", false);
+			if (this.pressEvent !== null) {
+				gara.EventManager.removeListener(document, "mouseup", this);
+				this.pressEvent = null;
+			}
+			if (e.target.widget && e.target.widget === this) {
+				this.setSelection((this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO ? true : !this.getSelection());
+			}
+			break;
 		}
 	},
 
-	_handleKeyEvents : function(e) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleKeyEvents : function (e) {
+		var buttons, current, next, prev;
 		switch (e.type) {
-			case "keyup":
-				this.handle.setAttribute("aria-pressed", false);
-				this._preventScrolling(e);
-				break;
+		case "keyup":
+			this.handle.setAttribute("aria-pressed", false);
+			this.preventScrolling(e);
+			break;
 
-			case "keydown":
-				switch (e.keyCode) {
-					case gara.jswt.JSWT.SPACE:
-						this.handle.setAttribute("aria-pressed", true);
-						this.setSelection((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO ? true : !this.getSelection());
-						break;
+		case "keydown":
+			switch (e.keyCode) {
+				case gara.jswt.JSWT.SPACE:
+					this.handle.setAttribute("aria-pressed", true);
+					this.setSelection((this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO ? true : !this.getSelection());
+					break;
 
-					case gara.jswt.JSWT.ARROW_DOWN:
-					case gara.jswt.JSWT.ARROW_RIGHT:
-						var buttons = this._getSiblingRadioButtons();
-						var current = buttons.indexOf(this);
-						var next = current + 1;
+				case gara.jswt.JSWT.ARROW_DOWN:
+				case gara.jswt.JSWT.ARROW_RIGHT:
+					buttons = this.getSiblingRadioButtons();
+					current = buttons.indexOf(this);
+					next = current + 1;
 
-						// set to first radio button, when we are at the end
-						if (next >= buttons.length) {
+					// set to first radio button, when we are at the end
+					if (next >= buttons.length) {
+						next = 0;
+					}
+
+					// iterate over next radio buttons, take next enabled button, jump to the beginning if we hit the end
+					while (next <= buttons.length) {
+						if (buttons[next].getEnabled()) {
+							break;
+						}
+
+						next = next < buttons.length - 1 ? next + 1 : buttons.length - 1;
+
+						// next control not a radio button, get the first one
+						if (next <= buttons.length && !buttons[next].getEnabled()) {
 							next = 0;
 						}
+					}
 
-						// iterate over next radio buttons, take next enabled button, jump to the beginning if we hit the end
-						while (next <= buttons.length) {
-							if (buttons[next].getEnabled()) {
-								break;
-							}
+					if (!e.ctrlKey) {
+						buttons[next].setSelection(true);
+					}
+					buttons[next].forceFocus();
+					break;
 
-							next = next < buttons.length - 1 ? next + 1 : buttons.length - 1;
+				case gara.jswt.JSWT.ARROW_UP:
+				case gara.jswt.JSWT.ARROW_LEFT:
+					buttons = this.getSiblingRadioButtons();
+					current = buttons.indexOf(this);
+					prev = current - 1;
 
-							// next control not a radio button, get the first one
-							if (next <= buttons.length && !buttons[next].getEnabled()) {
-								next = 0;
-							}
+					// get the last radio button, when we are at the first position
+					if (prev < 0) {
+						prev = buttons.length - 1;
+					}
+
+					// iterate over previous radio buttons, take next enabled button, jump to the end if we hit first
+					while (prev >= 0) {
+						if (buttons[prev].getEnabled()) {
+							break;
 						}
 
-						if (!e.ctrlKey) {
-							buttons[next].setSelection(true);
-						}
-						buttons[next].forceFocus();
-						break;
+						prev = prev > 0 ? prev - 1 : 0;
 
-					case gara.jswt.JSWT.ARROW_UP:
-					case gara.jswt.JSWT.ARROW_LEFT:
-						var buttons = this._getSiblingRadioButtons();
-						var current = buttons.indexOf(this);
-						var prev = current - 1;
-
-						// get the last radio button, when we are at the first position
-						if (prev < 0) {
+						// prev control not a radio button, get the last
+						if (prev >= 0 && !buttons[prev].getEnabled()) {
 							prev = buttons.length - 1;
 						}
+					}
 
-						// iterate over previous radio buttons, take next enabled button, jump to the end if we hit first
-						while (prev >= 0) {
-							if (buttons[prev].getEnabled()) {
-								break;
-							}
+					if (!e.ctrlKey) {
+						buttons[prev].setSelection(true);
+					}
+					buttons[prev].forceFocus();
+					break;
 
-							prev = prev > 0 ? prev - 1 : 0;
-
-							// prev control not a radio button, get the last
-							if (prev >= 0 && !buttons[prev].getEnabled()) {
-								prev = buttons.length - 1;
-							}
-						}
-
-						if (!e.ctrlKey) {
-							buttons[prev].setSelection(true);
-						}
-						buttons[prev].forceFocus();
-						break;
-
-					case gara.jswt.JSWT.ENTER:
-						this._notifySelectionListener();
-						break;
-				}
-				this._preventScrolling(e);
-				break;
+				case gara.jswt.JSWT.ENTER:
+					this.notifySelectionListener();
+					break;
+			}
+			this.preventScrolling(e);
+			break;
 		}
 	},
 
@@ -404,60 +508,42 @@ gara.Class("gara.jswt.widgets.Button", {
 	 * Notifies selection listener about the changed selection within the List
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_notifySelectionListener : function() {
-		this._selectionListener.forEach(function(listener) {
-			listener.widgetSelected(this._event);
+	notifySelectionListener : function () {
+		this.selectionListeners.forEach(function (listener) {
+			if (listener.widgetSelected) {
+				listener.widgetSelected(this.event);
+			}
 		}, this);
 	},
 
-	/**
-	 * @method
-	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	_registerListener : function(eventType, listener) {
-		gara.EventManager.addListener(this.handle, eventType, listener);
-	},
 
 	/**
 	 * @method
 	 * Removes a selection listener from this list
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this list
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @return {void}
 	 */
-	removeSelectionListener : function(listener) {
+	removeSelectionListener : function (listener) {
 		this.checkWidget();
-		if (!gara.instanceOf(listener, gara.jswt.events.SelectionListener)) {
-			throw new TypeError("listener is not instance of gara.jswt.events.SelectionListener");
-		}
-
-		if (this._selectionListener.contains(listener)) {
-			this._selectionListener.remove(listener);
-		}
+		this.selectionListeners.remove(listener);
 	},
 
-	setImage : function(image) {
-		this._image = image;
+	setImage : function (image) {
+		this.image = image;
 		if (this.handle) {
 			// update image
-			if (this._image != null) {
-				this._img.src = this._image.src;
-				this._img.style.display = "";
+			if (this.image !== null) {
+				this.img.src = this.image.src;
+				this.img.style.display = "";
 			}
 
 			// hide image
 			else {
-				this._img.src = "";
-				this._img.style.display = "none";
+				this.img.src = "";
+				this.img.style.display = "none";
 			}
 		}
 		return this;
@@ -467,27 +553,27 @@ gara.Class("gara.jswt.widgets.Button", {
 	 * @method
 	 * Sets the selection of the <code>Button</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @param {boolean} selected new selected state
 	 * @return {void}
 	 */
-	setSelection : function(selected) {
+	setSelection : function (selected) {
+		var buttons, current, prev, next;
 		this.checkWidget();
 
-		if (((this._style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK ||
-				(this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO)
-				&& this._enabled) {
-			this._selected = selected;
+		if (((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK ||
+				(this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO)
+				&& this.enabled) {
+			this.selected = selected;
 			if (this.handle) {
-				this.handle.setAttribute("aria-checked", this._selected);
+				this.handle.setAttribute("aria-checked", this.selected);
 			}
 
 			// if radio uncheck siblings
-			if ((this._style & gara.jswt.JSWT.RADIO) == gara.jswt.JSWT.RADIO && selected) {
-				var buttons = this._getSiblingRadioButtons();
-				var current = buttons.indexOf(this);
-				var prev = current - 1;
-				var next = current + 1;
+			if ((this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO && selected) {
+				buttons = this.getSiblingRadioButtons();
+				current = buttons.indexOf(this);
+				prev = current - 1;
+				next = current + 1;
 
 				while (buttons[prev]) {
 					buttons[prev].setSelection(false);
@@ -502,16 +588,14 @@ gara.Class("gara.jswt.widgets.Button", {
 
 
 		}
-		this._notifySelectionListener();
+		this.notifySelectionListener();
 
 		return this;
 	},
 
-	setText : function(text) {
-		this._text = text;
-		if (this.handle) {
-			this._spanText.nodeValue = this._text;
-		}
+	setText : function (text) {
+		this.text = text;
+		this.spanText.nodeValue = this.text;
 		return this;
 	},
 
@@ -523,7 +607,7 @@ gara.Class("gara.jswt.widgets.Button", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
+	unbindListener : function (eventType, listener) {
 		gara.EventManager.removeListener(this.handle, eventType, listener);
 	},
 
@@ -534,11 +618,11 @@ gara.Class("gara.jswt.widgets.Button", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	update : function() {
+	update : function () {
 		this.checkWidget();
 
 		// setting measurements
-//		this.handle.style.width = this._width != null ? (this._width - parseInt(gara.Utils.getStyle(this.handle, "padding-left")) - parseInt(gara.Utils.getStyle(this.handle, "padding-right")) - parseInt(gara.Utils.getStyle(this.handle, "border-left-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-right-width"))) + "px" : "auto";
-//		this.handle.style.height = this._height != null ? (this._height - parseInt(gara.Utils.getStyle(this.handle, "padding-top")) - parseInt(gara.Utils.getStyle(this.handle, "padding-bottom")) - parseInt(gara.Utils.getStyle(this.handle, "border-top-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-bottom-width"))) + "px" : "auto";
+//		this.handle.style.width = this.width !== null ? (this.width - parseInt(gara.Utils.getStyle(this.handle, "padding-left")) - parseInt(gara.Utils.getStyle(this.handle, "padding-right")) - parseInt(gara.Utils.getStyle(this.handle, "border-left-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-right-width"))) + "px" : "auto";
+//		this.handle.style.height = this.height !== null ? (this.height - parseInt(gara.Utils.getStyle(this.handle, "padding-top")) - parseInt(gara.Utils.getStyle(this.handle, "padding-bottom")) - parseInt(gara.Utils.getStyle(this.handle, "border-top-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-bottom-width"))) + "px" : "auto";
 	}
-});
+})});

@@ -23,7 +23,7 @@
 
 gara.provide("gara.jswt.widgets.Item");
 
-gara.require("gara.jswt.widgets.Widget");
+gara.parent("gara.jswt.widgets.Widget",
 
 /**
  * 'Abstract' Item class
@@ -32,8 +32,32 @@ gara.require("gara.jswt.widgets.Widget");
  * @extends gara.jswt.widgets.Widget
  * @namespace gara.jswt.widgets
  */
-gara.Class("gara.jswt.widgets.Item", {
+function() {gara.Class("gara.jswt.widgets.Item", {
 	$extends : gara.jswt.widgets.Widget,
+
+	/**
+	 * @field
+	 * Holds the active static.
+	 *
+	 * @private
+	 */
+	active : false,
+
+	/**
+	 * @field
+	 * The <code>Item</code>'s image.
+	 *
+	 * @private
+	 */
+	image : null,
+
+	/**
+	 * @field
+	 * The <code>Item</code>'s text.
+	 *
+	 * @private
+	 */
+	text : "",
 
 	/**
 	 * @constructor
@@ -41,16 +65,15 @@ gara.Class("gara.jswt.widgets.Item", {
 	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.List} parent the parent <code>Control</code> widget
-	 * @param {int} [style] style information for this <code>Item</code>
+	 * @param {int} style information for this <code>Item</code>
 	 * @return {gara.jswt.widgets.Item}
 	 */
-	$constructor : function(parent, style) {
-		this.$base(parent, style);
-		this._image = null;
-		this._text = "";
-
-		// css
-		this._classes = [];
+	$constructor : function (parent, style) {
+		this.$super(parent, style);
+		this.classes = []; // reset Widget's style
+		this.active = false;
+		this.image = null;
+		this.text = "";
 	},
 
 	/**
@@ -60,8 +83,8 @@ gara.Class("gara.jswt.widgets.Item", {
 	 * @author Thomas Gossmann
 	 * @return {Image} the items image
 	 */
-	getImage : function() {
-		return this._image;
+	getImage : function () {
+		return this.image;
 	},
 
 	/**
@@ -71,8 +94,8 @@ gara.Class("gara.jswt.widgets.Item", {
 	 * @author Thomas Gossmann
 	 * @return {String} the text for this item
 	 */
-	getText : function() {
-		return this._text;
+	getText : function () {
+		return this.text;
 	},
 
 	/**
@@ -84,9 +107,9 @@ gara.Class("gara.jswt.widgets.Item", {
 	 * @param {boolean} active true for active and false for inactive
 	 * @return {void}
 	 */
-	_setActive : function(active) {
-		this._active = active;
-		this.setClass("active", this._active);
+	setActive : function (active) {
+		this.active = active;
+		this.setClass("active", this.active);
 	},
 
 	/**
@@ -97,8 +120,8 @@ gara.Class("gara.jswt.widgets.Item", {
 	 * @param {Image} image the new image
 	 * @return {void}
 	 */
-	setImage : function(image) {
-		this._image = image;
+	setImage : function (image) {
+		this.image = image;
 		return this;
 	},
 
@@ -110,8 +133,8 @@ gara.Class("gara.jswt.widgets.Item", {
 	 * @param {String} text the new text
 	 * @return {void}
 	 */
-	setText : function(text) {
-		this._text = text;
+	setText : function (text) {
+		this.text = text;
 		return this;
 	}
-});
+})});

@@ -23,10 +23,11 @@
 
 gara.provide("gara.jswt.widgets.ListItem");
 
+//gara.use("gara.utils");
 gara.use("gara.jswt.JSWT");
 
-gara.require("gara.jswt.widgets.Item");
-gara.require("gara.jswt.widgets.List");
+gara.parent("gara.jswt.widgets.Item",
+//gara.require("gara.jswt.widgets.List");
 
 /**
  * @summary
@@ -39,8 +40,50 @@ gara.require("gara.jswt.widgets.List");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-gara.Class("gara.jswt.widgets.ListItem", {
+function() {gara.Class("gara.jswt.widgets.ListItem", {
 	$extends : gara.jswt.widgets.Item,
+
+	/**
+	 * Holds the dom reference for the span node
+	 * @private
+	 */
+	span : null,
+
+	/**
+	 * Holds the dom reference for the spanText node
+	 * @private
+	 */
+	spanText : null,
+
+	/**
+	 * Holds the dom reference for the span img
+	 * @private
+	 */
+	img : null,
+
+	/**
+	 * Holds the dom reference for the checkbox node
+	 * @private
+	 */
+	checkbox : null,
+
+	/**
+	 * Holds the selected state
+	 * @private
+	 */
+	selected : false,
+
+	/**
+	 * Holds the grayed state
+	 * @private
+	 */
+	grayed : false,
+
+	/**
+	 * Holds the checked state
+	 * @private
+	 */
+	checked : false,
 
 	/**
 	 * @constructor
@@ -53,25 +96,33 @@ gara.Class("gara.jswt.widgets.ListItem", {
 	 * @throws {TypeError} if the list is not a List widget
 	 * @return {gara.jswt.widgets.ListItem}
 	 */
-	$constructor : function(parent, style, index) {
-		// dom references
-		this._span = null;
-		this._spanText = null;
-		this._img = null;
-		this._checkbox = null;
-
-		// flags
-		this._selected = false;
-		this._grayed = false;
-		this._checked = false;
-
-		if (!gara.instanceOf(parent, gara.jswt.widgets.List)) {
+	$constructor : function (parent, style, index) {
+		if (!(parent instanceof gara.jswt.widgets.List)) {
 			throw new TypeError("parent is not type of gara.jswt.widgets.List");
 		}
-		this.$base(parent, style);
-		this._list = parent;
-		this.handle = this._list._addItem(this, index);
-		this._create();
+
+		this.grayed = false;
+		this.checked = false;
+		this.selected = false;
+
+		this.$super(parent, style);
+
+		this.list = parent;
+		this.parentNode = this.list.addItem(this, index);
+		this.createWidget();
+	},
+
+	/**
+	 * @method
+	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
+	 *
+	 * @private
+	 * @author Thomas Gossmann
+	 * @return {void}
+	 */
+	bindListener : function (eventType, listener) {
+		gara.EventManager.addListener(this.img, eventType, listener);
+		gara.EventManager.addListener(this.span, eventType, listener);
 	},
 
 	/**
@@ -82,93 +133,99 @@ gara.Class("gara.jswt.widgets.ListItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_create : function() {
-		this.handle.className = this._classes.join(" ");
+	createWidget : function () {
+		var items = this.parent.getItems(),
+			index = items.indexOf(this),
+			nextNode;
+
+		this.handle = document.createElement("li");
 		this.handle.widget = this;
+		this.handle.control = this.list;
+		this.handle.className = this.classes.join(" ");
 		this.handle.setAttribute("id", this.getId());
 		this.handle.setAttribute("role", "option");
-		this.handle.setAttribute("aria-selected", this._selected);
+		this.handle.setAttribute("aria-selected", this.selected);
 		this.handle.setAttribute("aria-labelledby", this.getId()+"-label");
 
 		// checkbox
-		if ((this._list.getStyle() & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
-			this._checkbox = document.createElement("span");
-			this._checkbox.id = this.getId() + "-checkbox";
-			this._checkbox.widget = this;
-			this._checkbox.control = this._tree;
-			this._setCheckboxClass();
+		if ((this.list.getStyle() & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
+			this.checkbox = document.createElement("span");
+			this.checkbox.id = this.getId() + "-checkbox";
+			this.checkbox.widget = this;
+			this.checkbox.control = this.tree;
+			this.checkbox.setAttribute("role", "presentation");
 
-			base2.DOM.Event(this._checkbox);
-			this._checkbox.setAttribute("role", "presentation");
+			this.setCheckboxClass();
 
-			this.handle.appendChild(this._checkbox);
-			this.handle.setAttribute("aria-checked", this._checked);
+			this.handle.appendChild(this.checkbox);
+			this.handle.setAttribute("aria-checked", this.checked);
 		}
 
 		// create image node
-		this._img = document.createElement("img");
-		this._img.id = this.getId() + "-image";
-		this._img.widget = this;
-		this._img.control = this._list;
-
-		base2.DOM.Event(this._img);
-		this._img.setAttribute("role", "presentation");
+		this.img = document.createElement("img");
+		this.img.id = this.getId() + "-image";
+		this.img.widget = this;
+		this.img.control = this.list;
+		this.img.setAttribute("role", "presentation");
 
 		// set image
-		if (this._image != null) {
-			this._img.src = this._image.src;
+		if (this.image !== null) {
+			this.img.src = this.image.src;
 		} else {
-			this._img.style.display = "none";
+			this.img.style.display = "none";
 		}
 
-		this._spanText = document.createTextNode(this._text);
-		this._span = document.createElement("span");
-		this._span.id = this.getId()+"-label";
-		this._span.widget = this;
-		this._span.control = this._list;
-		this._span.className = "text";
-		this._span.appendChild(this._spanText);
-		base2.DOM.Event(this._span);
-		this._span.setAttribute("role", "presentation");
+		this.spanText = document.createTextNode(this.text);
+		this.span = document.createElement("span");
+		this.span.id = this.getId()+"-label";
+		this.span.widget = this;
+		this.span.control = this.list;
+		this.span.className = "text";
+		this.span.appendChild(this.spanText);
+		this.span.setAttribute("role", "presentation");
 
-		this.handle.appendChild(this._img);
-		this.handle.appendChild(this._span);
+		this.handle.appendChild(this.img);
+		this.handle.appendChild(this.span);
 
-		// register listener
-		for (var eventType in this._listener) {
-			this._listener[eventType].forEach(function(elem, index, arr) {
-				this._registerListener(eventType, elem);
-			}, this);
+		// append to dom
+		if (index === items.length - 1) {
+			this.parentNode.appendChild(this.handle);
+		} else {
+			nextNode = index === 0
+				? this.parentNode.firstChild
+				: items[index - 1].handle.nextSibling;
+			this.parentNode.insertBefore(this.handle, nextNode);
 		}
+
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		this.$super();
 
-		if (this._img != null) {
-			this.handle.removeChild(this._img);
-			delete this._img;
-			this._image = null;
+		if (this.img !== null) {
+			this.handle.removeChild(this.img);
+			delete this.img;
+			this.image = null;
 		}
 
-		this.handle.removeChild(this._span);
+		this.handle.removeChild(this.span);
 
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
+		if (this.parentNode !== null) {
+			this.parentNode.removeChild(this.handle);
 		}
 
-		delete this._span;
+		delete this.span;
 		delete this.handle;
 	},
 
-	getChecked : function() {
+	getChecked : function () {
 		this.checkWidget();
-		return this._checked;
+		return this.checked;
 	},
 
-	getGrayed : function() {
+	getGrayed : function () {
 		this.checkWidget();
-		return this._grayed;
+		return this.grayed;
 	},
 
 	/**
@@ -181,46 +238,35 @@ gara.Class("gara.jswt.widgets.ListItem", {
 	 * @param {Event} e DOMEvent
 	 * @return {void}
 	 */
-	handleEvent : function(e) {
+	handleEvent : function (e) {
 		this.checkWidget();
 
-		if ((e.target == this._checkbox	&& e.type == "mousedown")
-				|| (e.target == this._checkbox	&& e.type == "mouseup")
-				|| (e.type == "keydown" && e.keyCode == gara.jswt.JSWT.SPACE)) {
+		if ((e.target === this.checkbox	&& e.type === "mousedown")
+				|| (e.target === this.checkbox	&& e.type === "mouseup")
+				|| (e.type === "keydown" && e.keyCode === gara.jswt.JSWT.SPACE)) {
 
 			e.info = gara.jswt.JSWT.CHECK;
-			if (e.type == "mouseup") {
-				this.setChecked(!this._checked);
+			if (e.type === "mouseup") {
+				this.setChecked(!this.checked);
 			}
 		}
 	},
 
 	/**
-	 * @method
-	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
-	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
 	 */
-	_registerListener : function(eventType, listener) {
-		if (this._img != null) {
-			gara.EventManager.addListener(this._img, eventType, listener);
+	setCheckboxClass : function () {
+		if (!this.checkbox) {
+			return;
 		}
 
-		if (this._span != null) {
-			gara.EventManager.addListener(this._span, eventType, listener);
-		}
-	},
-
-	_setCheckboxClass : function() {
-		this._checkbox.className = "jsWTCheckbox";
-		if (this._checked && this._grayed) {
-			this._checkbox.className += " jsWTCheckboxGrayedChecked";
-		} else if (this._grayed) {
-			this._checkbox.className += " jsWTCheckboxGrayed";
-		} else if (this._checked) {
-			this._checkbox.className += " jsWTCheckboxChecked";
+		this.checkbox.className = "jsWTCheckbox";
+		if (this.checked && this.grayed) {
+			this.checkbox.className += " jsWTCheckboxGrayedChecked";
+		} else if (this.grayed) {
+			this.checkbox.className += " jsWTCheckboxGrayed";
+		} else if (this.checked) {
+			this.checkbox.className += " jsWTCheckboxChecked";
 		}
 	},
 
@@ -232,52 +278,58 @@ gara.Class("gara.jswt.widgets.ListItem", {
 	 * @param {boolean} checked the new checked state
 	 * @return {void}
 	 */
-	setChecked : function(checked) {
+	setChecked : function (checked) {
 		this.checkWidget();
-		if (!this._grayed) {
-			this._checked = checked;
-			this.handle.setAttribute("aria-checked", this._checked);
-			this._setCheckboxClass();
+		if (!this.grayed) {
+			this.checked = checked;
+			this.handle.setAttribute("aria-checked", this.checked);
+			this.setCheckboxClass();
 		}
 		return this;
 	},
 
-	setGrayed : function(grayed) {
+	setGrayed : function (grayed) {
 		this.checkWidget();
-		this._grayed = grayed;
-		this._checkbox.setAttribute("aria-disabled", this._grayed);
-		this._setCheckboxClass();
+		this.grayed = grayed;
+		if (this.checkbox) {
+			this.checkbox.setAttribute("aria-disabled", this.grayed);
+			this.setCheckboxClass();
+		}
 		return this;
 	},
 
-	setImage : function(image) {
-		this.$base(image);
+	setImage : function (image) {
+		this.$super(image);
 
 		// update image
-		if (this._image != null) {
-			this._img.src = this._image.src;
-			this._img.style.display = "";
+		if (this.image !== null) {
+			this.img.src = this.image.src;
+			this.img.style.display = "";
 		}
 
 		// hide image
 		else {
-			this._img.src = "";
-			this._img.style.display = "none";
+			this.img.src = "";
+			this.img.style.display = "none";
 		}
 
 		return this;
 	},
 
-	_setSelected : function(selected) {
+	/**
+	 *
+	 * @private
+	 */
+	setSelected : function (selected) {
 		this.checkWidget();
-		this._selected = selected;
-		this.handle.setAttribute('aria-selected', this._selected);
+		this.selected = selected;
+		this.handle.setAttribute('aria-selected', this.selected);
 		return this;
 	},
 
-	setText : function(text) {
-		this.$base(text);
-		this._spanText.nodeValue = this._text;
+	setText : function (text) {
+		this.$super(text);
+		this.spanText.nodeValue = this.text;
 		return this;
 	},
 
@@ -289,27 +341,13 @@ gara.Class("gara.jswt.widgets.ListItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
-		if (this._img != null) {
-			gara.EventManager.removeListener(this._img, eventType, listener);
+	unbindListener : function (eventType, listener) {
+		if (this.img !== null) {
+			gara.EventManager.removeListener(this.img, eventType, listener);
 		}
 
-		if (this._span != null) {
-			gara.EventManager.removeListener(this._span, eventType, listener);
-		}
-	},
-
-	/**
-	 * @method
-	 * Updates the list item
-	 *
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	update : function() {
-		this.checkWidget();
-		if (this.handle == null) {
-			this._create();
+		if (this.span !== null) {
+			gara.EventManager.removeListener(this.span, eventType, listener);
 		}
 	}
-});
+})});

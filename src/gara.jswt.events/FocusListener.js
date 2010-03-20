@@ -29,7 +29,7 @@ gara.provide("gara.jswt.events.FocusListener");
  * @namespace gara.jswt.events
  */
 
-gara.Interface("gara.jswt.events.FocusListener", {
+gara.Class("gara.jswt.events.FocusListener", {
 	/**
 	 * @method
 	 * focus gained [DOCTEST]

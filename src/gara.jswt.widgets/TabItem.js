@@ -28,9 +28,9 @@ gara.use("gara.jswt.JSWT");
 gara.use("gara.jswt.widgets.Control");
 gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.MenuItem");
+//gara.use("gara.jswt.widgets.TabFolder");
 
-gara.require("gara.jswt.widgets.Item");
-gara.require("gara.jswt.widgets.TabFolder");
+gara.parent("gara.jswt.widgets.Item",
 
 /**
  * gara TreeItem
@@ -40,35 +40,107 @@ gara.require("gara.jswt.widgets.TabFolder");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-gara.Class("gara.jswt.widgets.TabItem", {
+function() {gara.Class("gara.jswt.widgets.TabItem", {
 	$extends : gara.jswt.widgets.Item,
 
-	$constructor : function(parent, style) {
+	// content and flags
+	/**
+	 * @field
+	 * Holds the active state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	active : false,
 
-		if (!gara.instanceOf(parent, gara.jswt.widgets.TabFolder)) {
+	/**
+	 * @field
+	 * Contains the <code>Control</code>.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.Control}
+	 */
+	control : null,
+
+	/**
+	 * @field
+	 * Contains the tooltip text.
+	 *
+	 * @private
+	 * @type {String}
+	 */
+	toolTipText : null,
+
+	/**
+	 * @field
+	 * Bridged menu item, when DROP_DOWN style is used on the <code>TabFolder</code>.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.MenuItem}
+	 */
+	menuItem : null,
+
+	// nodes
+	/**
+	 * @field
+	 * Span's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	span : null,
+
+	/**
+	 * @field
+	 * Img's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	img : null,
+
+	/**
+	 * @field
+	 * ClientArea's DOM Reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	clientArea : null,
+
+	$constructor : function (parent, style) {
+
+		if (!(parent instanceof gara.jswt.widgets.TabFolder)) {
 			throw new TypeError("parentWidget is neither a gara.jswt.widgets.TabFolder");
 		}
 
-		this.$base(parent, style);
+		this.$super(parent, style);
 
 		// content and flags
-		this._active = false;
-		this._content = null;
-		this._control = null;
-		this._toolTipText = null;
-		this._menuItem = null;
-
-		// content & control changed flags
-		this._contentChanged = false;
-		this._controlChanged = false;
+		this.active = false;
+		this.content = null;
+		this.control = null;
+		this.toolTipText = null;
+		this.menuItem = null;
 
 		// nodes
-		this._span = null;
-		this._img = null;
-		this._clientArea = null;
+		this.span = null;
+		this.img = null;
+		this.clientArea = null;
 
-		this._create();
-		this._parent._addItem(this);
+		this.parentNode = this.parent.addItem(this);
+		this.createWidget();
+	},
+
+	/**
+	 * @method
+	 * Widget implementation to register listener
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	bindListener : function (eventType, listener) {
+		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
 	/**
@@ -76,159 +148,147 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * Contstructs the dom for this tabitem
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {HTMLElement} the created node
 	 */
-	_create : function() {
+	createWidget : function () {
+		var self = this;
 		this.handle = document.createElement("li");
-		this.handle.className = this._classes.join(" ");
+		this.handle.className = this.classes.join(" ");
 		this.handle.id = this.getId();
 		this.handle.widget = this;
-		this.handle.control = this._parent;
-		if (this._toolTipText != null) {
-			this.handle.title = this._toolTipText;
-		}
-		this._parent._getTabbar().appendChild(this.handle);
-
-		base2.DOM.Event(this.handle);
+		this.handle.control = this.parent;
 		this.handle.setAttribute("role", "tab");
 		this.handle.setAttribute("aria-controls", this.getId()+"-panel");
 		this.handle.setAttribute("aria-owns", this.getId()+"-panel");
-		this.handle.setAttribute("aria-selected", this._active);
+		this.handle.setAttribute("aria-selected", this.active);
 		this.handle.setAttribute("aria-labelledby", this.getId()+"-label");
 
-		this._door = document.createElement("span");
-		this._door.widget = this;
-		this._door.control = this._parent;
-		this._door.className = "door";
-		this.handle.appendChild(this._door);
+		if (this.toolTipText !== null) {
+			this.handle.title = this.toolTipText;
+		}
 
-		base2.DOM.Event(this._door);
-		this._door.setAttribute("role", "presentation");
+		this.door = document.createElement("span");
+		this.door.widget = this;
+		this.door.control = this.parent;
+		this.door.className = "door";
+		this.door.setAttribute("role", "presentation");
+		this.handle.appendChild(this.door);
 
 		// create image node
-		this._img = document.createElement("img");
-		this._img.id = this.getId() + "-image";
-		this._img.widget = this;
-		this._img.control = this._tree;
-		base2.DOM.Event(this._img);
-		this._img.setAttribute("role", "presentation");
+		this.img = document.createElement("img");
+		this.img.id = this.getId() + "-image";
+		this.img.widget = this;
+		this.img.control = this.tree;
+		this.img.setAttribute("role", "presentation");
 
 		// set image
-		if (this._image != null) {
-			this._img.src = this._image.src;
+		if (this.image !== null) {
+			this.img.src = this.image.src;
 		} else {
-			this._img.style.display = "none";
+			this.img.style.display = "none";
 		}
 
-		this._spanText = document.createTextNode(this._text);
-		this._span = document.createElement("span");
-		this._span.id = this.getId()+"-label";
-		this._span.widget = this;
-		this._span.control = this._parent;
-		this._span.className = "text";
-		this._span.appendChild(this._spanText);
-		base2.DOM.Event(this._span);
-		this._span.setAttribute("role", "presentation");
+		this.spanText = document.createTextNode(this.text);
+		this.span = document.createElement("span");
+		this.span.id = this.getId()+"-label";
+		this.span.widget = this;
+		this.span.control = this.parent;
+		this.span.className = "text";
+		this.span.appendChild(this.spanText);
+		this.span.setAttribute("role", "presentation");
 
-		this._door.appendChild(this._img);
-		this._door.appendChild(this._span);
+		this.door.appendChild(this.img);
+		this.door.appendChild(this.span);
 
-		this._clientArea = document.createElement("div");
-		this._clientArea.style.display = this._active ? "block" : "none";
-		this._clientArea.id = this.getId()+"-panel";
-		this._parent.getClientArea().appendChild(this._clientArea);
+		this.clientArea = document.createElement("div");
+		this.clientArea.style.display = this.active ? "block" : "none";
+		this.clientArea.id = this.getId()+"-panel";
+//		this.clientArea.style.height = this.parent.getClientArea().clientHeight + "px";
+//		this.clientArea.style.width = this.parent.getClientArea().clientWidth + "px";
+		this.clientArea.setAttribute("aria-hidden", !this.active);
+		this.clientArea.setAttribute("role", "tabpanel");
+		this.clientArea.setAttribute("aria-labelledby", this.getId()+"-label");
+		this.parent.getClientArea().appendChild(this.clientArea);
 
-		base2.DOM.Event(this._clientArea);
-		this._clientArea.setAttribute("role", "tabpanel");
-		this._clientArea.setAttribute("aria-hidden", !this._active);
-		this._clientArea.setAttribute("aria-labelledby", this.getId()+"-label");
-
-		if (this._control) {
-			this._clientArea.appendChild(this._control.handle);
+		if (this.control) {
+			this.clientArea.appendChild(this.control.handle);
 		}
-
-		// register listener
-		for (var eventType in this._listener) {
-			this._listener[eventType].forEach(function(elem, index, arr) {
-				this.registerListener(eventType, elem);
-			}, this);
-		}
-		this._changed = false;
 
 		// create menu-item
-		if (this._parent._getDropDownMenu()) {
-			this._menuItem = new gara.jswt.widgets.MenuItem(this._parent._getDropDownMenu());
-			this._menuItem.setText(this._text);
-			this._menuItem.setImage(this._image);
-			this._menuItem.setVisible(false);
-			this._menuItem.setData("gara__tabItem", this);
-			this._menuItem.update();
-			this.setData("gara__menuItem", this._menuItem);
+		if (this.parent.getDropDownMenu()) {
+			this.menuItem = new gara.jswt.widgets.MenuItem(this.parent.getDropDownMenu());
+			this.menuItem.setText(this.text);
+			this.menuItem.setImage(this.image);
+			this.menuItem.setVisible(false);
+			this.menuItem.setData("gara__tabItem", this);
+			this.menuItem.update();
+			this.setData("gara__menuItem", this.menuItem);
+			this.menuItem.addSelectionListener({
+				widgetSelected : function (e) {
+					self.parent.activateItem(self);
+				}
+			});
 		}
+
+		this.parentNode.appendChild(this.handle);
+		this.parent.updateMeasurements();
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		this.$super();
 
-		if (this._img != null) {
-			this.handle.removeChild(this._img);
-			delete this._img;
-			this._image = null;
+		this.parentNode.removeChild(this.handle);
+		this.parent.getClientArea().removeChild(this.clientArea);
+
+		if (this.control !== null) {
+			this.control.dispose();
 		}
 
-		this.handle.removeChild(this._span);
-
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
-		}
-
-		if (this._control != null) {
-			this._control.dispose();
-		}
-
-		delete this._span;
+		delete this.span;
+		delete this.img;
+		delete this.control;
 		delete this.handle;
 	},
 
-	getClientArea : function() {
-		return this._clientArea;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getClientArea : function () {
+		return this.clientArea;
 	},
 
 	/**
 	 * @method
 	 * Returns the content for this item
 	 *
-	 * @author Thomas Gossmann
 	 * @return {string} the content;
 	 */
-	getContent : function() {
+	getContent : function () {
 		this.checkWidget();
-		return this._content;
+		return this.content;
 	},
 
 	/**
 	 * @method
 	 * Returns the content control for this item
 	 *
-	 * @author Thomas Gossmann
 	 * @return {gara.jswt.Control} the control
 	 */
-	getControl : function() {
+	getControl : function () {
 		this.checkWidget();
-		return this._control;
+		return this.control;
 	},
 
 	/**
 	 * @method
 	 * Returns the tooltip text for this item
 	 *
-	 * @author Thomas Gossmann
 	 * @return {string} the tooltip text
 	 */
-	getToolTipText : function() {
+	getToolTipText : function () {
 		this.checkWidget();
-		return this._toolTipText;
+		return this.toolTipText;
 	},
 
 	/**
@@ -237,33 +297,18 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * to all listeners.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} e DOMEvent
 	 * @return {void}
 	 */
-	handleEvent : function(e) {
+	handleEvent : function (e) {
 		this.checkWidget();
 
 		switch (e.type) {
-			case "keyup":
-			case "keydown":
-			case "keypress":
-				this._notifyExternalKeyboardListener(e, this, this._parent);
-				break;
-		}
-	},
-
-	/**
-	 * @method
-	 * Widget implementation to register listener
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	_registerListener : function(eventType, listener) {
-		if (this.handle != null) {
-			gara.EventManager.addListener(this.handle, eventType, listener);
+		case "keyup":
+		case "keydown":
+		case "keypress":
+			this.notifyExternalKeyboardListener(e, this, this.parent);
+			break;
 		}
 	},
 
@@ -276,17 +321,18 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @param {boolean} active the new active state
 	 * @return {void}
 	 */
-	_setActive : function(active) {
+	setActive : function (active) {
 		this.checkWidget();
-		this._active = active;
-		this.setClass("active", this._active);
+		this.active = active;
+		this.setClass("active", this.active);
 		if (this.handle) {
-			this.handle.setAttribute("aria-selected", this._active);
-			this._clientArea.setAttribute("aria-hidden", !this._active);
-			this._clientArea.style.display = this._active ? "block" : "none";
+			this.handle.setAttribute("aria-selected", this.active);
+			this.clientArea.setAttribute("aria-hidden", !this.active);
+			this.clientArea.style.display = this.active ? "block" : "none";
 
 			if (active) {
-				this._clientArea.style.height = this._parent.getClientArea().clientHeight + "px";
+				this.clientArea.style.height = this.parent.getClientArea().clientHeight + "px";
+				this.clientArea.style.width = this.parent.getClientArea().clientWidth + "px";
 			}
 		}
 	},
@@ -300,19 +346,21 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @throws {TypeError} when that is not a gara.jswt.Control
 	 * @return {gara.jswt.widgets.TabItem}
 	 */
-	setControl : function(control) {
+	setControl : function (control) {
 		this.checkWidget();
-		if (!gara.instanceOf(control, gara.jswt.widgets.Control)) {
+		if (!(control instanceof gara.jswt.widgets.Control)) {
 			throw new TypeError("control is not instance of gara.jswt.widgets.Control");
 		}
 
-		this._control = control;
-		this._control.setHeight(this._parent.getClientArea().clientHeight);
-		this._control.setWidth(this._parent.getClientArea().clientWidth);
+		this.control = control;
+		if (control instanceof gara.jswt.widgets.Scrollable) {
+			this.control.setHeight(this.parent.getClientArea().clientHeight);
+			this.control.setWidth(this.parent.getClientArea().clientWidth);
+		}
 
-		if (this._clientArea) {
-			this._clientArea.innerHTML = "";
-			this._clientArea.appendChild(this._control.handle);
+		if (this.clientArea) {
+			this.clientArea.innerHTML = "";
+			this.clientArea.appendChild(this.control.handle);
 		}
 		return this;
 	},
@@ -321,29 +369,25 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @method
 	 * Sets the image for the item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Image} image the new image
 	 * @return {gara.jswt.widgets.TabItem}
 	 */
-	setImage: function(image) {
-		this.$base(image);
-		if (this._menuItem != null) {
-			this._menuItem.setImage(this._image);
-			this._menuItem.update();
+	setImage: function (image) {
+		this.$super(image);
+		if (this.menuItem !== null) {
+			this.menuItem.setImage(this.image);
 		}
 
-		if (this.handle) {
-			// update image
-			if (image != null) {
-				this._img.src = image.src;
-				this._img.style.display = "";
-			}
+		// update image
+		if (image !== null) {
+			this.img.src = image.src;
+			this.img.style.display = "";
+		}
 
-			// hide image
-			else {
-				this._img.src = "";
-				this._img.style.display = "none";
-			}
+		// hide image
+		else {
+			this.img.src = "";
+			this.img.style.display = "none";
 		}
 
 		return this;
@@ -353,19 +397,15 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @method
 	 * Sets the text for the item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} text the new text
 	 * @return {gara.jswt.widgets.TabItem}
 	 */
-	setText: function(text) {
-		this.$base(text);
-		if (this._menuItem != null) {
-			this._menuItem.setText(this._text);
-			this._menuItem.update();
+	setText: function (text) {
+		this.$super(text);
+		if (this.menuItem !== null) {
+			this.menuItem.setText(this.text);
 		}
-		if (this.handle) {
-			this._spanText.nodeValue = this._text;
-		}
+		this.spanText.nodeValue = this.text;
 		return this;
 	},
 
@@ -373,14 +413,13 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @method
 	 * Sets the ToolTip text for this item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {string} text the tooltip text
 	 * @return {void}
 	 */
-	setToolTipText : function(text) {
-		this._toolTipText = text;
-		if (this.handle) {
-			this.handle.title = this._toolTipText;
+	setToolTipText : function (text) {
+		this.toolTipText = text;
+		if (text !== "" || text !== null) {
+			this.handle.title = this.toolTipText;
 		}
 		return this;
 	},
@@ -393,10 +432,8 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
-		if (this.handle != null) {
-			gara.EventManager.removeListener(this.handle, eventType, listener);
-		}
+	unbindListener : function (eventType, listener) {
+		gara.EventManager.removeListener(this.handle, eventType, listener);
 	},
 
 	/**
@@ -407,12 +444,12 @@ gara.Class("gara.jswt.widgets.TabItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	update : function() {
+	update : function () {
 		this.checkWidget();
 
 		// update ClientArea content
-		if (this._control != null) {
-			this._control.update();
+		if (this.control !== null) {
+			this.control.update();
 		}
 	}
-});
+})});

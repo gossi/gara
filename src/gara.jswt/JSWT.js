@@ -22,6 +22,7 @@
 */
 
 gara.provide("gara.jswt.JSWT");
+
 /**
  * JSWT class with design constants
  *
@@ -29,60 +30,60 @@ gara.provide("gara.jswt.JSWT");
  * @author Thomas Gossmann
  * @namespace gara.jswt
  */
-gara.Class("gara.jswt.JSWT", {
+gara.Singleton("gara.jswt.JSWT", {
 	/**
 	 * @field
 	 * The <tt>MessageBox</tt> style constant for an ABORT button; the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;9).
 	 */
-	ABORT : gara.static(1 << 9),
+	ABORT : 512,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the DOWN ARROW key.
 	 */
-	ARROW_DOWN : gara.static(40),
+	ARROW_DOWN : 40,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the LEFT ARROW key.
 	 */
-	ARROW_LEFT : gara.static(37),
+	ARROW_LEFT : 37,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the RIGHT ARROW key.
 	 */
-	ARROW_RIGHT : gara.static(39),
+	ARROW_RIGHT : 39,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the UP ARROW key.
 	 */
-	ARROW_UP : gara.static(38),
+	ARROW_UP : 38,
 
 	/**
 	 * @field
 	 * Style constant for application modal behavior (value is 1&lt;&lt;16).
 	 */
-	APPLICATION_MODAL : gara.static(1 << 16),
+	APPLICATION_MODAL : 65536,
 
 	/**
 	 * @field
 	 * Style constant for menu bar behavior (value is 1&lt;&lt;1).
 	 */
-	BAR : gara.static(1 << 1),
+	BAR : 2,
 
 	/**
 	 * @field
 	 * Style constant for align bottom behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).
 	 */
-	BOTTOM : gara.static(1 << 10),
+	BOTTOM : 1024,
 
 	/**
 	 * @field
 	 * The <tt>MessageBox</tt> style constant for a CANCEL button, valid combinations are OK|CANCEL, YES|NO|CANCEL, RETRY|CANCEL (value is 1&lt;&lt;8).
 	 */
-	CANCEL : gara.static(1 << 8),
+	CANCEL : 256,
 
 	/**
 	 * @field
@@ -91,7 +92,7 @@ gara.Class("gara.jswt.JSWT", {
 	 * <li><code>MenuItem</code></li>
 	 * </ul></p>
 	 */
-	CASCADE : gara.static(1 << 6),
+	CASCADE : 64,
 
 	/**
 	 * @field
@@ -102,13 +103,13 @@ gara.Class("gara.jswt.JSWT", {
 	 * <li><code>Tree</code></li>
 	 * </ul></p>
 	 */
-	CHECK : gara.static(1 << 5),
+	CHECK : 32,
 
 	/**
 	 * @field
 	 * Style constant for close box trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
-	CLOSE : gara.static(1 << 6),
+	CLOSE : 64,
 
 	/**
 	 * @field
@@ -116,38 +117,38 @@ gara.Class("gara.jswt.JSWT", {
 	 *
 	 * NOTE: In SWT, this value is -1, but that causes problems with bitwise JavaScript operators...
 	 */
-	DEFAULT : gara.static(0),
+	DEFAULT : 0,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the DEL key.
 	 */
-	DEL : gara.static(46),
+	DEL : 46,
 
 	/**
 	 * @field
 	 * Style constant for align down behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).
 	 */
-	DOWN : gara.static(1 << 10),
+	DOWN : 1024,
 
 	/**
 	 * @field
 	 * Indicates that a user-interface component is being dragged, for example dragging the thumb of a scroll bar (value is 1).
 	 */
-	DRAG : gara.static(1),
+	DRAG : 1,
 
 	/**
 	 * @field
 	 * Style constant for drop down menu/list behavior (value is 1&lt;&lt;2).
 	 */
-	DROP_DOWN : gara.static(1 << 2),
+	DROP_DOWN : 4,
 
 	/**
 	 * JSWT error constant indicating that a menu which needed
 	 * to have the drop down style had some other style instead
 	 * (value is 21).
 	 */
-	ERROR_MENU_NOT_DROP_DOWN : gara.static(21),
+	ERROR_MENU_NOT_DROP_DOWN : 21,
 
 	/**
 	 * JSWT error constant indicating that an attempt was made to
@@ -155,176 +156,176 @@ gara.Class("gara.jswt.JSWT", {
 	 * been disposed
 	 * (value is 24).
 	 */
-	ERROR_WIDGET_DISPOSED : gara.static(24),
+	ERROR_WIDGET_DISPOSED : 24,
 
 	/**
 	 * JSWT error constant indicating that a menu item which needed
 	 * to have the cascade style had some other style instead
 	 * (value is 27).
 	 */
-	ERROR_MENUITEM_NOT_CASCADE : gara.static(27),
+	ERROR_MENUITEM_NOT_CASCADE : 27,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the END key.
 	 */
-	END : gara.static(35),
+	END : 35,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the ENTER key.
 	 */
-	ENTER : gara.static(13),
+	ENTER : 13,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the ESC key.
 	 */
-	ESC : gara.static(27),
+	ESC : 27,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the HOME key.
 	 */
-	HOME : gara.static(36),
+	HOME : 36,
 
 	/**
 	 * @field
 	 * Style constant for horizontal alignment or orientation behavior (value is 1&lt;&lt;8).
 	 */
-	HORIZONTAL : gara.static(1 << 8),
+	HORIZONTAL : 256,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F1 key.
 	 */
-	F1 : gara.static(112),
+	F1 : 112,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F2 key.
 	 */
-	F2 : gara.static(113),
+	F2 : 113,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F3 key.
 	 */
-	F3 : gara.static(114),
+	F3 : 114,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F4 key.
 	 */
-	F4 : gara.static(115),
+	F4 : 115,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F5 key.
 	 */
-	F5 : gara.static(116),
+	F5 : 116,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F6 key.
 	 */
-	F6 : gara.static(117),
+	F6 : 117,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F7 key.
 	 */
-	F7 : gara.static(118),
+	F7 : 118,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F8 key.
 	 */
-	F8 : gara.static(119),
+	F8 : 119,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F9 key.
 	 */
-	F9 : gara.static(120),
+	F9 : 120,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F10 key.
 	 */
-	F10 : gara.static(121),
+	F10 : 121,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F11 key.
 	 */
-	F11 : gara.static(122),
+	F11 : 122,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the F12 key.
 	 */
-	F12 : gara.static(123),
+	F12 : 123,
 
 	/**
 	 * @field
 	 * Style constant for full row selection behavior (value is 1&lt;&lt;16).
 	 */
-	FULL_SELECTION : gara.static(1 << 16),
+	FULL_SELECTION : 65536,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for error icon behavior (value is 1).
 	 */
-	ICON_ERROR : gara.static(1),
+	ICON_ERROR : 1,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for information icon behavior (value is 1&lt;&lt;1).
 	 */
-	ICON_INFORMATION : gara.static(1 << 1),
+	ICON_INFORMATION : 2,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for question icon behavior (value is 1&lt;&lt;2).
 	 */
-	ICON_QUESTION : gara.static(1 << 2),
+	ICON_QUESTION : 4,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for warning icon behavior (value is 1&lt;&lt;3).
 	 */
-	ICON_WARNING : gara.static(1 << 3),
+	ICON_WARNING : 8,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for "working" icon behavior (value is 1&lt;&lt;4).
 	 */
-	ICON_WORKING : gara.static(1 << 4),
+	ICON_WORKING : 16,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).
 	 */
-	IGNORE : gara.static(1 << 11),
+	IGNORE : 2048,
 
 	/**
 	 * @field
 	 * Style constant for shell menu trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
 	 */
-	MENU : gara.static(1 << 6),
+	MENU : 64,
 
 	/**
 	 * @field
 	 * Style constant for multi-selection behavior in lists and multiple line support on text fields (value is 1&lt;&lt;1).
 	 */
-	MULTI : gara.static(1 << 1),
+	MULTI : 2,
 
 	/**
 	 * @field
 	 * The <tt>MessageBox</tt> style constant for NO button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;7).
 	 */
-	NO : gara.static(1 << 7),
+	NO : 128,
 
 	/**
 	 * @field
@@ -333,49 +334,49 @@ gara.Class("gara.jswt.JSWT", {
 	 * <li><code>Menu</code></li>
 	 * </ul></p>
 	 */
-	NO_RADIO_GROUP : gara.static(1 << 22),
+	NO_RADIO_GROUP : 4194304,
 
 	/**
-	 * A constant known to be zero (0), typically used in operations
+	 * A constant known to be zero (0, typically used in operations
 	 * which take bit flags to indicate that "no bits are set".
 	 */
-	NONE : gara.static(0),
+	NONE : 0,
 
 	/**
 	 * @field
 	 * The <tt>MessageBox</tt> style constant for an OK button, valid combinations are OK, OK|CANCEL (value is 1&lt;&lt;5).
 	 */
-	OK : gara.static(1 << 5),
+	OK : 32,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the PAGE DOWN key.
 	 */
-	PAGE_DOWN : gara.static(34),
+	PAGE_DOWN : 34,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the PGAE UP key.
 	 */
-	PAGE_UP : gara.static(33),
+	PAGE_UP : 33,
 
 	/**
 	 * @field
 	 * Style constant for password behavior (value is 1<<22).
 	 */
-	PASSWORD : gara.static(1 << 22),
+	PASSWORD : 4194304,
 
 	/**
 	 * @field
 	 * Style constant for pop up menu behavior (value is 1&lt;&lt;3).
 	 */
-	POP_UP : gara.static(1 << 3),
+	POP_UP : 8,
 
 	/**
 	 * @field
 	 * Style constant for push button behavior (value is 1&lt;&lt;3).
 	 */
-	PUSH : gara.static(1 << 3),
+	PUSH : 8,
 
 	/**
 	 * Style constant for radio button behavior (value is 1&lt;&lt;4).
@@ -383,67 +384,77 @@ gara.Class("gara.jswt.JSWT", {
 	 * <li><code>MenuItem</code></li>
 	 * </ul></p>
 	 */
-	RADIO : gara.static(1 << 4),
+	RADIO : 16,
 
 	/**
 	 * @field
 	 * Style constant for read-only behavior (value is 1<<3).
 	 */
-	READ_ONLY : gara.static(1 << 3),
+	READ_ONLY : 8,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).
 	 */
-	RETRY : gara.static(1 << 10),
+	RETRY : 1024,
+
+	/**
+	 * @field
+	 * Contains the scrollbar width (in px).
+	 */
+	SCROLLBAR_WIDTH : 19,
 
 	/**
 	 * @field
 	 * Style constant for line separator behavior (value is 1&lt;&lt;1).
 	 */
-	SEPARATOR : gara.static(1 << 1),
+	SEPARATOR : 2,
 
 	/**
 	 * @field
 	 * Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).
 	 */
-	SINGLE : gara.static(1 << 2),
+	SINGLE : 4,
 
 	/**
 	 * @field
 	 * Keyboard event constant representing the SPACE key.
 	 */
-	SPACE : gara.static(32),
+	SPACE : 32,
 
 	/**
 	 * @field
 	 * Style constant for system modal behavior (value is 1&lt;&lt;17).
 	 */
-	SYSTEM_MODAL : gara.static(1 << 17),
+	SYSTEM_MODAL : 131072,
+
+	/**
+	 * @field
+	 * Style constant for toolbar behavior (value is 1&lt;&lt;4). (gara only, not part of SWT)
+	 */
+	TOOLBAR : 16,
 
 	/**
 	 * @field
 	 * Style constant for align top behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).
 	 */
-	TOP : gara.static(1 << 7),
+	TOP : 128,
 
 	/**
 	 * @field
 	 * Style constant for align up behavior (value is 1&lt;&lt;7, since align UP and align TOP are considered the same).
 	 */
-	UP : gara.static(1 << 7),
+	UP : 128,
 
 	/**
 	 * @field
 	 * Style constant for vertical alignment or orientation behavior (value is 1&lt;&lt;9).
 	 */
-	VERTICAL : gara.static(1 << 9),
+	VERTICAL : 512,
 
 	/**
 	 * @field
 	 * The MessageBox style constant for YES button, valid combinations are YES|NO, YES|NO|CANCEL (value is 1&lt;&lt;6).
 	 */
-	YES : gara.static(1 << 6),
-
-	$constructor : function() {}
+	YES : 64
 });

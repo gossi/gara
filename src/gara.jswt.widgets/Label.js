@@ -1,7 +1,7 @@
 /*	$Id: TabFolder.class.js 181 2009-08-02 20:51:16Z tgossmann $
 
 		gara - Javascript Toolkit
-	===========================================================================
+	================================================================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
@@ -18,12 +18,12 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	===========================================================================
+	================================================================================================================
 */
 
 gara.provide("gara.jswt.widgets.Label");
 
-gara.require("gara.jswt.widgets.Control");
+gara.parent("gara.jswt.widgets.Control",
 
 /**
  * gara Label Widget
@@ -33,62 +33,57 @@ gara.require("gara.jswt.widgets.Control");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Control
  */
-gara.Class("gara.jswt.widgets.Label", {
+function() {gara.Class("gara.jswt.widgets.Label", {
 	$extends : gara.jswt.widgets.Control,
+
+	/**
+	 * @field
+	 * Image's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	imgNode : null,
+
+	/**
+	 * @field
+	 * Text's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	txtNode : null,
+
+	/**
+	 * @field
+	 * The <code>Label</code>'s image.
+	 *
+	 * @private
+	 * @type {Image}
+	 */
+	image : null,
+
+	/**
+	 * @field
+	 * The <code>Label</code>'s text.
+	 *
+	 * @private
+	 * @type {String}
+	 */
+	text : "",
 
 	/**
 	 * @constructor
 	 * @param {gara.jswt.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the Label
 	 */
-	$constructor : function(parent, style) {
-		this._imgNode = null;
-		this._txtNode = null;
-		this._image = null;
-		this._text = "";
+	$constructor : function (parent, style) {
+		this.imgNode = null;
+		this.txtNode = null;
+		this.image = null;
+		this.text = "";
 
-		this.$base(parent, style  || 0);
-	},
-
-	_createWidget : function() {
-		this.$base("span");
-
-		// disabling focus
-		this.handle.tabIndex = -1;
-
-		// css
-		this.addClass("jsWTLabel");
-
-		this._imgNode = document.createElement("img");
-		this._imgNode.widget = this;
-		this._imgNode.control = this;
-		this._imgNode.style.display = "none";
-		this.handle.appendChild(this._imgNode);
-
-		this._txtNode = document.createTextNode(this._text);
-		this.handle.appendChild(this._txtNode);
-	},
-
-	/**
-	 * @method
-	 * Returns the items image
-	 *
-	 * @author Thomas Gossmann
-	 * @return {Image} the items image
-	 */
-	getImage : function() {
-		return this._image;
-	},
-
-	/**
-	 * @method
-	 * Returns the items text
-	 *
-	 * @author Thomas Gossmann
-	 * @return {String} the text for this item
-	 */
-	getText : function() {
-		return this._text;
+		this.$super(parent, style  || 0);
 	},
 
 	/**
@@ -99,8 +94,54 @@ gara.Class("gara.jswt.widgets.Label", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_registerListener : function(eventType, listener) {
+	bindListener : function (eventType, listener) {
 		gara.EventManager.addListener(this.handle, eventType, listener);
+	},
+
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createWidget : function () {
+		this.createHandle("span");
+
+		// disabling focus
+		this.handle.tabIndex = -1;
+
+		// css
+		this.addClass("jsWTLabel");
+
+		this.imgNode = document.createElement("img");
+		this.imgNode.widget = this;
+		this.imgNode.control = this;
+		this.imgNode.style.display = "none";
+		this.handle.appendChild(this.imgNode);
+
+		this.txtNode = document.createTextNode(this.text);
+		this.handle.appendChild(this.txtNode);
+	},
+
+	/**
+	 * @method
+	 * Returns the items image
+	 *
+	 * @author Thomas Gossmann
+	 * @return {Image} the items image
+	 */
+	getImage : function () {
+		return this.image;
+	},
+
+	/**
+	 * @method
+	 * Returns the items text
+	 *
+	 * @author Thomas Gossmann
+	 * @return {String} the text for this item
+	 */
+	getText : function () {
+		return this.text;
 	},
 
 	/**
@@ -111,13 +152,13 @@ gara.Class("gara.jswt.widgets.Label", {
 	 * @param {Image} image the new image
 	 * @return {void}
 	 */
-	setImage : function(image) {
-		this._image = image;
+	setImage : function (image) {
+		this.image = image;
 		if (image) {
-			this._imgNode.src = image.src;
-			this._imgNode.style.display = "";
+			this.imgNode.src = image.src;
+			this.imgNode.style.display = "";
 		} else {
-			this._imgNode.style.display = "none";
+			this.imgNode.style.display = "none";
 		}
 		return this;
 	},
@@ -130,9 +171,9 @@ gara.Class("gara.jswt.widgets.Label", {
 	 * @param {String} text the new text
 	 * @return {void}
 	 */
-	setText : function(text) {
-		this._text = text;
-		this._txtNode.nodeValue = text;
+	setText : function (text) {
+		this.text = text;
+		this.txtNode.nodeValue = text;
 		return this;
 	},
 
@@ -144,11 +185,11 @@ gara.Class("gara.jswt.widgets.Label", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
+	unbindListener : function (eventType, listener) {
 		gara.EventManager.removeListener(this.handle, eventType, listener);
 	},
 
-	update : function() {
+	update : function () {
 
 	}
-});
+})});

@@ -21,13 +21,9 @@
 	===========================================================================
 */
 
-
 gara.provide("gara.jswt.widgets.Scrollable");
 
-gara.use("gara.jswt.JSWT");
-
-gara.require("gara.jswt.widgets.Control");
-
+gara.parent("gara.jswt.widgets.Control",
 
 /**
  * @class Scrollable
@@ -35,33 +31,38 @@ gara.require("gara.jswt.widgets.Control");
  * @extends gara.jswt.widgets.Control
  * @namespace gara.jswt.widgets
  */
-gara.Class("gara.jswt.widgets.Scrollable", {
+function() {gara.Class("gara.jswt.widgets.Scrollable", {
 	$extends : gara.jswt.widgets.Control,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function(parent, style) {
-		this.$base(parent, style);
+	$constructor : function (parent, style) {
+		this.$super(parent, style);
 	},
 
-	getClientArea : function() {
-		return this._scrolledHandle();
+	getClientArea : function () {
+		return this.scrolledHandle();
 	},
 
-	getHorizontalScrollbar : function() {
-		return this._scrolledHandle().clientWidth < this._scrolledHandle().scrollWidth && this._scrolledHandle().style.overflowX != "hidden";
+	getHorizontalScrollbar : function () {
+		return this.scrolledHandle().clientWidth < this.scrolledHandle().scrollWidth && this.scrolledHandle().style.overflowX != "hidden";
 	},
 
-	getVerticalScrollbar : function() {
-		return this._scrolledHandle().clientHeight < this._scrolledHandle().scrollHeight && this._scrolledHandle().style.overflowY != "hidden";
+	getVerticalScrollbar : function () {
+		return this.scrolledHandle().clientHeight < this.scrolledHandle().scrollHeight && this.scrolledHandle().style.overflowY != "hidden";
 	},
 
-	handleEvent : function(e) {
-		this.$base(e);
+	handleEvent : function (e) {
+		this.$super(e);
 	},
 
-	_scrolledHandle : function() {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	scrolledHandle : function () {
 		return this.handle;
 	}
-});
+})});

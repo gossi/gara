@@ -1,7 +1,7 @@
 /*	$Id $
 
 		gara - Javascript Toolkit
-	===========================================================================
+	================================================================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
@@ -18,16 +18,16 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	===========================================================================
+	================================================================================================================
 */
 
 gara.provide("gara.jswt.widgets.TableItem");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
+//gara.use("gara.jswt.widgets.Table");
 
-gara.require("gara.jswt.widgets.Item");
-gara.require("gara.jswt.widgets.Table");
+gara.parent("gara.jswt.widgets.Item",
 
 /**
  * gara TableItem
@@ -37,115 +37,190 @@ gara.require("gara.jswt.widgets.Table");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-gara.Class("gara.jswt.widgets.TableItem", {
+function() {gara.Class("gara.jswt.widgets.TableItem", {
 	$extends : gara.jswt.widgets.Item,
 
-	$constructor : function(parent, style, index) {
-		if (!gara.instanceOf(parent, gara.jswt.widgets.Table)) {
+	/**
+	 * @field
+	 * Contains an array of objects with the DOM reference of each cell.
+	 *
+	 * @private
+	 * @type {Object[]}
+	 */
+	cells : [],
+
+	/**
+	 * @field
+	 * Contains the checkbox td DOM reference, if check style is present.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	checkboxTd : null,
+
+	/**
+	 * @field
+	 * Contains the checkbox DOM reference, if check style is present.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	checkbox : null,
+
+	/**
+	 * @field
+	 * Holds the active state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	active : false,
+
+	/**
+	 * @field
+	 * Holds the checked state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	checked : false,
+
+	/**
+	 * @field
+	 * Holds the grayed state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	grayed : false,
+
+	/**
+	 * @field
+	 * Holds the selected state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	selected : false,
+
+	$constructor : function (parent, style, index) {
+		if (!(parent instanceof gara.jswt.widgets.Table)) {
 			throw new TypeError("parent is not a gara.jswt.widgets.Table");
 		}
 
-		this.$base(parent, style);
+		this.$super(parent, style);
+		this.parentNode = this.parent.addItem(this, index);
 
-		this._table = parent;
-		this._parentNode = this._table._addItem(this, index);
+		this.cells = [];
+		this.checkboxTd = null;
+		this.checkbox = null;
 
-		this._cells = [];
-		this._checkboxTd = null;
-		this._checkbox = null;
+		this.active = false;
+		this.checked = false;
+		this.grayed = false;
+		this.selected = false;
 
-		this._active = false;
-		this._checked = false;
-		this._grayed = false;
-		this._selected = false;
-
-		this._create();
+		this.createWidget();
 	},
 
-	_adjustWidth : function() {
-		var order = this._table.getColumnOrder();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	adjustWidth : function () {
+		var order = this.parent.getColumnOrder(), i, cell;
 
-		for (var i = 0, len = order.length; i < len; ++i) {
-			var cell = this._cells[order[i]];
+		for (i = 0, len = order.length; i < len; ++i) {
+			cell = this.cells[order[i]];
 			if (cell && cell.td) {
-				cell.td.style.width = this._parent.getColumn(order[i]).getWidth() + "px";
+				cell.td.style.width = this.parent.getColumn(order[i]).getWidth() + "px";
 			}
 		}
 	},
 
-	clear : function() {
-		this.checkWidget();
-		this._text = "";
-		this._image = null;
-		this._cells = [];
-		this._active = this._checked = this._selected = this._grayed = false;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	bindListener : function (eventType, listener) {
+		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
-	_create : function() {
+	clear : function () {
+		this.checkWidget();
+		this.text = "";
+		this.image = null;
+		this.cells = [];
+		this.active = this.checked = this.selected = this.grayed = false;
+	},
+
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createWidget : function () {
+		var order, i, cell;
 		this.handle = document.createElement("tr");
 		this.handle.id = this.getId();
 		this.handle.widget = this;
-		this.handle.control = this._table;
-
-		base2.DOM.Event(this.handle);
+		this.handle.control = this.parent;
 		this.handle.setAttribute("role", "row");
 
-
 		// checkbox
-		if ((this._table.getStyle() & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
-			this._checkbox = document.createElement("span");
-			this._checkbox.widget = this;
-			this._checkbox.control = this._tree;
-			this._setCheckboxClass();
-			base2.DOM.Event(this._checkbox);
-			this._checkbox.setAttribute("role", "presentation");
+		if ((this.parent.getStyle() & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
+			this.checkbox = document.createElement("span");
+			this.checkbox.widget = this;
+			this.checkbox.control = this.tree;
+			this.setCheckboxClass();
+			this.checkbox.setAttribute("role", "presentation");
 
-			this._checkboxTd = document.createElement("td");
-			this._checkboxTd.className = "jsWTTableCheckboxCol";
-			this._checkboxTd.appendChild(this._checkbox);
-			base2.DOM.Event(this._checkboxTd);
-			this._checkboxTd.setAttribute("role", "presentation");
+			this.checkboxTd = document.createElement("td");
+			this.checkboxTd.className = "jsWTTableCheckboxCol";
+			this.checkboxTd.appendChild(this.checkbox);
+			this.checkboxTd.setAttribute("role", "presentation");
 
-			this.handle.appendChild(this._checkboxTd);
-			this.handle.setAttribute("aria-checked", this._checked);
+			this.handle.appendChild(this.checkboxTd);
+			this.handle.setAttribute("aria-checked", this.checked);
 		}
 
-		var order = this._table.getColumnOrder();
-		for (var i = 0, cols = order.length, cells = this._cells.length; i < cols && i < cells; ++i) {
-			var cell = this._cells[order[i]];
-			this._createCell(cell);
+		order = this.parent.getColumnOrder();
+		for (var i = 0, cols = order.length, cells = this.cells.length; i < cols && i < cells; ++i) {
+			cell = this.cells[order[i]];
+			this.createCell(cell);
 			this.handle.appendChild(cell.td);
-			cell.td.className = i == 0 ? "first" : "";
+			cell.td.className = i === 0 ? "first" : "";
 		}
 
-		this._changed = false;
-
-		if (this._parentNode != null) {
-			this._parentNode.appendChild(this.handle);
-		}
-
-		this._parent._updateMeasurements();
+		this.parentNode.appendChild(this.handle);
+		this.parent.updateMeasurements();
 	},
 
-	_createCell : function(cell) {
-		var index = this._cells.indexOf(cell);
+	/**
+	 * @method
+	 * Creates the cell
+	 *
+	 * @private
+	 */
+	createCell : function (cell) {
+		var index = this.cells.indexOf(cell), i, c,
+			order = this.parent.getColumnOrder(),
+			offset = order.indexOf(index);
+
 		cell.td = document.createElement("td");
 		cell.td.role = "gridcell";
 		cell.td.widget = this;
-		cell.td.control = this._table;
+		cell.td.control = this.parent;
 		cell.index = index;
-
-		base2.DOM.Event(cell.td);
-
 		cell.td.setAttribute("aria-labelledby", this.getId() + "-label-"+ index);
 
 		cell.img = document.createElement("img");
 		cell.img.id = this.getId() + "-image-"+ index;
 		cell.img.widget = this;
-		cell.img.control = this._table;
+		cell.img.control = this.parent;
 		cell.td.appendChild(cell.img);
-
-		base2.DOM.Event(cell.img);
 		cell.img.setAttribute("role", "presentation");
 
 		if (cell.image) {
@@ -158,36 +233,31 @@ gara.Class("gara.jswt.widgets.TableItem", {
 		cell.span.id = this.getId() + "-label-"+ index;
 		cell.span.className = "text";
 		cell.span.widget = this;
-		cell.span.control = this._table;
+		cell.span.control = this.parent;
 		cell.span.appendChild(cell.textNode);
+		cell.span.setAttribute("role", "presentation");
 		cell.td.appendChild(cell.span);
 
-		base2.DOM.Event(cell.span);
-		cell.span.setAttribute("role", "presentation");
-
 		// append cell to row
-		var order = this._table.getColumnOrder();
-		var offset = order.indexOf(index); // offset = index of cell in column order
-		var i = 0;
-
-		for (; i < offset; ++i) {
-			var c = this._cells[order[i]];
+		// offset = index of cell in column order
+		for (i = 0; i < offset; ++i) {
+			c = this.cells[order[i]];
 
 			if (!c.td) {
-				this._createCell(c);
+				this.createCell(c);
 			}
-			c.td.className = i == 0 ? "first" : "";
+			c.td.className = i === 0 ? "first" : "";
 		}
 		this.handle.appendChild(cell.td);
-		cell.td.className = i == 0 ? "first" : "";
+		cell.td.className = i === 0 ? "first" : "";
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		var cell, i;
+		this.$super();
 
-		var cell;
-		for (var i = 0, len = this._cells.length; i < len; i++) {
-			cell = this._cells[i];
+		for (i = 0, len = this.cells.length; i < len; i++) {
+			cell = this.cells[i];
 			if (cell.img) {
 				cell.td.removeChild(cell.img);
 				delete cell.img;
@@ -197,13 +267,10 @@ gara.Class("gara.jswt.widgets.TableItem", {
 
 			delete cell.td;
 		}
-		this._cells = null;
-		delete this._cells;
+		this.cells = null;
+		delete this.cells;
 
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
-		}
-
+		this.parentNode.removeChild(this.handle);
 		delete this.handle;
 	},
 
@@ -214,60 +281,64 @@ gara.Class("gara.jswt.widgets.TableItem", {
 	 * @author Thomas Gossmann
 	 * @return {boolean} the checked state
 	 */
-	getChecked : function() {
+	getChecked : function () {
 		this.checkWidget();
-		return this._checked;
+		return this.checked;
 	},
 
-	getGrayed : function() {
+	getGrayed : function () {
 		this.checkWidget();
-		return this._grayed;
+		return this.grayed;
 	},
 
-	getText : function(index) {
+	getText : function (index) {
 		this.checkWidget();
-		if (this._cells[index]) {
-			return this._cells[index].text;
+		if (this.cells[index]) {
+			return this.cells[index].text;
 		}
 		return null;
 	},
 
-	getImage : function(index) {
+	getImage : function (index) {
 		this.checkWidget();
-		if (this._cells[index]) {
-			return this._cells[index].image;
+		if (this.cells[index]) {
+			return this.cells[index].image;
 		}
 		return null;
 	},
 
-	handleEvent : function(e) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleEvent : function (e) {
 		this.checkWidget();
 
-		if ((e.target == this._checkbox	&& e.type == "mousedown")
-				|| (e.target == this._checkbox	&& e.type == "mouseup")
-				|| (e.type == "keydown" && e.keyCode == gara.jswt.JSWT.SPACE)) {
+		if ((e.target === this.checkbox	&& e.type === "mousedown")
+				|| (e.target === this.checkbox	&& e.type === "mouseup")
+				|| (e.type === "keydown" && e.keyCode === gara.jswt.JSWT.SPACE)) {
 
 			e.info = gara.jswt.JSWT.CHECK;
-			if (e.type == "mouseup") {
-				this.setChecked(!this._checked);
+			if (e.type === "mouseup") {
+				this.setChecked(!this.checked);
 			}
 		}
 	},
 
-	_registerListener : function(eventType, listener) {
-		if (this.handle != null) {
-			gara.EventManager.addListener(this.handle, eventType, listener);
-		}
-	},
-
-	_setCheckboxClass : function() {
-		this._checkbox.className = "jsWTCheckbox";
-		if (this._checked && this._grayed) {
-			this._checkbox.className += " jsWTCheckboxGrayedChecked";
-		} else if (this._grayed) {
-			this._checkbox.className += " jsWTCheckboxGrayed";
-		} else if (this._checked) {
-			this._checkbox.className += " jsWTCheckboxChecked";
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	setCheckboxClass : function () {
+		this.checkbox.className = "jsWTCheckbox";
+		if (this.checked && this.grayed) {
+			this.checkbox.className += " jsWTCheckboxGrayedChecked";
+		} else if (this.grayed) {
+			this.checkbox.className += " jsWTCheckboxGrayed";
+		} else if (this.checked) {
+			this.checkbox.className += " jsWTCheckboxChecked";
 		}
 	},
 
@@ -279,95 +350,100 @@ gara.Class("gara.jswt.widgets.TableItem", {
 	 * @param {boolean} checked the new checked state
 	 * @return {void}
 	 */
-	setChecked : function(checked) {
-		if (!this._grayed) {
-			this._checked = checked;
-			this.handle.setAttribute("aria-checked", this._checked);
-			this._setCheckboxClass();
+	setChecked : function (checked) {
+		if (!this.grayed) {
+			this.checked = checked;
+			this.handle.setAttribute("aria-checked", this.checked);
+			this.setCheckboxClass();
 		}
 		return this;
 	},
 
-	setGrayed : function(grayed) {
-		this._grayed = grayed;
-		this._checkbox.setAttribute("aria-disabled", this._grayed);
-		this._setCheckboxClass();
+	setGrayed : function (grayed) {
+		this.grayed = grayed;
+		this.checkbox.setAttribute("aria-disabled", this.grayed);
+		this.setCheckboxClass();
 		return this;
 	},
 
-	setImage : function(index, image) {
+	setImage : function (index, image) {
+		var self = this,
+			updateCell = function (cell, image) {
+				cell.image = image;
+				if (!cell.td) {
+					self.createCell(cell);
+				} else {
+					cell.img.src = image.src;
+					cell.img.style.display = "";
+				}
+			};
+
 		if (!image) {
 			image = index;
 			index = 0;
 		}
 
-		if (typeof(image) == "undefined" || image == null) {
+		if (typeof(image) === "undefined" || image === null) {
 			return;
 		}
 
-		var self = this;
-		if (gara.instanceOf(image, Array)) {
-			image.forEach(function(image, index, arr) {
-				if (!this._cells[index]) {
-					this._cells[index] = {};
+		if (image instanceof Array) {
+			image.forEach(function (image, index, arr) {
+				if (!this.cells[index]) {
+					this.cells[index] = {};
 				}
-				updateCell(this._cells[index], image);
+				updateCell(this.cells[index], image);
 			}, this);
 		} else {
-			if (!this._cells[index]) {
-				this._cells[index] = {};
+			if (!this.cells[index]) {
+				this.cells[index] = {};
 			}
-			updateCell(this._cells[index], image);
-		}
-
-		function updateCell(cell, image) {
-			cell.image = image;
-			if (!cell.td) {
-				self._createCell(cell);
-			} else {
-				cell.img.src = image.src;
-				cell.img.style.display = "";
-			}
+			updateCell(this.cells[index], image);
 		}
 
 		return this;
 	},
 
-	_setSelected : function(selected) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	setSelected : function (selected) {
 		this.checkWidget();
-		this._selected = selected;
-		this.handle.setAttribute('aria-selected', this._selected);
+		this.selected = selected;
+		this.handle.setAttribute('aria-selected', this.selected);
 	},
 
-	setText : function(index, text) {
+	setText : function (index, text) {
+		var self = this,
+			updateCell = function (cell, text) {
+				cell.text = text;
+				if (!cell.td) {
+					self.createCell(cell);
+				} else {
+					cell.textNode.value = text;
+				}
+			};
+
 		this.checkWidget();
-		if (typeof(text) == "undefined") {
+		if (typeof(text) === "undefined") {
 			text = index;
 			index = 0;
 		}
 
-		var self = this;
-		if (gara.instanceOf(text, Array)) {
-			text.forEach(function(text, index, arr) {
-				if (!this._cells[index]) {
-					this._cells[index] = {};
+		if (text instanceof Array) {
+			text.forEach(function (text, index, arr) {
+				if (!this.cells[index]) {
+					this.cells[index] = {};
 				}
-				updateCell(this._cells[index], text);
+				updateCell(this.cells[index], text);
 			}, this);
 		} else {
-			if (!this._cells[index]) {
-				this._cells[index] = {};
+			if (!this.cells[index]) {
+				this.cells[index] = {};
 			}
-			updateCell(this._cells[index], text);
-		}
-
-		function updateCell(cell, text) {
-			cell.text = text;
-			if (!cell.td) {
-				self._createCell(cell);
-			} else {
-				cell.textNode.value = text;
-			}
+			updateCell(this.cells[index], text);
 		}
 
 		return this;
@@ -381,35 +457,34 @@ gara.Class("gara.jswt.widgets.TableItem", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
-		if (this.handle != null) {
-			gara.EventManager.removeListener(this.handle, eventType, listener);
-		}
+	unbindListener : function (eventType, listener) {
+		gara.EventManager.removeListener(this.handle, eventType, listener);
 	},
 
-	update : function() {
+	update : function () {
+		var order, i, cell;
 		this.checkWidget();
 
-		if (this.handle == null) {
-			this._create();
+		if (this.handle === null) {
+			this.create();
 		} else {
 			while (this.handle.childNodes.length) {
 				this.handle.removeChild(this.handle.childNodes[0]);
 			}
-			if ((this._table.getStyle() & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
-				this.handle.appendChild(this._checkboxTd);
+			if ((this.parent.getStyle() & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
+				this.handle.appendChild(this.checkboxTd);
 			}
 
-			var order = this._table.getColumnOrder();
-			for (var i = 0, len = order.length; i < len; i++) {
-				var cell = this._cells[order[i]];
+			order = this.parent.getColumnOrder();
+			for (i = 0, len = order.length; i < len; i++) {
+				cell = this.cells[order[i]];
 
 				if (!cell.td) {
-					this._createCell(cell);
+					this.createCell(cell);
 				}
-				cell.td.className = i == 0 ? "first" : "";
+				cell.td.className = i === 0 ? "first" : "";
 				this.handle.appendChild(cell.td);
 			}
 		}
 	}
-});
+})});

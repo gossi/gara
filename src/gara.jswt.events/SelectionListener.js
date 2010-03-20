@@ -28,6 +28,6 @@ gara.provide("gara.jswt.events.SelectionListener");
  * @author Thomas Gossmann
  * @namespace gara.jswt.events
  */
-gara.Interface("gara.jswt.events.SelectionListener", {
+gara.Class("gara.jswt.events.SelectionListener", {
 	widgetSelected : function(widget) {}
 });

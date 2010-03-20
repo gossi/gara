@@ -29,7 +29,7 @@ gara.provide("gara.jswt.events.ModifyListener");
  * @namespace gara.jswt.events
  */
 
-gara.Interface("gara.jswt.events.ModifyListener", {
+gara.Class("gara.jswt.events.ModifyListener", {
 
 	/**
 	 * @method

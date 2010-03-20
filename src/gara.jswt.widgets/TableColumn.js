@@ -1,7 +1,7 @@
 /*	$Id $
 
 		gara - Javascript Toolkit
-	===========================================================================
+	================================================================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
@@ -18,7 +18,7 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	===========================================================================
+	================================================================================================================
 */
 
 gara.provide("gara.jswt.widgets.TableColumn");
@@ -26,9 +26,10 @@ gara.provide("gara.jswt.widgets.TableColumn");
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
 gara.use("gara.jswt.widgets.TableItem");
+//gara.use("gara.jswt.widgets.Table");
 
 gara.require("gara.jswt.widgets.Item");
-gara.require("gara.jswt.widgets.Table");
+
 
 /**
  * gara TableColumn
@@ -38,96 +39,193 @@ gara.require("gara.jswt.widgets.Table");
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-gara.Class("gara.jswt.widgets.TableColumn", {
+gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 	$extends : gara.jswt.widgets.Item,
 
-	$constructor : function(parent, style, index) {
+	/**
+	 * @field
+	 * Contains a shadow copy of the <code>Table</code> that is used, when
+	 * moving columns.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.Table}
+	 */
+	shadow : null,
 
-		if (!gara.instanceOf(parent, gara.jswt.widgets.Table)) {
+	/**
+	 * @field
+	 * Width of this column.
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	width : 0,
+
+	/**
+	 * @field
+	 * Image's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	img : null,
+
+	/**
+	 * @field
+	 * Text's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	span : null,
+
+	/**
+	 * @field
+	 * Text's DOM reference.
+	 *
+	 * @private
+	 * @type {HTMLElement}
+	 */
+	spanText : null,
+
+	/**
+	 * @field
+	 * Operator's DOM reference.
+	 *
+	 * @private
+	 * @type {}
+	 */
+	operator : null,
+
+
+	/**
+	 * @field
+	 * Holds the moveable flag.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	moveable : true,
+
+	/**
+	 * @field
+	 * Holds the resizable flag.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	resizable : true,
+
+
+	/**
+	 * @field
+	 * Holds the flag wether this column is currently being moved.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	isMoving : false,
+
+	/**
+	 * @field
+	 * Holds the flag wether this column is currently being resized.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	isResizing : false,
+
+	$constructor : function (parent, style, index) {
+
+		if (!(parent instanceof gara.jswt.widgets.Table)) {
 			throw new TypeError("parent is not a gara.jswt.widgets.Table");
 		}
 
-		this.$base(parent, style);
+		this.$super(parent, style);
 
-		this._table = parent;
-		this._parentNode = this._table._addColumn(this, index);
-		this._shadow = null;
+		this.parentNode = this.parent.addColumn(this, index);
+		this.shadow = null;
 
-		this._width = null;
-		this._img = null;
-		this._span = null;
-		this._spanText = null
-		this._operator = null;
+		this.width = null;
+		this.img = null;
+		this.span = null;
+		this.spanText = null;
+		this.operator = null;
 
-		this._moveable = true;
-		this._resizable = true;
+		this.moveable = true;
+		this.resizable = true;
 
-		this._isMoving = false;
-		this._isResizing = false;
-		this._create();
+		this.isMoving = false;
+		this.isResizing = false;
+		this.createWidget();
 	},
 
-	_create : function() {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	bindListener : function () {},
+
+	createWidget : function () {
+		var thead, cols, colsWidth, i, width, parentWidth;
 		this.handle = document.createElement("th");
 		this.handle.id = this.getId();
 		this.handle.widget = this;
-		this.handle.control = this._table;
-
-		base2.DOM.Event(this.handle);
+		this.handle.control = this.parent;
 		this.handle.setAttribute("role", "columnheader");
 		this.handle.setAttribute("aria-labelledby", this.getId() + "-label");
-
+		this.handle.setAttribute("unselectable", "on");
 
 		// create image node
-		this._img = document.createElement("img");
-		this._img.id = this.getId() + "-image";
-		this._img.widget = this;
-		this._img.control = this._tree;
-
-		base2.DOM.Event(this._img);
-		this._img.setAttribute("role", "presentation");
+		this.img = document.createElement("img");
+		this.img.id = this.getId() + "-image";
+		this.img.widget = this;
+		this.img.control = this.tree;
+		this.img.setAttribute("role", "presentation");
+		this.img.setAttribute("unselectable", "on");
 
 		// set image
-		if (this._image != null) {
-			this._img.src = this._image.src;
+		if (this.image !== null) {
+			this.img.src = this.image.src;
 		} else {
-			this._img.style.display = "none";
+			this.img.style.display = "none";
 		}
 
 		// operator node
-		this._operator = document.createElement("span");
-		this._operator.className = "mover";
-		this._operator.id = this.getId() + "-operator";
-		this._operator.widget = this;
-		this._operator.control = this._table;
-		base2.DOM.Event(this._operator);
-		this._operator.setAttribute("role", "presentation");
+		this.operator = document.createElement("span");
+		this.operator.className = "mover";
+		this.operator.id = this.getId() + "-operator";
+		this.operator.widget = this;
+		this.operator.control = this.parent;
+		this.operator.setAttribute("role", "presentation");
+		this.operator.setAttribute("unselectable", "on");
 
 		// text node
-		this._span = document.createElement("span");
-		this._span.id = this.getId() + "-label";
-		this._span.widget = this;
-		this._span.control = this._table;
-		this._span.className = "text";
-		this._spanText = document.createTextNode(this._text);
-		this._span.appendChild(this._spanText);
-		base2.DOM.Event(this._span);
-		this._span.setAttribute("role", "presentation");
+		this.span = document.createElement("span");
+		this.span.id = this.getId() + "-label";
+		this.span.widget = this;
+		this.span.control = this.parent;
+		this.span.className = "text";
+		this.spanText = document.createTextNode(this.text);
+		this.span.appendChild(this.spanText);
+		this.span.setAttribute("role", "presentation");
+		this.span.setAttribute("unselectable", "on");
 
 		// add nodes
-		this.handle.appendChild(this._img);
-		this.handle.appendChild(this._operator);
-		this.handle.appendChild(this._span);
+		this.handle.appendChild(this.img);
+		this.handle.appendChild(this.operator);
+		this.handle.appendChild(this.span);
 
-		if (this._parentNode != null) {
-			var thead = this._parentNode.parentNode;
+		if (this.parentNode !== null) {
+			thead = this.parentNode.parentNode;
 			thead.style.position = "relative";
-			this._parentNode.appendChild(this.handle);
-			var cols = this._parent.getColumns();
-			var colsWidth = 0;
-			var parentWidth = this._parentNode.clientWidth;
-			for (var i = 0, len = cols.length; i < len - 1; ++i) {
-				var width = Math.floor(parentWidth / len);
+			this.parentNode.appendChild(this.handle);
+			cols = this.parent.getColumns();
+			colsWidth = 0;
+			parentWidth = this.parentNode.clientWidth;
+			for (i = 0, len = cols.length; i < len - 1; ++i) {
+				width = Math.floor(parentWidth / len);
 				colsWidth += width;
 				cols[i].setWidth(width);
 				cols[i].setClass("operator", true);
@@ -136,225 +234,225 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 			thead.style.position = "absolute";
 		}
 
-		this._parent._updateMeasurements();
+		this.parent.updateMeasurements();
 	},
 
-	_computeWidth : function() {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	computeWidth : function () {
 		this.checkWidget();
-		if (this.handle != null && this.handle.style.display != "none") {
-			this._width = this.handle.offsetWidth;
-			this._width = this._width == 0 ? null : this._width;
+		if (this.handle !== null && this.handle.style.display !== "none") {
+			this.width = this.handle.offsetWidth;
+			this.width = this.width === 0 ? null : this.width;
 		}
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		this.$super();
 
-		if (this._img != null) {
-			this.handle.removeChild(this._img);
-			delete this._img;
-			delete this._image;
+		if (this.img !== null) {
+			this.handle.removeChild(this.img);
+			delete this.img;
+			delete this.image;
 		}
-		this.handle.removeChild(this._operator);
-		this.handle.removeChild(this._span);
+		this.handle.removeChild(this.operator);
+		this.handle.removeChild(this.span);
 
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
+		if (this.parentNode !== null) {
+			this.parentNode.removeChild(this.handle);
 		}
 
-		delete this._operator;
-		delete this._span;
+		delete this.operator;
+		delete this.span;
 		delete this.handle;
 	},
 
-	getWidth : function() {
+	getWidth : function () {
+		var columns, columnOrder;
 		this.checkWidget();
-		if (this._width == null || this._width == "auto") {
-			this._computeWidth();
+		if (this.width === null || this.width === "auto") {
+			this.computeWidth();
 		}
 
 		// if last Column and Scrollbar is visible
-		var columns = this._parent.getColumns();
-		var columnOrder = this._parent.getColumnOrder();
-		if (columns[columnOrder[columnOrder.length - 1]] == this
-				&& this._parent.getVerticalScrollbar()) {
-			return this._width - 19;
+		columns = this.parent.getColumns();
+		columnOrder = this.parent.getColumnOrder();
+		if (columns[columnOrder[columnOrder.length - 1]] === this
+				&& this.parent.getVerticalScrollbar()) {
+			return this.width - gara.jswt.JSWT.SCROLLBAR_WIDTH;
 		}
 
-		return this._width;
+		return this.width;
 	},
 
-	handleEvent : function(e) {
+	handleEvent : function (e) {
+		var order, thisColumnIndex, thisColumnOrder, columns, offset,
+			minWidth, delta, nextWidth, width,
+			col, colOrder, colIndex, orderIndex, thisColIndex;
 		this.checkWidget();
 		switch(e.type) {
-			case "mousedown":
-				// Resizing Column
-				if (e.target == this._operator && this._resizable) {
-					this._isResizing = true;
+		case "mousedown":
+			// Resizing Column
+			if (e.target === this.operator && this.resizable) {
+				this.isResizing = true;
 
-					this.allColsWidth = 0;
-					var columns = this._table.getColumns();
-					columns.forEach(function(item, index, arr) {
-						var width = item.getWidth();
-						this.allColsWidth += width;
-					}, this);
+				this.allColsWidth = 0;
+				columns = this.parent.getColumns();
+				columns.forEach(function (item, index, arr) {
+					this.allColsWidth += item.getWidth();
+				}, this);
 
-					var order = this._table.getColumnOrder();
-					var thisColumnIndex = columns.indexOf(this);
-					var thisColumnOrder = order.indexOf(thisColumnIndex);
-					this.nextColumn = columns[order[thisColumnOrder + 1]];
-					this.lessColsWidth = this.allColsWidth - this.getWidth() - this.nextColumn.getWidth();
+				order = this.parent.getColumnOrder();
+				thisColumnIndex = columns.indexOf(this);
+				thisColumnOrder = order.indexOf(thisColumnIndex);
+				this.nextColumn = columns[order[thisColumnOrder + 1]];
+				this.lessColsWidth = this.allColsWidth - this.getWidth() - this.nextColumn.getWidth();
 
-					this.resizeStart = e.clientX;
-					this.startWidth = this._width;
-					this.nextStartWidth = this.nextColumn.getWidth();
-					if (this._parent.getVerticalScrollbar()) {
-						if (this.nextColumn == columns[order[order.length - 1]]) {
-							this.nextStartWidth += 19;
-						}
-						this.allColsWidth += 19;
+				this.resizeStart = e.clientX;
+				this.startWidth = this.width;
+				this.nextStartWidth = this.nextColumn.getWidth();
+				if (this.parent.getVerticalScrollbar()) {
+					if (this.nextColumn === columns[order[order.length - 1]]) {
+						this.nextStartWidth += gara.jswt.JSWT.SCROLLBAR_WIDTH;
 					}
-
-					gara.EventManager.addListener(document, "mousemove", this);
-					gara.EventManager.addListener(document, "mouseup", this);
+					this.allColsWidth += gara.jswt.JSWT.SCROLLBAR_WIDTH;
 				}
 
-				// Moving Column
-				if (e.target == this.handle && this._moveable) {
-					this._isMoving = true;
+				gara.EventManager.addListener(document, "mousemove", this);
+				gara.EventManager.addListener(document, "mouseup", this);
+			}
 
-					var order = this._table.getColumns();
-					var offset = order.indexOf(this);
+			// Moving Column
+			if (e.target === this.handle && this.moveable) {
+				this.isMoving = true;
 
-					this._shadow = new gara.jswt.widgets.Table(document.getElementsByTagName("body")[0], this._table.getStyle() &~ gara.jswt.JSWT.CHECK);
-					this._shadow.setHeaderVisible(this._table.getHeaderVisible());
-					this._shadow.setLinesVisible(this._table.getLinesVisible());
-					this._shadow.setHeight(this._table.getHeight());
-					this._shadow.addClass("jsWTTableShadow");
+				order = this.parent.getColumns();
+				offset = order.indexOf(this);
 
-					this._table.getColumns().forEach(function(col, index, arr) {
-						if (index == offset) {
-							var c = new gara.jswt.widgets.TableColumn(this._shadow);
-							c.setText(col.getText());
-							c.setWidth(col.getWidth()+(offset == order.length -1 ? 38 : 19));
-						}
-					}, this);
+				this.shadow = new gara.jswt.widgets.Table(document.getElementsByTagName("body")[0], this.parent.getStyle() &~ gara.jswt.JSWT.CHECK);
+				this.shadow.setHeaderVisible(this.parent.getHeaderVisible());
+				this.shadow.setLinesVisible(this.parent.getLinesVisible());
+				this.shadow.setHeight(this.parent.getHeight());
+				this.shadow.addClass("jsWTTableShadow");
 
-					this._table.getItems().forEach(function(item) {
-						var i = new gara.jswt.widgets.TableItem(this._shadow);
-						i.setText(item.getText(offset));
-						i.setImage(item.getImage(offset));
-					}, this);
-
-//					this._shadow.update();
-					if (!e.pageX){e.pageX = e.clientX + document.documentElement.scrollLeft;}
-					if (!e.pageY){e.pageY = e.clientY + document.documentElement.scrollTop;}
-					this._shadow.handle.style.left = e.pageX + 16 + "px";
-					this._shadow.handle.style.top = e.pageY + 16 + "px";
-
-					gara.EventManager.addListener(document, "mousemove", this);
-					gara.EventManager.addListener(document, "mouseup", this);
-				}
-				break;
-
-			case "mousemove":
-				// Resizing
-				if (this._isResizing) {
-					var minWidth = 20;
-
-					var delta = e.clientX - this.resizeStart;
-					var width = this.startWidth + delta;
-					var nextWidth = this.nextStartWidth - delta;
-
-					if (width > minWidth && nextWidth > minWidth) {
-						this._width = width;
-						this.handle.style.width = this._width + "px";
-						this.nextColumn.handle.style.width = nextWidth + "px";
-						this.nextColumn.setWidth(nextWidth);
-						this._parent.getItems()[0]._adjustWidth();
+				this.parent.getColumns().forEach(function (col, index, arr) {
+					var c;
+					if (index === offset) {
+						c = new gara.jswt.widgets.TableColumn(this.shadow);
+						c.setText(col.getText());
+						c.setWidth(col.getWidth()+(offset === order.length -1 ? gara.jswt.JSWT.SCROLLBAR_WIDTH * 2 : gara.jswt.JSWT.SCROLLBAR_WIDTH));
 					}
+				}, this);
+
+				this.parent.getItems().forEach(function (item) {
+					var i = new gara.jswt.widgets.TableItem(this.shadow);
+					i.setText(item.getText(offset));
+					i.setImage(item.getImage(offset));
+				}, this);
+
+//					this.shadow.update();
+				if (!e.pageX){e.pageX = e.clientX + document.documentElement.scrollLeft;}
+				if (!e.pageY){e.pageY = e.clientY + document.documentElement.scrollTop;}
+				this.shadow.handle.style.left = e.pageX + 16 + "px";
+				this.shadow.handle.style.top = e.pageY + 16 + "px";
+
+				gara.EventManager.addListener(document, "mousemove", this);
+				gara.EventManager.addListener(document, "mouseup", this);
+			}
+			break;
+
+		case "mousemove":
+			// Resizing
+			if (this.isResizing) {
+				minWidth = 20;
+
+				delta = e.clientX - this.resizeStart;
+				width = this.startWidth + delta;
+				nextWidth = this.nextStartWidth - delta;
+
+				if (width > minWidth && nextWidth > minWidth) {
+					this.width = width;
+					this.handle.style.width = this.width + "px";
+					this.nextColumn.handle.style.width = nextWidth + "px";
+					this.nextColumn.setWidth(nextWidth);
+					this.parent.getItems()[0].adjustWidth();
 				}
+			}
 
-				// Moving
-				if (this._isMoving) {
-					if (!e.pageX){e.pageX = e.clientX + document.documentElement.scrollLeft;}
-					if (!e.pageY){e.pageY = e.clientY + document.documentElement.scrollTop;}
-					this._shadow.handle.style.left = e.pageX + 16 + "px";
-					this._shadow.handle.style.top = e.pageY + 16 + "px";
+			// Moving
+			if (this.isMoving) {
+				if (!e.pageX){e.pageX = e.clientX + document.documentElement.scrollLeft;}
+				if (!e.pageY){e.pageY = e.clientY + document.documentElement.scrollTop;}
+				this.shadow.handle.style.left = e.pageX + 16 + "px";
+				this.shadow.handle.style.top = e.pageY + 16 + "px";
+			}
+			break;
+
+		case "mouseup":
+			// Resizing
+			if (this.isResizing) {
+				gara.EventManager.removeListener(document, "mousemove", this);
+				gara.EventManager.removeListener(document, "mouseup", this);
+				this.isResizing = false;
+			}
+
+			// Moving
+			if (this.isMoving) {
+				gara.EventManager.removeListener(document, "mousemove", this);
+				gara.EventManager.removeListener(document, "mouseup", this);
+				this.isMoving = false;
+				this.shadow.dispose();
+
+				delete this.shadow;
+
+				this.shadow = null;
+
+				if (e.target.widget && e.target.widget instanceof gara.jswt.widgets.TableColumn
+					&& e.target.widget.getParent() === this.parent) {
+					col = e.target.widget; // drag
+					colOrder = this.parent.getColumnOrder();
+					colIndex = this.parent.getColumns().indexOf(col);
+					orderIndex = colOrder.indexOf(colIndex);
+					thisColIndex = this.parent.getColumns().indexOf(this);
+					colOrder.remove(thisColIndex);
+					colOrder.insertAt(orderIndex, thisColIndex);
+					this.parent.update();
 				}
-				break;
-
-			case "mouseup":
-				// Resizing
-				if (this._isResizing) {
-					gara.EventManager.removeListener(document, "mousemove", this);
-					gara.EventManager.removeListener(document, "mouseup", this);
-					this._isResizing = false;
-				}
-
-				// Moving
-				if (this._isMoving) {
-					gara.EventManager.removeListener(document, "mousemove", this);
-					gara.EventManager.removeListener(document, "mouseup", this);
-					this._isMoving = false;
-					this._shadow.dispose();
-
-					delete this._shadow;
-
-					this._shadow = null;
-
-					if (e.target.widget && gara.instanceOf(e.target.widget, gara.jswt.widgets.TableColumn)
-						&& e.target.widget.getParent() == this._table) {
-						var col = e.target.widget; // drag
-						var colOrder = this._table.getColumnOrder();
-						var colIndex = this._table.getColumns().indexOf(col);
-						var orderIndex = colOrder.indexOf(colIndex);
-						var thisColIndex = this._table.getColumns().indexOf(this);
-						colOrder.remove(thisColIndex);
-						colOrder.insertAt(orderIndex, thisColIndex);
-						this._table.update();
-					}
-				}
-				break;
+			}
+			break;
 		}
 	},
 
-	_registerListener : function() {},
+	setImage : function (image) {
+		this.$super(image);
 
-	setImage : function(image) {
-		this.$base(image);
+		// update image
+		if (this.image !== null) {
+			this.img.src = this.image.src;
+			this.img.style.display = "";
+		}
 
-		if (this.handle) {
-			// update image
-			if (this._image != null) {
-				this._img.src = this._image.src;
-				this._img.style.display = "";
-			}
-
-			// hide image
-			else {
-				this._img.src = "";
-				this._img.style.display = "none";
-			}
+		// hide image
+		else {
+			this.img.src = "";
+			this.img.style.display = "none";
 		}
 		return this;
 	},
 
-	setText : function(text) {
-		this.$base(text);
-		if (this.handle) {
-			this._spanText.nodeValue = this._text;
-		}
+	setText : function (text) {
+		this.$super(text);
+		this.spanText.nodeValue = this.text;
 		return this;
 	},
 
-	setWidth : function(width) {
+	setWidth : function (width) {
 		this.checkWidget();
-		this._width = width;
-
-		if (this.handle) {
-			this.handle.style.width = this._width + "px";
-		}
+		this.width = width;
+		this.handle.style.width = this.width + "px";
 
 		return this;
 	},
@@ -364,19 +462,18 @@ gara.Class("gara.jswt.widgets.TableColumn", {
 	 * Unregister listeners for this widget. Implementation for gara.jswt.widgets.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_unregisterListener : function(eventType, listener) {
-	},
+	unbindListener : function (eventType, listener) {},
 
-	update : function() {
+	update : function () {
+		var columnOrder;
 		this.checkWidget();
-		if (this.handle == null) {
-			this._create();
+		if (this.handle === null) {
+			this.create();
 		}
 
-		var columnOrder = this._table.getColumnOrder();
-		this.setClass("operator", this._table.getColumns()[columnOrder[columnOrder.length - 1]] != this);
+		columnOrder = this.parent.getColumnOrder();
+		this.setClass("operator", this.parent.getColumns()[columnOrder[columnOrder.length - 1]] !== this);
 	}
-});
+})});

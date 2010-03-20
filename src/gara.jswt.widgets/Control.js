@@ -23,18 +23,18 @@
 
 gara.provide("gara.jswt.widgets.Control");
 
-gara.use("gara.Utils");
+//gara.use("gara.utils");
 gara.use("gara.jswt.JSWT");
 
-gara.use("gara.jswt.events.FocusListener");
-gara.use("gara.jswt.events.KeyListener");
-gara.use("gara.jswt.events.MouseListener");
+//gara.use("gara.jswt.events.FocusListener");
+//gara.use("gara.jswt.events.KeyListener");
+//gara.use("gara.jswt.events.MouseListener");
 
-gara.use("gara.jswt.widgets.Composite");
-gara.use("gara.jswt.widgets.Menu");
+//gara.use("gara.jswt.widgets.Composite");
+//gara.use("gara.jswt.widgets.Menu");
+gara.use("gara.jswt.widgets.FocusManager");
 
-gara.require("gara.jswt.widgets.Widget");
-gara.require("gara.jswt.widgets.FocusManager");
+gara.parent("gara.jswt.widgets.Widget",
 
 /**
  * @class Control
@@ -42,36 +42,120 @@ gara.require("gara.jswt.widgets.FocusManager");
  * @extends gara.jswt.wigdets.Widget
  * @namespace gara.jswt.widgets
  */
-gara.Class("gara.jswt.widgets.Control", {
+function () {gara.Class("gara.jswt.widgets.Control", {
 	$extends : gara.jswt.widgets.Widget,
+
+	/**
+	 * @field
+	 * Holds the focus state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	hasFocus : false,
+
+	/**
+	 * @field
+	 * Contains the context menu.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.Menu}
+	 */
+	menu : null,
+
+	/**
+	 * @field
+	 * Holds the enabled state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	enabled : true,
+
+	/**
+	 * @field
+	 * X Mouse Coordinate. Mouse Coords are used to show the context menu at this position.
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	mouseX : 0,
+
+	/**
+	 * @field
+	 * Y Mouse Coordinate. Mouse Coords are used to show the context menu at this position.
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	mouseY : 0,
+
+	/**
+	 * @field
+	 * Contains the Control's width. Null is auto.
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	width : 0,
+
+	/**
+	 * @field
+	 * Contains the Control's height. Null is auto.
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	height : 0,
+
+	/**
+	 * @field
+	 * Contains the focus listeners
+	 *
+	 * @private
+	 * @type {gara.jswt.events.FocusListener[]}
+	 */
+	focusListeners : [],
+
+	/**
+	 * @field
+	 * Contains the mouse listeners
+	 *
+	 * @private
+	 * @type {gara.jswt.events.MouseListener[]}
+	 */
+	mouseListeners : [],
+
+	/**
+	 * @field
+	 * Contains the key listeners
+	 *
+	 * @private
+	 * @type {gara.jswt.events.KeyListener[]}
+	 */
+	keyListeners : [],
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function(parent, style) {
-		this.$base(parent, style);
+	$constructor : function (parent, style) {
+		this.$super(parent, style);
 
-		// flags and menu
-		this._hasFocus = false;
-		this._menu = null;
-		this._enabled = true;
-		this._initMouseListener = false;
-		this._initKeyListener = false;
+		this.focusListeners = [];
+		this.mouseListeners = [];
+		this.keyListeners = [];
 
-		// mouse coords for context menu
-		this._mouseX = 0;
-		this._mouseY = 0;
+		this.width = null;
+		this.height = null;
 
-		// measurements
-		this._width = null;
-		this._height = null;
+		this.hasFocus = false;
+		this.menu = null;
+		this.enabled = true;
 
-		// listener
-		this._focusListener = [];
-		this._keyListener = [];
-		this._mouseListener = [];
+		this.mouseX = 0;
+		this.mouseY = 0;
 
-		this._createWidget();
+		this.createWidget();
 
 		// add to focus manager
 		gara.jswt.widgets.FocusManager.addWidget(this);
@@ -85,16 +169,11 @@ gara.Class("gara.jswt.widgets.Control", {
 	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.FocusListener} listener the listener which should be notified
-	 * @throws {TypeError} if the listener is not implementing the FocusListener interface
 	 * @return {void}
 	 */
-	addFocusListener : function(listener) {
-		if (!gara.implementationOf(listener, gara.jswt.events.FocusListener)) {
-			throw new TypeError("listener is not a gara.jswt.events.FocusListener");
-		}
-
-		if (!this._focusListener.contains(listener)) {
-			this._focusListener.push(listener);
+	addFocusListener : function (listener) {
+		if (!this.focusListeners.contains(listener)) {
+			this.focusListeners.push(listener);
 		}
 		return this;
 	},
@@ -107,25 +186,23 @@ gara.Class("gara.jswt.widgets.Control", {
 	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.KeyListener} listener the listener which should be notified
-	 * @throws {TypeError} if the listener is not implementing the KeyListener interface
 	 * @return {void}
 	 */
-	addKeyListener : function(listener) {
-		if (!gara.implementationOf(listener, gara.jswt.events.KeyListener)) {
-			throw new TypeError("listener is not a gara.jswt.events.KeyListener");
-		}
+	addKeyListener : (function () {
+		var registered = false;
+		return function (listener) {
+			if (!this.keyListeners.contains(listener)) {
+				this.keyListeners.push(listener);
+			}
 
-		if (!this._keyListener.contains(listener)) {
-			this._keyListener.push(listener);
-		}
-
-		if (!this._initKeyListener) {
-			this.addListener("keydown", this);
-			this.addListener("keyup", this);
-			this._initKeyListener = true;
-		}
-		return this;
-	},
+			if (!registered) {
+				this.addListener("keydown", this);
+				this.addListener("keyup", this);
+				registered = true;
+			}
+			return this;
+		};
+	})(),
 
 	/**
 	 * @method
@@ -135,215 +212,311 @@ gara.Class("gara.jswt.widgets.Control", {
 	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.MouseListener} listener the listener which should be notified
-	 * @throws {TypeError} if the listener is not implementing the MouseListener interface
 	 * @return {void}
 	 */
-	addMouseListener : function(listener) {
-		if (!gara.implementationOf(listener, gara.jswt.events.MouseListener)) {
-			throw new TypeError("listener is not a gara.jswt.events.MouseListener");
-		}
+	addMouseListener : (function () {
+		var registered = false;
+		return function (listener) {
+			if (!this.mouseListeners.contains(listener)) {
+				this.mouseListeners.push(listener);
+			}
 
-		if (!this._mouseListener.contains(listener)) {
-			this._mouseListener.push(listener);
-		}
+			if (!registered) {
+				this.addListener("mousedown", this);
+				this.addListener("mouseup", this);
+				this.addListener("dblclick", this);
+				registered = true;
+			}
+			return this;
+		};
+	})(),
 
-		if (!this._initMouseListener) {
-			this.addListener("mousedown", this);
-			this.addListener("mouseup", this);
-			this.addListener("dblclick", this);
-			this._initMouseListener = true;
-		}
-		return this;
+	/**
+	 * @method
+	 * Creates the widget. Should be overridden by subclasses.
+	 *
+	 * @private
+	 */
+	createWidget : function () {
+		alert("Control.createWidget() invoked on Control " + this + ". Method not implemented");
 	},
 
-	_createWidget : function(element, preventAppending) {
+	/**
+	 * @method
+	 * Creates the dom node for the handle. Should be called by subclasses in createWidget.
+	 *
+	 * @private
+	 * @param {String} element node name for the handle element
+	 * @param {boolean} preventAppending when <code>true</code> the handles isn't appended to the parent
+	 * @return {void}
+	 */
+	createHandle : function (element, preventAppending) {
+		var eventType;
 		this.handle = document.createElement(element);
 		this.handle.id = this.getId();
 		this.handle.widget = this;
 		this.handle.control = this;
-		this.handle.tabIndex = this._enabled ? 0 : -1;
-		this.handle.className = this._classes.join(" ");
-
-		base2.DOM.Event(this.handle);
+		this.handle.tabIndex = this.enabled ? 0 : -1;
+		this.handle.className = this.classes.join(" ");
 
 		// register listeners
-		for (var eventType in this._listener) {
-			this._listener[eventType].forEach(function(elem, index, arr) {
-				this._registerListener(eventType, elem);
+		for (eventType in this.listeners) {
+			this.listeners[eventType].forEach(function (elem, index, arr) {
+				this.bindListener(eventType, elem);
 			}, this);
 		}
 
 		// add to dom
 		if (!preventAppending) {
-			if (gara.instanceOf(this._parent, gara.jswt.widgets.Composite)) {
-				this._parentNode = this._parent.getClientArea();
+			if (this.parent !== null && this.parent instanceof gara.jswt.widgets.Composite) {
+				this.parentNode = this.parent.getClientArea();
 			} else {
-				this._parentNode = this._parent;
+				this.parentNode = this.parent;
 			}
 
-			if (this._parentNode != null) {
-				this._parentNode.appendChild(this.handle);
+			if (this.parentNode !== null) {
+				this.parentNode.appendChild(this.handle);
 			}
 		}
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		this.$super();
 		gara.jswt.widgets.FocusManager.removeWidget(this);
-		this._focusListener = [];
-		this._keyListener = [];
-		this._mouseListener = [];
-	},
-
-	focusGained : function(e) {
-		this._hasFocus = true;
-
-		e.widget = this;
-		e.control = this;
-
-		// notify focus listeners
-		for (var i = 0, len = this._focusListener.length; i < len; ++i) {
-			this._focusListener[i].focusGained(e);
-		}
-	},
-
-	focusLost : function(e) {
-		this._hasFocus = false;
-
-		e.widget = this;
-		e.control = this;
-
-		// notify focus listeners
-		for (var i = 0, len = this._focusListener.length; i < len; ++i) {
-			this._focusListener[i].focusLost(e);
-		}
+		this.focusListeners = [];
+		this.keyListeners = [];
+		this.mouseListeners = [];
 	},
 
 	/**
 	 * @method
-	 * Forces this control to gain focus
+	 * This method is invoked by the <code>FocusManager</code> when the <code>Control</code>
+	 * gains focus.
+	 *
+	 * @private
+	 * @param {Event} e
+	 * @return {void}
+	 */
+	focusGained : function (e) {
+		this.hasFocus = true;
+
+		e.widget = this;
+		e.control = this;
+
+		// notify focus listeners
+		this.focusListeners.forEach(function (listener) {
+			if (listener.focusGained) {
+				listener.focusGained(e);
+			}
+		}, this);
+	},
+
+	/**
+	 * @method
+	 * This method is invoked by the <code>FocusManager</code> when the <code>Control</code>
+	 * losts focus.
+	 *
+	 * @private
+	 * @param {Event} e
+	 * @return {void}
+	 */
+	focusLost : function (e) {
+		this.hasFocus = false;
+
+		e.widget = this;
+		e.control = this;
+
+		// notify focus listeners
+		this.focusListeners.forEach(function (listener) {
+			if (listener.focusLost) {
+				listener.focusLost(e);
+			}
+		}, this);
+	},
+
+	/**
+	 * @method
+	 * Forces the <code>Control</code> to gain focus.
 	 *
 	 * @return {void}
 	 */
-	forceFocus : function() {
+	forceFocus : function () {
 		this.handle.focus();
 	},
 
-	getEnabled : function() {
-		return this._enabled;
-	},
-
-	getHeight : function() {
-		return this._height;
-	},
-
-	getWidth : function() {
-		return this._width;
-	},
-
-	handleEvent: function(e) {
-		// notify mouse and key listeners
-		switch(e.type) {
-			case "keydown":
-				this._keyListener.forEach(function(listener) {
-					listener.keyPressed(e);
-				}, this);
-				break;
-
-			case "keyup":
-				this._keyListener.forEach(function(listener) {
-					listener.keyReleased(e);
-				}, this);
-				break;
-
-			case "dblclick":
-				this._mouseListener.forEach(function(listener) {
-					listener.mouseDoubleClick(e);
-				}, this);
-				break;
-
-			case "mousedown":
-				this._mouseListener.forEach(function(listener) {
-					listener.mouseDown(e);
-				}, this);
-				break;
-
-			case "mouseup":
-				this._mouseListener.forEach(function(listener) {
-					listener.mouseUp(e);
-				}, this);
-				break;
-
-			case "mousemove":
-				this._mouseX = (e.pageX || e.clientX + document.documentElement.scrollLeft) + 1;
-				this._mouseY = (e.pageY || e.clientY + document.documentElement.scrollTop) + 1;
-				break;
-		}
-	},
-
-	_handleContextMenu : function(e) {
-		switch(e.type) {
-			case "keydown":
-				// context menu on shift + F10
-				if (this._menu != null && e.shiftKey && e.keyCode == gara.jswt.JSWT.F10) {
-					this._menu.update();
-					this._menu.setLocation(this._mouseX, this._mouseY);
-					this._menu.setVisible(true, e);
-					e.preventDefault();
-				}
-				break;
-
-			case "contextmenu":
-				if (this._menu != null) {
-					this._menu.update();
-					this._menu.setLocation(this._mouseX, this._mouseY);
-					this._menu.setVisible(true, e);
-					e.preventDefault(); // hide browser context menu
-				}
-				break;
-
-			/* Opera has no contextmenu event, so we go for Ctrl + mousedown
-			 * See YUI blog for more information:
-			 * http://yuiblog.com/blog/2008/07/17/context-menus-and-focus-in-opera/
-			 */
-			case "mousedown":
-				if (window.opera
-						&& (e.altKey || e.ctrlKey)
-						&& this._menu != null) {
-					this._menu.update();
-					this._menu.setLocation(this._mouseX, this._mouseY);
-					this._menu.setVisible(true, e);
-				}
-				break;
-		}
-	},
-
 	/**
 	 * @method
-	 * Tells wether the control has focus or not
+	 * Returns <code>true</code> if the <code>Control</code> is enabled, and <code>false</code> otherwise.
 	 *
-	 * @return {boolean} true for having the focus and false if not
+	 * @returns {boolean} the <code>Control</code>'s enabled state
 	 */
-	isFocusControl : function() {
-		return this._hasFocus;
+	getEnabled : function () {
+		return this.enabled;
 	},
 
 	/**
 	 * @method
-	 * Forces this control to loose focus
+	 * Returns <code>Control</code>'s height.
+	 *
+	 * @returns {int} the <code>Control</code>'s height in pixels
+	 */
+	getHeight : function () {
+		return this.height;
+	},
+
+	/**
+	 * @method
+	 * Returns <code>Control</code>'s width.
+	 *
+	 * @returns {int} the <code>Control</code>'s width in pixels
+	 */
+	getWidth : function () {
+		return this.width;
+	},
+
+	/**
+	 * @method
+	 * Handles <code>Control</code> related events.
+	 *
+	 * @private
+	 * @param {Event} e
+	 * @return {void}
+	 */
+	handleEvent: function (e) {
+		// notify mouse and key listeners
+		switch (e.type) {
+		case "keydown":
+			this.keyListeners.forEach(function (listener) {
+				if (listener.keyPressed) {
+					listener.keyPressed(e);
+				}
+			}, this);
+			break;
+
+		case "keyup":
+			this.keyListeners.forEach(function (listener) {
+				if (listener.keyReleased) {
+					listener.keyReleased(e);
+				}
+			}, this);
+			break;
+
+		case "dblclick":
+			this.mouseListeners.forEach(function (listener) {
+				if (listener.mouseDoubleClick) {
+					listener.mouseDoubleClick(e);
+				}
+			}, this);
+			break;
+
+		case "mousedown":
+			this.mouseListeners.forEach(function (listener) {
+				if (listener.mouseDown) {
+					listener.mouseDown(e);
+				}
+			}, this);
+			break;
+
+		case "mouseup":
+			this.mouseListeners.forEach(function (listener) {
+				if (listener.mouseUp) {
+					listener.mouseUp(e);
+				}
+			}, this);
+			break;
+
+		case "mousemove":
+			this.mouseX = (e.pageX || e.clientX + document.documentElement.scrollLeft) + 1;
+			this.mouseY = (e.pageY || e.clientY + document.documentElement.scrollTop) + 1;
+			break;
+		}
+	},
+
+	/**
+	 * @method
+	 * Handles the <code>Control</code>'s <code>Menu</code>.
+	 *
+	 * @private
+	 * @param {Event} e the user-event
+	 * @return {void}
+	 */
+	handleMenu : function (e) {
+		switch (e.type) {
+		case "keydown":
+			// context menu on shift + F10
+			if (this.menu !== null && e.shiftKey && e.keyCode === gara.jswt.JSWT.F10) {
+				this.menu.update();
+				this.menu.setLocation(this.mouseX, this.mouseY);
+				this.menu.setVisible(true, e);
+				e.preventDefault();
+			}
+			break;
+
+		case "contextmenu":
+			if (this.menu !== null) {
+				this.menu.update();
+				this.menu.setLocation(this.mouseX, this.mouseY);
+				this.menu.setVisible(true, e);
+				e.preventDefault(); // hide browser context menu
+			}
+			break;
+
+		// Opera has no contextmenu event, so we go for Ctrl + mousedown
+		// See YUI blog for more information:
+		// http://yuiblog.com/blog/2008/07/17/context-menus-and-focus-in-opera/
+		case "mousedown":
+			if (window.opera
+					&& (e.altKey || e.ctrlKey)
+					&& this.menu !== null) {
+				this.menu.update();
+				this.menu.setLocation(this.mouseX, this.mouseY);
+				this.menu.setVisible(true, e);
+			}
+			break;
+		}
+	},
+
+	/**
+	 * @method
+	 * Returns true if the <code>Control</code> has the user-interface focus, and false otherwise.
+	 *
+	 * @return {boolean} the <code>Control</code>'s focus state
+	 */
+	isFocusControl : function () {
+		return this.hasFocus;
+	},
+
+	/**
+	 * @method
+	 * Forces this <code>Control</code> to loose focus.
 	 *
 	 * @return {void}
 	 */
-	looseFocus : function() {
+	looseFocus : function () {
 		this.handle.blur();
 	},
 
-	_preventScrolling : function(e) {
-		if (e.keyCode == gara.jswt.JSWT.ARROW_UP || e.keyCode == gara.jswt.JSWT.ARROW_DOWN
-				|| e.keyCode == gara.jswt.JSWT.ARROW_LEFT || e.keyCode == gara.jswt.JSWT.ARROW_RIGHT
-				|| e.keyCode == gara.jswt.JSWT.PAGE_UP || e.keyCode == gara.jswt.JSWT.PAGE_DOWN
-				|| e.keyCode == gara.jswt.JSWT.HOME || e.keyCode == gara.jswt.JSWT.END
-				|| e.keyCode == gara.jswt.JSWT.SPACE || (e.keyCode == 65 && e.ctrlKey)) {
+	/**
+	 * @method
+	 * Prevents the browser from scrolling the window. Prevents the default when
+	 * the either one of the following keys is pressed:
+	 * <ul>
+	 * 	<li>Arrow Keys</li>
+	 *	<li>Page up and down keys</li>
+	 *	<li>Home Key</li>
+	 *	<li>End Key</li>
+	 *	<li>Spacebar</li>
+	 * </ul>
+	 *
+	 * @private
+	 */
+	preventScrolling : function (e) {
+		if (e.keyCode === gara.jswt.JSWT.ARROW_UP || e.keyCode === gara.jswt.JSWT.ARROW_DOWN
+				|| e.keyCode === gara.jswt.JSWT.ARROW_LEFT || e.keyCode === gara.jswt.JSWT.ARROW_RIGHT
+				|| e.keyCode === gara.jswt.JSWT.PAGE_UP || e.keyCode === gara.jswt.JSWT.PAGE_DOWN
+				|| e.keyCode === gara.jswt.JSWT.HOME || e.keyCode === gara.jswt.JSWT.END
+				|| e.keyCode === gara.jswt.JSWT.SPACE) {
+			//  || (e.keyCode === 65 && e.ctrlKey) ctrl + a
 			e.preventDefault();
 		}
 	},
@@ -354,37 +527,80 @@ gara.Class("gara.jswt.widgets.Control", {
 	 * notified when the control gains or loses focus.
 	 *
 	 * @param {gara.jswt.events.FocusListener} listener the listener which should no longer be notified
-	 * @throws {TypeError} wether this is not a FocusListener
 	 * @return {void}
 	 */
-	removeFocusListener : function(listener) {
-		if (!gara.implementationOf(listener, gara.jswt.events.FocusListener)) {
-			throw new TypeError("listener is not a gara.jswt.events.FocusListener");
-		}
-
-		this._focusListener.remove(listener);
+	removeFocusListener : function (listener) {
+		this.focusListeners.remove(listener);
 	},
 
-	setEnabled : function(enabled) {
-		this._enabled = enabled;
-		this.handle.setAttribute("aria-disabled", !this._enabled);
-		this.handle.tabIndex = this._enabled ? 0 : -1;
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified
+	 * when keys are pressed and released on the system keyboard, by sending
+	 * it one of the messages defined in the <code>KeyListener</code> interface.
+	 *
+	 * @param {gara.jswt.events.KeyListener} listener the listener which should be notified
+	 * @return {void}
+	 */
+	removeKeyListener : function (listener) {
+		this.keyListeners.remove(listener);
+	},
+
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified
+	 * when mouse buttons are pressed and released, by sending it one of the
+	 * messages defined in the <code>MouseListener</code> interface.
+	 *
+	 * @param {gara.jswt.events.MouseListener} listener the listener which should be notified
+	 * @return {void}
+	 */
+	removeMouseListener : function (listener) {
+		this.mouseListeners.remove(listener);
+	},
+
+	/**
+	 * @method
+	 * Sets the enabled state for this <code>Control</code>.
+	 *
+	 * @param {boolean} enabled true for enabled and false for disabled state
+	 * @return {void}
+	 */
+	setEnabled : function (enabled) {
+		this.enabled = enabled;
+		this.handle.setAttribute("aria-disabled", !this.enabled);
+		this.handle.tabIndex = this.enabled ? 0 : -1;
 		return this;
 	},
 
-	setHeight : function(height) {
-		this._height = height;
-		this.handle.style.height = this._height != null ? (this._height - parseInt(gara.Utils.getStyle(this.handle, "padding-top")) - parseInt(gara.Utils.getStyle(this.handle, "padding-bottom")) - parseInt(gara.Utils.getStyle(this.handle, "border-top-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-bottom-width"))) + "px" : "auto";
+	/**
+	 * @method
+	 * Sets the height for the <code>Control</code> in pixels.
+	 *
+	 * @param {int} height the new height in pixels
+	 * @return {void}
+	 */
+	setHeight : function (height) {
+		this.height = height;
+		this.handle.style.height = this.height !== null ? (this.height - gara.getNumStyle(this.handle, "padding-top") - gara.getNumStyle(this.handle, "padding-bottom") - gara.getNumStyle(this.handle, "border-top-width") - gara.getNumStyle(this.handle, "border-bottom-width")) + "px" : "auto";
 		return this;
 	},
 
-	setMenu : function(menu) {
-		if (menu != null && !gara.instanceOf(menu, gara.jswt.widgets.Menu)) {
+	/**
+	 * @method
+	 * Sets a <code>Menu</code> for this <code>Control</code>.
+	 *
+	 * @param {gara.jswt.widget.Menu} menu the new <code>Menu</code>
+	 * @throws {TypeError} if the menu is not instance of <code>gara.jswt.widgets.Menu</code>
+	 * @return {gara.jswt.widgets.Control}
+	 */
+	setMenu : function (menu) {
+		if (menu !== null && !(menu instanceof gara.jswt.widgets.Menu)) {
 			throw new TypeError("menu is not a gara.jswt.widgets.Menu");
 		}
 
 		// remove menu
-		if (this._menu && menu == null) {
+		if (this.menu && menu === null) {
 			this.removeListener("contextmenu", this);
 			this.removeListener("mousedown", this);
 			gara.EventManager.removeListener(document, "mousemove", this);
@@ -402,19 +618,42 @@ gara.Class("gara.jswt.widgets.Control", {
 			this.handle.setAttribute("aria-haspopup", true);
 			this.handle.setAttribute("aria-owns", menu.getId());
 		}
-		this._menu = menu;
+		this.menu = menu;
 		return this;
 	},
 
-	setWidth : function(width) {
-		this._width = width;
-		this.handle.style.width = this._width != null ? (this._width - parseInt(gara.Utils.getStyle(this.handle, "padding-left")) - parseInt(gara.Utils.getStyle(this.handle, "padding-right")) - parseInt(gara.Utils.getStyle(this.handle, "border-left-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-right-width"))) + "px" : "auto";
+	/**
+	 * @method
+	 * Sets the width for the <code>Control</code> in pixels.
+	 *
+	 * @param {int} width the new width in pixels
+	 * @return {void}
+	 */
+	setWidth : function (width) {
+		this.width = width;
+		this.handle.style.width = this.width !== null ? (this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width")) + "px" : "auto";
 		return this;
 	},
 
-	_topHandle : function() {
+	/**
+	 * @method
+	 * Returns the top handle.
+	 *
+	 * @private
+	 * @return {HTMLElement}
+	 */
+	topHandle : function () {
 		return this.handle;
 	},
 
-	update : gara.abstract(function() {})
-});
+	/**
+	 * @method
+	 * Updates the <code>Control</code>. Does some outstanding paint processes or
+	 * remeasures the boundaries
+	 *
+	 * @return {void}
+	 */
+	update : function () {
+		alert("Control.update() invoked on " + this + ". Method not implemented");
+	}
+})});

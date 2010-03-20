@@ -23,13 +23,10 @@
 
 gara.provide("gara.jswt.widgets.List");
 
-gara.use("gara.Utils");
-gara.use("gara.OutOfBoundsException");
-gara.use("gara.jswt.widgets.ListItem");
+gara.use("gara.jswt.JSWT");
+//gara.use("gara.jswt.widgets.ListItem");
 
-gara.require("gara.jswt.JSWT");
-gara.require("gara.jswt.widgets.Scrollable");
-
+gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * @summary
@@ -41,29 +38,69 @@ gara.require("gara.jswt.widgets.Scrollable");
  * @class List
  * @author Thomas Gossmann
  * @namespace gara.jswt.widgets
- * @extends gara.jswt.widgets.Scrollable
+ * @extends gara.jswt.widgets.Composite
  */
-gara.Class("gara.jswt.widgets.List", {
-	$extends : gara.jswt.widgets.Scrollable,
+function () {gara.Class("gara.jswt.widgets.List", {
+	$extends : gara.jswt.widgets.Composite,
+
+	/**
+	 * Contains a reference to the active item.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.ListItem}
+	 */
+	activeItem : null,
+
+	/**
+	 * Contains the items.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.ListItem[]}
+	 */
+	items : [],
+
+	/**
+	 * Contains the current selection.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.ListItem}
+	 */
+	selection : [],
+
+	/**
+	 * A collection of listeners that will be notified, when the selection
+	 * of the <code>List</code> changes.
+	 *
+	 * @private
+	 * @type {gara.jswt.events.SelectionListener[]}
+	 */
+	selectionListeners : [],
+
+	/**
+	 * Contains the item that was active when shift was pressed.
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.ListItem}
+	 */
+	shiftItem : null,
 
 	/**
 	 * @constructor
 	 * Constructor
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
-	 * @return {gara.jswt.widgets.List} list widget
 	 */
-	$constructor : function(parent, style) {
-		this._items = [];
-		this._activeItem = null;
-		this._shiftItem = null;
+	$constructor : function (parent, style) {
+		this.items = [];
 
-		this._selection = [];
-		this._selectionListener = [];
+		this.activeItem = null;
+		this.shiftItem = null;
 
-		this.$base(parent, style || gara.jswt.JSWT.SINGLE);
+		this.selection = [];
+		this.selectionListeners = [];
+
+		this.$super(parent, style || gara.jswt.JSWT.SINGLE);
 	},
 
 	/**
@@ -71,27 +108,26 @@ gara.Class("gara.jswt.widgets.List", {
 	 * Activates an item
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.ListItem} item the item that should added to the List
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {void}
 	 */
-	_activateItem : function(item) {
+	activateItem : function (item) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item is not type of gara.jswt.widgets.ListItem");
 		}
 
 		// set a previous active item inactive
-		if (this._activeItem != null && !this._activeItem.isDisposed()) {
-			this._activeItem._setActive(false);
+		if (this.activeItem !== null && !this.activeItem.isDisposed()) {
+			this.activeItem.setActive(false);
 		}
 
-		this._activeItem = item;
-		this._activeItem._setActive(true);
+		this.activeItem = item;
+		this.activeItem.setActive(true);
 
 		// ARIA reference to the active item
-		this.handle.setAttribute("aria-activedescendant", this._activeItem.getId());
+		this.handle.setAttribute("aria-activedescendant", this.activeItem.getId());
 	},
 
 	/**
@@ -99,77 +135,69 @@ gara.Class("gara.jswt.widgets.List", {
 	 * Adds an item to the list (invoked by the constructor of ListItem)
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.ListItem} item the item that should added to the List
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {void}
 	 */
-	_addItem : function(item, index) {
+	addItem : function (item, index) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item is not type of gara.jswt.widgets.ListItem");
 		}
 
-		if (typeof(index) != "undefined") {
-			this._items.insertAt(index, item);
+		if (typeof(index) !== "undefined") {
+			this.items.insertAt(index, item);
 		} else {
-			this._items.push(item);
+			this.items.push(item);
 		}
 
-		return this._createItem(item, index);
+		return this.handle;
 	},
 
 	/**
 	 * @method
 	 * Adds a selection listener on the list
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this list
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @return {void}
 	 */
-	addSelectionListener : function(listener) {
+	addSelectionListener : function (listener) {
 		this.checkWidget();
-		if (!gara.instanceOf(listener, gara.jswt.events.SelectionListener)) {
-			throw new TypeError("listener is not instance of gara.jswt.events.SelectionListener");
+		if (!this.selectionListeners.contains(listener)) {
+			this.selectionListeners.push(listener);
 		}
-
-		this._selectionListener.push(listener);
 	},
 
-	_createItem : function(item, index) {
-		var itemHandle = document.createElement("li");
-		itemHandle.control = this;
-		base2.DOM.Event(itemHandle);
-
-		// add node to dom
-		if (typeof(index) == "undefined") {
-			this.handle.appendChild(itemHandle);
-		} else {
-			var nextNode = index == 0
-				? this.handle.firstChild
-				: this._items[index - 1].handle.nextSibling;
-			this.handle.insertBefore(itemHandle, nextNode);
-		}
-
-		return itemHandle;
+	/**
+	 * @method
+	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	bindListener : function (eventType, listener) {
+		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
-	_createWidget : function() {
-		this.$base("ul");
+	/**
+	 * @private
+	 */
+	createWidget : function () {
+		this.createHandle("ul");
 
 		this.handle.setAttribute("role", "listbox");
-		this.handle.setAttribute("aria-multiselectable", (this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI ? true : false);
+		this.handle.setAttribute("aria-multiselectable", (this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI ? true : false);
 		this.handle.setAttribute("aria-activedescendant", this.getId());
 
 		// add css classes
 		this.addClass("jsWTList");
-		this.setClass("jsWTListFullSelection", (this._style & gara.jswt.JSWT.FULL_SELECTION) == gara.jswt.JSWT.FULL_SELECTION);
-		this.setClass("jsWTListCheckbox", (this._style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK);
+		this.setClass("jsWTListFullSelection", (this.style & gara.jswt.JSWT.FULL_SELECTION) === gara.jswt.JSWT.FULL_SELECTION);
+		this.setClass("jsWTListCheckbox", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
 
 		// listeners
 		this.addListener("mousedown", this);
-		if ((this._style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
+		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
 			this.addListener("mouseup", this);
 		}
 	},
@@ -178,25 +206,25 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Deselects an item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index item at zero-related index that should be deselected
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {void}
 	 */
-	deselect : function(index) {
+	deselect : function (index) {
+		var item;
 		this.checkWidget();
 
 		// return if index are out of bounds
-		if (index < 0 || index >= this._items.length) {
+		if (index < 0 || index >= this.items.length) {
 			return;
 		}
 
-		var item = this._items[index];
-		if (this._selection.contains(item)) {
-			item._setSelected(false);
-			this._selection.remove(item);
-			this._shiftItem = item;
-			this._notifySelectionListener();
+		item = this.items[index];
+		if (this.selection.contains(item)) {
+			item.setSelected(false);
+			this.selection.remove(item);
+			this.shiftItem = item;
+			this.notifySelectionListener();
 		}
 	},
 
@@ -204,143 +232,144 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Deselects all items in the <code>List</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	deselectAll : function() {
+	deselectAll : function () {
+		var item;
 		this.checkWidget();
-		if (this._selection.length) {
-			while (this._selection.length) {
-				var item = this._selection.pop();
-				item._setSelected(false);
+		if (this.selection.length) {
+			while (this.selection.length) {
+				item = this.selection.pop();
+				item.setSelected(false);
 			}
-			this._notifySelectionListener();
+			this.notifySelectionListener();
 		}
 	},
 
-	deselectArray : function(indices) {
-		if (this._selection.length) {
-			indices.forEach(function(index) {
-				if (index < 0 || index >= this._items.length) {
+	deselectArray : function (indices) {
+		if (this.selection.length) {
+			indices.forEach(function (index) {
+				if (index < 0 || index >= this.items.length) {
 					return;
 				}
-				this._items[index]._setSelected(false);
+				this.items[index].setSelected(false);
 			}, this);
-			this._notifySelectionListener();
+			this.notifySelectionListener();
 		}
 	},
 
-	deselectRange : function(from, to) {
+	deselectRange : function (from, to) {
 		for (var i = from; i <= to; i++) {
-			this._items[i]._setSelected(false);
+			this.items[i].setSelected(false);
 		}
-		this._notifySelectionListener();
+		this.notifySelectionListener();
 	},
 
-	dispose : function() {
+	dispose : function () {
 		this.deselectAll();
-		this.$base();
+		this.$super();
 
-		this._items.forEach(function(item, index, arr) {
+		this.items.forEach(function (item, index, arr) {
 			item.dispose();
 		}, this);
 
-		if (this._parentNode != null) {
-			this._parentNode.removeChild(this.handle);
+		if (this.parentNode !== null) {
+			this.parentNode.removeChild(this.handle);
 		}
 		delete this.handle;
 	},
 
-	focusGained : function(e) {
+	focusGained : function (e) {
 		// mark first item active
-		if (this._activeItem == null && this._items.length) {
-			this._activateItem(this._items[0]);
+		if (this.activeItem === null && this.items.length) {
+			this.activateItem(this.items[0]);
 		}
 
-		this.$base(e);
+		this.$super(e);
 	},
 
 	/**
 	 * @method
 	 * Get a specified item with a zero-related index
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
-	 * @throws {gara.OutOfBoundsException} if the index does not live within this list
+	 * @throws {RangeError} when there is no item at the given index
 	 * @return {gara.jswt.widgets.ListItem} the item
 	 */
-	getItem : function(index) {
+	getItem : function (index) {
 		this.checkWidget();
-		if (index >= this._items.length) {
-			throw new gara.OutOfBoundsException("Your item lives outside of this list");
+		if (typeof(this.items.indexOf(index)) == "undefined") {
+			throw new RangeError("There is no item for the given index");
 		}
 
-		return this._items[index];
+		return this.items[index];
 	},
 
 	/**
 	 * @method
 	 * Returns the amount of the items in the list
 	 *
-	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
-	getItemCount : function() {
-		return this._items.length;
+	getItemCount : function () {
+		return this.items.length;
 	},
 
-	_getItemHeight : function(item) {
+	/**
+	 * @private
+	 */
+	getItemHeight : function (item) {
 		return item.handle.offsetHeight
-			+ parseInt(gara.Utils.getStyle(item.handle, "margin-top"))
-			+ parseInt(gara.Utils.getStyle(item.handle, "margin-bottom"));
+			+ gara.getNumStyle(item.handle, "margin-top")
+			+ gara.getNumStyle(item.handle, "margin-bottom");
 	},
 
 	/**
 	 * @method
 	 * Returns an array with all the items in the list
 	 *
-	 * @author Thomas Gossmann
 	 * @return {gara.jswt.widgets.ListItem[]} the array with the items
 	 */
-	getItems : function() {
-		return this._items;
+	getItems : function () {
+		this.checkWidget();
+		return this.items;
 	},
 
 	/**
 	 * @method
 	 * Returns an array with the items which are currently selected in the list
 	 *
-	 * @author Thomas Gossmann
 	 * @return {gara.jswt.widgets.ListItem[]} an array with items
 	 */
-	getSelection : function() {
+	getSelection : function () {
 		this.checkWidget();
-		return this._selection;
+		return this.selection;
 	},
 
 	/**
 	 * @method
 	 * Returns the amount of the selected items in the tree
 	 *
-	 * @author Thomas Gossmann
 	 * @return {int} the amount
 	 */
-	getSelectionCount : function() {
+	getSelectionCount : function () {
 		this.checkWidget();
-		return this._selection.length;
+		return this.selection.length;
 	},
 
-	getTopItem : function() {
-		if (!this._items.length) {
+	getTopItem : function () {
+		var scrollTop, h, i;
+
+		if (!this.items.length) {
 			return null;
 		}
 
-		var scrollTop = this._scrolledHandle().scrollTop;
-		var h = 0;
-		for (var i = 0; i < this._items.length; i++) {
-			h += this._getItemHeight(this._items[i]);
+		scrollTop = this.scrolledHandle().scrollTop;
+		h = 0;
+		for (i = 0; i < this.items.length; i++) {
+			h += this.getItemHeight(this.items[i]);
 			if (h > scrollTop) {
-				return this._items[i];
+				return this.items[i];
 			}
 		}
 	},
@@ -350,30 +379,30 @@ gara.Class("gara.jswt.widgets.List", {
 	 * Handles events on the list. Implements DOMEvent Interface by the W3c.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
 	 * @return {void}
 	 */
-	handleEvent : function(e) {
+	handleEvent : function (e) {
+		var widget;
 		this.checkWidget();
 
 		// special events for the list
-		var widget = e.target.widget || null;
-		e.item = widget && gara.instanceOf(widget, gara.jswt.widgets.ListItem) ? widget : this._activeItem;
+		widget = e.target.widget || null;
+		e.item = widget && widget instanceof gara.jswt.widgets.ListItem ? widget : this.activeItem;
 		e.widget = this;
-		this._event = e;
+		this.event = e;
 
-		this._handleMouseEvents(e);
-		if (this._menu != null && this._menu.isVisible()) {
-			this._menu.handleEvent(e);
+		this.handleMouseEvents(e);
+		if (this.menu !== null && this.menu.isVisible()) {
+			this.menu.handleEvent(e);
 		} else {
-			this._handleKeyEvents(e);
-			this._handleContextMenu(e);
+			this.handleKeyEvents(e);
+			this.handleMenu(e);
 		}
 
-		this.$base(e);
+		this.$super(e);
 
-		if (e.item != null) {
+		if (e.item !== null) {
 			e.item.handleEvent(e);
 		}
 
@@ -384,44 +413,50 @@ gara.Class("gara.jswt.widgets.List", {
 		return false;
 	},
 
-	_handleMouseEvents : function(e) {
+	/**
+	 * @private
+	 */
+	handleMouseEvents : function (e) {
 		var item = e.item;
 		switch (e.type) {
-			case "mousedown":
-				if (item != null) {
-					this._activateItem(item);
-					if (!e.ctrlKey && !e.shiftKey) {
-						this._selectAdd(item, false);
-					} else if (e.ctrlKey && e.shiftKey) {
-						this._selectShift(item, true);
-					} else if (e.shiftKey) {
-						this._selectShift(item, false);
-					} else if (e.ctrlKey) {
-						if (this._selection.contains(item)) {
-							this.deselect(this.indexOf(item));
-						} else {
-							this.select(this.indexOf(item), true);
-						}
+		case "mousedown":
+			if (item !== null) {
+				this.activateItem(item);
+				if (!e.ctrlKey && !e.shiftKey) {
+					this.selectAdd(item, false);
+				} else if (e.ctrlKey && e.shiftKey) {
+					this.selectShift(item, true);
+				} else if (e.shiftKey) {
+					this.selectShift(item, false);
+				} else if (e.ctrlKey) {
+					if (this.selection.contains(item)) {
+						this.deselect(this.indexOf(item));
 					} else {
-						this.select(this.indexOf(item));
+						this.select(this.indexOf(item), true);
 					}
+				} else {
+					this.select(this.indexOf(item));
 				}
-				break;
+			}
+			break;
 		}
 	},
 
-	_handleKeyEvents : function(e) {
+	/**
+	 * @private
+	 */
+	handleKeyEvents : function (e) {
 		switch (e.type) {
-			case "keyup":
-			case "keydown":
-			case "keypress":
-				if (e.type == "keydown") {
-					this._handleKeyNavigation(e);
-				}
+		case "keyup":
+		case "keydown":
+		case "keypress":
+			if (e.type === "keydown") {
+				this.handleKeyNavigation(e);
+			}
 
-				// prevent default when scrolling keys are used
-				this._preventScrolling(e);
-				break;
+			// prevent default when scrolling keys are used
+			this.preventScrolling(e);
+			break;
 		}
 	},
 
@@ -430,181 +465,178 @@ gara.Class("gara.jswt.widgets.List", {
 	 * handling key events on the List
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} e event the users triggers
 	 * @return {void}
 	 */
-	_handleKeyNavigation : function(e) {
+	handleKeyNavigation : function (e) {
+		var prev, next, activeIndex, i, h, viewport, itemAddition, min, lastOffset, scrollRange;
 		switch (e.keyCode) {
 
-			// left and up
-			case gara.jswt.JSWT.ARROW_LEFT:
-			case gara.jswt.JSWT.ARROW_UP:
+		// left and up
+		case gara.jswt.JSWT.ARROW_LEFT:
+		case gara.jswt.JSWT.ARROW_UP:
 
-				// determine previous item
-				var prev = false;
-				var activeIndex = this.indexOf(this._activeItem);
+			// determine previous item
+			prev = false;
+			activeIndex = this.indexOf(this.activeItem);
 
-				if (activeIndex != 0) {
-					prev = this._items[activeIndex - 1];
-				}
+			if (activeIndex !== 0) {
+				prev = this.items[activeIndex - 1];
+			}
 
-				if (prev) {
-					// update scrolling
-					var h = 0;
-					for (var i = 0; i < (activeIndex - 1); i++) {
-						h += this._getItemHeight(this._items[i]);
-					}
-					var viewport = this.handle.clientHeight + this.handle.scrollTop
-						- parseInt(gara.Utils.getStyle(this.handle, "padding-top"))
-						- parseInt(gara.Utils.getStyle(this.handle, "padding-bottom"));
-					var itemAddition = prev.handle.clientHeight
-						- parseInt(gara.Utils.getStyle(prev.handle, "padding-top"))
-						- parseInt(gara.Utils.getStyle(prev.handle, "padding-bottom"));
-
-					this.handle.scrollTop = h < this.handle.scrollTop ? h : (viewport < h ? h - viewport + itemAddition : this.handle.scrollTop);
-
-					// handle select
-					if (!e.ctrlKey && !e.shiftKey) {
-						this._activateItem(prev);
-						this._selectAdd(prev, false);
-					} else if (e.ctrlKey && e.shiftKey) {
-						this._activateItem(prev);
-						this._selectShift(prev, true);
-					} else if (e.shiftKey) {
-						this._activateItem(prev);
-						this._selectShift(prev, false);
-					} else if (e.ctrlKey) {
-						this._activateItem(prev);
-					}
-
-				}
-				break;
-
-			// right and down
-			case gara.jswt.JSWT.ARROW_RIGHT:
-			case gara.jswt.JSWT.ARROW_DOWN:
-
-				// determine next item
-				var next = false;
-				var activeIndex = this.indexOf(this._activeItem);
-
-				// item is last;
-				if (activeIndex != this._items.length - 1) {
-					next = this._items[activeIndex + 1];
-				}
-
-				if (next) {
-					// update scrolling
-					var h = 0;
-					for (var i = 0; i <= (activeIndex + 1); i++) {
-						h += this._getItemHeight(this._items[i]);
-					}
-					var min = h - this._getItemHeight(next);
-					var viewport = this.handle.clientHeight + this.handle.scrollTop
-						- parseInt(gara.Utils.getStyle(this.handle, "padding-top"))
-						- parseInt(gara.Utils.getStyle(this.handle, "padding-bottom"));
-					var scrollRange = h - this.handle.clientHeight
-						+ parseInt(gara.Utils.getStyle(this.handle, "padding-top"))
-						+ parseInt(gara.Utils.getStyle(this.handle, "padding-bottom"));
-
-					this.handle.scrollTop = h > viewport ? (scrollRange < 0 ? 0 : scrollRange) : (this.handle.scrollTop > min ? min : this.handle.scrollTop);
-
-					// handle select and active item
-					if (!e.ctrlKey && !e.shiftKey) {
-						this._activateItem(next);
-						this._selectAdd(next, false);
-					} else if (e.ctrlKey && e.shiftKey) {
-						this._activateItem(next);
-						this._selectShift(next, true);
-					} else if (e.shiftKey) {
-						this._activateItem(next);
-						this._selectShift(next, false);
-					} else if (e.ctrlKey) {
-						this._activateItem(next);
-					}
-				}
-				break;
-
-			// space
-			case gara.jswt.JSWT.SPACE:
-
-				if ((this._style & gara.jswt.JSWT.CHECK) == gara.jswt.JSWT.CHECK) {
-					this._activeItem.setChecked(!this._activeItem.getChecked());
-				}
-
-				// handle select and active item
-				if (this._selection.contains(this._activeItem) && e.ctrlKey) {
-					this.deselect(this.indexOf(this._activeItem));
-				} else {
-					this._selectAdd(this._activeItem, true);
-				}
-				break;
-
-			// home
-			case gara.jswt.JSWT.HOME:
-
+			if (prev) {
 				// update scrolling
-				this.handle.scrollTop = 0;
+				h = 0;
+				for (i = 0; i < (activeIndex - 1); i++) {
+					h += this.getItemHeight(this.items[i]);
+				}
+				viewport = this.handle.clientHeight + this.handle.scrollTop
+					- gara.getNumStyle(this.handle, "padding-top")
+					- gara.getNumStyle(this.handle, "padding-bottom");
+				itemAddition = prev.handle.clientHeight
+					- gara.getNumStyle(prev.handle, "padding-top")
+					- gara.getNumStyle(prev.handle, "padding-bottom");
+
+				this.handle.scrollTop = h < this.handle.scrollTop ? h : (viewport < h ? h - viewport + itemAddition : this.handle.scrollTop);
+
+				// handle select
+				if (!e.ctrlKey && !e.shiftKey) {
+					this.activateItem(prev);
+					this.selectAdd(prev, false);
+				} else if (e.ctrlKey && e.shiftKey) {
+					this.activateItem(prev);
+					this.selectShift(prev, true);
+				} else if (e.shiftKey) {
+					this.activateItem(prev);
+					this.selectShift(prev, false);
+				} else if (e.ctrlKey) {
+					this.activateItem(prev);
+				}
+
+			}
+			break;
+
+		// right and down
+		case gara.jswt.JSWT.ARROW_RIGHT:
+		case gara.jswt.JSWT.ARROW_DOWN:
+
+			// determine next item
+			next = false;
+			activeIndex = this.indexOf(this.activeItem);
+
+			// item is last;
+			if (activeIndex !== this.items.length - 1) {
+				next = this.items[activeIndex + 1];
+			}
+
+			if (next) {
+				// update scrolling
+				h = 0;
+				for (i = 0; i <= (activeIndex + 1); i++) {
+					h += this.getItemHeight(this.items[i]);
+				}
+				min = h - this.getItemHeight(next);
+				viewport = this.handle.clientHeight + this.handle.scrollTop
+					- gara.getNumStyle(this.handle, "padding-top")
+					- gara.getNumStyle(this.handle, "padding-bottom");
+				scrollRange = h - this.handle.clientHeight
+					+ gara.getNumStyle(this.handle, "padding-top")
+					+ gara.getNumStyle(this.handle, "padding-bottom");
+
+				this.handle.scrollTop = h > viewport ? (scrollRange < 0 ? 0 : scrollRange) : (this.handle.scrollTop > min ? min : this.handle.scrollTop);
 
 				// handle select and active item
 				if (!e.ctrlKey && !e.shiftKey) {
-					this._activateItem(this._items[0]);
-					this._selectAdd(this._items[0], false);
+					this.activateItem(next);
+					this.selectAdd(next, false);
+				} else if (e.ctrlKey && e.shiftKey) {
+					this.activateItem(next);
+					this.selectShift(next, true);
 				} else if (e.shiftKey) {
-					this._activateItem(this._items[0]);
-					this._selectShift(this._items[0], false);
+					this.activateItem(next);
+					this.selectShift(next, false);
 				} else if (e.ctrlKey) {
-					this._activateItem(this._items[0]);
+					this.activateItem(next);
 				}
-				break;
+			}
+			break;
 
-			// end
-			case gara.jswt.JSWT.END:
+		// space
+		case gara.jswt.JSWT.SPACE:
 
-				// update scrolling
-				this.handle.scrollTop = this.handle.scrollHeight - this.handle.clientHeight;
+			if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
+				this.activeItem.setChecked(!this.activeItem.getChecked());
+			}
 
-				// handle select and active item
-				var lastOffset = this._items.length - 1;
-				if (!e.ctrlKey && !e.shiftKey) {
-					this._activateItem(this._items[lastOffset]);
-					this._selectAdd(this._items[lastOffset], false);
-				} else if (e.shiftKey) {
-					this._activateItem(this._items[lastOffset]);
-					this._selectShift(this._items[lastOffset], false);
-				} else if (e.ctrlKey) {
-					this._activateItem(this._items[lastOffset]);
-				}
-				break;
+			// handle select and active item
+			if (this.selection.contains(this.activeItem) && e.ctrlKey) {
+				this.deselect(this.indexOf(this.activeItem));
+			} else {
+				this.selectAdd(this.activeItem, true);
+			}
+			break;
 
-			// a
-			case 65:
-				if (e.ctrlKey) {
-					this.selectAll();
-				}
-				break;
+		// home
+		case gara.jswt.JSWT.HOME:
+
+			// update scrolling
+			this.handle.scrollTop = 0;
+
+			// handle select and active item
+			if (!e.ctrlKey && !e.shiftKey) {
+				this.activateItem(this.items[0]);
+				this.selectAdd(this.items[0], false);
+			} else if (e.shiftKey) {
+				this.activateItem(this.items[0]);
+				this.selectShift(this.items[0], false);
+			} else if (e.ctrlKey) {
+				this.activateItem(this.items[0]);
+			}
+			break;
+
+		// end
+		case gara.jswt.JSWT.END:
+
+			// update scrolling
+			this.handle.scrollTop = this.handle.scrollHeight - this.handle.clientHeight;
+
+			// handle select and active item
+			lastOffset = this.items.length - 1;
+			if (!e.ctrlKey && !e.shiftKey) {
+				this.activateItem(this.items[lastOffset]);
+				this.selectAdd(this.items[lastOffset], false);
+			} else if (e.shiftKey) {
+				this.activateItem(this.items[lastOffset]);
+				this.selectShift(this.items[lastOffset], false);
+			} else if (e.ctrlKey) {
+				this.activateItem(this.items[lastOffset]);
+			}
+			break;
+
+		// ctrl+a
+		case 65:
+			if (e.ctrlKey) {
+				this.selectAll();
+			}
+			break;
 		}
-
-
 	},
 
 	/**
 	 * @method
 	 * Looks for the index of a specified item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.ListItem} item the item for the index
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {int} the index of the specified item
 	 */
-	indexOf : function(item) {
+	indexOf : function (item) {
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.ListItem");
 		}
 
-		return this._items.indexOf(item);
+		return this.items.indexOf(item);
 	},
 
 	/**
@@ -612,43 +644,33 @@ gara.Class("gara.jswt.widgets.List", {
 	 * Notifies selection listener about the changed selection within the List
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	_notifySelectionListener : function() {
-		this._selectionListener.forEach(function(listener) {
-			listener.widgetSelected(this._event);
+	notifySelectionListener : function () {
+		this.selectionListeners.forEach(function (listener) {
+			if (listener.widgetSelected) {
+				listener.widgetSelected(this.event);
+			}
 		}, this);
-	},
-
-	/**
-	 * @method
-	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	_registerListener : function(eventType, listener) {
-		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
 	/**
 	 * @method
 	 * Removes an item from the list
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the index of the item
+	 * @throw {RangeError} when the specified index is not an item
 	 * @return {void}
 	 */
-	remove : function(index) {
+	remove : function (index) {
+		var item;
 		this.checkWidget();
-		if (index < 0 || index > this._items.length) {
-			throw new gara.OutOfBoundsException("index out of bounds");
+		if (index < 0 || index > this.items.length) {
+			throw new RangeError("index out of bounds");
 		}
-		var item = this._items.removeAt(index)[0];
-		if (this._selection.contains(item)) {
-			this._selection.remove(item);
+		item = this.items.removeAt(index)[0];
+		if (this.selection.contains(item)) {
+			this.selection.remove(item);
 		}
 		item.dispose();
 		delete item;
@@ -658,14 +680,14 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Removes items within an indices range
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} start start index
 	 * @param {int} end end index
 	 * @return {void}
 	 */
-	removeRange : function(start, end) {
+	removeRange : function (start, end) {
+		var i;
 		this.checkWidget();
-		for (var i = start; i <= end; ++i) {
+		for (i = start; i <= end; ++i) {
 			this.remove(start);
 		}
 	},
@@ -674,13 +696,12 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Removes items which indices are passed by an array
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Array} inidices the array with the indices
 	 * @return {void}
 	 */
-	removeFromArray : function(indices) {
+	removeFromArray : function (indices) {
 		this.checkWidget();
-		indices.forEach(function(item, index, arr) {
+		indices.forEach(function (item, index, arr) {
 			this.remove(index);
 		}, this);
 	},
@@ -689,15 +710,11 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Removes all items from the list
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	removeAll : function() {
+	removeAll : function () {
 		this.checkWidget();
-		while (this._items.length) {
-			/*var item = this._items.pop();
-			this.handle.removeChild(item.handle);
-			delete item;*/
+		while (this.items.length) {
 			this.remove(0);
 		}
 	},
@@ -706,58 +723,55 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Removes a selection listener from this list
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this list
 	 * @throws {TypeError} if the listener is not an instance SelectionListener
 	 * @return {void}
 	 */
-	removeSelectionListener : function(listener) {
+	removeSelectionListener : function (listener) {
 		this.checkWidget();
-		if (!gara.instanceOf(listener, gara.jswt.events.SelectionListener)) {
-			throw new TypeError("listener is not instance of gara.jswt.events.SelectionListener");
-		}
-
-		if (this._selectionListener.contains(listener)) {
-			this._selectionListener.remove(listener);
-		}
+		this.selectionListener.remove(listener);
 	},
 
 	/**
 	 * @method
 	 * Selects an item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.ListItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {void}
 	 */
-	select : function(index) {
+	select : function (index) {
+		var item;
 		this.checkWidget();
 
 		// return if index are out of bounds
-		if (index < 0 || index >= this._items.length) {
+		if (index < 0 || index >= this.items.length) {
 			return;
 		}
 
-		var item = this._items[index];
-		if (!this._selection.contains(item)) {
-			item._setSelected(true);
-			this._selection.push(item);
-			this._shiftItem = item;
-			this._notifySelectionListener();
+		item = this.items[index];
+		if (!this.selection.contains(item)) {
+			item.setSelected(true);
+			this.selection.push(item);
+			this.shiftItem = item;
+			this.notifySelectionListener();
 		}
 	},
 
-	_selectAdd : function(item, _add) {
+	/**
+	 * @private
+	 */
+	selectAdd : function (item, add) {
+		var i;
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.ListItem");
 		}
 
-		if (!_add || (this._style & gara.jswt.JSWT.MULTI) != gara.jswt.JSWT.MULTI) {
-			while (this._selection.length) {
-				var i = this._selection.pop();
-				i._setSelected(false);
+		if (!add || (this.style & gara.jswt.JSWT.MULTI) !== gara.jswt.JSWT.MULTI) {
+			while (this.selection.length) {
+				i = this.selection.pop();
+				i.setSelected(false);
 			}
 		}
 
@@ -768,49 +782,49 @@ gara.Class("gara.jswt.widgets.List", {
 	 * @method
 	 * Select all items in the list
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	selectAll : function() {
+	selectAll : function () {
 		this.checkWidget();
-		if ((this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) {
-			this._items.forEach(function(item) {
-				if (!this._selection.contains(item)) {
-					item._setSelected(true);
-					this._selection.push(item);
+		if ((this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) {
+			this.items.forEach(function (item) {
+				if (!this.selection.contains(item)) {
+					item.setSelected(true);
+					this.selection.push(item);
 				}
 			}, this);
-			this._notifySelectionListener();
+			this.notifySelectionListener();
 		}
 	},
 
-	selectArray : function(indices) {
+	selectArray : function (indices) {
 		if (!indices.length) {
 			return;
 		}
 
-		if (indices.length > 1 && (this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) {
-			indices.forEach(function(index) {
-				if (!this._selection.contains(this._items[index])) {
-					this._items[index]._setSelected(true);
-					this._selection.push(this._items[index]);
+		if (indices.length > 1 && (this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) {
+			indices.forEach(function (index) {
+				if (!this.selection.contains(this.items[index])) {
+					this.items[index].setSelected(true);
+					this.selection.push(this.items[index]);
 				}
 			}, this);
-			this._notifySelectionListener();
+			this.notifySelectionListener();
 		} else {
 			this.select(indices[indices.length - 1]);
 		}
 	},
 
-	selectRange : function(from, to) {
-		if ((to - from) > 1 && (this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) {
-			for (var i = from; i <= to; i++) {
-				if (!this._selection.contains(this._items[i])) {
-					this._items[i].setSelected(true);
-					this._selection.push(this._items[i]);
+	selectRange : function (from, to) {
+		var i;
+		if ((to - from) > 1 && (this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) {
+			for (i = from; i <= to; i++) {
+				if (!this.selection.contains(this.items[i])) {
+					this.items[i].setSelected(true);
+					this.selection.push(this.items[i]);
 				}
 			}
-			this._notifySelectionListener();
+			this.notifySelectionListener();
 		} else {
 			this.select(to);
 		}
@@ -821,88 +835,72 @@ gara.Class("gara.jswt.widgets.List", {
 	 * Selects a range. From the item with shift-lock to the passed item.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.ListItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a ListItem
 	 * @return {void}
 	 */
-	_selectShift : function(item, _add) {
+	selectShift : function (item, add) {
+		var indexShift, indexItem, from, to, i;
 		this.checkWidget();
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.ListItem");
 		}
 
 		// remove others selection
-		if (!_add) {
-			while (this._selection.length) {
-				var i = this._selection.pop();
-				i._setSelected(false);
+		if (!add) {
+			while (this.selection.length) {
+				this.selection.pop().setSelected(false);
 			}
 		}
 
 		// only, when selection mode is MULTI
-		if ((this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) {
-			var indexShift = this.indexOf(this._shiftItem);
-			var indexItem = this.indexOf(item);
-			var from = indexShift > indexItem ? indexItem : indexShift;
-			var to = indexShift < indexItem ? indexItem : indexShift;
+		if ((this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) {
+			indexShift = this.indexOf(this.shiftItem);
+			indexItem = this.indexOf(item);
+			from = indexShift > indexItem ? indexItem : indexShift;
+			to = indexShift < indexItem ? indexItem : indexShift;
 
-			for (var i = from; i <= to; ++i) {
-				this._selection.push(this._items[i]);
-				this._items[i]._setSelected(true);
+			for (i = from; i <= to; ++i) {
+				this.selection.push(this.items[i]);
+				this.items[i].setSelected(true);
 			}
 
-			this._notifySelectionListener();
+			this.notifySelectionListener();
 		} else {
 			this.select(this.indexOf(item));
 		}
 	},
 
-//	setHeight : function(height) {
-//		this.$base(height);
-//		console.log("List.setHeight: " + height);
-//		return this;
-//	},
-
-//	setWidth : function(width) {
-//		console.log("List.setWidth (padding-left)" + gara.Utils.getStyle(this.handle, "padding-left"));
-//		console.log("List.setWidth (padding-right)" + gara.Utils.getStyle(this.handle, "padding-right"));
-//		console.log("List.setWidth (border-left-width)" + gara.Utils.getStyle(this.handle, "border-left-width"));
-//		console.log("List.setWidth (border-right-width)" + gara.Utils.getStyle(this.handle, "border-right-width"));
-//		this.$base(width);
-//		console.log("List.setWidth: " + width);
-//		return this;
-//	},
-
 	/**
 	 * @method
 	 * Sets the selection of the <code>List</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.ListItem[]|gara.jswt.widgets.ListItem} items the array with the <code>ListItem</code> items
 	 * @return {void}
 	 */
-	setSelection : function(items) {
+	setSelection : function (items) {
+		var item;
 		this.checkWidget();
 
-		while (this._selection.length) {
-			var item = this._selection.pop();
+		while (this.selection.length) {
+			item = this.selection.pop();
 			if (!item.isDisposed()) {
-				item._setSelected(false);
+				item.setSelected(false);
 			}
 		}
 
-		if (gara.instanceOf(items, Array)) {
-			if (items.length > 1 && (this._style & gara.jswt.JSWT.MULTI) == gara.jswt.JSWT.MULTI) {
-				items.forEach(function(item) {
-					if (!this._selection.contains(item)) {
-						item._setSelected(true);
-						this._selection.push(item);
+		if (items instanceof Array) {
+			if (items.length > 1 && (this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI) {
+				items.forEach(function (item) {
+					if (!this.selection.contains(item)) {
+						item.setSelected(true);
+						this.selection.push(item);
 					}
 				}, this);
-				this._notifySelectionListener();
+				this.notifySelectionListener();
 			} else if (items.length) {
-				this.select(this._items.indexOf(items[items.length - 1]));
+				this.select(this.items.indexOf(items[items.length - 1]));
 			}
 
 		} else if (gara.instanceOf(items, gara.jswt.widgets.ListItem)) {
@@ -912,73 +910,60 @@ gara.Class("gara.jswt.widgets.List", {
 		return this;
 	},
 
-	setTopItem : function(item) {
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+	setTopItem : function (item) {
+		var index, h, i;
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.ListItem");
 		}
 
-		var index = this.indexOf(item);
-		var h = 0;
-		for (var i = 0; i < index; i++) {
-			h += this._getItemHeight(this._items[index]);
+		index = this.indexOf(item);
+		h = 0;
+		for (i = 0; i < index; i++) {
+			h += this.getItemHeight(this.items[index]);
 		}
 
-		this._scrolledHandle().scrollTop = h;
+		this.scrolledHandle().scrollTop = h;
 		return this;
 	},
 
-	showItem : function(item) {
-		if (!gara.instanceOf(item, gara.jswt.widgets.ListItem)) {
+	showItem : function (item) {
+		var index, h, i, newScrollTop;
+		if (!(item instanceof gara.jswt.widgets.ListItem)) {
 			throw new TypeError("item not instance of gara.jswt.widgets.ListItem");
 		}
 
 		if (this.getVerticalScrollbar()) {
-			var index = this.indexOf(item);
-			var h = 0;
-			for (var i = 0; i <= index; i++) {
-				h += this._getItemHeight(this._items[i]);
+			index = this.indexOf(item);
+			h = 0;
+			for (i = 0; i <= index; i++) {
+				h += this.getItemHeight(this.items[i]);
 			}
 
-			if ((this._scrolledHandle().scrollTop + this._scrolledHandle().clientHeight) < h
-					|| this._scrolledHandle().scrollTop > h) {
-				var newScrollTop = h - Math.round(this._getItemHeight(this._items[index]) / 2) - Math.round(this._scrolledHandle().clientHeight / 2);
-				this._scrolledHandle().scrollTop = newScrollTop;
+			if ((this.scrolledHandle().scrollTop + this.scrolledHandle().clientHeight) < h
+					|| this.scrolledHandle().scrollTop > h) {
+				newScrollTop = h - Math.round(this.getItemHeight(this.items[index]) / 2) - Math.round(this.scrolledHandle().clientHeight / 2);
+				this.scrolledHandle().scrollTop = newScrollTop;
 			}
 		}
 	},
 
-	showSelection : function() {
-		if (this._selection.length) {
-			this.showItem(this._selection[0]);
+	showSelection : function () {
+		if (this.selection.length) {
+			this.showItem(this.selection[0]);
 		}
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.jswt.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	_unregisterListener : function(eventType, listener) {
+	unbindListener : function (eventType, listener) {
 		gara.EventManager.removeListener(this.handle, eventType, listener);
 	},
 
 	/**
 	 * @method
-	 * Updates the list!
+	 * Works on the <code>List</code>'s outstanding paint requests.
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	update : function() {
+	update : function () {
 		this.checkWidget();
-
-		// update items
-		this._items.forEach(function(item) {
-			item._setParentNode(this.handle);
-			item.update();
-		}, this);
 	}
-});
+})});

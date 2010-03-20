@@ -29,7 +29,7 @@ gara.provide("gara.jswt.events.MouseListener");
  * @namespace gara.jswt.events
  */
 
-gara.Interface("gara.jswt.events.MouseListener", {
+gara.Class("gara.jswt.events.MouseListener", {
 
 	/**
 	 * @method

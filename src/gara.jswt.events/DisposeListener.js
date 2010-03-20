@@ -29,6 +29,6 @@ gara.provide("gara.jswt.events.DisposeListener");
  * @namespace gara.jswt.events
  */
 
-gara.Interface("gara.jswt.events.DisposeListener", {
+gara.Class("gara.jswt.events.DisposeListener", {
 	widgetDisposed : function() {}
 });

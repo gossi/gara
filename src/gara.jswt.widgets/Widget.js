@@ -25,9 +25,8 @@ gara.provide("gara.jswt.widgets.Widget");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWTException");
-gara.use("gara.jswt.events.DisposeListener");
 
-gara.require("gara.jswt.JSWT");
+gara.use("gara.jswt.JSWT");
 
 /**
  * @class Widget
@@ -44,6 +43,55 @@ gara.require("gara.jswt.JSWT");
  * @see <span style="color: #f00">doc-test... am i red?</span>
  */
 gara.Class("gara.jswt.widgets.Widget", {
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Array
+	 */
+	classes : [],
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Object
+	 */
+	data : {},
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Object
+	 */
+	dataMap : {},
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type boolean
+	 */
+	disposed : false,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Array
+	 */
+	disposeListener : [],
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Object
+	 */
+	event : null,
+
 	/**
 	 * @field
 	 * contains the DOM handle of the widget
@@ -53,6 +101,46 @@ gara.Class("gara.jswt.widgets.Widget", {
 	handle : null,
 
 	/**
+	 * @field
+	 *
+	 * @private
+	 * @type String
+	 */
+	id : "",
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type Object
+	 */
+	listeners : {},
+
+	/**
+	 * @field
+	 *
+	 * @type HTMLElement|gara.jswt.widgets.Composite
+	 * @private
+	 */
+	parent : null,
+
+	/**
+	 * @field
+	 *
+	 * @type HTMLElement|gara.jswt.widgets.Composite
+	 * @private
+	 */
+	parentNode : null,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type int
+	 */
+	style : 0,
+
+	/**
 	 * @constructor
 	 * Widget base constructor
 	 *
@@ -60,25 +148,23 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {gara.jswt.Widget|HTMLElement} parent the parent for this widget
 	 * @param {int} style the style codec for this widget
 	 */
-	$constructor : function(parent, style) {
+	$constructor : function (parent, style) {
+		this.id = "";
+		this.classes = ["gara"];
+
 		this.handle = null;
+		this.parentNode = null;
 
-		this._parent = parent;
-		this._parentNode = null;
-		this._style = typeof(style) == "undefined" ? gara.jswt.JSWT.DEFAULT : style;
-		this._event = null;
-		this._data = null;
-		this._dataMap = {};
-		this._id = null;
+		this.parent = parent;
+		this.style = style || gara.jswt.JSWT.DEFAULT;
+		this.disposed = false;
 
-		this._listener = {};
+		this.event = null;
+		this.listeners = {};
+		this.disposedListeners = {};
 
-		this._disposed = false;
-		this._disposeListener = [];
-
-		// css
-		this._classes = ["gara"];
-		this._baseClass = "";
+		this.data = {};
+		this.dataMap = {};
 	},
 
 	/**
@@ -89,11 +175,11 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {String} className new class
 	 * @return {gara.jswt.widgets.Widget}
 	 */
-	addClass : function(className) {
-		if (!this._classes.contains(className)) {
-			this._classes.push(className);
-			if (this.handle != null) {
-				this.handle.className = this._classes.join(" ");
+	addClass : function (className) {
+		if (!this.classes.contains(className)) {
+			this.classes.push(className);
+			if (this.handle !== null) {
+				this.handle.className = this.classes.join(" ");
 			}
 		}
 		return this;
@@ -107,10 +193,10 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {String[]} classNames new classes in an array
 	 * @return {gara.jswt.widgets.Widget}
 	 */
-	addClasses : function(classNames) {
-		for (var i = 0, len = classNames.length; i < len; i++) {
-			this.addClass(classNames[i]);
-		}
+	addClasses : function (classNames) {
+		classNames.forEach(function (className) {
+			this.addClass(className);
+		}, this);
 		return this;
 	},
 
@@ -122,13 +208,9 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {gara.jswt.events.DisposeListener} listener the listener which gets notified about the disposal
 	 * @return {void}
 	 */
-	addDisposeListener : function(listener) {
-		if (!gara.instanceOf(listener, gara.jswt.events.DisposeListener)) {
-			throw new TypeError("listener not instance of gara.jswt.events.DisposeListener");
-		}
-
-		if (!this._disposeListener.contains(listener)) {
-			this._disposeListener.push(listener);
+	addDisposeListener : function (listener) {
+		if (!this.disposeListener.contains(listener)) {
+			this.disposeListener.push(listener);
 		}
 		return this;
 	},
@@ -142,16 +224,33 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {Object} listener the listener
 	 * @return {void}
 	 */
-	addListener : function(eventType, listener) {
-		if (!this._listener.hasOwnProperty(eventType)) {
-			this._listener[eventType] = [];
+	addListener : function (eventType, listener) {
+		if (!Object.prototype.hasOwnProperty.call(this.listeners, eventType)) {
+			this.listeners[eventType] = [];
 		}
 
-		if (!this._listener[eventType].contains(listener)) {
-			this._listener[eventType].push(listener);
-			this._registerListener(eventType, listener);
+		if (!this.listeners[eventType].contains(listener)) {
+			this.listeners[eventType].push(listener);
+			this.bindListener(eventType, listener);
 		}
 		return this;
+	},
+
+	/**
+	 * @method
+	 * Binds the listener to the widgets elements. Should be implemented
+	 * by the widget authors!
+	 *
+	 * @private
+	 * @param {String} eventType the type of the event
+	 * @param {Object} listener the listener
+	 * @see unbindListener
+	 * @return {void}
+	 */
+	bindListener : function (eventType, listener) {
+		alert("Trying to bind listener on " + this + ". Method not implemented.\n" +
+				"    Type: " + eventType + "\n" +
+				"    Listener: " + listener);
 	},
 
 	/**
@@ -165,7 +264,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 *
 	 * @return {void}
 	 */
-	checkWidget : function() {
+	checkWidget : function () {
 		if (this.isDisposed()) {
 			throw new gara.jswt.JSWTException(gara.jswt.JSWT.ERROR_WIDGET_DISPOSED);
 		}
@@ -178,16 +277,19 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
-	dispose : function() {
-		this._disposed = true;
+	dispose : function () {
+		this.disposed = true;
 
 		// notify dispose listeners
-		this._disposeListener.forEach(function(item, index, arr) {
-			item.widgetDisposed(this);
+		this.disposeListener.forEach(function (item, index, arr) {
+			// interface checking
+			if (item.widgetDisposed) {
+				item.widgetDisposed(this);
+			}
 		}, this);
 
-		for (var type in this._listener) {
-			this._listener[type].forEach(function(item, index, arr) {
+		for (var type in this.listener) {
+			this.listener[type].forEach(function (item, index, arr) {
 				this.removeListener(type, item);
 			}, this);
 		}
@@ -200,12 +302,12 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @author Thomas Gossmann
 	 * @return {Object} application based data
 	 */
-	getData : function(key) {
-		if (typeof(key) == "undefined") {
-			return this._data;
+	getData : function (key) {
+		if (typeof(key) === "undefined") {
+			return this.data;
 		} else {
-			if (this._dataMap.hasOwnProperty(key)) {
-				return this._dataMap[key];
+			if (Object.prototype.hasOwnProperty.call(this.dataMap, key)) {
+				return this.dataMap[key];
 			}
 		}
 		return null;
@@ -218,12 +320,11 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @author Thomas Gossmann
 	 * @return {String} the ID
 	 */
-	getId : function() {
-		if (this._id == null) {
-			var d = new Date();
-			this._id = "garaID" + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
+	getId : function () {
+		if (this.id === "") {
+			this.id = gara.generateUID();
 		}
-		return this._id;
+		return this.id;
 	},
 
 	/**
@@ -233,8 +334,8 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @author Thomas Gossmann
 	 * @return {gara.jswt.Widget|HTMLElement} the widgets parent
 	 */
-	getParent : function() {
-		return this._parent;
+	getParent : function () {
+		return this.parent;
 	},
 
 	/**
@@ -244,8 +345,8 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @author Thomas Gossmann
 	 * @return {int} the style
 	 */
-	getStyle : function() {
-		return this._style;
+	getStyle : function () {
+		return this.style;
 	},
 
 	/**
@@ -256,11 +357,9 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {String} className the class name to look for
 	 * @return {boolean} true if the class is available and false if not
 	 */
-	hasClass : function(className) {
-		return this._classes.contains(className);
+	hasClass : function (className) {
+		return this.classes.contains(className);
 	},
-
-//	handleEvent : gara.abstract(function(e){}),
 
 	/**
 	 * @method
@@ -269,27 +368,23 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @author Thomas Gossmann
 	 * @return {boolean} true for disposed status otherwise false
 	 */
-	isDisposed : function() {
-		return this._disposed;
+	isDisposed : function () {
+		return this.disposed;
 	},
-
 
 	/**
 	 * @method
 	 * Workaround for passing keyboard events to the widget with focus
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} e the event
 	 * @param {gara.jswt.widgets.Widget} widget the obj on which the event belongs to
 	 * @param {gara.jswt.widgets.Control} control the control to witch the event belongs
 	 * @return {void}
 	 */
-	_notifyExternalKeyboardListener : function(e, widget, control) {
-		if (this._listener.hasOwnProperty(e.type)) {
-			var keydownListener = this._listener[e.type];
-
-			keydownListener.forEach(function(item, index, arr) {
+	notifyExternalKeyboardListener : function(e, widget, control) {
+		if (this.listeners.hasOwnProperty(e.type)) {
+			this.listeners[e.type].forEach(function (item, index, arr) {
 				e.target.widget = widget;
 				e.target.control = control;
 
@@ -302,7 +397,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 		}
 	},
 
-	_registerListener : gara.abstract(function(eventType, listener){}),
 
 	/**
 	 * @method
@@ -312,10 +406,10 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {String} className the class name that should be removed
 	 * @return {void}
 	 */
-	removeClass : function(className) {
-		this._classes.remove(className);
-		if (this.handle != null) {
-			this.handle.className = this._classes.join(" ");
+	removeClass : function (className) {
+		this.classes.remove(className);
+		if (this.handle !== null) {
+			this.handle.className = this.classes.join(" ");
 		}
 		return this;
 	},
@@ -328,14 +422,8 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {gara.jswt.events.DisposeListener} listener the listener which should be removed
 	 * @return {void}
 	 */
-	removeDisposeListener : function(listener) {
-		if (!gara.instanceOf(listener, gara.jswt.events.DisposeListener)) {
-			throw new TypeError("listener not instance of gara.jswt.events.DisposeListener");
-		}
-
-		if (this._disposeListener.contains(listener)) {
-			this._disposeListener.remove(listener);
-		}
+	removeDisposeListener : function (listener) {
+		this.disposeListener.remove(listener);
 		return this;
 	},
 
@@ -348,11 +436,11 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {Object} listener the listener
 	 * @return {void}
 	 */
-	removeListener : function(eventType, listener) {
-		if (this._listener.hasOwnProperty(eventType)
-				&& this._listener[eventType].contains(listener)) {
-			this._listener[eventType].remove(listener);
-			this._unregisterListener(eventType, listener);
+	removeListener : function (eventType, listener) {
+		if (Object.prototype.hasOwnProperty.call(this.listeners, eventType)
+				&& this.listeners[eventType].contains(listener)) {
+			this.listeners[eventType].remove(listener);
+			this.unbindListener(eventType, listener);
 		}
 		return this;
 	},
@@ -366,7 +454,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {boolean} on true for setting the class and false for removing
 	 * @return {void}
 	 */
-	setClass : function(className, on) {
+	setClass : function (className, on) {
 		if (!on) {
 			this.removeClass(className);
 		} else {
@@ -383,11 +471,11 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {Object} data your data for this widget
 	 * @return {void}
 	 */
-	setData : function(key, data) {
-		if (typeof(data) == "undefined") {
-			this._data = key;
+	setData : function (key, data) {
+		if (typeof data === "undefined") {
+			this.data = key;
 		} else {
-			this._dataMap[key] = data;
+			this.dataMap[key] = data;
 		}
 		return this;
 	},
@@ -401,13 +489,8 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {String} id the ID
 	 * @return {void}
 	 */
-	setId : function(id) {
-		this._id = id;
-		return this;
-	},
-
-	_setParentNode : function(parentNode) {
-		this._parentNode = parentNode;
+	setId : function (id) {
+		this.id = id;
 		return this;
 	},
 
@@ -419,16 +502,31 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @param {String} className the class to toggle
 	 * @return {void}
 	 */
-	toggleClass : function(className) {
-		if (this._classes.contains(className)) {
-			this._classes.remove(className);
+	toggleClass : function (className) {
+		if (this.classes.contains(className)) {
+			this.classes.remove(className);
 		} else {
-			this._classes.push(className);
+			this.classes.push(className);
 		}
-		if (this.handle != null) {
-			this.handle.className = this._classes.join(" ");
+		if (this.handle !== null) {
+			this.handle.className = this.classes.join(" ");
 		}
 	},
 
-	_unregisterListener : gara.abstract(function(eventType, listener){})
+	/**
+	 * @method
+	 * Unbinds listener from the widgets elements. Should be implemented
+	 * by the widget authors!
+	 *
+	 * @private
+	 * @param {String} eventType the type of the event
+	 * @param {Object} listener the listener
+	 * @see unbindListener
+	 * @return {void}
+	 */
+	unbindListener : function (eventType, listener) {
+		alert("Trying to unbind listener on " + this + ". Method not implemented.\n" +
+			"    Type: " + eventType + "\n" +
+			"    Listener: " + listener);
+	}
 });

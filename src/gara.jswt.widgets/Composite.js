@@ -23,9 +23,9 @@
 
 gara.provide("gara.jswt.widgets.Composite");
 
-gara.use("gara.jswt.widgets.Control");
+//gara.use("gara.jswt.widgets.Control");
 
-gara.require("gara.jswt.widgets.Scrollable");
+gara.parent("gara.jswt.widgets.Scrollable",
 
 /**
  * @class Composite
@@ -33,57 +33,58 @@ gara.require("gara.jswt.widgets.Scrollable");
  * @extends gara.jswt.widgets.Scrollable
  * @namespace gara.jswt.widgets
  */
-gara.Class("gara.jswt.widgets.Composite", {
+function() {gara.Class("gara.jswt.widgets.Composite", {
 	$extends : gara.jswt.widgets.Scrollable,
+
+	/**
+	 * @field
+	 * True, if this is composite, false if composite is inherited
+	 * @private
+	 * @tpye {boolean}
+	 */
+	isComposite : false,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function(parent, style) {
-		this.$base(parent, style);
-		this._isComposite = false;
+	$constructor : function (parent, style) {
+		this.$super(parent, style);
 	},
 
-	dispose : function() {
-		this.$base();
+	dispose : function () {
+		this.$super();
 
-		if (this._parentNode != null && this._isComposite) {
-			this._parentNode.removeChild(this.handle);
+		if (this.parentNode != null && this.isComposite) {
+			this.parentNode.removeChild(this.handle);
 			delete this.handle;
 		}
 	},
 
-	_createWidget : function(element, preventAppending) {
+	createWidget : function (element, preventAppending) {
 		if (typeof(element) == "undefined") {
 			this.addClass("jsWTComposite");
-			this.$base("div");
+			this.createHandle("div");
 			this.handle.tabIndex = -1;
-			this._isComposite = true;
+			this.isComposite = true;
 		} else {
-			this.$base(element, preventAppending);
+			this.$super(element, preventAppending);
 		}
 	},
 
-	getChildren : function() {
-		var controls = [];
-		if (this.handle) {
-			var childs = this.getClientArea().childNodes;
-			for (var i = 0, len = childs.length; i < len; i++) {
-				var child = childs[i];
-				if (child.widget && gara.instanceOf(child.widget, gara.jswt.widgets.Control)) {
-					controls.push(child.widget);
-				}
+	getChildren : function () {
+		var widgets = [], child, i,
+			childs =  this.getClientArea().childNodes;
+
+		for (i = 0, len = childs.length; i < len; i++) {
+			child = childs[i];
+			if (child.widget && child.widget instanceof gara.jswt.widgets.Widget) {
+				widgets.push(child.widget);
 			}
 		}
-		return controls;
-	},
+		return widgets;
+	}
 
-	handleEvent : function(e) {
-		this.$base(e);
-	},
-
-	_registerListener : function() {},
-	_unregisterListener : function() {},
-
-	update : function() {}
-});
+//	handleEvent : function(e) {
+//		this.$super(e);
+//	},
+})});
