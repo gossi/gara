@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Testing scope</title>
+</head>
+<body>
+<script type="text/javascript">
+function testFnc() {
+	console.log("in func, this == window: " + this == window);
+	console.log("this: " + this);
+	console.log("window: " + window);
+}
+testFnc();
+</script>
+</body>
+</html>

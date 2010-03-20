@@ -1,0 +1,1 @@
+gara.provide("gara.I18n");gara.Singleton("gara.I18n",{map:{"gara.ok":"Ok","gara.cancel":"Cancel","gara.yes":"Yes","gara.no":"No","gara.retry":"Retry","gara.abort":"Abort","gara.ignore":"Ignore"},$constructor:function(){},get:function(a){if(Object.prototype.hasOwnProperty.call(this.map,a)){return this.map[a]}return null},set:function(a,b){this.map[a]=b}});

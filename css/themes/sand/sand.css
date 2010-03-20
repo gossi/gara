@@ -18,7 +18,14 @@ Item Selected (Inactive): 	#CCC8BA		#000
 Alternative:				#AFAA91		#23211A
 */
 
+/** sprite: icons; sprite-image: url('sprite-icons.png');*/
+/** sprite: misc; sprite-image: url('sprite-misc.png');*/
+/** sprite: stone-mud; sprite-image: url('sprite-stone-mud.png'); sprite-layout: vertical; */
+/** sprite: stone-sand; sprite-image: url('sprite-stone-sand.png'); sprite-layout: vertical; */
+/** sprite: menu; sprite-image: url('sprite-menu.png');*/
+/** sprite: button; sprite-image: url('sprite-button.png'); */
 
+@import url('../../gara.css');
 @import url('jsWTCheckbox.css');
 @import url('jsWTList.css');
 @import url('jsWTTree.css');
@@ -29,4 +36,3 @@ Alternative:				#AFAA91		#23211A
 @import url('jsWTText.css');
 @import url('jsWTLabel.css');
 @import url('jsWTDialog.css');
-

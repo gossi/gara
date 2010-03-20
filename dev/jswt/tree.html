@@ -1,41 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.tree (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>
-
-<script type="text/javascript" src="../../src/gara/EventManager.js"></script>
-<script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
-<script type="text/javascript" src="../../src/gara/Utils.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt/JSWT.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWTException.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/DisposeListener.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Tree.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/TreeItem.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.js"></script>
-<script type="text/javascript"><!--
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../src/gara.js"></script>
+<script type="text/javascript">
 var tree;
 function main() {
-	try {
+	gara.require(["gara.jswt.widgets.Tree", "gara.jswt.widgets.TreeItem"], function() {
 		tree = new gara.jswt.widgets.Tree(document.getElementById("container"), gara.jswt.JSWT.CHECK);
 
 		var treeItem = new gara.jswt.widgets.TreeItem(tree).setText("Item 1");
@@ -75,14 +48,7 @@ function main() {
 
 		tree.setWidth(300);
 		tree.setHeight(200);
-	} catch(e) {
-		console.log("Catched Exception:");
-		var message = "";
-		for (p in e) {
-			message += p + ": " + e[p] + "\n";
-		}
-		console.log(message);
-	}
+	});
 }
 
 function dispose() {

@@ -3,76 +3,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.button (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>
-
-<script type="text/javascript" src="../../src/gara/EventManager.js"></script>
-<script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
-<script type="text/javascript" src="../../src/gara/Utils.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt/JSWT.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWTException.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/DisposeListener.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Button.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Label.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Text.js"></script>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../src/gara.js"></script>
 <script type="text/javascript"><!--
 
 function main() {
-	try {
-		var img = new Image();
-		img.src = '../../themes/sand/icon_information.png';
-		
-		var img2 = new Image();
-		img2.src = '../../themes/sand/icon_warning.png';
-		
-		
+	var img = new Image();
+	img.src = '../../css/themes/sand/icon_information.png';
+	
+	var img2 = new Image();
+	img2.src = '../../css/themes/sand/icon_warning.png';
+	
+	gara.require(["gara.jswt.widgets.Button","gara.jswt.widgets.Label","gara.jswt.widgets.Text"], function() {
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Hoo ");
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Woo ").setImage(img).setEnabled(false);
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Foo ").setEnabled(false).setSelection(true);
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Boo ").setImage(img2);
-
+	
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Woo ").setImage(img2).setEnabled(false);
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Hoo ");
 		new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Boo ").setImage(img2);
-
+	
 		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Woo").setImage(img2);
-		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Hoo").addSelectionListener(
-			new gara.Class({
-				$implements: gara.jswt.events.SelectionListener,
-				widgetSelected : function(e) {
-					console.log("selected: " + e.widget.getText());
-				}
-			})
-		);
+		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Hoo").addSelectionListener({
+			widgetSelected : function(e) {
+				console.log("selected: " + e.widget.getText());
+			}
+		});
 		new gara.jswt.widgets.Button(document.getElementById("container")).setText("Boo").setImage(img2).setEnabled(false);
 
 		new gara.jswt.widgets.Label(document.getElementById("container")).setText("SalamiS");
 		new gara.jswt.widgets.Text(document.getElementById("container")).setText("Salami");
 		new gara.jswt.widgets.Text(document.getElementById("container"), gara.jswt.JSWT.PASSWORD).setText("Salami");
 		new gara.jswt.widgets.Text(document.getElementById("container"), gara.jswt.JSWT.MULTI).setText("Salami");
-		
-	} catch(e) {
-		var message = "";
-		for (p in e) {
-			message += p + ": " + e[p] + "\n";
-		}
-		console.log(message);
-	}
+	});
 }
 
 --></script>

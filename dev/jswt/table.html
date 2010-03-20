@@ -1,86 +1,55 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.table (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>
-
-<script type="text/javascript" src="../../src/gara/EventManager.js"></script>
-<script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
-<script type="text/javascript" src="../../src/gara/Utils.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt/JSWT.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWTException.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/DisposeListener.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Table.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/TableColumn.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/TableItem.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Menu.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/MenuItem.js"></script>
-<script type="text/javascript"><!--
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../src/gara.js"></script>
+<script type="text/javascript">
 var table;
+
 function main() {
-	try {
-		table = new gara.jswt.widgets.Table(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION); //  | gara.jswt.JSWT.CHECK
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
+	gara.require(
+		["gara.jswt.widgets.Table", "gara.jswt.widgets.TableItem", "gara.jswt.widgets.TableColumn"],
+		function() {
+			table = new gara.jswt.widgets.Table(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION); //  | gara.jswt.JSWT.CHECK
+			table.setHeaderVisible(true);
+			table.setLinesVisible(true);
 
-		new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 1");
-		new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 2");
-		new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 3");
+			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 1");
+			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 2");
+			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 3");
 
-		new gara.jswt.widgets.TableItem(table).setText(["i1, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i2, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i3, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i4, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i5, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i6, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i7, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i8, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i9, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i10, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i11, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i12, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i13, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i14, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i15, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i16, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i17, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i18, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i19, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i20, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i21, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i22, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i23, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i24, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i25, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i26, 1", "2", "3"]);
-		new gara.jswt.widgets.TableItem(table).setText(["i27, 1", "2", "3"]);
-
-		table.setHeight(200);
-		table.update();
-	} catch(e) {
-		var message = "";
-		for (p in e) {
-			message += p + ": " + e[p] + "\n";
-		}
-		console.error(message);
-	}
+			new gara.jswt.widgets.TableItem(table).setText(["i1, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i2, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i3, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i4, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i5, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i6, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i7, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i8, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i9, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i10, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i11, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i12, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i13, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i14, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i15, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i16, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i17, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i18, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i19, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i20, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i21, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i22, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i23, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i24, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i25, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i26, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i27, 1", "2", "3"]);
+		
+			table.setHeight(200);
+		});
 }
 
 function dispose() {

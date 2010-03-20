@@ -1,0 +1,1 @@
+gara.provide("gara.jsface.action.ActionChangedListener");$interface("ActionChangedListener",{actionChanged:function(a){}});

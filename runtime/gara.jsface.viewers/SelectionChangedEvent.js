@@ -1,0 +1,1 @@
+gara.provide("gara.jsface.viewers.SelectionChangedEvent");$package("gara.jsface.viewers");$class("SelectionChangedEvent",{$constructor:function(a,b){this._source=a;this._selection=b},getSelection:function(){return this._selection},getSource:function(){return this._source}});$package("");

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>gara.require</title>
+<link rel="stylesheet" href="../css/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../css/themes/sand/sand.css" type="text/css"/>
+<!-- <script type="text/javascript" src="../lib/base2-dom-fp.js"></script>-->
+<script type="text/javascript" src="../src/gara.js"></script>
+<script type="text/javascript">
+gara.require(["gara.jswt.widgets.List", "gara.jswt.widgets.ListItem"], function() {
+	var l = new gara.jswt.widgets.List(document.getElementsByTagName("body")[0]);
+
+	for (var i = 1; i <= 5; ++i) {
+		new gara.jswt.widgets.ListItem(l).setText("Item " + i);
+	}
+});
+</script>
+</head>
+<body class="sand">
+
+</body>
+</html>

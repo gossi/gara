@@ -1,40 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara.jswt.list (dev)</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>
-
-<script type="text/javascript" src="../../src/gara/EventManager.js"></script>
-<script type="text/javascript" src="../../src/gara/OutOfBoundsException.js"></script>
-<script type="text/javascript" src="../../src/gara/Utils.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt/JSWT.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt/JSWTException.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.events/FocusListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/KeyListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MenuListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/MouseListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/SelectionListener.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.events/DisposeListener.js"></script>
-
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Widget.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/FocusManager.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Item.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Control.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Scrollable.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/Composite.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/List.js"></script>
-<script type="text/javascript" src="../../src/gara.jswt.widgets/ListItem.js"></script>
-<script type="text/javascript"><!--
-//gara.require("gara.jswt.widgets.List");
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../src/gara.js"></script>
+<script type="text/javascript">
 var list;
 
 function main() {
-	try {
+	gara.require(["gara.jswt.widgets.List","gara.jswt.widgets.ListItem"], function() {
 		list = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI);
 
 		new gara.jswt.widgets.ListItem(list).setText("Item 1");
@@ -69,23 +44,15 @@ function main() {
 
 		var listener = new Listener();
 		list.addSelectionListener(listener);
-		list.addMouseListener(listener);
-		list.addKeyListener(listener);
+		//list.addMouseListener(listener);
+		//list.addKeyListener(listener);
 		list.addListener("keydown", listener);
 		list.addListener("mousedown", listener);
 		list.getItems()[2].addListener("mousedown", listener);
-	} catch(e) {
-		var message = "";
-		for (p in e) {
-			message += p + ": " + e[p] + "\n";
-		}
-		console.log(message);
-	}
+	});
 }
 
 gara.Class("Listener", {
-	$implements : [gara.jswt.events.SelectionListener, gara.jswt.events.MouseListener, gara.jswt.events.KeyListener],
-	$constructor : function (){},
 	widgetSelected : function(e) {
 		var item = e.item;
 		var widget = e.widget;
@@ -95,29 +62,16 @@ gara.Class("Listener", {
 	},
 
 	handleEvent : function(e) {
-//		console.log("Listener.handleEvent("+e.type+"), widget: " + e.target.widget + ", target: " + e.target + ", bubbling: " + e.bubbles);
-	},
-
-	mouseDoubleClick : function(e) {
-		
+		console.log("Listener.handleEvent("+e.type+"), widget: " + e.target.widget + ", target: " + e.target + ", bubbling: " + e.bubbles);
 	},
 
 	mouseDown : function(e) {
-//		console.log("Listener.mouseDown, widget: " + e.widget + ", item: " + e.item);
-	},
-
-	mouseUp : function(e) {
-		
+		console.log("Listener.mouseDown, widget: " + e.widget + ", item: " + e.item);
 	},
 
 	keyPressed : function(e) {
-//		console.log("Listener.keyPressed, widget: " + e.widget + ", item: " + e.item);
+		console.log("Listener.keyPressed, widget: " + e.widget + ", item: " + e.item);
 	},
-
-	keyReleased : function(e) {
-		 
-	}
-	
 })
 
 function dispose() {

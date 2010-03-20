@@ -1,0 +1,1 @@
+gara.provide("gara.jsface.viewers.ISelectionChangedListener");$package("gara.jsface.viewers");$interface("ISelectionChangedListener",{selectionChanged:function(a){}});$package("");

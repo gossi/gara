@@ -4,6 +4,8 @@
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
+ 
+/** sprite: tree; sprite-image: url('sprite-tree.png'); sprite-layout: horizontal; */
 
 .sand ul.jsWTTree {
 	border: 1px solid #000;
@@ -30,7 +32,7 @@
 	padding: 1px 3px;
 }
 
-ul.jsWTTree li img {
+.sand ul.jsWTTree li img {
 	margin-right: 3px;
 	vertical-align: middle;
 	float: left;
@@ -84,23 +86,24 @@ ul.jsWTTree li img {
 	background-image: none;
 }
 
-.sand .jsWTTreeLines ul {
-	background-image: url('line.gif');
-}
-
 .sand .jsWTTreeLines li.bottom {
-	background-image: url('joinbottom.gif');
+	background-image: url('joinbottom.gif'); /** sprite-ref: tree; */
 }
 
 .sand .jsWTTreeLines li {
-	background-image: url('join.gif');
+	background-image: url('join.gif'); /** sprite-ref: tree; */
 }
 
 /* Toggler */
 .sand ul.jsWTTree li span.togglerExpanded {
-	background-image: url('collapse.gif');
+	background-image: url('collapse.gif'); /** sprite-ref: tree; */
 }
 
 .sand ul.jsWTTree li span.togglerCollapsed {
-	background-image: url('expand.gif');
+	background-image: url('expand.gif'); /** sprite-ref: tree; */
+}
+
+.sand .jsWTTreeLines ul {
+	background-repeat: repeat-y;
+	background-image: url('line.gif'); /** sprite-ref: tree; sprite-alignment: repeat; */
 }

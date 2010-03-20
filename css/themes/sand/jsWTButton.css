@@ -5,6 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
  
+/** sprite: checkbox; sprite-image: url('sprite-checkbox.png'); */
+/** sprite: radio; sprite-image: url('sprite-radio.png'); */
+
+
 .sand .jsWTButtonHorizontal {
 	display: inline-block;
 }
@@ -15,16 +19,19 @@
 
 .sand .jsWTButtonPush {
 	height: 22px;
- 	background: url('button-start.png') no-repeat;
+	background-repeat: no-repeat;
+ 	background-image: url('button-start.png'); /** sprite-ref: button; */
  	padding-left: 9px;	
  	outline: none;
  	user-select: none;
  	-moz-user-select: none;
  	margin-right: 5px;
+ 	overflow: hidden;
 }
 
 .sand .jsWTButtonPush .door {
-	background: url('button-end.png') right;
+	background-position: right;
+	background-image: url('button-end.png'); /** sprite-ref: button; sprite-alignment: right;*/
 	height: 21px;
 	line-height: 20px;
 	display: inline-block;
@@ -32,15 +39,15 @@
 }
 
 .sand .jsWTButtonPush[aria-pressed=true] {
-	background-image: url('button-pressed-start.png');
+	background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
 }
 
 .sand .jsWTButtonPush[aria-pressed=true] .door {
-	background-image: url('button-pressed-end.png');
+	background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
 }
 
 .sand .jsWTButtonPush img {
-	margin: 0 4px -2px 0;
+	margin: 0 4px -3px 0;
 }
 
 .sand .jsWTButtonPush .text {
@@ -58,7 +65,7 @@
 /* general checkbox & radio styles */
 .sand .jsWTButtonCheckbox,
 .sand .jsWTButtonRadio {
-	background: no-repeat 1px 2px;
+	background: no-repeat;
 	padding-left: 17px;
  	margin-right: 2px;
  	position: relative;
@@ -96,34 +103,34 @@
 
 /* checkbox images */
 .sand .jsWTButtonCheckbox {
-	background-image: url('checkbox.png');
+	background-image: url('checkbox.png'); /** sprite-ref: checkbox; sprite-margin-left: 1px; sprite-margin-top: 2px;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 .sand .jsWTButtonCheckbox[aria-checked=true] {
-	background-image: url('checkbox-checked.png');
+	background-image: url('checkbox-checked.png'); /** sprite-ref: checkbox;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 .sand .jsWTButtonCheckbox[aria-disabled=true] {
-	background-image: url('checkbox-grayed.png');
+	background-image: url('checkbox-grayed.png'); /** sprite-ref: checkbox;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 .sand .jsWTButtonCheckbox[aria-disabled=true][aria-checked=true] {
-	background-image: url('checkbox-grayed-checked.png');
+	background-image: url('checkbox-grayed-checked.png'); /** sprite-ref: checkbox;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 /* radio images */
 .sand .jsWTButtonRadio {
-	background-image: url('radio.png');
+	background-image: url('radio.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 .sand .jsWTButtonRadio[aria-checked=true] {
-	background-image: url('radio-checked.png');
+	background-image: url('radio-checked.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 .sand .jsWTButtonRadio[aria-disabled=true] {
-	background-image: url('radio-grayed.png');
+	background-image: url('radio-grayed.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 .sand .jsWTButtonRadio[aria-disabled=true][aria-checked=true] {
-	background-image: url('radio-grayed-checked.png');
+	background-image: url('radio-grayed-checked.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }

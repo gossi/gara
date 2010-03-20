@@ -17,26 +17,30 @@
 
 /* This div is only because of IE6 grrrrr */
 .sand div.jsWTDialogBarLeft {
-	background: url('left_both.gif') no-repeat;
+	background-repeat: no-repeat;
+	background-image: url('stone_mud_left.png'); /** sprite-ref: stone-mud; */
 	width: 9px;
 	height: 26px;
 	float: left;
 }
 
 .sand div.jsWTDialogBarText {
-	background: url('bar.gif') repeat-x;
+	background-repeat: repeat-x;
+	background-image: url('stone_mud_bar.png'); /** sprite-ref: stone-mud; sprite-alignment: repeat; */
 	padding: 5px 5px 5px 0;
 	height: 16px;
 }
 
 .sand div.jsWTDialogBarButtons {
-	background: url('right_both.gif') no-repeat right top;
+	background: no-repeat right top;
+	background-image: url('stone_mud_right.png'); /** sprite-ref: stone-mud; sprite-alignment: right; */
 	padding: 5px;
 	height: 16px;
 }
 
 .sand span.jsWTDialogCancelButton {
-	background: url('close.gif') no-repeat;
+	background-repeat: no-repeat;
+	background-image: url('close.gif'); /** sprite-ref: misc; */
 	width: 14px;
 	height: 14px;
 	display: block;
@@ -44,7 +48,7 @@
 }
 
 .sand span.jsWTDialogCancelButton:hover {
-	background: url('close_hover.gif');
+	background-image: url('close_hover.gif'); /** sprite-ref: misc; */
 }
 
 .sand div.jsWTDialogContent {
@@ -90,16 +94,16 @@
 }
 
 .sand div.jsWTMessageBox .jsWTIconError {
-	background-image: url('icon_error.png');
+	background-image: url('icon_error.png'); /** sprite-ref: icons; */
 }
 .sand div.jsWTMessageBox .jsWTIconInformation {
-	background-image: url('icon_information.png');
+	background-image: url('icon_information.png'); /** sprite-ref: icons; */
 } 
 .sand div.jsWTMessageBox .jsWTIconQuestion {
-	background-image: url('icon_question.png');
+	background-image: url('icon_question.png'); /** sprite-ref: icons; */
 }
 .sand div.jsWTMessageBox .jsWTIconWarning {
-	background-image: url('icon_warning.png');
+	background-image: url('icon_warning.png'); /** sprite-ref: icons; */
 }
 .sand div.jsWTMessageBox .jsWTIconWorking {
 	background-image: url('icon_working.gif');

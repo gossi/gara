@@ -1,0 +1,1 @@
+gara.provide("gara.jsface.viewers.ViewerFilter");$package("gara.jsface.viewers");$class("ViewerFilter",{$constructor:function(){},filter:function(c,d,e){out=[];e.forEach(function(a,b,f){if(this.select(c,d,a)){out.push(a)}},this);return out},isFilterProperty:function(a,b){return false},select:$abstract(function(a,b,f){})});$package("");

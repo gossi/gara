@@ -1,0 +1,1 @@
+gara.provide("gara.jswt.events.MenuListener");gara.Class("gara.jswt.events.MenuListener",{menuHidden:function(a){},menuShown:function(a){}});

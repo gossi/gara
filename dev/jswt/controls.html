@@ -1,30 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>gara Control Widgets</title>
-<!-- <link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../garadev.js"></script>-->
-
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript"><!--
-gara.require("gara.jswt.widgets.Menu");
-gara.require("gara.jswt.widgets.TabFolder");
-gara.require("gara.jswt.widgets.Table");
-gara.require("gara.jswt.widgets.List");
-gara.require("gara.jswt.widgets.Tree");
-gara.require("gara.jswt.widgets.Button");
-gara.require("gara.jswt.widgets.Label");
-gara.require("gara.jswt.widgets.Text");
+<script type="text/javascript">
+
 var list, table, tree, tab, menu, tbl;
 
 gara.Class("WidgetListener", {
-	$implements : gara.jswt.events.FocusListener,
-
 	$constructor : function() {},
 
 	focusGained : function(e) {
@@ -38,16 +23,32 @@ gara.Class("WidgetListener", {
 });
 
 function main() {
+gara.require(
+		["gara.jswt.widgets.Menu",
+		"gara.jswt.widgets.MenuItem",
+		"gara.jswt.widgets.TabFolder",
+		"gara.jswt.widgets.TabItem",
+		"gara.jswt.widgets.Table",
+		"gara.jswt.widgets.TableColumn",
+		"gara.jswt.widgets.TableItem",
+		"gara.jswt.widgets.List",
+		"gara.jswt.widgets.ListItem",
+		"gara.jswt.widgets.Tree",
+		"gara.jswt.widgets.TreeItem",
+		"gara.jswt.widgets.Button",
+		"gara.jswt.widgets.Label",
+		"gara.jswt.widgets.Text"], 
+function() {
 
 	// Images
 	var imgInfo = new Image();
-	imgInfo.src = "../../themes/sand/icon_information.png";
+	imgInfo.src = "../../css/themes/sand/icon_information.png";
 
 	var imgError = new Image();
-	imgError.src = '../../themes/sand/icon_error.png';
+	imgError.src = '../../css/themes/sand/icon_error.png';
 
 	var imgWarning = new Image();
-	imgWarning.src = '../../themes/sand/icon_warning.png';
+	imgWarning.src = '../../css/themes/sand/icon_warning.png';
 
 	// Init TabFolder
 	tab = new gara.jswt.widgets.TabFolder(document.getElementById("tab"), gara.jswt.JSWT.DROP_DOWN);
@@ -218,8 +219,9 @@ function main() {
 	new gara.jswt.widgets.Label(document.getElementById("password")).setText("Label before Password");
 	new gara.jswt.widgets.Text(document.getElementById("password"), gara.jswt.JSWT.PASSWORD);
 	new gara.jswt.widgets.Text(document.getElementById("multiline"), gara.jswt.JSWT.MULTI).setText("Here we have a multiline text container with width 350px and height 80px.").setWidth(350).setHeight(80);
-}
---></script>
+});
+};
+</script>
 <style type="text/css">
 h1 {
 	font: 24px Arial;

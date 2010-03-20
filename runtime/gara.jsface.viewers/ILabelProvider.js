@@ -1,0 +1,1 @@
+gara.provide("gara.jsface.viewers.ILabelProvider");gara.require("gara.jsface.viewers.IBaseLabelProvider");$package("gara.jsface.viewers");$interface("ILabelProvider",{$extends:gara.jsface.viewers.IBaseLabelProvider,getImage:function(a){},getText:function(a){}});$package("");

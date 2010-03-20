@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Testing exception</title>
+<script type="text/javascript">
+function x() {}
+
+x.prototype = {
+	bar : function() {
+		whoops();
+	},
+
+	eumel : function() {
+		this.bar();
+	}
+}
+
+function y() {}
+y.prototype = {
+	bar : function() {
+		var foo = new x();
+		foo.eumel();
+	}
+}
+
+function main() {
+	var foo = new y();
+	foo.bar();
+}
+</script>
+</head>
+<body>
+<script type="text/javascript">main()</script>
+</body>
+</html>

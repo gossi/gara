@@ -1,0 +1,1 @@
+gara.provide("gara.jswt.events.FocusListener");gara.Class("gara.jswt.events.FocusListener",{focusGained:function(){},focusLost:function(){}});

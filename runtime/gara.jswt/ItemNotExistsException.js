@@ -1,0 +1,1 @@
+gara.provide("gara.jswt.ItemNotExistException");gara.Class("gara.jswt.ItemNotExistsException",{$extends:Exception,$constructor:function(a){this.message=String(a);this.name=gara.typeOf(this)}});

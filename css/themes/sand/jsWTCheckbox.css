@@ -4,22 +4,22 @@
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
-
+ 
 .sand .jsWTCheckbox {
 	display: block;
 	width: 13px;
 	height: 13px;
-	background-image: url('checkbox.png');
+	background-image: url('checkbox.png'); /** sprite-ref: checkbox; */ 
 }
 
 .sand .jsWTCheckboxGrayedChecked {
-	background-image: url('checkbox-grayed-checked.png');
+	background-image: url('checkbox-grayed-checked.png'); /** sprite-ref: checkbox; */
 }
 
 .sand .jsWTCheckboxGrayed {
-	background-image: url('checkbox-grayed.png');
+	background-image: url('checkbox-grayed.png'); /** sprite-ref: checkbox; */
 }
 
 .sand .jsWTCheckboxChecked {
-	background-image: url('checkbox-checked.png');
+	background-image: url('checkbox-checked.png'); /** sprite-ref: checkbox; */
 }

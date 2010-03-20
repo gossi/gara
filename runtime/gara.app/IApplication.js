@@ -1,0 +1,1 @@
+$interface("IApplication",{start:function(){},stop:function(){}});

@@ -20,7 +20,8 @@
 	width: 10px;
 	font-size: 77%;
 	z-index: 202;
-	background: 1px 1px url('more.png') no-repeat transparent;
+	background: 1px 1px no-repeat transparent;
+	background-image: url('more.png'); /** sprite-ref: misc; sprite-margin-left: 1px; sprite-margin-top: 1px;*/
 	padding-left: 9px;
 	padding-top: 4px;
 	cursor: default;
@@ -32,8 +33,12 @@
 	background-color: #EAE6D6;
 }
 
-.sand div.jsWTTabFolder:focus ul.jsWTTabFolderBar li.active .text {
+.sand .jsWTTabFolder:focus .jsWTTabFolderBar li.active .text {
 	outline: 1px dotted #000;
+}
+
+.sand .jsWTTabFolder .jsWTTabClientArea {
+	overflow: auto;
 }
 
 /*
@@ -58,7 +63,8 @@
 .sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li {
 	cursor: default;
 	float: left;
-	background: url("left_both.gif") no-repeat left top;
+	background: no-repeat left top;
+	background-image: url('stone_mud_left.png'); /** sprite-ref: stone-mud; */
 	margin: 0;
 	padding: 0 0 0 9px;
 	border-bottom: 1px solid #765;
@@ -72,7 +78,8 @@
 	float: left;
 	display: block;
 	width: .1em;
-	background: url("right_both.gif") no-repeat right top;
+	background: no-repeat right top;
+	background-image: url('stone_mud_right.png'); /** sprite-ref: stone-mud; sprite-alignment: right;*/
 	padding: 5px 15px 4px 6px;
 	font-weight: bold;
 	color: #765;
@@ -97,22 +104,21 @@
 /* End IE5-Mac hack */
 
 .sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li.active {
-	background-position: 0 -150px;
+	background-image: url('stone_sand_left.png'); /** sprite-ref: stone-sand; */
 	border-width: 0;
 }
 
 .sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li.active .door {
-	background-position: 100% -150px;
+	background-image: url('stone_sand_right.png'); /** sprite-ref: stone-sand; sprite-alignment: right;*/
 	padding-bottom: 5px;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li:hover,
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li:hover .door {
-	background-position:0% -150px;
+.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li:hover {
+	background-image: url('stone_sand_left.png'); /** sprite-ref: stone-sand; */
 }
 
 .sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li:hover .door {
-	background-position:100% -150px;
+	background-image: url('stone_sand_right.png'); /** sprite-ref: stone-sand; sprite-alignment: right;*/
 }
 
 /* safari 3 */
@@ -126,14 +132,10 @@
 	}
 }
 
-/* safari 4 */
+/* safari 4 */ 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar {
 		height: 24px;
-	}
-	
-	.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar .door {
-		font-weight: normal;
 	}
 }
 
@@ -163,8 +165,8 @@
 .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li {
 	cursor: default;
 	float: left;
-	background: url("left_both_bottom.gif") no-repeat left bottom;
-	background-position: 0% -274px;
+	background: no-repeat left bottom;
+	background-image: url('stone_mud_left_bottom.png'); /** sprite-ref: stone-mud; */
 	margin: 0;
 	padding: 0 0 0 9px;
 	border-top: 1px solid #765;
@@ -176,8 +178,8 @@
 	float: left;
 	display: block;
 	width:.1em;
-	background: url("right_both_bottom.gif") no-repeat right bottom;
-	background-position: 100% -274px;
+	background: no-repeat right bottom;
+	background-image: url('stone_mud_right_bottom.png'); /** sprite-ref: stone-mud; sprite-alignment: right; */
 	padding: 3px 15px 7px 6px;
 	font-weight: bold;
 	color: #765;
@@ -202,37 +204,26 @@
 /* End IE5-Mac hack */
 
 .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active {
-	background-position: 0 -123px;
+	background-image: url('stone_sand_left_bottom.png'); /** sprite-ref: stone-sand;*/
 	border-width: 0;
 }
 
 .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active .door {
-	background-position: 100% -123px;
+	background-image: url('stone_sand_right_bottom.png'); /** sprite-ref: stone-sand; sprite-alignment: right; */
 	padding-top: 4px;
 	padding-bottom: 7px;
-	
 }
 
 .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active img {
 	padding-top: 4px;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li:hover,
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li:hover .door {
-	background-position:0% -124px;
+.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li:hover {
+	background-image: url('stone_sand_left_bottom.png'); /** sprite-ref: stone-sand;*/
 }
 
 .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li:hover .door {
-	background-position:100% -124px;
-	padding-bottom: 7px;
-}
-
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active:hover {
-	background-position: 0% -123px;
-}
-
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active:hover .door {
-	background-position: 100% -123px;
+	background-image: url('stone_sand_right_bottom.png'); /** sprite-ref: stone-sand; sprite-alignment: right; */
 	padding-bottom: 7px;
 }
 

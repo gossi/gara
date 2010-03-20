@@ -20,7 +20,7 @@
 
 .sand ul.jsWTMenu li span {
 	line-height: 18px;
-	font-size: 85%;
+	font-size: 11px;
 	border: none;
 	padding: 0;
 	margin: 0;
@@ -31,11 +31,11 @@
 	color: #FFF;
 }
 
-.sand ul.jsWTMenu li[aria-disabled=true] > span.text {
+.sand ul.jsWTMenu li[aria-disabled=true] > span .text {
 	color: #777;
 }
 
-.sand ul.jsWTMenu li[aria-disabled=true] > img {
+.sand ul.jsWTMenu li[aria-disabled=true] > span img {
 	opacity: 0.5;
 }
 
@@ -46,13 +46,13 @@
 }
 
 .sand ul.jsWTMenu li.jsWTMenuItemCheck[aria-checked=true] {
-	background-image: url('checked.png');
 	background-position: 4px 8px;
+	background-image: url('checked.png'); /** sprite-ref: menu; sprite-margin-left: 4px; sprite-margin-top: 8px; */
 }
 
 .sand ul.jsWTMenu li.jsWTMenuItemRadio[aria-checked=true] {
-	background-image: url('dot.png');
 	background-position: 5px 8px;
+	background-image: url('dot.png'); /** sprite-ref: menu; sprite-margin-left: 5px; sprite-margin-top: 8px; */
 }
 
 .sand ul.jsWTMenuBar {
@@ -127,9 +127,10 @@
 
 .sand ul.jsWTMenuPopUp li.jsWTMenuItemCascade,
 .sand ul.jsWTMenuDropDown li.jsWTMenuItemCascade {
-	background-image: url('arrow.gif');
-	background-position: 135px 8px;
-	background-repeat: no-repeat;	
+	/*background-position: right center;*/
+	background-position: 135px 6px;
+	background-repeat: no-repeat;
+	background-image: url('arrow.gif');  /** sprite-ref: menu; sprite-margin-left: 135px; sprite-margin-top: 8px; */
 }
 
 .sand ul.jsWTMenuBar li.jsWTMenuItemSeparator {
@@ -150,3 +151,81 @@
 	width: auto;
 }
 
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * .jsWTToolbar
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand ul.jsWTToolbar {
+	background-color: #EAE6D6; /*#E9E7EB;*/
+	height: 28px;
+}
+
+.sand .jsWTToolbar > li > .button,
+.sand .jsWTToolbar > li[aria-pressed=false] > .button {
+	height: 22px;
+	display: inline-block;
+	background-repeat: no-repeat;
+ 	background-image: url('button-start.png'); /** sprite-ref: button; */
+ 	padding-left: 9px;
+ 	margin-right: 5px;
+ 	margin-top: 3px;
+}
+
+.sand .jsWTToolbar > li > .button .door,
+.sand .jsWTToolbar > li[aria-pressed=false] > .button .door {
+	background-position: right;
+	background-image: url('button-end.png'); /** sprite-ref: button; sprite-alignment: right;*/
+	height: 21px;
+	line-height: 20px;
+	display: inline-block;
+	padding: 1px 9px 0 0;
+}
+
+.sand ul.jsWTToolbar > li.jsWTMenuItemCheck,
+.sand ul.jsWTToolbar > li.jsWTMenuItemRadio,
+.sand ul.jsWTToolbar > li.jsWTMenuItemCheck[aria-checked=true],
+.sand ul.jsWTToolbar > li.jsWTMenuItemRadio[aria-checked=true] {
+	background: none;
+	padding-left: 0;
+}
+
+.sand .jsWTToolbar > li[aria-checked=true] > .button,
+.sand .jsWTToolbar > li[aria-pressed=true] > .button {
+	background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
+}
+
+.sand .jsWTToolbar > li[aria-checked=true] > .button .door,
+.sand .jsWTToolbar > li[aria-pressed=true] > .button .door {
+	background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
+}
+
+.sand ul.jsWTToolbar > li.active {
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+.sand ul.jsWTToolbar > li[aria-disabled=false].active > .button .text {
+	outline: 1px dotted #000;
+}
+
+.sand .jsWTToolbar > li > .button img {
+	margin: 0 4px -3px 0;
+}
+
+.sand .jsWTToolbar > li > .button .text {
+	line-height: 20px;
+}
+
+.sand ul.jsWTToolbar > li[aria-haspopup=true] > .button .text {
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-image: url('arrow_down.png');
+	padding-right: 10px;
+}
+
+.sand .jsWTToolbar > li[aria-disabled=true] > .button {
+	opacity: 0.5;
+}

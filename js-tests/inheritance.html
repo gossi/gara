@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>new gara Inheritance pattern</title>
+<script>
+"use strict";
+// fixing some things
+// Strings
+if (typeof String.prototype.trim !== 'function') {
+	String.prototype.trim = function() {
+		return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
+	};
+}
+
+if (typeof String.prototype.supplant !== 'function') {
+	String.prototype.supplant = function (o) {
+		return this.replace(/{([^{}]*)}/g,
+			function (a, b) {
+				var r = o[b];
+				return typeof r === 'string' ? r : a;
+			});
+	};
+}
+
+// Object
+if (typeof Object.prototype.keys !== 'function') {
+	Object.prototype.keys = function () {
+		var result = [], p;
+		for (p in this) {
+			if (Object.prototype.hasOwnProperty.call(this, p)) {
+				result.push(p);
+			}
+		}
+		return result;
+	};
+}
+
+if (typeof Object.create !== 'function') {
+	Object.create = function (o) {
+		function F() {}
+		F.prototype = o;
+		return new F();
+	};
+}
+
+
+// Arrays
+if (typeof Array.isArray !== 'function') {
+	Array.isArray = function (value) {
+		return Array.prototype.toString.apply(value) === '[object Array]';
+	};
+}
+
+var foo = {};
+
+//Inspired by base2 and Prototype
+(function (){
+	var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\$super/ : /.*/;
+
+	// The base Class implementation (does nothing)
+	this.Class = function() {};
+	
+	Class.$protected = function (prop) {
+		return {
+			$protected : true,
+			value : prop,
+			getValue : function () {
+				return this.value;
+			}
+		};
+	};
+
+	Class.$private = function (prop) {
+		return {
+			$private : true,
+			value : prop,
+			getValue : function () {
+				return this.value;
+			}
+		};
+	};
+	
+	// Create a new Class that inherits from this class
+	Class.extend = function (prop) {
+		var $super = this.prototype,
+			prototype,
+			protectedProps = {};
+
+		// Instantiate a base class (but only create the instance,
+		// don't run the init constructor)
+		initializing = true;
+		prototype = new this();
+		initializing = false;
+
+		//console.log("$protected: " + (typeof Class.$protected));
+
+		// Copy the properties over onto the new prototype
+		prop.keys().forEach(function(key) {
+			//console.log("typeof Class.$protected: " + (typeof Class.$protected));
+			if (prop[key].$protected) {
+				return protectedProps[key] = prop[key].getValue();
+			}
+			// Check if we're overwriting an existing function
+			prototype[key] = typeof prop[key] == "function" 
+				&& typeof $super[key] == "function" 
+				&& fnTest.test(prop[key]) ?
+					(function (key, fn){
+						return function() {
+							var tmp = this.$super, ret;
+
+							// Add a new .$super() method that is the same method
+							// but on the super-class
+							this.$super = $super[key];
+
+							// The method only need to be bound temporarily, so we
+							// remove it when we're done executing
+							ret = fn.apply(this, arguments);       
+							this.$super = tmp;
+
+							return ret;
+						};
+					})(key, prop[key]) :
+					prop[key];
+	 	}, this);
+
+		
+		
+		// The dummy class constructor
+		function Class() {
+			// appending protected properties
+			protectedProps.keys().forEach(function(key) {
+				this.val = protectedProps[key];
+				eval("this."+key+" = this.val");
+			}, this);
+
+			// All construction is actually done in the init method
+			if (!initializing && this.$constructor) {
+				this.$constructor.apply(this, arguments);
+			}
+		}
+
+		
+
+		// Populate our constructed prototype object
+		Class.prototype = prototype;
+
+		// Enforce the constructor to be what we expect
+		Class.constructor = Class;
+		
+		// And make this class extendable
+		Class.extend = arguments.callee;
+		Class.$protected = this.$protected;
+		return Class;
+	};
+
+})();
+
+var A = Class.extend({
+	$constructor : function () {
+		console.log("Hooray, ctor A " + this.FOO + " " + this.UUH);
+	},
+
+	FOO : "bar"
+
+
+});
+
+var B = A.extend({
+	BAR : Class.$protected("mooh"),
+
+	$constructor : function () {
+		this.UUH = "huu";
+		console.log("Hooray, ctor B " + this.UUH + this.BAR);
+		this.$super();
+
+	},
+
+	test : function () {
+		console.log("Test BAR: " + this.BAR + this.UUH);
+	},
+
+	changeBar : function () {
+		//this.BAR = "wooh";
+	},
+
+	testProt : Class.$protected(function () {
+		console.log("TestProt BAR: " + this.BAR);
+	})
+	
+});
+
+
+
+var a = new A();
+var b = new B();
+b.test();
+
+console.log("Try accessing BAR: " + b.BAR);
+console.log("Try test BAR: " + b.testProt());
+
+var C = B.extend({
+	$constructor : function () {
+	console.log("Hooray, ctor C " + this.UUH + this.BAR);
+	this.$super();
+}
+});
+
+var c = new C();
+
+/*
+console.log("a instanceof A: " + (a instanceof A));
+console.log("b instanceof B: " + (b instanceof B));
+console.log("b instanceof A: " + (b instanceof A));
+console.log("typeof a: " + (typeof a));
+console.log("typeof b: " + (typeof b));*/
+</script>
+</head>
+<body>
+</body>
+</html>
