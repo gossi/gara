@@ -28,6 +28,6 @@ gara.provide("gara.jsface.action.ActionChangedListener");
  * @namespace gara.jsface.action
  * @author Thomas Gossmann
  */
-$interface("ActionChangedListener", {
+gara.Class("gara.jsface.action.ActionChangedListener", {
 	actionChanged : function(action) {}
 });

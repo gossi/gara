@@ -23,165 +23,280 @@
 
 gara.provide("gara.jsface.action.MenuManager");
 
-gara.provide("gara.jsface.action.ActionChangedListener");
-gara.provide("gara.jsface.action.IAction");
-gara.provide("gara.jswt.JSWT");
-gara.provide("gara.jswt.events.SelectionListener");
-gara.provide("gara.jswt.widgets.Control");
-gara.provide("gara.jswt.widgets.Menu");
-gara.provide("gara.jswt.widgets.MenuItem");
+gara.use("gara.jswt.JSWT");
+gara.use("gara.jswt.widgets.Control");
+gara.use("gara.jswt.widgets.Menu");
+gara.use("gara.jswt.widgets.MenuItem");
 
 /**
  * @class MenuManager
  * @namespace gara.jsface.action
  * @author Thomas Gossmann
  */
-gara.Class("MenuManager", {
-	$implements : [gara.jswt.events.SelectionListener, gara.jsface.action.ActionChangedListener],
+gara.Class("gara.jsface.action.MenuManager", {
+	/**
+	 * @field
+	 * Contains the menu items
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.MenuItem[]}
+	 */
+	actions : [],
 
-	$constructor : function(text, image) {
-		this._items = [];
-		this._menus = [];
+	/**
+	 * @field
+	 * Contains the delivered menus
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.Menu[]}
+	 */
+	menus : [],
 
-		this._enabled = true;
-		this._text = text;
-		this._image = image;
+	/**
+	 * @field
+	 * Holds the enabled state for this representation
+	 *
+	 * @private
+	 * @type {}
+	 */
+	enabled : true,
+
+	/**
+	 * @field
+	 * Contains the text for this representation
+	 *
+	 * @private
+	 * @type {}
+	 */
+	text : "",
+
+	/**
+	 * @field
+	 * Holds the image for this representation
+	 *
+	 * @private
+	 * @type {}
+	 */
+	image : null,
+
+	/**
+	 * @field
+	 * Is the action changed listener, that will be notified when an action
+	 * gets changed and updates the managed menus.
+	 *
+	 * @private
+	 * @type {gara.jsface.action.ActionChangedListener}
+	 */
+	actionListener : null,
+
+	$constructor : function (text, image) {
+		var self = this;
+		this.actions = [];
+		this.menus = [];
+
+		this.enabled = true;
+		this.text = text;
+		this.image = image || null;
+
+		this.actionListener = {
+			actionChanged : function (action) {
+				self.updateAction(action);
+			}
+		};
 	},
 
-	actionChanged : function(action) {
-		this.updateAction(action);
-	},
-
-	addAction : function(action) {
-		if (!gara.instanceOf(action, gara.jsface.action.IAction)) {
-			throw new TypeError("action not instance of gara.jsface.action.IAction");
+	add : function(actionOrMngr) {
+		if (actionOrMngr instanceof gara.jsface.action.MenuManager) {
+			this.addMenuManager(actionOrMngr);
+		} else {
+			this.addAction(actionOrMngr);
 		}
+	},
 
-		if (!this._items.contains(action)) {
-			action.addActionChangedListener(this);
-			this._items.push(action);
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.action.IAction} action
+	 */
+	addAction : function (action) {
+		if (action.addActionChangedListener && !this.actions.contains(action)) {
+			action.addActionChangedListener(this.actionListener);
+			this.actions.push(action);
 		}
 	},
 
-	addMenuManager : function(manager) {
-		if (!gara.instanceOf(manager, gara.jsface.action.MenuManager)) {
+	addMenuManager : function (manager) {
+		if (!(manager instanceof gara.jsface.action.MenuManager)) {
 			throw new TypeError("manager not instance of gara.jsface.action.MenuManager");
 		}
 
-		if (!this._items.contains(manager)) {
-			this._items.push(manager);
+		if (!this.actions.contains(manager)) {
+			this.actions.push(manager);
 		}
 	},
 
-	createContextMenu : function(control) {
-		if (!gara.instanceOf(control, gara.jswt.widgets.Control)) {
+	createContextMenu : function (control) {
+		var menu;
+		if (!(control instanceof gara.jswt.widgets.Control)) {
 			throw new TypeError("control ist not instance of gara.jswt.widgets.Control");
 		}
 
-		var menu = new gara.jswt.widgets.Menu(control);
-		this._menus.push(menu);
+		menu = new gara.jswt.widgets.Menu(control);
+		this.menus.push(menu);
 		this.updateMenu(menu);
 		control.setMenu(menu);
 	},
 
-	createMenuBar : function(parent) {
+	createMenuBar : function (parent) {
 		var menu = new gara.jswt.widgets.Menu(parent);
-		this._menus.push(menu);
+		this.menus.push(menu);
 		this.updateMenu(menu);
 	},
 
-	_createMenuItem : function(menu, item) {
-		var menuItem = new gara.jswt.widgets.MenuItem(menu, gara.jswt.JSWT.CASCADE);
-		menuItem.setText(item.getText());
-		menuItem.setImage(item.getImage());
-		menuItem.setEnabled(item.getEnabled());
-		menuItem.setData(item);
-		menuItem.addSelectionListener(this);
+	createToolBar : function (parent) {
+		var menu = new gara.jswt.widgets.Menu(parent, gara.jswt.JSWT.TOOLBAR);
+		this.menus.push(menu);
+		this.updateMenu(menu);
+	},
 
-		if (gara.instanceOf(item, gara.jsface.action.MenuManager)
-				&& item.getSize()) {
-			this._createSubmenu(menuItem, item);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createMenuItem : function (menu, action) {
+		var item = new gara.jswt.widgets.MenuItem(menu, gara.jswt.JSWT.CASCADE);
+		if (action.getText) {
+			item.setText(action.getText());
+		}
+
+		if (action.getImage) {
+			item.setImage(action.getImage());
+		}
+
+		if (action.getEnabled) {
+			item.setEnabled(action.getEnabled());
+		}
+		item.setData(action);
+		item.addSelectionListener({
+			widgetSelected : function (event) {
+				var action;
+				if (event.action instanceof gara.jswt.widgets.MenuItem) {
+					action = event.action.getData();
+					if (action.run) {
+						action.run();
+					}
+				}
+			}
+		});
+
+		if (action instanceof gara.jsface.action.MenuManager && action.getSize()) {
+			this.createSubmenu(item, action);
 		}
 	},
 
-	_createSubmenu : function(parent, item) {
-		item.submenu = new gara.jswt.widgets.Menu(parent);
-		parent.setMenu(item.submenu);
-		item.fillMenu(item.submenu);
-
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createSubmenu : function (parent, action) {
+		action.submenu = new gara.jswt.widgets.Menu(parent);
+		parent.setMenu(action.submenu);
+		action.fillMenu(action.submenu);
 	},
 
-	fillMenu : function(menu) {
-		if (!gara.instanceOf(menu, gara.jswt.widgets.Menu)) {
+	fillMenu : function (menu) {
+		var i;
+		if (!(menu instanceof gara.jswt.widgets.Menu)) {
 			throw new TypeError("menu ist not instance of gara.jswt.widgets.Menu");
 		}
 
-		if (!this._menus.contains(menu)) {
-			this._menus.push(menu);
+		if (!this.menus.contains(menu)) {
+			this.menus.push(menu);
 			// create new
-			for (var i = 0; i < this._items.length; i++) {
-				this._createMenuItem(menu, this._items[i]);
+			for (i = 0; i < this.actions.length; i++) {
+				this.createMenuItem(menu, this.actions[i]);
 			}
 		}
 	},
 
-	getEnabled : function() {
-		return this._enabled;
+	getEnabled : function () {
+		return this.enabled;
 	},
 
-	getImage : function() {
-		return this._image;
+	getImage : function () {
+		return this.image;
 	},
 
-	getSize : function() {
-		return this._items.length;
+	getSize : function () {
+		return this.actions.length;
 	},
 
-	getText : function() {
-		return this._text;
+	getText : function () {
+		return this.text;
 	},
 
-	removeAction : function(action) {
-		if (!gara.instanceOf(action, gara.jsface.action.IAction)) {
-			throw new TypeError("action not instance of gara.jsface.action.IAction");
+	remove : function(actionOrMngr) {
+		if (actionOrMngr instanceof gara.jsface.action.MenuManager) {
+			this.removeMenuManager(actionOrMngr);
+		} else {
+			this.removeAction(actionOrMngr);
+		}
+	},
+
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.action.IAction} action
+	 */
+	removeAction : function (action) {
+		if (action.removeActionChangedListener) {
+			action.removeActionChangedListener(this.actionListener);
+			this.actions.remove(action);
+		}
+	},
+
+	removeMenuManager : function (manager) {
+		if (!(manager instanceof gara.jsface.action.MenuManager)) {
+			throw new TypeError("manager not instance of gara.jsface.action.MenuManager");
 		}
 
-		action.removeActionChangedListener(this);
-		this._items.remove(action);
+		this.actions.remove(manager);
 	},
 
-	setEnabled : function(enabled) {
-		this._enabled = enabled;
+	setEnabled : function (enabled) {
+		this.enabled = enabled;
 	},
 
-	setImage : function(image) {
-		this._image = image;
+	setImage : function (image) {
+		this.image = image;
 	},
 
-	setText : function(text) {
-		this._text = text;
+	setText : function (text) {
+		this.text = text;
 	},
 
-	update : function(ma) {
-		if (gara.instanceOf(ma, gara.jswt.widgets.Menu)) {
+	update : function (ma) {
+		if (ma instanceof gara.jswt.widgets.Menu) {
 			this.updateMenu(ma);
 		}
 
-		else if (gara.instanceOf(ma, gara.jsface.action.IAction)) {
+		else if (ma.addActionChangedListener) {
 			this.updateAction(ma);
 		}
 
 		else {
-			this._menus.forEach(function(menu) {
+			this.menus.forEach(function (menu) {
 				this.updateMenu(menu);
 			}, this);
 		}
 	},
 
-	updateAction : function(action) {
-		this._menus.forEach(function(menu) {
-			menu.getItems().forEach(function(item) {
-				if (item.getData() == action) {
+	updateAction : function (action) {
+		this.menus.forEach(function (menu) {
+			menu.getItems().forEach(function (item) {
+				if (item.getData() === action) {
 					item.setText(action.getText());
 					item.setImage(action.getImage());
 					item.setEnabled(action.getEnabled());
@@ -191,51 +306,51 @@ gara.Class("MenuManager", {
 		}, this);
 	},
 
-	updateMenu : function(menu) {
-		var menuItems = menu.getItems();
-		var itemCount = menuItems.length;
-		var min = Math.min(itemCount, this._items.length);
+	updateMenu : function (menu) {
+		var items = menu.getItems(),
+			itemCount = items.length,
+			min = Math.min(itemCount, this.actions.length),
+			item, action, i;
 
-		// update available menuItems
-		for (var i = 0; i < min; i++) {
-			var menuItem = menuItems[i];
-			var item = this._items[i];
-			menuItem.setText(item.getText());
-			menuItem.setImage(item.getImage());
-			menuItem.setEnabled(item.getEnabled());
-			menuItem.setData(item);
+		// update available items
+		for (i = 0; i < min; i++) {
+			action = this.actions[i];
+			item = items[i];
+			if (action.getText) {
+				item.setText(action.getText());
+			}
 
-			if (gara.instanceOf(item, gara.jsface.action.MenuManager)) {
-				if (item.submenu) {
-					item.update(item.submenu);
+			if (action.getImage) {
+				item.setImage(action.getImage());
+			}
+
+			if (action.getEnabled) {
+				item.setEnabled(action.getEnabled());
+			}
+			item.setData(action);
+
+			if (action instanceof gara.jsface.action.MenuManager) {
+				if (action.submenu) {
+					action.update(action.submenu);
 				} else {
-					this._createSubmenu(menuItem, item);
+					this.createSubmenu(item, action);
 				}
 			}
 		}
 
 		// remove obsolete
-		for (var i = min; i < itemCount; i++) {
-			var menuItem = menuItems[i];
-			menuItem.setData(null);
-			menuItem.removeSelectionListener(this);
-			menuItem.dispose();
+		for (i = min; i < itemCount; i++) {
+			item = items[i];
+			item.setData(null);
+			item.removeSelectionListener(this);
+			item.dispose();
 		}
 
 		// create new
-		for (var i = min; i < this._items.length; i++) {
-			this._createMenuItem(menu, this._items[i]);
+		for (i = min; i < this.actions.length; i++) {
+			this.createMenuItem(menu, this.actions[i]);
 		}
 
 		menu.update();
-	},
-
-	widgetSelected : function(event) {
-		if (gara.instanceOf(event.item, gara.jswt.widgets.MenuItem)) {
-			var action = event.item.getData();
-			if (gara.instanceOf(action, gara.jsface.action.IAction)) {
-				action.run();
-			}
-		}
 	}
 });

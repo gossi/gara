@@ -97,6 +97,11 @@
 	line-height: 18px;
 }
 
+.sand ul.jsWTMenu li img {
+	margin-top: -2px;
+	padding: 1px 0;
+}
+
 .sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
 	margin-left: -1px !important;
 	margin-top: 0 !important;
@@ -212,7 +217,7 @@
 }
 
 .sand .jsWTToolbar > li > .button img {
-	margin: 0 4px -3px 0;
+	margin: 0 4px 2px 0;
 }
 
 .sand .jsWTToolbar > li > .button .text {

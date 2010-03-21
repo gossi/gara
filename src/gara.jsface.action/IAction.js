@@ -28,7 +28,7 @@ gara.provide("gara.jsface.action.IAction");
  * @namespace gara.jsface.action
  * @author Thomas Gossmann
  */
-$interface("IAction", {
+gara.Class("gara.jsface.action.IAction", {
 	addActionChangedListener : function(listener) {},
 	getText : function() {},
 	getImage : function() {},

@@ -23,47 +23,75 @@
 
 gara.provide("gara.jsface.action.Action");
 
-gara.require("gara.jsface.action.IAction");
-gara.require("gara.jsface.action.ActionChangedListener");
-
 /**
  * @class Action
+ * A basic implementation of IAction. It handles the listener management. You
+ * should subclass this class and add those methods on your own:
+ * <ul>
+ * 	<li>getText</li>
+ * 	<li>getImage</li>
+ * 	<li>run</li>
+ * </ul>
+ * You may use the <code>notifyActionChangedListener()</code> from your own
+ * implementation to tell listeners about changes.
+ *
  * @namespace gara.jsface.action
  * @author Thomas Gossmann
  */
-$class("Action", {
-	$implements : [gara.jsface.action.IAction],
-	$constructor : function() {
-		this._listeners = [];
+gara.Class("gara.jsface.action.Action", {
+	/**
+	 * @field
+	 * Contains a collection of action changed listeners, that will be notified
+	 * when this action changes.
+	 *
+	 * @private
+	 * @type {gara.jsface.action.ActionChangedListener}
+	 */
+	listeners : [],
+
+	/**
+	 * @constructor
+	 * Constructs an Action.
+	 */
+	$constructor : function () {
+		this.listeners = [];
 	},
 
-	addActionChangedListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.action.ActionChangedListener)) {
-			throw new TypeError("listener not type of gara.jsface.action.ActionChangedListener");
-		}
-
-		if (!this._listeners.contains(listener)) {
-			this._listeners.push(listener);
+	/**
+	 * @method
+	 * Adds an <code>ActionChangedListener</code> to the listeners' collection.
+	 *
+	 * @param {gara.jsface.action.ActionChangedListener} listener the new listener
+	 * @return {void}
+	 */
+	addActionChangedListener : function (listener) {
+		if (!this.listeners.contains(listener)) {
+			this.listeners.push(listener);
 		}
 	},
 
-	getText : $abstract(function() {}),
-	getImage : $abstract(function() {}),
-	getEnabled : $abstract(function() {}),
-
-	notifyActionChangedListener : function() {
-		this._listeners.forEach(function(listener){
-			listener.actionChanged(this);
+	/**
+	 * @method
+	 * Notifies all listener about changes
+	 *
+	 * @return {void}
+	 */
+	notifyActionChangedListener : function () {
+		this.listeners.forEach(function (listener){
+			if (listener.actionChanged) {
+				listener.actionChanged(this);
+			}
 		}, this);
 	},
 
-	removeActionChangedListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.action.ActionChangedListener)) {
-			throw new TypeError("listener not type of gara.jsface.action.ActionChangedListener");
-		}
-
-		this._listeners.remove(listener);
-	},
-
-	run : $abstract(function() {})
+	/**
+	 * @method
+	 * Removes an <code>ActionChangedListener</code> from the listeners' collection.
+	 *
+	 * @param {gara.jsface.action.ActionChangedListener} listener the new listener
+	 * @return {void}
+	 */
+	removeActionChangedListener : function (listener) {
+		this.listeners.remove(listener);
+	}
 });

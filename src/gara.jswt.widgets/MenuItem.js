@@ -368,18 +368,16 @@ function() {gara.Class("gara.jswt.widgets.MenuItem", {
 	setImage : function (image) {
 		this.$super(image);
 
-		if (this.handle) {
-			// update image
-			if (this.image !== null) {
-				this.img.src = this.image.src;
-				this.img.style.display = "";
-			}
+		// update image
+		if (image !== null) {
+			this.img.src = image.src;
+			this.img.style.display = "";
+		}
 
-			// hide image
-			else {
-				this.img.src = "";
-				this.img.style.display = "none";
-			}
+		// hide image
+		else {
+			this.img.src = "";
+			this.img.style.display = "none";
 		}
 		return this;
 	},
