@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>gara.jsface.viewers.tableviewer (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script src="../../src/gara.js"></script>
+<script>
+var model = [
+	["row1.1", "row1.2", "row1.3"],
+	["row2.1", "row2.2", "row2.3"],
+	["row3.1", "row3.2", "row3.3"],
+	["row4.1", "row4.2", "row4.3"],
+	["row5.1", "row5.2", "row5.3"]
+], view, filter, table,
+controller = {
+	model : null,
+	selectedItem : null,
+
+	getColumnText : function(element, columnIndex) {
+		return element[columnIndex];
+	},
+
+	hasChildren : function(element) {
+		return element.hasOwnProperty("childs") && element.childs.length;
+	},
+
+	getElements : function(inputElement) {
+		return this.model;
+	},
+
+	inputChanged : function(viewer, oldInput, newInput) {
+		this.model = newInput;
+	},
+
+	selectionChanged : function(event) {
+		//console.log("Selection changed: " + event.getSelection()[0]);
+	}
+};
+
+function main() {
+	gara.require(["gara.jsface.viewers.PatternFilter","gara.jsface.viewers.TableViewer","gara.jswt.widgets.TableColumn"], function() {
+		console.log("bootstrap");
+		filter = new gara.jsface.viewers.PatternFilter();
+		view = new gara.jsface.viewers.TableViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
+		view.addFilter(filter);
+		table = view.getTable();
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		new gara.jswt.widgets.TableColumn(table).setText("bla");
+		new gara.jswt.widgets.TableColumn(table).setText("bla2");
+		new gara.jswt.widgets.TableColumn(table).setText("bla3");
+
+		view.setContentProvider(controller);
+		view.setLabelProvider(controller);
+		view.addSelectionChangedListener(controller);
+		view.setInput(model);
+	});
+}
+function filterIt(that) {
+	filter.setPattern(that.value);
+	view.refresh();
+}
+</script>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.viewers.TableViewer</h1>
+<fieldset style="width: 300px; float: right;">
+<legend>Widget Control</legend>
+<label>Filter</label>
+<input type="text" id="pattern" onkeyup="filterIt(this);"/>
+</fieldset>
+<div id="container" class="sand" style="width: 300px;">
+</div>
+<script type="text/javascript">main();</script>
+</body>
+</html>

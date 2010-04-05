@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>gara.jsface.viewers.ListViewer</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script src="../../src/gara.js"></script>
+<script>
+var controller = {
+		$constructor : function() {
+			this.model = null;
+		},
+		
+		getText : function(element) {
+			return element;
+		},
+		
+		getElements : function(inputElement) {
+			return this.model;
+		},
+		
+		inputChanged : function(viewer, oldInput, newInput) {
+			this.model = newInput;
+		},
+	},
+	view, filter,
+	modelA = ["ameise", "zebra", "Chamaeleon", "beluga"],
+	modelB = ["düsenflieger", "Ferd", "eimerfahrzeug"],
+	currentModel = modelA;
+
+function main() {
+	gara.require(["gara.jsface.viewers.ListViewer", "gara.jsface.viewers.PatternFilter", "gara.jsface.viewers.ViewerSorter"], function() {
+		filter = new gara.jsface.viewers.PatternFilter();
+		view = new gara.jsface.viewers.ListViewer(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
+		view.setContentProvider(controller);
+		view.setLabelProvider(controller);
+		view.setInput(modelA);
+		view.addFilter(filter);
+	});
+}
+
+function addModelData() {
+	var value = document.getElementById("model_add_value").value;
+	var index = document.getElementById("model_add_index").value;
+	
+	currentModel.insertAt(index, value);
+}
+
+function toggleSorter() {
+	if (view.getSorter() == null) {
+		view.setSorter(new gara.jsface.viewer.ViewerSorter());
+	} else {
+		view.setSorter(null);
+	}
+}
+
+function filterIt() {
+	try {
+		filter.setPattern(document.getElementById("pattern").value);
+		refresh();
+	} catch(e) {
+		var message = "";
+		for (p in e) {
+			message += p + ": " + e[p] + "\n";
+		}
+		console.log(message);
+	}
+}
+
+function refresh() {
+	view.refresh();
+}
+
+function changeModel() {
+	currentModel = currentModel == modelA ? modelB : modelA;
+	view.setInput(currentModel);
+}
+
+function popModel() {
+	alert("Popped: " + currentModel.pop());
+}
+
+</script>
+<style type="text/css">
+label {display: block;}
+</style>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.viewers.ListViewer</h1>
+<fieldset style="width: 300px; float: right;">
+<legend>Widget Control</legend>
+<label>Add Model Data</label>
+<label>Value: <input type="text" size="5" id="model_add_value"/></label>
+<label>Index: <input type="text" size="5" id="model_add_index"/></label>
+<input type="button" value="add >>" onclick="addModelData()"/>
+<input type="button" value="currentModel.length" onclick="alert(currentModel.length)"/>
+<label>Remove Model Data</label>
+Pop Last Element: <input type="button" value="pop" onclick="popModel()"/>
+<label>Change Model</label>
+Change model: <input type="button" value="change" onclick="changeModel()"/>
+<label>Sorter</label>
+Toggle Sorter: <input type="button" value="toggle" onclick="toggleSorter()" />
+<label>Filter</label>
+<input type="text" size="10" id="pattern" onkeyup="filterIt()"/>
+<label>Refresh</label>
+Refresh model: <input type="button" value="refresh" onclick="refresh()"/>
+
+
+</fieldset>
+<div id="container" class="sand" style="width: 300px;">
+</div>
+<script type="text/javascript">main();</script>
+</body>
+</html>
