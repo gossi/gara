@@ -1,23 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
 <meta charset="utf-8" />
 <title>gara.loader</title>
-<link rel="stylesheet" href="../../res/gara.css" type="text/css"/>
-<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../lib/class-debug.js"></script>
-<script type="text/javascript" src="../../lib/base2-dom-fp.js"></script>
-<script type="text/javascript" src="../garadev.js"></script>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript">
-gara.require("gara.jswt.widgets.List");
-console.log(gara.jswt.widgets.List);
+<script>
+gara.require(["A", "B"], function () {
+	console.log("I never come here :(");
+});
 </script>
-</head>
 <body>
-Testing gara dynamic loader
-<pre>gara.require("gara.jswt.widgets.List");
-console.log(gara.jswt.widgets.List);
-</pre>
 </body>
 </html>
