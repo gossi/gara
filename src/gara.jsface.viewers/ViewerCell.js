@@ -23,68 +23,65 @@
 
 gara.provide("gara.jsface.viewers.ViewerCell");
 
-$package("gara.jsface.viewers");
-
 /**
  * @class ViewerCell
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("ViewerCell", {
+gara.Class("gara.jsface.viewers.ViewerCell", {
 
-	$constructor : function(rowItem, columnIndex, element) {
-		this._row = rowItem;
-		this._columnIndex = columnIndex;
-		this._element = element;
+	$constructor : function (rowItem, columnIndex, element) {
+		this.row = rowItem;
+		this.columnIndex = columnIndex;
+		this.element = element;
 	},
 
-	getColumnIndex : function() {
-		return this._columnIndex;
+	getColumnIndex : function () {
+		return this.columnIndex;
 	},
 
-	getControl : function() {
-		return this._row.getControl();
+	getControl : function () {
+		return this.row.getControl();
 	},
 
-	getElement : function() {
-		if (this._element != null) {
-			return this._element;
+	getElement : function () {
+		if (this.element !== null) {
+			return this.element;
 		}
-		return this._row.getElement();
+		return this.row.getElement();
 	},
 
-	getText : function() {
-		return this._row.getText(columnIndex);
+	getText : function () {
+		return this.row.getText(columnIndex);
 	},
 
-	getImage : function() {
-		return this._row.getImage(columnIndex);
+	getImage : function () {
+		return this.row.getImage(columnIndex);
 	},
 
-	getItem : function() {
-		return this._row.getItem();
+	getItem : function () {
+		return this.row.getItem();
 	},
 
-	getViewerRow : function() {
-		return this._row;
+	getViewerRow : function () {
+		return this.row;
 	},
 
-	setText : function(text) {
-		this._row.setText(this._columnIndex, text);
+	setText : function (text) {
+		this.row.setText(this.columnIndex, text);
 	},
 
-	setImage : function(image) {
-		this._row.setImage(this._columnIndex, image);
+	setImage : function (image) {
+		this.row.setImage(this.columnIndex, image);
 	},
 
-	setColumn : function(columnIndex) {
-		this._columnIndex = columnIndex;
+	setColumn : function (columnIndex) {
+		this.columnIndex = columnIndex;
 	},
 
-	update : function(rowItem, columnIndex, element) {
-		this._row = rowItem;
-		this._columnIndex = columnIndex;
-		this._element = element;
+	update : function (rowItem, columnIndex, element) {
+		this.row = rowItem;
+		this.columnIndex = columnIndex;
+		this.element = element;
 	}
 });
-$package("");

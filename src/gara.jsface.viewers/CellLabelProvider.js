@@ -21,14 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.CellLabelProvider");
+gara.provide("gara.jsface.viewers.CellLabelProvider", "gara.jsface.viewers.BaseLabelProvider");
 
-gara.require("gara.jsface.viewers.BaseLabelProvider");
-gara.require("gara.jsface.viewers.ITableLabelProvider");
-gara.require("gara.jsface.viewers.TableColumnViewerLabelProvider");
-gara.require("gara.jsface.viewers.WrappedViewerLabelProvider");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.TableColumnViewerLabelProvider");
+gara.use("gara.jsface.viewers.WrappedViewerLabelProvider");
 
 /**
  * @class CellLabelProvider
@@ -36,24 +32,35 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("CellLabelProvider", {
+gara.Class("gara.jsface.viewers.CellLabelProvider", function() { return {
 	$extends : gara.jsface.viewers.BaseLabelProvider,
 
 	$constructor : function() {
-		this.$base();
+		this.$super();
 	},
 
-	createViewerLabelProvider : $static(function(labelProvider) {
-		if ($class.instanceOf(labelProvider, gara.jsface.viewers.ITableLabelProvider)) {
+	/**
+	 * @method
+	 *
+	 * @static
+	 */
+	createViewerLabelProvider : gara.$static(function(labelProvider) {
+		if (labelProvider instanceof gara.jsface.viewers.CellLabelProvider) {
+			return labelProvider;
+		}
+
+		// labelProvider instanceof gara.jsface.viewers.ITableLabelProvider
+		if (labelProvider.getColumnText || labelProvider.getColumnImage) {
 			return new gara.jsface.viewers.TableColumnViewerLabelProvider(labelProvider);
 		}
 
-		if ($class.instanceOf(labelProvider, gara.jsface.viewers.CellLabelProvider)) {
-			return labelProvider;
-		}
 		return new gara.jsface.viewers.WrappedViewerLabelProvider(labelProvider);
 	}),
 
-	update : $abstract(function(cell){})
-});
-$package("");
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	update : function(cell){}
+};});

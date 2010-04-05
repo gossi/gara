@@ -21,12 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.AbstractTableViewer");
+gara.provide("gara.jsface.viewers.AbstractTableViewer", "gara.jsface.viewers.ColumnViewer");
 
-gara.require("gara.jsface.viewers.ColumnViewer");
-gara.require("gara.jswt.widgets.Item");
+gara.use("gara.jswt.widgets.Item");
 
-$package("gara.jsface.viewers");
 
 /**
  * @class AbstractTableViewer
@@ -34,182 +32,263 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("AbstractTableViewer", {
+gara.Class("gara.jsface.viewers.AbstractTableViewer", function () { return {
 	$extends : gara.jsface.viewers.ColumnViewer,
 
-	$constructor : function() {
-		this.$base();
+	$constructor : function () {
+		this.$super();
 	},
 
-	_createItem : function(element, index) {
-		this._updateItem(this._internalCreateNewRowPart(gara.jswt.JSWT.NONE, index).getItem(), element);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createItem : function (element, index) {
+		this.updateItem(this.internalCreateNewRowPart(gara.jswt.JSWT.NONE, index).getItem(), element);
 	},
 
 	/* Method declared on StructuredViewer. */
-	_doFindInputItem : function(element) {
-		// compare with root
-		var root = this._getRoot();
-		if (root == null) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doFindInputItem : function (element) {
+		var root = this.getRoot();
+		if (root === null) {
 			return null;
 		}
 
-		if (root == element) {
+		if (root === element) {
 			return this.getControl();
 		}
 		return null;
 	},
 
-	_doClear : $abstract(function(index) {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doClear : function (index) {},
 
-	_doGetColumn : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doGetColumn : function () {},
 
-	_doGetColumnCount : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doGetColumnCount : function () {},
 
-	_doGetItems : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doGetItems : function () {},
 
-	_doGetSelection : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doGetSelection : function () {},
 
-	_doRemoveRange : $abstract(function(from, to) {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doRemoveRange : function (from, to) {},
 
-	_doUpdateItem : function(widget, element) {
-		if ($class.instanceOf(widget, gara.jswt.widgets.Item)) {
-			var item = widget;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doUpdateItem : function (widget, element) {
+		var item, data, columnCountm, viewerRowFromItem, column, columnViewer, cellToUpdate;
+		if (widget instanceof gara.jswt.widgets.Item) {
+			item = widget;
 
 			if (item.isDisposed()) {
-				this._unmapElement(element, item);
+				this.unmapElement(element, item);
 				return;
 			}
 
-			var data = item.getData();
-			if (data != null) {
-				this._unmapElement(data, item);
+			data = item.getData();
+			if (data !== null) {
+				this.unmapElement(data, item);
 			}
 			item.setData(element);
-			this._mapElement(element, item);
+			this.mapElement(element, item);
 
-			var columnCount = this._doGetColumnCount();
-			if (columnCount == 0) {
+			columnCount = this.doGetColumnCount();
+			if (columnCount === 0) {
 				columnCount = 1;// If there are no columns do the first one
 			}
 
-			var viewerRowFromItem = this._getViewerRowFromItem(item);
+			viewerRowFromItem = this.getViewerRowFromItem(item);
 
-			for (var column = 0; column < columnCount || column == 0; column++) {
-				var columnViewer = this._getViewerColumn(column);
-				var cellToUpdate = this._updateCell(viewerRowFromItem, column, element);
+			for (column = 0; column < columnCount || column === 0; column++) {
+				columnViewer = this.getViewerColumn(column);
+				cellToUpdate = this.updateCell(viewerRowFromItem, column, element);
 
 				columnViewer.refresh(cellToUpdate);
 			}
 		}
 	},
 
-	_getColumnViewerOwner : function(columnIndex) {
-		var columnCount = this._doGetColumnCount();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getColumnViewerOwner : function (columnIndex) {
+		var columnCount = this.doGetColumnCount();
 
 		if (columnIndex < 0
 				|| (columnIndex > 0 && columnIndex >= columnCount)) {
 			return null;
 		}
 
-		if (columnCount == 0) {
+		if (columnCount === 0) {
 			return this.getControl();
 		}
 
-		return this._doGetColumn(columnIndex);
+		return this.doGetColumn(columnIndex);
 	},
 
-	_getSelectionFromWidget : function() {
-		var items = this._doGetSelection();
-		var list = [];
-		for (var i = 0; i < items.length; i++) {
-			var item = items[i];
-			var e = item.getData();
-			if (e != null) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getSelectionFromWidget : function () {
+		var items = this.doGetSelection(),
+			list = [], item, i, e;
+		for (i = 0; i < items.length; i++) {
+			item = items[i];
+			e = item.getData();
+			if (e !== null) {
 				list.push(e);
 			}
 		}
 		return list;
 	},
 
-	inputChanged : function(input, oldInput) {
-		this._internalRefresh();
+	inputChanged : function (input, oldInput) {
+		console.log("AbstractTableViewer.inputChanged");
+		this.internalRefresh();
 	},
 
-	_internalCreateNewRowPart : $abstract(function(style, index){}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	internalCreateNewRowPart : function (style, index){},
 
-	_internalRefresh : function(element, updateLabels) {
-		if (element == null || element == this._getRoot()) {
-			this._internalRefreshAll(updateLabels);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	internalRefresh : function (element, updateLabels) {
+		console.log("AbstractTableViewer.internalRefresh");
+		var w;
+		if (typeof(element) === "undefined" || element === null || element === this.getRoot()) {
+			this.internalRefreshAll(updateLabels);
 		} else {
-			var w = this._findItem(element);
-			if (w != null) {
-				this._updateItem(w, element);
+			w = this.findItem(element);
+			if (w !== null) {
+				this.updateItem(w, element);
 			}
 			this.getControl().update();
 		}
 	},
 
-	_internalRefreshAll : function(updateLabels) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	internalRefreshAll : function (updateLabels) {
+		var selected = [], selection = this.getControl().getSelection(), i, items,
+			children, min, item;
+
 		// save selected elements
-		var selected = [];
-		var selection = this.getControl().getSelection();
 		for (var i = 0; i < selection.length; ++i) {
 			selected.push(selection[i].getData());
 		}
 
-		var children = this._getSortedChildren(this._getRoot());
-		var items = this._doGetItems();
-		var min = Math.min(children.length, items.length);
+		children = this.getSortedChildren(this.getRoot());
+		items = this.doGetItems();
+		min = Math.min(children.length, items.length);
 
-		for (var i = 0; i < min; ++i) {
-			var item = items[i];
+		console.log("AbstractTableViewer.internalRefreshAll children: " + children.length);
 
-			if (children[i] == item.getData()) {
+		for (i = 0; i < min; ++i) {
+			item = items[i];
+
+			if (children[i] === item.getData()) {
 				if (updateLabels) {
-					this._updateItem(item, children[i]);
+					this.updateItem(item, children[i]);
 				} else {
-					this._associate(children[i], item);
+					this.associate(children[i], item);
 				}
 			} else {
-				this._disassociate(item);
-				this._doClear(i);
+				this.disassociate(item);
+				this.doClear(i);
 			}
 		}
 
 		// dispose all items beyond the end of the current elements
 		if (min < items.length) {
-			for (var i = min; i < items.length; ++i) {
-				this._disassociate(items[i]);
+			for (i = min; i < items.length; ++i) {
+				this.disassociate(items[i]);
 			}
 
-			this._doRemoveRange(min, items.length - 1);
+			this.doRemoveRange(min, items.length - 1);
 		}
 
 		// update disassociated items
-		for (var i = 0; i < min; ++i) {
-			var item = items[i];
-			if (item.getData() == null) {
-				this._updateItem(item, children[i]);
+		for (i = 0; i < min; ++i) {
+			item = items[i];
+			if (item.getData() === null) {
+				this.updateItem(item, children[i]);
 			}
 		}
 
 		// add any remaining elements
-		for (var i = min; i < children.length; ++i) {
-			this._createItem(children[i], i);
+		for (i = min; i < children.length; ++i) {
+			this.createItem(children[i], i);
 		}
 
 		this.getControl().update();
 
 		// restore selection
 		selection = [];
-		selected.forEach(function(elem, i, arr) {
-			var item = this._getItemFromElementMap(elem);
-			if (item != null) {
+		selected.forEach(function (elem) {
+			var item = this.getItemFromElementMap(elem);
+			if (item !== null) {
 				selection.push(item);
 			}
 		}, this);
 		this.getControl().setSelection(selection);
 	}
-
-});
-$package("");
+};});

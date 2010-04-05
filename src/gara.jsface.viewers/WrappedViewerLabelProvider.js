@@ -21,14 +21,11 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.WrappedViewerLabelProvider");
+gara.provide("gara.jsface.viewers.WrappedViewerLabelProvider", "gara.jsface.viewers.ColumnLabelProvider");
 
-gara.require("gara.jsface.viewers.LabelProvider");
-gara.require("gara.jsface.viewers.ILabelProvider");
-gara.require("gara.jsface.viewers.ColumnLabelProvider");
-gara.require("gara.jsface.viewers.ViewerCell");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.LabelProvider");
+//gara.use("gara.jsface.viewers.ILabelProvider");
+gara.use("gara.jsface.viewers.ViewerCell");
 
 /**
  * @class WrappedViewerLabelProvider
@@ -36,45 +33,54 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("WrappedViewerLabelProvider", {
+gara.Class("gara.jsface.viewers.WrappedViewerLabelProvider", {
 	$extends : gara.jsface.viewers.ColumnLabelProvider,
 
-	defaultLabelProvider : $static(new gara.jsface.viewers.LabelProvider()),
+	defaultLabelProvider : null,
 
-	$constructor : function(labelProvider) {
-		this.$base();
+	$constructor : function (labelProvider) {
+		this.$super();
 
-		this._labelProvider = this.defaultLabelProvider;
-		this._tableLabelProvider;
-		this._viewerLabelProvider;
+		this.defaultLabelProvider = new gara.jsface.viewers.LabelProvider();
+		this.labelProvider = this.defaultLabelProvider;
+		this.tableLabelProvider;
+		this.viewerLabelProvider;
 
 		this.setProviders(labelProvider);
 	},
 
-	getLabelProvider : function() {
-		return this._labelProvider;
+	getLabelProvider : function () {
+		return this.labelProvider;
 	},
 
-	getImage : function(element) {
-		return this.getLabelProvider().getImage(element);
+	getImage : function (element) {
+		if (this.getLabelProvider().getImage) {
+			return this.getLabelProvider().getImage(element);
+		}
+		return null;
 	},
 
-	getText : function(element) {
-		return this.getLabelProvider().getText(element);
+	getText : function (element) {
+		if (this.getLabelProvider().getText) {
+			return this.getLabelProvider().getText(element);
+		}
+		return "";
 	},
 
-	setProviders : function(provider) {
+	setProviders : function (provider) {
 //		if ($class.instanceOf(provider, gara.jsface.viewers.ITableLabelProvider))
-//			this._tableLabelProvider = provider;
+//			this.tableLabelProvider = provider;
 
 //		if ($class.instanceOf(provider, gara.jsface.viewers.IViewerLabelProvider))
-//			this._viewerLabelProvider = provider;
+//			this.viewerLabelProvider = provider;
 
-		if ($class.instanceOf(provider, gara.jsface.viewers.ILabelProvider)){this._labelProvider = provider;}
+//		if ($class.instanceOf(provider, gara.jsface.viewers.ILabelProvider)){
+			this.labelProvider = provider;
+//		}
 	},
 
-	update : function(cell) {
-		if (!$class.instanceOf(cell, gara.jsface.viewers.ViewerCell)) {
+	update : function (cell) {
+		if (!(cell instanceof gara.jsface.viewers.ViewerCell)) {
 			throw new TypeError("cell is not instance of gara.jsface.viewers.ViewerCell");
 		}
 
@@ -83,4 +89,3 @@ $class("WrappedViewerLabelProvider", {
 		cell.setImage(this.getImage(element));
 	}
 });
-$package("");

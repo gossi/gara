@@ -23,14 +23,11 @@
 
 gara.provide("gara.jsface.viewers.ICheckStateListener");
 
-$package("gara.jsface.viewers");
-
 /**
  * @interface ICheckStateListener
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("ICheckStateListener", {
+gara.Class("gara.jsface.viewers.ICheckStateListener", {
 	checkStateChanged : function(listener){}
 });
-$package("");

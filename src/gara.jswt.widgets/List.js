@@ -21,12 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.List");
+gara.provide("gara.jswt.widgets.List", "gara.jswt.widgets.Composite");
 
 gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.widgets.ListItem");
-
-gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * @summary
@@ -40,8 +38,8 @@ gara.parent("gara.jswt.widgets.Composite",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Composite
  */
-function () {gara.Class("gara.jswt.widgets.List", {
-	$extends : gara.jswt.widgets.Composite,
+gara.Class("gara.jswt.widgets.List", function () { return {
+	$extends : gara.jswt.widgets.Scrollable,
 
 	/**
 	 * Contains a reference to the active item.
@@ -966,4 +964,4 @@ function () {gara.Class("gara.jswt.widgets.List", {
 	update : function () {
 		this.checkWidget();
 	}
-})});
+};});

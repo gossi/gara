@@ -23,21 +23,19 @@
 
 gara.provide("gara.jsface.viewers.ViewerColumn");
 
-gara.require("gara.jsface.viewers.ColumnViewer");
-gara.require("gara.jsface.viewers.ViewerCell");
-gara.require("gara.jsface.viewers.CellLabelProvider");
-gara.require("gara.jswt.widgets.Widget");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.ColumnViewer");
+//gara.use("gara.jsface.viewers.ViewerCell");
+gara.use("gara.jsface.viewers.CellLabelProvider");
+gara.use("gara.jswt.widgets.Widget");
 
 /**
  * @class ViewerColumn
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("ViewerColumn", {
+gara.Class("gara.jsface.viewers.ViewerColumn", {
 
-	COLUMN_VIEWER_KEY : $static("jsface.columnViewer"),
+	COLUMN_VIEWER_KEY : "jsface.columnViewer",
 
 	/**
 	 * @constructor
@@ -49,17 +47,17 @@ $class("ViewerColumn", {
 	 *            the widget owning the viewer in case the widget has no columns
 	 *            this could be the widget itself
 	 */
-	$constructor : function(viewer, columnOwner) {
-		if (!$class.instanceOf(viewer, gara.jsface.viewers.ColumnViewer)) {
+	$constructor : function (viewer, columnOwner) {
+		if (!(viewer instanceof gara.jsface.viewers.ColumnViewer)) {
 			throw new TypeError("viewer not instance of gara.jsface.viewers.ColumnViewer");
 		}
 
-		if (!$class.instanceOf(columnOwner, gara.jswt.widgets.Widget)) {
+		if (!(columnOwner instanceof gara.jswt.widgets.Widget)) {
 			throw new TypeError("columnOwner not instance of gara.jswt.widgets.Widget");
 		}
 
 		columnOwner.setData(this.COLUMN_VIEWER_KEY, this);
-		this._labelProvider = null;
+		this.labelProvider = null;
 	},
 
 	/**
@@ -68,8 +66,8 @@ $class("ViewerColumn", {
 	 *
 	 * @return {gara.jsface.viewers.CellLabelProvider}
 	 */
-	getLabelProvider : function() {
-		return this._labelProvider;
+	getLabelProvider : function () {
+		return this.labelProvider;
 	},
 
 	/**
@@ -82,11 +80,11 @@ $class("ViewerColumn", {
 	 * @param {bool} registerListener
 	 *            wether a listener should registered on the labelProvider or not
 	 */
-	setLabelProvider : function(labelProvider, registerListener) {
-		if (!$class.instanceOf(labelProvider, gara.jsface.viewers.CellLabelProvider)) {
+	setLabelProvider : function (labelProvider, registerListener) {
+		if (!(labelProvider instanceof gara.jsface.viewers.CellLabelProvider)) {
 			throw new TypeError("labelProvider not instance of gara.jsface.viewers.CellLabelProvider");
 		}
-		this._labelProvider = labelProvider;
+		this.labelProvider = labelProvider;
 	},
 
 	/**
@@ -95,12 +93,11 @@ $class("ViewerColumn", {
 	 *
 	 * @param {gara.jsface.viewers.ViewerCell} cell
 	 */
-	refresh : function(cell) {
-		if (!$class.instanceOf(cell, gara.jsface.viewers.ViewerCell)) {
+	refresh : function (cell) {
+		if (!(cell instanceof gara.jsface.viewers.ViewerCell)) {
 			throw new TypeError("cell not instance of gara.jsface.viewers.ViewerCell");
 		}
 
 		this.getLabelProvider().update(cell);
 	}
 });
-$package("");

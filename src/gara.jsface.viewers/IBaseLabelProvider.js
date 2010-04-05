@@ -23,8 +23,6 @@
 
 gara.provide("gara.jsface.viewers.IBaseLabelProvider");
 
-$package("gara.jsface.viewers");
-
 /**
  * @interface IBaseLabelProvider
  * @namespace gara.jsface.viewers
@@ -45,7 +43,7 @@ $package("gara.jsface.viewers");
  * either an ILabelProvider or an ITableLabelProvider.
  * </p>
  */
-$interface("IBaseLabelProvider", {
+gara.Class("gara.jsface.viewers.IBaseLabelProvider", {
 
 	/**
 	 * @method
@@ -58,4 +56,3 @@ $interface("IBaseLabelProvider", {
 	 */
 	isLabelProperty : function(element, property) {}
 });
-$package("");

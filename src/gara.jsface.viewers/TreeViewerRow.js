@@ -21,11 +21,9 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.TreeViewerRow");
+gara.provide("gara.jsface.viewers.TreeViewerRow", "gara.jsface.viewers.ViewerRow");
 
-gara.require("gara.jswt.widgets.TreeItem");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jswt.widgets.TreeItem");
 
 /**
  * @class TreeViewerRow
@@ -33,56 +31,55 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("TreeViewerRow", {
+gara.Class("gara.jsface.viewers.TreeViewerRow", function () { return {
 	$extends : gara.jsface.viewers.ViewerRow,
 
-	$constructor : function(item) {
-		if (!$class.instanceOf(item, gara.jswt.widgets.TreeItem)) {
+	$constructor : function ( item) {
+		if (!(item instanceof gara.jswt.widgets.TreeItem)) {
 			throw new TypeError("item is not instance of gara.jswt.widgets.TreeItem");
 		}
-		this._item = item;
+		this.item = item;
 	},
 
-	getItem : function() {
-		return this._item;
+	getItem : function ( ) {
+		return this.item;
 	},
 
-	getColumnCount : function() {
-		return this._item.getParent().getColumnCount();
+	getColumnCount : function ( ) {
+		return this.item.getParent().getColumnCount();
 	},
 
-	getImage : function(columnIndex) {
-		return this._item.getImage(columnIndex);
+	getImage : function ( columnIndex) {
+		return this.item.getImage(columnIndex);
 	},
 
-	getText : function(columnIndex) {
-		return this._item.getText(columnIndex);
+	getText : function ( columnIndex) {
+		return this.item.getText(columnIndex);
 	},
 
-	getElement : function() {
-		return this._item.getData();
+	getElement : function ( ) {
+		return this.item.getData();
 	},
 
-	getControl : function() {
-		return this._item.getParent();
+	getControl : function ( ) {
+		return this.item.getParent();
 	},
 
-	setText : function(columnIndex, text) {
-		this._item.setText(columnIndex, text == null ? "" : text);
+	setText : function ( columnIndex, text) {
+		this.item.setText(columnIndex, text === null ? "" : text);
 	},
 
-	setImage : function(columnIndex, image) {
-		var oldImage = this._item.getImage(columnIndex);
-		if (oldImage != image) {
-			this._item.setImage(columnIndex, image);
+	setImage : function ( columnIndex, image) {
+		var oldImage = this.item.getImage(columnIndex);
+		if (oldImage !== image) {
+			this.item.setImage(columnIndex, image);
 		}
 	},
 
-	setItem : function(item) {
-		if (!$class.instanceOf(item, gara.jswt.widgets.TreeItem)) {
+	setItem : function ( item) {
+		if (!(item instanceof gara.jswt.widgets.TreeItem)) {
 			throw new TypeError("item is not instance of gara.jswt.widgets.TreeItem");
 		}
-		this._item = item;
+		this.item = item;
 	}
-});
-$package("");
+};});

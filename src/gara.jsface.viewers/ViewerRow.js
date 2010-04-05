@@ -23,9 +23,7 @@
 
 gara.provide("gara.jsface.viewers.ViewerRow");
 
-gara.require("gara.jsface.viewers.ViewerCell");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.ViewerCell");
 
 /**
  * @class ViewerRow
@@ -33,24 +31,55 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("ViewerRow", {
-	$constructor : function() {
-		this.$base();
+gara.Class("gara.jsface.viewers.ViewerRow", {
+
+	$constructor : function () {
+
 	},
 
-	getItem : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getItem : function () {},
 
-	getColumnCount : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getColumnCount : function () {},
 
-	getImage : $abstract(function(columnIndex) {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getImage : function (columnIndex) {},
 
-	setImage : $abstract(function(columnIndex, image) {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	setImage : function (columnIndex, image) {},
 
-	getText : $abstract(function(columnIndex) {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getText : function (columnIndex) {},
 
-	setText : $abstract(function(columnIndex, text) {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	setText : function (columnIndex, text) {},
 
-	getCell : function(column) {
+	getCell : function (column) {
 		if (column >= 0) {
 			return new gara.jsface.viewers.ViewerCell(this, column, this.getElement());
 		}
@@ -58,9 +87,17 @@ $class("ViewerRow", {
 		return null;
 	},
 
-	getElement : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getElement : function () {},
 
-	getControl : $abstract(function() {})
-
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getControl : function () {}
 });
-$package("");

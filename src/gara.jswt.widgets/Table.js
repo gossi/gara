@@ -21,12 +21,10 @@
 	================================================================================================================
 */
 
-gara.provide("gara.jswt.widgets.Table");
+gara.provide("gara.jswt.widgets.Table", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
-
-gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * gara Table Widget
@@ -36,7 +34,7 @@ gara.parent("gara.jswt.widgets.Composite",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Composite
  */
-function() {gara.Class("gara.jswt.widgets.Table", {
+gara.Class("gara.jswt.widgets.Table", function () { return {
 	$extends : gara.jswt.widgets.Composite,
 
 	SCROLLBAR_WIDTH : 19,
@@ -1336,4 +1334,4 @@ function() {gara.Class("gara.jswt.widgets.Table", {
 			this.items[0].adjustWidth();
 		}
 	}
-})});
+};});

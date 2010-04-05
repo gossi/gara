@@ -21,14 +21,14 @@
 	===========================================================================
 */
 
-gara.provide("gara.I18n");
+gara.provide("gara.L10n");
 
 /**
  * @class I18n
  * @author Thomas Gossmann
  * @namespace gara
  */
-gara.Class("gara.I18n", {
+gara.Class("gara.L10n", {
 	/**
 	 * @field
 	 * @private

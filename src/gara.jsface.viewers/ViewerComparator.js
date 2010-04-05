@@ -23,16 +23,14 @@
 
 gara.provide("gara.jsface.viewers.ViewerComparator");
 
-$package("gara.jsface.viewers");
-
 /**
  * @class ViewerComparator
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("ViewerComparator", {
+gara.Class("gara.jsface.viewers.ViewerComparator", {
 
-	$constructor : function() {
+	$constructor : function () {
 	},
 
 	/**
@@ -49,7 +47,7 @@ $class("ViewerComparator", {
      * @param {object} element the element
      * @return the category
      */
-	category : function(element) {
+	category : function (element) {
         return 0;
 	},
 
@@ -74,9 +72,9 @@ $class("ViewerComparator", {
      *  equal to the second element; and a positive number if the first
      *  element is greater than the second element
      */
-    compare : function(e1, e2) {
-		var a = e1.toString().toLowerCase();
-		var b = e2.toString().toLowerCase();
+    compare : function (e1, e2) {
+		var a = e1.toString().toLowerCase(),
+			b = e2.toString().toLowerCase();
 
 		if (a < b) {
 			return -1;
@@ -100,7 +98,7 @@ $class("ViewerComparator", {
      * @return <code>true</code> if the sorting would be affected,
      *    and <code>false</code> if it would be unaffected
      */
-    isSorterProperty : function(element, property) {
+    isSorterProperty : function (element, property) {
         return false;
     },
 
@@ -118,8 +116,7 @@ $class("ViewerComparator", {
      * @param {gara.jsface.viewers.Viewer} viewer the viewer
      * @param {object[]} elements the elements to sort
      */
-    sort : function(viewer, elements) {
+    sort : function (viewer, elements) {
 		return elements.sort(this.compare);
     }
 });
-$package("");

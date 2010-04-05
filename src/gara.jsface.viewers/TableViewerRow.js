@@ -21,12 +21,9 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.TableViewerRow");
+gara.provide("gara.jsface.viewers.TableViewerRow", "gara.jsface.viewers.ViewerRow");
 
-gara.require("gara.jsface.viewers.ViewerRow");
-gara.require("gara.jswt.widgets.TableItem");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jswt.widgets.TableItem");
 
 /**
  * @class TableViewerRow
@@ -34,56 +31,55 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("TableViewerRow", {
+gara.Class("gara.jsface.viewers.TableViewerRow", function () { return {
 	$extends : gara.jsface.viewers.ViewerRow,
 
-	$constructor : function(item) {
-		if (!$class.instanceOf(item, gara.jswt.widgets.TableItem)) {
+	$constructor : function (item) {
+		if (!(item instanceof gara.jswt.widgets.TableItem)) {
 			throw new TypeError("item is not instance of gara.jswt.widgets.TableItem");
 		}
-		this._item = item;
+		this.item = item;
 	},
 
-	getItem : function() {
-		return this._item;
+	getItem : function () {
+		return this.item;
 	},
 
-	getColumnCount : function() {
-		return this._item.getParent().getColumnCount();
+	getColumnCount : function () {
+		return this.item.getParent().getColumnCount();
 	},
 
-	getImage : function(columnIndex) {
-		return this._item.getImage(columnIndex);
+	getImage : function (columnIndex) {
+		return this.item.getImage(columnIndex);
 	},
 
-	getText : function(columnIndex) {
-		return this._item.getText(columnIndex);
+	getText : function (columnIndex) {
+		return this.item.getText(columnIndex);
 	},
 
-	getElement : function() {
-		return this._item.getData();
+	getElement : function () {
+		return this.item.getData();
 	},
 
-	getControl : function() {
-		return this._item.getParent();
+	getControl : function () {
+		return this.item.getParent();
 	},
 
-	setText : function(columnIndex, text) {
-		this._item.setText(columnIndex, text == null ? "" : text);
+	setText : function (columnIndex, text) {
+		this.item.setText(columnIndex, text === null ? "" : text);
 	},
 
-	setImage : function(columnIndex, image) {
-		var oldImage = this._item.getImage(columnIndex);
-		if (oldImage != image) {
-			this._item.setImage(columnIndex, image);
+	setImage : function (columnIndex, image) {
+		var oldImage = this.item.getImage(columnIndex);
+		if (oldImage !== image) {
+			this.item.setImage(columnIndex, image);
 		}
 	},
 
-	setItem : function(item) {
-		if (!$class.instanceOf(item, gara.jswt.widgets.TableItem)) {
+	setItem : function (item) {
+		if (!(item instanceof gara.jswt.widgets.TableItem)) {
 			throw new TypeError("item is not instance of gara.jswt.widgets.TableItem");
 		}
-		this._item = item;
+		this.item = item;
 	}
-});
-$package("");
+};});

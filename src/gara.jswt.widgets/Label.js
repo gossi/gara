@@ -21,9 +21,7 @@
 	================================================================================================================
 */
 
-gara.provide("gara.jswt.widgets.Label");
-
-gara.parent("gara.jswt.widgets.Control",
+gara.provide("gara.jswt.widgets.Label", "gara.jswt.widgets.Control");
 
 /**
  * gara Label Widget
@@ -33,7 +31,7 @@ gara.parent("gara.jswt.widgets.Control",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Control
  */
-function() {gara.Class("gara.jswt.widgets.Label", {
+gara.Class("gara.jswt.widgets.Label", function() { return {
 	$extends : gara.jswt.widgets.Control,
 
 	/**
@@ -192,4 +190,4 @@ function() {gara.Class("gara.jswt.widgets.Label", {
 	update : function () {
 
 	}
-})});
+};});

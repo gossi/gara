@@ -21,13 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ColumnLabelProvider");
+gara.provide("gara.jsface.viewers.ColumnLabelProvider", "gara.jsface.viewers.CellLabelProvider");
 
-gara.require("gara.jsface.viewers.CellLabelProvider");
-gara.require("gara.jsface.viewers.ILabelProvider");
-gara.require("gara.jsface.viewers.ViewerCell");
-
-$package("gara.jsface.viewers");
+//gara.use("gara.jsface.viewers.ILabelProvider");
+gara.use("gara.jsface.viewers.ViewerCell");
 
 /**
  * @class ColumnLabelProvider
@@ -35,28 +32,28 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("ColumnLabelProvider", {
+gara.Class("gara.jsface.viewers.ColumnLabelProvider", function () { return {
 	$extends : gara.jsface.viewers.CellLabelProvider,
-	$implements : [gara.jsface.viewers.ILabelProvider],
+//	$implements : [gara.jsface.viewers.ILabelProvider],
 
-	$constructor : function() {
-		this.$base();
+	$constructor : function () {
+		this.$super();
 	},
 
-	getImage : function(element) {
-		return null;
+//	getImage : function (element) {
+//		return null;
+//	},
+
+	getText : function (element) {
+		return element === null ? "" : element.toString();
 	},
 
-	getText : function(element) {
-		return element == null ? "" : element.toString();
-	},
+//	isLabelProperty : function (element, property) {
+//		return true;
+//	},
 
-	isLabelProperty : function(element, property) {
-		return true;
-	},
-
-	update : function(cell) {
-		if (!$class.instanceOf(cell, gara.jsface.viewers.ViewerCell)) {
+	update : function (cell) {
+		if (!(cell instanceof gara.jsface.viewers.ViewerCell)) {
 			throw new TypeError("cell is not instance of gara.jsface.viewers.ViewerCell");
 		}
 
@@ -64,5 +61,4 @@ $class("ColumnLabelProvider", {
 		cell.setText(this.getText(element));
 		cell.setImage(this.getImage(element));
 	}
-});
-$package("");
+};});

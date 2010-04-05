@@ -21,7 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.TabItem");
+gara.provide("gara.jswt.widgets.TabItem", "gara.jswt.widgets.Item");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
@@ -29,8 +29,6 @@ gara.use("gara.jswt.widgets.Control");
 gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.MenuItem");
 //gara.use("gara.jswt.widgets.TabFolder");
-
-gara.parent("gara.jswt.widgets.Item",
 
 /**
  * gara TreeItem
@@ -40,7 +38,7 @@ gara.parent("gara.jswt.widgets.Item",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-function() {gara.Class("gara.jswt.widgets.TabItem", {
+gara.Class("gara.jswt.widgets.TabItem", function () { return {
 	$extends : gara.jswt.widgets.Item,
 
 	// content and flags
@@ -452,4 +450,4 @@ function() {gara.Class("gara.jswt.widgets.TabItem", {
 			this.control.update();
 		}
 	}
-})});
+};});

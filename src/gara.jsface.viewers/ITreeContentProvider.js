@@ -21,11 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ITreeContentProvider");
-
-gara.require("gara.jsface.viewers.IStructuredContentProvider");
-
-$package("gara.jsface.viewers");
+gara.provide("gara.jsface.viewers.ITreeContentProvider", "gara.jsface.viewers.IStructuredContentProvider");
 
 /**
  * @interface ITreeContentProvider
@@ -33,7 +29,7 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("ITreeContentProvider", {
+gara.Class("gara.jsface.viewers.ITreeContentProvider", function () { return {
 	$extends : gara.jsface.viewers.IStructuredContentProvider,
 
 	getChildren : function(parentElement) {},
@@ -41,5 +37,4 @@ $interface("ITreeContentProvider", {
 	getParent : function(element) {},
 
 	hasChildren : function(element) {}
-});
-$package("");
+};});

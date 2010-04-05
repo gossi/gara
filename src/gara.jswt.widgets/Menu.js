@@ -21,14 +21,12 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Menu");
+gara.provide("gara.jswt.widgets.Menu", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.widgets.Control");
 //gara.use("gara.jswt.widgets.MenuItem");
-
-gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * @summary gara Menu Widget
@@ -40,7 +38,7 @@ gara.parent("gara.jswt.widgets.Composite",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Widget
  */
-function() {gara.Class("gara.jswt.widgets.Menu", {
+gara.Class("gara.jswt.widgets.Menu", function() { return {
 	$extends : gara.jswt.widgets.Composite,
 
 	// private members
@@ -744,4 +742,4 @@ function() {gara.Class("gara.jswt.widgets.Menu", {
 			item.update();
 		}, this);
 	}
-})});
+};});

@@ -21,16 +21,13 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.StructuredViewer");
+gara.provide("gara.jsface.viewers.StructuredViewer", "gara.jsface.viewers.ContentViewer");
 
-gara.require("gara.jsface.viewers.ContentViewer");
-gara.require("gara.jsface.viewers.ViewerFilter");
-gara.require("gara.jsface.viewers.ViewerSorter");
-gara.require("gara.jsface.viewers.SelectionChangedEvent");
-gara.require("gara.jswt.events.SelectionListener");
-gara.require("gara.jswt.widgets.Widget");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.ViewerFilter");
+gara.use("gara.jsface.viewers.ViewerSorter");
+gara.use("gara.jsface.viewers.SelectionChangedEvent");
+//gara.use("gara.jswt.events.SelectionListener");
+gara.use("gara.jswt.widgets.Widget");
 
 /**
  * @class StructuredViewer
@@ -38,44 +35,104 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
   */
-$class("StructuredViewer", {
-	$implements : [gara.jswt.events.SelectionListener],
+gara.Class("gara.jsface.viewers.StructuredViewer", function () { return {
 	$extends : gara.jsface.viewers.ContentViewer,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {Object[]}
+	 */
+	map : [],
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jswt.widgets.Item[]}
+	 */
+	items : [],
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.ViewerSorter}
+	 */
+	sorter : null,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.ViewerFilter[]}
+	 */
+	filters : [],
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {}
+	 */
+	elementMap : null,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jswt.events.SelectionListener}
+	 */
+	selectionListener : null,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {
-		this._map = [];
-		this._items = [];
+	$constructor : function () {
+		var self = this;
 
-		this._sorter = null;
-		this._filters = [];
+		this.map = [];
+		this.items = [];
 
-		this._elementMap = null;
+		this.sorter = null;
+		this.filters = [];
+
+		this.elementMap = null;
+
+		this.selectionListener = {
+			widgetSelected : function (e) {
+				self.handleSelect(e);
+			}
+		};
 	},
 
-	addFilter : function(filter) {
-		if (!$class.instanceOf(filter, gara.jsface.viewers.ViewerFilter)) {
+	addFilter : function (filter) {
+		if (!(filter instanceof gara.jsface.viewers.ViewerFilter)) {
 			throw new TypeError("filter not instance of gara.jsface.viewers.ViewerFilter");
 		}
 
-		if (!this._filters.contains(filter)) {
-			this._filters.push(filter);
+		if (!this.filters.contains(filter)) {
+			this.filters.push(filter);
 		}
 		this.refresh();
 	},
 
-	_associate : function(element, item) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	associate : function (element, item) {
 		var data = item.getData();
-		if (data != element) {
-			if (data != null) {
-				this._disassociate(item);
+		if (data !== element) {
+			if (data !== null) {
+				this.disassociate(item);
 			}
 			item.setData(element);
 		}
 
-		this._mapElement(element, item);
+		this.mapElement(element, item);
 	},
 
 	/**
@@ -86,39 +143,63 @@ $class("StructuredViewer", {
 	 * @param item
 	 *            the widget
 	 */
-	_disassociate : function(item) {
+	disassociate : function (item) {
 		var element = item.getData();
 
-		this._unmapElement(element, item);
+		this.unmapElement(element, item);
 		item.setData(null);
 	},
 
-	_doUpdateItem : $abstract(function(widget, element){}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doUpdateItem : function (widget, element){},
 
-	_doFindInputItem : $abstract(function(element){}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	doFindInputItem : function (element){},
 
-	_findItem : $final(function(element) {
-		var results = this._findItems(element);
-		return results.length == 0 ? null : results[0];
-	}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @final
+	 */
+	findItem : function (element) {
+		var results = this.findItems(element);
+		return results.length === 0 ? null : results[0];
+	},
 
-	_findItems : $final(function(element) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @final
+	 */
+	findItems : function (element) {
 		if (!element.hasOwnProperty("__garaUID")) {
 			return [];
 		}
-		var result = this._doFindInputItem(element);
-		if (result != null) {
+		var result = this.doFindInputItem(element);
+		if (result !== null) {
 			return [result];
 		}
 
-		if (this._usingElementMap()) {
+		if (this.usingElementMap()) {
 			var widgetOrWidgets = null;
 			if (element.hasOwnProperty("__garaUID")
-					&& this._elementMap.hasOwnProperty(element.__garaUID)) {
-				widgetOrWidgets = this._elementMap[element.__garaUID];
+					&& this.elementMap.hasOwnProperty(element._garaUID)) {
+				widgetOrWidgets = this.elementMap[element._garaUID];
 			}
 
-			if (widgetOrWidgets == null) {
+			if (widgetOrWidgets === null) {
 				return [];
 			} else if ($class.instanceOf(widgetOrWidgets, gara.jswt.widgets.Widget)) {
 				return [widgetOrWidgets];
@@ -128,189 +209,273 @@ $class("StructuredViewer", {
 		}
 
 		return [];
-	}),
+	},
 
-	_getRawChildren : function(parent) {
-		var result = null;
-		if (parent != null) {
-			var cp = this.getContentProvider();
-			if (cp != null) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getRawChildren : function (parent) {
+		var result = null, cp;
+		if (parent !== null) {
+			cp = this.getContentProvider();
+			if (cp !== null && cp.getElements) {
 				result = cp.getElements(parent);
 			}
 		}
 
-		return (result != null && $class.instanceOf(result, Array)) ? result : [];
+		return (result !== null && Array.isArray(result)) ? result : [];
 	},
 
-	_getItemFromElementMap : function(element) {
-		if (element == null) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getItemFromElementMap : function (element) {
+		var id;
+		if (element === null) {
 			return null;
 		}
 
-		var id;
-		if (typeof(element) == "object" && element.hasOwnProperty("__garaUID")) {
-			id = element.__garaUID;
+		if (typeof(element) === "object" && element.hasOwnProperty("__garaUID")) {
+			id = element._garaUID;
 		} else {
 			id = element;
 		}
 
-		if (this._elementMap.hasOwnProperty(id)) {
-			return this._elementMap[id];
+		if (this.elementMap.hasOwnProperty(id)) {
+			return this.elementMap[id];
 		}
 
 		return null;
 	},
 
-	_getFilteredChildren : function(parent) {
-		var children = this._getRawChildren(parent);
-		this._filters.forEach(function(f, i, a) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getFilteredChildren : function (parent) {
+		var children = this.getRawChildren(parent);
+		this.filters.forEach(function (f) {
 			children = f.filter(this, parent, children);
 		}, this);
 		return children;
 	},
 
-	_getSelection : function() {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getSelection : function () {
 		var control = this.getControl();
-		if (control == null || control.isDisposed()) {
+		if (control === null || control.isDisposed()) {
 			return [];
 		}
-		return this._getSelectionFromWidget();
+		return this.getSelectionFromWidget();
 	},
 
-	_getSelectionFromWidget : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	getSelectionFromWidget : function () {},
 
-	_getSortedChildren : function(parent) {
-		var children = this._getFilteredChildren(parent);
-		if (this._sorter != null) {
-			children = this._sorter.sort(this, children);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getSortedChildren : function (parent) {
+		var children = this.getFilteredChildren(parent);
+		if (this.sorter !== null) {
+			children = this.sorter.sort(this, children);
 		}
 		return children;
 	},
 
-	getSorter : function() {
-		if ($class.instanceOf(this._sorter, gara.jsface.viewers.ViewerSorter)) {
-			return this._sorter;
+	getSorter : function () {
+		if ($class.instanceOf(this.sorter, gara.jsface.viewers.ViewerSorter)) {
+			return this.sorter;
 		}
 		return null;
 	},
 
-	_getRoot : function() {
-		return this._input;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getRoot : function () {
+		return this.input;
 	},
 
-	_hookControl : function(control) {
-		control.addSelectionListener(this);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	hookControl : function (control) {
+		var self = this;
+		control.addSelectionListener({
+			widgetSelected : function (e) {
+				self.handleSelect(e);
+			}
+		});
 	},
 
-	_handleSelect : function(event) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleSelect : function (event) {
 		control = this.getControl();
-		if (control != null && !control.isDisposed()) {
-			this._updateSelection(this._getSelection());
+		if (control !== null && !control.isDisposed()) {
+			this.updateSelection(this.getSelection());
 		}
 	},
 
-	_internalRefresh : $abstract(function(element, updateLabels) {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	internalRefresh : function (element, updateLabels) {},
 
-	_mapElement : function(element, item) {
-		if (this._elementMap == null) {
-			this._elementMap = {};
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	mapElement : function (element, item) {
+		var id = gara.generateUID();
+		if (this.elementMap === null) {
+			this.elementMap = {};
 		}
 
-		// generating hash (unique-id)
-		var d = new Date();
-		var id = d.valueOf();
-
-		if (typeof(element) == "object") {
+		if (typeof(element) === "object") {
 			if (!element.hasOwnProperty("__garaUID")) {
-				element.__garaUID = id;
+				element._garaUID = id;
 			} else {
-				id = element.__garaUID;
+				id = element._garaUID;
 			}
 		} else {
 			id = element;
 		}
 
-		this._elementMap[id] = item;
+		this.elementMap[id] = item;
 	},
 
-	refresh : function(first, second) {
+	refresh : function (first, second) {
 		var element, updateLabels;
-		if (typeof(first) == "boolean") {
+		if (typeof(first) === "boolean") {
 			updateLabels = first;
-		} else if (typeof(first) == "object") {
+		} else if (typeof(first) === "object") {
 			element = first;
 		}
 
-		if (typeof(second) == "boolean") {
+		if (typeof(second) === "boolean") {
 			updateLabels = second;
 		}
 
-		this._internalRefresh(element, updateLabels);
+		this.internalRefresh(element, updateLabels);
 	},
 
-	setFilters : function(filters) {
-		if (filters.length == 0) {
-			this._filters = [];
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.viewers.ViewerFilter[]} filters
+	 */
+	setFilters : function (filters) {
+		if (filters.length === 0) {
+			this.filters = [];
 		} else {
-			filters.forEach(function(filter, i, a){
+			filters.forEach(function (filter){
 				this.addFilter(filter);
 			}, this);
 		}
 	},
 
-	setInput : function(input) {
-		this._unmapAllElements();
-		this.$base(input);
+	setInput : function (input) {
+		this.unmapAllElements();
+		this.$super(input);
 	},
 
-	setSorter : function(sorter) {
-		if (!$class.instanceOf(sorter, gara.jsface.viewers.ViewerSorter)) {
+	setSorter : function (sorter) {
+		if (!(sorter instanceof gara.jsface.viewers.ViewerSorter)) {
 			throw new TypeError("sorter not instance of gara.jsface.viewers.ViewerSorter");
 		}
 
-		this._sorter = sorter;
+		this.sorter = sorter;
 		this.refresh();
 	},
 
-	_unmapAllElements : function() {
-		this._elementMap = {};
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	unmapAllElements : function () {
+		this.elementMap = {};
 	},
 
-	_unmapElement : function(element, item) {
-		if (this._elementMap == null || element == null
-				|| !(typeof(element) == "object" && element.hasOwnProperty("__garaUID"))) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	unmapElement : function (element, item) {
+		var id;
+		if (this.elementMap === null || element === null
+				|| !(typeof(element) === "object" && element.hasOwnProperty("__garaUID"))) {
 			return;
 		}
 
-		var id;
-		if (typeof(element) == "object" && element.hasOwnProperty("__garaUID")) {
-			id = element.__garaUID;
+		if (typeof(element) === "object" && element.hasOwnProperty("__garaUID")) {
+			id = element._garaUID;
 		} else {
 			id = element;
 		}
 
 		if ($class.instanceOf(item, Array)) {
-			this._elementMap[id] = item;
+			this.elementMap[id] = item;
 		} else {
-			delete this._elementMap[id];
+			delete this.elementMap[id];
 		}
 	},
 
-	_updateItem : function(widget, element) {
-		this._doUpdateItem(widget, element);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	updateItem : function (widget, element) {
+		this.doUpdateItem(widget, element);
 	},
 
-	_usingElementMap : function() {
-		return this._elementMap != null;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	usingElementMap : function () {
+		return this.elementMap !== null;
 	},
 
-	_updateSelection : function(selection) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	updateSelection : function (selection) {
 		var event = new gara.jsface.viewers.SelectionChangedEvent(this, selection);
-		this._fireSelectionChanged(event);
-	},
-
-	widgetSelected : function(e) {
-		this._handleSelect(e);
+		this.fireSelectionChanged(event);
 	}
-});
-$package("");
+};});

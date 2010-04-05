@@ -21,11 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ViewerSorter");
-
-gara.require("gara.jsface.viewers.ViewerComparator");
-
-$package("gara.jsface.viewers");
+gara.provide("gara.jsface.viewers.ViewerSorter", "gara.jsface.viewers.ViewerComparator");
 
 /**
  * @class ViewerSorter
@@ -33,10 +29,8 @@ $package("gara.jsface.viewers");
  * @extends gara.jsface.viewers.ViewerComparator
  * @author Thomas Gossmann
  */
-$class("ViewerSorter", {
+gara.Class("gara.jsface.viewers.ViewerSorter", function () { return {
 	$extends : gara.jsface.viewers.ViewerComparator,
 
-	$constructor : function() {
-	}
-});
-$package("");
+	$constructor : function() {}
+};});

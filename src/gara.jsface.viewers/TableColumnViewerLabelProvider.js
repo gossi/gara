@@ -21,13 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.TableColumnViewerLabelProvider");
+gara.provide("gara.jsface.viewers.TableColumnViewerLabelProvider", "gara.jsface.viewers.WrappedViewerLabelProvider");
 
-gara.require("gara.jsface.viewers.WrappedViewerLabelProvider");
-gara.require("gara.jsface.viewers.ITableLabelProvider");
-gara.require("gara.jsface.viewers.ViewerCell");
-
-$package("gara.jsface.viewers");
+//gara.use("gara.jsface.viewers.ITableLabelProvider");
+gara.use("gara.jsface.viewers.ViewerCell");
 
 /**
  * @class TableColumnViewerLabelProvider
@@ -35,32 +32,38 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("TableColumnViewerLabelProvider", {
+gara.Class("gara.jsface.viewers.TableColumnViewerLabelProvider", function () { return {
 	$extends : gara.jsface.viewers.WrappedViewerLabelProvider,
 
-	$constructor : function(labelProvider) {
-		this.$base(labelProvider);
+	$constructor : function (labelProvider) {
+		this.$super(labelProvider);
 
-		if ($class.instanceOf(labelProvider, gara.jsface.viewers.ITableLabelProvider)) {
-			this._tableLabelProvider = labelProvider;
+		if (labelProvider.getColumnText || labelProvider.getColumnImage) {
+			this.tableLabelProvider = labelProvider;
 		}
 	},
 
-	update : function(cell) {
-		if (!$class.instanceOf(cell, gara.jsface.viewers.ViewerCell)) {
+	update : function (cell) {
+		var element = cell.getElement(), index = cell.getColumnIndex();
+		if (!(cell instanceof gara.jsface.viewers.ViewerCell)) {
 			throw new TypeError("cell is not instance of gara.jsface.viewers.ViewerCell");
 		}
 
-		var element = cell.getElement();
-		var index = cell.getColumnIndex();
+		if (this.tableLabelProvider === null) {
+			if (this.getLabelProvider().getText) {
+				cell.setText(this.getLabelProvider().getText(element));
+			}
 
-		if (this._tableLabelProvider == null) {
-			cell.setText(this.getLabelProvider().getText(element));
-			cell.setImage(this.getLabelProvider().getImage(element));
+			if (this.getLabelProvider().getImage) {
+				cell.setImage(this.getLabelProvider().getImage(element));
+			}
 		} else {
-			cell.setText(this._tableLabelProvider.getColumnText(element, index));
-			cell.setImage(this._tableLabelProvider.getColumnImage(element, index));
+			if (this.tableLabelProvider.getColumnText) {
+				cell.setText(this.tableLabelProvider.getColumnText(element, index));
+			}
+			if (this.tableLabelProvider.getColumnImage) {
+				cell.setImage(this.tableLabelProvider.getColumnImage(element, index));
+			}
 		}
 	}
-});
-$package("");
+};});

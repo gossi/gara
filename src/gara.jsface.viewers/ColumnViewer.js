@@ -21,16 +21,13 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ColumnViewer");
+gara.provide("gara.jsface.viewers.ColumnViewer", "gara.jsface.viewers.StructuredViewer");
 
-gara.require("gara.jsface.viewers.StructuredViewer");
-gara.require("gara.jsface.viewers.ViewerCell");
-gara.require("gara.jsface.viewers.CellLabelProvider");
-gara.require("gara.jsface.viewers.ViewerColumn");
-gara.require("gara.jsface.viewers.ILabelProvider");
-gara.require("gara.jsface.viewers.ITableLabelProvider");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.ViewerCell");
+gara.use("gara.jsface.viewers.CellLabelProvider");
+gara.use("gara.jsface.viewers.ViewerColumn");
+//gara.use("gara.jsface.viewers.ILabelProvider");
+//gara.use("gara.jsface.viewers.ITableLabelProvider");
 
 /**
  * @class ColumnViewer
@@ -38,18 +35,31 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
   */
-$class("ColumnViewer", {
+gara.Class("gara.jsface.viewers.ColumnViewer", function () { return {
 	$extends : gara.jsface.viewers.StructuredViewer,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.ViewerCell}
+	 */
+	cell : null,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {
-		this._cell = new gara.jsface.viewers.ViewerCell(null, 0, null);
+	$constructor : function () {
+		this.cell = new gara.jsface.viewers.ViewerCell(null, 0, null);
 	},
 
-	_createViewerColumn : function(columnOwner, labelProvider) {
-		if (!$class.instanceOf(labelProvider, gara.jsface.viewers.CellLabelProvider)) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createViewerColumn : function (columnOwner, labelProvider) {
+		if (!(labelProvider instanceof gara.jsface.viewers.CellLabelProvider)) {
 			throw new TypeError("labelProvider not instance of gara.jsface.viewers.CellLabelProvider");
 		}
 
@@ -58,50 +68,81 @@ $class("ColumnViewer", {
 		return column;
 	},
 
-	_getColumnViewerOwner : $abstract(function(columnIndex) {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	getColumnViewerOwner : function (columnIndex) {},
 
-	_getViewerColumn : function(columnIndex) {
-		var columnOwner = this._getColumnViewerOwner(columnIndex);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getViewerColumn : function (columnIndex) {
+		var columnOwner = this.getColumnViewerOwner(columnIndex);
 
-		if (columnOwner == null) {
+		if (columnOwner === null) {
 			return null;
 		}
 
 		var viewer = columnOwner.getData(gara.jsface.viewers.ViewerColumn.COLUMN_VIEWER_KEY);
 
-		if (viewer == null) {
-			viewer = this._createViewerColumn(columnOwner, gara.jsface.viewers.CellLabelProvider.createViewerLabelProvider(this.getLabelProvider()));
+		if (viewer === null) {
+			viewer = this.createViewerColumn(columnOwner, gara.jsface.viewers.CellLabelProvider.createViewerLabelProvider(this.getLabelProvider()));
 		}
 
 		return viewer;
 	},
 
-	_getViewerRowFromItem : $abstract(function(item) {}),
+	/**
+	 * @method
+	 *
+	 * @private
+	 * @abstract
+	 */
+	getViewerRowFromItem : function (item) {},
 
-	setLabelProvider : function(labelProvider) {
-		if (!($class.instanceOf(labelProvider, gara.jsface.viewers.ITableLabelProvider)
-			|| $class.instanceOf(labelProvider, gara.jsface.viewers.ILabelProvider)
-			|| $class.instanceOf(labelProvider, gara.jsface.viewers.CellLabelProvider))) {
-			throw new TypeError("labelProvider is not instance of either gara.jsface.viewers.ITableLabelProvider, gara.jsface.viewers.ILabelProvider or gara.jsface.viewers.CellLabelProvider");
-		}
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.viewers.ITableLabelProvider|gara.jsface.viewers.ILabelProbider|gara.jsface.viewers.CellLabelProbider} labelProvider
+	 */
+	setLabelProvider : function (labelProvider) {
+//		if (!($class.instanceOf(labelProvider, gara.jsface.viewers.ITableLabelProvider)
+//			|| $class.instanceOf(labelProvider, gara.jsface.viewers.ILabelProvider)
+//			|| $class.instanceOf(labelProvider, gara.jsface.viewers.CellLabelProvider))) {
+//			throw new TypeError("labelProvider is not instance of either gara.jsface.viewers.ITableLabelProvider, gara.jsface.viewers.ILabelProvider or gara.jsface.viewers.CellLabelProvider");
+//		}
 
-		this._updateColumnParts(labelProvider);
+		this.updateColumnParts(labelProvider);
 
-		this.$base(labelProvider);
+		this.$super(labelProvider);
 	},
 
-	_updateCell : function(rowItem, column, element) {
-		this._cell.update(rowItem, column, element);
-		return this._cell;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	updateCell : function (rowItem, column, element) {
+		this.cell.update(rowItem, column, element);
+		return this.cell;
 	},
 
-	_updateColumnParts : function(labelProvider) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	updateColumnParts : function (labelProvider) {
 		var column, i = 0;
 
-		while ((column = this._getViewerColumn(i++)) != null) {
+		while ((column = this.getViewerColumn(i++)) !== null) {
 			column.setLabelProvider(gara.jsface.viewers.CellLabelProvider
 					.createViewerLabelProvider(labelProvider), false);
 		}
 	}
-});
-$package("");
+};});

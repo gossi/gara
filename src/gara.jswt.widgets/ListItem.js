@@ -21,12 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.ListItem");
+gara.provide("gara.jswt.widgets.ListItem", "gara.jswt.widgets.Item");
 
 //gara.use("gara.utils");
 gara.use("gara.jswt.JSWT");
-
-gara.parent("gara.jswt.widgets.Item",
 //gara.require("gara.jswt.widgets.List");
 
 /**
@@ -40,7 +38,7 @@ gara.parent("gara.jswt.widgets.Item",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-function() {gara.Class("gara.jswt.widgets.ListItem", {
+gara.Class("gara.jswt.widgets.ListItem", function () { return {
 	$extends : gara.jswt.widgets.Item,
 
 	/**
@@ -350,4 +348,4 @@ function() {gara.Class("gara.jswt.widgets.ListItem", {
 			gara.EventManager.removeListener(this.span, eventType, listener);
 		}
 	}
-})});
+};});

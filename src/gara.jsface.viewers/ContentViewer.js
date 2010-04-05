@@ -21,13 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ContentViewer");
+gara.provide("gara.jsface.viewers.ContentViewer", "gara.jsface.viewers.Viewer");
 
-gara.require("gara.jsface.viewers.Viewer");
-gara.require("gara.jsface.viewers.IContentProvider");
-gara.require("gara.jsface.viewers.IBaseLabelProvider");
-
-$package("gara.jsface.viewers");
+//gara.use("gara.jsface.viewers.IContentProvider");
+//gara.use("gara.jsface.viewers.IBaseLabelProvider");
 
 /**
  * @class ContentViewer
@@ -35,51 +32,85 @@ $package("gara.jsface.viewers");
  * @author Thomas Gossmann
  * @namespace gara.jsface.viewers
  */
-$class("ContentViewer", {
+gara.Class("gara.jsface.viewers.ContentViewer", function () { return {
 	$extends : gara.jsface.viewers.Viewer,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {Object}
+	 */
+	input : null,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.IContentProvider}
+	 */
+	contentProvider : null,
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.IBaseLabelProvider}
+	 */
+	labelProvider : null,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {
-		this._input = null;
-		this._contentProvider = null;
-		this._labelProvider = null;
+	$constructor : function () {
+		this.input = null;
+		this.contentProvider = null;
+		this.labelProvider = null;
 	},
 
-	getContentProvider : function() {
-		return this._contentProvider;
+	getContentProvider : function () {
+		return this.contentProvider;
 	},
 
-	getInput : function() {
-		return this._input;
+	getInput : function () {
+		return this.input;
 	},
 
-	getLabelProvider : function() {
-		return this._labelProvider;
+	getLabelProvider : function () {
+		return this.labelProvider;
 	},
 
-	inputChanged : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	inputChanged : function () {},
 
-	setContentProvider : function(contentProvider) {
-		if (!$class.instanceOf(contentProvider, gara.jsface.viewers.IContentProvider)) {
-			throw new TypeError("contentProvider is not type of gara.jsface.viewers.IContentProvider");
-		}
-		this._contentProvider = contentProvider;
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.viewers.IContentProvider} contentProvider
+	 */
+	setContentProvider : function (contentProvider) {
+		this.contentProvider = contentProvider;
 	},
 
-	setInput : function(input) {
+	setInput : function (input) {
 		var oldInput = this.getInput();
-		this._contentProvider.inputChanged(this, oldInput, input);
-		this._input = input;
-		this.inputChanged(this._input, oldInput);
+		if (this.contentProvider.inputChanged) {
+			this.contentProvider.inputChanged(this, oldInput, input);
+		}
+		this.input = input;
+		this.inputChanged(this.input, oldInput);
 	},
 
-	setLabelProvider : function(labelProvider) {
-		if (!$class.instanceOf(labelProvider, gara.jsface.viewers.IBaseLabelProvider)) {
-			throw new TypeError("labelProvider is not type of gara.jsface.viewers.IBaseLabelProvider");
-		}
-		this._labelProvider = labelProvider;
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.viewers.IBaseLabelProvider} labelProvider
+	 */
+	setLabelProvider : function (labelProvider) {
+		this.labelProvider = labelProvider;
 	}
-});
-$package("");
+};});

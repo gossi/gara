@@ -21,9 +21,8 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Control");
+gara.provide("gara.jswt.widgets.Control", "gara.jswt.widgets.Widget");
 
-//gara.use("gara.utils");
 gara.use("gara.jswt.JSWT");
 
 //gara.use("gara.jswt.events.FocusListener");
@@ -34,15 +33,13 @@ gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.FocusManager");
 
-gara.parent("gara.jswt.widgets.Widget",
-
 /**
  * @class Control
  * @author Thomas Gossmann
  * @extends gara.jswt.wigdets.Widget
  * @namespace gara.jswt.widgets
  */
-function () {gara.Class("gara.jswt.widgets.Control", {
+gara.Class("gara.jswt.widgets.Control", function () { return {
 	$extends : gara.jswt.widgets.Widget,
 
 	/**
@@ -656,4 +653,4 @@ function () {gara.Class("gara.jswt.widgets.Control", {
 	update : function () {
 		alert("Control.update() invoked on " + this + ". Method not implemented");
 	}
-})});
+};});

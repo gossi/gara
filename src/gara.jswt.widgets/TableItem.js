@@ -21,13 +21,11 @@
 	================================================================================================================
 */
 
-gara.provide("gara.jswt.widgets.TableItem");
+gara.provide("gara.jswt.widgets.TableItem", "gara.jswt.widgets.Item");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.widgets.Table");
-
-gara.parent("gara.jswt.widgets.Item",
 
 /**
  * gara TableItem
@@ -37,7 +35,7 @@ gara.parent("gara.jswt.widgets.Item",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-function() {gara.Class("gara.jswt.widgets.TableItem", {
+gara.Class("gara.jswt.widgets.TableItem", function () { return {
 	$extends : gara.jswt.widgets.Item,
 
 	/**
@@ -487,4 +485,4 @@ function() {gara.Class("gara.jswt.widgets.TableItem", {
 			}
 		}
 	}
-})});
+};});

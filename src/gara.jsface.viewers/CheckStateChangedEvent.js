@@ -23,30 +23,80 @@
 
 gara.provide("gara.jsface.viewers.CheckStateChangedEvent");
 
-$package("gara.jsface.viewers");
-
 /**
  * @class CheckStateChangedEvent
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("CheckStateChangedEvent", {
+gara.Class("gara.jsface.viewers.CheckStateChangedEvent", {
+
+	/**
+	 * @field
+	 * The source originated the event
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.Viewer}
+	 */
+	source : source,
+
+	/**
+	 * @field
+	 * The element on which the event occured
+	 *
+	 * @private
+	 * @type {Object}
+	 */
+	element : element,
+
+	/**
+	 * @field
+	 * The elements check state
+	 *
+	 * @private
+	 * @type {boolean} true for checked
+	 */
+	state : state,
+
+	/**
+	 * @constructor
+	 *
+	 * @param {gara.jsface.viewers.Viewer} source the source originating the event
+	 * @param {Object} element the element on which the event occurs
+	 * @param {boolean} state true for checked and false for non-checked state
+	 */
 	$constructor : function(source, element, state) {
-		this._source = source;
-		this._element = element;
-		this._state = state;
+		this.source = source;
+		this.element = element;
+		this.state = state;
 	},
 
+	/**
+	 * @method
+	 * Returns the element on which the event occurs.
+	 *
+	 * @return {Object} the element
+	 */
 	getElement : function() {
-		return this._element;
+		return this.element;
 	},
 
+	/**
+	 * @method
+	 * Returns the source that originates this event.
+	 *
+	 * @return {gara.jsface.viewers.Viewer} the source
+	 */
 	getSource : function() {
-		return this._source;
+		return this.source;
 	},
 
+	/**
+	 * @method
+	 * Returns the elements state.
+	 *
+	 * @return {boolean} true for checked and false for non-checked state
+	 */
 	getState : function() {
-		return this._state;
+		return this.state;
 	}
 });
-$package("");

@@ -21,9 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.IStructuredContentProvider");
-
-$package("gara.jsface.viewers");
+gara.provide("gara.jsface.viewers.IStructuredContentProvider", "gara.jsface.viewers.IContentProvider");
 
 /**
  * @interface IStructuredContentProvider
@@ -31,9 +29,8 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("IStructuredContentProvider", {
+gara.Class("gara.jsface.viewers.IStructuredContentProvider", function () { return {
 	$extends : gara.jsface.viewers.IContentProvider,
 
 	getElements : function(inputElement) {}
-});
-$package("");
+};});

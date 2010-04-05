@@ -21,9 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Item");
-
-gara.parent("gara.jswt.widgets.Widget",
+gara.provide("gara.jswt.widgets.Item", "gara.jswt.widgets.Widget");
 
 /**
  * 'Abstract' Item class
@@ -32,7 +30,7 @@ gara.parent("gara.jswt.widgets.Widget",
  * @extends gara.jswt.widgets.Widget
  * @namespace gara.jswt.widgets
  */
-function() {gara.Class("gara.jswt.widgets.Item", {
+gara.Class("gara.jswt.widgets.Item", function() { return {
 	$extends : gara.jswt.widgets.Widget,
 
 	/**
@@ -137,4 +135,4 @@ function() {gara.Class("gara.jswt.widgets.Item", {
 		this.text = text;
 		return this;
 	}
-})});
+};});

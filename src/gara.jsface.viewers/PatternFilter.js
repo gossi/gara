@@ -21,13 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.PatternFilter");
+gara.provide("gara.jsface.viewers.PatternFilter", "gara.jsface.viewers.ViewerFilter");
 
-gara.require("gara.jsface.viewers.ViewerFilter");
-gara.require("gara.jsface.viewers.ITableLabelProvider");
-gara.require("gara.jsface.viewers.ITreeContentProvider");
-
-$package("gara.jsface.viewers");
+//gara.use("gara.jsface.viewers.ITableLabelProvider");
+//gara.use("gara.jsface.viewers.ITreeContentProvider");
 
 /**
  * @class PatternFilter
@@ -35,28 +32,33 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("PatternFilter", {
+gara.Class("gara.jsface.viewers.PatternFilter", function () { return {
 	$extends : gara.jsface.viewers.ViewerFilter,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {
-		this._pattern = "";
+	$constructor : function () {
+		this.pattern = "";
 	},
 
-	isElementVisible : function(viewer, element) {
-		return this._isParentMatch(viewer, element) || this._isLeafMatch(viewer, element);
+	isElementVisible : function (viewer, element) {
+		return this.isParentMatch(viewer, element) || this.isLeafMatch(viewer, element);
 	},
 
-	_isLeafMatch : function(viewer, element) {
-		var lblProvider = viewer.getLabelProvider();
-		if ($class.instanceOf(lblProvider, gara.jsface.viewers.ITableLabelProvider)) {
-			var cols = viewer.getControl().getColumnCount();
-			for (var i = 0; i < cols; ++i) {
-				var labelText = lblProvider.getColumnText(element, i);
-				if (labelText != null) {
-					var result = this._match(labelText);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	isLeafMatch : function (viewer, element) {
+		var lblProvider = viewer.getLabelProvider(), cols, i, labelText, result;
+		if (lblProvider.getColumnText) {
+			cols = viewer.getControl().getColumnCount();
+			for (i = 0; i < cols; ++i) {
+				labelText = lblProvider.getColumnText(element, i);
+				if (labelText !== null) {
+					result = this.match(labelText);
 					if (result) {
 						return result;
 					}
@@ -64,24 +66,29 @@ $class("PatternFilter", {
 			}
 			return false;
 		} else {
-			var labelText = lblProvider.getText(element);
-			if (labelText == null) {
+			labelText = lblProvider.getText(element);
+			if (labelText === null) {
 				return false;
 			}
-	        return this._match(labelText);
+	        return this.match(labelText);
 		}
 
 	},
 
-	_isParentMatch : function(viewer, element) {
-		var cp = viewer.getContentProvider();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	isParentMatch : function (viewer, element) {
+		var cp = viewer.getContentProvider(), children, elementFound, i;
 
-		if ($class.instanceOf(cp, gara.jsface.viewers.ITreeContentProvider)) {
-			var children = cp.getChildren(element);
+		if (cp.getChildren) {
+			children = cp.getChildren(element);
 
-	        if (children != null && children.length > 0) {
-				var elementFound = false;
-				for (var i = 0; i < children.length && !elementFound; i++) {
+	        if (children !== null && children.length > 0) {
+				elementFound = false;
+				for (i = 0; i < children.length && !elementFound; i++) {
 					elementFound = this.isElementVisible(viewer, children[i]);
 				}
 				return elementFound;
@@ -90,20 +97,23 @@ $class("PatternFilter", {
         return false;
 	},
 
-	_match : function(text) {
-		return text.toLowerCase().indexOf(this._pattern.toLowerCase()) != -1;
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	match : function (text) {
+		return text.toLowerCase().indexOf(this.pattern.toLowerCase()) !== -1;
 	},
 
-	select : function(viewer, parentElement, element) {
-		if (this._pattern == "") {
+	select : function (viewer, parentElement, element) {
+		if (this.pattern === "") {
 			return true;
 		}
-		var result = this.isElementVisible(viewer, element);
-		return result;
+		return this.isElementVisible(viewer, element);
 	},
 
-	setPattern : function(pattern) {
-		this._pattern = pattern;
+	setPattern : function (pattern) {
+		this.pattern = pattern;
 	}
-});
-$package("");
+};});

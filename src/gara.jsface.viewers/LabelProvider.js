@@ -21,11 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.LabelProvider");
-
-gara.require("gara.jsface.viewers.ILabelProvider");
-
-$package("gara.jsface.viewers");
+gara.provide("gara.jsface.viewers.LabelProvider", "gara.jsface.viewers.BaseLabelProvider");
 
 /**
  * @class LabelProvider
@@ -49,21 +45,19 @@ $package("gara.jsface.viewers");
  * <li><code>getText</code></li>
  * </ul>
  */
-$class("LabelProvider", {
+gara.Class("gara.jsface.viewers.LabelProvider", function () { return {
 	$extends : gara.jsface.viewers.BaseLabelProvider,
-	$implements : gara.jsface.viewers.ILabelProvider,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {},
+	$constructor : function () {},
 
-	getImage : function(element) {
+	getImage : function (element) {
 		return null;
 	},
 
-	getText : function(element) {
-		return "" + obj;
+	getText : function (element) {
+		return "" + element;
 	}
-});
-$package("");
+};});

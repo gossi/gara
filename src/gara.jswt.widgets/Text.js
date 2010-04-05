@@ -21,12 +21,10 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Text");
+gara.provide("gara.jswt.widgets.Text", "gara.jswt.widgets.Scrollable");
 
 gara.use("gara.jswt.JSWT");
 gara.use("gara.jswt.widgets.Composite");
-
-gara.parent("gara.jswt.widgets.Scrollable",
 
 /**
  * @summary
@@ -40,7 +38,7 @@ gara.parent("gara.jswt.widgets.Scrollable",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Control
  */
-function() {gara.Class("gara.jswt.widgets.Text", {
+gara.Class("gara.jswt.widgets.Text", function() { return {
 	$extends : gara.jswt.widgets.Scrollable,
 
 	/**
@@ -361,4 +359,4 @@ function() {gara.Class("gara.jswt.widgets.Text", {
 //		this.handle.style.width = this.width !== null ? (this.width - parseInt(gara.Utils.getStyle(this.handle, "padding-left")) - parseInt(gara.Utils.getStyle(this.handle, "padding-right")) - parseInt(gara.Utils.getStyle(this.handle, "border-left-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-right-width"))) + "px" : "auto";
 //		this.handle.style.height = this.height !== null ? (this.height - parseInt(gara.Utils.getStyle(this.handle, "padding-top")) - parseInt(gara.Utils.getStyle(this.handle, "padding-bottom")) - parseInt(gara.Utils.getStyle(this.handle, "border-top-width")) - parseInt(gara.Utils.getStyle(this.handle, "border-bottom-width"))) + "px" : "auto";
 	}
-})});
+};});

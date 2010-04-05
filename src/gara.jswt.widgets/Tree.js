@@ -21,13 +21,11 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Tree");
+gara.provide("gara.jswt.widgets.Tree", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.widgets.TreeItem");
-
-gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * gara Tree Widget
@@ -37,7 +35,7 @@ gara.parent("gara.jswt.widgets.Composite",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Composite
  */
-function() {gara.Class("gara.jswt.widgets.Tree", {
+gara.Class("gara.jswt.widgets.Tree", function() { return {
 	$extends : gara.jswt.widgets.Composite,
 
 	/**
@@ -1000,4 +998,4 @@ function() {gara.Class("gara.jswt.widgets.Tree", {
 			}
 		}
 	}
-})});
+};});

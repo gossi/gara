@@ -21,11 +21,9 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Composite");
+gara.provide("gara.jswt.widgets.Composite", "gara.jswt.widgets.Scrollable");
 
 //gara.use("gara.jswt.widgets.Control");
-
-gara.parent("gara.jswt.widgets.Scrollable",
 
 /**
  * @class Composite
@@ -33,7 +31,7 @@ gara.parent("gara.jswt.widgets.Scrollable",
  * @extends gara.jswt.widgets.Scrollable
  * @namespace gara.jswt.widgets
  */
-function() {gara.Class("gara.jswt.widgets.Composite", {
+gara.Class("gara.jswt.widgets.Composite", function() { return {
 	$extends : gara.jswt.widgets.Scrollable,
 
 	/**
@@ -87,4 +85,4 @@ function() {gara.Class("gara.jswt.widgets.Composite", {
 //	handleEvent : function(e) {
 //		this.$super(e);
 //	},
-})});
+};});

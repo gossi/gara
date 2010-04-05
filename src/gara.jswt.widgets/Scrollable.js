@@ -21,9 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.Scrollable");
-
-gara.parent("gara.jswt.widgets.Control",
+gara.provide("gara.jswt.widgets.Scrollable", "gara.jswt.widgets.Control");
 
 /**
  * @class Scrollable
@@ -31,7 +29,7 @@ gara.parent("gara.jswt.widgets.Control",
  * @extends gara.jswt.widgets.Control
  * @namespace gara.jswt.widgets
  */
-function() {gara.Class("gara.jswt.widgets.Scrollable", {
+gara.Class("gara.jswt.widgets.Scrollable", function () { return {
 	$extends : gara.jswt.widgets.Control,
 
 	/**
@@ -65,4 +63,4 @@ function() {gara.Class("gara.jswt.widgets.Scrollable", {
 	scrolledHandle : function () {
 		return this.handle;
 	}
-})});
+};});

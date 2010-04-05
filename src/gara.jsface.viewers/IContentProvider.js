@@ -23,14 +23,11 @@
 
 gara.provide("gara.jsface.viewers.IContentProvider");
 
-$package("gara.jsface.viewers");
-
 /**
  * @interface IContentProvider
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("IContentProvider", {
+gara.Class("gara.jsface.viewers.IContentProvider", {
 	inputChanged : function(viewer, oldInput, newInput) {}
 });
-$package("");

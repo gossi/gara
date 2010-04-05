@@ -23,14 +23,12 @@
 
 gara.provide("gara.jsface.viewers.ICheckable");
 
-$package("gara.jsface.viewers");
-
 /**
  * @interface ICheckable
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("ICheckable", {
+gara.Class("gara.jsface.viewers.ICheckable", {
 	addCheckStateListener : function(listener){},
 
 	getChecked : function(element){},
@@ -39,4 +37,3 @@ $interface("ICheckable", {
 
 	setChecked : function(element, checked) {}
 });
-$package("");

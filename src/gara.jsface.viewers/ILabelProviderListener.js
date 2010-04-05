@@ -23,14 +23,11 @@
 
 gara.provide("gara.jsface.viewers.ILabelProviderListener");
 
-$package("gara.jsface.viewers");
-
 /**
  * @interface ILabelProviderListener
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("ILabelProviderListener", {
+gara.Class("gara.jsface.viewers.ILabelProviderListener", {
 	labelProviderChanged : function() {}
 });
-$package("");

@@ -25,7 +25,6 @@ gara.provide("gara.jswt.widgets.Widget");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWTException");
-
 gara.use("gara.jswt.JSWT");
 
 /**

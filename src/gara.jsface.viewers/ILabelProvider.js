@@ -21,11 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ILabelProvider");
-
-gara.require("gara.jsface.viewers.IBaseLabelProvider");
-
-$package("gara.jsface.viewers");
+gara.provide("gara.jsface.viewers.ILabelProvider", "gara.jsface.viewers.IBaseLabelProvider");
 
 /**
  * @interface ILabelProvider
@@ -41,7 +37,7 @@ $package("gara.jsface.viewers");
  * and/or image for the label of a given element. Used by most structured
  * viewers, except table viewers.
 */
-$interface("ILabelProvider", {
+gara.Class("gara.jsface.viewers.ILabelProvider", function () { return {
 	$extends : gara.jsface.viewers.IBaseLabelProvider,
 
 	/**
@@ -61,5 +57,4 @@ $interface("ILabelProvider", {
 	 * @returns the text string used to label the element, or <code>null</code> if there is no text label for the given object
 	 */
 	getText : function(element) {}
-});
-$package("");
+};});

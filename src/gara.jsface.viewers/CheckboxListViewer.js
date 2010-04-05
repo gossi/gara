@@ -21,16 +21,14 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.CheckboxListViewer");
+gara.provide("gara.jsface.viewers.CheckboxListViewer", "gara.jsface.viewers.ListViewer");
 
-gara.require("gara.jsface.viewers.ListViewer");
-gara.require("gara.jsface.viewers.ICheckable");
-gara.require("gara.jsface.viewers.ICheckStateListener");
-gara.require("gara.jsface.viewers.ICheckStateChangedEvent");
-gara.require("gara.jswt.JSWT");
-gara.require("gara.jswt.widgets.List");
-
-$package("gara.jsface.viewers");
+//gara.use("gara.jsface.viewers.ICheckable");
+//gara.use("gara.jsface.viewers.ICheckStateListener");
+//gara.use("gara.jsface.viewers.ICheckStateChangedEvent");
+gara.use("gara.jsface.viewers.CheckStateChangedEvent");
+gara.use("gara.jswt.JSWT");
+gara.use("gara.jswt.widgets.List");
 
 /**
  * @class CheckboxListViewer
@@ -38,43 +36,59 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("CheckboxListViewer", {
+gara.Class("gara.jsface.viewers.CheckboxListViewer", function () { return {
 	$extends : gara.jsface.viewers.ListViewer,
 
-	$implements : [gara.jsface.viewers.ICheckable],
+//	$implements : [gara.jsface.viewers.ICheckable],
 
-	$constructor : function(list) {
-		if (!$class.instanceOf(list, gara.jswt.widgets.List)) {
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.ICheckStateListener[]}
+	 */
+	checkStateListener : [],
+
+	$constructor : function (list) {
+		if (!(list instanceof gara.jswt.widgets.List)) {
 			throw new TypeError("list not instance of gara.jswt.widgets.List");
 		}
-		this._checkStateListener = [];
-		this.$base(list);
+		this.checkStateListener = [];
+		this.$super(list);
 	},
 
-	newCheckList : $static(function(parent, style) {
-		var list = new gara.jswt.widgets.List(parent, style | gara.jswt.JSWT.CHECK);
-		return new gara.jsface.viewers.CheckboxListViewer(list);
-	}),
+//	newCheckList : function (parent, style) {
+//		var list = new gara.jswt.widgets.List(parent, style | gara.jswt.JSWT.CHECK);
+//		return new gara.jsface.viewers.CheckboxListViewer(list);
+//	},
 
-	_fireCheckStateChanged : function(event) {
-		this._checkStateListener.forEach(function(listener, index, arr) {
-			listener.checkStateChanged(event);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	fireCheckStateChanged : function (event) {
+		this.checkStateListener.forEach(function (listener, index, arr) {
+			if (listener.checkStateChanged) {
+				listener.checkStateChanged(event);
+			}
 		});
 	},
 
-	addCheckStateListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.viewers.ICheckStateListener)) {
-			throw new TypeError("listener not instance of gara.jsface.viewers.ICheckStateListener");
-		}
-
-		if (!this._checkStateListener.contains(listener)) {
-			this._checkStateListener.push(listener);
+	/**
+	 * @methods
+	 *
+	 * @param {gara.jsface.viewers.ICheckStateListener} listener
+	 */
+	addCheckStateListener : function (listener) {
+		if (!this.checkStateListener.contains(listener)) {
+			this.checkStateListener.push(listener);
 		}
 	},
 
-	getChecked : function(element) {
-		var item = this._getItemFromElementMap(element);
-		if (item != null) {
+	getChecked : function (element) {
+		var item = this.getItemFromElementMap(element);
+		if (item !== null) {
 			return item.getChecked();
 		}
 		return null;
@@ -90,10 +104,10 @@ $class("CheckboxListViewer", {
      *
      * @return {Array} the array of checked elements
      */
-	getCheckedElements : function() {
-		var items = this._list.getItems();
+	getCheckedElements : function () {
+		var items = this.list.getItems();
 		var checkedItems = [];
-		items.forEach(function(item, index, arr) {
+		items.forEach(function (item, index, arr) {
 			if (item.getChecked()) {
 				checkedItems.push(item.getData());
 			}
@@ -108,9 +122,9 @@ $class("CheckboxListViewer", {
      * @return {boolean} <code>true</code> if the element is grayed,
      *   and <code>false</code> if not grayed
      */
-	getGrayed : function(element) {
-		var item = this._getItemFromElementMap(element);
-		if (item != null) {
+	getGrayed : function (element) {
+		var item = this.getItemFromElementMap(element);
+		if (item !== null) {
 			return item.getGrayed();
 		}
 		return null;
@@ -126,10 +140,10 @@ $class("CheckboxListViewer", {
      *
      * @return {Array} the array of grayed elements
      */
-	getGrayedElements : function() {
-		var items = this._list.getItems();
+	getGrayedElements : function () {
+		var items = this.list.getItems();
 		var checkedItems = [];
-		items.forEach(function(item, index, arr) {
+		items.forEach(function (item, index, arr) {
 			if (item.getGrayed()) {
 				checkedItems.push(item.getData());
 			}
@@ -137,25 +151,31 @@ $class("CheckboxListViewer", {
 		return checkedItems;
 	},
 
-	_handleSelect : function(event) {
-		this.$base(event);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	handleSelect : function (event) {
+		this.$super(event);
 
-		if (event.garaDetail && event.garaDetail == gara.jswt.JSWT.CHECK) {
+		if (event.garaDetail && event.garaDetail === gara.jswt.JSWT.CHECK) {
 			var item = event.item;
 			var data = item.getData();
-			if (data != null) {
+			if (data !== null) {
 				// negated state, because state changes after mouseup and we are in mousedown event
-				this._fireCheckStateChanged(new gara.jsface.viewers.CheckStateChangedEvent(this, data, !item.getChecked()));
+				this.fireCheckStateChanged(new gara.jsface.viewers.CheckStateChangedEvent(this, data, !item.getChecked()));
 			}
 		}
 	},
 
-	removeCheckStateListener : function(listener){
-		if (!$class.instanceOf(listener, gara.jsface.viewers.ICheckStateListener)) {
-			throw new TypeError("listener not instance of gara.jsface.viewers.ICheckStateListener");
-		}
-
-		this._checkStateListener.remove(listener);
+	/**
+	 * @methods
+	 *
+	 * @param {gara.jsface.viewers.ICheckStateListener} listener
+	 */
+	removeCheckStateListener : function (listener){
+		this.checkStateListener.remove(listener);
 	},
 
 	/**
@@ -164,9 +184,9 @@ $class("CheckboxListViewer", {
      * @param {boolean} state <code>true</code> if the element should be checked,
      *  and <code>false</code> if it should be unchecked
      */
-    setAllChecked : function(state) {
-        var items = this._list.getItems();
-		items.forEach(function(item, index, arr) {
+    setAllChecked : function (state) {
+        var items = this.list.getItems();
+		items.forEach(function (item, index, arr) {
 			item.setChecked(state);
 		}, this);
     },
@@ -177,16 +197,16 @@ $class("CheckboxListViewer", {
      * @param {boolean} state <code>true</code> if the element should be grayed,
      *  and <code>false</code> if it should be ungrayed
      */
-    setAllGrayed : function(state) {
-        var items = this._list.getItems();
-		items.forEach(function(item, index, arr) {
+    setAllGrayed : function (state) {
+        var items = this.list.getItems();
+		items.forEach(function (item, index, arr) {
 			item.setGrayed(state);
 		}, this);
     },
 
-	setChecked : function(element, checked) {
-		var item = this._getItemFromElementMap(element);
-		if (item != null) {
+	setChecked : function (element, checked) {
+		var item = this.getItemFromElementMap(element);
+		if (item !== null) {
 			item.setChecked(checked);
 			return true;
 		}
@@ -204,14 +224,14 @@ $class("CheckboxListViewer", {
      *
      * @param {Array} elements the list of checked elements (element type: <code>Object</code>)
      */
-    setCheckedElements : function(elements) {
-		var items = this._list.getItems();
-		items.forEach(function(item, index, arr) {
+    setCheckedElements : function (elements) {
+		var items = this.list.getItems();
+		items.forEach(function (item, index, arr) {
 			var element = item.getData();
-			if (element != null) {
+			if (element !== null) {
 				var check = elements.contains(element);
 				// only set if different, to avoid flicker
-				if (item.getChecked() != check) {
+				if (item.getChecked() !== check) {
 				    item.setChecked(check);
 				}
 			}
@@ -227,9 +247,9 @@ $class("CheckboxListViewer", {
      * @return {boolean} <code>true</code> if the element is visible and the gray
      *  state could be set, and <code>false</code> otherwise
      */
-	setGrayed : function(element, grayed) {
-		var item = this._getItemFromElementMap(element);
-		if (item != null) {
+	setGrayed : function (element, grayed) {
+		var item = this.getItemFromElementMap(element);
+		if (item !== null) {
 			item.setGrayed(grayed);
 			return true;
 		}
@@ -249,19 +269,17 @@ $class("CheckboxListViewer", {
      *
      * @see #getGrayedElements
      */
-	setGrayedElements : function(elements) {
-		var items = this._list.getItems();
-		items.forEach(function(item, index, arr) {
+	setGrayedElements : function (elements) {
+		var items = this.list.getItems();
+		items.forEach(function (item, index, arr) {
 			var element = item.getData();
-			if (element != null) {
+			if (element !== null) {
 				var check = elements.contains(element);
 				// only set if different, to avoid flicker
-				if (item.getGrayed() != check) {
+				if (item.getGrayed() !== check) {
 				    item.setGrayed(check);
 				}
 			}
 		});
 	}
-});
-
-$package("");
+};});

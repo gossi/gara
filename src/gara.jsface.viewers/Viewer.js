@@ -23,42 +23,69 @@
 
 gara.provide("gara.jsface.viewers.Viewer");
 
-gara.require("gara.jsface.viewers.ISelectionChangedListener");
-
-$package("gara.jsface.viewers");
+//gara.use("gara.jsface.viewers.ISelectionChangedListener");
 
 /**
  * @class Viewer
  * @author Thomas Gossmann
  * @namespace gara.jsface.viewers
  */
-$class("Viewer", {
+gara.Class("gara.jsface.viewers.Viewer", {
+
+	/**
+	 * @field
+	 * Contains a collection of selection changed listeners
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.ISelectionChangedListener[]}
+	 */
+	selectionChangedListeners : [],
+
+
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {
-		this._selectionChangedListeners = [];
+	$constructor : function () {
+		this.selectionChangedListeners = [];
 	},
 
-	addSelectionChangedListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.viewers.ISelectionChangedListener)) {
-			throw new TypeError("listener not instance of gara.jsface.viewers.ISelectionChangedListener");
-		}
-
-		if (!this._selectionChangedListeners.contains(listener)) {
-			this._selectionChangedListeners.push(listener);
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.viewers.ISelectionChangedListener} listener
+	 */
+	addSelectionChangedListener : function (listener) {
+		if (!this.selectionChangedListeners.contains(listener)) {
+			this.selectionChangedListeners.push(listener);
 		}
 	},
 
-	_fireSelectionChanged : function(event) {
-		this._selectionChangedListeners.forEach(function(listener, index, arr) {
-			listener.selectionChanged(event);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	fireSelectionChanged : function (event) {
+		this.selectionChangedListeners.forEach(function (listener) {
+			if (listener.selectionChanged) {
+				listener.selectionChanged(event);
+			}
 		});
 	},
 
-	getControl : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getControl : function () {},
 
-	getInput : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	getInput : function () {},
 
 	/**
 	 * Internal hook Method called when the input to this viewer is
@@ -73,17 +100,28 @@ $class("Viewer", {
      * @param oldInput the old input element or <code>null</code> if there
      *   was previously no input
 	 */
-	inputChange : function(input, oldInput) {},
+	inputChange : function (input, oldInput) {},
 
-	refresh : $abstract(function() {}),
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	refresh : function () {},
 
-	removeSelectionChangedListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.viewers.ISelectionChangedListener)) {
-		}
-
-		this._selectionChangedListeners.remove(listener);
+	/**
+	 * @method
+	 *
+	 * @param {gara.jsface.viewers.ISelectionChangedListener} listener
+	 */
+	removeSelectionChangedListener : function (listener) {
+		this.selectionChangedListeners.remove(listener);
 	},
 
-	setInput : $abstract(function(input) {})
+	/**
+	 * @method
+	 *
+	 * @abstract
+	 */
+	setInput : function (input) {}
 });
-$package("");

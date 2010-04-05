@@ -23,14 +23,11 @@
 
 gara.provide("gara.jsface.viewers.ISelectionChangedListener");
 
-$package("gara.jsface.viewers");
-
 /**
  * @interface ISelectionChangedListener
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$interface("ISelectionChangedListener", {
+gara.Class("gara.jsface.viewers.ISelectionChangedListener", {
 	selectionChanged : function(listener){}
 });
-$package("");

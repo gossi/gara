@@ -23,48 +23,51 @@
 
 gara.provide("gara.jsface.viewers.BaseLabelProvider");
 
-gara.require("gara.jsface.viewers.ILabelProviderListener");
-
-$package("gara.jsface.viewers");
-
 /**
  * @class BaseLabelProvider
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
+ * @implements gara.jsface.viewers.IBaseLabelProvider
  */
-$class("BaseLabelProvider", {
-	$implements : [gara.jsface.viewers.IBaseLabelProvider],
+gara.Class("gara.jsface.viewers.BaseLabelProvider", {
 
-	$constructor : function() {
+	/**
+	 * @field
+	 * Contains a collection of ILabelProviderListeners.
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.ILabelProviderListener[]}
+	 */
+	listeners : [],
+
+	$constructor : function () {
 		this.$base();
-		this._listener = null;
+		this.listeners = [];
 	},
 
-	addListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.viewers.ILabelProviderListener)) {
-			throw new TypeError("listener not type of gara.jsface.viewers.ILabelProviderListener");
+	/**
+	 * @method
+	 * Adds a ILabelProviderListener to this listeners collection.
+	 *
+	 * @param {gara.jsface.viewers.ILabelProviderListener} listener
+	 */
+	addListener : function (listener) {
+		if (!this.listeners.contains(listener)) {
+			this.listeners.push(listener);
 		}
-
-		if (this._listener == null) {
-			this._listener = [];
-		}
-
-		this._listener.add(listener);
 	},
 
-	isLabelProperty : function(element, property) {
-		return true;
-	},
+//	isLabelProperty : function (element, property) {
+//		return true;
+//	},
 
-	removeListener : function(listener) {
-		if (!$class.instanceOf(listener, gara.jsface.viewers.ILabelProviderListener)) {
-			throw new TypeError("listener not type of gara.jsface.viewers.ILabelProviderListener");
-		}
-
-		if (this._listener != null && this._listener.contains(listener)) {
-			this._listener.remove(listener);
-		}
+	/**
+	 * @method
+	 * Removes a ILabelProviderListener from this listeners collection.
+	 *
+	 * @param {gara.jsface.viewers.ILabelProviderListener} listener
+	 */
+	removeListener : function (listener) {
+		this.listener.remove(listener);
 	}
 });
-
-$package("");

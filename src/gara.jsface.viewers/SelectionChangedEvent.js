@@ -23,25 +23,41 @@
 
 gara.provide("gara.jsface.viewers.SelectionChangedEvent");
 
-$package("gara.jsface.viewers");
-
 /**
  * @class SelectionChangedEvent
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("SelectionChangedEvent", {
-	$constructor : function(source, selection) {
-		this._source = source;
-		this._selection = selection;
+gara.Class("gara.jsface.viewers.SelectionChangedEvent", {
+
+	/**
+	 * @field
+	 * Contains the source of this event
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.Viewer}
+	 */
+	source : null,
+
+	/**
+	 * @field
+	 * Contains the selection
+	 *
+	 * @private
+	 * @type {Object[]}
+	 */
+	selection : null,
+
+	$constructor : function (source, selection) {
+		this.source = source;
+		this.selection = selection;
 	},
 
-	getSelection : function() {
-		return this._selection;
+	getSelection : function () {
+		return this.selection;
 	},
 
-	getSource : function() {
-		return this._source;
+	getSource : function () {
+		return this.source;
 	}
 });
-$package("");

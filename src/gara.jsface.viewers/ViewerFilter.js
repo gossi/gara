@@ -23,19 +23,17 @@
 
 gara.provide("gara.jsface.viewers.ViewerFilter");
 
-$package("gara.jsface.viewers");
-
 /**
  * @class ViewerFilter
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
   */
-$class("ViewerFilter", {
+gara.Class("gara.jsface.viewers.ViewerFilter", {
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function() {
+	$constructor : function () {
 	},
 
 	/**
@@ -52,9 +50,9 @@ $class("ViewerFilter", {
      * @param {object[]} elements the elements to filter
      * @return {object[]} the filtered elements
      */
-    filter : function(viewer, parent, elements) {
-        out = [];
-		elements.forEach(function(elem, index, arr){
+    filter : function (viewer, parent, elements) {
+        var out = [];
+		elements.forEach(function (elem, index, arr){
 			if (this.select(viewer, parent, elem)) {
 				out.push(elem);
 			}
@@ -76,19 +74,19 @@ $class("ViewerFilter", {
      * @return <code>true</code> if the filtering would be affected,
      *    and <code>false</code> if it would be unaffected
      */
-    isFilterProperty : function(element, property) {
+    isFilterProperty : function (element, property) {
         return false;
     },
 
     /**
      * Returns whether the given element makes it through this filter.
      *
+     * @abstract
      * @param {gara.jsface.viewers.Viewer} viewer the viewer
      * @param {object} parentElement the parent element
      * @param {object} element the element
      * @return {boolean} <code>true</code> if element is included in the
      *   filtered set, and <code>false</code> if excluded
      */
-    select : $abstract(function(viewer, parentElement, element){})
+    select : function (viewer, parentElement, element){}
 });
-$package("");

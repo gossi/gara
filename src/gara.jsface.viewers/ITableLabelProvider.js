@@ -21,11 +21,7 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.ITableLabelProvider");
-
-gara.require("gara.jsface.viewers.IBaseLabelProvider");
-
-$package("gara.jsface.viewers");
+gara.provide("gara.jsface.viewers.ITableLabelProvider", "gara.jsface.viewers.IBaseLabelProvider");
 
 /**
  * @interface ITableLabelProvider
@@ -36,7 +32,7 @@ $package("gara.jsface.viewers");
  * Extends <code>IBaseLabelProvider</code> with the methods to provide the text
  * and/or image for each column of a given element. Used by table viewers.
  */
-$interface("ITableLabelProvider", {
+gara.Class("gara.jsface.viewers.ITableLabelProvider", function () { return {
 	$extends : gara.jsface.viewers.IBaseLabelProvider,
 
 	/**
@@ -58,5 +54,4 @@ $interface("ITableLabelProvider", {
 	 * @returns String or or <code>null</code> if there is no text for the given object at columnIndex
 	 */
 	getColumnText : function(element, columnIndex) {}
-});
-$package("");
+};});

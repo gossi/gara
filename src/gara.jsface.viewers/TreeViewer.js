@@ -21,15 +21,12 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.TreeViewer");
+gara.provide("gara.jsface.viewers.TreeViewer","gara.jsface.viewers.AbstractTreeViewer");
 
-gara.require("gara.jsface.viewers.AbstractTreeViewer");
-gara.require("gara.jsface.viewers.TreeViewerRow");
-gara.require("gara.jswt.JSWT");
-gara.require("gara.jswt.widgets.Tree");
-gara.require("gara.jswt.widgets.TreeItem");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.TreeViewerRow");
+gara.use("gara.jswt.JSWT");
+gara.use("gara.jswt.widgets.Tree");
+gara.use("gara.jswt.widgets.TreeItem");
 
 /**
  * @class TreeViewer
@@ -37,103 +34,152 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("TreeViewer", {
+gara.Class("gara.jsface.viewers.TreeViewer", function () { return {
 	$extends : gara.jsface.viewers.AbstractTreeViewer,
 
-	$constructor : function(parent, style) {
-		if ($class.instanceOf(parent, gara.jswt.widgets.Tree)) {
-			this._tree = parent;
+	$constructor : function (parent, style) {
+		if (parent instanceof gara.jswt.widgets.Tree) {
+			this.tree = parent;
 		} else {
-			this._tree = new gara.jswt.widgets.Tree(parent, style);
+			this.tree = new gara.jswt.widgets.Tree(parent, style);
 		}
-		this._hookControl(this._tree);
-		this._cachedRow = null;
+		this.hookControl(this.tree);
+		this.cachedRow = null;
 	},
 
-	_createNewRowPart : function(parent, style, rowIndex) {
-		if (parent == null) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	createNewRowPart : function (parent, style, rowIndex) {
+		if (parent === null) {
 			if (rowIndex >= 0) {
-				return this._getViewerRowFromItem(new gara.jswt.widgets.TreeItem(this._tree, style, rowIndex));
+				return this.getViewerRowFromItem(new gara.jswt.widgets.TreeItem(this.tree, style, rowIndex));
 			}
-			return this._getViewerRowFromItem(new gara.jswt.widgets.TreeItem(this._tree, style));
+			return this.getViewerRowFromItem(new gara.jswt.widgets.TreeItem(this.tree, style));
 		}
 
 		if (rowIndex >= 0) {
-			return this._getViewerRowFromItem(new gara.jswt.widgets.TreeItem(parent.getItem(), gara.jswt.JSWT.NONE, rowIndex));
+			return this.getViewerRowFromItem(new gara.jswt.widgets.TreeItem(parent.getItem(), gara.jswt.JSWT.NONE, rowIndex));
 		}
 
-		return this._getViewerRowFromItem(new gara.jswt.widgets.TreeItem(parent.getItem(), gara.jswt.JSWT.NONE));
+		return this.getViewerRowFromItem(new gara.jswt.widgets.TreeItem(parent.getItem(), gara.jswt.JSWT.NONE));
 	},
 
-	_getColumnViewerOwner : function(columnIndex) {
-		if (columnIndex < 0 || (columnIndex > 0 && columnIndex >= this._tree.getColumnCount())) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getColumnViewerOwner : function (columnIndex) {
+		if (columnIndex < 0 || (columnIndex > 0 && columnIndex >= this.tree.getColumnCount())) {
 			return null;
 		}
 
-		if (this._tree.getColumnCount() == 0) {
-			return this._tree;
+		if (this.tree.getColumnCount() === 0) {
+			return this.tree;
 		}
 
-		return this._tree.getColumn(columnIndex);
+		return this.tree.getColumn(columnIndex);
 	},
 
-	doGetColumnCount : function() {
-		return this._tree.getColumnCount();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doGetColumnCount : function () {
+		return this.tree.getColumnCount();
 	},
 
-	_doGetSelection : function() {
-		return this._tree.getSelection();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doGetSelection : function () {
+		return this.tree.getSelection();
 	},
 
-	_getChildren : function(widget) {
-		if ($class.instanceOf(widget, gara.jswt.widgets.TreeItem)
-				|| $class.instanceOf(widget, gara.jswt.widgets.Tree)) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getChildren : function (widget) {
+		if (widget instanceof gara.jswt.widgets.TreeItem
+				|| widget instanceof gara.jswt.widgets.Tree) {
 			return widget.getItems().concat([]);
 		}
 		return null;
 	},
 
-	getControl : function() {
-		return this._tree;
+	getControl : function () {
+		return this.tree;
 	},
 
-	_getExpanded : function(item) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getExpanded : function (item) {
 		return item.getExpanded();
 	},
 
-	_getViewerRowFromItem : function(item) {
-		if( this._cachedRow == null ) {
-			this._cachedRow = new gara.jsface.viewers.TreeViewerRow(item);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getViewerRowFromItem : function (item) {
+		if( this.cachedRow === null ) {
+			this.cachedRow = new gara.jsface.viewers.TreeViewerRow(item);
 		} else {
-			this._cachedRow.setItem(item);
+			this.cachedRow.setItem(item);
 		}
 
-		return this._cachedRow;
+		return this.cachedRow;
 	},
 
-	getTree : function() {
-		return this._tree;
+	getTree : function () {
+		return this.tree;
 	},
 
-	_newItem : function(parent, style, index) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	newItem : function (parent, style, index) {
 		var item;
 
-		if ($class.instanceOf(parent, gara.jswt.widgets.TreeItem)) {
-			item = this._createNewRowPart(this._getViewerRowFromItem(parent),
+		if (parent instanceof gara.jswt.widgets.TreeItem) {
+			item = this.createNewRowPart(this.getViewerRowFromItem(parent),
 					style, index).getItem();
 		} else {
-			item = this._createNewRowPart(null, style, index).getItem();
+			item = this.createNewRowPart(null, style, index).getItem();
 		}
 
 		return item;
 	},
 
-	_setExpanded : function(item, expanded) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	setExpanded : function (item, expanded) {
 		item.setExpanded(expanded);
 	},
 
-	_treeRemoveAll : function() {
-		this._tree.removeAll();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	treeRemoveAll : function () {
+		this.tree.removeAll();
 	}
-});
-$package("");
+};});

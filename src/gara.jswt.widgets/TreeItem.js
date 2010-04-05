@@ -21,12 +21,10 @@
 	================================================================================================================
 */
 
-gara.provide("gara.jswt.widgets.TreeItem");
+gara.provide("gara.jswt.widgets.TreeItem", "gara.jswt.widgets.Item");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
-
-gara.parent("gara.jswt.widgets.Item",
 //gara.require("gara.jswt.widgets.Tree");
 
 /**
@@ -37,7 +35,7 @@ gara.parent("gara.jswt.widgets.Item",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Item
  */
-function() {gara.Class("gara.jswt.widgets.TreeItem", {
+gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 	$extends : gara.jswt.widgets.Item,
 
 	/**
@@ -767,4 +765,4 @@ function() {gara.Class("gara.jswt.widgets.TreeItem", {
 		this.setClass("bottom", bottom);
 		this.childContainer.className = bottom ? "bottom" : "";
 	}
-})});
+};});

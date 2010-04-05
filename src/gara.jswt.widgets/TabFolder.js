@@ -21,15 +21,13 @@
 	================================================================================================================
 */
 
-gara.provide("gara.jswt.widgets.TabFolder");
+gara.provide("gara.jswt.widgets.TabFolder", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.widgets.TabItem");
 gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.MenuItem");
-
-gara.parent("gara.jswt.widgets.Composite",
 
 /**
  * gara TabFolder Widget
@@ -39,7 +37,7 @@ gara.parent("gara.jswt.widgets.Composite",
  * @namespace gara.jswt.widgets
  * @extends gara.jswt.widgets.Composite
  */
-function() {gara.Class("gara.jswt.widgets.TabFolder", {
+gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	$extends : gara.jswt.widgets.Composite,
 
 	/**
@@ -919,4 +917,4 @@ function() {gara.Class("gara.jswt.widgets.TabFolder", {
 			+ "px";
 		}
 	}
-})});
+};});

@@ -21,13 +21,11 @@
 	===========================================================================
 */
 
-gara.provide("gara.jsface.viewers.TableViewer");
+gara.provide("gara.jsface.viewers.TableViewer", "gara.jsface.viewers.AbstractTableViewer");
 
-gara.require("gara.jsface.viewers.AbstractTableViewer");
-gara.require("gara.jsface.viewers.TableViewerRow");
-gara.require("gara.jswt.widgets.Table");
-
-$package("gara.jsface.viewers");
+gara.use("gara.jsface.viewers.TableViewerRow");
+gara.use("gara.jswt.widgets.Table");
+gara.use("gara.jswt.widgets.TableItem");
 
 /**
  * @class TableViewer
@@ -35,79 +33,132 @@ $package("gara.jsface.viewers");
  * @namespace gara.jsface.viewers
  * @author Thomas Gossmann
  */
-$class("TableViewer", {
+gara.Class("gara.jsface.viewers.TableViewer", function () { return {
 	$extends : gara.jsface.viewers.AbstractTableViewer,
 
-	$constructor : function(parent, style) {
-		if ($class.instanceOf(parent, gara.jswt.widgets.Table)) {
-			this._table = parent;
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type {gara.jsface.viewers.TableViewerRow}
+	 */
+	cachedRow : null,
+
+	$constructor : function (parent, style) {
+		if (parent instanceof gara.jswt.widgets.Table) {
+			this.table = parent;
 		} else {
-			this._table = new gara.jswt.widgets.Table(parent, style);
+			this.table = new gara.jswt.widgets.Table(parent, style);
 		}
-		this._hookControl(this._table);
+		this.cachedRow = null;
+		this.hookControl(this.table);
 	},
 
-	_doClear : function(index) {
-		this._table.clear(index);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doClear : function (index) {
+		this.table.clear(index);
 	},
 
-	_doGetColumn : function(index) {
-		return this._table.getColumn(index);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doGetColumn : function (index) {
+		return this.table.getColumn(index);
 	},
 
-	_doGetColumnCount : function() {
-		return this._table.getColumnCount();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doGetColumnCount : function () {
+		return this.table.getColumnCount();
 	},
 
-	_doGetItems : function() {
-		return this._table.getItems();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doGetItems : function () {
+		return this.table.getItems();
 	},
 
-	_doGetSelection : function() {
-		return this._table.getSelection();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doGetSelection : function () {
+		return this.table.getSelection();
 	},
 
-	_doRemoveRange : function(from, to) {
-		this._table.removeRange(from, to);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	doRemoveRange : function (from, to) {
+		this.table.removeRange(from, to);
 	},
 
-	getControl : function() {
-		return this._table;
+	getControl : function () {
+		return this.table;
 	},
 
-	getTable : function() {
-		return this._table;
+	getTable : function () {
+		return this.table;
 	},
 
-	_getViewerRowFromItem : function(item) {
-		if (this._cachedRow == null) {
-			this._cachedRow = new gara.jsface.viewers.TableViewerRow(item);
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	getViewerRowFromItem : function (item) {
+		if (this.cachedRow === null) {
+			this.cachedRow = new gara.jsface.viewers.TableViewerRow(item);
 		} else {
-			this._cachedRow.setItem(item);
+			this.cachedRow.setItem(item);
 		}
 
-		return this._cachedRow;
+		return this.cachedRow;
 	},
 
-	_internalCreateNewRowPart : function(style, rowIndex) {
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	internalCreateNewRowPart : function (style, rowIndex) {
 		var item;
 
 		if (rowIndex >= 0) {
-			item = new gara.jswt.widgets.TableItem(this._table, style, rowIndex);
+			item = new gara.jswt.widgets.TableItem(this.table, style, rowIndex);
 		} else {
-			item = new gara.jswt.widgets.TableItem(this._table, style);
+			item = new gara.jswt.widgets.TableItem(this.table, style);
 		}
 
-		return this._getViewerRowFromItem(item);
+		return this.getViewerRowFromItem(item);
 	},
 
-	refresh : function(element, updateLabels) {
-		this._internalRefresh(element || null, updateLabels || true);
+	refresh : function (element, updateLabels) {
+		this.internalRefresh(element || null, updateLabels || true);
 	},
 
-	_tableRemoveAll : function() {
-		this._table.removeAll();
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	tableRemoveAll : function () {
+		this.table.removeAll();
 	}
 
-});
-$package("");
+};});
