@@ -32,7 +32,8 @@ if (typeof(gara) !== "undefined") {
 	// gara
 	var elements, i, loadLib, config = {
 			global : window,
-			baseUrl : "./",
+			baseUrl : ".",
+			garaBaseUrl : "./",
 			disableIncludes : false
 		},
 
@@ -49,11 +50,11 @@ if (typeof(gara) !== "undefined") {
 		initializing = false, fnTest = /xyz/.test(function () {xyz;}) ? /\$super/ : /.*/,
 		supers = [],
 		classesReady = [],
-		classqs = {},
-		provideClass = "", superClass = "",
-		useqs = {},
-		childs = {},
-		ccbc = 1, fireChain, fireReady, fireSuper, chainSuper, fixContexts, fixDescriptor,
+		classqs = {}, ccbc = 1,
+		provideClass = "", superClass = "", childs = {},
+		useqs = {}, usesqs = {}, usesReady = [], ucbc = 1, isCircular, lockReady = {},
+		fireUseReady, requireUse, useReady,
+		fireChain, fireReady, fireSuper, chainSuper, fixContexts, fixDescriptor,
 		Class = function () {}, PropModifier;
 
 	// Language fixes
@@ -72,12 +73,12 @@ if (typeof(gara) !== "undefined") {
 	elements = document.getElementsByTagName("script");
 	for (i = 0; i < elements.length; ++i) {
 		if (elements[i].src && (elements[i].src.indexOf("gara.js") != -1)) {
-			config.baseUrl = elements[i].src.substring(0, elements[i].src.lastIndexOf("/"));
+			config.garaBaseUrl = elements[i].src.substring(0, elements[i].src.lastIndexOf("/"));
 			break;
 		}
 	}
 
-	config.libs = config.baseUrl + "/../lib/";
+	config.libs = config.garaBaseUrl + "/../lib/";
 
 	// load global config
 	if (typeof (gara) == "object") {
@@ -114,6 +115,7 @@ if (typeof(gara) !== "undefined") {
 
 	loadLib = function (uri) {
 		var xhr = gara.XHR(), code;
+		//console.log("load lib: " + config.libs + uri);
 		xhr.open('GET', config.libs + uri, false);
 		try {
 			xhr.send(null);
@@ -165,7 +167,7 @@ if (typeof(gara) !== "undefined") {
 	// #########################################################################
 
 	resourcesBase = ["gara.app", "gara.jsface.action", "gara.jsface.viewers", "gara.jswt.widgets", "gara.jswt.events", "gara.jswt", "gara"],
- 	resourcesBasePaths = [config.baseUrl + "/gara.app", config.baseUrl + "/gara.jsface.action", config.baseUrl + "/gara.jsface.viewers", config.baseUrl + "/gara.jswt.widgets", config.baseUrl + "/gara.jswt.events", config.baseUrl + "/gara.jswt", config.baseUrl + "/gara"],
+ 	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", config.garaBaseUrl + "/gara.jsface.action", config.garaBaseUrl + "/gara.jsface.viewers", config.garaBaseUrl + "/gara.jswt.widgets", config.garaBaseUrl + "/gara.jswt.events", config.garaBaseUrl + "/gara.jswt", config.garaBaseUrl + "/gara"],
 	callbackqs[cbc] = {resources : []};
 
 	gara.setResourcePath = gara.registerModulePath = function (resource, path) {
@@ -303,6 +305,7 @@ if (typeof(gara) !== "undefined") {
 	 */
 
 	classqs[ccbc] = {classes:[]};
+	usesqs[ucbc] = {classes:[]};
 
 	// Create a new Class that inherits from this class
 	Class.extend = function (prop) {
@@ -409,11 +412,52 @@ if (typeof(gara) !== "undefined") {
 		}
 	};
 
+	requireUse = function (names, callback) {
+		var allLoaded = true;
+		gara.ls(names);
+		names = typeof(names) === "string" ? [names] : names;
+		names.forEach(function (name) {
+			if (!usesReady.contains(name)) {
+				usesqs[ucbc].classes.push(name);
+			}
+		});
+
+		if (callback) {
+			usesqs[ucbc].classes.forEach(function (name) {
+				allLoaded = allLoaded && usesReady.contains(name);
+			});
+
+			if (allLoaded) {
+				callback.call();
+			} else {
+				usesqs[ucbc++].callback = callback;
+				usesqs[ucbc] = {classes : []};
+			}
+		}
+	};
+
+	isCircular = function (use, check) {
+		var name, i;
+		if (useqs[use]) {
+			for (i = 0; i < useqs[use].length; i++) {
+				name = useqs[use][i];
+				if (name === check) {
+					lockReady[check] = use;
+					return true;
+				}
+				return isCircular(name, check);
+			}
+		}
+		return false;
+	};
+
 	gara.use = function(names) {
 		gara.ls(names);
 		names = typeof(names) === "string" ? [names] : names;
 		names.forEach(function (name) {
-			if (!loadQueue.contains(getQualifiedName(name))) {
+			// deadlock check
+			// if a uses b and b uses a
+			if (!isCircular(name, provideClass)) {
 				if (!Object.prototype.hasOwnProperty.call(useqs, provideClass)) {
 					useqs[provideClass] = [];
 				}
@@ -450,8 +494,6 @@ if (typeof(gara) !== "undefined") {
 		var c, allDone;
 		classesReady.push(name);
 
-		console.log("ready: " + name);
-
 		for (c in classqs) {
 			allDone = true;
 			if (classqs[c].classes.contains(name)) {
@@ -462,6 +504,25 @@ if (typeof(gara) !== "undefined") {
 				if (allDone) {
 					classqs[c].callback.call();
 					delete classqs[c];
+				}
+			}
+		}
+	};
+
+	fireUseReady = function (name) {
+		var c, allDone;
+		usesReady.push(name);
+
+		for (c in usesqs) {
+			allDone = true;
+			if (usesqs[c].classes.contains(name)) {
+				usesqs[c].classes.forEach(function (name) {
+					allDone = allDone && usesReady.contains(name);
+				});
+
+				if (allDone) {
+					usesqs[c].callback.call();
+					delete usesqs[c];
 				}
 			}
 		}
@@ -532,7 +593,7 @@ if (typeof(gara) !== "undefined") {
 
 	gara.Class = function (name, descriptor) {
 		chainSuper(name, descriptor || name, function (name, descriptor) {
-			var lambda, base;
+			var lambda, base, merge;
 
 			descriptor = descriptor || name;
 			base = descriptor.$extends || Class;
@@ -555,10 +616,26 @@ if (typeof(gara) !== "undefined") {
 				//loadUse(name);
 				fireSuper(name);
 				if (Object.prototype.hasOwnProperty.call(useqs, name)) {
-					gara.require(useqs[name], function() {
-						fireReady(name)
+					requireUse(useqs[name], function() {
+						fireUseReady(name);
+						if (lockReady[name]) {
+							merge = useqs[name];
+							merge.push(lockReady[name]);
+							gara.require(merge, function () {
+								fireReady(name);
+							});
+						} else {
+							fireReady(name);
+						}
+					});
+
+				} else if (lockReady[name]) {
+					fireUseReady(name);
+					gara.require(lockReady[name], function () {
+						fireReady(name);
 					});
 				} else {
+					fireUseReady(name);
 					fireReady(name);
 				}
 			}
@@ -572,6 +649,7 @@ if (typeof(gara) !== "undefined") {
 			fixDescriptor(name, descriptor);
 			this.base = base.extend(descriptor);
 			eval(name + " = new this.base()");
+			fireUseReady(name);
 			fireReady(name);
 		});
 	};
