@@ -29,7 +29,7 @@ gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.events.KeyListener");
 //gara.use("gara.jswt.events.MouseListener");
 
-//gara.use("gara.jswt.widgets.Composite");
+gara.use("gara.jswt.widgets.Composite");
 //gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.FocusManager");
 
@@ -137,6 +137,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
+		this.addClass("jsWTControl");
 
 		this.focusListeners = [];
 		this.mouseListeners = [];
@@ -153,6 +154,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.mouseY = 0;
 
 		this.createWidget();
+
+//		if (parent instanceof gara.jswt.widgets.Composite) {
+//			parent.resize();
+//		}
 
 		// add to focus manager
 		gara.jswt.widgets.FocusManager.addWidget(this);
@@ -574,12 +579,33 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @method
 	 * Sets the height for the <code>Control</code> in pixels.
 	 *
-	 * @param {int} height the new height in pixels
-	 * @return {void}
+	 * @param {mixed} height the new height <ul>
+	 * 	<li>height > 1: height in pixels</li>
+	 * 	<li>height = [0; 1]: height in percent</li>
+	 * 	<li>else: height is auto</li>
+	 * </ul>
+	 * @return {gara.jswt.widgets.Control}
 	 */
 	setHeight : function (height) {
-		this.height = height;
-		this.handle.style.height = this.height !== null ? (this.height - gara.getNumStyle(this.handle, "padding-top") - gara.getNumStyle(this.handle, "padding-bottom") - gara.getNumStyle(this.handle, "border-top-width") - gara.getNumStyle(this.handle, "border-bottom-width")) + "px" : "auto";
+		// absolute value
+		if (height > 1) {
+			this.height = parseInt(height);
+			//this.handle.style.height = this.height - gara.getNumStyle(this.handle, "padding-top") - gara.getNumStyle(this.handle, "padding-bottom") - gara.getNumStyle(this.handle, "margin-top") - gara.getNumStyle(this.handle, "margin-bottom")- gara.getNumStyle(this.handle, "border-top-width") - gara.getNumStyle(this.handle, "border-bottom-width") + "px";
+			this.handle.style.height = this.height + "px";
+		}
+
+		// auto => null
+		else if (height === null) {
+			this.height = null;
+			this.handle.style.height = "auto";
+		}
+
+		// percentage
+		else if (height >= 0 && height <= 1) {
+			this.height = parseInt(height * 100) / 100;
+			this.handle.style.height = this.height * 100 + "%";
+		}
+
 		return this;
 	},
 
@@ -623,12 +649,33 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @method
 	 * Sets the width for the <code>Control</code> in pixels.
 	 *
-	 * @param {int} width the new width in pixels
-	 * @return {void}
+	 * @param {mixed} width the new width <ul>
+	 * 	<li>width > 1: width in pixels</li>
+	 * 	<li>width = [0; 1]: width in percent</li>
+	 * 	<li>else: width is auto</li>
+	 * </ul>
+	 * @return {gara.jswt.widgets.Control}
 	 */
 	setWidth : function (width) {
-		this.width = width;
-		this.handle.style.width = this.width !== null ? (this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width")) + "px" : "auto";
+		// absolute value
+		if (width > 1) {
+			this.width = parseInt(width);
+			//this.handle.style.width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "margin-left") - gara.getNumStyle(this.handle, "margin-right")- gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width") + "px";
+			this.handle.style.width = this.width + "px";
+		}
+
+		// percentage
+		else if (width >= 0 && width <= 1) {
+			this.width = parseInt(width * 100) / 100;
+			this.handle.style.width = this.width * 100 + "%";
+		}
+
+		// auto => null
+		else {
+			this.width = null;
+			this.handle.style.width = "auto";
+		}
+
 		return this;
 	},
 

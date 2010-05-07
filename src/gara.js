@@ -52,7 +52,7 @@ if (typeof(gara) !== "undefined") {
 		classesReady = [],
 		classqs = {}, ccbc = 1,
 		provideClass = "", superClass = "", childs = {},
-		useqs = {}, usesqs = {}, usesReady = [], ucbc = 1, isCircular, lockReady = {},
+		usesqs = {}, usesReady = [], useqs = {}, ucbc = 1, circularEnd = {}, isCircular,
 		fireUseReady, requireUse, useReady,
 		fireChain, fireReady, fireSuper, chainSuper, fixContexts, fixDescriptor,
 		Class = function () {}, PropModifier;
@@ -166,8 +166,8 @@ if (typeof(gara) !== "undefined") {
 	// Resource Management
 	// #########################################################################
 
-	resourcesBase = ["gara.app", "gara.jsface.action", "gara.jsface.viewers", "gara.jswt.widgets", "gara.jswt.events", "gara.jswt", "gara"],
- 	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", config.garaBaseUrl + "/gara.jsface.action", config.garaBaseUrl + "/gara.jsface.viewers", config.garaBaseUrl + "/gara.jswt.widgets", config.garaBaseUrl + "/gara.jswt.events", config.garaBaseUrl + "/gara.jswt", config.garaBaseUrl + "/gara"],
+	resourcesBase = ["gara.app", "gara.jsface.action", "gara.jsface.viewers", "gara.jswt.layout", "gara.jswt.widgets", "gara.jswt.events", "gara.jswt", "gara"],
+ 	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", config.garaBaseUrl + "/gara.jsface.action", config.garaBaseUrl + "/gara.jsface.viewers", config.garaBaseUrl + "/gara.jswt.layout", config.garaBaseUrl + "/gara.jswt.widgets", config.garaBaseUrl + "/gara.jswt.events", config.garaBaseUrl + "/gara.jswt", config.garaBaseUrl + "/gara"],
 	callbackqs[cbc] = {resources : []};
 
 	gara.setResourcePath = gara.registerModulePath = function (resource, path) {
@@ -437,21 +437,24 @@ if (typeof(gara) !== "undefined") {
 	};
 
 	isCircular = function (use, check) {
-		var name, i;
+		var name, i, len, deep;
 		if (useqs[use]) {
-			for (i = 0; i < useqs[use].length; i++) {
+			for (i = 0, len = useqs[use].length; i < len; i++) {
 				name = useqs[use][i];
 				if (name === check) {
-					lockReady[check] = use;
+					circularEnd[check] = use;
 					return true;
 				}
-				return isCircular(name, check);
+				if (isCircular(name, check)) {
+					return true;
+				}
 			}
 		}
 		return false;
 	};
 
 	gara.use = function(names) {
+//		console.log("gara.use " + provideClass);
 		gara.ls(names);
 		names = typeof(names) === "string" ? [names] : names;
 		names.forEach(function (name) {
@@ -468,7 +471,7 @@ if (typeof(gara) !== "undefined") {
 
 	gara.$super = function (name) {
 		gara.ls(name);
-		gara.use(name);
+
 		superClass = name;
 	};
 
@@ -542,6 +545,7 @@ if (typeof(gara) !== "undefined") {
 			if (name === provideClass && superClass && supers.contains(superClass)) {
 				return callback.call(this, name, descriptor());
 			} else if (superClass && !supers.contains(superClass)) {
+				gara.use(superClass);
 				if (!Object.prototype.hasOwnProperty.call(childs, superClass)) {
 					childs[superClass] = [];
 				}
@@ -618,9 +622,9 @@ if (typeof(gara) !== "undefined") {
 				if (Object.prototype.hasOwnProperty.call(useqs, name)) {
 					requireUse(useqs[name], function() {
 						fireUseReady(name);
-						if (lockReady[name]) {
+						if (circularEnd[name]) {
 							merge = useqs[name];
-							merge.push(lockReady[name]);
+							merge.push(circularEnd[name]);
 							gara.require(merge, function () {
 								fireReady(name);
 							});
@@ -629,9 +633,9 @@ if (typeof(gara) !== "undefined") {
 						}
 					});
 
-				} else if (lockReady[name]) {
+				} else if (circularEnd[name]) {
 					fireUseReady(name);
-					gara.require(lockReady[name], function () {
+					gara.require(circularEnd[name], function () {
 						fireReady(name);
 					});
 				} else {

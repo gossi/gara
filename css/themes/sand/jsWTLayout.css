@@ -1,0 +1,155 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jsface.Layout
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.loosy .jsWTRowLayout > .jsWTControl,
+.loosy .jsWTRowLayout > .jsWTLayout {
+	margin-top: 10px;
+}
+
+.loosy .jsWTRowLayout > *.jsWTControl:first-child,
+.loosy .jsWTRowLayout > *.jsWTLayout:first-child {
+	margin-top: 0;
+}
+
+.jsWTColumnLayout > .jsWTControl,
+.jsWTColumnLayout > .jsWTLayout {
+	float: left;
+}
+
+.jsWTRowLayout > .jsWTControl,
+.jsWTRowLayout > .jsWTLayout,
+.jsWTColumnLayout > .jsWTControl,
+.jsWTColumnLayout > .jsWTLayout {
+	
+}
+
+.jsWTRowLayout, .jsWTColumnLayout {
+	border-collapse: collapse;
+}
+
+/* Width */
+.gara .w25, .w25 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	width: 25%;
+	margin: 0;
+}
+
+.loosy .w25 {
+	width: 24%;
+	margin: 0 0.5%;
+}
+
+
+.gara .w50, .w50 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	width: 50%;
+	margin: 0;
+}
+
+.loosy .w50 {
+	width: 49%;
+	margin: 0 0.5%;
+}
+
+.gara .w75, .w75 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	width: 75%;
+	margin: 0;
+}
+
+.loosy .w75 {
+	width: 74%;
+	margin: 0 0.5%;
+}
+
+.gara .w33, .w33 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	width: 33.33%;
+	margin: 0;
+}
+
+.loosy .w33 {
+	width: 32.33%;
+	margin: 0 0.5%;
+}
+
+.gara .w66, .w66 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	width: 66.66%;
+	margin: 0;
+}
+
+.loosy .w66 {
+	width: 65.66%;
+	margin: 0 0.5%;
+}
+
+/* Height */
+.gara .h25, .h25 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	height: 25%;
+}
+
+.gara .h50, .h50 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	height: 50%;
+}
+
+.gara .h33, .h33 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	height: 33%;
+}
+
+.gara .h66, .h66 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	height: 66%;
+}
+
+.gara .h100, .h100 {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	height: 100%;
+}

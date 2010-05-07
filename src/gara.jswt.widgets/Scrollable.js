@@ -23,6 +23,8 @@
 
 gara.provide("gara.jswt.widgets.Scrollable", "gara.jswt.widgets.Control");
 
+gara.use("gara.jswt.widgets.Composite");
+
 /**
  * @class Scrollable
  * @author Thomas Gossmann
@@ -37,6 +39,14 @@ gara.Class("gara.jswt.widgets.Scrollable", function () { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
+	},
+
+	addClass : function (className) {
+		this.$super(className);
+//		if (this.parent instanceof gara.jswt.widgets.Composite && (this.hasClass("h25") || this.hasClass("h50" || this.hasClass("h75") || this.hasClass("h100") || this.hasClass("h33") || this.hasClass("h66")))) {
+//			this.parent.resize();
+//		}
+		return this;
 	},
 
 	getClientArea : function () {

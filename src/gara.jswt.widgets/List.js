@@ -39,7 +39,7 @@ gara.use("gara.jswt.JSWT");
  * @extends gara.jswt.widgets.Composite
  */
 gara.Class("gara.jswt.widgets.List", function () { return {
-	$extends : gara.jswt.widgets.Scrollable,
+	$extends : gara.jswt.widgets.Composite,
 
 	/**
 	 * Contains a reference to the active item.

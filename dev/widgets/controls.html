@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
 <title>gara Control Widgets</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript">
+<script src="../../src/gara.js"></script>
+<script>
 
 var list, table, tree, tab, menu, tbl;
 
@@ -23,23 +23,6 @@ gara.Class("WidgetListener", {
 });
 
 function main() {
-gara.require(
-		["gara.jswt.widgets.Menu",
-		"gara.jswt.widgets.MenuItem",
-		"gara.jswt.widgets.TabFolder",
-		"gara.jswt.widgets.TabItem",
-		"gara.jswt.widgets.Table",
-		"gara.jswt.widgets.TableColumn",
-		"gara.jswt.widgets.TableItem",
-		"gara.jswt.widgets.List",
-		"gara.jswt.widgets.ListItem",
-		"gara.jswt.widgets.Tree",
-		"gara.jswt.widgets.TreeItem",
-		"gara.jswt.widgets.Button",
-		"gara.jswt.widgets.Label",
-		"gara.jswt.widgets.Text"], 
-function() {
-
 	// Images
 	var imgInfo = new Image();
 	imgInfo.src = "../../css/themes/sand/icon_information.png";
@@ -52,10 +35,10 @@ function() {
 
 	// Init TabFolder
 	tab = new gara.jswt.widgets.TabFolder(document.getElementById("tab"), gara.jswt.JSWT.DROP_DOWN);
+	tab.setHeight(200);
 
 	// Tree Widget
 	tree = new gara.jswt.widgets.Tree(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
-	tree.setHeight(200);
 
 	var treeItem = new gara.jswt.widgets.TreeItem(tree).setText("Item 1").setImage(imgInfo);
 	new gara.jswt.widgets.TreeItem(tree).setText("Item 1a");
@@ -77,7 +60,6 @@ function() {
 
 	// List Widget
 	list = new gara.jswt.widgets.List(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI  | gara.jswt.JSWT.FULL_SELECTION); //
-	list.setHeight(200);
 
 	new gara.jswt.widgets.ListItem(list).setText("Item 1");
 	new gara.jswt.widgets.ListItem(list).setText("Item 2").setImage(imgInfo);
@@ -91,7 +73,6 @@ function() {
 	table = new gara.jswt.widgets.Table(tab, gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION); // | gara.jswt.JSWT.CHECK  
 	table.setHeaderVisible(true);
 	table.setLinesVisible(false);
-	table.setHeight(200);
 
 	new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 1");
 	new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 2");
@@ -108,27 +89,6 @@ function() {
 	new gara.jswt.widgets.TabItem(tab).setText("List Widget").setControl(list);
 	new gara.jswt.widgets.TabItem(tab).setText("Tree Widget").setControl(tree);
 	new gara.jswt.widgets.TabItem(tab).setText("Table Widget").setControl(table);
-
-	tab.setHeight(200);
-
-
-	// Table Widget (extra)
-	tbl = new gara.jswt.widgets.Table(document.getElementById("table"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION); // | gara.jswt.JSWT.CHECK  
-	tbl.setHeaderVisible(true);
-	tbl.setLinesVisible(false);
-	tbl.setHeight(200);
-	tbl.setWidth(400);
-
-	new gara.jswt.widgets.TableColumn(tbl, gara.jswt.JSWT.DEFAULT).setText("col 1");
-	new gara.jswt.widgets.TableColumn(tbl, gara.jswt.JSWT.DEFAULT).setText("col 2");
-	new gara.jswt.widgets.TableColumn(tbl, gara.jswt.JSWT.DEFAULT).setText("col 3");
-
-	new gara.jswt.widgets.TableItem(tbl).setText(["Item1, 1", "i1, 2", "i1, 3"]);
-	new gara.jswt.widgets.TableItem(tbl).setText(["Item2, 1", "i2, 2", "i2, 3"]).setImage([imgInfo]);
-	new gara.jswt.widgets.TableItem(tbl).setText(["Item3, 1", "i3, 2", "i3, 3"]);
-	new gara.jswt.widgets.TableItem(tbl).setText(["Item4, 1", "i4, 2", "i4, 3"]).setImage([imgWarning]);
-	new gara.jswt.widgets.TableItem(tbl).setText(["Item5, 1", "i5, 2", "i5, 3"]);
-	new gara.jswt.widgets.TableItem(tbl).setText(["Item6, 1", "i6, 2", "i6, 3"]);
 
 	// Menu Widget
 	menu = new gara.jswt.widgets.Menu(document.getElementById("menu"));
@@ -219,7 +179,6 @@ function() {
 	new gara.jswt.widgets.Label(document.getElementById("password")).setText("Label before Password");
 	new gara.jswt.widgets.Text(document.getElementById("password"), gara.jswt.JSWT.PASSWORD);
 	new gara.jswt.widgets.Text(document.getElementById("multiline"), gara.jswt.JSWT.MULTI).setText("Here we have a multiline text container with width 350px and height 80px.").setWidth(350).setHeight(80);
-});
 };
 </script>
 <style type="text/css">
@@ -279,6 +238,23 @@ h2 {
 <div id="multiline" style="margin-bottom: 20px;">
 <h2>Multiline Text</h2>
 </div>
-<script type="text/javascript">main();</script>
+<script>
+gara.require(
+	["gara.jswt.widgets.Menu",
+	"gara.jswt.widgets.MenuItem",
+	"gara.jswt.widgets.TabFolder",
+	"gara.jswt.widgets.TabItem",
+	"gara.jswt.widgets.Table",
+	"gara.jswt.widgets.TableColumn",
+	"gara.jswt.widgets.TableItem",
+	"gara.jswt.widgets.List",
+	"gara.jswt.widgets.ListItem",
+	"gara.jswt.widgets.Tree",
+	"gara.jswt.widgets.TreeItem",
+	"gara.jswt.widgets.Button",
+	"gara.jswt.widgets.Label",
+	"gara.jswt.widgets.Text"], 
+	main);
+</script>
 </body>
 </html>

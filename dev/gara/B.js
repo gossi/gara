@@ -1,4 +1,4 @@
-gara.provide("A");
+gara.provide("B");
 
 gara.use("A");
 
