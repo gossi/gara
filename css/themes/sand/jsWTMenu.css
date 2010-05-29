@@ -164,8 +164,13 @@
  */
 
 .sand ul.jsWTToolbar {
-	background-color: #EAE6D6; /*#E9E7EB;*/
-	height: 28px;
+	/*background-color: #EAE6D6; /*#E9E7EB;*/
+	background-color: #E2DED0; /*#D9D4C0 #DEDAC9*/
+	height: 24px;
+}
+
+.sand .jsWTToolbar > li {
+	margin: 1px 0;
 }
 
 .sand .jsWTToolbar > li > .button,
@@ -176,7 +181,6 @@
  	background-image: url('button-start.png'); /** sprite-ref: button; */
  	padding-left: 9px;
  	margin-right: 5px;
- 	margin-top: 3px;
 }
 
 .sand .jsWTToolbar > li > .button .door,

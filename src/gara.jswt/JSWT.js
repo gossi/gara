@@ -75,6 +75,15 @@ gara.Singleton("gara.jswt.JSWT", {
 
 	/**
 	 * @field
+	 * Style constant for bordered behavior (value is 1&lt;&lt;11).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * </ul></p>
+	 */
+	BORDER : 2048,
+
+	/**
+	 * @field
 	 * Style constant for align bottom behavior (value is 1&lt;&lt;10, since align DOWN and align BOTTOM are considered the same).
 	 */
 	BOTTOM : 1024,
@@ -106,8 +115,12 @@ gara.Singleton("gara.jswt.JSWT", {
 	CHECK : 32,
 
 	/**
-	 * @field
-	 * Style constant for close box trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
+	 * Style constant for close box trim (value is 1&lt;&lt;6,
+	 * since we do not distinguish between CLOSE style and MENU style).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * <li><code>TabFolder</code></li>
+	 * </ul></p>
 	 */
 	CLOSE : 64,
 
@@ -124,6 +137,16 @@ gara.Singleton("gara.jswt.JSWT", {
 	 * Keyboard event constant representing the DEL key.
 	 */
 	DEL : 46,
+
+	/**
+	 * @field
+	 * Trim style convenience constant for the most common dialog shell appearance
+	 * (value is CLOSE|TITLE|BORDER).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Shell</code></li>
+	 * </ul></p>
+	 */
+	DIALOG_TRIM : 32 | 64 | 2048,
 
 	/**
 	 * @field
@@ -311,9 +334,21 @@ gara.Singleton("gara.jswt.JSWT", {
 
 	/**
 	 * @field
-	 * Style constant for shell menu trim (value is 1&lt;&lt;6, since we do not distinguish between CLOSE style and MENU style).
+	 * Style constant for maximize box trim (value is 1&lt;&lt;10).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * </ul></p>
 	 */
-	MENU : 64,
+	MAX : 1024,
+
+	/**
+	 * @field
+	 * Style constant for minimize box trim (value is 1&lt;&lt;7).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * </ul></p>
+	 */
+	MIN : 128,
 
 	/**
 	 * @field
@@ -335,6 +370,16 @@ gara.Singleton("gara.jswt.JSWT", {
 	 * </ul></p>
 	 */
 	NO_RADIO_GROUP : 4194304,
+
+	/**
+	 * @field
+	 * Style constant to ensure no trimmings are used (value is 1&lt;&lt;3).
+	 * <br>Note that this overrides all other trim styles.
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * </ul></p>
+	 */
+	NO_TRIM : 8,
 
 	/**
 	 * A constant known to be zero (0, typically used in operations
@@ -394,6 +439,15 @@ gara.Singleton("gara.jswt.JSWT", {
 
 	/**
 	 * @field
+	 * Style constant for resize box trim (value is 1&lt;&lt;4).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * </ul></p>
+	 */
+	RESIZE : 16,
+
+	/**
+	 * @field
 	 * The MessageBox style constant for a RETRY button, valid combinations are ABORT|RETRY|IGNORE, RETRY|CANCEL (value is 1&lt;&lt;10).
 	 */
 	RETRY : 1024,
@@ -412,6 +466,16 @@ gara.Singleton("gara.jswt.JSWT", {
 
 	/**
 	 * @field
+	 * Trim style convenience constant for the most common top level shell appearance
+	 * (value is CLOSE|TITLE|MIN|MAX|RESIZE|BORDER).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Shell</code></li>
+	 * </ul></p>
+	 */
+	SHELL_TRIM : 32 | 64 | 128 | 1024 | 16 | 2048,
+
+	/**
+	 * @field
 	 * Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).
 	 */
 	SINGLE : 4,
@@ -427,6 +491,15 @@ gara.Singleton("gara.jswt.JSWT", {
 	 * Style constant for system modal behavior (value is 1&lt;&lt;17).
 	 */
 	SYSTEM_MODAL : 131072,
+
+	/**
+	 * @field
+	 * Style constant for title area trim (value is 1&lt;&lt;5).
+	 * <p><b>Used By:</b><ul>
+	 * <li><code>Decorations</code> and subclasses</li>
+	 * </ul></p>
+	 */
+	TITLE : 32,
 
 	/**
 	 * @field

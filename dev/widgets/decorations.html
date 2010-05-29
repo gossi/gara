@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>gara.jswt.widgets.decorations (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<style>
+.erster {
+float: left;
+}
+</style>
+<script src="../../src/gara.js"></script>
+<script>
+function main() {
+	var img = new Image();
+	img.src = '../../css/themes/sand/icon_information.png';
+	d1 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM | gara.jswt.JSWT.RESIZE)
+		.setText("Hello")
+		.setImage(img)
+		.setWidth(300)
+		.setHeight(180);
+	var menu = new gara.jswt.widgets.Menu(d1, gara.jswt.JSWT.BAR);
+	d1.setMenuBar(menu);
+	new gara.jswt.widgets.MenuItem(menu).setText("Do it!");
+
+	d2 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM)
+		.setText("Hello")
+		.setImage(img)
+		.setWidth(300)
+		.setHeight(180);
+	var menu2 = new gara.jswt.widgets.Menu(d2, gara.jswt.JSWT.TOOLBAR);
+	d2.setMenuBar(menu2);
+	new gara.jswt.widgets.MenuItem(menu2).setText("Do it!");
+
+	d3 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM)
+		.setText("Hello")
+		.setImage(img)
+		.setWidth(300)
+		.setHeight(180);
+
+	// contents
+	var l = new gara.jswt.widgets.List(d3);
+	for (var i = 1; i <= 10; i++) {
+		new gara.jswt.widgets.ListItem(l).setText("Item " + i);
+	}
+
+	var tbl = new gara.jswt.widgets.Table(d2);
+	tbl.setHeaderVisible(true);
+	tbl.setLinesVisible(true);
+	for (var i = 1; i <= 5; i++) {
+		new gara.jswt.widgets.TableColumn(tbl).setText("Col " + i);
+	}
+	for (var i = 1; i <= 10; i++) {
+		new gara.jswt.widgets.TableItem(tbl).setText(["Item "+i+".1", i+".2", i+".3", i+".4", i+".5"]);
+	}
+
+	var tree = new gara.jswt.widgets.Tree(d1);
+	for (var i = 1; i <= 10; i++) {
+		new gara.jswt.widgets.TreeItem(tree).setText("Item " + i);
+	}
+}
+</script>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Decorations</h1>
+<div id="container" class="sand" style="position: relative; border: 1px solid #F00; overflow: auto; height: 450px;"></div>
+<script>gara.require([
+	"gara.jswt.widgets.Decorations", 
+	"gara.jswt.widgets.Label", 
+	"gara.jswt.widgets.Menu", 
+	"gara.jswt.widgets.List", 
+	"gara.jswt.widgets.ListItem",
+	"gara.jswt.widgets.Table",
+	"gara.jswt.widgets.TableColumn", 
+	"gara.jswt.widgets.TableItem",
+	"gara.jswt.widgets.Tree", 
+	"gara.jswt.widgets.TreeItem",
+], main);</script>
+</body>
+</html>

@@ -7,7 +7,7 @@
 
 .sand .jsWTTable {
 	outline: none;
-	border: 1px solid #000;
+	border: none;
 }
 
 .sand .jsWTTabClientArea div[role=tabpanel] > .jsWTTable {
@@ -77,7 +77,7 @@
 }
 
 .sand .jsWTTable .scroller {
-	background-color: #EAE6D6;
+	background-color: #FFF; /*#EAE6D6*/
 	color: #000;
 }
 

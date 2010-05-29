@@ -6,9 +6,9 @@
  */
 
 .sand ul.jsWTList {
-	border: 1px solid #000;
+	border: none;
 	overflow: auto;
-	background-color: #EAE6D6;
+	background-color: #FFF; /*#EAE6D6*/
 }
 
 .sand .jsWTTabClientArea div[role=tabpanel] > .jsWTList {
@@ -20,7 +20,7 @@
 }
 
 .sand ul.jsWTList li span.text {
-	background-color: #EAE6D6;
+	background-color: #FFF;
 	color: #000;
 	font-family: Verdana;
 	font-size: 85%;

@@ -26,6 +26,7 @@ gara.provide("gara.jswt.widgets.Widget");
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWTException");
 gara.use("gara.jswt.JSWT");
+gara.use("gara.jswt.widgets.Display");
 
 /**
  * @class Widget
@@ -66,6 +67,14 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @type Object
 	 */
 	dataMap : {},
+
+	/**
+	 * @field
+	 *
+	 * @private
+	 * @type gara.jswt.widgets.Display
+	 */
+	display : null,
 
 	/**
 	 * @field
@@ -157,6 +166,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 		this.parent = parent;
 		this.style = style || gara.jswt.JSWT.DEFAULT;
 		this.disposed = false;
+		this.display = parent && parent.getDisplay ? parent.getDisplay() : gara.jswt.widgets.Display.getDefault();
 
 		this.event = null;
 		this.listeners = {};
@@ -164,6 +174,8 @@ gara.Class("gara.jswt.widgets.Widget", {
 
 		this.data = {};
 		this.dataMap = {};
+
+
 	},
 
 	/**
@@ -251,6 +263,35 @@ gara.Class("gara.jswt.widgets.Widget", {
 				"    Type: " + eventType + "\n" +
 				"    Listener: " + listener);
 	},
+
+	/**
+	 * @method
+	 * Returns a style with exactly one style bit set out of
+	 * the specified set of exclusive style bits. All other
+	 * possible bits are cleared when the first matching bit
+	 * is found. Bits that are not part of the possible set
+	 * are untouched.
+	 *
+	 * @author SWT-Team
+	 *
+	 * @param style the original style bits
+	 * @param n the nth possible style bit (n is unlimited, pass as much as you want)
+	 *
+	 * @return the new style bits
+	 */
+	checkBits : gara.$static(function () {
+		var mask = 0, i, style = arguments[0];
+		for (i = 1; i < arguments.length; i++) {
+			mask |= arguments[i];
+		}
+		if (arguments.length > 1) {
+			if ((style & mask) === 0){style |= arguments[1];}
+			for (i = 1; i < arguments.length; i++) {
+				if ((style & arguments[i]) !== 0){style = (style & ~mask) | arguments[i];}
+			}
+		}
+		return style;
+	}),
 
 	/**
 	 * @method

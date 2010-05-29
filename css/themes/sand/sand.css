@@ -35,5 +35,6 @@ Alternative:				#AFAA91		#23211A
 @import url('jsWTButton.css');
 @import url('jsWTText.css');
 @import url('jsWTLabel.css');
-@import url('jsWTDialog.css');
+@import url('jsWTComposite.css');
+@import url('jsWTDecorations.css');
 @import url('jsWTLayout.css');

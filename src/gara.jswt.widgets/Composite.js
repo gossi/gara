@@ -47,6 +47,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
+		this.addClass("jsWTComposite");
 		//this.resize();
 	},
 
@@ -72,7 +73,6 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 
 	createWidget : function (element, preventAppending) {
 		if (typeof(element) == "undefined") {
-			this.addClass("jsWTComposite");
 			this.createHandle("div");
 			this.handle.tabIndex = -1;
 			this.isComposite = true;
@@ -96,16 +96,24 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 
 	setHeight : function (height) {
 		this.$super(height);
-		this.setChildrenHeight(height);
 		return this;
 	},
 
-	setChildrenHeight : function (height) {
-		var resizeable = [], auto = [], percent = [], lastHeight, css = [], ratio, widgetHeight,
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	layout : function () {
+		var resizeable = [], lastHeight, ratio, widgetHeight,
+			autoHeight = [], percentHeight = [], cssHeight = [],
 			classes = ["h25", "h50", "h75", "h33", "h66"];
-			ratios = [0.25, 0.5, 0.75, 0.3333, 0.6666];;
+			ratios = [0.25, 0.5, 0.75, 0.3333, 0.6666],
+			height = this.getClientArea().clientHeight,
+			width = this.getClientArea().clientWidth;
 
 		this.getChildren().forEach(function (widget) {
+//			console.log("Composite.layout: " + widget + " " + widget.getHeight());
 			if (widget instanceof gara.jswt.widgets.Scrollable) {
 //				if (!(widget.hasClass("h25") || widget.hasClass("h50" || widget.hasClass("h75") || widget.hasClass("h100") || widget.hasClass("h33") || widget.hasClass("h66") || widget.getHeight() >= 0 && widget.getHeight() <= 1))) {
 //					console.log(this + ".setHeight push changeable");
@@ -119,72 +127,85 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 //						newHeight -= widgetHeight;
 //					}
 //				}
+					widget.setWidth(width);
 				if (widget.getHeight() > 1) {
 					height -= widget.getHeight();
 				} else if (widget.hasClass("h25") || widget.hasClass("h50") || widget.hasClass("h75") || widget.hasClass("h33") || widget.hasClass("h66")) {
-//					console.log(this + ".setHeight push css");
-					css.push(widget);
+//					console.log(this + ".setHeight push cssHeight");
+					cssHeight.push(widget);
 				} else if (widget.getHeight() === null) {
-//					console.log(this + ".setHeight push auto");
+//					console.log(this + ".setHeight push autoHeight");
 	//				resizeable.push(widget);
-					auto.push(widget);
+					autoHeight.push(widget);
 				} else if (widget.getHeight() >= 0 && widget.getHeight() <= 1) {
 	//				resizeable.push(widget);
-					percent.push(widget);
+					percentHeight.push(widget);
 				}
 			}
 		}, this);
 
 		lastHeight = height;
 
-		auto.forEach(function (widget, i, arr) {
+//		widths.forEach(function (widget) {
+//
+//		});
+
+		autoHeight.forEach(function (widget, i, arr) {
 			if (i === arr.length - 1) {
-//				console.log("Layout.setHeight last-auto("+lastHeight+")");
+//				console.log("Layout.setHeight last-autoHeight("+lastHeight+")");
 	//			widget.setHeight(newHeight);
 	//			widget.setHeight(null);
-				widget.handle.style.height = lastHeight + "px";
+//				console.log("Composite.layout(autoHeight) " + widget + " " + lastHeight);
+//				widget.handle.style.height = lastHeight + "px";
+				widget.adjustHeight(lastHeight);
 			} else {
-				widgetHeight = Math.floor(lastHeight / auto.length);
-//				console.log("Layout.setHeight auto("+widgetHeight+")");
+				widgetHeight = Math.floor(lastHeight / autoHeight.length);
+//				console.log("Layout.setHeight autoHeight("+widgetHeight+")");
 	//			widget.setHeight(widgetHeight);
 	//			widget.setHeight(null);
-				widget.handle.style.height = widgetHeight + "px";
+//				console.log("Composite.layout(autoHeight) " + widget + " " + widgetHeight);
+//				widget.handle.style.height = widgetHeight + "px";
+				widget.adjustHeight(widgetHeight);
 				lastHeight -= widgetHeight;
 			}
 		}, this);
 
-		percent.forEach(function (widget, i, arr) {
+		percentHeight.forEach(function (widget, i, arr) {
 			if (i === arr.length - 1) {
-//				console.log("Layout.setHeight last-percent("+lastHeight+")");
+//				console.log("Layout.setHeight last-percentHeight("+lastHeight+")");
 	//			widget.setHeight(newHeight);
 	//			widget.setHeight(null);
-				widget.handle.style.height = lastHeight + "px";
+//				widget.handle.style.height = lastHeight + "px";
+				widget.adjustHeight(lastHeight);
 			} else {
 				widgetHeight = Math.floor(widget.getHeight() * height);
-//				console.log("Layout.setHeight percent("+widgetHeight+")");
+//				console.log("Layout.setHeight percentHeight("+widgetHeight+")");
 	//			widget.setHeight(widgetHeight);
 	//			widget.setHeight(null);
-				widget.handle.style.height = widgetHeight + "px";
+				widget.adjustHeight(widgetHeight);
+//				widget.handle.style.height = widgetHeight + "px";
 				lastHeight -= widgetHeight;
 			}
 		}, this);
 
-		css.forEach(function (widget, i, arr) {
+		cssHeight.forEach(function (widget, i, arr) {
 			if (i === arr.length - 1) {
-//				console.log("Layout.setHeight last-css("+lastHeight+")");
-				widget.handle.style.height = lastHeight + "px";
+//				console.log("Layout.setHeight last-cssHeight("+lastHeight+")");
+				widget.adjustHeight(lastHeight);
+//				widget.handle.style.height = lastHeight + "px";
 			} else {
-				classes.forEach(function (cssClass, j) {
-					if (widget.hasClass(cssClass)) {
+				classes.forEach(function (cssHeightClass, j) {
+					if (widget.hasClass(cssHeightClass)) {
 						ratio = ratios[j];
 						return;
 					}
 				}, this);
 				widgetHeight = Math.floor(ratio * height);
-//				console.log("Layout.setHeight css("+widgetHeight+")");
+//				console.log("Layout.setHeight cssHeight("+widgetHeight+")");
 	//			widget.setHeight(widgetHeight);
 	//			widget.setHeight(null);
-				widget.handle.style.height = widgetHeight + "px";
+				widget.adjustHeight(widgetHeight);
+//				widget.handle.style.height = widgetHeight + "px";
 				lastHeight -= widgetHeight;
 			}
 		}, this);

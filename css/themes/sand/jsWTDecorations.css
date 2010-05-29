@@ -1,0 +1,326 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.Dialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTDecorations {
+	outline: none;
+	overflow: hidden;
+}
+
+.sand div.jsWTDecorationsTitle {
+	/*background: url('left.gif') no-repeat;*/
+	line-height: 16px;
+	cursor: default;
+	background-repeat: no-repeat;
+	background-image: url('stone_mud_left.png'); /** sprite-ref: stone-mud; */
+	padding-left: 9px;
+	height: 26px;
+}
+
+.sand div.jsWTDecorationsTitleText {
+	background-repeat: repeat-x;
+	background-image: url('stone_mud_bar.png'); /** sprite-ref: stone-mud; sprite-alignment: repeat; */
+	padding: 5px 5px 5px 0;
+	line-height: 16px;
+	margin-right: 9px;
+	height: 16px;
+	overflow: hidden;
+}
+
+.sand div.jsWTDecorationsTitleText img {
+	margin-right: 5px;
+	vertical-align: bottom;
+}
+
+.sand div.jsWTDecorationsTitleRight {
+	background: no-repeat right top;
+	background-image: url('stone_mud_right.png'); /** sprite-ref: stone-mud; sprite-alignment: right; */
+	width: 9px;
+	height: 26px;
+	float: right;
+}
+
+.sand div.jsWTDecorationsTitleButtons {
+	background-repeat: repeat-x;
+	background-image: url('stone_mud_bar.png'); /** sprite-ref: stone-mud; sprite-alignment: repeat; */
+	float: right;
+	height: 26px;
+}
+
+.sand span.jsWTDecorationsCloseButton {
+	background-repeat: no-repeat;
+	background-image: url('close.png'); /** sprite-ref: misc; */
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 6px 0 0 0;
+	float: right;
+}
+
+.sand span.jsWTDecorationsCloseButtonActive:hover {
+	background-image: url('close_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand span.jsWTDecorationsCloseButtonDeactive {
+	opacity: 0.5;
+}
+
+.sand span.jsWTDecorationsMinButton {
+	background-repeat: no-repeat;
+	background-image: url('min.png'); /** sprite-ref: misc; */
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 6px 3px 0 0;
+	float: left;
+}
+
+.sand span.jsWTDecorationsMinButtonActive:hover {
+	background-image: url('min_hover.png'); /** sprite-ref: misc; */
+}
+
+
+.sand span.jsWTDecorationsMinButtonDeactive {
+	opacity: 0.5;
+}
+
+.sand span.jsWTDecorationsMaxButton {
+	background-repeat: no-repeat;
+	background-image: url('max.png'); /** sprite-ref: misc; */
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 6px 3px 0 0;
+	float: left;
+}
+
+.sand span.jsWTDecorationsMaxButtonActive:hover {
+	background-image: url('max_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand span.jsWTDecorationsMaxButtonDeactive {
+	opacity: 0.5;
+}
+
+.sand .jsWTDecorations .jsWTDecorationsClientArea {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	/*overflow: auto;*/
+}
+
+.sand .jsWTDecorationsBorder .jsWTDecorationsMenuBar {
+	border: solid #B7AE88;
+	border-width: 1px 1px 0 1px;
+}
+
+.sand .jsWTDecorationsBorder .jsWTDecorationsClientArea {
+	border: 1px solid #B7AE88;
+}
+
+.sand .jsWTDecorationsMaximized .jsWTDecorationsMaxButton {
+	background-image: url('restore.png'); /** sprite-ref: misc; */
+}
+
+.sand .jsWTDecorationsMaximized .jsWTDecorationsMaxButton:hover {
+	background-image: url('restore_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand .jsWTDecorationsMinimized > .jsWTDecorationsClientArea,
+.sand .jsWTDecorationsMinimized > .jsWTDecorationsMenuBar {
+	display: none;
+}
+
+.sand .jsWTDecorationsMinimized {
+	width: 180px;
+	height: 26px;
+}
+
+.sand .jsWTDecorationsMinimized .jsWTDecorationsMinButton {
+	background-image: url('restore.png'); /** sprite-ref: misc; */
+}
+
+.sand .jsWTDecorationsMinimized .jsWTDecorationsMinButton:hover {
+	background-image: url('restore_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand .resize {
+	/*background-color: red;*/
+	position: absolute;
+	z-index: 100;
+}
+
+.sand .resizeNNW {
+	top: 0;
+	left: 0;
+	width: 20px;
+	height: 3px;
+	cursor: nw-resize;	
+}
+
+.sand .resizeWNW {
+	top: 0;
+	left: 0;
+	width: 3px;
+	height: 20px;
+	cursor: nw-resize;	
+}
+
+.sand .resizeN {
+	top: 0;
+	left: 20px;
+	right: 20px;
+	height: 3px;
+	cursor: n-resize;
+}
+
+.sand .resizeNNE {
+	top: 0;
+	right: 0;
+	width: 20px;
+	height: 3px;
+	cursor: ne-resize;
+}
+
+.sand .resizeENE {
+	top: 0;
+	right: 0;
+	width: 3px;
+	height: 20px;
+	cursor: ne-resize;
+}
+
+.sand .resizeW {
+	top: 20px;
+	left: 0;
+	bottom: 20px;
+	width: 3px;
+	cursor: w-resize;
+}
+
+.sand .resizeE {
+	top: 20px;
+	right: 0;
+	bottom: 20px;
+	width: 3px;
+	cursor: e-resize;
+}
+
+.sand .resizeSSW {
+	bottom: 0;
+	left: 0;
+	height: 3px;
+	width: 20px;
+	cursor: sw-resize;
+}
+
+.sand .resizeWSW {
+	bottom: 0;
+	left: 0;
+	height: 20px;
+	width: 3px;
+	cursor: sw-resize;
+}
+
+.sand .resizeS {
+	bottom: 0;
+	left: 20px;
+	right: 20px;
+	height: 3px;
+	cursor: s-resize;
+}
+
+.sand .resizeSSE {
+	bottom: 0;
+	right: 0;
+	height: 3px;
+	width: 20px;
+	cursor: se-resize;
+}
+
+.sand .resizeESE {
+	bottom: 0;
+	right: 0;
+	height: 20px;
+	width: 3px;
+	cursor: se-resize;
+}
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.MessageBox
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTMessageBox,
+.sand div.jsWTInputDialog {
+	width: 350px;
+}
+
+.sand div.jsWTMessageBox .jsWTDialogBarText,
+.sand div.jsWTInputDialog .jsWTDialogBarText {
+	width: 310px;
+}
+
+.sand div.jsWTMessageBox .jsWTDialogContent,
+.sand div.jsWTInputDialog .jsWTDialogContent {
+	background-color: #F7F7FA;
+	padding: 10px;
+}
+
+.sand div.jsWTMessageBox .jsWTMessageBoxContentText{
+	padding: 5px 0;
+	padding-left: 31px;
+}
+
+.sand div.jsWTMessageBox .jsWTIconError,
+.sand div.jsWTMessageBox .jsWTIconInformation,
+.sand div.jsWTMessageBox .jsWTIconQuestion,
+.sand div.jsWTMessageBox .jsWTIconWarning,
+.sand div.jsWTMessageBox .jsWTIconWorking {
+	background-position: 5px 5px;
+	background-repeat: no-repeat;
+}
+
+.sand div.jsWTMessageBox .jsWTIconError {
+	background-image: url('icon_error.png'); /** sprite-ref: icons; */
+}
+.sand div.jsWTMessageBox .jsWTIconInformation {
+	background-image: url('icon_information.png'); /** sprite-ref: icons; */
+} 
+.sand div.jsWTMessageBox .jsWTIconQuestion {
+	background-image: url('icon_question.png'); /** sprite-ref: icons; */
+}
+.sand div.jsWTMessageBox .jsWTIconWarning {
+	background-image: url('icon_warning.png'); /** sprite-ref: icons; */
+}
+.sand div.jsWTMessageBox .jsWTIconWorking {
+	background-image: url('icon_working.gif');
+}
+
+.sand div.jsWTInputDialog .jsWTInputDialogContentText {
+	padding: 5px 0;
+}
+
+.sand div.jsWTInputDialog .jsWTInputDialogContentText input {
+	display: block;
+	margin: 10px 0 5px 0;
+}
+
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.IframeDialog
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand div.jsWTIframeDialog div.jsWTDialogContent div.loading {
+	background: #FFF url('loading.gif') no-repeat center;
+}

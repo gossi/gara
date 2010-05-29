@@ -219,7 +219,7 @@ ul.jsWTTree ul.bottom {
 	margin-top: -1px;
 	margin-right: -1px;
 	float: right;
-	cursor: w-resize;
+	cursor: ew-resize;
 }
 
 .jsWTTable table thead tr th.operator span.mover {

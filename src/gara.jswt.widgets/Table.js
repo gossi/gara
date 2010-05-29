@@ -280,6 +280,31 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		return this.theadRow;
 	},
 
+	adjustHeight : function (height) {
+//		console.log("Table.adjustHeight: " + height);
+		this.handle.style.height = height + "px";
+		this.scroller.style.height = (height - this.thead.offsetHeight) + "px";
+		if (this.headerVisible) {
+			this.handle.style.paddingTop = this.thead.offsetHeight + "px";
+		}
+//		console.log("Table.adjustHeight, style: " + this.handle.style.height);
+	},
+
+	adjustWidth : function (width) {
+		var colWidths = 0;
+		this.handle.style.width = width + "px";
+		this.thead.style.width = width + "px";
+
+		this.columns.forEach(function (col, index) {
+			var colWidth;
+			if (!col.getWidth()) {
+				colWidth = Math.floor(width / this.columns.length);
+				colWidths += colWidth;
+				col.setWidth(index === this.columns.length - 1 ? width - colWidths : colWidth);
+			}
+		}, this);
+	},
+
 	/**
 	 * @method
 	 * Adds a selection listener on the table
@@ -359,6 +384,7 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.thead.widget = this;
 		this.thead.control = this;
 		this.thead.setAttribute("role", "presentation");
+		this.thead.style.display = this.headerVisible ? (document.all ? "block" : "table-row-group") : "none";
 		this.table.appendChild(this.thead);
 
 		this.theadRow = document.createElement("tr");
@@ -1156,17 +1182,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		return this;
 	},
 
-	setHeight : function (height) {
-		this.height = height;
-		heightSub = gara.getNumStyle(this.handle, "padding-bottom") + gara.getNumStyle(this.handle, "border-top-width") + gara.getNumStyle(this.handle, "border-bottom-width");
-		this.handle.style.height = this.height !== null ? (this.height - this.thead.offsetHeight - heightSub) + "px" : "auto";
-		this.scroller.style.height = this.height !== null ? (this.height - this.thead.offsetHeight - heightSub) + "px" : "auto";
-		if (this.headerVisible) {
-			this.handle.style.paddingTop = this.thead.offsetHeight + "px";
-		}
-		return this;
-	},
-
 	setLinesVisible : function (show) {
 		this.linesVisible = show;
 		this.setClass("jsWTTableLines", this.linesVisible);
@@ -1186,30 +1201,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		}
 
 		this.scrolledHandle().scrollTop = h;
-		return this;
-	},
-
-	setWidth : function (width) {
-		var colWidths;
-		if (width !== null) {
-			this.width = width;
-			width = width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width");
-			this.handle.style.width = width + "px";
-			this.thead.style.width = width + "px";
-			colWidths = 0;
-			this.columns.forEach(function (col, index) {
-				var colWidth;
-				if (!col.getWidth()) {
-					colWidth = Math.floor(width / this.columns.length);
-					colWidths += colWidth;
-					col.setWidth(index === this.columns.length - 1 ? width - colWidths : colWidth);
-				}
-			}, this);
-		} else {
-			this.handle.style.width = "auto";
-			this.width = this.handle.offsetWidth;
-			this.thead.style.width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width") + "px";
-		}
 		return this;
 	},
 
@@ -1313,21 +1304,17 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @private
 	 */
 	updateMeasurements : function () {
-		var width, heightSub;
+//		var width, heightSub;
 		// width
-		if (this.width !== null) {
-			width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width");
-			this.handle.style.width = width + "px";
-			this.thead.style.width = width + "px";
-		}
+//		if (this.width !== null) {
+//			width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width");
+//			this.handle.style.width = width + "px";
+//			this.thead.style.width = width + "px";
+//		}
 
-		// height
-		heightSub = gara.getNumStyle(this.handle, "padding-bottom") + gara.getNumStyle(this.handle, "border-top-width") + gara.getNumStyle(this.handle, "border-bottom-width");
-		this.handle.style.height = this.height !== null ? (this.height - this.thead.offsetHeight - heightSub) + "px" : "auto";
-		this.scroller.style.height = this.height !== null ? (this.height - this.thead.offsetHeight - heightSub) + "px" : "auto";
-		if (this.headerVisible) {
-			this.handle.style.paddingTop = this.thead.offsetHeight + "px";
-		}
+		// width + height
+		this.adjustWidth(this.handle.offsetWidth);
+		this.adjustHeight(this.handle.offsetHeight);
 
 		// adjust items based on new measurements
 		if (this.items.length) {

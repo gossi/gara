@@ -71,6 +71,16 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 	/**
 	 * @field
+	 * Holds the visible state.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	visible : true,
+
+
+	/**
+	 * @field
 	 * X Mouse Coordinate. Mouse Coords are used to show the context menu at this position.
 	 *
 	 * @private
@@ -149,6 +159,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.hasFocus = false;
 		this.menu = null;
 		this.enabled = true;
+		this.visible = true;
 
 		this.mouseX = 0;
 		this.mouseY = 0;
@@ -160,7 +171,8 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 //		}
 
 		// add to focus manager
-		gara.jswt.widgets.FocusManager.addWidget(this);
+//		gara.jswt.widgets.FocusManager.addWidget(this);
+		this.display.addWidget(this);
 	},
 
 	/**
@@ -232,6 +244,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			return this;
 		};
 	})(),
+
+	adjustHeight : function (height) {},
+
+	adjustWidth : function (width) {},
 
 	/**
 	 * @method
@@ -374,6 +390,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 */
 	getWidth : function () {
 		return this.width;
+	},
+
+	getVisible : function () {
+		return this.visible;
 	},
 
 	/**
@@ -582,16 +602,19 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @param {mixed} height the new height <ul>
 	 * 	<li>height > 1: height in pixels</li>
 	 * 	<li>height = [0; 1]: height in percent</li>
-	 * 	<li>else: height is auto</li>
+	 * 	<li>height = null: height is auto</li>
 	 * </ul>
 	 * @return {gara.jswt.widgets.Control}
 	 */
 	setHeight : function (height) {
+//		console.log("Control.setHeight: " + height);
+
 		// absolute value
 		if (height > 1) {
 			this.height = parseInt(height);
 			//this.handle.style.height = this.height - gara.getNumStyle(this.handle, "padding-top") - gara.getNumStyle(this.handle, "padding-bottom") - gara.getNumStyle(this.handle, "margin-top") - gara.getNumStyle(this.handle, "margin-bottom")- gara.getNumStyle(this.handle, "border-top-width") - gara.getNumStyle(this.handle, "border-bottom-width") + "px";
 			this.handle.style.height = this.height + "px";
+			this.adjustHeight(this.height);
 		}
 
 		// auto => null
@@ -602,8 +625,9 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 		// percentage
 		else if (height >= 0 && height <= 1) {
-			this.height = parseInt(height * 100) / 100;
+			this.height = parseInt(height * 1000) / 1000;
 			this.handle.style.height = this.height * 100 + "%";
+			this.adjustHeight(this.handle.offsetHeight);
 		}
 
 		return this;
@@ -647,6 +671,15 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 	/**
 	 * @method
+	 *
+	 */
+	setVisible : function (visible) {
+		this.visible = visible;
+		this.handle.style.display = visible ? "block" : "none";
+	},
+
+	/**
+	 * @method
 	 * Sets the width for the <code>Control</code> in pixels.
 	 *
 	 * @param {mixed} width the new width <ul>
@@ -662,12 +695,14 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.width = parseInt(width);
 			//this.handle.style.width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "margin-left") - gara.getNumStyle(this.handle, "margin-right")- gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width") + "px";
 			this.handle.style.width = this.width + "px";
+			this.adjustWidth(this.width);
 		}
 
 		// percentage
 		else if (width >= 0 && width <= 1) {
 			this.width = parseInt(width * 100) / 100;
 			this.handle.style.width = this.width * 100 + "%";
+			this.adjustWidth(this.handle.offsetWidth);
 		}
 
 		// auto => null

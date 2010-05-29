@@ -8,9 +8,9 @@
 /** sprite: tree; sprite-image: url('sprite-tree.png'); sprite-layout: horizontal; */
 
 .sand ul.jsWTTree {
-	border: 1px solid #000;
+	border: none;
 	overflow: auto;
-	background-color: #EAE6D6;
+	background-color: #FFF; /*#EAE6D6*/
 	padding: 0;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .sand ul.jsWTTree li span.text {
-	background-color: #EAE6D6;
+	background-color: #FFF;
 	color: #000;
 	font-family: Verdana;
 	font-size: 85%;

@@ -39,6 +39,11 @@ gara.Class("gara.jswt.widgets.Scrollable", function () { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
+		if (parent instanceof gara.jswt.widgets.Composite) {
+//			this.setWidth(parent.getClientArea().clientWidth);
+//			this.setHeight(parent.getClientArea().clientHeight);
+			parent.layout();
+		}
 	},
 
 	addClass : function (className) {
