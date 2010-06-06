@@ -20,20 +20,37 @@
 	border-spacing: 0 0;
 }
 
+.sand .jsWTTable table thead tr {
+	height: 24px;
+	background-image: url('button-bar.png');
+	background-repeat: repeat-x;
+}
+
+.sand .jsWTDecorationsBorder > .jsWTDecorationsClientArea > .jsWTTable thead tr {
+	height: 23px;
+	background-position: 0 -1px;
+}
+
 .sand .jsWTTable table thead tr th {
 	padding: 2px;
 	/*background-color: #9C9577;*/
-	background-color: #AFAA91;
+	/*background-color: #AFAA91;*/
 	color: #000;
-	border: 1px solid;
+	/*border: 1px solid;
 	border-left-color: #EAE6D6; 
 	border-top-color: #EAE6D6;
 	border-right-color: #4E4A3B;
 	border-bottom-color: #4E4A3B;
+	border-left: 1px solid #E2DED0;*/
+	border-right: 1px solid #B6AD87;
 	cursor: default;
 	position: relative;
 	z-index: 200;
 	border-spacing: 0 0;
+}
+
+.sand .jsWTTable table thead tr th:last-child {
+	border-right: none;
 }
 
 .sand .jsWTTable th span.text {
@@ -104,38 +121,38 @@
 /* === Selection === */
 /* Inactive */
 .sand .jsWTTable tr[aria-selected=true] td.first span.text {
-	background-color: #CCC8BA;
+	background-color: #E1E0D9;
 }
 
 /* Active */
 .sand .jsWTTable:focus tr[aria-selected=true] td.first span.text{
-	background-color: #9C9577;
-	color: #FFF;
+	background-color: #EAE6D6;
+	color: #000;
 }
 
 /* === Full Selection === */
 /* --- Inactive --- */
 .sand .jsWTTable .jsWTTableFullSelection tr[aria-selected=true] td {
-	background-color: #CCC8BA;
+	background-color: #E1E0D9;
 }
 
 /* --- Active --- */
 .sand .jsWTTable:focus .jsWTTableFullSelection tr[aria-selected=true] td {
-	background-color: #9C9577;
-	color: #FFF;
+	background-color: #EAE6D6;
+	color: #000;
 }
 
 /* --- checkbox & image --- */
 CSS2.1: .sand .jsWTTable tr[aria-selected=true] span.jsWTCheckbox,
 .sand .jsWTTable .jsWTTableFullSelection tr[aria-selected=true] img {
 	opacity: 0.7;
-	background-color: #CCC8BA;
+	background-color: #E1E0D9;
 }
 
 .sand .jsWTTable:focus tr[aria-selected=true] span.jsWTCheckbox,
 .sand .jsWTTable .jsWTTableFullSelection:focus tr[aria-selected=true] img {
 	opacity: 0.7;
-	background-color: #9C9577;
+	background-color: #EAE6D6;
 }
 
 /* === Active Item State === */

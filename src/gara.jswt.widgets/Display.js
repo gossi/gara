@@ -24,8 +24,7 @@
 gara.provide("gara.jswt.widgets.Display");
 
 gara.use("gara.jswt.widgets.Widget");
-gara.use("gara.jswt.widgets.Control");
-//gara.use("gara.jswt.widgets.Decorations");
+gara.use("gara.jswt.widgets.Decorations");
 
 gara.require("gara.EventManager");
 

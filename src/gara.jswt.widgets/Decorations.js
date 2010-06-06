@@ -58,6 +58,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.text = "";
 		this.menuBar = null;
 		this.box = null;
+		this.x = null;
+		this.y = null;
 		this.dX = 0;
 		this.dY = 0;
 		this.offsetX = 0;
@@ -92,8 +94,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.resizeS = null;
 		this.resizeSSE = null;
 		this.resizeESE = null;
-
-
 
 		this.$super(parent, gara.jswt.widgets.Decorations.checkStyle(style));
 	},
@@ -271,6 +271,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 		this.addListener("mousedown", this);
 
+		this.x = this.handle.offsetLeft;
+		this.y = this.handle.offsetTop;
 	},
 
 	getImage : function () {
@@ -421,8 +423,10 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 				if (e.clientX > this.offsetX && e.clientY > this.offsetY
 						&& e.clientX < (this.offsetX + this.moveParent.clientWidth)
 						&& e.clientY < (this.offsetY + this.moveParent.clientHeight)) {
-					this.handle.style.left = (e.clientX - this.dX) + "px";
-					this.handle.style.top = (e.clientY - this.dY) + "px";
+					this.x = e.clientX - this.dX;
+					this.y = e.clientY - this.dY;
+					this.handle.style.left = this.x + "px";
+					this.handle.style.top = this.y + "px";
 				}
 			}
 
@@ -558,16 +562,25 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		return this;
 	},
 
+	setLocation : function (x, y) {
+		if (x > 0) {
+			this.x = x;
+			this.handle.style.left = x + "px";
+		}
+
+		if (y > 0) {
+			this.y = y;
+			this.handle.style.top = y + "px";
+		}
+
+		return this;
+	},
+
 	setMaximized : function (maximized) {
 		var parent = this.getParent().getClientArea ? this.getParent().getClientArea() : this.getParent(),
 			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
 
 		if (maximized) {
-			if (!this.puffered) {
-				this.pufferLeft = this.handle.offsetLeft;
-				this.pufferTop = this.handle.offsetTop;
-			}
-
 			if (this.minimized) {
 				gara.jswt.widgets.Decorations.minis[id][gara.jswt.widgets.Decorations.minis[id].indexOf(this)] = undefined;
 			}
@@ -579,9 +592,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.clientArea.style.width = parent.clientWidth + "px";
 			this.clientArea.style.height = (parent.clientHeight - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
 		} else {
-			this.puffered = false;
-			this.handle.style.left = this.pufferLeft + "px";
-			this.handle.style.top = this.pufferTop + "px";
+			this.handle.style.left = this.x + "px";
+			this.handle.style.top = this.y + "px";
 			this.setWidth(this.getWidth());
 			this.setHeight(this.getHeight());
 		}
@@ -632,11 +644,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.setClass("jsWTDecorationsMaximized", this.maximized);
 
 		if (minimized) {
-			if (!this.puffered) {
-				this.pufferLeft = this.handle.offsetLeft;
-				this.pufferTop = this.handle.offsetTop;
-			}
-			this.puffered = true;
 			this.handle.style.top = "";
 			this.handle.style.bottom = 0;
 			this.handle.style.width = "";
@@ -680,9 +687,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			if (this.menuBar) {
 				this.menuBarNode.style.display = "block";
 			}
-			this.puffered = false;
-			this.handle.style.left = this.pufferLeft + "px";
-			this.handle.style.top = this.pufferTop + "px";
+			this.handle.style.left = this.x + "px";
+			this.handle.style.top = this.y + "px";
 			this.handle.style.bottom = "";
 			this.setWidth(this.getWidth());
 			this.setHeight(this.getHeight());

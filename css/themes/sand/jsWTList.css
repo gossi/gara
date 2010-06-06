@@ -15,11 +15,11 @@
 	border: 0;
 }
 
-.sand ul.jsWTList li .jsWTCheckbox {
+.sand ul.jsWTList .jsWTCheckbox {
 	margin: 3px 5px 0 5px;
 }
 
-.sand ul.jsWTList li span.text {
+.sand ul.jsWTList span.text {
 	background-color: #FFF;
 	color: #000;
 	font-family: Verdana;
@@ -39,31 +39,33 @@
 
 /* === Selection === */
 .sand ul.jsWTList li[aria-selected=true] span.text {
-	background-color: #CCC8BA;
+	background-color: #E1E0D9;
 	color: #000;
 }
 
 .sand ul.jsWTList:focus li[aria-selected=true] span.text {
-	background-color: #9C9577;
-	color: #FFF;
+	background-color: #EAE6D6;
+	color: #000;
 }
 
 /* --- checkbox & image --- */
 .sand ul.jsWTList li[aria-selected=true] span.jsWTCheckbox,
 .sand ul.jsWTListFullSelection li[aria-selected=true] img {
 	opacity: 0.7;
-	background-color: #CCC8BA;
+	background-color: #E1E0D9;
 }
 
 .sand ul.jsWTList:focus li[aria-selected=true] span.jsWTCheckbox,
 .sand ul.jsWTListFullSelection:focus li[aria-selected=true] img {
 	opacity: 0.7;
-	background-color: #9C9577;
+	background-color: #EAE6D6;
 }
 
 /* === Active Item State === */
 .sand ul.jsWTList:focus li.active span.text {
 	outline: 1px dotted #000;
+	margin-left: 1px;
+	padding-left: 2px;
 }
 
 .sand ul.jsWTListFullSelection:focus li.active span.text {

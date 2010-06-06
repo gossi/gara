@@ -18,7 +18,8 @@ function main() {
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
-		.setHeight(180);
+		.setHeight(180)
+		.setLocation(350, 150);
 	var menu = new gara.jswt.widgets.Menu(d1, gara.jswt.JSWT.BAR);
 	d1.setMenuBar(menu);
 	new gara.jswt.widgets.MenuItem(menu).setText("Do it!");
@@ -30,7 +31,7 @@ function main() {
 		.setHeight(180);
 	var menu2 = new gara.jswt.widgets.Menu(d2, gara.jswt.JSWT.TOOLBAR);
 	d2.setMenuBar(menu2);
-	new gara.jswt.widgets.MenuItem(menu2).setText("Do it!");
+	new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CHECK).setText("Do it!");
 
 	d3 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM)
 		.setText("Hello")
@@ -61,9 +62,9 @@ function main() {
 }
 </script>
 </head>
-<body style="padding: 10px;">
+<body style="padding: 10px;" class="sand" role="application">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Decorations</h1>
-<div id="container" class="sand" style="position: relative; border: 1px solid #F00; overflow: auto; height: 450px;"></div>
+<div id="container" style="position: relative; border: 1px solid #000; overflow: auto; height: 450px;"></div>
 <script>gara.require([
 	"gara.jswt.widgets.Decorations", 
 	"gara.jswt.widgets.Label", 

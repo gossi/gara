@@ -137,7 +137,6 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 
 		// flags
 		this.enabled = false;
-		this.visible = (style & gara.jswt.JSWT.BAR) !== 0 && !(parent instanceof gara.jswt.widgets.Decorations); // bar = true && parent != deco
 		this.menuBarDropDownShown = false;
 
 		this.$super(parent, style);
@@ -219,7 +218,11 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 			style |= gara.jswt.JSWT.BAR;
 		}
 
-		style = gara.jswt.widgets.Widget.checkBits(style, gara.jswt.JSWT.BAR, gara.jswt.JSWT.POP_UP, gara.jswt.JSWT.DROP_DOWN)
+		style = gara.jswt.widgets.Widget.checkBits(style, gara.jswt.JSWT.BAR, gara.jswt.JSWT.POP_UP, gara.jswt.JSWT.DROP_DOWN);
+
+		if (style === 0) {
+			style = gara.jswt.JSWT.BAR;
+		}
 
 		return style;
 	}),
@@ -230,6 +233,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 	 * @private
 	 */
 	createWidget : function () {
+		this.visible = (this.style & gara.jswt.JSWT.BAR) !== 0; // bar === true
 		this.createHandle("ul", true);
 		this.handle.style.display = this.visible ? "block" : "none";
 		this.handle.setAttribute("id", this.getId());

@@ -1,5 +1,3 @@
-@CHARSET "UTF-8";
-
 /*
 -- sand --
 
@@ -16,6 +14,11 @@ Widget: 					#EAE6D6		#000
 Item Selected (Active): 	#9C9577		#FFF
 Item Selected (Inactive): 	#CCC8BA		#000
 Alternative:				#AFAA91		#23211A
+
+New Colors (May 2010):
+Control-Widget				#FFF		#000
+Item Selected (active):		#EAE6D6		#000
+Item Selected (inactive):	#E1E0D9		#000
 */
 
 /** sprite: icons; sprite-image: url('sprite-icons.png');*/
@@ -38,3 +41,4 @@ Alternative:				#AFAA91		#23211A
 @import url('jsWTComposite.css');
 @import url('jsWTDecorations.css');
 @import url('jsWTLayout.css');
+@import url('jsWTApplication.css');

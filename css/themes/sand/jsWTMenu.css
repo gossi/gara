@@ -27,8 +27,8 @@
 }
 
 .sand ul.jsWTMenu li.active {
-	background-color: #9C9577;
-	color: #FFF;
+	background-color: #EAE6D6;
+	color: #000;
 }
 
 .sand ul.jsWTMenu li[aria-disabled=true] > span .text {
@@ -59,7 +59,7 @@
 	margin: 0;
 	padding: 0;
 	background-image: none;
-	background-color: #CCC8BA;
+	background-color: #E2DED0; /* #CCC8BA */
 	height: 21px;
 }
 
@@ -77,9 +77,9 @@
 	margin: 0;
 	padding: 2px;
 	background-image: none;
-	background-color: #EAE6D6;
+	background-color: #E2DED0;
 	color: #000;
-	border: 1px solid #000;
+	border: 1px solid #B7AE88;
 	width: 150px;
 }
 
@@ -165,32 +165,12 @@
 
 .sand ul.jsWTToolbar {
 	/*background-color: #EAE6D6; /*#E9E7EB;*/
-	background-color: #E2DED0; /*#D9D4C0 #DEDAC9*/
+	background-color: #E2DED0; /*#D9D4C0 #DEDAC9 #E2DED0*/
 	height: 24px;
 }
 
 .sand .jsWTToolbar > li {
 	margin: 1px 0;
-}
-
-.sand .jsWTToolbar > li > .button,
-.sand .jsWTToolbar > li[aria-pressed=false] > .button {
-	height: 22px;
-	display: inline-block;
-	background-repeat: no-repeat;
- 	background-image: url('button-start.png'); /** sprite-ref: button; */
- 	padding-left: 9px;
- 	margin-right: 5px;
-}
-
-.sand .jsWTToolbar > li > .button .door,
-.sand .jsWTToolbar > li[aria-pressed=false] > .button .door {
-	background-position: right;
-	background-image: url('button-end.png'); /** sprite-ref: button; sprite-alignment: right;*/
-	height: 21px;
-	line-height: 20px;
-	display: inline-block;
-	padding: 1px 9px 0 0;
 }
 
 .sand ul.jsWTToolbar > li.jsWTMenuItemCheck,
@@ -201,14 +181,68 @@
 	padding-left: 0;
 }
 
-.sand .jsWTToolbar > li[aria-checked=true] > .button,
-.sand .jsWTToolbar > li[aria-pressed=true] > .button {
-	background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
+.sand .jsWTToolbar > li > .button,
+.sand .jsWTToolbar > li[aria-pressed=false] > .button {
+	height: 22px;
+	display: inline-block;
+	background-repeat: no-repeat;
+ 	padding-left: 9px;
+ 	margin-right: 5px;
 }
 
-.sand .jsWTToolbar > li[aria-checked=true] > .button .door,
+.sand .jsWTToolbar > li > .button .door,
+.sand .jsWTToolbar > li[aria-pressed=false] > .button .door {
+	background-position: right;
+	height: 21px;
+	line-height: 20px;
+	display: inline-block;
+	padding: 1px 9px 0 0;
+}
+
+.sand .jsWTToolbar > li[aria-checked=true] > .button {
+	border: 1px solid #B6AD87;
+	background-color: #FFF;
+	-moz-border-radius: 7px;
+	height: 20px;
+	padding-left: 8px;
+}
+
+.sand .jsWTToolbar > li[aria-checked=true] > .button .door {
+	padding-top: 0;
+	padding-right: 8px;
+}
+
+.sand .jsWTToolbar > li > .button:hover {
+	border: none;
+	background-color: transparent;
+	height: 22px;
+	padding-left: 9px;
+	background-image: url('button-start.png'); /** sprite-ref: button; */
+}
+
+.sand .jsWTToolbar > li > .button:hover .door {
+	padding-top: 1px;
+	padding-right: 9px;
+	background-image: url('button-end.png'); /** sprite-ref: button; sprite-alignment: right;*/
+}
+
+
+/** Pressed state, same as checked state above, hover needs to go between */
+.sand .jsWTToolbar > li[aria-pressed=true] > .button {
+	border: 1px solid #B6AD87;
+	background-color: #FFF;
+	-moz-border-radius: 7px;
+	height: 20px;
+	padding-left: 8px;
+	background-image: none;
+	/*background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
+}
+
 .sand .jsWTToolbar > li[aria-pressed=true] > .button .door {
-	background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
+	/*background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
+	padding-top: 0;
+	padding-right: 8px;
+	background-image: none;
 }
 
 .sand ul.jsWTToolbar > li.active {
@@ -230,7 +264,7 @@
 
 .sand ul.jsWTToolbar > li[aria-haspopup=true] > .button .text {
 	background-repeat: no-repeat;
-	background-position: right center;
+	background-position: right 6px;
 	background-image: url('arrow_down.png');
 	padding-right: 10px;
 }

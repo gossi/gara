@@ -28,6 +28,12 @@
 	margin-right: 9px;
 	height: 16px;
 	overflow: hidden;
+	white-space: nowrap;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
 }
 
 .sand div.jsWTDecorationsTitleText img {
