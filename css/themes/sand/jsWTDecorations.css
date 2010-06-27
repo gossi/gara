@@ -5,11 +5,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand div.jsWTDecorations {
-	outline: none;
-	overflow: hidden;
-}
-
 .sand div.jsWTDecorationsTitle {
 	/*background: url('left.gif') no-repeat;*/
 	line-height: 16px;
@@ -111,21 +106,16 @@
 	opacity: 0.5;
 }
 
-.sand .jsWTDecorations .jsWTDecorationsClientArea {
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	/*overflow: auto;*/
+.sand .jsWTDecorationsClientArea {
+	background-color: #F7F3E4;
 }
 
-.sand .jsWTDecorationsBorder .jsWTDecorationsMenuBar {
+.sand .jsWTDecorationsBorder > .jsWTDecorationsMenuBar {
 	border: solid #B7AE88;
 	border-width: 1px 1px 0 1px;
 }
 
-.sand .jsWTDecorationsBorder .jsWTDecorationsClientArea {
+.sand .jsWTDecorationsBorder > .jsWTDecorationsClientArea {
 	border: 1px solid #B7AE88;
 }
 

@@ -31,7 +31,7 @@ gara.use("gara.jswt.JSWT");
 
 gara.use("gara.jswt.widgets.Composite");
 //gara.use("gara.jswt.widgets.Menu");
-gara.use("gara.jswt.widgets.FocusManager");
+gara.use("gara.jswt.widgets.Display");
 
 /**
  * @class Control
@@ -77,6 +77,24 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @type {boolean}
 	 */
 	visible : true,
+
+	/**
+	 * @field
+	 * X coordinate relative to the Control's parent
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	x : null,
+
+	/**
+	 * @field
+	 * Y coordinate relative to the Control's parent
+	 *
+	 * @private
+	 * @type {int}
+	 */
+	y : null,
 
 
 	/**
@@ -163,6 +181,19 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 		this.mouseX = 0;
 		this.mouseY = 0;
+		this.x = null;
+		this.y = null;
+
+		this.positionOffsetX = null;
+		this.positionOffsetY = null;
+
+		if (this.parent !== null && this.parent instanceof gara.jswt.widgets.Composite) {
+			this.parentNode = this.parent.getClientArea();
+		} else if ((this.parent !== null && this.parent instanceof gara.jswt.widgets.Display) || this.parent === null) {
+			this.parentNode = this.parent.getClientArea();
+		} else {
+			this.parentNode = this.parent;
+		}
 
 		this.createWidget();
 
@@ -284,17 +315,19 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			}, this);
 		}
 
-		// add to dom
 		if (!preventAppending) {
-			if (this.parent !== null && this.parent instanceof gara.jswt.widgets.Composite) {
-				this.parentNode = this.parent.getClientArea();
-			} else {
-				this.parentNode = this.parent;
-			}
+			this.addHandleToDOM();
+		}
+	},
 
-			if (this.parentNode !== null) {
-				this.parentNode.appendChild(this.handle);
-			}
+	addHandleToDOM : function () {
+		if (this.parentNode !== null) {
+			this.parentNode.appendChild(this.handle);
+
+			this.x = this.handle.offsetLeft;
+			this.y = this.handle.offsetTop;
+			this.positionOffsetX = this.handle.offsetLeft;
+			this.positionOffsetY = this.handle.offsetTop;
 		}
 	},
 
@@ -628,6 +661,21 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.height = parseInt(height * 1000) / 1000;
 			this.handle.style.height = this.height * 100 + "%";
 			this.adjustHeight(this.handle.offsetHeight);
+		}
+
+		return this;
+	},
+
+
+	setLocation : function (x, y) {
+		if (x > 0) {
+			this.x = x;
+			this.handle.style.left = (x - this.positionOffsetX) + "px";
+		}
+
+		if (y > 0) {
+			this.y = y;
+			this.handle.style.top = (y - this.positionOffsetY) + "px";
 		}
 
 		return this;

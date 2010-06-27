@@ -174,8 +174,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 
 		this.data = {};
 		this.dataMap = {};
-
-
 	},
 
 	/**

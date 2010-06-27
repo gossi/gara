@@ -53,11 +53,74 @@ ul.gara  {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 .jsWTControl {
+	position: relative;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-o-box-sizing: border-box;
+}
+
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.widgets.Label
+ * gara.jswt.widgets.Composite
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.jsWTLabel,
+.jsWTComposite {
+	cursor: default;
+	overflow: auto;
+	outline: none;
+	/*user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;*/
+}
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.widgets.Scrollable
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.jsWTScrollable {
+	overflow: auto;
+}
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.widgets.Decorations
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.jsWTDecorations {
+	outline: none;
+	overflow: hidden;
+}
+
+.jsWTDecorationsClientArea {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	overflow: auto;
+}
+
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.jswt.widgets.Shell
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+ 
+.jsWTShell {
+	position: absolute;
 }
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -396,18 +459,6 @@ div.jsWTInputDialog .jsWTInputDialogButtonBar input {
 	margin: 0 2px;
 }
 
-
-/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 
- * gara.jswt.IframeDialog
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
- */
-
-div.jsWTIframeDialog iframe{
-	border: 0;
-}
-
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
  * gara.jswt.Button
@@ -422,22 +473,4 @@ div.jsWTIframeDialog iframe{
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
-}
-
-/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 
- * gara.jswt.Label
- * gara.jswt.Composite
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
- */
-
-.jsWTLabel,
-.jsWTComposite {
-	cursor: default;
-	overflow: auto;	
-	outline: none;
-	/*user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;*/
 }

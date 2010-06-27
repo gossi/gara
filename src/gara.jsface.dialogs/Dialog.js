@@ -29,7 +29,6 @@ gara.use("gara.jswt.widgets.Composite");
 gara.require("gara.jswt.widgets.Widget");
 gara.require("gara.jswt.widgets.DialogManager");
 
-
 /**
  * @class Dialog
  * @author Thomas Gossmann

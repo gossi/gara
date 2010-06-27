@@ -47,7 +47,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
-		this.addClass("jsWTComposite");
+
 		//this.resize();
 	},
 
@@ -71,14 +71,19 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 		}
 	},
 
-	createWidget : function (element, preventAppending) {
-		if (typeof(element) == "undefined") {
+	createHandle : function (element) {
+		this.$super(element);
+		this.addClass("jsWTComposite");
+	},
+
+	createWidget : function () {
+		//if (typeof(element) == "undefined") {
 			this.createHandle("div");
 			this.handle.tabIndex = -1;
 			this.isComposite = true;
-		} else {
-			this.$super(element, preventAppending);
-		}
+//		} else {
+//			this.$super(element, preventAppending);
+//		}
 	},
 
 	getChildren : function () {
@@ -94,10 +99,10 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 		return widgets;
 	},
 
-	setHeight : function (height) {
-		this.$super(height);
-		return this;
-	},
+//	setHeight : function (height) {
+//		this.$super(height);
+//		return this;
+//	},
 
 	/**
 	 * @method
@@ -127,7 +132,13 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 //						newHeight -= widgetHeight;
 //					}
 //				}
-					widget.setWidth(width);
+
+				// width
+				if (widget.getWidth() === null) {
+					widget.adjustWidth(width);
+				}
+
+				// height
 				if (widget.getHeight() > 1) {
 					height -= widget.getHeight();
 				} else if (widget.hasClass("h25") || widget.hasClass("h50") || widget.hasClass("h75") || widget.hasClass("h33") || widget.hasClass("h66")) {

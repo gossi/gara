@@ -58,8 +58,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.text = "";
 		this.menuBar = null;
 		this.box = null;
-		this.x = null;
-		this.y = null;
 		this.dX = 0;
 		this.dY = 0;
 		this.offsetX = 0;
@@ -76,8 +74,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.titleMaxButton = null;
 
 		this.enabled = false;
-		this.heightSet = false;
-		this.widthSet = false;
 		this.maximized = false;
 		this.minimized = false;
 		this.puffered = false;
@@ -96,6 +92,18 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.resizeESE = null;
 
 		this.$super(parent, gara.jswt.widgets.Decorations.checkStyle(style));
+	},
+
+	adjustHeight : function (height) {
+		if (height > 1) {
+			this.clientArea.style.height = (this.height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
+		}
+	},
+
+	adjustWidth : function (width) {
+		if (width > 1) {
+			this.clientArea.style.width = this.width + "px";
+		}
 	},
 
 	/**
@@ -143,15 +151,15 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		// add css classes
 		this.addClass("jsWTDecorations");
 		this.setClass("jsWTDecorationsBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
-		this.moveParent = this.getParent() instanceof gara.jswt.widgets.Widget ? this.getParent().handle : this.getParent();
+		this.moveParent = this.getParent() instanceof gara.jswt.widgets.Widget
+			? this.getParent().handle
+			: (this.getParent() instanceof gara.jswt.widgets.Display
+					? this.getParent().getClientArea()
+					: this.getParent());
 
 		// title
 		if ((this.style & gara.jswt.JSWT.TITLE) !== 0) {
-			this.handle.style.position = "absolute";
-
-			this.placeholder = document.createElement("div");
-			this.placeholder.className = "jsWTDecorations jsWTDecorationsPlaceholder";
-			this.parentNode.appendChild(this.placeholder);
+//			this.handle.style.position = "absolute";
 
 			this.title = document.createElement("div");
 			this.title.className = "jsWTDecorationsTitle";
@@ -270,9 +278,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.handle.appendChild(this.clientArea);
 
 		this.addListener("mousedown", this);
-
-		this.x = this.handle.offsetLeft;
-		this.y = this.handle.offsetTop;
 	},
 
 	getImage : function () {
@@ -323,8 +328,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 
 		case "mousedown":
-//			console.log("Deco.handleEvent(mousedown) on " + e.target + " className: " + e.target.className);
-
 			// move
 			if ((e.target === this.title
 					|| e.target === this.titleRight
@@ -335,8 +338,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 				gara.EventManager.addListener(this.moveParent, "mousemove", this);
 				gara.EventManager.addListener(this.title, "mouseup", this);
 
-				this.dX = e.clientX - this.handle.offsetLeft;
-				this.dY = e.clientY - this.handle.offsetTop;
+				this.doX = e.clientX - this.handle.offsetLeft;
+				this.doY = e.clientY - this.handle.offsetTop;
 
 				this.overflow = this.moveParent.style.overflow;
 				this.moveParent.style.overflow = "hidden";
@@ -418,15 +421,14 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			break;
 
 		case "mousemove":
-//			console.log("Deco.handleEvent(mousemove): " +  e.clientY + " VS " + this.offsetY + " dY " + this.dY);
 			if (this.moving) {
 				if (e.clientX > this.offsetX && e.clientY > this.offsetY
 						&& e.clientX < (this.offsetX + this.moveParent.clientWidth)
 						&& e.clientY < (this.offsetY + this.moveParent.clientHeight)) {
-					this.x = e.clientX - this.dX;
-					this.y = e.clientY - this.dY;
-					this.handle.style.left = this.x + "px";
-					this.handle.style.top = this.y + "px";
+					this.x = e.clientX - this.doX;
+					this.y = e.clientY - this.doY;
+					this.handle.style.left = (this.x - this.positionOffsetX) + "px";
+					this.handle.style.top = (this.y - this.positionOffsetY) + "px";
 				}
 			}
 
@@ -520,33 +522,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		return this.clientArea;
 	},
 
-	setHeight : function (height) {
-		this.$super(height);
-
-		if ((this.style & gara.jswt.JSWT.TITLE) !== 0 && !this.heightSet) {
-			if (height > 1) {
-				this.placeholder.style.height = this.height + "px";
-			}
-
-			// auto => null
-			else if (height === null) {
-				this.placeholder.style.height = "auto";
-			}
-
-			// percentage
-			else if (height >= 0 && height <= 1) {
-				this.placeholder.style.height = this.height * 100 + "%";
-			}
-			this.heightSet = true;
-		}
-
-		if (height > 1) {
-			this.clientArea.style.height = (this.height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
-		}
-
-		return this;
-	},
-
 	setImage : function (image) {
 		this.image = image;
 
@@ -557,20 +532,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			} else {
 				this.titleImage.style.display = "none";
 			}
-		}
-
-		return this;
-	},
-
-	setLocation : function (x, y) {
-		if (x > 0) {
-			this.x = x;
-			this.handle.style.left = x + "px";
-		}
-
-		if (y > 0) {
-			this.y = y;
-			this.handle.style.top = y + "px";
 		}
 
 		return this;
@@ -704,33 +665,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		if (this.titleText) {
 			this.titleText.nodeValue = text;
 		}
-		return this;
-	},
-
-	setWidth : function (width) {
-		this.$super(width);
-
-		if ((this.style & gara.jswt.JSWT.TITLE) !== 0 && !this.widthSet) {
-			if (width > 1) {
-				this.placeholder.style.width = this.width + "px";
-			}
-
-			// auto => null
-			else if (width === null) {
-				this.placeholder.style.width = "auto";
-			}
-
-			// percentage
-			else if (width >= 0 && width <= 1) {
-				this.placeholder.style.width = this.width * 100 + "%";
-			}
-			this.widthSet = true;
-		}
-
-		if (width > 1) {
-			this.clientArea.style.width = this.width + "px";
-		}
-
 		return this;
 	},
 

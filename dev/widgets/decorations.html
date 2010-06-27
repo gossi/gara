@@ -11,10 +11,14 @@ float: left;
 </style>
 <script src="../../src/gara.js"></script>
 <script>
+var shell;
 function main() {
+	container = new gara.jswt.widgets.Decorations(gara.jswt.widgets.Display.getDefault(), gara.jswt.JSWT.BORDER)
+		.setHeight(450);
+
 	var img = new Image();
 	img.src = '../../css/themes/sand/icon_information.png';
-	d1 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM | gara.jswt.JSWT.RESIZE)
+	d1 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM | gara.jswt.JSWT.RESIZE)
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
@@ -24,7 +28,8 @@ function main() {
 	d1.setMenuBar(menu);
 	new gara.jswt.widgets.MenuItem(menu).setText("Do it!");
 
-	d2 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM)
+	
+	d2 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM)
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
@@ -33,7 +38,8 @@ function main() {
 	d2.setMenuBar(menu2);
 	new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CHECK).setText("Do it!");
 
-	d3 = new gara.jswt.widgets.Decorations(document.getElementById("container"), gara.jswt.JSWT.SHELL_TRIM)
+	
+	d3 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM)
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
@@ -59,18 +65,27 @@ function main() {
 	for (var i = 1; i <= 10; i++) {
 		new gara.jswt.widgets.TreeItem(tree).setText("Item " + i);
 	}
+
+	gara.EventManager.addListener(document.getElementById("shellOpener"), "click", function () {
+		if (!shell) {
+			shell = new gara.jswt.widgets.Shell().setText("Shell");
+			new gara.jswt.widgets.Label(shell).setText("Text bei die Shell");
+		}
+		shell.open();
+	});
 }
 </script>
 </head>
 <body style="padding: 10px;" class="sand" role="application">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Decorations</h1>
-<div id="container" style="position: relative; border: 1px solid #000; overflow: auto; height: 450px;"></div>
+<button id="shellOpener">Open Shell</button>
 <script>gara.require([
-	"gara.jswt.widgets.Decorations", 
+	"gara.jswt.widgets.Decorations",
 	"gara.jswt.widgets.Label", 
 	"gara.jswt.widgets.Menu", 
 	"gara.jswt.widgets.List", 
 	"gara.jswt.widgets.ListItem",
+	"gara.jswt.widgets.Shell",
 	"gara.jswt.widgets.Table",
 	"gara.jswt.widgets.TableColumn", 
 	"gara.jswt.widgets.TableItem",
