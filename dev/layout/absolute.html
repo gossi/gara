@@ -2,22 +2,27 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
 <title>gara.jswt.layout</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../src/gara.js"></script>
 <script>
 function main() {
-	layout = new gara.jswt.layout.ColumnLayout(document.getElementById("container")).addClass("loosy");
-	var list = new gara.jswt.widgets.List(layout).addClasses(["w25", "h100"]);
+	var container = new gara.jswt.widgets.Composite(document.getElementById("container"))
+		.setLayout(new gara.jswt.layout.ColumnLayout(gara.jswt.JSWT.LAYOUT_LOOSY));
+	var list = new gara.jswt.widgets.List(container).addClasses(["w25", "h100"]);
 	for (var i = 1; i <= 10; i++) {
 		new gara.jswt.widgets.ListItem(list).setText("Left " + i);
 	}
 
-	var right = new gara.jswt.layout.RowLayout(layout);
-	right.addClass("w75");
+	var right = new gara.jswt.widgets.Composite(container)
+		.setLayout(new gara.jswt.layout.RowLayout())
+		.addClass("w75");
 
-	var layout1 = new gara.jswt.layout.ColumnLayout(right);
-	layout1.addClass("h25");
+	var layout1 = new gara.jswt.widgets.Composite(right)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.addClass("h25");
 
 	var list2 = new gara.jswt.widgets.List(layout1).addClass("w25");
 	for (var i = 1; i <= 10; i++) {
@@ -34,8 +39,9 @@ function main() {
 		new gara.jswt.widgets.ListItem(list4).setText("Top3 " + i);
 	}
 
-	var layout2 = new gara.jswt.layout.ColumnLayout(right);
-	layout2.addClass("h50");
+	var layout2 = new gara.jswt.widgets.Composite(right)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.addClass("h50");
 
 	var lists = [];
 	for (var j = 1; j <= 4; j++) {
@@ -45,8 +51,9 @@ function main() {
 		}
 	}
 
-	var layout3 = new gara.jswt.layout.ColumnLayout(right);
-	layout3.addClass("h25");
+	var layout3 = new gara.jswt.widgets.Composite(right)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.addClass("h25");
 
 	var list5 = new gara.jswt.widgets.List(layout3).addClass("w33");
 	for (var i = 1; i <= 10; i++) {
@@ -58,10 +65,10 @@ function main() {
 		new gara.jswt.widgets.ListItem(list6).setText("Bot 2 " + i);
 	}
 
-	layout.resize();
+	container.layout();
 }
 </script>
-<body class="sand">
+<body class="sand" role="application">
 <h1>gara.jswt.layout</h1>
 <div id="container" style="position: absolute; top: 100px; left: 10px; right: 10px; bottom: 30px;">
 

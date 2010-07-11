@@ -2,24 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
 <title>gara.jswt.layout</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../src/gara.js"></script>
 <script>
 var layout;
 function main() {
-	layout = new gara.jswt.layout.ColumnLayout(document.getElementById("container")).setHeight(0.75);
-	console.log("Layout, w: " + layout.getWidth() + ", h: " + layout.getHeight());
-	left = new gara.jswt.widgets.List(layout).setWidth(0.25);
+	var container = new gara.jswt.widgets.Composite(document.getElementById("container"))
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.setHeight(0.75);
+	console.log("Layout, w: " + container.getWidth() + ", h: " + container.getHeight());
+	var left = new gara.jswt.widgets.List(container).setWidth(0.25);
 	for (var i = 1; i <= 10; i++) {
 		new gara.jswt.widgets.ListItem(left).setText("Left " + i);
 	}
 
-	var right =  new gara.jswt.layout.RowLayout(layout);
-	right.setWidth(0.75);
+	var right =  new gara.jswt.widgets.Composite(container)
+		.setLayout(new gara.jswt.layout.RowLayout())
+		.setWidth(0.75);
 
-	var layout1 = new gara.jswt.layout.ColumnLayout(right);
-	layout1.setHeight(0.25);
+	var layout1 = new gara.jswt.widgets.Composite(right)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.setHeight(0.25);
 
 	var list2 = new gara.jswt.widgets.List(layout1).setWidth(0.25);
 	for (var i = 1; i <= 10; i++) {
@@ -36,8 +42,9 @@ function main() {
 		new gara.jswt.widgets.ListItem(list4).setText("Top3 " + i);
 	}
 
-	var layout2 = new gara.jswt.layout.ColumnLayout(right);
-	layout2.setHeight(0.5);
+	var layout2 = new gara.jswt.widgets.Composite(right)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.setHeight(0.5);
 
 	var lists = [];
 	for (var j = 1; j <= 4; j++) {
@@ -47,8 +54,9 @@ function main() {
 		}
 	}
 
-	var layout3 = new gara.jswt.layout.ColumnLayout(right);
-	layout3.setHeight(0.25);
+	var layout3 = new gara.jswt.widgets.Composite(right)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
+		.setHeight(0.25);
 
 	var list5 = new gara.jswt.widgets.List(layout3).setWidth(0.33);
 	for (var i = 1; i <= 10; i++) {
@@ -61,11 +69,11 @@ function main() {
 	}
 
 	//console.log("Layout, w: " + layout.getWidth() + ", h: " + layout.getHeight());
-	layout.resize();
+	container.layout();
 	//console.log("Layout, w: " + layout.getWidth() + ", h: " + layout.getHeight());
 }
 </script>
-<body class="sand">
+<body class="sand" role="application">
 <h1>gara.jswt.layout</h1>
 <div id="container">
 
@@ -73,7 +81,7 @@ function main() {
 
 <div>test text below the layout</div>
 <script>
-gara.require(["gara.jswt.layout.ColumnLayout", "gara.jswt.layout.RowLayout", "gara.jswt.widgets.List", "gara.jswt.widgets.ListItem"], main);
+gara.require(["gara.jswt.layout.ColumnLayout", "gara.jswt.layout.RowLayout", "gara.jswt.widgets.Composite", "gara.jswt.widgets.List", "gara.jswt.widgets.ListItem"], main);
 </script>
 </body>
 </html>

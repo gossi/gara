@@ -41,6 +41,15 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	 * @tpye {boolean}
 	 */
 	isComposite : false,
+	
+	/**
+	 * @field
+	 * A specific Layout for this Composite
+	 * 
+	 * @private
+	 * @type {gara.jswt.layout.Layout}
+	 */
+	layoutInformation : null,
 
 	/**
 	 * @constructor
@@ -48,6 +57,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
 
+		this.layoutInformation = null;
 		//this.resize();
 	},
 
@@ -98,6 +108,10 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 		}
 		return widgets;
 	},
+	
+	getLayout : function () {
+		return this.layoutInformation;
+	},
 
 //	setHeight : function (height) {
 //		this.$super(height);
@@ -116,6 +130,10 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 			ratios = [0.25, 0.5, 0.75, 0.3333, 0.6666],
 			height = this.getClientArea().clientHeight,
 			width = this.getClientArea().clientWidth;
+		
+		if (this.layoutInformation !== null) {
+			this.layoutInformation.layout(this);
+		}
 
 		this.getChildren().forEach(function (widget) {
 //			console.log("Composite.layout: " + widget + " " + widget.getHeight());
@@ -225,6 +243,18 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 //	setWidth : function (width) {
 //		return this.$super(width);
 //	},
+	setLayout : function (layout) {
+		if (!(layout instanceof gara.jswt.layout.Layout)) {
+			throw new TypeError("layout not instance of gara.jswt.layout.Layout");
+		}
+		
+		if (this.layoutInformation !== null) {
+			this.layoutInformation.deconstruct(this);
+		}
+		this.layoutInformation = layout;
+		this.layoutInformation.construct(this);
+		return this;
+	},
 
 	unbindListener : function (eventType, listener) {
 		gara.EventManager.removeListener(this.handle, eventType, listener);

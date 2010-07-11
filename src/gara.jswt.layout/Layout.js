@@ -32,25 +32,49 @@ gara.use("gara.EventManager");
  * @namespace gara.jsface.layout
  */
 gara.Class("gara.jswt.layout.Layout", function() { return {
-	$extends : gara.jswt.widgets.Composite,
 
-	$constructor : function (parent) {
-		this.$super(parent);
-		this.addClass("jsWTLayout");
+	/**
+	 * @field
+	 * Layout's style
+	 * 
+	 * @private
+	 * @type {int}
+	 */
+	style : 0,
+	
+	$constructor : function (style) {
+		this.style = style || 0;
+//		if (parent.style && parent.style.position === "absolute") {
+//			gara.EventManager.addListener(window, "resize", this);
+//		}
+	},
 
-		if (parent.style && parent.style.position === "absolute") {
-			gara.EventManager.addListener(window, "resize", this);
+	construct : function (composite) {
+		composite.addClass("jsWTLayout");
+		
+		if ((this.style & gara.jswt.JSWT.LAYOUT_LOOSY) !== 0) {
+			composite.addClass("loosy");
+		}
+		
+
+		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
+			composite.__garaLayoutResizeHandler = function () {
+				composite.layout();
+			};
+			gara.EventManager.addListener(window, "resize", composite.__garaLayoutResizeHandler);
 		}
 	},
-
-	createWidget : function () {
-		this.$super();
-		//this.resize();
-	},
-
-	handleEvent : function (e) {
-		if (e.type === "resize") {
-			this.resize();
+	
+	deconstruct : function (composite) {
+		composite.removeClass("jsWTLayout");
+		
+		if ((this.style & gara.jswt.JSWT.LAYOUT_LOOSY) !== 0) {
+			composite.removeClass("loosy");
+		}
+		
+		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
+			gara.EventManager.addListener(window, "resize", composite.__garaLayoutResizeHandler);
+			delete composite.__garaLayoutResizeHandler;
 		}
 	},
 
@@ -58,32 +82,31 @@ gara.Class("gara.jswt.layout.Layout", function() { return {
 	 * @method
 	 * Recalculates this layout, based on the parents dimensions
 	 */
-	resize : function () {
-		var tempHeight = this.getHeight();
+	layout : function (composite) {
+//		var tempHeight = composite.getHeight();
+		composite.addClass("jsWTLayout");
 
-		if (this.parent.style && this.parent.style.position === "absolute") {
-			this.setWidth(this.parent.offsetWidth);
-			this.setHeight(this.parent.offsetHeight);
+		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
+			composite.setWidth(composite.getParent().offsetWidth);
+			composite.setHeight(composite.getParent().offsetHeight);
 		} else {
-
-
 //			if (!(this.hasClass("w25") || this.hasClass("w50") || this.hasClass("w75") || this.hasClass("w33") || this.hasClass("w66"))) {
 //				console.log("Layout.resize() -> set width");
 //				this.setWidth(this.handle.offsetWidth - gara.getNumStyle(this.handle, "margin-left") - gara.getNumStyle(this.handle, "margin-right"));
 //			}
 //			if (!(this.hasClass("h25") || this.hasClass("h50") || this.hasClass("h75") || this.hasClass("h33") || this.hasClass("h66"))) {
 //				console.log("Layout.resize -> width");
-				this.setHeight(this.handle.offsetHeight - gara.getNumStyle(this.handle, "margin-top") - gara.getNumStyle(this.handle, "margin-bottom"));
+				composite.adjustHeight(composite.handle.offsetHeight - gara.getNumStyle(composite.handle, "margin-top") - gara.getNumStyle(composite.handle, "margin-bottom"));
 //			}
-			this.height = tempHeight;
+//			this.height = tempHeight;
 
 
 		}
 
-		this.getChildren().forEach(function (widget) {
-			if (widget instanceof gara.jswt.layout.Layout) {
-				widget.resize();
+		composite.getChildren().forEach(function (widget) {
+			if (widget instanceof gara.jswt.widgets.Composite) {
+				widget.layout();
 			}
-		}, this);
+		});
 	}
 };});

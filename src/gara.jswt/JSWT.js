@@ -331,6 +331,12 @@ gara.Singleton("gara.jswt.JSWT", {
 	 * The MessageBox style constant for an IGNORE button, the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).
 	 */
 	IGNORE : 2048,
+	
+	/**
+	 * @field
+	 * The Layout style for a Loosy layout. (value is 1)
+	 */
+	LAYOUT_LOOSY : 1,
 
 	/**
 	 * @field

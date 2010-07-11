@@ -32,16 +32,24 @@ gara.provide("gara.jswt.layout.ColumnLayout", "gara.jswt.layout.Layout");
 gara.Class("gara.jswt.layout.ColumnLayout", function() { return {
 	$extends : gara.jswt.layout.Layout,
 
-	$constructor : function (parent) {
-		this.$super(parent);
-		this.addClass("jsWTColumnLayout");
+	$constructor : function (style) {
+		this.$super(style);
 	},
 
-	setChildrenHeight : function (height) {
-		var resizeable = [], newHeight = height;
+	construct : function (composite) {
+		this.$super(composite);
+		composite.addClass("jsWTColumnLayout");
+	},
 
-		this.getChildren().forEach(function (widget) {
-			var widgetHeight;
+	deconstruct : function (composite) {
+		this.$super(composite);
+		composite.removeClass("jsWTColumnLayout");
+	},
+
+	layout : function (composite) {
+		var resizeable = [];
+
+		composite.getChildren().forEach(function (widget) {
 			if (widget instanceof gara.jswt.widgets.Scrollable) {
 				if (widget.getHeight() === null) {
 					resizeable.push(widget);
@@ -50,10 +58,10 @@ gara.Class("gara.jswt.layout.ColumnLayout", function() { return {
 		}, this);
 
 		resizeable.forEach(function (widget, i, arr) {
-			widget.handle.style.height = height + "px";
+			widget.adjustHeight(composite.getHeight());
 		}, this);
 
-		return this;
+		this.$super(composite);
 	}
 
 //	setHeight : function (height) {

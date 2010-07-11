@@ -32,8 +32,21 @@ gara.provide("gara.jswt.layout.RowLayout", "gara.jswt.layout.Layout");
 gara.Class("gara.jswt.layout.RowLayout", function() { return {
 	$extends : gara.jswt.layout.Layout,
 
-	$constructor : function (parent) {
-		this.$super(parent);
-		this.addClass("jsWTRowLayout");
+	$constructor : function (style) {
+		this.$super(style);
+	},
+
+	construct : function (composite) {
+		composite.addClass("jsWTRowLayout");
+		this.$super(composite);
+	},
+
+	deconstruct : function (composite) {
+		composite.removeClass("jsWTRowLayout");
+		this.$super(composite);
+	},
+
+	layout : function (composite) {
+		this.$super(composite);
 	}
 };});
