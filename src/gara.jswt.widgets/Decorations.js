@@ -560,7 +560,10 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.positionOffsetX = this.positionOffsetY = 0;
 			this.setLocation(this.handle.offsetLeft, this.handle.offsetTop);
 			this.handle.style.position = "absolute";
-			this.stub.style.display = "block";
+			
+			if (this.stub !== null) {
+				this.stub.style.display = "block";
+			}
 		}
 	},
 
@@ -590,11 +593,16 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 	setMaximized : function (maximized) {
 		var parent = this.getParent().getClientArea ? this.getParent().getClientArea() : this.getParent(),
-			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
+			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id,
+			width, height;
 
 		if (maximized) {
 			if (this.minimized) {
 				gara.jswt.widgets.Decorations.minis[id][gara.jswt.widgets.Decorations.minis[id].indexOf(this)] = undefined;
+			}
+			// body
+			if (parent === gara.jswt.widgets.Display.getDefault().getClientArea()) {
+				parent = document.documentElement;
 			}
 			this.puffered = true;
 			this.handle.style.left = 0;

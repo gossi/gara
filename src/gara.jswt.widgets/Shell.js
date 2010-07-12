@@ -38,7 +38,6 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	 * @constructor
 	 */
 	$constructor : function (parent, style) {
-
 		if (!(parent instanceof gara.jswt.widgets.Shell) && !(parent instanceof gara.jswt.widgets.Display)) {
 			style = parent | gara.jswt.JSWT.SHELL_TRIM;
 			parent = gara.jswt.widgets.Display.getDefault();
@@ -71,6 +70,9 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 		this.setHeight(Math.floor(y / 2));
 		this.setLocation(Math.floor(x / 4), Math.floor(y / 4));
 		this.handle.style.display = "none";
+		this.handle.parentNode.removeChild(this.stub);
+		delete this.stub;
+		this.stub = null;
 	},
 
 	/**
@@ -78,9 +80,9 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	 *
 	 * @private
 	 */
-	handleEvent : function (e) {
-		this.$super(e);
-	},
+//	handleEvent : function (e) {
+//		this.$super(e);
+//	},
 
 	open : function () {
 		this.handle.style.display = "block";
