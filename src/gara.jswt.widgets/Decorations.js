@@ -63,7 +63,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.offsetX = 0;
 		this.offsetY = 0;
 		this.overflow = null;
-		this.placeholder = null;
+		this.stub = null;
 		this.title = null;
 		this.titleRight = null;
 		this.titleTextNode = null;
@@ -90,20 +90,47 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.resizeS = null;
 		this.resizeSSE = null;
 		this.resizeESE = null;
+		
+		this.adjustedHeight = false;
+		this.adjustedWidth = false;
 
 		this.$super(parent, gara.jswt.widgets.Decorations.checkStyle(style));
 	},
 
 	adjustHeight : function (height) {
 		if (height > 1) {
-			this.clientArea.style.height = (this.height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
+			this.clientArea.style.height = (height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
 		}
+		
+		
 	},
 
 	adjustWidth : function (width) {
 		if (width > 1) {
-			this.clientArea.style.width = this.width + "px";
+			this.clientArea.style.width = width + "px";
 		}
+		
+		
+	},
+	
+	setHeight : function (height) {
+		this.$super(height);
+
+		if (!this.adjustedHeight && this.stub !== null) {
+			this.stub.style.height = height + "px";
+			this.adjustedHeight = true;
+		}
+		return this;
+	},
+	
+	setWidth : function (width) {
+		this.$super(width);
+
+		if (!this.adjustedWidth && this.stub !== null) {
+			this.stub.style.width = width + "px";
+			this.adjustedWidth = true;
+		}		
+		return this;
 	},
 
 	/**
@@ -159,8 +186,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 		// title
 		if ((this.style & gara.jswt.JSWT.TITLE) !== 0) {
-//			this.handle.style.position = "absolute";
-
 			this.title = document.createElement("div");
 			this.title.className = "jsWTDecorationsTitle";
 			this.title.widget = this;
@@ -274,10 +299,18 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 		// content
 		this.clientArea = document.createElement("div");
-		this.clientArea.className = "jsWTDecorationsClientArea";
+		this.clientArea.className = "jsWTClientArea jsWTDecorationsClientArea";
 		this.handle.appendChild(this.clientArea);
 
 		this.addListener("mousedown", this);
+		
+		if ((this.style & gara.jswt.JSWT.RESIZE) !== 0
+				|| (this.style & gara.jswt.JSWT.TITLE) !== 0) {
+			this.stub = document.createElement("div");
+			this.stub.className = "jsWTStub";
+			this.stub.style.display = "none";
+			this.handle.parentNode.insertBefore(this.stub, this.handle);
+		}
 	},
 
 	getImage : function () {
@@ -334,6 +367,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 					|| e.target === this.titleButtons
 					|| e.target === this.titleTextNode)
 					&& !this.maximized && !this.minimized) {
+				
+				this.makeAbsolute();
 
 				gara.EventManager.addListener(this.moveParent, "mousemove", this);
 				gara.EventManager.addListener(this.title, "mouseup", this);
@@ -360,6 +395,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 					|| e.target === this.resizeSSE || e.target === this.resizeESE
 					&& !this.maximized && !this.minimized) {
 
+				this.makeAbsolute();
+				
 				gara.EventManager.addListener(this.moveParent, "mousemove", this);
 				gara.EventManager.addListener(gara.jswt.widgets.Display.getDefault().getClientArea(), "mouseup", this);
 
@@ -510,6 +547,20 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 				this.resizing = false;
 			}
 			break;
+		}
+	},
+	
+	/**
+	 * @method
+	 * 
+	 * @private
+	 */
+	makeAbsolute : function () {
+		if (this.handle.style.position !== "absolute") {
+			this.positionOffsetX = this.positionOffsetY = 0;
+			this.setLocation(this.handle.offsetLeft, this.handle.offsetTop);
+			this.handle.style.position = "absolute";
+			this.stub.style.display = "block";
 		}
 	},
 

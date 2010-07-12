@@ -6,29 +6,42 @@
  */
 
 .loosy .jsWTRowLayout > .jsWTControl,
-.loosy .jsWTRowLayout > .jsWTLayout {
+.loosy .jsWTRowLayout > .jsWTLayout,
+.loosy .jsWTRowLayout > .jsWTStub,
+.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTControl,
+.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTLayout,
+.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTStub {
 	padding-top: 10px;
 }
 
-.loosy .jsWTRowLayout > *.jsWTControl:first-child,
-.loosy .jsWTRowLayout > *.jsWTLayout:first-child {
+.loosy .jsWTRowLayout > .jsWTControl:first-child,
+.loosy .jsWTRowLayout > .jsWTLayout:first-child,
+.loosy .jsWTRowLayout > .jsWTStub:first-child,
+.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTControl:first-child,
+.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTLayout:first-child,
+.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTStub:first-child {
 	padding-top: 0;
 }
 
 .jsWTColumnLayout > .jsWTControl,
-.jsWTColumnLayout > .jsWTLayout {
+.jsWTColumnLayout > .jsWTLayout,
+.jsWTColumnLayout > .jsWTStub,
+.jsWTColumnLayout > .jsWTClientArea > .jsWTControl,
+.jsWTColumnLayout > .jsWTClientArea > .jsWTLayout,
+.jsWTColumnLayout > .jsWTClientArea > .jsWTStub {
 	float: left;
-}
-
-.jsWTRowLayout > .jsWTControl,
-.jsWTRowLayout > .jsWTLayout,
-.jsWTColumnLayout > .jsWTControl,
-.jsWTColumnLayout > .jsWTLayout {
-	
 }
 
 .jsWTRowLayout, .jsWTColumnLayout {
 	border-collapse: collapse;
+}
+
+.jsWTClientArea {
+	position: relative;
+}
+
+.jsWTStub {
+	visibility: hidden;
 }
 
 /* Width */

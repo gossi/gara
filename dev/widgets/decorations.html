@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
 <title>gara.jswt.widgets.decorations (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <style>
@@ -13,7 +15,8 @@ float: left;
 <script>
 var shell;
 function main() {
-	container = new gara.jswt.widgets.Decorations(gara.jswt.widgets.Display.getDefault(), gara.jswt.JSWT.BORDER)
+	var container = new gara.jswt.widgets.Decorations(gara.jswt.widgets.Display.getDefault(), gara.jswt.JSWT.BORDER)
+		.setLayout(new gara.jswt.layout.ColumnLayout())
 		.setHeight(450);
 
 	var img = new Image();
@@ -91,6 +94,7 @@ function main() {
 	"gara.jswt.widgets.TableItem",
 	"gara.jswt.widgets.Tree", 
 	"gara.jswt.widgets.TreeItem",
+	"gara.jswt.layout.ColumnLayout"
 ], main);</script>
 </body>
 </html>

@@ -23,6 +23,7 @@
 
 gara.provide("gara.jswt.layout.Layout", "gara.jswt.widgets.Composite");
 
+gara.use("gara.jswt.JSWT");
 gara.use("gara.EventManager");
 
 /**
