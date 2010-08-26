@@ -160,6 +160,7 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 			handle.type = (this.style & gara.jswt.JSWT.PASSWORD) === gara.jswt.JSWT.PASSWORD ? "password" : "text";
 			this.handle.parentNode.replaceChild(handle, this.handle);
 			this.handle = handle;
+			this.handle.widget = this;
 
 			// bind listeners ...again
 			for (eventType in this.listeners) {

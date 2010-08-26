@@ -175,6 +175,9 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 	createWidget : function () {
 		this.createHandle("div");
 
+		// aria
+		this.handle.setAttribute("role", "group");
+		
 		// add css classes
 		this.addClass("jsWTDecorations");
 		this.setClass("jsWTDecorationsBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
@@ -245,6 +248,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.title.appendChild(this.titleTextNode);
 
 			this.handle.appendChild(this.title);
+			this.handle.setAttribute("aria-labelledby", this.getId() + "-label");
 
 //			gara.EventManager.addListener(this.title, "mousedown", this);
 		}
@@ -316,9 +320,17 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 	getImage : function () {
 		return this.image;
 	},
+	
+	getMaximized : function () {
+		return this.maximized;
+	},
 
 	getMenuBar : function () {
 		return this.menuBar;
+	},
+	
+	getMinimized : function () {
+		return this.minimized;
 	},
 
 	getText : function () {
@@ -342,6 +354,9 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 				return [currentLeft, currentTop];
 			}, resizeN, resizeE, resizeS, resizeW;
 
+		e.widget = this;
+		this.event = e;
+
 		switch (e.type) {
 		case "click":
 			switch (e.target) {
@@ -351,6 +366,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 			case this.titleMinButton:
 				this.setMinimized(!this.minimized);
+				e.stopPropagation();
 				break;
 
 			case this.titleMaxButton:
@@ -696,7 +712,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 				if (left === false) {
 					left = len;
-					gara.jswt.widgets.Decorations.minis[id].push(this);
+					gara.jswt.widgets.Decorations.minis[id][gara.jswt.widgets.Decorations.minis[id].length] = this;
 				} else {
 					gara.jswt.widgets.Decorations.minis[id][left] = this;
 				}
@@ -715,7 +731,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			gara.jswt.widgets.Decorations.minis[id][gara.jswt.widgets.Decorations.minis[id].indexOf(this)] = undefined;
 			this.layout();
 		}
-
+		
 		return this;
 	},
 

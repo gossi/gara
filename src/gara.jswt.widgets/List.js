@@ -99,6 +99,7 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 		this.selectionListeners = [];
 
 		this.$super(parent, style || gara.jswt.JSWT.SINGLE);
+		this.addFocusListener(this);
 	},
 
 	/**
@@ -278,12 +279,11 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 	},
 
 	focusGained : function (e) {
+		console.log("List.focusGained");
 		// mark first item active
 		if (this.activeItem === null && this.items.length) {
 			this.activateItem(this.items[0]);
 		}
-
-		this.$super(e);
 	},
 
 	/**

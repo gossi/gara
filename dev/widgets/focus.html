@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.jswt.widgets.decorations (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script src="../../src/gara.js"></script>
+<script>
+var ControlListener = {
+	focusGained : function (e) {
+		console.log("Focus gained on: " + e.widget.getText());
+	},
+
+	focusLost : function (e) {
+		console.log("Focus lost on: " + e.widget.getText());
+	}
+},
+ControlDecider = {
+	focusGained : function (e) {
+		console.log("Decider: Focus gained on: " + e.widget.getText());
+		return window.confirm("Focus control: " + e.widget.getText() + "?");
+	},
+	
+	focusLost : function (e) {
+		console.log("Decider: Focus lost on: " + e.widget.getText());
+		return window.confirm("Blur control: " + e.widget.getText() + "?");
+	}
+},
+ControlToggler = {
+	gained : false,
+	lost : false,
+	focusGained : function (e) {
+		this.gained = !this.gained;
+		console.log("Focus gained on: " + e.widget.getText() + " -> " + this.gained);
+		return this.gained;
+	},
+	
+	focusLost : function (e) {
+		this.lost = !this.lost;
+		console.log("Focus lost on: " + e.widget.getText() + " -> " + this.lost);
+		return this.lost;
+	}
+};
+
+function main() {
+	new gara.jswt.widgets.Text(document.getElementById("container")).setText("Simple");
+	new gara.jswt.widgets.Text(document.getElementById("container")).setText("Listener").addFocusListener(ControlListener);
+	new gara.jswt.widgets.Text(document.getElementById("container")).setText("Toggler").addFocusListener(ControlToggler);
+}
+
+</script>
+</head>
+<body class="sand">
+<h1 style="font-size: 24px; margin-bottom: 10px;">Control Focus testing</h1>
+<div id="container" class="sand">
+</div>
+<script type="text/javascript">gara.require("gara.jswt.widgets.Text", main);</script>
+</body>
+</html>

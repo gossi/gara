@@ -211,6 +211,7 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.activeItem = null;
 
 		this.$super(parent, style || gara.jswt.JSWT.SINGLE);
+		this.addFocusListener(this);
 	},
 
 	/**
@@ -518,13 +519,11 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		delete this.handle;
 	},
 
-	focusGained : function (e) {
+	focusGained : function () {
 		// mark first item active
 		if (this.activeItem === null && this.items.length) {
 			this.activateItem(this.items[0]);
 		}
-
-		this.$super(e);
 	},
 
 	/**

@@ -96,27 +96,51 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 //		}
 	},
 
+	/**
+	 * @method
+	 * 
+	 * @summary
+	 * Returns a (possibly empty) array containing the receiver's children.
+	 * 
+	 * @description
+	 * Returns a (possibly empty) array containing the receiver's children. Children are returned 
+	 * in the order that they are drawn. The topmost control appears at the beginning of the array. 
+	 * Subsequent controls draw beneath this control and appear later in the array. 
+	 * 
+	 * @return {gara.jswt.widgets.Control[]} an array of children
+	 */
 	getChildren : function () {
-		var widgets = [], child, i,
-			childs =  this.getClientArea().childNodes;
+		var temp = {}, child, i, len, z, layers = {}, max = 0, controls = [],
+			childs = this.getClientArea().childNodes;
 
+		// SELECT childNodes FROM this.getClientArea() WHERE childNode[widget] 
+		// 		ORDER BY childNode.style.zIndex DESC
 		for (i = 0, len = childs.length; i < len; i++) {
 			child = childs[i];
-			if (child.widget && child.widget instanceof gara.jswt.widgets.Widget) {
-				widgets.push(child.widget);
+			if (child.widget && child.widget instanceof gara.jswt.widgets.Control) {
+				z = child.widget.handle.style.zIndex === "" ? 0 : child.widget.handle.style.zIndex;
+				if (!layers[z]) {
+					layers[z] = [];
+				}
+				layers[z][layers[z].length] = child.widget;
+				max = Math.max(max, z);
 			}
 		}
-		return widgets;
+
+		for (i = max; i >= 0; i--) {
+			if (layers[i]) {
+				layers[i].forEach(function (widget) {
+					controls[controls.length] = widget;
+				}, this);
+			}
+		}
+		
+		return controls;
 	},
 	
 	getLayout : function () {
 		return this.layoutInformation;
 	},
-
-//	setHeight : function (height) {
-//		this.$super(height);
-//		return this;
-//	},
 
 	/**
 	 * @method
@@ -240,9 +264,6 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 		}, this);
 	},
 
-//	setWidth : function (width) {
-//		return this.$super(width);
-//	},
 	setLayout : function (layout) {
 		if (!(layout instanceof gara.jswt.layout.Layout)) {
 			throw new TypeError("layout not instance of gara.jswt.layout.Layout");
@@ -259,8 +280,4 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	unbindListener : function (eventType, listener) {
 		gara.EventManager.removeListener(this.handle, eventType, listener);
 	}
-
-//	handleEvent : function(e) {
-//		this.$super(e);
-//	},
 };});

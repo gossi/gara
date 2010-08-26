@@ -194,15 +194,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		} else {
 			this.parentNode = this.parent;
 		}
+		
+		this.shell = parent.getShell ? parent.getShell() : null;
 
 		this.createWidget();
-
-//		if (parent instanceof gara.jswt.widgets.Composite) {
-//			parent.resize();
-//		}
-
-		// add to focus manager
-//		gara.jswt.widgets.FocusManager.addWidget(this);
 		this.display.addWidget(this);
 	},
 
@@ -339,51 +334,51 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.mouseListeners = [];
 	},
 
-	/**
-	 * @method
-	 * This method is invoked by the <code>FocusManager</code> when the <code>Control</code>
-	 * gains focus.
-	 *
-	 * @private
-	 * @param {Event} e
-	 * @return {void}
-	 */
-	focusGained : function (e) {
-		this.hasFocus = true;
-
-		e.widget = this;
-		e.control = this;
-
-		// notify focus listeners
-		this.focusListeners.forEach(function (listener) {
-			if (listener.focusGained) {
-				listener.focusGained(e);
-			}
-		}, this);
-	},
-
-	/**
-	 * @method
-	 * This method is invoked by the <code>FocusManager</code> when the <code>Control</code>
-	 * losts focus.
-	 *
-	 * @private
-	 * @param {Event} e
-	 * @return {void}
-	 */
-	focusLost : function (e) {
-		this.hasFocus = false;
-
-		e.widget = this;
-		e.control = this;
-
-		// notify focus listeners
-		this.focusListeners.forEach(function (listener) {
-			if (listener.focusLost) {
-				listener.focusLost(e);
-			}
-		}, this);
-	},
+//	/**
+//	 * @method
+//	 * This method is invoked by the <code>FocusManager</code> when the <code>Control</code>
+//	 * gains focus.
+//	 *
+//	 * @private
+//	 * @param {Event} e
+//	 * @return {void}
+//	 */
+//	focusGained : function (e) {
+//		this.hasFocus = true;
+//
+//		e.widget = this;
+//		e.control = this;
+//
+//		// notify focus listeners
+//		this.focusListeners.forEach(function (listener) {
+//			if (listener.focusGained) {
+//				listener.focusGained(e);
+//			}
+//		}, this);
+//	},
+//
+//	/**
+//	 * @method
+//	 * This method is invoked by the <code>FocusManager</code> when the <code>Control</code>
+//	 * losts focus.
+//	 *
+//	 * @private
+//	 * @param {Event} e
+//	 * @return {void}
+//	 */
+//	focusLost : function (e) {
+//		this.hasFocus = false;
+//
+//		e.widget = this;
+//		e.control = this;
+//
+//		// notify focus listeners
+//		this.focusListeners.forEach(function (listener) {
+//			if (listener.focusLost) {
+//				listener.focusLost(e);
+//			}
+//		}, this);
+//	},
 
 	/**
 	 * @method
@@ -392,6 +387,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @return {void}
 	 */
 	forceFocus : function () {
+		this.handle.setAttribute("data-gara-forcefocus", true);
 		this.handle.focus();
 	},
 
@@ -413,6 +409,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 */
 	getHeight : function () {
 		return this.height;
+	},
+	
+	getShell : function () {
+		return this.shell;
 	},
 
 	/**
@@ -533,22 +533,87 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 	/**
 	 * @method
-	 * Returns true if the <code>Control</code> has the user-interface focus, and false otherwise.
+	 * Returns true if the <code>Control</code> has <i>keyboard-focus</i>, and false otherwise.
 	 *
 	 * @return {boolean} the <code>Control</code>'s focus state
 	 */
 	isFocusControl : function () {
-		return this.hasFocus;
+		return this.display.getFocusControl() === this;
 	},
 
 	/**
 	 * @method
-	 * Forces this <code>Control</code> to loose focus.
+	 * @summary
+	 * Moves the receiver above the specified control in the drawing order.
+	 * 
+	 * @description
+	 * Moves the receiver above the specified control in the drawing order. If no argument, 
+	 * then the receiver is moved to the top of the drawing order. The control at the top of the 
+	 * drawing order will not be covered by other controls even if they occupy intersecting areas. 
 	 *
-	 * @return {void}
+	 * @param {gara.jswt.widgets.Control} control the sibling control (optional)
 	 */
-	looseFocus : function () {
-		this.handle.blur();
+	moveAbove : function (control) {
+		var layers;
+
+		if (this.getParent().getChildren) {
+			layers = this.getParent().getChildren();
+			layers.remove(this);
+			layers.insertAt(control && layers.contains(control) ? layers.indexOf(control) : 0, this);
+			layers.forEach(function(widget, index, layers) {
+				widget.handle.style.zIndex = 1 + (layers.length - index);
+			}, this);
+		}
+	},
+
+	/**
+	 * @method
+	 * @summary
+	 * Moves the receiver below the specified control in the drawing order.
+	 * 
+	 * @description
+	 * Moves the receiver below the specified control in the drawing order. If no argument, 
+	 * then the receiver is moved to the bottom of the drawing order. The control at the bottom of 
+	 * the drawing order will be covered by all other controls which occupy intersecting areas. 
+	 *
+	 * @param {gara.jswt.widgets.Control} control the sibling control (optional)
+	 */
+	moveBelow : function (control) {
+		var layers;
+
+		if (this.getParent().getChildren) {
+			layers = this.getParent().getChildren();
+			layers.remove(this);
+			layers.insertAt(control && layers.contains(control) ? layers.indexOf(control) + 1 : layers.length, this);
+			layers.forEach(function(widget, index, layers) {
+				widget.handle.style.zIndex = 1 + (layers.length - index);
+			}, this);
+		}
+	},
+	
+
+	/**
+	 * @method
+	 * 
+	 * @private
+	 * @param eventType
+	 * @returns {boolean} true if the operation is permitted
+	 */
+	notifyFocusListener : function (eventType) {
+		var ret = true;
+		this.focusListeners.forEach(function (listener) {
+			var answer, e = this.event || window.event || {};
+			e.widget = this;
+			e.control = this;
+
+			if (listener[eventType]) {
+				answer = listener[eventType](e);
+				if (typeof(answer) !== "undefined" && !answer) {
+					ret = false;
+				}
+			}
+		}, this);
+		return ret;
 	},
 
 	/**
@@ -627,6 +692,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.handle.tabIndex = this.enabled ? 0 : -1;
 		return this;
 	},
+	
+	setFocus : function () {
+		this.handle.focus();
+	},
 
 	/**
 	 * @method
@@ -665,7 +734,6 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 		return this;
 	},
-
 
 	setLocation : function (x, y) {
 		if (x > 0) {
@@ -715,6 +783,16 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		}
 		this.menu = menu;
 		return this;
+	},
+	
+	setSize : function () {
+		if (arguments.length == 2) {
+			this.setWidth(arguments[0]);
+			this.setHeight(arguments[1]);
+		} else {
+			this.setWidth(arguments[0].x);
+			this.setHeight(arguments[0].y);
+		}
 	},
 
 	/**

@@ -111,6 +111,7 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 		this.selectionListeners = [];
 
 		this.$super(parent, style || gara.jswt.JSWT.SINGLE);
+		this.addFocusListener(this);
 	},
 
 	/**
@@ -296,12 +297,10 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 		delete this.handle;
 	},
 
-	focusGained : function (e) {
+	focusGained : function () {
 		if (this.activeItem === null && this.items.length) {
 			this.activateItem(this.items[0]);
 		}
-
-		this.$super(e);
 	},
 
 	getColumnCount : function () {

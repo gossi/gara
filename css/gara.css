@@ -46,6 +46,10 @@ ul.gara  {
 	line-height: 1.22em;
 }
 
+.gara *[tabindex="-1"] {
+	outline: none;
+}
+
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
  * gara.jswt.widgets.Control

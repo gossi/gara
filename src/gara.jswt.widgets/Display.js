@@ -24,7 +24,8 @@
 gara.provide("gara.jswt.widgets.Display");
 
 gara.use("gara.jswt.widgets.Widget");
-gara.use("gara.jswt.widgets.Decorations");
+gara.use("gara.jswt.widgets.Control");
+gara.use("gara.jswt.widgets.Shell");
 
 gara.require("gara.EventManager");
 
@@ -38,6 +39,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 
 	/**
 	 * @field
+	 * Holds the current focus control.
 	 *
 	 * @private
 	 * @type gara.jswt.wigets.Control
@@ -54,13 +56,21 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 
 	/**
 	 * @field
+	 * Contains the widgets attached to this display
 	 *
 	 * @private
 	 * @type gara.jswt.wigets.Widget[]
 	 */
 	widgets : [],
 
-	layers : {},
+	/**
+	 * @field
+	 * Contains the shells attached to this display
+	 *
+	 * @private
+	 * @type gara.jswt.wigets.Shell[]
+	 */
+	shells : [],
 
 	/**
 	 * @field
@@ -70,13 +80,21 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 	 * @type {gara.jswt.widgets.Display}
 	 */
 	defaultDisplay : gara.$static(null),
+	
+	/**
+	 * @field
+	 * 
+	 * @private
+	 * @type {gara.jswt.widgets.Shell}
+	 */
+	activeShell : null,
 
 	$constructor : function () {
 		var self = this;
 		gara.EventManager.addListener(document, "keydown", this);
 		gara.EventManager.addListener(document, "keypress", this);
 		gara.EventManager.addListener(document, "keyup", this);
-
+		
 		this.disposeListener = {
 			widgetDisposed : function (widget) {
 				self.removeWidget(widget);
@@ -99,52 +117,43 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 		}
 
 		if (!this.widgets.contains(widget)) {
-			this.widgets.push(widget);
+			this.widgets[this.widgets.length] = widget;
 			widget.addDisposeListener(this.disposeListener);
 			if (widget instanceof gara.jswt.widgets.Control) {
 				widget.addListener("focus", this);
 				widget.addListener("blur", this);
-
-				if (widget.getParent() instanceof gara.jswt.widgets.Widget) {
-					id = widget.getParent().getId();
-				}
-
-				// html node
-				else {
-					if (widget.getParent().id) {
-						id = widget.getParent().id;
-					} else {
-						id = gara.generateUID();
-						widget.getParent().id = id;
-					}
-				}
-
-
-				if (!this.layers[id]) {
-					this.layers[id] = [];
-				}
-
-				if (!this.layers[id].contains(widget)) {
-					this.layers[id].push(widget);
+//
+//				if (widget.getParent() instanceof gara.jswt.widgets.Widget) {
+//					id = widget.getParent().getId();
+//				}
+//
+//				// html node
+//				else {
+//					if (widget.getParent().id) {
+//						id = widget.getParent().id;
+//					} else {
+//						id = gara.generateUID();
+//						widget.getParent().id = id;
+//					}
+//				}
+//
+//
+//				if (!this.layers[id]) {
+//					this.layers[id] = [];
+//				}
+//
+//				if (!this.layers[id].contains(widget)) {
+//					this.layers[id].push(widget);
+//				}
+				if (widget instanceof gara.jswt.widgets.Shell && !this.shells.contains(widget)) {
+					this.shells[this.shells.length] = widget;
 				}
 			}
 		}
 	},
-
-	/**
-	 * @method
-	 *
-	 * @private
-	 */
-	bringLayerToFront : function (widget) {
-		id = widget.getParent().getId ? widget.getParent().getId() : widget.getParent().id;
-		if (Object.prototype.hasOwnProperty.call(this.layers, id)) {
-			this.layers[id].remove(widget);
-			this.layers[id].insertAt(0, widget);
-			this.layers[id].forEach(function(widget, index, layers) {
-				widget.handle.style.zIndex = 1 + (layers.length - index);
-			}, this);
-		}
+	
+	getActiveShell : function () {
+		return this.activeShell;
 	},
 
 	/**
@@ -176,6 +185,44 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 	getFocusControl : function () {
 		return this.focusControl;
 	},
+	
+	/**
+	 * @method
+	 * 
+	 * @summary
+	 * Returns a (possibly empty) array containing the receiver's shells.
+	 * 
+	 * @description
+	 * Returns a (possibly empty) array containing the receiver's shells. Shells are returned 
+	 * in the order that they are drawn. The topmost shell appears at the beginning of the array. 
+	 * Subsequent shells draw beneath this shell and appear later in the array. 
+	 * 
+	 * @return {gara.jswt.widgets.Shell[]} an array of children
+	 */
+	getShells : function () {
+		var temp = {}, child, i, z, layers = {}, max = 0, shells = [];
+	
+		this.shells.forEach(function (shell) {
+			if (!shell.isDisposed()) {
+				z = shell.handle.style.zIndex === "" ? 0 : shell.handle.style.zIndex;
+				if (!layers[z]) {
+					layers[z] = [];
+				}
+				layers[z][layers[z].length] = shell;
+				max = Math.max(max, z);
+			}
+		}, this);
+	
+		for (i = max; i >= 0; i--) {
+			if (layers[i]) {
+				layers[i].forEach(function (shell) {
+					shells[shells.length] = shell;
+				}, this);
+			}
+		}
+		
+		return shells;
+	},
 
 	/**
 	 * @method
@@ -199,7 +246,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 
 	/**
 	 * @method
-	 * Internal event handler to pass keyboard events and focussing the acitve
+	 * Internal event handler to pass keyboard events and focussing the active
 	 * widget
 	 *
 	 * @private
@@ -207,7 +254,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 	 * @return {void}
 	 */
 	handleEvent : function (e) {
-		var widget, parent;
+		var control, parent, shell, success, layers, id, notifyResult;
 		switch (e.type) {
 		case "keydown":
 		case "keypress":
@@ -219,32 +266,90 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 
 		case "focus":
 			if (e.target.widget instanceof gara.jswt.widgets.Control) {
-				// handle layers
-				widget = e.target.widget;
-				this.bringLayerToFront(widget);
+				control = e.target.widget;
+				success = true;
+				layers = {};
 
-				// handle parent decorations
-				parent = widget.getParent();
-				while (!(parent instanceof gara.jswt.widgets.Decorations) && parent.getParent) {
+				if (control === this.focusControl) {
+					return;
+				}
+				
+				// get shell
+				shell = control.getShell();
+				
+				// handle layers
+				// save layers
+				this.widgets.forEach(function (widget) {
+					layers[widget.handle.id] = widget.handle.style.zIndex;
+				}, this);
+				
+				// move every layer in the control hierarchy from control to the shell on top
+				control.moveAbove();
+				parent = control;
+				while (shell !== null && parent !== shell && parent.getParent) {
+					parent.moveAbove();
 					parent = parent.getParent();
 				}
-
-				if (parent instanceof gara.jswt.widgets.Decorations) {
-					this.bringLayerToFront(parent);
+				
+				// if parent is a shell and cannot be activated -> exit
+				if (shell instanceof gara.jswt.widgets.Shell
+						&& !control.handle.hasAttribute("suppressFocusNotify")
+						&& !shell.setActive()) {
+					
+					// restore layers, focus active shell and exit
+					for (id in layers) {
+						if (Object.prototype.hasOwnProperty.call(layers, id)) {
+							document.getElementById(id).style.zIndex = layers[id];
+						}
+					}
+					this.activeShell.setFocus();
+					return false;
 				}
+				
+				// notifyFocusListener
+				if (!control.handle.hasAttribute("data-gara-suppressFocusNotify")) {
+					notifyResult = control.notifyFocusListener("focusGained");
+					success = success && 
+						control.handle.hasAttribute("data-gara-forcefocus")
+							? true
+							: notifyResult;
+				}
+				this.focusControl = control;
+				
+				// remove obsolete data-gara-* attributes
+				control.handle.removeAttribute("data-gara-suppressFocusNotify");
+				control.handle.removeAttribute("data-gara-forcefocus");
+				
+				// restore layers, if something wasn't allowed
+				if (!success) {
+					for (id in layers) {
+						if (Object.prototype.hasOwnProperty.call(layers, id)) {
+							document.getElementById(id).style.zIndex = layers[id];
+						}
+					}
 
-
-				// pass focus to control
-				this.focusControl = widget;
-				widget.focusGained(e);
+					this.focusControl = null;
+					control.handle.setAttribute("data-gara-suppressBlurNotify", true);
+					control.handle.blur();
+				}
 			}
 			break;
 
 		case "blur":
-			if (e.target.widget instanceof gara.jswt.widgets.Control) {
-				e.target.widget.focusLost(e);
-				this.focusControl = null;
+			if (e.target.widget instanceof gara.jswt.widgets.Control
+					&& !e.target.hasAttribute("data-gara-suppressBlurNotify")) {
+				
+				if (e.target.widget.notifyFocusListener("focusLost")) {
+					this.focusControl = null;
+				} else {
+					// workaround for re-focus
+					// bug in FF, see: https://bugzilla.mozilla.org/show_bug.cgi?id=53579
+					e.target.setAttribute("data-gara-suppressFocusNotify", true);
+					setTimeout(function() {e.target.focus();}, 0);
+				}	
 			}
+			
+			e.target.removeAttribute("data-gara-suppressBlurNotify");
 			break;
 		}
 	},
@@ -272,8 +377,38 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 			if (widget instanceof gara.jswt.widgets.Control) {
 				widget.removeListener("focus", this);
 				widget.removeListener("blur", this);
+				
+				if (widget instanceof gara.jswt.widgets.Shell) {
+					this.shells.remove(widget);
+				}
 			}
 			this.widgets.remove(widget);
 		}
+	},
+	
+	/**
+	 * 
+	 * @private
+	 * @param {gara.jswt.widgets.Shell} shell
+	 * @returns {void}
+	 */
+	setActiveShell : function (shell) {
+		if (shell !== null && !(shell instanceof gara.jswt.widgets.Shell)) {
+			throw new TypeError("shell is not a gara.jswt.widgets.Shell");
+		}
+		this.activeShell = shell;
+	},
+	
+	/**
+	 * 
+	 * @private
+	 * @param {gara.jswt.widgets.Control} control
+	 * @returns {void}
+	 */
+	setFocusControl : function (control) {
+		if (control !== null && !(control instanceof gara.jswt.widgets.Control)) {
+			throw new TypeError("shell is not a gara.jswt.widgets.Control");
+		}
+		this.focusControl = control;
 	}
 })});

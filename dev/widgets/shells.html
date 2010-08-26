@@ -1,0 +1,91 @@
+<!doctype html>
+<html style="height: 100%;">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.jswt.widgets.decorations (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script src="../../src/gara.js"></script>
+<script>
+var simpleShell, listenerShell, deciderShell, 
+	shellListener = {
+		shellActivated : function (e) {
+			console.log("Shell activated: " + e.widget.getText());
+		},
+		shellClosed : function (e) {
+			console.log("Shell closed: " + e.widget.getText());
+		},
+		shellDeactivated : function (e) {
+			console.log("Shell deactivated: " + e.widget.getText());
+		},
+		shellDeiconified : function (e) {
+			console.log("Shell deiconified: " + e.widget.getText());
+		},
+		shellIconified : function (e) {
+			console.log("Shell iconified: " + e.widget.getText());
+		},
+	},
+	shellDecider = {
+		shellActivated : function (e) {
+			return window.confirm("Activate Shell: " + e.widget.getText() + "?");
+		},
+		shellClosed : function (e) {
+			return window.confirm("Close Shell: " + e.widget.getText() + "?");
+		},
+		shellDeactivated : function (e) {
+			return window.confirm("Deactivate Shell: " + e.widget.getText() + "?");
+		},
+		shellDeiconified : function (e) {
+			return window.confirm("Deiconify Shell: " + e.widget.getText() + "?");
+		},
+		shellIconified : function (e) {
+			return window.confirm("Iconify Shell: " + e.widget.getText() + "?");
+		},
+	};
+
+function main() {
+	gara.EventManager.addListener(document.getElementById("simpleShell"), "click", function () {
+		if (!simpleShell) {
+			simpleShell = new gara.jswt.widgets.Shell().setText("Simple Shell");
+			new gara.jswt.widgets.Label(simpleShell).setText("A simple Shell");		
+		}
+		simpleShell.open();
+	});
+	
+	gara.EventManager.addListener(document.getElementById("listenerShell"), "click", function () {
+		if (!listenerShell) {
+			listenerShell = new gara.jswt.widgets.Shell().setText("Shell /w Listener");
+			listenerShell.addShellListener(shellListener);
+			new gara.jswt.widgets.Label(listenerShell).setText("A Shell with Listener");
+			new gara.jswt.widgets.Text(listenerShell);
+		}
+		listenerShell.open();
+	});
+
+	gara.EventManager.addListener(document.getElementById("deciderShell"), "click", function () {
+		if (!deciderShell) {
+			deciderShell = new gara.jswt.widgets.Shell().setText("Shell /w Listener + Decider");
+			deciderShell.addShellListener(shellDecider);
+			new gara.jswt.widgets.Label(deciderShell).setText("A Shell that asks you before performing a specific operation");
+			new gara.jswt.widgets.Text(deciderShell);
+		}
+		deciderShell.open();
+	});
+
+	new gara.jswt.widgets.Shell(gara.jswt.JSWT.NO_TRIM).open();
+}
+</script>
+</head>
+<body style="padding: 10px;" class="sand" role="application">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Shell</h1>
+<button id="simpleShell">Open Simple Shell</button>
+<button id="listenerShell">Open Shell /w Listener</button>
+<button id="deciderShell">Open Shell /w Listener &amp; Decider</button>
+<script>gara.require([
+	"gara.jswt.widgets.Shell",
+	"gara.jswt.widgets.Text",
+	"gara.jswt.widgets.Label"
+], main);</script>
+</body>
+</html>

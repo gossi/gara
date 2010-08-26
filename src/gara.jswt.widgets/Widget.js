@@ -37,7 +37,7 @@ gara.use("gara.jswt.widgets.Display");
  * @description
  * long description (just testing the doc...)
  * @author Thomas Gossmann
- * @namespace gara.jswt
+ * @namespace gara.jswt.widgets
  * @see http://gara.creative2.net
  * @see gara.jswt.List
  * @see <span style="color: #f00">doc-test... am i red?</span>
@@ -152,7 +152,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @constructor
 	 * Widget base constructor
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.Widget|HTMLElement} parent the parent for this widget
 	 * @param {int} style the style codec for this widget
 	 */
@@ -180,7 +179,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Adds a CSS class to the item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} className new class
 	 * @return {gara.jswt.widgets.Widget}
 	 */
@@ -198,7 +196,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Adds multiple CSS classes to the <code>Widget</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String[]} classNames new classes in an array
 	 * @return {gara.jswt.widgets.Widget}
 	 */
@@ -213,7 +210,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Adds a dispose listener to the widget
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.DisposeListener} listener the listener which gets notified about the disposal
 	 * @return {void}
 	 */
@@ -228,7 +224,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Adds an event listener to the widget
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
 	 * @return {void}
@@ -295,7 +290,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Checks wether the widget is disposed or not
 	 *
-	 * @author Thomas Gossmann
 	 * @throws gara.jswt.gara.jswt.JSWTException <ul>
 	 * 		<li>gara.jswt.gara.jswt.JSWT.ERROR_WIDGET_DISPOSED - If widget is disposed</li>
 	 * </ul>
@@ -312,7 +306,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Disposes the widget
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	dispose : function () {
@@ -337,7 +330,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Returns application based data for this widget, or <code>null</code> if it has not been set
 	 *
-	 * @author Thomas Gossmann
 	 * @return {Object} application based data
 	 */
 	getData : function (key) {
@@ -350,12 +342,21 @@ gara.Class("gara.jswt.widgets.Widget", {
 		}
 		return null;
 	},
+	
+	/**
+	 * @method
+	 * Returns the Display, the receiver is attached to
+	 * 
+	 * @returns {gara.jswt.widgets.Display} the display
+	 */
+	getDisplay : function () {
+		return this.display;
+	},
 
 	/**
 	 * @method
 	 * Returns the ID for this widget. This ID is also used in the DOM handle.
 	 *
-	 * @author Thomas Gossmann
 	 * @return {String} the ID
 	 */
 	getId : function () {
@@ -369,7 +370,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Returns the parent for this widget
 	 *
-	 * @author Thomas Gossmann
 	 * @return {gara.jswt.Widget|HTMLElement} the widgets parent
 	 */
 	getParent : function () {
@@ -380,7 +380,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Returns the style for this widget
 	 *
-	 * @author Thomas Gossmann
 	 * @return {int} the style
 	 */
 	getStyle : function () {
@@ -391,7 +390,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Tests if there is a specified class available
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} className the class name to look for
 	 * @return {boolean} true if the class is available and false if not
 	 */
@@ -403,7 +401,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Tells wether this widget is disposed or not
 	 *
-	 * @author Thomas Gossmann
 	 * @return {boolean} true for disposed status otherwise false
 	 */
 	isDisposed : function () {
@@ -440,7 +437,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Removes a CSS class name from this item.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} className the class name that should be removed
 	 * @return {void}
 	 */
@@ -456,7 +452,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Removes a dispose listener from the widget
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.DisposeListener} listener the listener which should be removed
 	 * @return {void}
 	 */
@@ -469,7 +464,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Removes a listener from this item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
 	 * @return {void}
@@ -487,7 +481,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Sets a class on or off
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} className the class to set
 	 * @param {boolean} on true for setting the class and false for removing
 	 * @return {void}
@@ -505,7 +498,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Sets application based data for this widget
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Object} data your data for this widget
 	 * @return {void}
 	 */
@@ -523,7 +515,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * Sets the ID for this widget. Even sets the ID in the DOM handle wether
 	 * the widget is created
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} id the ID
 	 * @return {void}
 	 */
@@ -536,7 +527,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @method
 	 * Toggles a class
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} className the class to toggle
 	 * @return {void}
 	 */

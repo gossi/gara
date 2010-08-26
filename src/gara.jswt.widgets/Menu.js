@@ -140,6 +140,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		this.menuBarDropDownShown = false;
 
 		this.$super(parent, style);
+		this.addFocusListener(this);
 	},
 
 
@@ -307,8 +308,6 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 				this.activateItem(this.items[0]);
 			}
 		}
-
-		this.$super(e);
 	},
 
 	focusLost : function (e) {
@@ -321,8 +320,6 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 			this.activeItem.setActive(false);
 			this.activeItem = null;
 		}
-
-		this.$super(e);
 	},
 
 	getItem : function (index) {
