@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script src="../../src/gara.js"></script>
 <script>
-var simpleShell, listenerShell, deciderShell, 
+var simpleShell, listenerShell, deciderShell, fsShell, 
 	shellListener = {
 		shellActivated : function (e) {
 			console.log("Shell activated: " + e.widget.getText());
@@ -73,6 +73,19 @@ function main() {
 		deciderShell.open();
 	});
 
+	gara.EventManager.addListener(document.getElementById("fullscreenShell"), "click", function () {
+		if (!fsShell) {
+			fsShell = new gara.jswt.widgets.Shell().setText("Shell /w Fullscreen toggle");
+			new gara.jswt.widgets.Label(fsShell).setText("Click the button to toggle fullscreen");
+			new gara.jswt.widgets.Button(fsShell).setText("Toggle Fullscreen Mode").addMouseListener({
+				mouseDown : function (e) {
+					fsShell.setFullScreen(!fsShell.getFullScreen());
+				}
+			});
+		}
+		fsShell.open();
+	});
+
 	new gara.jswt.widgets.Shell(gara.jswt.JSWT.NO_TRIM).open();
 }
 </script>
@@ -82,10 +95,12 @@ function main() {
 <button id="simpleShell">Open Simple Shell</button>
 <button id="listenerShell">Open Shell /w Listener</button>
 <button id="deciderShell">Open Shell /w Listener &amp; Decider</button>
+<button id="fullscreenShell">Open Shell /w Fullscreen toggle</button>
 <script>gara.require([
 	"gara.jswt.widgets.Shell",
 	"gara.jswt.widgets.Text",
-	"gara.jswt.widgets.Label"
+	"gara.jswt.widgets.Label",
+	"gara.jswt.widgets.Button"
 ], main);</script>
 </body>
 </html>

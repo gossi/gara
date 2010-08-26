@@ -76,7 +76,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.enabled = false;
 		this.maximized = false;
 		this.minimized = false;
-		this.puffered = false;
 
 		this.resizeNNW = null;
 		this.resizeWNW = null;
@@ -243,7 +242,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 				this.titleImage.style.display = "none";
 			}
 
-			this.titleTextNode.appendChild(this.titleImage)
+			this.titleTextNode.appendChild(this.titleImage);
 			this.titleTextNode.appendChild(this.titleText);
 			this.title.appendChild(this.titleTextNode);
 
@@ -620,7 +619,6 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			if (parent === gara.jswt.widgets.Display.getDefault().getClientArea()) {
 				parent = document.documentElement;
 			}
-			this.puffered = true;
 			this.handle.style.left = 0;
 			this.handle.style.top = 0;
 			this.handle.style.width = parent.clientWidth + "px";

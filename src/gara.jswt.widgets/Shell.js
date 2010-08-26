@@ -66,6 +66,7 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 		this.enabled = false;
 		this.maximized = false;
 		this.minimized = false;
+		this.fullScreen = false;
 		this.shellListeners = [];
 		this.alpha = 100;
 		this.tabIndexes = [];
@@ -191,6 +192,10 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	
 	getAlpha : function () {
 		return this.alpha;
+	},
+	
+	getFullScreen : function () {
+		return this.fullScreen;
 	},
 	
 	getShell : function () {
@@ -345,6 +350,84 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 		this.handle.style.filter = "alpha(opacity=" + alpha + ")";
 
 		return this;
+	},
+	
+	setFullScreen : function (fullScreen) {
+		var parent = document.documentElement,
+			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
+
+		if (fullScreen) {
+			if (this.minimized) {
+				gara.jswt.widgets.Decorations.minis[id][gara.jswt.widgets.Decorations.minis[id].indexOf(this)] = undefined;
+			}
+			
+			// hide elements from DIALOG_TRIM:
+			// title
+			if ((this.style & gara.jswt.JSWT.TITLE) !== 0) {
+				this.title.style.display = "none";
+			}
+			
+			// resize
+			if ((this.style & gara.jswt.JSWT.RESIZE) !== 0) {
+				this.resizeNNW.style.display = "none";
+				this.resizeWNW.style.display = "none";
+				this.resizeN.style.display = "none";
+				this.resizeNNE.style.display = "none";
+				this.resizeENE.style.display = "none";
+				this.resizeE.style.display = "none";
+				this.resizeW.style.display = "none";
+				this.resizeSSW.style.display = "none";
+				this.resizeWSW.style.display = "none";
+				this.resizeS.style.display = "none";
+				this.resizeSSE.style.display = "none";
+				this.resizeESE.style.display = "none";
+			}
+			
+			// border
+			this.setClass("jsWTDecorationsBorder", false);
+			
+			// do measuring
+			this.handle.style.left = 0;
+			this.handle.style.top = 0;
+			this.handle.style.width = parent.clientWidth + "px";
+			this.handle.style.height = parent.clientHeight + "px";
+			this.clientArea.style.width = parent.clientWidth + "px";
+			this.clientArea.style.height = (parent.clientHeight - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
+		} else {
+			// show elements from DIALOG_TRIM:
+			// title
+			if ((this.style & gara.jswt.JSWT.TITLE) !== 0) {
+				this.title.style.display = "block";
+			}
+			
+			// resize
+			if ((this.style & gara.jswt.JSWT.RESIZE) !== 0) {
+				this.resizeNNW.style.display = "block";
+				this.resizeWNW.style.display = "block";
+				this.resizeN.style.display = "block";
+				this.resizeNNE.style.display = "block";
+				this.resizeENE.style.display = "block";
+				this.resizeE.style.display = "block";
+				this.resizeW.style.display = "block";
+				this.resizeSSW.style.display = "block";
+				this.resizeWSW.style.display = "block";
+				this.resizeS.style.display = "block";
+				this.resizeSSE.style.display = "block";
+				this.resizeESE.style.display = "block";
+			}
+			
+			// border
+			this.setClass("jsWTDecorationsBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
+			
+			// do measuring
+			this.handle.style.left = this.x + "px";
+			this.handle.style.top = this.y + "px";
+			this.setWidth(this.getWidth());
+			this.setHeight(this.getHeight());
+		}
+		this.layout();
+
+		this.fullScreen = fullScreen;
 	},
 	
 	setMaximized : function (maximized) {
