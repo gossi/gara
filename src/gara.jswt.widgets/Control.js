@@ -326,12 +326,21 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		}
 	},
 
-	dispose : function () {
+	destroyWidget : function () {
+		this.display.removeWidget(this);
+		
+		if (this.parentNode != null && this.isComposite) {
+			this.parentNode.removeChild(this.handle);
+		}
+		
+		this.focusListeners = null;
+		this.keyListeners = null;
+		this.mouseListeners = null;
+		
+		this.shell = null;
+		this.parentNode = null;
+		
 		this.$super();
-		gara.jswt.widgets.FocusManager.removeWidget(this);
-		this.focusListeners = [];
-		this.keyListeners = [];
-		this.mouseListeners = [];
 	},
 
 //	/**

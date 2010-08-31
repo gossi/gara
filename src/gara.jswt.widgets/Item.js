@@ -68,10 +68,20 @@ gara.Class("gara.jswt.widgets.Item", function() { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
-		this.classes = []; // reset Widget's style
 		this.active = false;
 		this.image = null;
 		this.text = "";
+	},
+	
+	destroyWidget : function () {
+		this.image = null;
+		this.text = null;
+		
+		if (this.parentNode !== null) {
+			this.parentNode.removeChild(this.handle);
+		}
+		
+		this.$super();
 	},
 
 	/**

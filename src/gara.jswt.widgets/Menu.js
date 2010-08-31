@@ -128,7 +128,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 
 		// private members
 		this.items = [];
-		this.menuListener = [];
+		this.menuListeners = [];
 		this.activeItem = null;
 
 		// location
@@ -207,8 +207,8 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 
 	addMenuListener : function (listener) {
 		this.checkWidget();
-		if (!this.menuListener.contains(listener)) {
-			this.menuListener.push(listener);
+		if (!this.menuListeners.contains(listener)) {
+			this.menuListeners.push(listener);
 		}
 
 		return this;
@@ -286,16 +286,13 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 
 		this.parentNode.appendChild(this.handle);
 	},
+	
+	destroyWidget : function () {
+		this.menuListeners = null;
+		this.activeItem = null;
+		this.items = null;
 
-	dispose : function () {
 		this.$super();
-
-		this.items.forEach(function (item, index, arr) {
-			item.dispose();
-		}, this);
-
-		this.parentNode.removeChild(this.handle);
-		delete this.handle;
 	},
 
 	focusGained : function (e) {
@@ -645,10 +642,40 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 	isVisible : function () {
 		return this.visible;
 	},
+	
+	/**
+	 * @method
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	releaseChildren : function () {
+		this.items.forEach(function (item) {
+			item.release();
+		}, this);
+		
+		this.$super();
+	},
+	
+	/**
+	 * @method
+	 * Releases an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TableItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseItem : function (item) {
+		if (this.items.contains(item)) {
+			this.handle.removeChild(item.handle);
+			this.items.remove(item);
+		}
+	},
 
 	removeMenuListener : function (listener) {
 		this.checkWidget();
-		this.menuListener.remove(listener);
+		this.menuListeners.remove(listener);
 	},
 
 	setEnabled : function (enabled) {

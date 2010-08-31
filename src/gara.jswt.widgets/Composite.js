@@ -72,28 +72,15 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
-	dispose : function () {
-		this.$super();
-
-		if (this.parentNode != null && this.isComposite) {
-			this.parentNode.removeChild(this.handle);
-			delete this.handle;
-		}
-	},
-
 	createHandle : function (element) {
 		this.$super(element);
 		this.addClass("jsWTComposite");
 	},
 
 	createWidget : function () {
-		//if (typeof(element) == "undefined") {
-			this.createHandle("div");
-			this.handle.tabIndex = -1;
-			this.isComposite = true;
-//		} else {
-//			this.$super(element, preventAppending);
-//		}
+		this.createHandle("div");
+		this.handle.tabIndex = -1;
+		this.isComposite = true;
 	},
 
 	/**
@@ -262,6 +249,12 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 				lastHeight -= widgetHeight;
 			}
 		}, this);
+	},
+	
+	releaseChildren : function () {
+		this.getChildren().forEach(function (control) {
+			control.release();
+		});
 	},
 
 	setLayout : function (layout) {

@@ -250,26 +250,25 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 		cell.td.className = i === 0 ? "first" : "";
 	},
 
-	dispose : function () {
-		var cell, i;
-		this.$super();
 
-		for (i = 0, len = this.cells.length; i < len; i++) {
-			cell = this.cells[i];
-			if (cell.img) {
-				cell.td.removeChild(cell.img);
-				delete cell.img;
-				cell.image = null;
-			}
-			this.handle.removeChild(cell.td);
+	destroyWidget : function () {
+//		var cell, i, len;
+		this.parent.releaseItem(this);
 
-			delete cell.td;
-		}
+//		for (i = 0, len = this.cells.length; i < len; i++) {
+//			cell = this.cells[i];
+//			if (cell.img) {
+//				cell.td.removeChild(cell.img);
+//				delete cell.img;
+//				cell.image = null;
+//			}
+//			this.handle.removeChild(cell.td);
+//
+//			delete cell.td;
+//		}
 		this.cells = null;
-		delete this.cells;
-
-		this.parentNode.removeChild(this.handle);
-		delete this.handle;
+		
+		this.$super();
 	},
 
 	/**

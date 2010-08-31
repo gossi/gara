@@ -264,18 +264,31 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 		this.notifySelectionListener();
 	},
 
-	dispose : function () {
-		this.deselectAll();
+	destroyWidget : function () {
+		this.items = null;
+
+		this.activeItem = null;
+		this.shiftItem = null;
+
+		this.selection = null;
+		this.selectionListeners = null;
+		
 		this.$super();
-
-		this.items.forEach(function (item, index, arr) {
-			item.dispose();
-		}, this);
-
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
+	},
+	
+	/**
+	 * @method
+	 * Removes an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.ListItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	destroyItem : function (item) {
+		if (this.items.contains(item)) {
+			this.items.remove(item);
+			this.handle.removeChild(item.handle);
 		}
-		delete this.handle;
 	},
 
 	focusGained : function (e) {
@@ -651,6 +664,37 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 			}
 		}, this);
 	},
+	
+	/**
+	 * @method
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	releaseChildren : function () {
+		this.items.forEach(function (item) {
+			item.release();
+		}, this);
+		
+		this.$super();
+	},
+	
+	/**
+	 * @method
+	 * Releases an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TableItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseItem : function (item) {
+		if (this.items.contains(item)) {
+			this.handle.removeChild(item.handle);
+			this.items.remove(item);
+			this.selection.remove(item);
+		}
+	},
 
 	/**
 	 * @method
@@ -667,9 +711,7 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 			throw new RangeError("index out of bounds");
 		}
 		item = this.items.removeAt(index)[0];
-		if (this.selection.contains(item)) {
-			this.selection.remove(item);
-		}
+		this.selection.remove(item);
 		item.dispose();
 		delete item;
 	},

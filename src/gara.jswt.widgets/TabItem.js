@@ -28,7 +28,7 @@ gara.use("gara.jswt.JSWT");
 gara.use("gara.jswt.widgets.Control");
 gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.MenuItem");
-//gara.use("gara.jswt.widgets.TabFolder");
+gara.use("gara.jswt.widgets.TabFolder");
 
 /**
  * gara TreeItem
@@ -115,8 +115,8 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.$super(parent, style);
 
 		// content and flags
+//		this.disposed = false;
 		this.active = false;
-		this.content = null;
 		this.control = null;
 		this.toolTipText = null;
 		this.menuItem = null;
@@ -139,6 +139,12 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 	 */
 	bindListener : function (eventType, listener) {
 		gara.EventManager.addListener(this.handle, eventType, listener);
+	},
+
+	close : function () {
+		if (this.parent.notifyTabFolderListener("close")) {
+			this.dispose();
+		}
 	},
 
 	/**
@@ -194,8 +200,17 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.span.appendChild(this.spanText);
 		this.span.setAttribute("role", "presentation");
 
+		// close
+		if ((this.style & gara.jswt.JSWT.CLOSE) !== 0) {
+			this.closeButton = document.createElement("span");
+			this.closeButton.className = "jsWTDecorationsCloseButton";
+			this.door.appendChild(this.closeButton);
+		}
+		
 		this.door.appendChild(this.img);
 		this.door.appendChild(this.span);
+		
+		
 
 		this.clientArea = document.createElement("div");
 		this.clientArea.style.display = this.active ? "block" : "none";
@@ -231,20 +246,17 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.parent.updateMeasurements();
 	},
 
-	dispose : function () {
-		this.$super();
-
-		this.parentNode.removeChild(this.handle);
-		this.parent.getClientArea().removeChild(this.clientArea);
-
+	destroyWidget : function () {
+		this.parent.releaseItem(this);
+				
 		if (this.control !== null) {
-			this.control.dispose();
+			this.control.release();
 		}
-
-		delete this.span;
-		delete this.img;
-		delete this.control;
-		delete this.handle;
+		
+		this.control = null;
+		this.menuItem = null;
+		
+		this.$super();
 	},
 
 	/**
@@ -254,17 +266,6 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 	 */
 	getClientArea : function () {
 		return this.clientArea;
-	},
-
-	/**
-	 * @method
-	 * Returns the content for this item
-	 *
-	 * @return {string} the content;
-	 */
-	getContent : function () {
-		this.checkWidget();
-		return this.content;
 	},
 
 	/**
@@ -301,12 +302,8 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 	handleEvent : function (e) {
 		this.checkWidget();
 
-		switch (e.type) {
-		case "keyup":
-		case "keydown":
-		case "keypress":
-			this.notifyExternalKeyboardListener(e, this, this.parent);
-			break;
+		if (e.type === "mousedown" && e.target === this.closeButton) {
+			this.close();
 		}
 	},
 

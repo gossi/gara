@@ -184,10 +184,11 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 //		this.addListener("mouseup", this);
 	},
 
-	dispose : function () {
+	destroyWidget : function () {
+		this.modifyListeners = null;
+		this.selectionListeners = null;
+		
 		this.$super();
-
-		delete this.handle;
 	},
 
 	getSelection : function () {

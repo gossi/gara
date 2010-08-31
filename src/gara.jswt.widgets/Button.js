@@ -261,15 +261,13 @@ gara.Class("gara.jswt.widgets.Button", function() { return {
 		door.appendChild(this.span);
 	},
 
-	dispose : function () {
-//		this.$super();
-
-//		this.selectionListener = [];
-//
-//		if (this.parentNode !== null) {
-//			this.parentNode.removeChild(this.handle);
-//		}
-//		delete this.handle;
+	destroyWidget : function () {
+		this.selectionListeners = null;
+		
+		this.img = null;
+		this.span = null;
+		
+		this.$super();
 	},
 
 	getImage : function () {

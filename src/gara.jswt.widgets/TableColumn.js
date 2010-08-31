@@ -250,24 +250,12 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 		}
 	},
 
-	dispose : function () {
+	destroyWidget : function () {
+		this.parent.releaseColumn(this);
+				
+		this.shadow = null;
+		
 		this.$super();
-
-		if (this.img !== null) {
-			this.handle.removeChild(this.img);
-			delete this.img;
-			delete this.image;
-		}
-		this.handle.removeChild(this.operator);
-		this.handle.removeChild(this.span);
-
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
-		}
-
-		delete this.operator;
-		delete this.span;
-		delete this.handle;
 	},
 
 	getWidth : function () {

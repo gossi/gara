@@ -69,9 +69,9 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 		this.fullScreen = false;
 		this.shellListeners = [];
 		this.alpha = 100;
-		this.tabIndexes = [];
-		this.tabIndexElements = [];
-		this.tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME","DIV","UL","SPAN"];
+//		this.tabIndexes = [];
+//		this.tabIndexElements = [];
+//		this.tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME","DIV","UL","SPAN"];
 
 		this.$super(parent, gara.jswt.widgets.Shell.checkStyle(style));
 	},
@@ -135,6 +135,12 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 			delete this.stub;
 			this.stub = null;
 		}
+	},
+	
+	destroyWidget : function () {
+		this.shellListeners = null;
+		
+		this.$super();
 	},
 
 	/**

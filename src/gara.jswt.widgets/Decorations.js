@@ -143,13 +143,29 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		gara.EventManager.addListener(this.handle, eventType, listener);
 	},
 
-	dispose : function () {
-		this.$super();
-
-		if (this.parentNode != null && this.isComposite) {
-			this.parentNode.removeChild(this.handle);
-			delete this.handle;
+	destroyWidget : function () {
+		this.resizeNNW = null;
+		this.resizeWNW = null;
+		this.resizeN = null;
+		this.resizeNNE = null;
+		this.resizeENE = null;
+		this.resizeE = null;
+		this.resizeW = null;
+		this.resizeSSW = null;
+		this.resizeWSW = null;
+		this.resizeS = null;
+		this.resizeSSE = null;
+		this.resizeESE = null;
+		
+		this.menuBarNode = null;
+		this.clientArea = null;
+		
+		if (this.stub !== null) {
+			this.handle.parentNode.removeChild(this.stub);
+			this.stub = null;
 		}
+		
+		this.$super();
 	},
 
 	checkStyle : gara.$static(function (style) {
@@ -580,6 +596,15 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 				this.stub.style.display = "block";
 			}
 		}
+	},
+	
+	releaseChildren : function () {
+		if (this.menu !== null) {
+			this.menu.release();
+			this.menu = null;
+		}
+		
+		this.$super();
 	},
 
 	/**

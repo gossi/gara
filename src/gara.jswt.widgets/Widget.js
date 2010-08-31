@@ -80,14 +80,6 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @field
 	 *
 	 * @private
-	 * @type boolean
-	 */
-	disposed : false,
-
-	/**
-	 * @field
-	 *
-	 * @private
 	 * @type Array
 	 */
 	disposeListener : [],
@@ -214,8 +206,8 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @return {void}
 	 */
 	addDisposeListener : function (listener) {
-		if (!this.disposeListener.contains(listener)) {
-			this.disposeListener.push(listener);
+		if (!this.disposeListeners.contains(listener)) {
+			this.disposeListeners.push(listener);
 		}
 		return this;
 	},
@@ -309,21 +301,23 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @return {void}
 	 */
 	dispose : function () {
-		this.disposed = true;
-
-		// notify dispose listeners
-		this.disposeListener.forEach(function (item, index, arr) {
-			// interface checking
-			if (item.widgetDisposed) {
-				item.widgetDisposed(this);
-			}
-		}, this);
-
-		for (var type in this.listener) {
-			this.listener[type].forEach(function (item, index, arr) {
-				this.removeListener(type, item);
-			}, this);
+		if (this.disposed) {
+			return;
 		}
+		
+		this.release();
+	},
+	
+	destroyWidget : function () {
+		this.handle = null;
+		this.classes = null;
+		this.parent = null;
+		this.display = null;
+		this.parentNode = null;
+		this.listeners = null;
+		this.disposeListeners = null;
+		this.data = null;
+		this.dataMap = null;
 	},
 
 	/**
@@ -456,7 +450,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @return {void}
 	 */
 	removeDisposeListener : function (listener) {
-		this.disposeListener.remove(listener);
+		this.disposeListeners.remove(listener);
 		return this;
 	},
 
@@ -476,6 +470,29 @@ gara.Class("gara.jswt.widgets.Widget", {
 		}
 		return this;
 	},
+	
+	release : function () {
+		this.disposed = true;
+		
+		// remove attached listener
+		for (var type in this.listener) {
+			this.listener[type].forEach(function (item, index, arr) {
+				this.removeListener(type, item);
+			}, this);
+		}
+		
+		// notify dispose listeners
+		this.disposeListeners.forEach(function (listener) {
+			if (listener.widgetDisposed) {
+				listener.widgetDisposed(this);
+			}
+		}, this);
+		
+		this.releaseChildren();
+		this.destroyWidget();
+	},
+	
+	releaseChildren : function () {},
 
 	/**
 	 * @method

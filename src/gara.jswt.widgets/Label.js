@@ -119,6 +119,13 @@ gara.Class("gara.jswt.widgets.Label", function() { return {
 		this.txtNode = document.createTextNode(this.text);
 		this.handle.appendChild(this.txtNode);
 	},
+	
+	destroyWidget : function () {
+		this.imgNode = null;
+		this.txtNode = null;
+		this.image = null;
+		this.text = null;
+	},
 
 	/**
 	 * @method

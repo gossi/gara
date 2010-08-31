@@ -283,18 +283,15 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 		this.notifySelectionListener();
 	},
 
-	dispose : function () {
-		this.deselectAll();
+	destroyWidget : function () {
+		this.items = null;
+		this.rootItems = null;
+		this.activeItem = null;
+		this.shiftItem = null;
+		this.selection = null;
+		this.selectionListeners = null;
+
 		this.$super();
-
-		this.rootItems.forEach(function (item, index, arr) {
-			item.dispose();
-		}, this);
-
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
-		}
-		delete this.handle;
 	},
 
 	focusGained : function () {
@@ -723,6 +720,38 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 				listener.widgetSelected(this.event);
 			}
 		}, this);
+	},
+	
+	/**
+	 * @method
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	releaseChildren : function () {
+		this.rootItems.forEach(function (item) {
+			item.release();
+		}, this);
+
+		this.$super();
+	},
+	
+	/**
+	 * @method
+	 * Releases an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TreeItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseItem : function (item) {
+		if (this.items.contains(item)) {
+			this.handle.removeChild(item.handle);
+			this.items.remove(item);
+			this.rootItems.remove(item);
+			this.selection.remove(item);
+		}
 	},
 
 	/**

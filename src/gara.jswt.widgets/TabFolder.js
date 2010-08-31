@@ -25,7 +25,7 @@ gara.provide("gara.jswt.widgets.TabFolder", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
-//gara.use("gara.jswt.widgets.TabItem");
+gara.use("gara.jswt.widgets.TabItem");
 gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.MenuItem");
 
@@ -153,6 +153,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 		this.recents = [];
 		this.activeItem = null;
 		this.selectionListeners = [];
+		this.tabFolderListeners = [];
 		this.selection = [];
 		this.imageQueue = [];
 		this.event = null;
@@ -212,14 +213,32 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	 *
 	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this tabfolder
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @return {void}
+	 * @return {gara.jswt.widgets.TabFolder} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
 		if (!this.selectionListeners.contains(listener)) {
-			this.selectionListeners.push(listener);
+			this.selectionListeners[this.selectionListeners.length] = listener;
 		}
+		
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Adds a TabFolder listener on the tabfolder
+	 *
+	 * @author Thomas Gossmann
+	 * @param {gara.jswt.events.TabFolderListener} listener the desired listener to be added to this tabfolder
+	 * @return {gara.jswt.widgets.TabFolder} this
+	 */
+	addTabFolderListener : function (listener) {
+		this.checkWidget();
+		if (!this.tabFolderListeners.contains(listener)) {
+			this.tabFolderListeners[this.tabFolderListeners.length] = listener;
+		}
+		
+		return this;
 	},
 
 	/**
@@ -322,44 +341,30 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 			this.dropDownMenu = new gara.jswt.widgets.Menu(this, gara.jswt.JSWT.DROP_DOWN);
 		}
 	},
-
-	dispose : function () {
+	
+	destroyWidget : function () {
+		this.items = null;
+		this.recents = null;
+		this.activeItem = null;
+		this.selectionListeners = null;
+		this.tabFolderListeners = null;
+		this.selection = null;
+		this.imageQueue = null;
+		
 		this.$super();
-
-		this.items.forEach(function (item, index, arr) {
-			item.dispose();
-		}, this);
-
-		this.handle.removeChild(this.tabbar);
-		this.handle.removeChild(this.clientArea);
-
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
-		}
-
-		delete this.tabbar;
-		delete this.clientArea;
-		delete this.handle;
 	},
 
-//	/**
-//	 * @method
-//	 * Returns the client area off the active TabItem. Takes an TabItem as
-//	 * argument to retrieve the client area of that one.
-//	 *
-//	 * @author Thomas Gossmann
-//	 * @param {gara.jswt.widgets.TabItem|optional} item an item off which the client area should be retriven
-//	 * @return {HTMLElement} the client area node
-//	 */
-//	getClientArea : function (item) {
-////		if (typeof(item) === "undefined" && this.activeItem !== null) {
-////			return this.activeItem.getClientArea();
-////		} else if (gara.instanceOf(item, gara.jswt.TabItem)) {
-////			return item.getClientArea();
-////		}
-////		return null;
-//		return this.clientArea;
-//	},
+	/**
+	 * @method
+	 * Returns the client area off the active TabItem. Takes an TabItem as
+	 * argument to retrieve the client area of that one.
+	 *
+	 * @author Thomas Gossmann
+	 * @return {HTMLElement} the client area HTML element
+	 */
+	getClientArea : function () {
+		return this.clientArea;
+	},
 
 	/**
 	 * @method
@@ -591,6 +596,63 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 			}
 		}, this);
 	},
+	
+
+	/**
+	 * @method
+	 * 
+	 * @private
+	 * @param eventType
+	 * @returns {boolean} true if the operation is permitted
+	 */
+	notifyTabFolderListener : function (eventType) {
+		var ret = true;
+		this.tabFolderListeners.forEach(function (listener) {
+			var answer, e = this.event || window.event || {};
+			e.widget = this;
+			e.control = this;
+
+			if (listener[eventType]) {
+				answer = listener[eventType](e);
+				if (typeof(answer) !== "undefined" && !answer) {
+					ret = false;
+				}
+			}
+		}, this);
+		return ret;
+	},
+	
+	
+	/**
+	 * @method
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	releaseChildren : function () {
+		this.items.forEach(function (item) {
+			item.release();
+		}, this);
+		
+		this.$super();
+	},
+	
+	/**
+	 * @method
+	 * Releases an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TableItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseItem : function (item) {
+		if (this.items.contains(item)) {
+			this.tabbar.removeChild(item.handle);
+			this.clientArea.removeChild(item.getClientArea());
+			this.items.remove(item);
+		}
+	},
 
 	/**
 	 * @method
@@ -694,12 +756,25 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	 * Removes a selection listener from this tabfolder
 	 *
 	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this tabfolder
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @return {void}
+	 * @return {gara.jswt.widgets.TabFolder} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
 		this.selectionListeners.remove(listener);
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Removes a TabFolder listener from this tabfolder
+	 *
+	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this tabfolder
+	 * @return {gara.jswt.widgets.TabFolder} this
+	 */
+	removeTabFolderListener : function (listener) {
+		this.checkWidget();
+		this.tabFolderListeners.remove(listener);
+		return this;
 	},
 
 	/**

@@ -66,9 +66,9 @@ gara.Class("gara.jswt.widgets.Scrollable", function () { return {
 		return this.scrolledHandle().clientHeight < this.scrolledHandle().scrollHeight && this.scrolledHandle().style.overflowY != "hidden";
 	},
 
-	handleEvent : function (e) {
-		this.$super(e);
-	},
+//	handleEvent : function (e) {
+//		this.$super(e);
+//	},
 
 	/**
 	 * @method

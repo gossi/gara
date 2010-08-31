@@ -275,33 +275,21 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 		}
 	},
 
-	dispose : function () {
-		this.$super();
-
+	destroyWidget: function () {
+		this.parent.releaseItem(this);
+		
 		if (this.menu !== null) {
-			this.menu.dispose();
-			delete this.menu;
+			this.menu.release();
 		}
-
-		if (this.img !== null) {
-			this.handle.removeChild(this.img);
-			delete this.img;
-			delete this.image;
-		}
-
-		if (this.hr !== null) {
-			this.handle.removeChild(this.hr);
-			delete this.hr;
-		}
-
-		if (this.span !== null) {
-			this.handle.removeChild(this.span);
-			delete this.span;
-			delete this.text;
-		}
-
-		this.parentNode.removeChild(this.handle);
-		delete this.handle;
+		
+		this.span = null;
+		this.spanText = null;
+		this.img = null;
+		this.hr = null;
+		this.menu = null;
+		this.selectionListeners = null;
+		
+		this.$super();
 	},
 
 	getEnabled : function () {

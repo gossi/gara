@@ -489,34 +489,18 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		}
 		this.notifySelectionListener();
 	},
+	
+	destroyWidget : function () {
+		this.items = null;
+		this.columns = null;
+		this.columnOrder = null;
+		this.virtualColumn = null;
+		this.selection = null;
+		this.selectionListeners = null;
+		this.shiftItem = null;
+		this.activeItem = null;
 
-	dispose : function () {
-		this.deselectAll();
 		this.$super();
-
-		this.columns.forEach(function (col, index, arr) {
-			col.dispose();
-		}, this);
-
-		this.items.forEach(function (item, index, arr) {
-			item.dispose();
-		}, this);
-
-		this.thead.removeChild(this.theadRow);
-		this.table.removeChild(this.thead);
-		this.table.removeChild(this.tbody);
-		this.scroller.removeChild(this.table);
-		this.handle.removeChild(this.scroller);
-
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
-		}
-
-		delete this.theadRow;
-		delete this.thead;
-		delete this.tbody;
-		delete this.table;
-		delete this.handle;
 	},
 
 	focusGained : function () {
@@ -899,6 +883,56 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 				listener.widgetSelected(this.event);
 			}
 		}, this);
+	},
+	
+	/**
+	 * @method
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @return {void}
+	 */
+	releaseChildren : function () {
+		this.items.forEach(function (item) {
+			item.release();
+		}, this);
+		
+		this.columns.forEach(function (column) {
+			column.release();
+		}, this);
+		
+		this.$super();
+	},
+	
+	/**
+	 * @method
+	 * Releases a column from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TableColumn} column the column that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseColumn : function (column) {
+		if (this.columns.contains(column)) {
+			this.theadRow.removeChild(column.handle);
+			this.columns.remove(column);
+		}
+	},
+	
+	/**
+	 * @method
+	 * Releases an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TableItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseItem : function (item) {
+		if (this.items.contains(item)) {
+			this.tbody.removeChild(item.handle);
+			this.items.remove(item);
+			this.selection.remove(item);
+		}
 	},
 
 	/**

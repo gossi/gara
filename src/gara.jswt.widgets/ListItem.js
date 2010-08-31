@@ -197,23 +197,15 @@ gara.Class("gara.jswt.widgets.ListItem", function () { return {
 
 	},
 
-	dispose : function () {
+	destroyWidget : function () {
+		this.parent.releaseItem(this);
+
+		this.img = null;
+		this.span = null;
+		this.spanText = null;
+		this.list = null;
+		
 		this.$super();
-
-		if (this.img !== null) {
-			this.handle.removeChild(this.img);
-			delete this.img;
-			this.image = null;
-		}
-
-		this.handle.removeChild(this.span);
-
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
-		}
-
-		delete this.span;
-		delete this.handle;
 	},
 
 	getChecked : function () {

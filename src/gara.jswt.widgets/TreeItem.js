@@ -173,6 +173,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		this.parent = parent;
 		this.items = [];
 		this.texts = [];
+		this.images = [];
 
 		// states
 		this.selected = false;
@@ -363,19 +364,20 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		}, this);
 	},
 
-	dispose : function () {
-		this.$super();
+	destroyWidget : function () {
+		this.tree.releaseItem(this);
+		this.parent.releaseItem(this);
 
-		// dispose items
-		this.items.forEach(function (item, index, arr){
-			item.dispose();
+		this.items.forEach(function (item) {
+			item.release();
 		}, this);
+		
+		this.items = null;
+		this.texts = null;
+		this.images = null;
+		this.tree = null;
 
-		this.parentNode.removeChild(this.handle);
-
-		delete this.handle;
-		delete this.images;
-		delete this.texts;
+		this.$super();
 	},
 
 	/**
@@ -525,6 +527,23 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 
 		return this.items.indexOf(item);
 	},
+	
+	
+	/**
+	 * @method
+	 * Releases an item from the receiver
+	 *
+	 * @private
+	 * @param {gara.jswt.widgets.TreeItem} item the item that should removed from the receiver
+	 * @return {void}
+	 */
+	releaseItem : function (item) {
+		if (this.items.contains(item)) {
+			this.childContainer.removeChild(item.handle);
+			this.items.remove(item);
+		}
+	},
+
 
 	/**
 	 * @method
