@@ -317,15 +317,15 @@ ul.jsWTTree ul.bottom {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-div.jsWTTabFolder {
+.jsWTTabFolder {
 	position: relative;
 }
 
-div.jsWTTabFolder span.more {
+.jsWTTabFolder .more {
 	position: absolute;
 }
 
-ul.jsWTTabFolderBar {
+.jsWTTabFolderBar {
 	margin-left: 0;
 	padding-left: 0;
 	cursor: default;
@@ -335,7 +335,7 @@ ul.jsWTTabFolderBar {
 	-webkit-user-select: none;
 }
 
-div.jsWTTabFolder div.jsWTTabClientArea {
+.jsWTTabFolder .jsWTTabClientArea {
 	overflow: auto;
 }
 

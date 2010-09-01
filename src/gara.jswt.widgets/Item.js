@@ -77,9 +77,9 @@ gara.Class("gara.jswt.widgets.Item", function() { return {
 		this.image = null;
 		this.text = null;
 		
-		if (this.parentNode !== null) {
-			this.parentNode.removeChild(this.handle);
-		}
+//		if (this.parentNode !== null) {
+//			this.parentNode.removeChild(this.handle);
+//		}
 		
 		this.$super();
 	},

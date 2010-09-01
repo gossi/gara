@@ -204,6 +204,7 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		if ((this.style & gara.jswt.JSWT.CLOSE) !== 0) {
 			this.closeButton = document.createElement("span");
 			this.closeButton.className = "jsWTDecorationsCloseButton";
+			this.closeButton.widget = this;
 			this.door.appendChild(this.closeButton);
 		}
 		

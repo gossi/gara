@@ -219,7 +219,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 			style |= gara.jswt.JSWT.BAR;
 		}
 
-		style = gara.jswt.widgets.Widget.checkBits(style, gara.jswt.JSWT.BAR, gara.jswt.JSWT.POP_UP, gara.jswt.JSWT.DROP_DOWN);
+		style = gara.jswt.widgets.Widget.checkBits(style, gara.jswt.JSWT.BAR, gara.jswt.JSWT.DROP_DOWN, gara.jswt.JSWT.POP_UP);
 
 		if (style === 0) {
 			style = gara.jswt.JSWT.BAR;

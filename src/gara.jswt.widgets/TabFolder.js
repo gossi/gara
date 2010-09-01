@@ -200,8 +200,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 		if (this.activeItem === null) {
 			this.activeItem = item;
 			this.activeItem.setActive(true);
-			this.selection = [];
-			this.selection.push(this.activeItem);
+			this.selection = [this.activeItem];
 		}
 
 		return this.tabbar;
@@ -255,29 +254,27 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 		if (!(item instanceof gara.jswt.widgets.TabItem)) {
 			throw new TypeError("item is not type of gara.jswt.widgets.TabItem");
 		}
-
-		if (this.activeItem !== null) {
+		
+		if (this.activeItem !== null && !this.activeItem.isDisposed()) {
 			this.activeItem.setActive(false);
 		}
 
 		this.recents.remove(item);
 		this.recents.insertAt(0, item);
-
+		
 		this.activeItem = item;
 		this.activeItem.setActive(true);
 		this.tabbar.setAttribute("aria-activedescendant", this.activeItem.getId());
 
 		this.updateMeasurements();
-
+		
 		if (this.activeItem.getControl() !== null
 				&& this.activeItem.getControl() instanceof gara.jswt.widgets.Scrollable) {
-			this.activeItem.getControl().setHeight(this.clientArea.offsetHeight - gara.getNumStyle(this.clientArea, "border-top-width") - gara.getNumStyle(this.clientArea, "border-bottom-width") - gara.getNumStyle(this.clientArea, "padding-top") - gara.getNumStyle(this.clientArea, "padding-bottom"));
-			this.activeItem.getControl().setWidth(this.clientArea.offsetWidth - gara.getNumStyle(this.clientArea, "border-left-width") - gara.getNumStyle(this.clientArea, "border-right-width") - gara.getNumStyle(this.clientArea, "padding-left") - gara.getNumStyle(this.clientArea, "padding-right"));
-			this.activeItem.getControl().update();
+			this.activeItem.getControl().setHeight(this.clientArea.clientHeight - gara.getNumStyle(this.clientArea, "padding-top") - gara.getNumStyle(this.clientArea, "padding-bottom"));
+			this.activeItem.getControl().setWidth(this.clientArea.clientWidth - gara.getNumStyle(this.clientArea, "padding-left") - gara.getNumStyle(this.clientArea, "padding-right"));
 		}
 
-		this.selection = [];
-		this.selection.push(item);
+		this.selection = [item];
 		this.notifySelectionListener();
 	},
 
@@ -299,6 +296,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	 * @private
 	 */
 	createWidget : function () {
+		var self = this;
 		this.createHandle("div");
 
 		// css
@@ -339,6 +337,11 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 
 			gara.EventManager.addListener(this.more, "mousedown", this);
 			this.dropDownMenu = new gara.jswt.widgets.Menu(this, gara.jswt.JSWT.DROP_DOWN);
+			this.dropDownMenu.addMenuListener({
+				menuHidden : function () {
+					self.handle.style.overflow = "auto";
+				}
+			});
 		}
 	},
 	
@@ -457,7 +460,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
-
+		
 		// special events for the list
 		var widget = e.target.widget || null;
 		e.item = widget && widget instanceof gara.jswt.widgets.TabItem ? widget : this.activeItem;
@@ -494,6 +497,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 		switch (e.type) {
 		case "mousedown":
 			if (e.target === this.more) {
+				this.handle.style.overflow = "visible";
 				this.dropDownMenu.setLocation(this.more.offsetLeft, this.more.offsetTop + this.more.offsetHeight + 1);
 				this.dropDownMenu.setVisible(true);
 			} else {
@@ -651,6 +655,12 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 			this.tabbar.removeChild(item.handle);
 			this.clientArea.removeChild(item.getClientArea());
 			this.items.remove(item);
+			this.recents.remove(item);
+			
+			// set last recent item active
+			if (this.activeItem === item) {
+				this.activateItem(this.recents[0]);
+			}
 		}
 	},
 

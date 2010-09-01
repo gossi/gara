@@ -82,7 +82,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 	 * @private
 	 * @type Array
 	 */
-	disposeListener : [],
+	disposeListeners : [],
 
 	/**
 	 * @field
@@ -161,7 +161,7 @@ gara.Class("gara.jswt.widgets.Widget", {
 
 		this.event = null;
 		this.listeners = {};
-		this.disposedListeners = {};
+		this.disposeListeners = [];
 
 		this.data = {};
 		this.dataMap = {};
