@@ -5,11 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand ul.jsWTMenu {
+.sand .jsWTMenu {
 	margin: 0;
 	padding: 0;
 	background: none;
-	font-family: Verdana;
 }
 
 .sand ul.jsWTMenu li {
@@ -18,9 +17,10 @@
 	padding: 0 5px;
 }
 
-.sand ul.jsWTMenu li span {
+.sand .jsWTMenu .text {
 	line-height: 18px;
 	font-size: 11px;
+	font-family: Verdana;
 	border: none;
 	padding: 0;
 	margin: 0;
@@ -68,7 +68,7 @@
 	position: relative;
 }
 
-.sand ul.jsWTMenuBar li span {
+.sand .jsWTMenuBar .text {
 	line-height: 21px;
 }
 

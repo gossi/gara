@@ -219,7 +219,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 			style |= gara.jswt.JSWT.BAR;
 		}
 
-		style = gara.jswt.widgets.Widget.checkBits(style, gara.jswt.JSWT.BAR, gara.jswt.JSWT.DROP_DOWN, gara.jswt.JSWT.POP_UP);
+		style = gara.jswt.widgets.Widget.checkBits(style, gara.jswt.JSWT.BAR, gara.jswt.JSWT.POP_UP, gara.jswt.JSWT.DROP_DOWN);
 
 		if (style === 0) {
 			style = gara.jswt.JSWT.BAR;
@@ -296,6 +296,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 	},
 
 	focusGained : function (e) {
+		this.menuBarDropDownShown = true;
 		this.event = e;
 		if (this.items.length && this.activeItem === null) {
 			if (e.target.widget && e.target.widget instanceof gara.jswt.widgets.MenuItem
@@ -382,7 +383,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 			if (item.getParent() !== null
 					&& (item.getParent().getStyle() & gara.jswt.JSWT.BAR) === gara.jswt.JSWT.BAR
 					&& item.getParent() === this
-					&& this.hasFocus) {
+					&& this.isFocusControl()) {
 				item.getParent().handle.blur();
 			}
 		};
@@ -394,6 +395,9 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 					&& e.target.widget.getParent() === this
 					&& (this.getStyle() & gara.jswt.JSWT.BAR) === gara.jswt.JSWT.BAR) {
 				this.activateItem(e.target.widget);
+				if (e.target.widget.getMenu() !== null) {
+					e.target.widget.getMenu().setVisible(true);
+				}
 			}
 
 			// focus lost on pop up
@@ -461,7 +465,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 				if (item.getParent() === this && item.getEnabled()) {
 					this.activateItem(e.target.widget);
 					if (this.activeItem.getMenu() !== null
-							&& ((this.style & gara.jswt.JSWT.BAR) === gara.jswt.JSWT.BAR ? this.hasFocus : true)) {
+							&& ((this.style & gara.jswt.JSWT.BAR) === gara.jswt.JSWT.BAR ? this.isFocusControl() : true)) {
 						this.activeItem.getMenu().setVisible(true);
 					}
 				} else if (this.activeItem
@@ -478,7 +482,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 
 		case "mouseout":
 			if (e.target.widget && (e.target.widget === this || e.target.widget.getParent() === this)
-					&& !this.hasFocus
+					&& !this.isFocusControl()
 					&& this.activeItem !== null) {
 				this.activeItem.setActive(false);
 				this.activeItem = null;

@@ -347,7 +347,7 @@ ul.jsWTTree ul.bottom {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-ul.jsWTMenu {
+.jsWTMenu {
 	margin: 0;
 	padding: 0;
 	background-image: none;
@@ -358,7 +358,7 @@ ul.jsWTMenu {
 	-webkit-user-select: none;
 }
 
-ul.jsWTMenu li {
+.jsWTMenu li {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -367,17 +367,17 @@ ul.jsWTMenu li {
 }
 
 /* Reset. Anyways the menu inherits styles from controls */
-ul.jsWTMenu li span {
+.jsWTMenu .text {
 	padding: 0;
 	margin: 0;
 }
 
-ul.jsWTMenu li img {
+.jsWTMenu img {
 	vertical-align: middle;
 	margin-right: 3px;
 }
 
-ul.jsWTMenuDropDown, ul.jsWTMenuPopUp {
+.jsWTMenuDropDown, .jsWTMenuPopUp {
 	z-index: 500;
 }
 

@@ -63,12 +63,22 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 			style |= gara.jswt.JSWT.DIALOG_TRIM;
 		}
 
+		var self = this;
 		this.enabled = false;
 		this.maximized = false;
 		this.minimized = false;
 		this.fullScreen = false;
 		this.shellListeners = [];
 		this.alpha = 100;
+		this.resizeListener = {
+			handleEvent : function () {
+//				window.setTimeout(function() {
+					self.handle.style.width = document.documentElement.clientWidth + "px";
+					self.handle.style.height = document.documentElement.clientHeight + "px";
+					self.layout();
+//				}, 100);
+			}	
+		};
 //		this.tabIndexes = [];
 //		this.tabIndexElements = [];
 //		this.tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME","DIV","UL","SPAN"];
@@ -300,6 +310,9 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	open : function () {
 		this.setVisible(true);
 		this.forceFocus();
+		
+		this.adjustWidth(this.getWidth());
+		this.adjustHeight(this.getHeight());
 	},
 	
 	/**
@@ -359,7 +372,7 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	},
 	
 	setFullScreen : function (fullScreen) {
-		var parent = document.documentElement,
+		var parent = document.documentElement, 
 			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
 
 		if (fullScreen) {
@@ -399,6 +412,9 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 			this.handle.style.height = parent.clientHeight + "px";
 			this.clientArea.style.width = parent.clientWidth + "px";
 			this.clientArea.style.height = (parent.clientHeight - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
+			
+			// add listener to keep the fullscreen shell full screen
+			gara.EventManager.addListener(window, "resize", this.resizeListener);
 		} else {
 			// show elements from DIALOG_TRIM:
 			// title
@@ -430,10 +446,48 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 			this.handle.style.top = this.y + "px";
 			this.setWidth(this.getWidth());
 			this.setHeight(this.getHeight());
+			
+			gara.EventManager.removeListener(window, "resize", this.resizeListener);
 		}
 		this.layout();
 
 		this.fullScreen = fullScreen;
+	},
+	
+	setHeight : function (height) {
+		if (this.maximized || this.minimized || this.fullScreen) {
+			this.height = height;
+		} else {
+			this.$super(height);	
+		}
+				
+		return this;
+	},
+	
+	setLocation : function (x, y) {
+		if (this.maximized || this.minimized || this.fullScreen) {		
+			if (x > 0) {
+				this.x = x;
+			}
+	
+			if (y > 0) {
+				this.y = y;
+			}
+		} else {
+			this.$super(x, y);
+		}
+
+		return this;
+	},
+	
+	setWidth : function (width) {
+		if (this.maximized || this.minimized || this.fullScreen) {
+			this.width = width;
+		} else {
+			this.$super(width);	
+		}
+				
+		return this;
 	},
 	
 	setMaximized : function (maximized) {

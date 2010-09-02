@@ -166,8 +166,8 @@ if (typeof(gara) !== "undefined") {
 	// Resource Management
 	// #########################################################################
 
-	resourcesBase = ["gara.app", "gara.jsface.action", "gara.jsface.viewers", "gara.jswt.layout", "gara.jswt.widgets", "gara.jswt.events", "gara.jswt", "gara"],
- 	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", config.garaBaseUrl + "/gara.jsface.action", config.garaBaseUrl + "/gara.jsface.viewers", config.garaBaseUrl + "/gara.jswt.layout", config.garaBaseUrl + "/gara.jswt.widgets", config.garaBaseUrl + "/gara.jswt.events", config.garaBaseUrl + "/gara.jswt", config.garaBaseUrl + "/gara"],
+	resourcesBase = ["gara.app", "gara.jsface.action", "gara.jsface.viewers", "gara.jsface.window", "gara.jswt.layout", "gara.jswt.widgets", "gara.jswt.events", "gara.jswt", "gara"],
+	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", config.garaBaseUrl + "/gara.jsface.action", config.garaBaseUrl + "/gara.jsface.viewers", config.garaBaseUrl + "/gara.jsface.window", config.garaBaseUrl + "/gara.jswt.layout", config.garaBaseUrl + "/gara.jswt.widgets", config.garaBaseUrl + "/gara.jswt.events", config.garaBaseUrl + "/gara.jswt", config.garaBaseUrl + "/gara"],
 	callbackqs[cbc] = {resources : []};
 
 	gara.setResourcePath = gara.registerModulePath = function (resource, path) {

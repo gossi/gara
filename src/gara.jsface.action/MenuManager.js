@@ -136,27 +136,29 @@ gara.Class("gara.jsface.action.MenuManager", {
 	},
 
 	createContextMenu : function (control) {
-		var menu;
 		if (!(control instanceof gara.jswt.widgets.Control)) {
 			throw new TypeError("control ist not instance of gara.jswt.widgets.Control");
 		}
 
-		menu = new gara.jswt.widgets.Menu(control);
+		var menu = new gara.jswt.widgets.Menu(control);
 		this.menus.push(menu);
 		this.updateMenu(menu);
 		control.setMenu(menu);
+		return menu;
 	},
 
 	createMenuBar : function (parent) {
-		var menu = new gara.jswt.widgets.Menu(parent);
+		var menu = new gara.jswt.widgets.Menu(parent, gara.jswt.JSWT.BAR);
 		this.menus.push(menu);
 		this.updateMenu(menu);
+		return menu;
 	},
 
 	createToolBar : function (parent) {
 		var menu = new gara.jswt.widgets.Menu(parent, gara.jswt.JSWT.TOOLBAR);
 		this.menus.push(menu);
 		this.updateMenu(menu);
+		return menu;
 	},
 
 	/**
@@ -282,7 +284,7 @@ gara.Class("gara.jsface.action.MenuManager", {
 			this.updateMenu(ma);
 		}
 
-		else if (ma.addActionChangedListener) {
+		else if (ma && ma.addActionChangedListener) {
 			this.updateAction(ma);
 		}
 
