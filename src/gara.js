@@ -110,7 +110,7 @@ if (typeof(gara) !== "undefined") {
 			}
 
 			return new xmlhttp();
-		}
+		};
 	})();
 
 	loadLib = function (uri) {
@@ -386,6 +386,7 @@ if (typeof(gara) !== "undefined") {
 	};
 
 	gara.provide = function (name, superClass) {
+		fixContexts(name);
 		var resource = getQualifiedName(name);
 		resources[resource] = {
 			name : resource,
@@ -566,7 +567,7 @@ if (typeof(gara) !== "undefined") {
 				&& descriptor !== name) {
 			descriptor.toString = function () {
 				return "[" + name + "]";
-			}
+			};
 		}
 
 		descriptor.getClass = function () {
@@ -577,22 +578,41 @@ if (typeof(gara) !== "undefined") {
 	fixContexts = function (name) {
 		var compName = "", components, nextContext, context = config.global, i;
 		components = name.split(".");
+		
+		// create context if not existent
+		for (i = 0; i < components.length; ++i) {
+			nextContext = context[components[i]];
+			compName += "." + components[i];
+
+			if (typeof nextContext === "undefined") {
+				nextContext = (function (canonicalName) { 
+					return {
+						toString : function () {
+							return "["+canonicalName+"]";
+						}
+					};
+				})(compName.substring(1));
+				context[components[i]] = nextContext;
+			}
+			context = nextContext;
+		}
+	};
+	
+	createClass = function (name, descriptor) {
+		var compName = "", components, nextContext, context = config.global, i;
+		components = name.split(".");
 		// create context if not existent
 		for (i = 0; i < components.length - 1; ++i) {
 			nextContext = context[components[i]];
 			compName += "." + components[i];
 
-			if (typeof nextContext == "undefined") {
-				nextContext = {
-					toString : function () {
-						return "["+compName.substring(1)+"]";
-					}
-				};
+			if (typeof nextContext === "undefined") {
+				nextContext = {};
 				context[components[i]] = nextContext;
 			}
-
 			context = nextContext;
 		}
+		context[components[components.length - 1]] = descriptor;
 	};
 
 	gara.Class = function (name, descriptor) {
@@ -609,12 +629,10 @@ if (typeof(gara) !== "undefined") {
 				}
 				return base.extend(descriptor);
 			} else {
-				fixContexts(name);
 				fixDescriptor(name, descriptor);
 
 				// create class
-				this.base = base.extend(descriptor);
-				eval(name + " = this.base");
+				createClass(name, base.extend(descriptor));
 
 				// load uses
 				//loadUse(name);
@@ -649,10 +667,8 @@ if (typeof(gara) !== "undefined") {
 	gara.Singleton = function (name, descriptor) {
 		chainSuper(name, descriptor, function (name, descriptor) {
 			var base = descriptor.$extends || Class;
-			fixContexts(name);
 			fixDescriptor(name, descriptor);
-			this.base = base.extend(descriptor);
-			eval(name + " = new this.base()");
+			createClass(name, new (base.extend(descriptor))());
 			fireUseReady(name);
 			fireReady(name);
 		});
