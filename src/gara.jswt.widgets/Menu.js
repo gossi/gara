@@ -205,12 +205,20 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		return this.handle;
 	},
 
+	/**
+	 * @method
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when menus are hidden or shown, by sending it one of the messages defined 
+	 * in the <code>MenuListener</code> interface. 
+	 * 
+	 * @param {gara.jswt.events.MenuListener} listener the listener which should be notified 
+	 * @return {gara.jswt.widgets.Menu} this
+	 */
 	addMenuListener : function (listener) {
 		this.checkWidget();
 		if (!this.menuListeners.contains(listener)) {
-			this.menuListeners.push(listener);
+			this.menuListeners.add(listener);
 		}
-
 		return this;
 	},
 
@@ -677,9 +685,18 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		}
 	},
 
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified when the 
+	 * menu events are generated for the control.
+	 * 
+	 * @param {gara.jswt.events.MenuListener} listener the listener which should no longer be notified 
+	 * @return {gara.jswt.widgets.Menu} this
+	 */
 	removeMenuListener : function (listener) {
 		this.checkWidget();
 		this.menuListeners.remove(listener);
+		return this;
 	},
 
 	setEnabled : function (enabled) {

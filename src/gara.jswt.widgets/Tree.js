@@ -25,7 +25,7 @@ gara.provide("gara.jswt.widgets.Tree", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
-//gara.use("gara.jswt.widgets.TreeItem");
+gara.use("gara.jswt.widgets.TreeItem");
 
 /**
  * gara Tree Widget
@@ -109,6 +109,7 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 
 		this.selection = [];
 		this.selectionListeners = [];
+		this.treeListeners = [];
 
 		this.$super(parent, style || gara.jswt.JSWT.SINGLE);
 		this.addFocusListener(this);
@@ -203,17 +204,36 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 
 	/**
 	 * @method
-	 * Adds a selection listener on the tree
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection, by sending it one of 
+	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
-	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this tree
-	 * @throws {TypeError} if the listener is not a SelectionListener
-	 * @return {void}
+	 * @param {gara.jswt.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
+	 * @return {gara.jswt.widgets.Tree} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
 		if (!this.selectionListeners.contains(listener)) {
 			this.selectionListeners.push(listener);
 		}
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when an item in the receiver is expanded or collapsed by sending it one of 
+	 * the messages defined in the <code>TreeListener</code> interface. 
+	 *
+	 * @param {gara.jswt.events.TreeListener} listener the listener which should be notified 
+	 * @return {gara.jswt.widgets.Tree} this
+	 */
+	addTreeListener : function (listener) {
+		this.checkWidget();
+		if (!this.treeListeners.contains(listener)) {
+			this.treeListeners.push(listener);
+		}
+		return this;
 	},
 
 	/**
@@ -290,6 +310,7 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 		this.shiftItem = null;
 		this.selection = null;
 		this.selectionListeners = null;
+		this.treeListeners = null;
 
 		this.$super();
 	},
@@ -724,6 +745,33 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 	
 	/**
 	 * @method
+	 * 
+	 * @private
+	 * @param eventType
+	 * @returns {boolean} true if the operation is permitted
+	 */
+	notifyTreeListener : function (eventType, item) {
+		var ret = true, 
+			e = this.event || window.event || {};
+			e.widget = this;
+			e.control = this;
+			e.item = item;
+			
+		this.treeListeners.forEach(function (listener) {
+			var answer;
+
+			if (listener[eventType]) {
+				answer = listener[eventType](e);
+				if (typeof(answer) !== "undefined") {
+					ret = answer;
+				}
+			}
+		}, this);
+		return ret;
+	},
+
+	/**
+	 * @method
 	 * Releases all children from the receiver
 	 *
 	 * @private
@@ -783,14 +831,30 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 
 	/**
 	 * @method
-	 * Removes a selection listener from this tree
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection. 
 	 *
-	 * @param {gara.jswt.widgets.SelectionListener} listener the listener to be removed from this tree
-	 * @throws {TypeError} if the listener is not a SelectionListener
-	 * @return {void}
+	 * @param {gara.jswt.widgets.SelectionListener} listener the listener which should no longer be notified 
+	 * @return {gara.jswt.widgets.Tree} this
 	 */
 	removeSelectionListener : function (listener) {
+		this.checkWidget();
 		this.selectionListeners.remove(listener);
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when items in the receiver are expanded or collapsed. 
+	 *
+	 * @param {gara.jswt.widgets.TreeListener} listener the listener which should no longer be notified 
+	 * @return {gara.jswt.widgets.Tree} this
+	 */
+	removeTreeListener : function (listener) {
+		this.checkWidget()
+		this.treeListeners.remove(listener);
+		return this;
 	},
 
 	/**

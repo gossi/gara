@@ -57,7 +57,7 @@ if (typeof(gara) !== "undefined") {
 		fireChain, fireReady, fireSuper, chainSuper, fixContexts, fixDescriptor,
 		Class = function () {}, PropModifier;
 
-	// Language fixes
+	// Language fixes and additions
 	// #########################################################################
 
 	if (typeof Array.isArray !== 'function') {
@@ -65,7 +65,13 @@ if (typeof(gara) !== "undefined") {
 			return Object.prototype.toString.apply(value) === '[object Array]';
 		};
 	}
-
+	
+	if (typeof Array.prototype.add === "undefined") {
+		Array.prototype.add = function (value) {
+			this[this.length] = value;
+		};
+	}
+	
 	// Default config
 	// #########################################################################
 

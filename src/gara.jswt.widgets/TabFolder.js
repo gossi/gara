@@ -90,7 +90,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	 * @field
 	 * A queue of images which are currently being loaded and which size is
 	 * calculated afterwards.
-	 * (Safari workaround, width and height are not available after an image's
+	 * (Webkit workaround, width and height are not available after an image's
 	 * src is added)
 	 *
 	 * @private
@@ -194,8 +194,8 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 			throw new TypeError("item is not type of gara.jswt.widgets.TabItem");
 		}
 
-		this.items.push(item);
-		this.recents.push(item);
+		this.items.add(item);
+		this.recents.add(item);
 
 		if (this.activeItem === null) {
 			this.activeItem = item;
@@ -208,35 +208,35 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 
 	/**
 	 * @method
-	 * Adds a selection listener on the tabfolder
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection, by sending it one of 
+	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this tabfolder
+	 * @param {gara.jswt.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
 	 * @return {gara.jswt.widgets.TabFolder} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
 		if (!this.selectionListeners.contains(listener)) {
-			this.selectionListeners[this.selectionListeners.length] = listener;
+			this.selectionListeners.add(listener);
 		}
-		
 		return this;
 	},
 	
 	/**
 	 * @method
-	 * Adds a TabFolder listener on the tabfolder
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * by sending it one of the messages defined in the 
+	 * <code>TabFolderListener</code> interface
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.TabFolderListener} listener the desired listener to be added to this tabfolder
+	 * @param {gara.jswt.events.TabFolderListener} listener the listener which should be notified 
 	 * @return {gara.jswt.widgets.TabFolder} this
 	 */
 	addTabFolderListener : function (listener) {
 		this.checkWidget();
 		if (!this.tabFolderListeners.contains(listener)) {
-			this.tabFolderListeners[this.tabFolderListeners.length] = listener;
+			this.tabFolderListeners.add(listener);
 		}
-		
 		return this;
 	},
 
@@ -618,8 +618,8 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 
 			if (listener[eventType]) {
 				answer = listener[eventType](e);
-				if (typeof(answer) !== "undefined" && !answer) {
-					ret = false;
+				if (typeof(answer) !== "undefined") {
+					ret = answer;
 				}
 			}
 		}, this);
@@ -763,9 +763,10 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 
 	/**
 	 * @method
-	 * Removes a selection listener from this tabfolder
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection. 
 	 *
-	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this tabfolder
+	 * @param {gara.jswt.widgets.SelectionListener} listener the listener which should no longer be notified 
 	 * @return {gara.jswt.widgets.TabFolder} this
 	 */
 	removeSelectionListener : function (listener) {
@@ -776,9 +777,9 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 	
 	/**
 	 * @method
-	 * Removes a TabFolder listener from this tabfolder
+	 * Removes the listener the listener from the receiver.
 	 *
-	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this tabfolder
+	 * @param {gara.jswt.events.TabFolderListener} listener the listener which should be notified 
 	 * @return {gara.jswt.widgets.TabFolder} this
 	 */
 	removeTabFolderListener : function (listener) {
@@ -939,7 +940,7 @@ gara.Class("gara.jswt.widgets.TabFolder", function () { return {
 						// kinda crappy with the .onload but listener wasn't working
 						item.getImage().onload = function () {
 							self.remeasureItems(item);
-						}
+						};
 					}
 				}
 

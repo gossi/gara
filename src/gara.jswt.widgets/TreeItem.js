@@ -211,7 +211,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		if (typeof(index) !== "undefined") {
 			this.items.insertAt(index, item);
 		} else {
-			this.items.push(item);
+			this.items.add(item);
 		}
 
 		if (this.items.length) {
@@ -674,19 +674,21 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 	 */
 	setExpanded : function (expanded) {
 		this.checkWidget();
-		this.expanded = expanded;
-		this.handle.setAttribute("aria-expanded", this.expanded);
-
-		if (!expanded) {
-			this.deselectItems();
+		if (this.tree.notifyTreeListener(expanded ? "treeExpanded" : "treeCollapsed", this)) {
+			this.expanded = expanded;
+			this.handle.setAttribute("aria-expanded", this.expanded);
+	
+			if (!expanded) {
+				this.deselectItems();
+			}
+	
+			this.toggleNode.className = "toggler" + (this.items.length
+				? (this.expanded ? " togglerExpanded" : " togglerCollapsed")
+				: "");
+	
+			// update child container
+			this.childContainer.style.display = this.expanded ? "block" : "none";
 		}
-
-		this.toggleNode.className = "toggler" + (this.items.length
-			? (this.expanded ? " togglerExpanded" : " togglerCollapsed")
-			: "");
-
-		// update child container
-		this.childContainer.style.display = this.expanded ? "block" : "none";
 		return this;
 	},
 

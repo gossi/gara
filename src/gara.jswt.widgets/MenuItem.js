@@ -148,19 +148,21 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 
 	/**
 	 * @method
-	 * Adds a selection listener on the MenuItem
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection, by sending it one of 
+	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this menuitem
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @return {void}
+	 * @param {gara.jswt.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
+	 * @return {gara.jswt.widgets.MenuItem} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
 		if (!this.selectionListeners.contains(listener)) {
-			this.selectionListeners.push(listener);
+			this.selectionListeners.add(listener);
 		}
+		return this;
 	},
+
 
 	/**
 	 * @method
@@ -330,16 +332,16 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 
 	/**
 	 * @method
-	 * Removes a selection listener from this MenuItem
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this menuitem
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @return {void}
+	 * @param {gara.jswt.widgets.SelectionListener} listener the listener which should no longer be notified 
+	 * @return {gara.jswt.widgets.MenuItem} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
 		this.selectionListeners.remove(listener);
+		return this;
 	},
 
 	setEnabled : function (enabled) {

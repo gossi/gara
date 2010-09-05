@@ -29,8 +29,9 @@ gara.use("gara.jswt.JSWT");
 //gara.use("gara.jswt.events.KeyListener");
 //gara.use("gara.jswt.events.MouseListener");
 
+gara.use("gara.jswt.widgets.Item");
 gara.use("gara.jswt.widgets.Composite");
-//gara.use("gara.jswt.widgets.Menu");
+gara.use("gara.jswt.widgets.Menu");
 gara.use("gara.jswt.widgets.Display");
 
 /**
@@ -167,9 +168,13 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.$super(parent, style);
 		this.addClass("jsWTControl");
 
+		this.controlListeners = [];
 		this.focusListeners = [];
-		this.mouseListeners = [];
 		this.keyListeners = [];
+		this.mouseListeners = [];
+		this.mouseMoveListeners = [];
+		this.mouseTrackListeners = [];
+		this.mouseWheelListeners = [];
 
 		this.width = null;
 		this.height = null;
@@ -178,6 +183,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.menu = null;
 		this.enabled = true;
 		this.visible = true;
+		this.hovering = false;
 
 		this.mouseX = 0;
 		this.mouseY = 0;
@@ -203,17 +209,34 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 	/**
 	 * @method
+	 * Adds the listener to the collection of listeners who will be notified when the control 
+	 * is moved or resized, by sending it one of the messages defined in the 
+	 * <code>ControlListener</code> interface. 
+	 *
+	 * @param {gara.jswt.events.ControlListener} listener the listener which should be notified
+	 * @return {void}
+	 */
+	addControlListener : function (listener) {
+		this.checkWidget();
+		if (!this.controlListeners.contains(listener)) {
+			this.controlListeners.add(listener);
+		}
+		return this;
+	},
+	
+	/**
+	 * @method
 	 * Adds the listener to the collection of listeners who will be notified
 	 * when the control gains or loses focus, by sending it one of the messages
-	 * defined in the FocusListener interface.
+	 * defined in the <code>FocusListener</code> interface.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.FocusListener} listener the listener which should be notified
 	 * @return {void}
 	 */
 	addFocusListener : function (listener) {
+		this.checkWidget();
 		if (!this.focusListeners.contains(listener)) {
-			this.focusListeners.push(listener);
+			this.focusListeners.add(listener);
 		}
 		return this;
 	},
@@ -222,22 +245,92 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @method
 	 * Adds the listener to the collection of listeners who will be notified
 	 * when keys are pressed and released on the system keyboard, by sending
-	 * it one of the messages defined in the KeyListener interface.
+	 * it one of the messages defined in the <code>KeyListener</code> interface.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.events.KeyListener} listener the listener which should be notified
 	 * @return {void}
 	 */
-	addKeyListener : (function () {
+	addKeyListener : function (listener) {
+		this.checkWidget();
+		if (!this.keyListeners.contains(listener)) {
+			this.keyListeners.add(listener);
+		}
+		// key events are automatically passed to the focus control, so no special registration here
+		return this;
+	},
+
+	/**
+	 * @method
+	 * Adds the listener to the collection of listeners who will be notified
+	 * when mouse buttons are pressed and released, by sending it one of the
+	 * messages defined in the <code>MouseListener</code> interface.
+	 *
+	 * @param {gara.jswt.events.MouseListener} listener the listener which should be notified
+	 * @return {void}
+	 */
+	addMouseListener : (function () {
 		var registered = false;
 		return function (listener) {
-			if (!this.keyListeners.contains(listener)) {
-				this.keyListeners.push(listener);
+			this.checkWidget();
+			if (!this.mouseListeners.contains(listener)) {
+				this.mouseListeners.add(listener);
 			}
 
 			if (!registered) {
-				this.addListener("keydown", this);
-				this.addListener("keyup", this);
+				this.addListener("mousedown", this);
+				this.addListener("mouseup", this);
+				this.addListener("dblclick", this);
+				registered = true;
+			}
+			return this;
+		};
+	})(),
+	
+	/**
+	 * @method
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the mouse moves, by sending it one of the messages defined in the 
+	 * <code>MouseMoveListener</code> interface. 
+	 *
+	 * @param {gara.jswt.events.MouseMoveListener} listener the listener which should be notified
+	 * @return {void}
+	 */
+	addMouseMoveListener : (function () {
+		var registered = false;
+		return function (listener) {
+			this.checkWidget();
+			if (!this.mouseMoveListeners.contains(listener)) {
+				this.mouseMoveListeners.add(listener);
+			}
+
+			if (!registered) {
+				this.addListener("mousemove", this);
+				registered = true;
+			}
+			return this;
+		};
+	})(),
+	
+	/**
+	 * @method
+	 * Adds the listener to the collection of listeners who will be notified
+	 * when the mouse passes or hovers over controls, by sending it one of the
+	 * messages defined in the <code>MouseTrackListener</code> interface. 
+	 *
+	 * @param {gara.jswt.events.MouseTrackListener} listener the listener which should be notified
+	 * @return {void}
+	 */
+	addMouseTrackListener : (function () {
+		var registered = false;
+		return function (listener) {
+			this.checkWidget();
+			if (!this.mouseTrackListeners.contains(listener)) {
+				this.mouseTrackListeners.add(listener);
+			}
+
+			if (!registered) {
+				this.addListener("mouseover", this);
+				this.addListener("mouseout", this);
 				registered = true;
 			}
 			return this;
@@ -246,25 +339,23 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 	/**
 	 * @method
-	 * Adds the listener to the collection of listeners who will be notified
-	 * when mouse buttons are pressed and released, by sending it one of the
-	 * messages defined in the MouseListener interface.
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the mouse wheel is scrolled, by sending it one of the 
+	 * messages defined in the <code>MouseWheelListener</code> interface. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.MouseListener} listener the listener which should be notified
+	 * @param {gara.jswt.events.MouseWheelListener} listener the listener which should be notified
 	 * @return {void}
 	 */
-	addMouseListener : (function () {
+	addMouseWheelListener : (function () {
 		var registered = false;
 		return function (listener) {
-			if (!this.mouseListeners.contains(listener)) {
-				this.mouseListeners.push(listener);
+			this.checkWidget();
+			if (!this.mouseWheelListeners.contains(listener)) {
+				this.mouseWheelListeners.add(listener);
 			}
 
 			if (!registered) {
-				this.addListener("mousedown", this);
-				this.addListener("mouseup", this);
-				this.addListener("dblclick", this);
+				this.addListener("mousewheel", this);
 				registered = true;
 			}
 			return this;
@@ -333,10 +424,14 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.parentNode.removeChild(this.handle);
 		}
 		
+		this.controlListeners = null;
 		this.focusListeners = null;
 		this.keyListeners = null;
 		this.mouseListeners = null;
-		
+		this.mouseMoveListeners = null;
+		this.mouseTrackListeners = null;
+		this.mouseWheelListeners = null;
+
 		this.shell = null;
 		this.parentNode = null;
 		
@@ -492,6 +587,52 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		case "mousemove":
 			this.mouseX = (e.pageX || e.clientX + document.documentElement.scrollLeft) + 1;
 			this.mouseY = (e.pageY || e.clientY + document.documentElement.scrollTop) + 1;
+			
+			this.mouseMoveListeners.forEach(function (listener) {
+				if (listener.mouseMove) {
+					listener.mouseMove(e);
+				}
+			}, this);
+			break;
+
+		case "mouseover":
+			if (e.target.widget === this || (e.target.widget instanceof gara.jswt.widgets.Item && e.target.control === this)) {
+				if (!this.hovering) {
+					this.mouseTrackListeners.forEach(function (listener) {
+						if (listener.mouseEnter) {
+							listener.mouseEnter(e);
+						}
+					}, this);
+					this.hovering = true;
+				}
+	
+				this.mouseTrackListeners.forEach(function (listener) {
+					if (listener.mouseHover) {
+						listener.mouseHover(e);
+					}
+				}, this);
+			}
+			break;
+
+		case "mouseout":
+			if (typeof e.relatedTarget.widget === "undefined" || (e.relatedTarget.widget !== this 
+					&& e.relatedTarget.widget instanceof gara.jswt.widgets.Item && e.relatedTarget.control !== this)) {
+			
+				this.mouseTrackListeners.forEach(function (listener) {
+					if (listener.mouseExit) {
+						listener.mouseExit(e);
+					}
+				}, this);
+				this.hovering = false;
+			}
+			break;
+
+		case "mousewheel":
+			this.mouseWheelListeners.forEach(function (listener) {
+				if (listener.mouseScrolled) {
+					listener.mouseScrolled(e);
+				}
+			}, this);
 			break;
 		}
 	},
@@ -609,16 +750,18 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @returns {boolean} true if the operation is permitted
 	 */
 	notifyFocusListener : function (eventType) {
-		var ret = true;
-		this.focusListeners.forEach(function (listener) {
-			var answer, e = this.event || window.event || {};
+		var ret = true, 
+			e = this.event || window.event || {};
 			e.widget = this;
 			e.control = this;
 
+		this.focusListeners.forEach(function (listener) {
+			var answer;
+
 			if (listener[eventType]) {
 				answer = listener[eventType](e);
-				if (typeof(answer) !== "undefined" && !answer) {
-					ret = false;
+				if (typeof(answer) !== "undefined") {
+					ret = answer;
 				}
 			}
 		}, this);
@@ -652,40 +795,100 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 	/**
 	 * @method
-	 * Removes the listener from the collection of listeners who will be
-	 * notified when the control gains or loses focus.
+	 * Removes the listener from the collection of listeners who will be notified
+	 * when the control is moved or resized.
+	 *
+	 * @param {gara.jswt.events.ControlListener} listener the listener which should no longer be notified
+	 * @return {gara.jswt.widgets.Control} this
+	 */
+	removeControlListener : function (listener) {
+		this.checkWidget();
+		this.controlListeners.remove(listener);
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the control gains or loses focus.
 	 *
 	 * @param {gara.jswt.events.FocusListener} listener the listener which should no longer be notified
-	 * @return {void}
+	 * @return {gara.jswt.widgets.Control} this
 	 */
 	removeFocusListener : function (listener) {
+		this.checkWidget();
 		this.focusListeners.remove(listener);
+		return this;
 	},
 
 	/**
 	 * @method
-	 * Removes the listener from the collection of listeners who will be notified
-	 * when keys are pressed and released on the system keyboard, by sending
-	 * it one of the messages defined in the <code>KeyListener</code> interface.
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when keys are pressed and released on the system keyboard. 
 	 *
 	 * @param {gara.jswt.events.KeyListener} listener the listener which should be notified
-	 * @return {void}
+	 * @return {gara.jswt.widgets.Control} this
 	 */
 	removeKeyListener : function (listener) {
+		this.checkWidget();
 		this.keyListeners.remove(listener);
+		return this;
 	},
 
 	/**
 	 * @method
-	 * Removes the listener from the collection of listeners who will be notified
-	 * when mouse buttons are pressed and released, by sending it one of the
-	 * messages defined in the <code>MouseListener</code> interface.
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when mouse buttons are pressed and released. 
 	 *
 	 * @param {gara.jswt.events.MouseListener} listener the listener which should be notified
-	 * @return {void}
+	 * @return {gara.jswt.widgets.Control} this
 	 */
 	removeMouseListener : function (listener) {
+		this.checkWidget();
 		this.mouseListeners.remove(listener);
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified
+	 * when the mouse moves. 
+	 *
+	 * @param {gara.jswt.events.MouseMoveListener} listener the listener which should be notified
+	 * @return {gara.jswt.widgets.Control} this
+	 */
+	removeMouseMoveListener : function (listener) {
+		this.checkWidget();
+		this.mouseMoveListeners.remove(listener);
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the mouse passes or hovers over controls. 
+	 *
+	 * @param {gara.jswt.events.MouseTrackListener} listener the listener which should be notified
+	 * @return {gara.jswt.widgets.Control} this
+	 */
+	removeMouseTrackListener : function (listener) {
+		this.checkWidget();
+		this.mouseTrackListeners.remove(listener);
+		return this;
+	},
+	
+	/**
+	 * @method
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the mouse wheel is scrolled. 
+	 *
+	 * @param {gara.jswt.events.MouseWheelListener} listener the listener which should be notified
+	 * @return {gara.jswt.widgets.Control} this
+	 */
+	removeMouseWheelListener : function (listener) {
+		this.checkWidget();
+		this.mouseWheelListeners.remove(listener);
+		return this;
 	},
 
 	/**
@@ -740,6 +943,12 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.handle.style.height = this.height * 100 + "%";
 			this.adjustHeight(this.handle.offsetHeight);
 		}
+		
+		this.controlListeners.forEach(function (listener) {
+			if (listener.controlResized) {
+				listener.controlResized({widget:this});
+			}
+		}, this);
 
 		return this;
 	},
@@ -754,6 +963,12 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.y = y;
 			this.handle.style.top = (y - this.positionOffsetY) + "px";
 		}
+		
+		this.controlListeners.forEach(function (listener) {
+			if (listener.controlMoved) {
+				listener.controlMoved({widget:this});
+			}
+		}, this);
 
 		return this;
 	},
@@ -845,6 +1060,12 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.width = null;
 			this.handle.style.width = "auto";
 		}
+		
+		this.controlListeners.forEach(function (listener) {
+			if (listener.controlResized) {
+				listener.controlResized({widget:this});
+			}
+		}, this);
 
 		return this;
 	},

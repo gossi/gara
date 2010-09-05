@@ -24,7 +24,7 @@
 gara.provide("gara.jswt.widgets.List", "gara.jswt.widgets.Composite");
 
 gara.use("gara.jswt.JSWT");
-//gara.use("gara.jswt.widgets.ListItem");
+gara.use("gara.jswt.widgets.ListItem");
 
 /**
  * @summary
@@ -155,17 +155,19 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 
 	/**
 	 * @method
-	 * Adds a selection listener on the list
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection, by sending it one of 
+	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
-	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this list
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @return {void}
+	 * @param {gara.jswt.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
+	 * @return {gara.jswt.widgets.List} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
 		if (!this.selectionListeners.contains(listener)) {
-			this.selectionListeners.push(listener);
+			this.selectionListeners.add(listener);
 		}
+		return this;
 	},
 
 	/**
@@ -761,15 +763,16 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 
 	/**
 	 * @method
-	 * Removes a selection listener from this list
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection. 
 	 *
-	 * @param {gara.jswt.events.SelectionListener} listener the listener to remove from this list
-	 * @throws {TypeError} if the listener is not an instance SelectionListener
-	 * @return {void}
+	 * @param {gara.jswt.widgets.SelectionListener} listener the listener which should no longer be notified 
+	 * @return {gara.jswt.widgets.Tree} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
-		this.selectionListener.remove(listener);
+		this.selectionListeners.remove(listener);
+		return this;
 	},
 
 	/**

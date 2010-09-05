@@ -97,7 +97,7 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	 */
 	addShellListener : function (listener) {
 		if (!this.shellListeners.contains(listener)) {
-			this.shellListeners[this.shellListeners.length] = listener;
+			this.shellListeners.add(listener);
 		}
 		
 		return this;
@@ -291,16 +291,18 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	 * @returns {boolean} true if the operation is permitted
 	 */
 	notifyShellListener : function (eventType) {
-		var ret = true;
-		this.shellListeners.forEach(function (listener) {
-			var answer, e = this.event || window.event || {};
+		var ret = true, 
+			e = this.event || window.event || {};
 			e.widget = this;
 			e.control = this;
+			
+		this.shellListeners.forEach(function (listener) {
+			var answer;
 
 			if (listener[eventType]) {
 				answer = listener[eventType](e);
-				if (typeof(answer) !== "undefined" && !answer) {
-					ret = false;
+				if (typeof(answer) !== "undefined") {
+					ret = answer;
 				}
 			}
 		}, this);

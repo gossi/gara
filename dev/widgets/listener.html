@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>control listener (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<script type="text/javascript" src="../../src/gara.js"></script>
+<script type="text/javascript">
+var list, text, tree,
+controlListener = {
+	mouseEnter : function(e) {
+		console.log("Mouse Entered on " + e.widget);
+	},
+
+	mouseExit : function(e) {
+		console.log("Mouse Exited on " + e.widget);
+	},
+
+	mouseHover : function(e) {
+		//console.log("Mouse Hovered on " + e.widget);
+	},
+
+	mouseMove : function(e) {
+		console.log("Mouse Moved");
+	},
+
+	mouseScrolled : function(e) {
+		console.log("Mouse Scrolled " + e.detail);
+	},
+
+	controlResized : function(e) {
+		console.log("Control Resized");
+	},
+
+	controlMoved : function(e) {
+		console.log("Control Moved");
+	}
+},
+modifyListener = {
+	modifyText : function (e) {
+		console.log("Text modified");
+	}
+},
+treeListener = {
+	treeExpanded : function (e) {
+		console.log("Tree expanded on item: " + e.item.getText());
+	},
+
+	treeCollapsed : function (e) {
+		console.log("Tree collapsed on item: " + e.item.getText());
+	}
+};
+
+function main() {
+	// text
+	text = new gara.jswt.widgets.Text(document.getElementById("text"));
+	text.addModifyListener(modifyListener);
+
+	// list
+	list = new gara.jswt.widgets.List(document.getElementById("list"), gara.jswt.JSWT.MULTI);
+	for (var i = 1; i <= 20; i++) {
+		new gara.jswt.widgets.ListItem(list).setText("Item " + i);
+	}
+
+	list.addControlListener(controlListener);
+	list.addMouseTrackListener(controlListener);
+	//list.addMouseMovecontrolListener(controlListener);
+	list.addMouseWheelListener(controlListener);
+
+	list.setHeight(200);
+
+	//tree
+	tree = new gara.jswt.widgets.Tree(document.getElementById("tree"));
+	tree.addTreeListener(treeListener);
+	tree.setHeight(200);
+
+	var movies = new gara.jswt.widgets.TreeItem(tree).setText("Movies");
+	new gara.jswt.widgets.TreeItem(movies).setText("300!");
+	new gara.jswt.widgets.TreeItem(movies).setText("Bud Spencer and Terrance Hill");
+	new gara.jswt.widgets.TreeItem(movies).setText("Last Samurai");
+
+	var series = new gara.jswt.widgets.TreeItem(tree).setText("Series");
+	new gara.jswt.widgets.TreeItem(series).setText("Two and a half man");
+	new gara.jswt.widgets.TreeItem(series).setText("Big Bang");
+	new gara.jswt.widgets.TreeItem(series).setText("Monk");
+}
+</script>
+</head>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">Text + Modify Listener</h1>
+<div id="text" class="sand"></div>
+
+<div style="width: 300px; float: left;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">List + Control Listener</h1>
+<div id="list" class="sand" style="border: 1px solid #888;"></div>
+</div>
+
+<div style="margin-left: 320px; width: 300px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">Tree + Tree Listener</h1>
+<div id="tree" class="sand" style="border: 1px solid #888;"></div>
+</div>
+
+<script type="text/javascript">
+gara.require(["gara.jswt.widgets.List", "gara.jswt.widgets.Text", "gara.jswt.widgets.Tree"], main);
+</script>
+</body>
+</html>

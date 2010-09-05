@@ -308,16 +308,19 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 
 	/**
 	 * @method
-	 * Adds a selection listener on the table
+	 * Adds the listener to the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection, by sending it one of 
+	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.SelectionListener} listener the desired listener to be added to this table
-	 * @return {void}
+	 * @param {gara.jswt.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
+	 * @return {gara.jswt.widgets.Table} this
 	 */
 	addSelectionListener : function (listener) {
+		this.checkWidget();
 		if (!this.selectionListeners.contains(listener)) {
-			this.selectionListeners.push(listener);
+			this.selectionListeners.add(listener);
 		}
+		return this;
 	},
 
 	/**
@@ -947,15 +950,13 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		var item;
 		this.checkWidget();
 		item = this.items.removeAt(index)[0];
-		item.dispose();
-		delete item;
+		this.releaseItem(item);
 	},
 
 	/**
 	 * @method
 	 * Removes items whose indices are passed by an array
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Array} inidices the array with the indices
 	 * @return {void}
 	 */
@@ -970,7 +971,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @method
 	 * Removes all items from the table
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	removeAll : function () {
@@ -978,8 +978,7 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.checkWidget();
 		while (this.items.length) {
 			item = this.items.pop();
-			item.dispose();
-			delete item;
+			this.releaseItem(item);
 		}
 	},
 
@@ -987,7 +986,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @method
 	 * Removes items within an indices range
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} start start index
 	 * @param {int} end end index
 	 * @return {void}
@@ -1002,14 +1000,16 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 
 	/**
 	 * @method
-	 * Removes a selection listener from this table
+	 * Removes the listener from the collection of listeners who will be notified 
+	 * when the user changes the receiver's selection. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.jswt.events.SelectionListener} listener the listener to be removed from this table
-	 * @return {void}
+	 * @param {gara.jswt.widgets.SelectionListener} listener the listener which should no longer be notified 
+	 * @return {gara.jswt.widgets.Table} this
 	 */
 	removeSelectionListener : function (listener) {
+		this.checkWidget();
 		this.selectionListeners.remove(listener);
+		return this;
 	},
 
 	/**
@@ -1025,7 +1025,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @method
 	 * Selects an item
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the index of the Item that should be selected
 	 * @throws {RangeError} when there is no item at the given index
 	 * @return {void}
@@ -1052,7 +1051,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * Selects an item
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TableItem} item the item that should be selected
 	 * @throws {TypeError} if the item is not a TableItem
 	 * @return {void}
@@ -1076,7 +1074,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @method
 	 * Select all items in the list
 	 *
-	 * @author Thomas Gossmann
 	 * @return {void}
 	 */
 	selectAll : function () {
@@ -1130,7 +1127,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * Selects a Range of items. From shiftItem to the passed item.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TableItem} item the item
 	 * @return {void}
 	 */
@@ -1168,7 +1164,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @method
 	 * Sets the selection of the <code>Table</code>
 	 *
-	 * @author Thomas Gossmann
 	 * @param {gara.jswt.widgets.TableItem[]|gara.jswt.widgets.TableItem} items an array or single <code>TableItem</code>
 	 * @return {void}
 	 */

@@ -21,32 +21,31 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.events.ModifyListener");
+gara.provide("gara.jswt.events.MouseMoveListener");
 
 /**
- * @interface ModifyListener
+ * @interface MouseListener
  * 
  * @summary
- * Classes which implement this interface provide a method that deals with 
- * the events that are generated when text is modified.
+ * Classes which implement this interface provide a method that deals with the events that are 
+ * generated as the mouse pointer moves.
  * 
  * @description
- * After creating an instance of a class that implements this interface it 
- * can be added to a text widget using the <code>addModifyListener</code> 
- * method and removed using the <code>removeModifyListener</code> method. 
- * When the text is modified, the modifyText method will be invoked.
- *  
+ * After creating an instance of a class that implements this interface it can be added to a 
+ * control using the <code>addMouseMoveListener</code> method and removed using the 
+ * <code>removeMouseMoveListener</code> method. As the mouse moves, the mouseMove method will 
+ * be invoked. 
+ * 
  * @namespace gara.jswt.events
  */
-
-gara.Class("gara.jswt.events.ModifyListener", {
+gara.Class("gara.jswt.events.MouseMoveListener", {
 
 	/**
 	 * @method
-	 * Sent when the text is modified.
+	 * Sent when the mouse moves. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {Event} e an event containing information about the modify
+	 * @param {Event} e an event containing information about the mouse move
+	 * @return {void}
 	 */
-	modifyText : function(e) {}
+	mouseMove : function(e) {}
 });

@@ -80,6 +80,7 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 	$constructor : function (parent, style) {
 		// flags
 		this.multi = (style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI;
+		this.lastValue = "";
 
 		// listener
 		this.modifyListeners = [];
@@ -129,6 +130,8 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 	 */
 	append : function (string) {
 		this.handle.value += string;
+		this.lastValue = this.handle.value;
+		this.notifyModifyListener();
 	},
 
 	/**
@@ -180,6 +183,7 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 		this.addClass(this.multi ? "jsWTMultiText" : ((this.style & gara.jswt.JSWT.PASSWORD) === gara.jswt.JSWT.PASSWORD ? "jsWTPassword" : "jsWTText"));
 
 		// listeners
+		this.addKeyListener(this);
 //		this.addListener("mousedown", this);
 //		this.addListener("mouseup", this);
 	},
@@ -190,9 +194,17 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 		
 		this.$super();
 	},
-
+	
 	getSelection : function () {
-		return this.selected;
+		return {x:this.handle.selectionStart, y:this.handle.selectionEnd};
+	},
+	
+	getSelectionCount : function () {
+		return this.handle.selectionEnd - this.handle.selectionStart; 
+	},
+
+	getSelectionText : function () {
+		return this.handle.value.substring(this.handle.selectionStart, this.handle.selectionEnd);
 	},
 
 	getText : function () {
@@ -218,11 +230,11 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 		e.widget = this;
 		this.event = e;
 
-		this.handleMouseEvents(e);
+//		this.handleMouseEvents(e);
 		if (this.menu !== null && this.menu.isVisible()) {
 			this.menu.handleEvent(e);
 		} else {
-			this.handleKeyEvents(e);
+//			this.handleKeyEvents(e);
 			this.handleMenu(e);
 		}
 
@@ -237,25 +249,17 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 
 	/**
 	 * @method
-	 *
+	 * Handles the internal key released behavior.
+	 * 
 	 * @private
+	 * @param e
+	 * @return {void}
 	 */
-	handleMouseEvents : function (e) {
-//		switch (e.type) {
-//
-//		}
-	},
-
-	/**
-	 * @method
-	 *
-	 * @private
-	 */
-	handleKeyEvents : function (e) {
-		this.notifyModifyListener();
-//		switch (e.type) {
-//
-//		}
+	keyReleased : function (e) {
+		if (this.handle.value !== this.lastValue) {
+			this.notifyModifyListener();
+		}
+		this.lastValue = this.handle.value;
 	},
 
 	/**
@@ -296,7 +300,7 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 	 * @param {gara.jswt.events.ModifyListener} listener the listener which should no longer be notified
 	 * @return {void}
 	 */
-	removeSelectionListener : function (listener) {
+	removeModifyListener : function (listener) {
 		this.checkWidget();
 		this.modifyListeners.remove(listener);
 		return this;
@@ -322,9 +326,13 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 	 * @param {boolean} selected new selected state
 	 * @return {void}
 	 */
-	setSelection : function (selected) {
+	setSelection : function (start, end) {
 		this.checkWidget();
 
+		start = start || 0;
+		end = end || this.handle.value.length;
+		
+		this.handle.setSelectionRange(start, end);
 		this.notifySelectionListener();
 
 		return this;
@@ -332,6 +340,8 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 
 	setText : function (text) {
 		this.handle.value = text;
+		this.lastValue = this.handle.value;
+		this.notifyModifyListener();
 		return this;
 	},
 
