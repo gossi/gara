@@ -173,6 +173,11 @@ gara.Class("gara.jsface.window.Window", {
 		
 		newShell = new gara.jswt.widgets.Shell(this.getParentShell(), this.getShellStyle());
 		newShell.setData(this);
+		
+		// add listener
+		newShell.addShellListener(this.getShellListener());
+		
+		// configure shell
 		this.configureShell(newShell);
 		
 		return newShell;
@@ -195,8 +200,8 @@ gara.Class("gara.jsface.window.Window", {
 			y = parent instanceof gara.jswt.widgets.Display ? document.documentElement.clientHeight : parent.getClientArea().clientHeight;
 
 		return {
-			x: Math.floor(x / 4),
-			y: Math.floor(y / 4)
+			x: Math.floor((x / 2) - (initialSize.x / 2)),
+			y: Math.floor((y / 2) - (initialSize.y / 2))
 		};
 	},
 	
@@ -236,6 +241,7 @@ gara.Class("gara.jsface.window.Window", {
 				if (self.canHandleShellCloseEvent()) {
 					self.handleShellCloseEvent();
 				}
+				return false;
 			}
 		};
 	},

@@ -33,14 +33,6 @@ gara.provide("gara.jswt.widgets.Composite", "gara.jswt.widgets.Scrollable");
  */
 gara.Class("gara.jswt.widgets.Composite", function() { return {
 	$extends : gara.jswt.widgets.Scrollable,
-
-	/**
-	 * @field
-	 * True, if this is composite, false if composite is inherited
-	 * @private
-	 * @tpye {boolean}
-	 */
-	isComposite : false,
 	
 	/**
 	 * @field
@@ -80,7 +72,6 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	createWidget : function () {
 		this.createHandle("div");
 		this.handle.tabIndex = -1;
-		this.isComposite = true;
 	},
 
 	/**

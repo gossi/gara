@@ -129,8 +129,8 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 		this.positionOffsetX = 0;
 		this.positionOffsetY = 0;
 
-		this.setWidth(Math.floor(x / 2));
-		this.setHeight(Math.floor(y / 2));
+//		this.setWidth(Math.floor(x / 2));
+//		this.setHeight(Math.floor(y / 2));
 		this.setLocation(Math.floor(x / 4), Math.floor(y / 4));
 		this.setVisible(false);
 		
@@ -148,7 +148,7 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	},
 	
 	destroyWidget : function () {
-		this.shellListeners = null;
+		this.shellListeners = [];
 		
 		this.$super();
 	},
@@ -311,7 +311,7 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 	
 	open : function () {
 		this.setVisible(true);
-		this.forceFocus();
+		this.setFocus();
 		
 		this.adjustWidth(this.getWidth());
 		this.adjustHeight(this.getHeight());

@@ -318,6 +318,10 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 		this.selectionListeners.remove(listener);
 		return this;
 	},
+	
+	selectAll : function () {
+		this.handle.select();
+	},
 
 	/**
 	 * @method

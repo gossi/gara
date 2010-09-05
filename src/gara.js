@@ -55,7 +55,18 @@ if (typeof(gara) !== "undefined") {
 		usesqs = {}, usesReady = [], useqs = {}, ucbc = 1, circularEnd = {}, isCircular,
 		fireUseReady, requireUse, useReady,
 		fireChain, fireReady, fireSuper, chainSuper, fixContexts, fixDescriptor,
-		Class = function () {}, PropModifier;
+		Class = function () {}, PropModifier
+		
+	// L10n
+		l10n = {
+			"gara.ok": "Ok",
+			"gara.cancel": "Cancel",
+			"gara.yes" : "Yes",
+			"gara.no" : "No",
+			"gara.retry" : "Retry",
+			"gara.abort" : "Abort",
+			"gara.ignore" : "Ignore"
+		};
 
 	// Language fixes and additions
 	// #########################################################################
@@ -169,16 +180,50 @@ if (typeof(gara) !== "undefined") {
 		return "garaUID" + d.getDay() + d.getHours() + d.getMinutes() + d.getSeconds() + d.getMilliseconds();
 	};
 
+	// L10n
+	// #########################################################################
+	
+	gara.l10n = function (key, value) {
+		var k;
+		if (Object.prototype.hasOwnProperty.call(l10n, key)) {
+			k = l10n[key];
+		}
+		
+		if (typeof value !== "undefined") {
+			k = value;
+		}
+		
+		return k;
+	};
+	
 	// Resource Management
 	// #########################################################################
 
-	resourcesBase = ["gara.app", "gara.jsface.action", "gara.jsface.viewers", "gara.jsface.window", "gara.jswt.layout", "gara.jswt.widgets", "gara.jswt.events", "gara.jswt", "gara"],
-	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", config.garaBaseUrl + "/gara.jsface.action", config.garaBaseUrl + "/gara.jsface.viewers", config.garaBaseUrl + "/gara.jsface.window", config.garaBaseUrl + "/gara.jswt.layout", config.garaBaseUrl + "/gara.jswt.widgets", config.garaBaseUrl + "/gara.jswt.events", config.garaBaseUrl + "/gara.jswt", config.garaBaseUrl + "/gara"],
+	resourcesBase = ["gara.app", 
+	                 "gara.jsface.action", 
+	                 "gara.jsface.dialogs", 
+	                 "gara.jsface.viewers", 
+	                 "gara.jsface.window", 
+	                 "gara.jswt.layout", 
+	                 "gara.jswt.widgets", 
+	                 "gara.jswt.events",
+	                 "gara.jswt", 
+	                 "gara"],
+	resourcesBasePaths = [config.garaBaseUrl + "/gara.app", 
+	                      config.garaBaseUrl + "/gara.jsface.action",
+	                      config.garaBaseUrl + "/gara.jsface.dialogs",
+	                      config.garaBaseUrl + "/gara.jsface.viewers", 
+	                      config.garaBaseUrl + "/gara.jsface.window", 
+	                      config.garaBaseUrl + "/gara.jswt.layout", 
+	                      config.garaBaseUrl + "/gara.jswt.widgets", 
+	                      config.garaBaseUrl + "/gara.jswt.events", 
+	                      config.garaBaseUrl + "/gara.jswt", 
+	                      config.garaBaseUrl + "/gara"],
 	callbackqs[cbc] = {resources : []};
 
 	gara.setResourcePath = gara.registerModulePath = function (resource, path) {
-		resourcesBase.push(resource);
-		resourcesBasePaths.push(path);
+		resourcesBase.add(resource);
+		resourcesBasePaths.add(path);
 	};
 
 	getResourcePath = function (resource) {

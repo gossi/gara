@@ -21,168 +21,93 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.widgets.InputDialog");
+gara.provide("gara.jsface.dialogs.InputDialog", "gara.jsface.dialogs.Dialog");
 
-gara.use("gara.jswt.events.KeyListener");
-gara.use("gara.jswt.events.ModifyListener");
-gara.use("gara.jswt.events.SelectionListener");
-
+gara.use("gara.jswt.JSWT");
 gara.use("gara.jswt.widgets.Composite");
 gara.use("gara.jswt.widgets.Button");
 gara.use("gara.jswt.widgets.Label");
 gara.use("gara.jswt.widgets.Text");
 
-gara.require("gara.jswt.JSWT");
-gara.require("gara.jswt.widgets.Dialog");
-
 /**
- * @class MessageBox
- * @author Thomas Gossmann
- * @extends gara.jswt.widgets.Dialog
- * @namespace gara.jswt.widgets
+ * @class InputDialog
+ * @extends gara.jsface.dialogs.Dialog
+ * @namespace gara.jsface.dialogs
  */
-gara.Class("gara.jswt.widgets.InputDialog", {
-	$extends : gara.jswt.widgets.Dialog,
+gara.Class("gara.jsface.dialogs.InputDialog", function() { return {
+	$extends : gara.jsface.dialogs.Dialog,
 
 	/**
 	 * @constructor
 	 */
-	$constructor : function(parent, style) {
-		this.$base(parent, style);
+	$constructor : function (parentShell, dialogTitle, dialogMessage, initialValue) {
+		var self = this;
+		this.$super(parentShell || undefined);
+		this.title = dialogTitle || null;
+		this.message = dialogMessage || null;
+		this.value = initialValue || null;
+		this.text = null;
+		this.listener = {
+			activate : function () {
+				self.text.setFocus();
+				self.text.selectAll();
+			},
+			focusGained : function () {
+				this.activate();
+			},
+			mouseUp : function () {
+				this.activate();
+			}
+		};
+	},
+	
+	buttonPressed : function (buttonId) {
+		if (buttonId === gara.jsface.dialogs.Dialog.OK_ID) {
+			this.setReturnValue(true);
+        	this.value = this.text.getText();
+        } else {
+        	this.setReturnValue(false);
+        	this.value = null;
+        }
+        this.close();
+    },
 
-		this._callback = null;
-		this._context = window;
-		this._message = "";
-		this._value = "";
-		this._style |= gara.jswt.JSWT.APPLICATION_MODAL;
+	configureShell : function (shell) {
+		this.$super(shell);
+		shell.addClass("jsWTInputDialog");
+		if (this.title !== null) {
+			shell.setText(this.title);
+		}
 
-		this._txt;
-		this._buttons;
-		this._input;
-		this._btnOk;
-		this._btnCancel;
-
-		this.addClass("jsWTInputDialog");
+		shell.addFocusListener(this.listener);
 	},
 
-	/**
-	 * @method
-	 *
-	 * Creates the frame for the dialog. Content is populated by a
-	 * specialised subclass.
-	 *
-	 * @private
-	 * @param {gara.jswt.widgets.Composite} parent container for the content
-	 * @author Thomas Gossmann
-	 * @return {void}
-	 */
-	_createContents : function(parent) {
-		var self = this;
-
-		this._txt = new gara.jswt.widgets.Label(parent).setText(this._message).addClass("jsWTInputDialogContentText");
-		this._input = new gara.jswt.widgets.Text(parent).setText(this._value).addModifyListener(new gara.Class({
-			$implements : gara.jswt.events.ModifyListener,
-			modifyText : function(e) {
-				if (e.type == "keydown") {
-					switch(e.keyCode) {
-						case gara.jswt.JSWT.ENTER:	self._doOk();		break;
-					}
-				}
-			}
-		}))
-		this._input.forceFocus();
-
-		var buttonHandler = new gara.Class({
-			$implements : [gara.jswt.events.SelectionListener, gara.jswt.events.KeyListener],
-			keyPressed : function(e) {
-				if (e.keyCode == gara.jswt.JSWT.ESC) {
-					self._doCancel();
-				}
-			},
-			keyReleased : function(e) {},
-			widgetSelected : function(e) {
-				switch (e.widget) {
-					case self._btnOk:		self._doOk();		break;
-					case self._btnCancel:	self._doCancel();	break;
+    createDialogArea : function (parent) {
+        // create composite
+		var self = this, 
+			composite = this.$super(parent);
+		
+		parent.addMouseListener(this.listener);
+		
+		if (this.message !== null) {
+			new gara.jswt.widgets.Label(composite).setText(this.message);
+		}
+		this.text = new gara.jswt.widgets.Text(composite).setWidth(300);
+		this.text.addKeyListener({
+			keyPressed : function (e) {
+				if (e.keyCode === gara.jswt.JSWT.ENTER) {
+					self.buttonPressed(gara.jsface.dialogs.Dialog.OK_ID);
 				}
 			}
 		});
-
-		this._buttons = new gara.jswt.widgets.Composite(parent).addClass("jsWTInputDialogButtonBar");
-		this._btnOk = new gara.jswt.widgets.Button(this._buttons).setText(gara.i18n.get("gara.ok"))
-			.addSelectionListener(buttonHandler)
-			.addKeyListener(buttonHandler);
-		this._btnCancel = new gara.jswt.widgets.Button(this._buttons).setText(gara.i18n.get("gara.cancel"))
-			.addSelectionListener(buttonHandler)
-			.addKeyListener(buttonHandler);
-
-		// position
-		var left = this._getViewportWidth() / 2 - this.handle.clientWidth/2;
-		var top = this._getViewportHeight() / 2 - this.handle.clientHeight/2;
-
-		this.handle.style.left = left + "px";
-		this.handle.style.top = top + "px";
-	},
-
-	dispose : function() {
-		this._txt.dispose();
-		this._input.dispose();
-		this._btnOk.dispose();
-		this._btnCancel.dispose();
-		this._buttons.dispose();
-
-		delete this._txt;
-		delete this._input;
-		delete this._btnOk;
-		delete this._btnCancel;
-		delete this._buttons;
-
-		this.$base();
-
-		if (this._callback != null) {
-			this._callback.call(this._context, null);
+		if (this.value !== null) {
+			this.text.setText(this.value);
 		}
-	},
 
-	_doOk : function() {
-		var response = this._input.getText();
-		this.dispose();
-
-		if (this._callback != null) {
-			this._callback.call(this._context, response);
-		}
-	},
-
-	_doCancel : function() {
-		this.dispose();
-	},
-
-	getMessage : function() {
-		return this._message;
-	},
+        return composite;
+    },
 
 	getValue : function() {
-		return this._value;
-	},
-
-	handleEvent : function(e) {
-		this.$base(e);
-		if (this._disposed && this._callback != null) {
-			this._callback.call(this._context, null);
-		}
-	},
-
-	open: function(callback, context) {
-		this._create();
-		this._callback = callback;
-		this._context = context || window;
-	},
-
-	setMessage : function(message) {
-		this._message = message;
-	},
-
-	setValue : function(value) {
-		this._value = value;
+		return this.value;
 	}
-});
+};});

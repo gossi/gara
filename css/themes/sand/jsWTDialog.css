@@ -1,131 +1,82 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Dialog
+ * gara.jsface.dialogs.Dialog
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand div.jsWTDialog {
+.sand .jsWTDialog {
 	
 }
 
-.sand div.jsWTDialogBar {
-	/*background: url('left.gif') no-repeat;*/
-	line-height: 16px;
-	cursor: default;
+.sand .jsWTDialogArea {
+	height: auto;
+	overflow: hidden;
+	padding: 7px;
 }
 
-/* This div is only because of IE6 grrrrr */
-.sand div.jsWTDialogBarLeft {
-	background-repeat: no-repeat;
-	background-image: url('stone_mud_left.png'); /** sprite-ref: stone-mud; */
-	width: 9px;
-	height: 26px;
-	float: left;
-}
-
-.sand div.jsWTDialogBarText {
-	background-repeat: repeat-x;
-	background-image: url('stone_mud_bar.png'); /** sprite-ref: stone-mud; sprite-alignment: repeat; */
-	padding: 5px 5px 5px 0;
-	height: 16px;
-}
-
-.sand div.jsWTDialogBarButtons {
-	background: no-repeat right top;
-	background-image: url('stone_mud_right.png'); /** sprite-ref: stone-mud; sprite-alignment: right; */
-	padding: 5px;
-	height: 16px;
-}
-
-.sand span.jsWTDialogCancelButton {
-	background-repeat: no-repeat;
-	background-image: url('close.gif'); /** sprite-ref: misc; */
-	width: 14px;
-	height: 14px;
-	display: block;
-	margin: 1px 2px 0 0;
-}
-
-.sand span.jsWTDialogCancelButton:hover {
-	background-image: url('close_hover.gif'); /** sprite-ref: misc; */
-}
-
-.sand div.jsWTDialogContent {
-	border: 1px solid #B7AE88;
+.sand .jsWTDialogButtonBar {
+	height: auto;
+	text-align: center;
+	padding: 3px;
 }
 
 
-/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 
- * gara.jswt.MessageBox
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/**
+ * Input Dialog
  */
-
-.sand div.jsWTMessageBox,
-.sand div.jsWTInputDialog {
-	width: 350px;
+.sand .jsWTInputDialog .jsWTLabel {
+	display: block;
+	padding-bottom: 5px;
 }
 
-.sand div.jsWTMessageBox .jsWTDialogBarText,
-.sand div.jsWTInputDialog .jsWTDialogBarText {
-	width: 310px;
+.sand .jsWTInputDialog .jsWTText {
+	margin: 0;
 }
 
-.sand div.jsWTMessageBox .jsWTDialogContent,
-.sand div.jsWTInputDialog .jsWTDialogContent {
-	background-color: #F7F7FA;
-	padding: 10px;
+
+/**
+ * Message Dialog
+ */
+.sand .jsWTMessageDialog {
+	min-width: 250px;
 }
 
-.sand div.jsWTMessageBox .jsWTMessageBoxContentText{
-	padding: 5px 0;
-	padding-left: 31px;
-}
-
-.sand div.jsWTMessageBox .jsWTIconError,
-.sand div.jsWTMessageBox .jsWTIconInformation,
-.sand div.jsWTMessageBox .jsWTIconQuestion,
-.sand div.jsWTMessageBox .jsWTIconWarning,
-.sand div.jsWTMessageBox .jsWTIconWorking {
-	background-position: 5px 5px;
-	background-repeat: no-repeat;
-}
-
-.sand div.jsWTMessageBox .jsWTIconError {
+/**
+ * Icons
+ */
+.sand .jsWTIconError {
+	width: 16px;
+	height: 16px;
+	display: block;
+	float: left;
 	background-image: url('icon_error.png'); /** sprite-ref: icons; */
 }
-.sand div.jsWTMessageBox .jsWTIconInformation {
+.sand .jsWTIconInformation {
+	width: 16px;
+	height: 16px;
+	display: block;
+	float: left;
 	background-image: url('icon_information.png'); /** sprite-ref: icons; */
 } 
-.sand div.jsWTMessageBox .jsWTIconQuestion {
+.sand .jsWTIconQuestion {
+	width: 16px;
+	height: 16px;
+	display: block;
+	float: left;
 	background-image: url('icon_question.png'); /** sprite-ref: icons; */
 }
-.sand div.jsWTMessageBox .jsWTIconWarning {
+.sand .jsWTIconWarning {
+	width: 16px;
+	height: 16px;
+	display: block;
+	float: left;
 	background-image: url('icon_warning.png'); /** sprite-ref: icons; */
 }
-.sand div.jsWTMessageBox .jsWTIconWorking {
-	background-image: url('icon_working.gif');
-}
-
-.sand div.jsWTInputDialog .jsWTInputDialogContentText {
-	padding: 5px 0;
-}
-
-.sand div.jsWTInputDialog .jsWTInputDialogContentText input {
+.sand .jsWTIconWorking {
+	width: 16px;
+	height: 16px;
 	display: block;
-	margin: 10px 0 5px 0;
-}
-
-
-/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 
- * gara.jswt.IframeDialog
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
- */
-
-.sand div.jsWTIframeDialog div.jsWTDialogContent div.loading {
-	background: #FFF url('loading.gif') no-repeat center;
+	float: left;
+	background-image: url('icon_working.gif');
 }

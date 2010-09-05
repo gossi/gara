@@ -76,6 +76,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.enabled = false;
 		this.maximized = false;
 		this.minimized = false;
+		this.defaultButton = null;
 
 		this.resizeNNW = null;
 		this.resizeWNW = null;
@@ -94,6 +95,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.adjustedWidth = false;
 
 		this.$super(parent, gara.jswt.widgets.Decorations.checkStyle(style));
+		this.addFocusListener(this);
 	},
 
 	adjustHeight : function (height) {
@@ -101,7 +103,10 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.clientArea.style.height = (height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
 		}
 		
-		
+		if (!this.adjustedHeight && height !== null && this.stub !== null) {
+			this.stub.style.height = height + "px";
+			this.adjustedHeight = true;
+		}
 	},
 
 	adjustWidth : function (width) {
@@ -109,28 +114,25 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.clientArea.style.width = width + "px";
 		}
 		
-		
-	},
-	
-	setHeight : function (height) {
-		this.$super(height);
-
-		if (!this.adjustedHeight && this.stub !== null) {
-			this.stub.style.height = height + "px";
-			this.adjustedHeight = true;
-		}
-		return this;
-	},
-	
-	setWidth : function (width) {
-		this.$super(width);
-
-		if (!this.adjustedWidth && this.stub !== null) {
+		if (!this.adjustedWidth && width !== null && this.stub !== null) {
 			this.stub.style.width = width + "px";
 			this.adjustedWidth = true;
-		}		
-		return this;
+		}	
 	},
+	
+//	setHeight : function (height) {
+//		this.$super(height);
+//
+//		
+//		return this;
+//	},
+//	
+//	setWidth : function (width) {
+//		this.$super(width);
+//
+//			
+//		return this;
+//	},
 
 	/**
 	 * @method
@@ -159,6 +161,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		
 		this.menuBarNode = null;
 		this.clientArea = null;
+		this.defaultButton = null;
 		
 		if (this.stub !== null) {
 			this.handle.parentNode.removeChild(this.stub);
@@ -331,6 +334,16 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.handle.parentNode.insertBefore(this.stub, this.handle);
 		}
 	},
+	
+	focusGained : function (e) {
+		if (this.defaultButton !== null) {
+			this.defaultButton.setFocus();
+		}
+	},
+	
+	getDefaultButton : function () {
+		return this.defaultButton;
+	},
 
 	getImage : function () {
 		return this.image;
@@ -495,8 +508,11 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 						&& e.clientY < (this.offsetY + this.moveParent.clientHeight)) {
 					this.x = e.clientX - this.doX;
 					this.y = e.clientY - this.doY;
-					this.handle.style.left = (this.x - this.positionOffsetX) + "px";
-					this.handle.style.top = (this.y - this.positionOffsetY) + "px";
+					
+					if (this.handle !== null) {
+						this.handle.style.left = (this.x - this.positionOffsetX) + "px";
+						this.handle.style.top = (this.y - this.positionOffsetY) + "px";
+					}
 				}
 			}
 
@@ -598,6 +614,10 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		}
 	},
 	
+	menuShell : function () {
+		return this;
+	},
+	
 	releaseChildren : function () {
 		if (this.menu !== null) {
 			this.menu.release();
@@ -614,6 +634,27 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 	 */
 	scrolledHandle : function () {
 		return this.clientArea;
+	},
+	
+	setDefaultButton : function (button) {
+		this.checkWidget();
+		if (!(button instanceof gara.jswt.widgets.Button)) {
+			throw new TypeError("button not instanceof gara.jswt.widgets.Button");
+		}
+		
+		if (button !== null  
+				&& (button.isDisposed() 
+				|| button.menuShell() !== this 
+				|| (button.getStyle() & gara.jswt.JSWT.PUSH) === 0
+				|| button === this.defaultButton)) {
+			return;
+		}
+		
+		if (this.defaultButton !== null) {
+			this.defaultButton.removeClass("jsWTButtonDefault");
+		}
+		this.defaultButton = button;
+		this.defaultButton.addClass("jsWTButtonDefault");
 	},
 
 	setImage : function (image) {

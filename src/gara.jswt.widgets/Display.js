@@ -307,6 +307,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 				}
 				
 				// notifyFocusListener
+				this.focusControl = control;
 				if (!control.handle.hasAttribute("data-gara-suppressFocusNotify")) {
 					notifyResult = control.notifyFocusListener("focusGained");
 					success = success && 
@@ -314,7 +315,6 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.Display", {
 							? true
 							: notifyResult;
 				}
-				this.focusControl = control;
 				
 				// remove obsolete data-gara-* attributes
 				control.handle.removeAttribute("data-gara-suppressFocusNotify");

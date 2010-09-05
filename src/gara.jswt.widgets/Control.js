@@ -135,33 +135,6 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	height : 0,
 
 	/**
-	 * @field
-	 * Contains the focus listeners
-	 *
-	 * @private
-	 * @type {gara.jswt.events.FocusListener[]}
-	 */
-	focusListeners : [],
-
-	/**
-	 * @field
-	 * Contains the mouse listeners
-	 *
-	 * @private
-	 * @type {gara.jswt.events.MouseListener[]}
-	 */
-	mouseListeners : [],
-
-	/**
-	 * @field
-	 * Contains the key listeners
-	 *
-	 * @private
-	 * @type {gara.jswt.events.KeyListener[]}
-	 */
-	keyListeners : [],
-
-	/**
 	 * @constructor
 	 */
 	$constructor : function (parent, style) {
@@ -420,17 +393,17 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	destroyWidget : function () {
 		this.display.removeWidget(this);
 		
-		if (this.parentNode != null && this.isComposite) {
+		if (this.parentNode != null) {
 			this.parentNode.removeChild(this.handle);
 		}
 		
-		this.controlListeners = null;
-		this.focusListeners = null;
-		this.keyListeners = null;
-		this.mouseListeners = null;
-		this.mouseMoveListeners = null;
-		this.mouseTrackListeners = null;
-		this.mouseWheelListeners = null;
+		this.controlListeners = [];
+		this.focusListeners = [];
+		this.keyListeners = [];
+		this.mouseListeners = [];
+		this.mouseMoveListeners = [];
+		this.mouseTrackListeners = [];
+		this.mouseWheelListeners = [];
 
 		this.shell = null;
 		this.parentNode = null;
@@ -542,7 +515,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @return {void}
 	 */
 	handleEvent: function (e) {
-		// notify mouse and key listeners
+		if (this.isDisposed()) {
+			return;
+		}
+
 		switch (e.type) {
 		case "keydown":
 			this.keyListeners.forEach(function (listener) {
@@ -690,6 +666,13 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	isFocusControl : function () {
 		return this.display.getFocusControl() === this;
 	},
+	
+	menuShell : function () {
+		if (this.parent.menuShell) {
+			return this.parent.menuShell();
+		}
+		return null;
+	},
 
 	/**
 	 * @method
@@ -740,7 +723,6 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			}, this);
 		}
 	},
-	
 
 	/**
 	 * @method
@@ -931,7 +913,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.adjustHeight(this.height);
 		}
 
-		// auto => null
+		// null => auto
 		else if (height === null) {
 			this.height = null;
 			this.handle.style.height = "auto";
@@ -1048,17 +1030,17 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			this.adjustWidth(this.width);
 		}
 
+		// null => auto
+		else if (width === null){
+			this.width = null;
+			this.handle.style.width = "auto";
+		}
+		
 		// percentage
 		else if (width >= 0 && width <= 1) {
 			this.width = parseInt(width * 100) / 100;
 			this.handle.style.width = this.width * 100 + "%";
 			this.adjustWidth(this.handle.offsetWidth);
-		}
-
-		// auto => null
-		else {
-			this.width = null;
-			this.handle.style.width = "auto";
 		}
 		
 		this.controlListeners.forEach(function (listener) {
