@@ -9,51 +9,49 @@
 var list;
 
 function main() {
-	gara.require(["gara.jswt.widgets.List","gara.jswt.widgets.ListItem"], function() {
-		list = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI);
+	list = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI | gara.jswt.JSWT.BORDER);
 
-		new gara.jswt.widgets.ListItem(list).setText("Item 1");
-		new gara.jswt.widgets.ListItem(list).setText("Item 2");
-		new gara.jswt.widgets.ListItem(list).setText("Item 3");
-		new gara.jswt.widgets.ListItem(list).setText("Item 4");
-		new gara.jswt.widgets.ListItem(list).setText("Item 5");
-		new gara.jswt.widgets.ListItem(list).setText("Item 6");
-		new gara.jswt.widgets.ListItem(list).setText("Item 7");
-		new gara.jswt.widgets.ListItem(list).setText("Item 8");
-		new gara.jswt.widgets.ListItem(list).setText("Item 9");
-		new gara.jswt.widgets.ListItem(list).setText("Item 10");
-		new gara.jswt.widgets.ListItem(list).setText("Item 12");
-		new gara.jswt.widgets.ListItem(list).setText("Item 13");
-		new gara.jswt.widgets.ListItem(list).setText("Item 14");
-		new gara.jswt.widgets.ListItem(list).setText("Item 15");
-		new gara.jswt.widgets.ListItem(list).setText("Item 16");
-		new gara.jswt.widgets.ListItem(list).setText("Item 17");
-		new gara.jswt.widgets.ListItem(list).setText("Item 18");
-		new gara.jswt.widgets.ListItem(list).setText("Item 19");
-		new gara.jswt.widgets.ListItem(list).setText("Item 20");
-		new gara.jswt.widgets.ListItem(list).setText("Item 21");
-		new gara.jswt.widgets.ListItem(list).setText("Item 22");
-		new gara.jswt.widgets.ListItem(list).setText("Item 23");
-		new gara.jswt.widgets.ListItem(list).setText("Item 24");
-		new gara.jswt.widgets.ListItem(list).setText("Item 25");
-		
-		
+	new gara.jswt.widgets.ListItem(list).setText("Item 1");
+	new gara.jswt.widgets.ListItem(list).setText("Item 2");
+	new gara.jswt.widgets.ListItem(list).setText("Item 3");
+	new gara.jswt.widgets.ListItem(list).setText("Item 4");
+	new gara.jswt.widgets.ListItem(list).setText("Item 5");
+	new gara.jswt.widgets.ListItem(list).setText("Item 6");
+	new gara.jswt.widgets.ListItem(list).setText("Item 7");
+	new gara.jswt.widgets.ListItem(list).setText("Item 8");
+	new gara.jswt.widgets.ListItem(list).setText("Item 9");
+	new gara.jswt.widgets.ListItem(list).setText("Item 10");
+	new gara.jswt.widgets.ListItem(list).setText("Item 12");
+	new gara.jswt.widgets.ListItem(list).setText("Item 13");
+	new gara.jswt.widgets.ListItem(list).setText("Item 14");
+	new gara.jswt.widgets.ListItem(list).setText("Item 15");
+	new gara.jswt.widgets.ListItem(list).setText("Item 16");
+	new gara.jswt.widgets.ListItem(list).setText("Item 17");
+	new gara.jswt.widgets.ListItem(list).setText("Item 18");
+	new gara.jswt.widgets.ListItem(list).setText("Item 19");
+	new gara.jswt.widgets.ListItem(list).setText("Item 20");
+	new gara.jswt.widgets.ListItem(list).setText("Item 21");
+	new gara.jswt.widgets.ListItem(list).setText("Item 22");
+	new gara.jswt.widgets.ListItem(list).setText("Item 23");
+	new gara.jswt.widgets.ListItem(list).setText("Item 24");
+	new gara.jswt.widgets.ListItem(list).setText("Item 25");
+	
+	
 
-		list.setHeight(200);
-		//list.update();
+	list.setHeight(200);
+	//list.update();
 
-		var listener = new Listener();
-		list.addSelectionListener(listener);
-		//list.addMouseListener(listener);
-		//list.addKeyListener(listener);
-		list.addListener("keydown", listener);
-		list.addListener("mousedown", listener);
-		list.getItems()[2].addListener("mousedown", listener);
-		list.addFocusListener({
-			focusGained : function (e) {
-				console.log("FocusListener gained Focus");
-			}
-		});
+	var listener = new Listener();
+	list.addSelectionListener(listener);
+	//list.addMouseListener(listener);
+	//list.addKeyListener(listener);
+	list.addListener("keydown", listener);
+	list.addListener("mousedown", listener);
+	list.getItems()[2].addListener("mousedown", listener);
+	list.addFocusListener({
+		focusGained : function (e) {
+			console.log("FocusListener gained Focus");
+		}
 	});
 }
 
@@ -116,7 +114,7 @@ function getTopItem() {
 	<input type="button" value="showItem(Item 20)" onclick="list.showItem(list.getItems()[19])"/>
 	<input type="button" value="setTopItem(Item 10)" onclick="list.setTopItem(list.getItems()[9])"/>
 </fieldset>
-<div id="container" class="sand" style="width: 300px;"></div>
-<script type="text/javascript">main();</script>
+<div id="container" class="sand" style="width: 300px; margin-top: 5px;"></div>
+<script type="text/javascript">gara.require(["gara.jswt.widgets.List"], main);</script>
 </body>
 </html>

@@ -37,12 +37,12 @@ gara.Class("gara.jswt.layout.RowLayout", function() { return {
 	},
 
 	construct : function (composite) {
-		composite.addClass("jsWTRowLayout");
+		composite.addClass("garaRowLayout");
 		this.$super(composite);
 	},
 
 	deconstruct : function (composite) {
-		composite.removeClass("jsWTRowLayout");
+		composite.removeClass("garaRowLayout");
 		this.$super(composite);
 	},
 

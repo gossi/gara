@@ -126,15 +126,26 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 	 *
 	 * @private
 	 */
-	adjustWidth : function () {
+	adjustWidth : function (column, width) {
 		var order = this.parent.getColumnOrder(), i, cell;
 
-		for (i = 0, len = order.length; i < len; ++i) {
-			cell = this.cells[order[i]];
-			if (cell && cell.td) {
-				cell.td.style.width = this.parent.getColumn(order[i]).getWidth() + "px";
+		if (column) {
+			cell = this.cells[this.parent.getColumns().indexOf(column)];
+			if (cell && cell.handle) {
+				cell.wrapper.style.width = (width
+					- gara.getNumStyle(cell.wrapper, "border-left-width")
+					- gara.getNumStyle(cell.wrapper, "border-right-width")
+				) + "px";
 			}
-		}
+		} 
+//		else {
+//			for (i = 0, len = order.length; i < len; ++i) {
+//				cell = this.cells[order[i]];
+//				if (cell && cell.handle) {
+//					cell.handle.style.width = this.parent.getColumn(order[i]).getComputedWidth()  + "px";
+//				}
+//			}
+//		}
 	},
 
 	/**
@@ -160,12 +171,13 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 	 * @private
 	 */
 	createWidget : function () {
-		var order, i, cell;
+		var i, cols;
 		this.handle = document.createElement("tr");
 		this.handle.id = this.getId();
 		this.handle.widget = this;
 		this.handle.control = this.parent;
 		this.handle.setAttribute("role", "row");
+		this.addClass("garaTableItem");
 
 		// checkbox
 		if ((this.parent.getStyle() & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
@@ -176,7 +188,7 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 			this.checkbox.setAttribute("role", "presentation");
 
 			this.checkboxTd = document.createElement("td");
-			this.checkboxTd.className = "jsWTTableCheckboxCol";
+			this.checkboxTd.className = "garaTableItemCell garaCheckboxCell";
 			this.checkboxTd.appendChild(this.checkbox);
 			this.checkboxTd.setAttribute("role", "presentation");
 
@@ -184,13 +196,10 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 			this.handle.setAttribute("aria-checked", this.checked);
 		}
 
-		order = this.parent.getColumnOrder();
-		for (var i = 0, cols = order.length, cells = this.cells.length; i < cols && i < cells; ++i) {
-			cell = this.cells[order[i]];
-			this.createCell(cell);
-			this.handle.appendChild(cell.td);
-			cell.td.className = i === 0 ? "first" : "";
-		}
+//		for (var i = 0, cols = this.parent.getColumns().length, cells = this.cells.length; i < cols && i < cells; ++i) {
+//			this.cells[i] = this.createCell(i);
+//		}
+		this.update();
 
 		this.parentNode.appendChild(this.handle);
 		this.parent.updateMeasurements();
@@ -202,73 +211,65 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 	 *
 	 * @private
 	 */
-	createCell : function (cell) {
-		var index = this.cells.indexOf(cell), i, c,
-			order = this.parent.getColumnOrder(),
-			offset = order.indexOf(index);
+	createCell : function (index) {
+//		var index = this.cells.indexOf(cell), i, c,
+//			order = this.parent.getColumnOrder(),
+//			offset = order.indexOf(index);
+		if (this.cells[index]) {
+			return this.cells[index];
+		}
+		
+		var cell = {};
 
-		cell.td = document.createElement("td");
-		cell.td.role = "gridcell";
-		cell.td.widget = this;
-		cell.td.control = this.parent;
+		cell.handle = document.createElement("td");
+		cell.handle.role = "gridcell";
+		cell.handle.className = "garaTableItemCell";
+		cell.handle.widget = this;
+		cell.handle.control = this.parent;
 		cell.index = index;
-		cell.td.setAttribute("aria-labelledby", this.getId() + "-label-"+ index);
+		cell.handle.setAttribute("aria-labelledby", this.getId() + "-label-"+ index);
+		
+		cell.wrapper = document.createElement("div");
+		cell.wrapper.role = "presentation";
+		cell.wrapper.className = "garaTableItemCellWrapper";
+		cell.wrapper.widget = this;
+		cell.wrapper.control = this.parent;
+		cell.handle.appendChild(cell.wrapper);
 
 		cell.img = document.createElement("img");
 		cell.img.id = this.getId() + "-image-"+ index;
 		cell.img.widget = this;
 		cell.img.control = this.parent;
-		cell.td.appendChild(cell.img);
+		cell.img.className = "garaItemImage garaTableItemImage";
 		cell.img.setAttribute("role", "presentation");
-
-		if (cell.image) {
-			cell.img.src = cell.image.src;
-		} else {
-			cell.img.style.display = "none";
-		}
-		cell.textNode = document.createTextNode(cell.text);
+		cell.img.style.display = "none";
+		cell.wrapper.appendChild(cell.img);
+		
+		cell.textNode = document.createTextNode("");
 		cell.span = document.createElement("span");
 		cell.span.id = this.getId() + "-label-"+ index;
-		cell.span.className = "text";
+		cell.span.className = "garaItemText garaTableItemText";
 		cell.span.widget = this;
 		cell.span.control = this.parent;
-		cell.span.appendChild(cell.textNode);
 		cell.span.setAttribute("role", "presentation");
-		cell.td.appendChild(cell.span);
+		cell.span.appendChild(cell.textNode);
+		cell.wrapper.appendChild(cell.span);
 
-		// append cell to row
-		// offset = index of cell in column order
-		for (i = 0; i < offset; ++i) {
-			c = this.cells[order[i]];
-
-			if (!c.td) {
-				this.createCell(c);
-			}
-			c.td.className = i === 0 ? "first" : "";
-		}
-		this.handle.appendChild(cell.td);
-		cell.td.className = i === 0 ? "first" : "";
+		return cell;
 	},
 
 
 	destroyWidget : function () {
-//		var cell, i, len;
 		this.parent.releaseItem(this);
-
-//		for (i = 0, len = this.cells.length; i < len; i++) {
-//			cell = this.cells[i];
-//			if (cell.img) {
-//				cell.td.removeChild(cell.img);
-//				delete cell.img;
-//				cell.image = null;
-//			}
-//			this.handle.removeChild(cell.td);
-//
-//			delete cell.td;
-//		}
 		this.cells = null;
-		
 		this.$super();
+	},
+	
+	getCell : function (index) {
+		if (!this.cells[index]) {
+			this.cells[index] = this.createCell(index);
+		}
+		return this.cells[index];
 	},
 
 	/**
@@ -365,37 +366,34 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 
 	setImage : function (index, image) {
 		var self = this,
-			updateCell = function (cell, image) {
+			updateCell = function (index, image) {
+				var cell = self.getCell(index);
 				cell.image = image;
-				if (!cell.td) {
-					self.createCell(cell);
-				} else {
+				if (image !== null) {
 					cell.img.src = image.src;
 					cell.img.style.display = "";
+				} else {
+					cell.img.src = "";
+					cell.img.style.display = "none";
 				}
 			};
 
+		this.checkWidget();
 		if (!image) {
 			image = index;
 			index = 0;
 		}
 
-		if (typeof(image) === "undefined" || image === null) {
+		if (typeof(image) === "undefined") {
 			return;
 		}
 
 		if (image instanceof Array) {
 			image.forEach(function (image, index, arr) {
-				if (!this.cells[index]) {
-					this.cells[index] = {};
-				}
-				updateCell(this.cells[index], image);
+				updateCell(index, image);
 			}, this);
 		} else {
-			if (!this.cells[index]) {
-				this.cells[index] = {};
-			}
-			updateCell(this.cells[index], image);
+			updateCell(index, image);
 		}
 
 		return this;
@@ -414,13 +412,10 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 
 	setText : function (index, text) {
 		var self = this,
-			updateCell = function (cell, text) {
+			updateCell = function (index, text) {
+				var cell = self.getCell(index);
 				cell.text = text;
-				if (!cell.td) {
-					self.createCell(cell);
-				} else {
-					cell.textNode.value = text;
-				}
+				cell.textNode.nodeValue = text;
 			};
 
 		this.checkWidget();
@@ -431,16 +426,10 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 
 		if (text instanceof Array) {
 			text.forEach(function (text, index, arr) {
-				if (!this.cells[index]) {
-					this.cells[index] = {};
-				}
-				updateCell(this.cells[index], text);
+				updateCell(index, text);
 			}, this);
 		} else {
-			if (!this.cells[index]) {
-				this.cells[index] = {};
-			}
-			updateCell(this.cells[index], text);
+			updateCell(index, text);
 		}
 
 		return this;
@@ -459,28 +448,27 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 	},
 
 	update : function () {
-		var order, i, cell;
+		var order, i, cell, len, cols, first = false;
 		this.checkWidget();
 
 		if (this.handle === null) {
-			this.create();
+			this.createWidget();
 		} else {
 			while (this.handle.childNodes.length) {
 				this.handle.removeChild(this.handle.childNodes[0]);
 			}
-			if ((this.parent.getStyle() & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
+			if ((this.parent.getStyle() & gara.jswt.JSWT.CHECK) !== 0) {
 				this.handle.appendChild(this.checkboxTd);
 			}
 
-			order = this.parent.getColumnOrder();
+			order = this.parent.getColumnOrder(), cols = this.parent.getColumns();
 			for (i = 0, len = order.length; i < len; i++) {
-				cell = this.cells[order[i]];
-
-				if (!cell.td) {
-					this.createCell(cell);
+				if (cols[order[i]].getVisible()) {
+					cell = this.getCell(order[i]);
+					cell.handle.className ="garaTableItemCell " + (!first ? "first" : "");
+					this.handle.appendChild(cell.handle);
+					first = true;
 				}
-				cell.td.className = i === 0 ? "first" : "";
-				this.handle.appendChild(cell.td);
 			}
 		}
 	}

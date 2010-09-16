@@ -1,6 +1,6 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Button
+ * gara.gara.Button
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -9,15 +9,15 @@
 /** sprite: radio; sprite-image: url('sprite-radio.png'); */
 
 
-.sand .jsWTButtonHorizontal {
+.sand .garaButtonHorizontal {
 	display: inline-block;
 }
 
-.sand .jsWTButtonVertical {
+.sand .garaButtonVertical {
 	display: block;	
 }
 
-.sand .jsWTButtonPush {
+.sand .garaButtonPush {
 	height: 22px;
 	background-repeat: no-repeat;
  	background-image: url('button-start.png'); /** sprite-ref: button; */
@@ -29,7 +29,7 @@
  	overflow: hidden;
 }
 
-.sand .jsWTButtonPush .door {
+.sand .garaButtonPush .garaButtonDoor {
 	background-position: right;
 	background-image: url('button-end.png'); /** sprite-ref: button; sprite-alignment: right;*/
 	height: 21px;
@@ -38,33 +38,33 @@
 	padding: 1px 9px 0 0;
 }
 
-.sand .jsWTButtonPush[aria-pressed=true] {
+.sand .garaButtonPush[aria-pressed=true] {
 	background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
 }
 
-.sand .jsWTButtonPush[aria-pressed=true] .door {
+.sand .garaButtonPush[aria-pressed=true] .garaButtonDoor {
 	background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
 }
 
-.sand .jsWTButtonPush img {
+.sand .garaButtonPush .garaButtonImage {
 	margin: 0 4px -3px 0;
 }
 
-.sand .jsWTButtonPush .text {
+.sand .garaButtonPush .garaText {
 	line-height: 20px;
 }
 
-.sand .jsWTButtonPush[aria-disabled=true] {
+.sand .garaButtonPush[aria-disabled=true] {
 	opacity: 0.5;
 }
 
-.sand .jsWTButtonPush[aria-disabled=false]:focus .text {
+.sand .garaButtonPush[aria-disabled=false]:focus .garaText {
 	outline: 1px dotted #000;
 }
 
 /* general checkbox & radio styles */
-.sand .jsWTButtonCheckbox,
-.sand .jsWTButtonRadio {
+.sand .garaButtonCheckbox,
+.sand .garaButtonRadio {
 	background: no-repeat;
 	padding-left: 17px;
  	margin-right: 2px;
@@ -74,8 +74,8 @@
  	-moz-user-select: none;
 }
 
-.sand .jsWTButtonCheckbox .focus,
-.sand .jsWTButtonRadio .focus {
+.sand .garaButtonCheckbox .garaButtonFocus,
+.sand .garaButtonRadio .garaButtonFocus {
 	position: absolute;
 	top: 2px;
 	left: 1px;
@@ -83,54 +83,53 @@
 	height: 13px;
 }
 
-.sand .jsWTButtonCheckbox img,
-.sand .jsWTButtonRadio img {
+.sand .garaButtonCheckbox .garaButtonImage,
+.sand .garaButtonRadio .garaButtonImage {
 	margin-right: 2px;
 	float: left;
 }
 
-.sand .jsWTButtonCheckbox .text,
-.sand .jsWTButtonRadio .text {
+.sand .garaButtonCheckbox .garaText,
+.sand .garaButtonRadio .garaText {
 	line-height: 16px;
 	display: inline-block;
-	
 }
 
-.sand .jsWTButtonCheckbox[aria-disabled=false]:focus .focus,
-.sand .jsWTButtonRadio[aria-disabled=false]:focus .focus {
+.sand .garaButtonCheckbox[aria-disabled=false]:focus .garaButtonFocus,
+.sand .garaButtonRadio[aria-disabled=false]:focus .garaButtonFocus {
 	outline: 1px dotted #000;
 }
 
 /* checkbox images */
-.sand .jsWTButtonCheckbox {
+.sand .garaButtonCheckbox {
 	background-image: url('checkbox.png'); /** sprite-ref: checkbox; sprite-margin-left: 1px; sprite-margin-top: 2px;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
-.sand .jsWTButtonCheckbox[aria-checked=true] {
+.sand .garaButtonCheckbox[aria-checked=true] {
 	background-image: url('checkbox-checked.png'); /** sprite-ref: checkbox;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
-.sand .jsWTButtonCheckbox[aria-disabled=true] {
+.sand .garaButtonCheckbox[aria-disabled=true] {
 	background-image: url('checkbox-grayed.png'); /** sprite-ref: checkbox;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
-.sand .jsWTButtonCheckbox[aria-disabled=true][aria-checked=true] {
+.sand .garaButtonCheckbox[aria-disabled=true][aria-checked=true] {
 	background-image: url('checkbox-grayed-checked.png'); /** sprite-ref: checkbox;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
 /* radio images */
-.sand .jsWTButtonRadio {
+.sand .garaButtonRadio {
 	background-image: url('radio.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
-.sand .jsWTButtonRadio[aria-checked=true] {
+.sand .garaButtonRadio[aria-checked=true] {
 	background-image: url('radio-checked.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
-.sand .jsWTButtonRadio[aria-disabled=true] {
+.sand .garaButtonRadio[aria-disabled=true] {
 	background-image: url('radio-grayed.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }
 
-.sand .jsWTButtonRadio[aria-disabled=true][aria-checked=true] {
+.sand .garaButtonRadio[aria-disabled=true][aria-checked=true] {
 	background-image: url('radio-grayed-checked.png'); /** sprite-ref: radio;  sprite-margin-left: 1px; sprite-margin-top: 2px; sprite-margin-bottom: 1px; */
 }

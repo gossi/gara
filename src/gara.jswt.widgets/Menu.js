@@ -249,7 +249,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		this.handle.setAttribute("role", "menu");
 
 		// css
-		this.addClass("jsWTMenu");
+		this.addClass("garaMenu");
 
 		// listener
 		if (!(this.parent instanceof gara.jswt.widgets.MenuItem)) {
@@ -260,7 +260,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		}
 
 		if ((this.style & gara.jswt.JSWT.BAR) !== 0) {
-			this.addClass("jsWTMenuBar");
+			this.addClass("garaMenuBar");
 			this.parentNode = this.parent;
 			this.handle.setAttribute("role", "menubar");
 
@@ -268,7 +268,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 			//gara.EventManager.addListener(document, "mouseup", this);
 
 			if ((this.style & gara.jswt.JSWT.TOOLBAR) !== 0) {
-				this.addClass("jsWTToolbar");
+				this.addClass("garaToolbar");
 			}
 
 			if (this.parent instanceof gara.jswt.widgets.Composite) {
@@ -277,7 +277,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		}
 
 		if ((this.style & gara.jswt.JSWT.POP_UP) !== 0) {
-			this.addClass("jsWTMenuPopUp");
+			this.addClass("garaMenuPopUp");
 			this.handle.tabIndex = -1;
 			this.handle.style.position = "absolute";
 			this.handle.style.top = this.y + "px";
@@ -286,7 +286,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		}
 
 		if ((this.style & gara.jswt.JSWT.DROP_DOWN) !== 0) {
-			this.addClass("jsWTMenuDropDown");
+			this.addClass("garaMenuDropDown");
 			this.handle.tabIndex = -1;
 			this.handle.style.position = "absolute";
 			this.parentNode = this.parent.handle;
@@ -732,7 +732,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 				}
 			}
 
-			this.menuListeners.forEach(function (listener, index, arr) {
+			this.menuListeners.forEach(function (listener) {
 				if (listener.menuShown) {
 					listener.menuShown(this);
 				}
@@ -751,7 +751,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 				}
 			}, this);
 
-			this.menuListeners.forEach(function (listener, index, arr) {
+			this.menuListeners.forEach(function (listener) {
 				if (listener.menuHidden) {
 					listener.menuHidden(this);
 				}

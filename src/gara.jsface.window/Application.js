@@ -40,5 +40,19 @@ gara.Class("gara.jsface.window.Application", function () { return {
 
 	configureShell : function (newShell) {
 		newShell.setFullScreen(true);
+	},
+	
+	getInitialSize : function () {
+		return {x:null,y:null};
+	},
+	
+	getInitialLocation : function () {
+		return {x:0,y:0};
+	},
+	
+	open : function (callback, context) {
+		this.$super(callback, context);
+		console.log("App.open");
+		this.shell.layout();
 	}
-}});
+};});

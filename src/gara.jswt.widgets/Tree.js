@@ -254,14 +254,16 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 		this.handle.setAttribute("aria-activedescendant", this.getId());
 
 		// css
-		this.addClass("jsWTTree");
-		this.setClass("jsWTTreeFullSelection", (this.style & gara.jswt.JSWT.FULL_SELECTION) === gara.jswt.JSWT.FULL_SELECTION);
-		this.setClass("jsWTTreeCheckbox", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
-		this.setClass("jsWTTreeLines", this.showLines);
-		this.setClass("jsWTTreeNoLines", !this.showLines);
+		this.addClass("garaTree");
+		this.setClass("garaTreeFullSelection", (this.style & gara.jswt.JSWT.FULL_SELECTION) === gara.jswt.JSWT.FULL_SELECTION);
+		this.setClass("garaTreeCheckbox", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
+		this.setClass("garaTreeLines", this.showLines);
+		this.setClass("garaTreeNoLines", !this.showLines);
+		this.setClass("garaBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
 
 		// listeners
 		this.addListener("mousedown", this);
+		this.addListener("contextmenu", this);
 		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
 			this.addListener("mouseup", this);
 		}
@@ -460,6 +462,10 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 			e.item.handleEvent(e);
 		}
 
+		if (e.type === "contextmenu") {
+			e.preventDefault();
+		}
+		
 		e.stopPropagation();
 		/* in case of ie6, it is necessary to return false while the type of
 		 * the event is "contextmenu" and the menu isn't hidden in ie6
@@ -955,7 +961,7 @@ gara.Class("gara.jswt.widgets.Tree", function() { return {
 	 */
 	setLinesVisible : function (show) {
 		this.showLines = show;
-		this.setClass("jsWTTreeLines", this.showLines);
+		this.setClass("garaTreeLines", this.showLines);
 		return this;
 	},
 

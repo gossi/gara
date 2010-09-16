@@ -192,9 +192,10 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 		this.handle.setAttribute("aria-activedescendant", this.getId());
 
 		// add css classes
-		this.addClass("jsWTList");
-		this.setClass("jsWTListFullSelection", (this.style & gara.jswt.JSWT.FULL_SELECTION) === gara.jswt.JSWT.FULL_SELECTION);
-		this.setClass("jsWTListCheckbox", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
+		this.addClass("garaList");
+		this.setClass("garaListFullSelection", (this.style & gara.jswt.JSWT.FULL_SELECTION) === gara.jswt.JSWT.FULL_SELECTION);
+		this.setClass("garaListCheckbox", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
+		this.setClass("garaBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
 
 		// listeners
 		this.addListener("mousedown", this);
@@ -417,6 +418,10 @@ gara.Class("gara.jswt.widgets.List", function () { return {
 
 		if (e.item !== null) {
 			e.item.handleEvent(e);
+		}
+		
+		if (e.type === "contextmenu") {
+			e.preventDefault();
 		}
 
 		e.stopPropagation();

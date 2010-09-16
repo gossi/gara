@@ -12,15 +12,15 @@ function main() {
 	gara.require(
 		["gara.jswt.widgets.Table", "gara.jswt.widgets.TableItem", "gara.jswt.widgets.TableColumn"],
 		function() {
-			table = new gara.jswt.widgets.Table(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION); //  | gara.jswt.JSWT.CHECK
+			table = new gara.jswt.widgets.Table(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.BORDER | gara.jswt.JSWT.CHECK /*| gara.jswt.JSWT.FULL_SELECTION*/); //  | gara.jswt.JSWT.CHECK
 			table.setHeaderVisible(true);
 			table.setLinesVisible(true);
 
-			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 1");
-			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 2");
-			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 3");
+			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 1").setWidth(120);
+			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 2").setWidth(120);
+			new gara.jswt.widgets.TableColumn(table, gara.jswt.JSWT.DEFAULT).setText("col 3").setWidth(120);
 
-			new gara.jswt.widgets.TableItem(table).setText(["i1, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i1, 1", "was längeres", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i2, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i3, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i4, 1", "2", "3"]);
@@ -29,7 +29,7 @@ function main() {
 			new gara.jswt.widgets.TableItem(table).setText(["i7, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i8, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i9, 1", "2", "3"]);
-			new gara.jswt.widgets.TableItem(table).setText(["i10, 1", "2", "3"]);
+			/*new gara.jswt.widgets.TableItem(table).setText(["i10, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i11, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i12, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i13, 1", "2", "3"]);
@@ -39,7 +39,7 @@ function main() {
 			new gara.jswt.widgets.TableItem(table).setText(["i17, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i18, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i19, 1", "2", "3"]);
-			new gara.jswt.widgets.TableItem(table).setText(["i20, 1", "2", "3"]);
+			new gara.jswt.widgets.TableItem(table).setText(["i20, 1", "2", "3"]);*/
 			new gara.jswt.widgets.TableItem(table).setText(["i21, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i22, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i23, 1", "2", "3"]);
@@ -48,7 +48,8 @@ function main() {
 			new gara.jswt.widgets.TableItem(table).setText(["i26, 1", "2", "3"]);
 			new gara.jswt.widgets.TableItem(table).setText(["i27, 1", "2", "3"]);
 		
-			table.setHeight(200);
+			//table.setWidth(300);
+			//table.setHeight(200);
 		});
 }
 
@@ -90,7 +91,7 @@ function toggleChecked() {
 	<input type="button" value="showItem(Item 20)" onclick="table.showItem(table.getItems()[19])"/>
 	<input type="button" value="setTopItem(Item 10)" onclick="table.setTopItem(table.getItems()[9])"/>
 </fieldset>
-<div id="container" class="sand" style="width: 300px;">
+<div id="container" class="sand" style="margin-top: 5px;">
 </div>
 <script type="text/javascript">main();</script>
 </body>

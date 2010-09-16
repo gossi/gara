@@ -51,10 +51,10 @@ gara.Class("gara.jswt.layout.Layout", function() { return {
 	},
 
 	construct : function (composite) {
-		composite.addClass("jsWTLayout");
+		composite.addClass("garaLayout");
 		
 		if ((this.style & gara.jswt.JSWT.LAYOUT_LOOSY) !== 0) {
-			composite.addClass("loosy");
+			composite.addClass("garaLoosyLayout");
 		}
 		
 
@@ -67,10 +67,10 @@ gara.Class("gara.jswt.layout.Layout", function() { return {
 	},
 	
 	deconstruct : function (composite) {
-		composite.removeClass("jsWTLayout");
+		composite.removeClass("garaLayout");
 		
 		if ((this.style & gara.jswt.JSWT.LAYOUT_LOOSY) !== 0) {
-			composite.removeClass("loosy");
+			composite.removeClass("garaLoosyLayout");
 		}
 		
 		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
@@ -85,7 +85,7 @@ gara.Class("gara.jswt.layout.Layout", function() { return {
 	 */
 	layout : function (composite) {
 //		var tempHeight = composite.getHeight();
-		composite.addClass("jsWTLayout");
+		composite.addClass("garaLayout");
 
 		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
 			composite.setWidth(composite.getParent().offsetWidth);

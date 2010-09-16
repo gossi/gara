@@ -1,25 +1,25 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Checkbox
+ * gara.gara.Checkbox
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
  
-.sand .jsWTCheckbox {
+.sand .garaCheckbox {
 	display: block;
 	width: 13px;
 	height: 13px;
 	background-image: url('checkbox.png'); /** sprite-ref: checkbox; */ 
 }
 
-.sand .jsWTCheckboxGrayedChecked {
-	background-image: url('checkbox-grayed-checked.png'); /** sprite-ref: checkbox; */
-}
-
-.sand .jsWTCheckboxGrayed {
+.sand .garaCheckboxGrayed {
 	background-image: url('checkbox-grayed.png'); /** sprite-ref: checkbox; */
 }
 
-.sand .jsWTCheckboxChecked {
+.sand .garaCheckboxChecked {
 	background-image: url('checkbox-checked.png'); /** sprite-ref: checkbox; */
+}
+
+.sand .garaCheckboxGrayedChecked {
+	background-image: url('checkbox-grayed-checked.png'); /** sprite-ref: checkbox; */
 }

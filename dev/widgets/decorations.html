@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Pragma" content="no-cache">
@@ -29,8 +29,8 @@ function main() {
 		.setLocation(350, 150);
 	var menu = new gara.jswt.widgets.Menu(d1, gara.jswt.JSWT.BAR);
 	d1.setMenuBar(menu);
-	new gara.jswt.widgets.MenuItem(menu).setText("Do it!");
-
+	var menuItem1 = new gara.jswt.widgets.MenuItem(menu).setText("Do it!");
+	
 	
 	d2 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM)
 		.setText("Hello")
@@ -39,8 +39,7 @@ function main() {
 		.setHeight(180);
 	var menu2 = new gara.jswt.widgets.Menu(d2, gara.jswt.JSWT.TOOLBAR);
 	d2.setMenuBar(menu2);
-	new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CHECK).setText("Do it!");
-
+	var menuItem2 = new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CHECK).setText("Do it!");
 	
 	d3 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM)
 		.setText("Hello")
@@ -69,6 +68,7 @@ function main() {
 		new gara.jswt.widgets.TreeItem(tree).setText("Item " + i);
 	}
 
+
 	gara.EventManager.addListener(document.getElementById("shellOpener"), "click", function () {
 		if (!shell) {
 			shell = new gara.jswt.widgets.Shell().setText("Shell");
@@ -79,21 +79,17 @@ function main() {
 }
 </script>
 </head>
-<body style="padding: 10px;" class="sand" role="application">
+<body style="padding: 10px;">
 <h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Decorations</h1>
 <button id="shellOpener">Open Shell</button>
 <script>gara.require([
-	"gara.jswt.widgets.Decorations",
+	//"gara.jswt.widgets.Decorations",
 	"gara.jswt.widgets.Label", 
 	"gara.jswt.widgets.Menu", 
 	"gara.jswt.widgets.List", 
-	"gara.jswt.widgets.ListItem",
 	"gara.jswt.widgets.Shell",
 	"gara.jswt.widgets.Table",
-	"gara.jswt.widgets.TableColumn", 
-	"gara.jswt.widgets.TableItem",
-	"gara.jswt.widgets.Tree", 
-	"gara.jswt.widgets.TreeItem",
+	"gara.jswt.widgets.Tree",
 	"gara.jswt.layout.ColumnLayout"
 ], main);</script>
 </body>

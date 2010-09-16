@@ -56,7 +56,7 @@ ul.gara  {
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
-.jsWTControl {
+.garaControl {
 	position: relative;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -74,8 +74,8 @@ ul.gara  {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTLabel,
-.jsWTComposite {
+.garaLabel,
+.garaComposite {
 	cursor: default;
 	overflow: auto;
 	outline: none;
@@ -91,7 +91,7 @@ ul.gara  {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTScrollable {
+.garaScrollable {
 	overflow: auto;
 }
 
@@ -102,12 +102,12 @@ ul.gara  {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTDecorations {
+.garaDecorations {
 	outline: none;
 	overflow: hidden;
 }
 
-.jsWTDecorationsClientArea {
+.garaDecorationsClientArea {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
@@ -123,7 +123,7 @@ ul.gara  {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
  
-.jsWTShell {
+.garaShell {
 	position: absolute;
 }
 
@@ -134,7 +134,7 @@ ul.gara  {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-ul.jsWTList {
+.garaList {
 	cursor: default;
 	overflow: auto;	
 	outline: none;
@@ -143,25 +143,25 @@ ul.jsWTList {
 	-webkit-user-select: none;
 }
 
-ul.jsWTList li {
+.garaList .garaListItem {
 	list-style-type: none;
 }
 
-ul.jsWTList li .jsWTCheckbox {
+.garaList .garaCheckbox {
 	float: left;
 }
 
-ul.jsWTList li span.text {
+.garaListItemText {
 	white-space: nowrap;
 	width: auto;
 }
 
-ul.jsWTList li img {
+.garaListItemImage {
 	vertical-align: middle;
 	margin-right: 3px;
 }
 
-ul.jsWTListFullSelection li span.text {
+.garaListFullSelection .garaListItemText {
 	display: block;
 }
 
@@ -173,7 +173,7 @@ ul.jsWTListFullSelection li span.text {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-ul.jsWTTree {
+.garaTree {
 	cursor: default;
 	overflow: auto;	
 	outline: none;
@@ -182,29 +182,16 @@ ul.jsWTTree {
 	-webkit-user-select: none;
 }
 
-ul.jsWTTree * {
+/*.garaTree * {
 	outline: none;
+}*/
+
+/*.garaTree */.garaTreeItemChildContainer {
+	overflow: visible;
+	clear: left;	
 }
 
-ul.jsWTTree ul {
-	overflow: visible;	
-}
-
-ul.jsWTTree, ul.jsWTTree ul {
-	background-repeat: repeat-y;
-	padding-left: 18px;
-}
-
-ul.jsWTTreeNoLines ul {
-	background-image: none;
-}
-
-ul.jsWTTree ul {
-	clear: left;
-}
-
-ul.jsWTTree li {
-	background-repeat: no-repeat;
+.garaTreeItem {
 /*	height: auto !important;
 	height: 18px;
 	min-height: 18px;*/
@@ -213,39 +200,15 @@ ul.jsWTTree li {
 	white-space: nowrap;
 }
 
-ul.jsWTTreeNoLines li {
-	background-image: none;
-}
-
-ul.jsWTTree li span.text {
+.garaTreeItemText {
 	white-space: nowrap;
 	width: auto;
 }
 
-ul.jsWTTree li span.toggler {
+.garaTreeItemToggler {
 	display: block;
-	width: 18px;
-	height: 18px;
-	max-height: 18px;
 	float: left;
 }
-
-ul.jsWTTree li.noChilds {
-	padding-left: 21px;
-}
-
-ul.jsWTTree li.hasChilds {
-	padding-left: 0;
-}
-
-ul.jsWTTreeNoLines li.bottom {
-	background-image: none;
-}
-
-ul.jsWTTree ul.bottom {
-	background-image: none;
-}
-
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
@@ -254,58 +217,72 @@ ul.jsWTTree ul.bottom {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTTable {
+.garaTable {
 	position: relative;
 	cursor: default;
+	overflow: hidden;
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 }
 
-.jsWTTable .scroller {
-	overflow: auto;
+.garaTableScroller {
+	overflow-y: auto;
 }
 
-.jsWTTable table {
-	width: 100%;
+.sand .garaTable table {
+	border-collapse: collapse;
+	border-spacing: 0 0;
+	table-layout: fixed;
 }
 
-.jsWTTable thead {
+.garaTableHead {
 	top: 0;
 	left: 0;
 	position: relative;
 }
 
-.jsWTTable table thead tr th {
-	white-space: nowrap;
-}
-
-.jsWTTable table thead tr th span.mover {
-	display: none;
-	width: 4px;
-	margin-top: -1px;
-	margin-right: -1px;
+.garaTableColumnResizer {
+	margin: -3px -3px -3px 0;
 	float: right;
+	width: 6px;
 	cursor: ew-resize;
 }
 
-.jsWTTable table thead tr th.operator span.mover {
-	display: block;
-} 
-
-.jsWTTable table tbody {
-	/*overflow-y: auto;*/
-	overflow: hidden;
+.garaTableHeadColumn:last-child .garaTableColumnResizer {
+	display: none;
 }
 
+.garaTableResizeLine {
+	display: none;
+	width: 1px;
+	position: absolute;
+	bottom: 0;
+}
+
+.garaTableItemCellWrapper {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/*.garaTable table tbody {
+	/*overflow-y: auto;*
+	overflow-y: hidden;
+	overflow-x: auto;
+}*/
+
 /* Shadow Table (when reordering columns)*/
-.jsWTTableShadow {
+.garaTableShadow {
 	position: absolute;
 	opacity: 0.3;
 	z-index: 450;
 }
 
-.jsWTTableShadow .scroller {
+.garaTableShadow .garaTableArrow {
+	display: none !important;
+}
+
+.garaTableShadow .garaTableScroller {
 	overflow: hidden;
 }
 
@@ -317,15 +294,15 @@ ul.jsWTTree ul.bottom {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTTabFolder {
+.garaTabFolder {
 	position: relative;
 }
 
-.jsWTTabFolder .more {
+.garaTabFolder .garaTabFolderMore {
 	position: absolute;
 }
 
-.jsWTTabFolderBar {
+.garaTabFolderBar {
 	margin-left: 0;
 	padding-left: 0;
 	cursor: default;
@@ -335,7 +312,7 @@ ul.jsWTTree ul.bottom {
 	-webkit-user-select: none;
 }
 
-.jsWTTabFolder .jsWTTabClientArea {
+.garaTabClientArea {
 	overflow: auto;
 }
 
@@ -347,7 +324,7 @@ ul.jsWTTree ul.bottom {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTMenu {
+.garaMenu {
 	margin: 0;
 	padding: 0;
 	background-image: none;
@@ -358,7 +335,7 @@ ul.jsWTTree ul.bottom {
 	-webkit-user-select: none;
 }
 
-.jsWTMenu li {
+.garaMenuItem {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -367,100 +344,18 @@ ul.jsWTTree ul.bottom {
 }
 
 /* Reset. Anyways the menu inherits styles from controls */
-.jsWTMenu .text {
+.garaMenuItemText {
 	padding: 0;
 	margin: 0;
 }
 
-.jsWTMenu img {
+.garaMenuItemImage {
 	vertical-align: middle;
 	margin-right: 3px;
 }
 
-.jsWTMenuDropDown, .jsWTMenuPopUp {
+.garaMenuDropDown, .garaMenuPopUp {
 	z-index: 500;
-}
-
-
-/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 
- * gara.jswt.Dialog
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
- */
-
-div#jsWTModalLayer {
-	z-index: 650;
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: transparent !important;
-	background-color: #FFF;
-	filter: alpha(opacity=1);
-}
-
-div.jsWTDialog {
-	z-index: 600;
-	position: absolute;
-}
-
-div.jsWTDialogModal {
-	z-index: 651;
-}
-
-div.jsWTDialogBar {
-	outline: none;
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-}
-
-div.jsWTDialogBarText {
-	float: left;
-}
-
-div.jsWTDialogBarButtons {
-	float: left;
-}
-
-div.jsWTDialogBarClearer {
-	clear: both;
-}
-
-div.jsWTDialogContent {
-	min-width: 70px;
-}
-
-
-/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * 
- * gara.jswt.MessageBox
- * 
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
- */
-
-div.jsWTMessageBox,
-div.jsWTInputDialog {
-	width: 350px;
-}
-
-div.jsWTMessageBox .jsWTDialogBarText, 
-div.jsWTInputDialog .jsWTDialogBarText {
-	width: 310px;
-}
-
-div.jsWTMessageBox .jsWTMessageBoxButtonBar, 
-div.jsWTInputDialog .jsWTInputDialogButtonBar {
-	margin-top: 5px;
-	text-align: center;
-}
-
-div.jsWTMessageBox .jsWTMessageBoxButtonBar input, 
-div.jsWTInputDialog .jsWTInputDialogButtonBar input {
-	width: 75px;
-	margin: 0 2px;
 }
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -470,7 +365,7 @@ div.jsWTInputDialog .jsWTInputDialogButtonBar input {
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.jsWTButton {
+.garaButton {
 	cursor: default;
 	overflow: auto;	
 	outline: none;

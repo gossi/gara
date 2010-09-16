@@ -128,13 +128,14 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 	layout : function () {
 		var resizeable = [], lastHeight, ratio, widgetHeight,
 			autoHeight = [], percentHeight = [], cssHeight = [],
-			classes = ["h25", "h50", "h75", "h33", "h66"];
+			heights = ["h25", "h50", "h75", "h33", "h66"],
+			widths = ["w25", "w50", "w75", "w33", "w66"],
 			ratios = [0.25, 0.5, 0.75, 0.3333, 0.6666],
 			height = this.getClientArea().clientHeight,
 			width = this.getClientArea().clientWidth;
-		
+			
 		if (this.layoutInformation !== null) {
-			this.layoutInformation.layout(this);
+			return this.layoutInformation.layout(this);
 		}
 
 		this.getChildren().forEach(function (widget) {
@@ -153,8 +154,19 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 //					}
 //				}
 
-				// width
-				if (widget.getWidth() === null) {
+				// css width
+				if (widget.hasClass("w25") || widget.hasClass("w50") || widget.hasClass("w75") || widget.hasClass("w33") || widget.hasClass("w66")) {
+					widths.forEach(function (cssHeightClass, j) {
+						if (widget.hasClass(cssHeightClass)) {
+							ratio = ratios[j];
+							return;
+						}
+					}, this);
+					widget.adjustWidth(Math.floor(ratio * width));
+				} 
+				
+				// no width
+				else if (widget.getWidth() === null) {
 					widget.adjustWidth(width);
 				}
 
@@ -225,7 +237,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 				widget.adjustHeight(lastHeight);
 //				widget.handle.style.height = lastHeight + "px";
 			} else {
-				classes.forEach(function (cssHeightClass, j) {
+				heights.forEach(function (cssHeightClass, j) {
 					if (widget.hasClass(cssHeightClass)) {
 						ratio = ratios[j];
 						return;

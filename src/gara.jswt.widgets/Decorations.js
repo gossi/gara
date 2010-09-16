@@ -39,7 +39,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 	image : null,
 	text : "",
 	menuBar : null,
-	placeholder : null,
+	stub : null,
 	title : null,
 	titleRight : null,
 	titleTextNode : null,
@@ -54,6 +54,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 	 * @constructor
 	 */
 	$constructor : function (parent, style) {
+		var self = this;
 		this.image = null;
 		this.text = "";
 		this.menuBar = null;
@@ -93,47 +94,35 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		
 		this.adjustedHeight = false;
 		this.adjustedWidth = false;
+		
+		this.menuBarResizeListener = {
+			controlResized : function (e) {
+				if (self.height > 0) {
+					self.clientArea.style.height = (self.handle.clientHeight - (self.title ? self.title.offsetHeight : 0) - self.menuBarNode.offsetHeight) + "px";
+				}
+			}	
+		};
 
 		this.$super(parent, gara.jswt.widgets.Decorations.checkStyle(style));
 		this.addFocusListener(this);
 	},
 
 	adjustHeight : function (height) {
-		if (height > 1) {
-			this.clientArea.style.height = (height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
-		}
+		this.$super(height);
 		
-		if (!this.adjustedHeight && height !== null && this.stub !== null) {
-			this.stub.style.height = height + "px";
-			this.adjustedHeight = true;
+		if (height > 1) {
+			this.clientArea.style.height = (height - (this.title ? this.title.offsetHeight : 0) - this.menuBarNode.offsetHeight) + "px";
 		}
 	},
 
 	adjustWidth : function (width) {
+		this.$super(width);
+		
 		if (width > 1) {
 			this.clientArea.style.width = width + "px";
 		}
-		
-		if (!this.adjustedWidth && width !== null && this.stub !== null) {
-			this.stub.style.width = width + "px";
-			this.adjustedWidth = true;
-		}	
 	},
 	
-//	setHeight : function (height) {
-//		this.$super(height);
-//
-//		
-//		return this;
-//	},
-//	
-//	setWidth : function (width) {
-//		this.$super(width);
-//
-//			
-//		return this;
-//	},
-
 	/**
 	 * @method
 	 * Register listeners for this widget. Implementation for gara.jswt.widgets.Widget
@@ -197,8 +186,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.handle.setAttribute("role", "group");
 		
 		// add css classes
-		this.addClass("jsWTDecorations");
-		this.setClass("jsWTDecorationsBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
+		this.addClass("garaDecorations");
+		this.setClass("garaBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
 		this.moveParent = this.getParent() instanceof gara.jswt.widgets.Widget
 			? this.getParent().handle
 			: (this.getParent() instanceof gara.jswt.widgets.Display
@@ -208,12 +197,12 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		// title
 		if ((this.style & gara.jswt.JSWT.TITLE) !== 0) {
 			this.title = document.createElement("div");
-			this.title.className = "jsWTDecorationsTitle";
+			this.title.className = "garaDecorationsTitle";
 			this.title.widget = this;
 
 			// title left, a node for sliding doors css-technic to apply styles
 			this.titleRight = document.createElement("div");
-			this.titleRight.className = "jsWTDecorationsTitleRight";
+			this.titleRight.className = "garaDecorationsTitleRight";
 			this.titleRight.widget = this;
 
 			this.title.appendChild(this.titleRight);
@@ -221,25 +210,25 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			// buttons
 			if ((this.style & (gara.jswt.JSWT.MIN | gara.jswt.JSWT.MAX | gara.jswt.JSWT.CLOSE)) !== 0) {
 				this.titleButtons = document.createElement("div");
-				this.titleButtons.className = "jsWTDecorationsTitleButtons";
+				this.titleButtons.className = "garaDecorationsTitleButtons";
 				this.titleButtons.widget = this;
 
 //				var clearer = document.createElement("div");
-//				clearer.className = "jsWTDialogBarClearer";
+//				clearer.className = "garaDialogBarClearer";
 
 				this.titleCloseButton = document.createElement("span");
-				this.titleCloseButton.className = "jsWTDecorationsCloseButton" + (((this.style & gara.jswt.JSWT.CLOSE) !== 0) ? " jsWTDecorationsCloseButtonActive" : " jsWTDecorationsCloseButtonDeactive");;
+				this.titleCloseButton.className = "garaDecorationsCloseButton" + (((this.style & gara.jswt.JSWT.CLOSE) !== 0) ? " garaDecorationsCloseButtonActive" : " garaDecorationsCloseButtonDeactive");;
 				this.titleButtons.appendChild(this.titleCloseButton);
 				this.title.appendChild(this.titleButtons);
 
 				if ((this.style & (gara.jswt.JSWT.MIN | gara.jswt.JSWT.MAX)) !== 0) {
 					this.titleMinButton = document.createElement("span");
-					this.titleMinButton.className = "jsWTDecorationsMinButton" + (((this.style & gara.jswt.JSWT.MIN) !== 0) ? " jsWTDecorationsMinButtonActive" : " jsWTDecorationsMinButtonDeactive");
+					this.titleMinButton.className = "garaDecorationsMinButton" + (((this.style & gara.jswt.JSWT.MIN) !== 0) ? " garaDecorationsMinButtonActive" : " garaDecorationsMinButtonDeactive");
 					this.titleMinButton.widget = this;
 					this.titleButtons.appendChild(this.titleMinButton);
 
 					this.titleMaxButton = document.createElement("span");
-					this.titleMaxButton.className = "jsWTDecorationsMaxButton" + (((this.style & gara.jswt.JSWT.MAX) !== 0) ? " jsWTDecorationsMaxButtonActive" : " jsWTDecorationsMaxButtonDeactive");
+					this.titleMaxButton.className = "garaDecorationsMaxButton" + (((this.style & gara.jswt.JSWT.MAX) !== 0) ? " garaDecorationsMaxButtonActive" : " garaDecorationsMaxButtonDeactive");
 					this.titleMaxButton.widget = this;
 					this.titleButtons.appendChild(this.titleMaxButton);
 				}
@@ -248,7 +237,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			}
 
 			this.titleTextNode = document.createElement("div");
-			this.titleTextNode.className = "jsWTDecorationsTitleText";
+			this.titleTextNode.className = "garaDecorationsTitleText";
 			this.titleTextNode.id = this.getId() + "-label";
 			this.titleTextNode.widget = this;
 			this.titleImage = document.createElement("img");
@@ -286,18 +275,18 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			this.resizeSSE = document.createElement("div");
 			this.resizeESE = document.createElement("div");
 
-			this.resizeNNW.className = "resize resizeNNW";
-			this.resizeWNW.className = "resize resizeWNW";
-			this.resizeN.className = "resize resizeN";
-			this.resizeNNE.className = "resize resizeNNE";
-			this.resizeENE.className = "resize resizeENE";
-			this.resizeE.className = "resize resizeE";
-			this.resizeW.className = "resize resizeW";
-			this.resizeSSW.className = "resize resizeSSW";
-			this.resizeWSW.className = "resize resizeWSW";
-			this.resizeS.className = "resize resizeS";
-			this.resizeSSE.className = "resize resizeSSE";
-			this.resizeESE.className = "resize resizeESE";
+			this.resizeNNW.className = "garaResize garaResizeNNW";
+			this.resizeWNW.className = "garaResize garaResizeWNW";
+			this.resizeN.className = "garaResize garaResizeN";
+			this.resizeNNE.className = "garaResize garaResizeNNE";
+			this.resizeENE.className = "garaResize garaResizeENE";
+			this.resizeE.className = "garaResize garaResizeE";
+			this.resizeW.className = "garaResize garaResizeW";
+			this.resizeSSW.className = "garaResize garaResizeSSW";
+			this.resizeWSW.className = "garaResize garaResizeWSW";
+			this.resizeS.className = "garaResize garaResizeS";
+			this.resizeSSE.className = "garaResize garaResizeSSE";
+			this.resizeESE.className = "garaResize garaResizeESE";
 
 			this.handle.appendChild(this.resizeNNW);
 			this.handle.appendChild(this.resizeWNW);
@@ -315,13 +304,13 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 		// menubar
 		this.menuBarNode = document.createElement("div");
-		this.menuBarNode.className = "jsWTDecorationsMenuBar";
+		this.menuBarNode.className = "garaDecorationsMenuBar";
 		this.menuBarNode.style.display = "none";
 		this.handle.appendChild(this.menuBarNode);
 
 		// content
 		this.clientArea = document.createElement("div");
-		this.clientArea.className = "jsWTClientArea jsWTDecorationsClientArea";
+		this.clientArea.className = "garaClientArea garaDecorationsClientArea";
 		this.handle.appendChild(this.clientArea);
 
 		this.addListener("mousedown", this);
@@ -329,7 +318,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		if ((this.style & gara.jswt.JSWT.RESIZE) !== 0
 				|| (this.style & gara.jswt.JSWT.TITLE) !== 0) {
 			this.stub = document.createElement("div");
-			this.stub.className = "jsWTStub";
+			this.stub.className = "garaStub";
 			this.stub.style.display = "none";
 			this.handle.parentNode.insertBefore(this.stub, this.handle);
 		}
@@ -341,7 +330,7 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		}
 	},
 	
-	getDefaultButton : function () {
+	getDefaultButton : function () {
 		return this.defaultButton;
 	},
 
@@ -651,10 +640,20 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		}
 		
 		if (this.defaultButton !== null) {
-			this.defaultButton.removeClass("jsWTButtonDefault");
+			this.defaultButton.removeClass("garaButtonDefault");
 		}
 		this.defaultButton = button;
-		this.defaultButton.addClass("jsWTButtonDefault");
+		this.defaultButton.addClass("garaButtonDefault");
+	},
+	
+	setHeight : function (height) {
+		this.$super(height);
+		
+		if (!this.adjustedHeight && height !== null && this.stub !== null) {
+			this.stub.style.height = height + "px";
+			this.adjustedHeight = true;
+		}
+		return this;
 	},
 
 	setImage : function (image) {
@@ -701,14 +700,19 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 		this.maximized = maximized;
 		this.minimized = false;
-		this.setClass("jsWTDecorationsMinimized", this.minimized);
-		this.setClass("jsWTDecorationsMaximized", this.maximized);
+		this.setClass("garaDecorationsMinimized", this.minimized);
+		this.setClass("garaDecorationsMaximized", this.maximized);
 
 		return this;
 	},
 
 	setMenuBar : function (menu) {
+		if (this.menuBar === menu) {
+			return this;
+		}
+		
 		if (this.menuBar !== null) {
+			this.menuBar.removeControlListener(this.menuBarResizeListener);
 			this.menuBarNode.removeChild(this.menuBar.handle);
 			this.menuBarNode.style.display = "none";
 		}
@@ -720,14 +724,16 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 			}
 
 			menu.setVisible(true);
+			menu.addControlListener(this.menuBarResizeListener);
 			this.menuBarNode.appendChild(menu.handle);
 			this.menuBarNode.style.display = "block";
 		}
 		this.menuBar = menu;
 
 		// recalculate widget height
-		if (this.height > 1) {
-			this.clientArea.style.height = (this.height - (this.title ? this.title.clientHeight : 0) - this.menuBarNode.offsetHeight) + "px";
+		if (this.height > 0) {
+			this.clientArea.style.height = (this.handle.clientHeight - (this.title ? this.title.offsetHeight : 0) - this.menuBarNode.offsetHeight) + "px";
+			this.layout();
 		}
 
 		return this;
@@ -740,8 +746,8 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 
 		this.minimized = minimized;
 		this.maximized = false;
-		this.setClass("jsWTDecorationsMinimized", this.minimized);
-		this.setClass("jsWTDecorationsMaximized", this.maximized);
+		this.setClass("garaDecorationsMinimized", this.minimized);
+		this.setClass("garaDecorationsMaximized", this.maximized);
 
 		if (minimized) {
 			this.handle.style.top = "";
@@ -803,6 +809,16 @@ gara.Class("gara.jswt.widgets.Decorations", function() { return {
 		this.text = text;
 		if (this.titleText) {
 			this.titleText.nodeValue = text;
+		}
+		return this;
+	},
+
+	setWidth : function (width) {
+		this.$super(width);
+		
+		if (!this.adjustedWidth && width !== null && this.stub !== null) {
+			this.stub.style.width = width + "px";
+			this.adjustedWidth = true;
 		}
 		return this;
 	},

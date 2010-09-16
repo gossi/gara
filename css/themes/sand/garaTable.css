@@ -1,0 +1,234 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Table
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .garaTable {
+	outline: none;
+	border: none;
+}
+
+.sand .garaTableScroller {
+	background-color: #FFF; /*#EAE6D6*/
+	color: #000;
+}
+
+.sand .garaTableArrow {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 24px;
+	background-image: url('button-bar.png');
+	background-repeat: repeat-x;
+	border-left: 1px solid #B6AD87;
+	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-o-box-sizing: border-box;
+}
+
+.sand .garaTableArrow span {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-position: center 10px;
+	background-repeat: no-repeat;
+	background-image: url('arrow_down.png'); 
+}
+
+.sand .garaTableResizeLine {
+	background-color: #B6AD87;
+	margin-left: -1px;
+}
+
+/**
+ * Items (General)
+ */
+.sand .garaTable th,
+.sand .garaTable td {
+	font-family: Verdana;
+	font-size: 85%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.sand .garaTable .text {
+	line-height: 17px;
+	margin-left: 1px;
+	padding: 1px 3px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+/**
+ * Head
+ */
+
+.sand .garaTableHead {
+	cursor: default;
+	width: 100%;
+	top: 0;
+}
+
+.sand .garaTableHeadRow {
+	height: 24px;
+	background-image: url('button-bar.png');
+	background-repeat: repeat-x;
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+.sand .garaTableHeadColumn {
+	padding: 2px;
+	color: #000;
+	border-right: 1px solid #B6AD87;
+	cursor: default;
+	border-spacing: 0 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sand .garaTableHeadOverflow .garaTableHeadColumn:last-child {
+	border-right: none;
+}
+
+.sand .garaTableColumnResizer {
+	height: 24px;
+}
+
+.sand .garaTableHeadCheckboxColumn {
+	width: 13px;
+	padding: 2px 5px;
+	position: relative;
+	border-spacing: 0 0;
+	border-right: 1px solid #B6AD87;
+}
+
+/* Resize, when borders are around */
+.sand .garaBorder > .garaDecorationsClientArea > .garaTable .garaTableHeadRow,
+.sand .garaTabClientArea div[role=tabpanel] > .garaTable .garaTableHeadRow,
+.sand .garaBorder .garaTableHeadRow,
+.sand .garaBorder > .garaDecorationsClientArea > .garaTable .garaTableArrow,
+.sand .garaTabClientArea div[role=tabpanel] > .garaTable .garaTableArrow,
+.sand .garaBorder .garaTableArrow {
+	height: 23px;
+	background-position: 0 -1px;
+}
+
+.sand .garBorder > .garaDecorationsClientArea > .garaTable .garaTableColumnResizer,
+.sand .garaTabClientArea div[role=tabpanel] > .garaTable .garaTableColumnResizer,
+.sand .garaBorder .garaTableHeadRow .garaTableColumnResizer {
+	height: 23px;
+}
+
+/*.sand .garaBorder .garaTableHeadColumn .text {
+	line-height: 16px;
+}*/
+
+/**
+ * Items
+ */
+.sand .garaTableLines .garaTableItemCell {
+	border-bottom: 1px solid #A1A1A1;
+}
+
+.sand .garaTableLines .garaTableItemCell:last-child .garaTableItemCellWrapper {
+	border-right: 1px solid #A1A1A1;
+}
+
+.sand .garaTableShadow .garaTableItemCellWrapper,
+.sand .garaTableLines.garaTableHeadOverflow .garaTableItemCell:last-child .garaTableItemCellWrapper {
+	border-right: none;
+}
+
+.sand .garaBorder > .garaDecorationsClientArea > .garaTableLines .garaTableItem:last-child .garaTableItemCell,
+.sand .garaTabClientArea div[role=tabpanel] > .garaTableLines .garaTableItem:last-child .garaTableItemCell,
+.sand .garaTableLines.garaBorder .garaTableItem:last-child .garaTableItemCell,
+.sand .garaTableNoLines .garaTableItemCell {
+	border-bottom: none;
+}
+
+.sand .garaTableFullSelection .text {
+	display: block;
+	margin: 0;
+	padding: 0 1px 0 2px;
+}
+
+.sand .garaTableItemCell img {
+	float: left;
+	margin: 1px 3px 1px 1px;
+}
+
+.sand .garaCheckboxCell {
+	padding: 0 5px;
+	width: 13px;
+}
+
+/* === Selection === */
+/* Inactive */
+.sand .garaTable .garaTableItem[aria-selected=true] .garaTableItemCell.first .text {
+	background-color: #E1E0D9;
+}
+
+/* Active */
+.sand .garaTable:focus .garaTableItem[aria-selected=true] .garaTableItemCell.first .text{
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+/* === Full Selection === */
+/* --- Inactive --- */
+.sand .garaTableFullSelection .garaTableItem[aria-selected=true] .garaTableItemCell {
+	background-color: #E1E0D9;
+}
+
+/* --- Active --- */
+.sand .garaTableFullSelection:focus  .garaTableItem[aria-selected=true] .garaTableItemCell {
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+/* --- checkbox & image --- */
+.sand .garaTable .garaTableItem[aria-selected=true] .garaCheckbox,
+.sand .garaTable.garaTableFullSelection .garaTableItem[aria-selected=true] img {
+	opacity: 0.7;
+	background-color: #E1E0D9;
+}
+
+.sand .garaTable:focus .garaTableItem[aria-selected=true] .garaCheckbox,
+.sand .garaTable.garaTableFullSelection:focus .garaTableItem[aria-selected=true] img {
+	opacity: 0.7;
+	background-color: #EAE6D6;
+}
+
+/* === Active Item State === */
+.sand .garaTable:focus .garaActiveItem .first .text {
+	outline: 1px dotted #000;
+}
+
+.sand .garaTableLines:focus .garaActiveItem .first .text {
+	margin-right: 1px;
+}
+
+.sand .garaTableNoLines:focus .garaActiveItem .first .text {
+	margin: 1px;
+	line-height: 18px;
+}
+
+.sand .garaTableNoLines.garaTableFullSelection:focus .garaActiveItem .first .text {
+	margin: 1px;
+	line-height: 16px;
+}
+
+.sand .garaTableFullSelection:focus .garaActiveItem .garaTableCell.first {
+	outline: 1px dotted #DD0;
+	background: #f00;
+}

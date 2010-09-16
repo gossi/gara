@@ -38,12 +38,12 @@ gara.Class("gara.jswt.layout.ColumnLayout", function() { return {
 
 	construct : function (composite) {
 		this.$super(composite);
-		composite.addClass("jsWTColumnLayout");
+		composite.addClass("garaColumnLayout");
 	},
 
 	deconstruct : function (composite) {
 		this.$super(composite);
-		composite.removeClass("jsWTColumnLayout");
+		composite.removeClass("garaColumnLayout");
 	},
 
 	layout : function (composite) {
@@ -58,7 +58,7 @@ gara.Class("gara.jswt.layout.ColumnLayout", function() { return {
 		}, this);
 
 		resizeable.forEach(function (widget, i, arr) {
-			widget.adjustHeight(composite.getHeight());
+			widget.adjustHeight(composite.handle.clientHeight);
 		}, this);
 
 		this.$super(composite);

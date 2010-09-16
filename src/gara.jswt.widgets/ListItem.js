@@ -136,10 +136,10 @@ gara.Class("gara.jswt.widgets.ListItem", function () { return {
 			index = items.indexOf(this),
 			nextNode;
 
+		// handle
 		this.handle = document.createElement("li");
 		this.handle.widget = this;
 		this.handle.control = this.list;
-		this.handle.className = this.classes.join(" ");
 		this.handle.setAttribute("id", this.getId());
 		this.handle.setAttribute("role", "option");
 		this.handle.setAttribute("aria-selected", this.selected);
@@ -162,6 +162,7 @@ gara.Class("gara.jswt.widgets.ListItem", function () { return {
 		// create image node
 		this.img = document.createElement("img");
 		this.img.id = this.getId() + "-image";
+		this.img.className = "garaListItemImage garaItemImage";
 		this.img.widget = this;
 		this.img.control = this.list;
 		this.img.setAttribute("role", "presentation");
@@ -176,14 +177,17 @@ gara.Class("gara.jswt.widgets.ListItem", function () { return {
 		this.spanText = document.createTextNode(this.text);
 		this.span = document.createElement("span");
 		this.span.id = this.getId()+"-label";
+		this.span.className = "garaListItemText garaItemText";
 		this.span.widget = this;
 		this.span.control = this.list;
-		this.span.className = "text";
 		this.span.appendChild(this.spanText);
 		this.span.setAttribute("role", "presentation");
 
 		this.handle.appendChild(this.img);
 		this.handle.appendChild(this.span);
+		
+		// CSS
+		this.addClass("garaListItem");
 
 		// append to dom
 		if (index === items.length - 1) {
@@ -250,13 +254,13 @@ gara.Class("gara.jswt.widgets.ListItem", function () { return {
 			return;
 		}
 
-		this.checkbox.className = "jsWTCheckbox";
+		this.checkbox.className = "garaCheckbox";
 		if (this.checked && this.grayed) {
-			this.checkbox.className += " jsWTCheckboxGrayedChecked";
+			this.checkbox.className += " garaCheckboxGrayedChecked";
 		} else if (this.grayed) {
-			this.checkbox.className += " jsWTCheckboxGrayed";
+			this.checkbox.className += " garaCheckboxGrayed";
 		} else if (this.checked) {
-			this.checkbox.className += " jsWTCheckboxChecked";
+			this.checkbox.className += " garaCheckboxChecked";
 		}
 	},
 

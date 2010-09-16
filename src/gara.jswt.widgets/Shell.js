@@ -73,8 +73,8 @@ gara.Class("gara.jswt.widgets.Shell", function() { return {
 		this.resizeListener = {
 			handleEvent : function () {
 //				window.setTimeout(function() {
-					self.handle.style.width = document.documentElement.clientWidth + "px";
-					self.handle.style.height = document.documentElement.clientHeight + "px";
+					self.adjustWidth(document.documentElement.clientWidth);
+					self.adjustHeight(document.documentElement.clientHeight);
 					self.layout();
 //				}, 100);
 			}	

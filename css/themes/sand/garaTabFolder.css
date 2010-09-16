@@ -1,16 +1,16 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.TabFolder
+ * gara.gara.TabFolder
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand div.jsWTTabFolder {
+.sand .garaTabFolder {
 	position: relative;
 	outline: none;
 }
 
-.sand div.jsWTTabFolder span.more {
+.sand .garaTabFolder .garaTabFolderMore {
 	position: absolute;
 	display: block;
 	border-radius: 2px;
@@ -28,29 +28,29 @@
 	margin-left: 5px;
 }
 
-.sand div.jsWTTabFolder span.more:hover {
+.sand .garaTabFolder .garaTabFolderMore:hover {
 	border-color: #765;
 	background-color: #EAE6D6;
 }
 
-.sand .jsWTTabFolder:focus .jsWTTabFolderBar li.active .text {
+.sand .garaTabFolder:focus .garaTabFolderBar .garaActiveItem .garaTabItemText {
 	outline: 1px dotted #000;
 }
 
-.sand .jsWTTabFolder span.jsWTDecorationsCloseButton {
+.sand .garaTabFolder .garaDecorationsCloseButton {
 	visibility: hidden;
 }
 
-.sand .jsWTTabFolder span.jsWTDecorationsCloseButton:hover {
+.sand .garaTabFolder .garaDecorationsCloseButton:hover {
 	background-image: url('close_hover.png'); /** sprite-ref: misc; */
 }
 
-.sand .jsWTTabFolderBar li.active span.jsWTDecorationsCloseButton,
-.sand .jsWTTabFolderBar li:hover span.jsWTDecorationsCloseButton {
+.sand .garaTabFolderBar .garaActiveItem .garaDecorationsCloseButton,
+.sand .garaTabFolderBar .garaTabItem:hover .garaDecorationsCloseButton {
 	visibility: visible;
 }
 
-.sand .jsWTTabFolder .jsWTTabClientArea {
+.sand .garaTabFolder .garaTabClientArea {
 	overflow: auto;
 }
 
@@ -58,106 +58,99 @@
  * Top Style
  */
 
-.sand div.jsWTTabFolderTopbar span.more {
+.sand .garaTabFolderTopbar .garaTabFolderMore {
 	top: 3px;
 	right: 5px;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar {
+.sand .garaTabFolderTopbar .garaTabFolderBar {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	height: 25px;
-	border-bottom: 1px solid #000;
+	border-bottom: 1px solid #B6AD87; /*#000*/
 	position: relative;
 	z-index: 1;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li {
+.sand .garaTabFolderTopbar .garaTabItem {
 	cursor: default;
 	float: left;
 	background: no-repeat left top;
 	background-image: url('stone_mud_left.png'); /** sprite-ref: stone-mud; */
 	margin: 0;
 	padding: 0 0 0 9px;
-	border-bottom: 1px solid #765;
+	border-bottom: 1px solid #B6AD87; /*#765*/
 	position: relative;
 	z-index: 2;
 	bottom: 0 !important;
 	bottom: -1px;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar .door {
+.sand .garaTabFolderTopbar .garaTabItemDoor {
 	float: left;
 	display: block;
-	width: .1em;
+/*	width: .1em;*/
 	background: no-repeat right top;
 	background-image: url('stone_mud_right.png'); /** sprite-ref: stone-mud; sprite-alignment: right;*/
 	padding: 5px 15px 4px 6px;
 	font-weight: bold;
 	color: #765;
 	white-space: nowrap;
-}
-
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar .door {
 	width: auto;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar .jsWTDecorationsCloseButton {
+.sand .garaTabFolderTopbar .garaDecorationsCloseButton {
 	margin: 1px 0 0 5px;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar img {
+.sand .garaTabFolderTopbar .garaTabItemImage {
 	float: left;
 	display: block;
 	padding-right: 3px;
 	margin-left: -6px;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar > ul .door {width:auto;}
+/*.sand div.garaTabFolderTopbar ul.garaTabFolderBar > ul .door {width:auto;}*/
 
-/* Commented Backslash Hack hides rule from IE5-Mac \*/
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar .door {float:none;}
-/* End IE5-Mac hack */
-
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li.active {
+.sand .garaTabFolderTopbar .garaActiveItem {
 	background-image: url('stone_sand_left.png'); /** sprite-ref: stone-sand; */
 	border-width: 0;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li.active .door {
+.sand .garaTabFolderTopbar .garaActiveItem .garaTabItemDoor {
 	background-image: url('stone_sand_right.png'); /** sprite-ref: stone-sand; sprite-alignment: right;*/
 	padding-bottom: 5px;
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li:hover {
+.sand .garaTabFolderTopbar .garaTabItem:hover {
 	background-image: url('stone_sand_left.png'); /** sprite-ref: stone-sand; */
 }
 
-.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar li:hover .door {
+.sand .garaTabFolderTopbar .garaTabItem:hover .garaTabItemDoor {
 	background-image: url('stone_sand_right.png'); /** sprite-ref: stone-sand; sprite-alignment: right;*/
 }
 
 /* safari 3 */
 @media all and (min-width:0px) {
-	body:not(:root:root) .sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar {
+	body:not(:root:root) .sand .garaTabFolderTopbar .garaTabFolderBar {
 		height: 24px;
 	}
 	
-	body:not(:root:root) .sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar .door {
+	body:not(:root:root) .sand .garaTabFolderTopbar .garaTabItemDoor {
 		font-weight: normal;
 	}
 }
 
 /* safari 4 */ 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	.sand div.jsWTTabFolderTopbar ul.jsWTTabFolderBar {
+	.sand .garaTabFolderTopbar .garaTabFolderBar {
 		height: 24px;
 	}
 }
 
-.sand div.jsWTTabFolderTopbar div.jsWTTabClientArea {
-	border: 1px solid #000;
+.sand .garaTabFolderTopbar .garaTabClientArea {
+	border: 1px solid #B6AD87; /*#000*/
 	border-width: 0px 1px 1px 1px;
 	top: 0 !important;
 	top: -1px;
@@ -170,7 +163,7 @@
  * Bottom Style
  */
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar {
+.sand .garaTabFolderBottombar .garaTabFolderBar {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -179,7 +172,7 @@
 	position: relative;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li {
+.sand .garaTabFolderBottombar .garaTabItem {
 	cursor: default;
 	float: left;
 	background: no-repeat left bottom;
@@ -191,76 +184,69 @@
 	top: -1px;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar .door {
+.sand .garaTabFolderBottombar .garaTabItemDoor {
 	float: left;
 	display: block;
-	width:.1em;
+/*	width:.1em;*/
 	background: no-repeat right bottom;
 	background-image: url('stone_mud_right_bottom.png'); /** sprite-ref: stone-mud; sprite-alignment: right; */
 	padding: 3px 15px 7px 6px;
 	font-weight: bold;
 	color: #765;
 	white-space: nowrap;
-}
-
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar .door {
 	width: auto;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar img {
+.sand .garaTabFolderBottombar .garaTabItemImage {
 	float: left;
 	display: block;
 	padding-top: 3px;
 	padding-right: 3px;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar > ul .door {width:auto;}
+/*.sand div.garaTabFolderBottombar ul.garaTabFolderBar > ul .door {width:auto;}*/
 
-/* Commented Backslash Hack hides rule from IE5-Mac \*/
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar span {float:none;}
-/* End IE5-Mac hack */
-
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active {
+.sand .garaTabFolderBottombar .garaActiveItem {
 	background-image: url('stone_sand_left_bottom.png'); /** sprite-ref: stone-sand;*/
 	border-width: 0;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active .door {
+.sand .garaTabFolderBottombar .garaActiveItem .garaTabItemDoor {
 	background-image: url('stone_sand_right_bottom.png'); /** sprite-ref: stone-sand; sprite-alignment: right; */
 	padding-top: 4px;
 	padding-bottom: 7px;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active img {
+.sand .garaTabFolderBottombar .garaActiveItem .garaTabItemImage {
 	padding-top: 4px;
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li:hover {
+.sand .garaTabFolderBottombar .garaTabItem:hover {
 	background-image: url('stone_sand_left_bottom.png'); /** sprite-ref: stone-sand;*/
 }
 
-.sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li:hover .door {
+.sand .garaTabFolderBottombar .garaTabItem:hover .garaTabItemDoor {
 	background-image: url('stone_sand_right_bottom.png'); /** sprite-ref: stone-sand; sprite-alignment: right; */
 	padding-bottom: 7px;
 }
 
 /* safari 3 */
 @media all and (min-width:0px) {
-	/*body:not(:root:root) .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar {
+	/*body:not(:root:root) .sand div.garaTabFolderBottombar ul.garaTabFolderBar {
 		height: 26px;
 	}*/
 
-	body:not(:root:root) .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li .door,
-	body:not(:root:root) .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar li.active .door {
+	body:not(:root:root) .sand .garaTabFolderBottombar .garaTabIteDoor/*,
+	body:not(:root:root) .sand .garaTabFolderBottombar .garaActiveItem .garaTabItemDoor*/ {
 		padding-bottom: 8px;
 	}
 	
-	body:not(:root:root) .sand div.jsWTTabFolderBottombar ul.jsWTTabFolderBar .door {
+	body:not(:root:root) .sand .garaTabFolderBottombar .garaTabItemDoor {
 		font-weight: normal;
 	}
 }
 
-.sand div.jsWTTabFolderBottombar div.jsWTTabClientArea {
+.sand .garaTabFolderBottombar .garaTabClientArea {
 	border: 1px solid #000;
 	border-width: 1px 1px 0 1px;
 	position: relative;

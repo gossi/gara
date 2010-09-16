@@ -216,7 +216,8 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 
 		if (this.items.length) {
 			this.childContainer.style.display = this.expanded ? "block" : "none";
-			this.toggleNode.className = "toggler " + (this.expanded ? "togglerExpanded" : "togglerCollapsed");
+			this.setClass("garaTreeItemExpanded", this.expanded);
+			this.setClass("garaTreeItemCollapsed", !this.expanded);
 		}
 
 		return this.childContainer;
@@ -259,7 +260,6 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 
 		// create item node
 		this.handle = document.createElement("li");
-		this.handle.className = this.classes.join(" ");
 		this.handle.widget = this;
 		this.handle.control = this.tree;
 		this.handle.setAttribute("id", this.getId());
@@ -273,12 +273,12 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		this.toggleNode = document.createElement("span");
 		this.toggleNode.widget = this;
 		this.toggleNode.control = this.tree;
-		this.toggleNode.className = "toggler";
+		this.toggleNode.className = "garaTreeItemToggler";
 		this.toggleNode.setAttribute("role", "presentation");
 		this.handle.appendChild(this.toggleNode);
 
 		// checkbox
-		if ((this.tree.getStyle() & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
+		if ((this.tree.getStyle() & gara.jswt.JSWT.CHECK) !== 0) {
 			this.checkbox = document.createElement("span");
 			this.checkbox.id = this.getId() + "-checkbox";
 			this.checkbox.widget = this;
@@ -287,6 +287,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 
 			this.handle.appendChild(this.checkbox);
 			this.handle.setAttribute("aria-checked", this.checked);
+			this.setCheckboxClass();
 		}
 
 		// create image node
@@ -294,6 +295,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		this.img.id = this.getId() + "-image";
 		this.img.widget = this;
 		this.img.control = this.tree;
+		this.img.className = "garaItemImage garaTreeItemImage";
 		this.img.setAttribute("role", "presentation");
 		this.handle.appendChild(this.img);
 
@@ -310,16 +312,20 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		this.span.id = this.getId()+"-label";
 		this.span.widget = this;
 		this.span.control = this.tree;
-		this.span.className = "text";
+		this.span.className = "garaItemText garaTreeItemText";
 		this.span.appendChild(this.spanText);
 		this.span.setAttribute("role", "presentation");
 		this.handle.appendChild(this.span);
 
 		// child container
 		this.childContainer = document.createElement('ul');
+		this.childContainer.className = "garaTreeItemChildContainer";
 		this.childContainer.setAttribute("role", "group");
 		this.childContainer.style.display = "none";
 		this.handle.appendChild(this.childContainer);
+		
+		// css
+		this.addClass("garaTreeItem");
 
 		// append to dom
 		items = this.parent.getItems();
@@ -342,8 +348,8 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 
 		// bottom
 		if (parentItems.indexOf(this) === parentItems.length - 1) {
-			this.childContainer.className = "bottom";
-			this.addClass("bottom");
+//			this.childContainer.className = "bottom";
+			this.addClass("garaLastTreeItem");
 		}
 	},
 
@@ -496,7 +502,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 				|| (e.target === this.checkbox	&& e.type === "mouseup")
 				|| (e.type === "keydown" && e.keyCode === gara.jswt.JSWT.SPACE)) {
 
-			e.info = gara.jswt.gara.jswt.JSWT.CHECK;
+			e.info = gara.jswt.JSWT.CHECK;
 			if (e.type === "mouseup") {
 				this.setChecked(!this.checked);
 			}
@@ -507,6 +513,10 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 			if (e.target === this.toggleNode) {
 				this.setExpanded(!this.expanded);
 			}
+			break;
+			
+		case "contextmenu":
+			e.preventDefault();
 			break;
 		}
 	},
@@ -567,7 +577,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 
 		if (!this.items.length && this.childContainer.style.display === "block") {
 			this.childContainer.style.display = "none";
-			this.toggleNode.className = "toggler";
+			this.toggleNode.className = "garaTreeItemToggler";
 		}
 	},
 
@@ -614,25 +624,25 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 			this.remove(i);
 		}
 	},
-
-	/**
-	 * Sets the item active or inactive
-	 *
-	 * @private
-	 * @param {boolean} active true for active and false for inactive
-	 * @return {void}
-	 */
-	setActive : function (active) {
-		this.checkWidget();
-		this.active = active;
-//		@TODO V 2.0
-//		this.setClass("active", this.active);
-		if (this.span && this.active && this.span.className.indexOf("active") === -1) {
-			this.span.className += " active";
-		} else if (this.span && !this.active) {
-			this.span.className = this.span.className.replace(/active/g, "").trim();
-		}
-	},
+//
+//	/**
+//	 * Sets the item active or inactive
+//	 *
+//	 * @private
+//	 * @param {boolean} active true for active and false for inactive
+//	 * @return {void}
+//	 */
+//	setActive : function (active) {
+//		this.checkWidget();
+//		this.active = active;
+////		@TODO V 2.0
+////		this.setClass("active", this.active);
+//		if (this.span && this.active && this.span.className.indexOf("active") === -1) {
+//			this.span.className += " active";
+//		} else if (this.span && !this.active) {
+//			this.span.className = this.span.className.replace(/active/g, "").trim();
+//		}
+//	},
 
 	/**
 	 * @private
@@ -659,7 +669,9 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		if (!this.grayed) {
 			this.checked = checked;
 			this.handle.setAttribute("aria-checked", this.checked);
-			this.setCheckboxClass();
+			if ((this.tree.getStyle() & gara.jswt.JSWT.CHECK) !== 0) {
+				this.setCheckboxClass();
+			}
 		}
 		return this;
 	},
@@ -682,10 +694,15 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 				this.deselectItems();
 			}
 	
-			this.toggleNode.className = "toggler" + (this.items.length
-				? (this.expanded ? " togglerExpanded" : " togglerCollapsed")
-				: "");
-	
+			
+			if (this.items.length) {
+				this.setClass("garaTreeItemExpanded", this.expanded);
+				this.setClass("garaTreeItemCollapsed", !this.expanded);
+			} else {
+				this.removeClass("garaTreeItemExpanded");
+				this.removeClass("garaTreeItemCollapsed");
+			}
+
 			// update child container
 			this.childContainer.style.display = this.expanded ? "block" : "none";
 		}
@@ -783,7 +800,7 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 		// check for bottom style
 		parentItems = this.parent.getItems();
 		bottom = parentItems.indexOf(this) === parentItems.length - 1;
-		this.setClass("bottom", bottom);
-		this.childContainer.className = bottom ? "bottom" : "";
+		this.setClass("garaLastTreeItem", bottom);
+//		this.childContainer.className = bottom ? "bottom" : "";
 	}
 };});

@@ -25,6 +25,9 @@ gara.provide("gara.jswt.widgets.Table", "gara.jswt.widgets.Composite");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
+gara.use("gara.jswt.widgets.TableColumn");
+gara.use("gara.jswt.widgets.TableItem");
+gara.use("gara.jswt.widgets.Menu");
 
 /**
  * gara Table Widget
@@ -202,8 +205,10 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.thead = null;
 		this.theadRow = null;
 		this.tbody = null;
+		this.colgroup = null;
 		this.checkboxCol = null;
-
+		this.checkboxCell = null;
+		
 		this.event = null;
 		this.selection = [];
 		this.selectionListeners = [];
@@ -212,6 +217,8 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 
 		this.$super(parent, style || gara.jswt.JSWT.SINGLE);
 		this.addFocusListener(this);
+		this.colMenu = new gara.jswt.widgets.Menu(this, gara.jswt.widgets.POP_UP);
+		this.colMenu.setData(this);
 	},
 
 	/**
@@ -277,33 +284,81 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 			this.columns.push(column);
 			this.columnOrder.push(this.columns.length - 1);
 		}
+		
+		delete this.colMenu.offsetWidth;
 
 		return this.theadRow;
 	},
+	
+	adjustedColWidth : function (column, width) {
+		this.items.forEach(function (item) {
+			item.adjustWidth(column, width);
+		}, this);
+	},
 
 	adjustHeight : function (height) {
-//		console.log("Table.adjustHeight: " + height);
-		this.handle.style.height = height + "px";
-		this.scroller.style.height = (height - this.thead.offsetHeight) + "px";
-		if (this.headerVisible) {
-			this.handle.style.paddingTop = this.thead.offsetHeight + "px";
+		var scrollbar = this.getVerticalScrollbar(), scrollbarVisible, headerHeight;
+		
+		headerHeight = this.getHeaderHeight();
+		height -= headerHeight;
+		this.$super(height);
+
+		if (height !== null) {
+			height = this.handle.offsetHeight;
+			this.scroller.style.height = (height - headerHeight) + "px";
+		} else {
+			this.scroller.style.height = "auto";
 		}
-//		console.log("Table.adjustHeight, style: " + this.handle.style.height);
+		this.resizeLine.style.top = headerHeight + "px";
+
+		if (this.headerVisible) {
+			this.handle.style.paddingTop = headerHeight + "px";
+		}
 	},
 
 	adjustWidth : function (width) {
-		var colWidths = 0;
-		this.handle.style.width = width + "px";
-		this.thead.style.width = width + "px";
+		var colWidths = 0, cols = [], allWidth = 0;
+		
+		if ((this.getStyle() & gara.jswt.JSWT.CHECK) !== 0) {
+			allWidth = this.checkboxCell.clientWidth // FF and Webkit have different offsetWidth
+				+ gara.getNumStyle(this.checkboxCell, "border-right-width")
+				+ gara.getNumStyle(this.checkboxCell, "border-left-width");
+			this.checkboxCol.width = allWidth;
+		}
+
+		this.$super(width);
+
+		width = this.handle.clientWidth - (this.getVerticalScrollbar() ? gara.jswt.JSWT.SCROLLBAR_WIDTH : 0);
 
 		this.columns.forEach(function (col, index) {
-			var colWidth;
-			if (!col.getWidth()) {
-				colWidth = Math.floor(width / this.columns.length);
-				colWidths += colWidth;
-				col.setWidth(index === this.columns.length - 1 ? width - colWidths : colWidth);
+			if (col.getVisible()) {
+				var colWidth;
+				if (!col.getWidth()) {
+					cols.add(col);	
+				} else {
+					col.adjustWidth(col.getWidth());
+					allWidth += col.getWidth();
+				}
 			}
 		}, this);
+		width -= allWidth;
+
+		cols.forEach(function (col, index) {
+			var colWidth = Math.floor(width / cols.length);
+			colWidths += col.adjustWidth(index === cols.length - 1 ? width - colWidths : colWidth);
+		}, this);
+
+		allWidth += colWidths + gara.jswt.JSWT.SCROLLBAR_WIDTH;
+		
+		this.table.style.width = (allWidth - gara.jswt.JSWT.SCROLLBAR_WIDTH) + "px";
+		this.thead.style.width = allWidth > this.handle.clientWidth ? allWidth + "px" : "100%";
+		this.tbody.style.width = (allWidth - gara.jswt.JSWT.SCROLLBAR_WIDTH) + "px";
+		this.setClass("garaTableHeadOverflow", allWidth + (this.getVerticalScrollbar() ? gara.jswt.JSWT.SCROLLBAR_WIDTH : 0) > this.handle.clientWidth);
+		
+		// adjust items based on new measurements
+//		if (this.items.length) {
+//			this.items[0].adjustWidth();
+//		}
 	},
 
 	/**
@@ -355,21 +410,24 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @private
 	 */
 	createWidget : function () {
+		var self = this;
 		this.createHandle("div");
 		this.handle.setAttribute("role", "grid");
 		this.handle.setAttribute("aria-multiselectable", (this.style & gara.jswt.JSWT.MULTI) === gara.jswt.JSWT.MULTI ? true : false);
 		this.handle.setAttribute("aria-activedescendant", this.getId());
 		this.handle.setAttribute("aria-readonly", true);
-
+		
 		// css
-		this.addClass("jsWTTable");
-		this.setClass("jsWTTableLines", this.linesVisible);
-		this.setClass("jsWTTableNoLines", !this.linesVisible);
+		this.addClass("garaTable");
+		this.setClass("garaTableLines", this.linesVisible);
+		this.setClass("garaTableNoLines", !this.linesVisible);
+		this.setClass("garaTableFullSelection", (this.style & gara.jswt.JSWT.FULL_SELECTION) !== 0);
+		this.setClass("garaBorder", (this.style & gara.jswt.JSWT.BORDER) !== 0);
 
 		// nodes
 		this.scroller = document.createElement("div");
 		this.scroller.id = this.getId() + "-scroller";
-		this.scroller.className = "scroller";
+		this.scroller.className = "garaTableScroller";
 		this.scroller.widget = this;
 		this.scroller.control = this;
 		this.scroller.setAttribute("role", "presentation");
@@ -381,9 +439,14 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.table.control = this;
 		this.table.setAttribute("role", "presentation");
 		this.scroller.appendChild(this.table);
+		
+		// colgroup
+		this.colGroup = document.createElement("colgroup");
+		this.table.appendChild(this.colGroup);
 
 		// table head
 		this.thead = document.createElement("thead");
+		this.thead.className = "garaTableHead";
 		this.thead.id = this.getId() + "-thead";
 		this.thead.widget = this;
 		this.thead.control = this;
@@ -392,19 +455,23 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.table.appendChild(this.thead);
 
 		this.theadRow = document.createElement("tr");
+		this.theadRow.className = "garaTableHeadRow";
 		this.theadRow.id = this.getId() + "-theadRow";
 		this.theadRow.widget = this;
 		this.theadRow.control = this;
 		this.theadRow.setAttribute("role", "row");
 		this.thead.appendChild(this.theadRow);
-
+		
 		// if check style
 		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
-			this.checkboxCol = document.createElement("th");
-			this.checkboxCol.className = "jsWTTableCheckboxCol";
-			this.checkboxCol.setAttribute("role", "columnheader");
-			this.theadRow.appendChild(this.checkboxCol);
-			this.addClass("jsWTTableCheckbox");
+			this.checkboxCol = document.createElement("col");
+			this.colGroup.appendChild(this.checkboxCol);
+			
+			this.checkboxCell = document.createElement("th");
+			this.checkboxCell.className = "garaTableHeadCheckboxColumn";
+			this.checkboxCell.setAttribute("role", "columnheader");
+			this.theadRow.appendChild(this.checkboxCell);
+			this.addClass("garaTableCheckbox");
 		}
 
 		// table body
@@ -415,15 +482,64 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		this.tbody.setAttribute("role", "presentation");
 		this.table.appendChild(this.tbody);
 
-		if ((this.style & gara.jswt.JSWT.FULL_SELECTION) === gara.jswt.JSWT.FULL_SELECTION) {
-			this.tbody.className = "jsWTTableFullSelection";
-		}
+		// arrow
+		this.arrow = document.createElement("div");
+		this.arrow.className = "garaTableArrow";
+		this.arrow.id = this.getId() + "-arrow";
+		this.arrow.widget = this;
+		this.arrow.control = this;
+		this.arrow.setAttribute("role", "presentation");
+		this.arrow.style.width = gara.jswt.JSWT.SCROLLBAR_WIDTH + "px";
+		this.arrow.style.display = this.headerVisible ? "block" : "none";
+		this.arrow.appendChild(document.createElement("span"));
+		this.handle.appendChild(this.arrow);
+		gara.EventManager.addListener(this.arrow, "mousedown", function (e) {
+			var left = top = 0, obj = self.arrow;
+			if (self.colMenu.getVisible()) {
+				self.colMenu.setVisible(false);
+				return false;
+			}
+			
+			if (!self.colMenu.offsetWidth) {
+				self.colMenu.setLocation(-1000, -1000);
+				self.colMenu.setVisible(true);
+				self.colMenu.offsetWidth = self.colMenu.handle.offsetWidth;
+			}
+
+			// find position
+			if (obj.offsetParent) {
+				do {
+					left += obj.offsetLeft - obj.scrollLeft;
+					top += obj.offsetTop - obj.scrollTop;
+				} while (obj = obj.offsetParent);
+			}
+			
+			self.colMenu.setLocation(left - self.colMenu.offsetWidth + self.arrow.offsetWidth, top + self.arrow.offsetHeight + 2);
+			self.colMenu.setVisible(true);
+			
+			e.stopPropagation();
+		});
+		
+		// resizeLine
+		this.resizeLine = document.createElement("div");
+		this.resizeLine.className = "garaTableResizeLine";
+		this.resizeLine.id = this.getId() + "-resizeLine";
+		this.resizeLine.widget = this;
+		this.resizeLine.control = this;
+		this.resizeLine.setAttribute("role", "presentation");
+		this.handle.appendChild(this.resizeLine);
 
 		// listener
 		this.addListener("mousedown", this);
+		this.addListener("contextmenu", this);
 		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
 			this.addListener("mouseup", this);
 		}
+		
+		// sync scroll
+		gara.EventManager.addListener(this.scroller, "scroll", function (e) {
+			self.thead.style.left = (e.target.scrollLeft * -1) +"px";
+		});
 
 		// intial width calculation for TableColumns
 		//this.theadRow.style.width = this.handle.offsetWidth + "px";
@@ -537,6 +653,10 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	getColumns : function () {
 		return this.columns;
 	},
+	
+	getHeaderHeight : function () {
+		return this.theadRow.offsetHeight;
+	},
 
 	getHeaderVisible : function () {
 		return this.headerVisible;
@@ -546,7 +666,6 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @method
 	 * Gets a specified item with a zero-related index
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the zero-related index
 	 * @throws {RangeError} when there is no item at the given index
 	 * @return {gara.jswt.widgets.TreeItem} the item
@@ -646,6 +765,10 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 
 		if (e.item !== null) {
 			e.item.handleEvent(e);
+		}
+		
+		if (e.type === "contextmenu") {
+			e.preventDefault();
 		}
 
 		if (e.type !== "mouseup") {
@@ -904,7 +1027,7 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 			column.release();
 		}, this);
 		
-		this.$super();
+		//this.$super();
 	},
 	
 	/**
@@ -1207,13 +1330,14 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		if (this.thead !== null) {
 			this.thead.style.display = this.headerVisible ? (document.all ? "block" : "table-row-group") : "none";
 		}
+		this.arrow.style.display = this.headerVisible ? "block" : "none";
 		return this;
 	},
 
 	setLinesVisible : function (show) {
 		this.linesVisible = show;
-		this.setClass("jsWTTableLines", this.linesVisible);
-		this.setClass("jsWTTableNoLines", !this.linesVisible);
+		this.setClass("garaTableLines", this.linesVisible);
+		this.setClass("garaTableNoLines", !this.linesVisible);
 		return this;
 	},
 
@@ -1275,19 +1399,26 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		var i, col;
 		this.checkWidget();
 
-		// update table head
-//		this.thead.style.position = "static";
-
+		// -- update table head
+		
+		// removing nodes
 		if (this.virtualColumn && this.columns.length) {
 			this.virtualColumn.dispose();
 			this.virtualColumn = null;
 		}
+		
+		while (this.colGroup.childNodes.length) {
+			this.colGroup.removeChild(this.colGroup.childNodes[0]);
+		}
+		
 		while (this.theadRow.childNodes.length && this.columns.length) {
 			this.theadRow.removeChild(this.theadRow.childNodes[0]);
 		}
 
+		// adding nodes
 		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
-			this.theadRow.appendChild(this.checkboxCol);
+			this.theadRow.appendChild(this.checkboxCell);
+			this.colGroup.appendChild(this.checkboxCol);
 		}
 
 		// add virtual column if no columns present
@@ -1302,21 +1433,21 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 			var col = this.columns[this.columnOrder[i]];
 
 			if (col.isDisposed()) {
-				this.columns.remove(col);
-			} else {
-				col.update();
+				this.releaseColumn(col);
+			} else if (col.getVisible()) {
 				this.theadRow.appendChild(col.handle);
+				this.colGroup.appendChild(col.col);
 			}
 		}
 
 		// setting col width
-		for (i = 0, len = this.columnOrder.length; i < len; ++i) {
-			col = this.columns[this.columnOrder[i]];
-			col.setWidth(col.getWidth() + (i === (len - 1) && this.getVerticalScrollbar() ? 19 : 0));
-		}
+//		for (i = 0, len = this.columnOrder.length; i < len; ++i) {
+//			col = this.columns[this.columnOrder[i]];
+//			col.setWidth(col.getWidth() /*+ (i === (len - 1) && this.getVerticalScrollbar() ? 19 : 0)*/);
+//		}
 
 		// update items
-		this.items.forEach(function (item, index, arr) {
+		this.items.forEach(function (item) {
 			item.update();
 		}, this);
 
@@ -1332,21 +1463,11 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @private
 	 */
 	updateMeasurements : function () {
-//		var width, heightSub;
-		// width
-//		if (this.width !== null) {
-//			width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width");
-//			this.handle.style.width = width + "px";
-//			this.thead.style.width = width + "px";
-//		}
-
-		// width + height
+		var height = this.getHeight() || (this.parent instanceof gara.jswt.widgets.Composite 
+			? this.handle.offsetHeight
+			: null);
+		this.handle.style.height = "auto";
 		this.adjustWidth(this.handle.offsetWidth);
-		this.adjustHeight(this.handle.offsetHeight);
-
-		// adjust items based on new measurements
-		if (this.items.length) {
-			this.items[0].adjustWidth();
-		}
+		this.adjustHeight(height);
 	}
 };});

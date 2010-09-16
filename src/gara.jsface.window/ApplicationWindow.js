@@ -64,6 +64,8 @@ gara.Class("gara.jsface.window.ApplicationWindow", function () { return {
 		this.menuBarManager = null;
 		this.toolBarControl = null;
 		this.toolBarManager = null;
+		
+		document.documentElement.setAttribute("role", "application");
 	},
 	
 	addMenuBar : function () {
@@ -80,6 +82,17 @@ gara.Class("gara.jsface.window.ApplicationWindow", function () { return {
 	
 	/**
 	 * @method
+	 * Creates the contents of the application. Subclasses should override this.
+	 * 
+	 * @param {gara.jswt.widgets.Shell} parent
+	 * @return
+	 */
+	createAppContents : function (parent) {
+		
+	},
+	
+	/**
+	 * @method
 	 * Creates and returns the contents of the application window.
 	 * 
 	 * @param {gara.jswt.widgets.Composite} parent 
@@ -88,6 +101,7 @@ gara.Class("gara.jsface.window.ApplicationWindow", function () { return {
 	 * @returns {gara.jswt.widgets.Control}
 	 */
 	createContents : function (parent) {
+		var composite;
 		if (!(parent instanceof gara.jswt.widgets.Composite)) {
 			throw new TypeError("parent not instance of gara.jswt.widgets.Composite");
 		}
@@ -98,8 +112,9 @@ gara.Class("gara.jsface.window.ApplicationWindow", function () { return {
         }
 		
 		this.createToolBarControl(parent);
+		this.createAppContents(parent);
 
-		return new gara.jswt.widgets.Composite(parent);
+		return parent;
 	},
 	
 	createMenuManager : function () {
@@ -123,4 +138,4 @@ gara.Class("gara.jsface.window.ApplicationWindow", function () { return {
 	getToolBarManager : function () {
 		return this.toolBarManager;
 	}
-}});
+};});

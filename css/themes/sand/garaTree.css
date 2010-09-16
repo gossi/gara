@@ -1,0 +1,130 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.gara.Tree
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+ 
+/** sprite: tree; sprite-image: url('sprite-tree.png'); sprite-layout: horizontal; */
+
+.sand .garaTree {
+	border: none;
+	overflow: auto;
+	background-color: #FFF; /*#EAE6D6*/
+	background-repeat: repeat-y;
+	padding: 0;
+}
+
+.sand .garaTabClientArea div[role=tabpanel] > .garaTree {
+	border: 0;
+}
+
+.sand .garaTree .garaCheckbox {
+	margin: 3px 5px 0 1px;
+	float: left;
+}
+
+.sand .garaTreeItemToggler {
+	width: 18px;
+	height: 18px;
+	max-height: 18px;
+}
+
+.sand .garaTreeItem {
+	background-image: none;
+	background-repeat: no-repeat;
+}
+
+.sand .garaTreeItemChildContainer {
+	padding-left: 18px;
+}
+
+.sand .garaTreeItemText {
+	background-color: #FFF;
+	color: #000;
+	font-family: Verdana;
+	font-size: 85%;
+	line-height: 18px;
+	padding: 1px 3px;
+}
+
+.sand .garaTreeItemImage {
+	margin-right: 3px;
+	vertical-align: middle;
+	float: left;
+	margin-left: 2px;
+}
+
+.sand .garaTreeFullSelection .garaTreeItemText {
+	display: block;
+	line-height: 16px;
+	margin-left: 18px;
+}
+
+/* === Selected Item === */
+/* Inactive */
+.sand .garaTreeItem[aria-selected=true] > .garaTreeItemText {
+	background-color: #E1E0D9;
+	color: #000;
+}
+
+/* Active */
+.sand .garaTree:focus .garaTreeItem[aria-selected=true] > .garaTreeItemText  {
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+/* --- checkbox & image --- */
+.sand .garaTreeItem[aria-selected=true] > .garaCheckbox,
+.sand .garaTreeFullSelection .garaTreeItem[aria-selected=true] > .garaTreeItemImage  {
+	opacity: 0.7;
+	background-color: #E1E0D9;
+}
+
+.sand .garaTree:focus .garaTreeItem[aria-selected=true] > .garaCheckbox,
+.sand .garaTreeFullSelection:focus .garaTreeItem[aria-selected=true] > .garaTreeItemImage {
+	opacity: 0.7;
+	background-color: #EAE6D6;
+}
+
+/* === Active Item === */
+.sand .garaTree:focus .garaActiveItem > .garaTreeItemText {
+	outline: 1px dotted #000;
+}
+
+.sand .garaTreeFullSelection:focus .garaActiveItem > .garaTreeItemText {
+	margin: 0 1px 0 18px;
+	line-height: 16px;
+}
+
+/* === Lines === */
+.sand .garaTreeNoLines .garaTreeItemChildContainer,
+.sand .garaTreeNoLines .garaLastTreeItem {
+	background-image: none;
+}
+
+.sand .garaTreeLines .garaLastTreeItem .garaTreeItemChildContainer {
+	background-image: none;
+}
+
+.sand .garaTreeLines .garaTreeItem {
+	background-image: url('join.gif'); /** sprite-ref: tree; */
+}
+
+.sand .garaTreeLines .garaLastTreeItem {
+	background-image: url('joinbottom.gif'); /** sprite-ref: tree; */
+}
+
+/* Toggler */
+.sand .garaTreeItemExpanded .garaTreeItemToggler {
+	background-image: url('collapse.gif'); /** sprite-ref: tree; */
+}
+
+.sand .garaTreeItemCollapsed .garaTreeItemToggler {
+	background-image: url('expand.gif'); /** sprite-ref: tree; */
+}
+
+.sand .garaTreeLines .garaTreeItemChildContainer {
+	background-repeat: repeat-y;
+	background-image: url('line.gif'); /** sprite-ref: tree; sprite-alignment: repeat; */
+}

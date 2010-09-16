@@ -197,21 +197,21 @@ gara.Class("gara.jswt.widgets.Button", function() { return {
 		this.handle.setAttribute("aria-labelledby", this.getId()+"-label");
 
 		// css
-		this.addClass("jsWTButton");
-		this.setClass("jsWTButtonPush", (this.style & gara.jswt.JSWT.PUSH) === gara.jswt.JSWT.PUSH);
-		this.setClass("jsWTButtonHorizontal", (this.style & gara.jswt.JSWT.HORIZONTAL) === gara.jswt.JSWT.HORIZONTAL);
-		this.setClass("jsWTButtonVertical", (this.style & gara.jswt.JSWT.VERTICAL) === gara.jswt.JSWT.VERTICAL);
+		this.addClass("garaButton");
+		this.setClass("garaButtonPush", (this.style & gara.jswt.JSWT.PUSH) === gara.jswt.JSWT.PUSH);
+		this.setClass("garaButtonHorizontal", (this.style & gara.jswt.JSWT.HORIZONTAL) === gara.jswt.JSWT.HORIZONTAL);
+		this.setClass("garaButtonVertical", (this.style & gara.jswt.JSWT.VERTICAL) === gara.jswt.JSWT.VERTICAL);
 
 		// checkbox
 		if ((this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK) {
-			this.addClass("jsWTButtonCheckbox");
+			this.addClass("garaButtonCheckbox");
 			this.handle.setAttribute("role", "checkbox");
 			this.handle.setAttribute("aria-checked", this.selected);
 		}
 
 		// radio
 		if ((this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO) {
-			this.addClass("jsWTButtonRadio");
+			this.addClass("garaButtonRadio");
 			this.handle.setAttribute("role", "radio");
 			this.handle.setAttribute("aria-checked", this.selected);
 		}
@@ -223,12 +223,12 @@ gara.Class("gara.jswt.widgets.Button", function() { return {
 		// nodes
 		focus = document.createElement("span");
 		focus.widget = this;
-		focus.className = "focus";
+		focus.className = "garaButtonFocus garaFocus";
 		focus.setAttribute("role", "presentation");
 
 		door = document.createElement("span");
 		door.widget = this;
-		door.className = "door";
+		door.className = "garaButtonDoor garaDoor";
 		door.setAttribute("role", "presentation");
 
 		// create image node
@@ -236,6 +236,7 @@ gara.Class("gara.jswt.widgets.Button", function() { return {
 		this.img.id = this.getId() + "-image";
 		this.img.widget = this;
 		this.img.control = this.list;
+		this.img.className = "garaImage garaButtonImage";
 		this.img.setAttribute("role", "presentation");
 
 		// set image
@@ -251,7 +252,7 @@ gara.Class("gara.jswt.widgets.Button", function() { return {
 		this.span.id = this.getId()+"-label";
 		this.span.widget = this;
 		this.span.control = this.list;
-		this.span.className = "text";
+		this.span.className = "garaText";
 		this.span.appendChild(this.spanText);
 		this.span.setAttribute("role", "presentation");
 

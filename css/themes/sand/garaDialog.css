@@ -5,17 +5,17 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand .jsWTDialog {
+.sand .garaDialog {
 	
 }
 
-.sand .jsWTDialogArea {
+.sand .garaDialogArea {
 	height: auto;
 	overflow: hidden;
 	padding: 7px;
 }
 
-.sand .jsWTDialogButtonBar {
+.sand .garaDialogButtonBar {
 	height: auto;
 	text-align: center;
 	padding: 3px;
@@ -25,12 +25,12 @@
 /**
  * Input Dialog
  */
-.sand .jsWTInputDialog .jsWTLabel {
+.sand .garaInputDialog .garaLabel {
 	display: block;
 	padding-bottom: 5px;
 }
 
-.sand .jsWTInputDialog .jsWTText {
+.sand .garaInputDialog .garaText {
 	margin: 0;
 }
 
@@ -38,42 +38,42 @@
 /**
  * Message Dialog
  */
-.sand .jsWTMessageDialog {
+.sand .garaMessageDialog {
 	min-width: 250px;
 }
 
 /**
  * Icons
  */
-.sand .jsWTIconError {
+.sand .garaIconError {
 	width: 16px;
 	height: 16px;
 	display: block;
 	float: left;
 	background-image: url('icon_error.png'); /** sprite-ref: icons; */
 }
-.sand .jsWTIconInformation {
+.sand .garaIconInformation {
 	width: 16px;
 	height: 16px;
 	display: block;
 	float: left;
 	background-image: url('icon_information.png'); /** sprite-ref: icons; */
 } 
-.sand .jsWTIconQuestion {
+.sand .garaIconQuestion {
 	width: 16px;
 	height: 16px;
 	display: block;
 	float: left;
 	background-image: url('icon_question.png'); /** sprite-ref: icons; */
 }
-.sand .jsWTIconWarning {
+.sand .garaIconWarning {
 	width: 16px;
 	height: 16px;
 	display: block;
 	float: left;
 	background-image: url('icon_warning.png'); /** sprite-ref: icons; */
 }
-.sand .jsWTIconWorking {
+.sand .garaIconWorking {
 	width: 16px;
 	height: 16px;
 	display: block;

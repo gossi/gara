@@ -25,7 +25,7 @@ gara.provide("gara.jswt.widgets.MenuItem", "gara.jswt.widgets.Item");
 
 gara.use("gara.EventManager");
 gara.use("gara.jswt.JSWT");
-//gara.use("gara.jswt.widgets.Menu");
+gara.use("gara.jswt.widgets.Menu");
 
 /**
  * @summary
@@ -125,6 +125,7 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 	visible : true,
 
 	$constructor : function (parent, style, index) {
+		var w, h;
 		if (!(parent instanceof gara.jswt.widgets.Menu)) {
 			throw new TypeError("parent is not type of gara.jswt.widgets.Menu");
 		}
@@ -143,7 +144,15 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 		this.visible = true;
 		this.selected = false;
 
+//		w = this.parent.handle.offsetWidth;
+//		h = this.parent.handle.offsetHeight;
+		
 		this.createWidget();
+		
+//		console.log("MenuItem() h: " + h + " " + this.parent.handle.offsetHeight);
+//		if (w !== this.parent.handle.offsetWidth || h !== this.parent.handle.offsetHeight) {
+//			this.parent.notifyResizeListener();
+//		}
 	},
 
 	/**
@@ -162,7 +171,6 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 		}
 		return this;
 	},
-
 
 	/**
 	 * @method
@@ -193,10 +201,13 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 		this.handle.setAttribute("role", "menuitem");
 		this.handle.setAttribute("aria-disabled", !this.enabled);
 		this.handle.setAttribute("aria-labelledby", this.getId() + "-label");
+		this.addClass("garaMenuItem");
+		
 		if ((this.style & gara.jswt.JSWT.SEPARATOR) === gara.jswt.JSWT.SEPARATOR) {
-			this.handle.className = "jsWTMenuItemSeparator";
+			this.addClass("garaMenuItemSeparator");
 			if ((this.parent.getStyle() & gara.jswt.JSWT.BAR) !== gara.jswt.JSWT.BAR) {
 				this.hr = document.createElement("hr");
+				this.hr.className = "garaMenuItemSeparatorLine";
 				this.handle.appendChild(this.hr);
 				this.handle.setAttribute("aria-disabled", true);
 			}
@@ -215,13 +226,13 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 			}
 
 			button = document.createElement("span");
-			button.className = "button";
+			button.className = "garaMenuItemButton";
 			button.widget = this;
 			button.control = this.parent;
 			button.setAttribute("role", "presentation");
 
 			door = document.createElement("span");
-			door.className = "door";
+			door.className = "garaMenuItemDoor";
 			door.widget = this;
 			door.control = this.parent;
 			door.setAttribute("role", "presentation");
@@ -231,6 +242,7 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 			this.img.id = this.getId() + "-image";
 			this.img.widget = this;
 			this.img.control = this.parent;
+			this.img.className = "garaMenuItemImage garaItemImage";
 			this.img.setAttribute("role", "presentation");
 
 			// set image
@@ -247,7 +259,7 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 			this.span.role = "presentation";
 			this.span.widget = this;
 			this.span.control = this.parent;
-			this.span.className = "text";
+			this.span.className = "garaMenuItemText garaItemText";
 			this.span.appendChild(this.spanText);
 			this.span.setAttribute("role", "presentation");
 
@@ -259,9 +271,9 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 			this.handle.setAttribute("aria-haspopup", ((this.style & gara.jswt.JSWT.CASCADE) === gara.jswt.JSWT.CASCADE) && this.menu !== null);
 
 			// css
-			this.setClass("jsWTMenuItemCascade", ((this.style & gara.jswt.JSWT.CASCADE) === gara.jswt.JSWT.CASCADE) && this.menu !== null);
-			this.setClass("jsWTMenuItemCheck", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
-			this.setClass("jsWTMenuItemRadio", (this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO);
+			this.setClass("garaMenuItemCascade", ((this.style & gara.jswt.JSWT.CASCADE) === gara.jswt.JSWT.CASCADE) && this.menu !== null);
+			this.setClass("garaMenuItemCheck", (this.style & gara.jswt.JSWT.CHECK) === gara.jswt.JSWT.CHECK);
+			this.setClass("garaMenuItemRadio", (this.style & gara.jswt.JSWT.RADIO) === gara.jswt.JSWT.RADIO);
 		}
 
 		// add to dom tree
@@ -377,7 +389,7 @@ gara.Class("gara.jswt.widgets.MenuItem", function() { return {
 		}
 
 		this.menu = menu;
-		this.setClass("jsWTMenuItemCascade", ((this.style & gara.jswt.JSWT.CASCADE) === gara.jswt.JSWT.CASCADE) && this.menu !== null);
+		this.setClass("garaMenuItemCascade", ((this.style & gara.jswt.JSWT.CASCADE) === gara.jswt.JSWT.CASCADE) && this.menu !== null);
 		this.menu.update();
 		this.handle.setAttribute("aria-haspopup", ((this.style & gara.jswt.JSWT.CASCADE) === gara.jswt.JSWT.CASCADE) && this.menu !== null);
 

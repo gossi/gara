@@ -1,23 +1,28 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Menu
+ * gara.gara.Menu
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand .jsWTMenu {
+.sand .garaMenu {
 	margin: 0;
 	padding: 0;
 	background: none;
 }
 
-.sand ul.jsWTMenu li {
+.sand .garaMenuItem {
 	border: 0;
 	background: none;
 	padding: 0 5px;
 }
 
-.sand .jsWTMenu .text {
+.sand .garaMenuItemImage {
+	margin-top: -2px;
+	padding: 1px 0;
+}
+
+.sand .garaMenuItemText {
 	line-height: 18px;
 	font-size: 11px;
 	font-family: Verdana;
@@ -26,36 +31,20 @@
 	margin: 0;
 }
 
-.sand ul.jsWTMenu li.active {
+.sand .garaMenu .garaActiveItem {
 	background-color: #EAE6D6;
 	color: #000;
 }
 
-.sand ul.jsWTMenu li[aria-disabled=true] > span .text {
+.sand .garaMenuItem[aria-disabled=true] > .garaMenuItemText {
 	color: #777;
 }
 
-.sand ul.jsWTMenu li[aria-disabled=true] > span img {
+.sand .garaMenuItem[aria-disabled=true] > .garaMenuItemImage {
 	opacity: 0.5;
 }
 
-.sand ul.jsWTMenu li.jsWTMenuItemCheck,
-.sand ul.jsWTMenu li.jsWTMenuItemRadio {
-	background-repeat: no-repeat;
-	padding-left: 14px;
-}
-
-.sand ul.jsWTMenu li.jsWTMenuItemCheck[aria-checked=true] {
-	background-position: 4px 8px;
-	background-image: url('checked.png'); /** sprite-ref: menu; sprite-margin-left: 4px; sprite-margin-top: 8px; */
-}
-
-.sand ul.jsWTMenu li.jsWTMenuItemRadio[aria-checked=true] {
-	background-position: 5px 8px;
-	background-image: url('dot.png'); /** sprite-ref: menu; sprite-margin-left: 5px; sprite-margin-top: 8px; */
-}
-
-.sand ul.jsWTMenuBar {
+.sand .garaMenuBar {
 	margin: 0;
 	padding: 0;
 	background-image: none;
@@ -63,46 +52,41 @@
 	height: 21px;
 }
 
-.sand ul.jsWTMenuBar li {
+.sand .garaMenuBar .garaMenuItem {
 	float: left;
 	position: relative;
 }
 
-.sand .jsWTMenuBar .text {
+.sand .garaMenuBar .garaMenuItemText {
 	line-height: 21px;
 }
 
-.sand ul.jsWTMenuPopUp,
-.sand ul.jsWTMenuDropDown {
+.sand .garaMenuPopUp,
+.sand .garaMenuDropDown {
 	margin: 0;
 	padding: 2px;
 	background-image: none;
 	background-color: #E2DED0;
 	color: #000;
 	border: 1px solid #B7AE88;
-	width: 150px;
+	min-width: 150px;
 }
 
-.sand ul.jsWTMenuPopUp li,
-.sand ul.jsWTMenuDropDown li {
+.sand .garaMenuPopUp .garaMenuItem,
+.sand .garaMenuDropDown .garaMenuItem {
 	background-image: none;
 	float: none;
 }
 
-.sand ul.jsWTMenuPopUp li span,
-.sand ul.jsWTMenuDropDown li span {
+.sand .garaMenuPopUp .garaMenuItemText,
+.sand .garaMenuDropDown .garaMenuItemText {
 	border: none;
 	padding: 0;
 	margin: 0;
 	line-height: 18px;
 }
 
-.sand ul.jsWTMenu li img {
-	margin-top: -2px;
-	padding: 1px 0;
-}
-
-.sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
+.sand .garaMenuBar .garaMenuDropDown {
 	margin-left: -1px !important;
 	margin-top: 0 !important;
 	margin-top: 18px;
@@ -110,35 +94,51 @@
 	left: 1px;
 }
 
+.sand .garaMenuItemCheck,
+.sand .garaMenuItemRadio {
+	background-repeat: no-repeat;
+	padding-left: 14px;
+}
+
+.sand .garaMenuItemCheck[aria-checked=true] {
+	background-position: 4px 8px;
+	background-image: url('checked.png'); /** sprite-ref: menu; sprite-margin-left: 4px; sprite-margin-top: 8px; */
+}
+
+.sand .garaMenuItemRadio[aria-checked=true] {
+	background-position: 5px 8px;
+	background-image: url('dot.png'); /** sprite-ref: menu; sprite-margin-left: 5px; sprite-margin-top: 8px; */
+}
+
 /* IE hacks */
-.sand ul.jsWTMenuBar ul.jsWTMenuDropDown {
+.sand .garaMenuBar .garaMenuDropDown {
 	*margin-top: 17px !important;
 	*margin-top: 16px;
 }
 
-.sand ul.jsWTMenuBar ul.jsWTMenuDropDown ul {
+.sand .garaMenuBar .garaMenuDropDown .garaMenu {
 	*margin-top: 0 !important;
 }
 
-/* the chain jsWTMenuBar jsWTMenuDropDown is because IE6 needs some readjusment */
-.sand ul.jsWTMenuBar ul.jsWTMenuDropDown  li ul,
-.sand ul.jsWTMenuPopUp li ul,
-.sand ul.jsWTMenuDropDown li ul {
+/* the chain garaMenuBar garaMenuDropDown is because IE6 needs some readjusment */
+.sand .garaMenuBar .garaMenuDropDown .garaMenu,
+.sand .garaMenuPopUp .garaMenu,
+.sand .garaMenuDropDown .garaMenu {
 	top: -2px;
 	left: 145px;
 	margin-top: 0;
 	margin-left: -3px !important;
 }
 
-.sand ul.jsWTMenuPopUp li.jsWTMenuItemCascade,
-.sand ul.jsWTMenuDropDown li.jsWTMenuItemCascade {
+.sand .garaMenuPopUp .garaMenuItemCascade,
+.sand .garaMenuDropDown .garaMenuItemCascade {
 	/*background-position: right center;*/
 	background-position: 135px 6px;
 	background-repeat: no-repeat;
 	background-image: url('arrow.gif');  /** sprite-ref: menu; sprite-margin-left: 135px; sprite-margin-top: 8px; */
 }
 
-.sand ul.jsWTMenuBar li.jsWTMenuItemSeparator {
+.sand .garaMenuBar .garaMenuItemSeparator {
 	border: none;
 	width: 5px;
 	margin: 0;
@@ -146,43 +146,49 @@
 	height: 21px;
 }
 
-.sand ul.jsWTMenuPopUp li.jsWTMenuItemSeparator,
-.sand ul.jsWTMenuDropDown li.jsWTMenuItemSeparator {
-	border: 0;
+.sand .garaMenuPopUp .garaMenuItemSeparator,
+.sand .garaMenuDropDown .garaMenuItemSeparator {
 	background: none;
 	margin: 0;
 	padding: 0;
 	height: auto;
 	width: auto;
+	border: 0;
+}
+
+.sand .garaMenuPopUp .garaMenuItemSeparatorLine,
+.sand .garaMenuDropDown .garaMenuItemSeparatorLine {
+	border: none;
+	border-top: 1px solid #BBB;
 }
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * .jsWTToolbar
+ * .garaToolbar
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand ul.jsWTToolbar {
+.sand .garaToolbar {
 	/*background-color: #EAE6D6; /*#E9E7EB;*/
 	background-color: #E2DED0; /*#D9D4C0 #DEDAC9 #E2DED0*/
 	height: 24px;
 }
 
-.sand .jsWTToolbar > li {
+.sand .garaToolbar > .garaMenuItem {
 	margin: 1px 0;
 }
 
-.sand ul.jsWTToolbar > li.jsWTMenuItemCheck,
-.sand ul.jsWTToolbar > li.jsWTMenuItemRadio,
-.sand ul.jsWTToolbar > li.jsWTMenuItemCheck[aria-checked=true],
-.sand ul.jsWTToolbar > li.jsWTMenuItemRadio[aria-checked=true] {
+.sand .garaToolbar > .garaMenuItemCheck,
+.sand .garaToolbar > .garaMenuItemRadio,
+.sand .garaToolbar > .garaMenuItemCheck[aria-checked=true],
+.sand .garaToolbar > .garaMenuItemRadio[aria-checked=true] {
 	background: none;
 	padding-left: 0;
 }
 
-.sand .jsWTToolbar > li > .button,
-.sand .jsWTToolbar > li[aria-pressed=false] > .button {
+.sand .garaToolbar > .garaMenuItem > .garaMenuItemButton,
+.sand .garaToolbar > .garaMenuItem[aria-pressed=false] > .garaMenuItemButton {
 	height: 22px;
 	display: inline-block;
 	background-repeat: no-repeat;
@@ -190,8 +196,8 @@
  	margin-right: 5px;
 }
 
-.sand .jsWTToolbar > li > .button .door,
-.sand .jsWTToolbar > li[aria-pressed=false] > .button .door {
+.sand .garaToolbar > .garaMenuItem .garaMenuItemDoor,
+.sand .garaToolbar > .garaMenuItem[aria-pressed=false] .garaMenuItemDoor {
 	background-position: right;
 	height: 21px;
 	line-height: 20px;
@@ -199,7 +205,7 @@
 	padding: 1px 9px 0 0;
 }
 
-.sand .jsWTToolbar > li[aria-checked=true] > .button {
+.sand .garaToolbar > .garaMenuItem[aria-checked=true] > .garaMenuItemButton {
 	border: 1px solid #B6AD87;
 	background-color: #FFF;
 	-moz-border-radius: 7px;
@@ -207,12 +213,12 @@
 	padding-left: 8px;
 }
 
-.sand .jsWTToolbar > li[aria-checked=true] > .button .door {
+.sand .garaToolbar > .garaMenuItem[aria-checked=true] .garaMenuItemDoor {
 	padding-top: 0;
 	padding-right: 8px;
 }
 
-.sand .jsWTToolbar > li > .button:hover {
+.sand .garaToolbar > .garaMenuItem .garaMenuItemButton:hover {
 	border: none;
 	background-color: transparent;
 	height: 22px;
@@ -220,7 +226,7 @@
 	background-image: url('button-start.png'); /** sprite-ref: button; */
 }
 
-.sand .jsWTToolbar > li > .button:hover .door {
+.sand .garaToolbar > .garaMenuItem > .garaMenuItemButton:hover .garaMenuItemDoor {
 	padding-top: 1px;
 	padding-right: 9px;
 	background-image: url('button-end.png'); /** sprite-ref: button; sprite-alignment: right;*/
@@ -228,7 +234,7 @@
 
 
 /** Pressed state, same as checked state above, hover needs to go between */
-.sand .jsWTToolbar > li[aria-pressed=true] > .button {
+.sand .garaToolbar > .garaMenuItem[aria-pressed=true] > .garaMenuItemButton {
 	border: 1px solid #B6AD87;
 	background-color: #FFF;
 	-moz-border-radius: 7px;
@@ -238,37 +244,37 @@
 	/*background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
 }
 
-.sand .jsWTToolbar > li[aria-pressed=true] > .button .door {
+.sand .garaToolbar > .garaMenuItem[aria-pressed=true] > .garaMenuItemButton .garaMenuItemDoor {
 	/*background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
 	padding-top: 0;
 	padding-right: 8px;
 	background-image: none;
 }
 
-.sand ul.jsWTToolbar > li.active {
+.sand .garaToolbar > .garaActiveItem {
 	background-color: #EAE6D6;
 	color: #000;
 }
 
-.sand ul.jsWTToolbar > li[aria-disabled=false].active > .button .text {
+.sand .garaToolbar > .garaMenuItem[aria-disabled=false].garaActiveItem > .garaMenuItemText {
 	outline: 1px dotted #000;
 }
 
-.sand .jsWTToolbar > li > .button img {
+.sand .garaToolbar > .garaMenuItem .garaMenuItemImage {
 	margin: 0 4px 2px 0;
 }
 
-.sand .jsWTToolbar > li > .button .text {
+.sand .garaToolbar > .garaMenuItem .garaMenuItemText {
 	line-height: 20px;
 }
 
-.sand ul.jsWTToolbar > li[aria-haspopup=true] > .button .text {
+.sand ul.garaToolbar > .garaMenuItemButton[aria-haspopup=true] .garaMenuItemText {
 	background-repeat: no-repeat;
 	background-position: right 6px;
 	background-image: url('arrow_down.png');
 	padding-right: 10px;
 }
 
-.sand .jsWTToolbar > li[aria-disabled=true] > .button {
+.sand .garaToolbar > .garaMenuItem[aria-disabled=true] > .garaMenuItemButton {
 	opacity: 0.5;
 }

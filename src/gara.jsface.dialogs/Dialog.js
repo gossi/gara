@@ -62,7 +62,7 @@ gara.Class("gara.jsface.dialogs.Dialog", function () { return {
 	},
 	
 	configureShell : function (shell) {
-		shell.addClass("jsWTDialog");
+		shell.addClass("garaDialog");
 	},
 	
 	close : function () {
@@ -95,7 +95,7 @@ gara.Class("gara.jsface.dialogs.Dialog", function () { return {
 	},
 
 	createButtonBar : function (parent) {
-		var composite = new gara.jswt.widgets.Composite(parent).addClass("jsWTDialogButtonBar");
+		var composite = new gara.jswt.widgets.Composite(parent).addClass("garaDialogButtonBar");
 		this.createButtonsForButtonBar(composite);
 		return composite;
 	},
@@ -115,7 +115,7 @@ gara.Class("gara.jsface.dialogs.Dialog", function () { return {
 	},
 
 	createDialogArea : function (parent) {
-		return new gara.jswt.widgets.Composite(parent).addClass("jsWTDialogArea");
+		return new gara.jswt.widgets.Composite(parent).addClass("garaDialogArea");
 	},
 	
 	getButton : function (id) {

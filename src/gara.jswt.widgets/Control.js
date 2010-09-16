@@ -335,9 +335,39 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		};
 	})(),
 
-	adjustHeight : function (height) {},
+	adjustHeight : function (height) {
+		// absolute value
+		if (height > 1) {
+			this.handle.style.height = parseInt(height) + "px";
+		}
 
-	adjustWidth : function (width) {},
+		// null => auto
+		else if (height === null) {
+			this.handle.style.height = "auto";
+		}
+
+		// percentage
+		else if (height >= 0 && height <= 1) {
+			this.handle.style.height = height * 100 + "%";
+		}
+	},
+
+	adjustWidth : function (width) {
+		// absolute value
+		if (width > 1) {
+			this.handle.style.width = parseInt(width) + "px";
+		}
+
+		// null => auto
+		else if (width === null) {
+			this.handle.style.width = "auto";
+		}
+		
+		// percentage
+		else if (width >= 0 && width <= 1) {
+			this.handle.style.width = width * 100 + "%";
+		}
+	},
 
 	/**
 	 * @method
@@ -591,7 +621,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 			break;
 
 		case "mouseout":
-			if (typeof e.relatedTarget.widget === "undefined" || (e.relatedTarget.widget !== this 
+			if (!e.relatedTarget || typeof e.relatedTarget.widget === "undefined" || (e.relatedTarget.widget !== this 
 					&& e.relatedTarget.widget instanceof gara.jswt.widgets.Item && e.relatedTarget.control !== this)) {
 			
 				this.mouseTrackListeners.forEach(function (listener) {
@@ -742,6 +772,32 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 
 			if (listener[eventType]) {
 				answer = listener[eventType](e);
+				if (typeof(answer) !== "undefined") {
+					ret = answer;
+				}
+			}
+		}, this);
+		return ret;
+	},
+	
+	/**
+	 * @method
+	 * 
+	 * @private
+	 * @param eventType
+	 * @returns {boolean} true if the operation is permitted
+	 */
+	notifyResizeListener : function () {
+		var ret = true, 
+			e = this.event || window.event || {};
+			e.widget = this;
+			e.control = this;
+
+		this.controlListeners.forEach(function (listener) {
+			var answer;
+
+			if (listener.controlResized) {
+				answer = listener.controlResized(e);
 				if (typeof(answer) !== "undefined") {
 					ret = answer;
 				}
@@ -903,28 +959,8 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @return {gara.jswt.widgets.Control}
 	 */
 	setHeight : function (height) {
-//		console.log("Control.setHeight: " + height);
-
-		// absolute value
-		if (height > 1) {
-			this.height = parseInt(height);
-			//this.handle.style.height = this.height - gara.getNumStyle(this.handle, "padding-top") - gara.getNumStyle(this.handle, "padding-bottom") - gara.getNumStyle(this.handle, "margin-top") - gara.getNumStyle(this.handle, "margin-bottom")- gara.getNumStyle(this.handle, "border-top-width") - gara.getNumStyle(this.handle, "border-bottom-width") + "px";
-			this.handle.style.height = this.height + "px";
-			this.adjustHeight(this.height);
-		}
-
-		// null => auto
-		else if (height === null) {
-			this.height = null;
-			this.handle.style.height = "auto";
-		}
-
-		// percentage
-		else if (height >= 0 && height <= 1) {
-			this.height = parseInt(height * 1000) / 1000;
-			this.handle.style.height = this.height * 100 + "%";
-			this.adjustHeight(this.handle.offsetHeight);
-		}
+		this.height = height;
+		this.adjustHeight(height);
 		
 		this.controlListeners.forEach(function (listener) {
 			if (listener.controlResized) {
@@ -1022,26 +1058,8 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 * @return {gara.jswt.widgets.Control}
 	 */
 	setWidth : function (width) {
-		// absolute value
-		if (width > 1) {
-			this.width = parseInt(width);
-			//this.handle.style.width = this.width - gara.getNumStyle(this.handle, "padding-left") - gara.getNumStyle(this.handle, "padding-right") - gara.getNumStyle(this.handle, "margin-left") - gara.getNumStyle(this.handle, "margin-right")- gara.getNumStyle(this.handle, "border-left-width") - gara.getNumStyle(this.handle, "border-right-width") + "px";
-			this.handle.style.width = this.width + "px";
-			this.adjustWidth(this.width);
-		}
-
-		// null => auto
-		else if (width === null){
-			this.width = null;
-			this.handle.style.width = "auto";
-		}
-		
-		// percentage
-		else if (width >= 0 && width <= 1) {
-			this.width = parseInt(width * 100) / 100;
-			this.handle.style.width = this.width * 100 + "%";
-			this.adjustWidth(this.handle.offsetWidth);
-		}
+		this.width = width;
+		this.adjustWidth(width);
 		
 		this.controlListeners.forEach(function (listener) {
 			if (listener.controlResized) {

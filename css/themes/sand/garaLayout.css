@@ -5,42 +5,42 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.loosy .jsWTRowLayout > .jsWTControl,
-.loosy .jsWTRowLayout > .jsWTLayout,
-.loosy .jsWTRowLayout > .jsWTStub,
-.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTControl,
-.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTLayout,
-.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTStub {
+.loosy .garaRowLayout > .garaControl,
+.loosy .garaRowLayout > .garaLayout,
+.loosy .garaRowLayout > .garaStub,
+.loosy .garaRowLayout > .garaClientArea > .garaControl,
+.loosy .garaRowLayout > .garaClientArea > .garaLayout,
+.loosy .garaRowLayout > .garaClientArea > .garaStub {
 	padding-top: 10px;
 }
 
-.loosy .jsWTRowLayout > .jsWTControl:first-child,
-.loosy .jsWTRowLayout > .jsWTLayout:first-child,
-.loosy .jsWTRowLayout > .jsWTStub:first-child,
-.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTControl:first-child,
-.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTLayout:first-child,
-.loosy .jsWTRowLayout > .jsWTClientArea > .jsWTStub:first-child {
+.loosy .garaRowLayout > .garaControl:first-child,
+.loosy .garaRowLayout > .garaLayout:first-child,
+.loosy .garaRowLayout > .garaStub:first-child,
+.loosy .garaRowLayout > .garaClientArea > .garaControl:first-child,
+.loosy .garaRowLayout > .garaClientArea > .garaLayout:first-child,
+.loosy .garaRowLayout > .garaClientArea > .garaStub:first-child {
 	padding-top: 0;
 }
 
-.jsWTColumnLayout > .jsWTControl,
-.jsWTColumnLayout > .jsWTLayout,
-.jsWTColumnLayout > .jsWTStub,
-.jsWTColumnLayout > .jsWTClientArea > .jsWTControl,
-.jsWTColumnLayout > .jsWTClientArea > .jsWTLayout,
-.jsWTColumnLayout > .jsWTClientArea > .jsWTStub {
+.garaColumnLayout > .garaControl,
+.garaColumnLayout > .garaLayout,
+.garaColumnLayout > .garaStub,
+.garaColumnLayout > .garaClientArea > .garaControl,
+.garaColumnLayout > .garaClientArea > .garaLayout,
+.garaColumnLayout > .garaClientArea > .garaStub {
 	float: left;
 }
 
-.jsWTRowLayout, .jsWTColumnLayout {
+.garaRowLayout, .garaColumnLayout {
 	border-collapse: collapse;
 }
 
-.jsWTClientArea {
+.garaClientArea {
 	position: relative;
 }
 
-.jsWTStub {
+.garaStub {
 	visibility: hidden;
 }
 

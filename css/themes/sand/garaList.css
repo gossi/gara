@@ -1,0 +1,82 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.gara.List
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .garaList {
+	border: none;
+	overflow: auto;
+	background-color: #FFF; /*#EAE6D6*/
+}
+
+.sand .garaTabClientArea div[role=tabpanel] > .garaList {
+	border: 0;
+}
+
+.sand .garaList .garaCheckbox {
+	margin: 3px 5px 0 5px;
+}
+
+.sand .garaListItemText {
+	background-color: #FFF;
+	color: #000;
+	font-family: Verdana;
+	font-size: 85%;
+	line-height: 18px;
+	padding: 1px 3px;
+}
+
+.sand .garaListFullSelection .garaListItemImage {
+	float: left;
+	margin-top: 1px;
+}
+
+.sand .garaListFullSelection .garaListItemText {
+	padding: 0;
+}
+
+/* === Selection === */
+.sand .garaListItem[aria-selected=true] .garaListItemText {
+	background-color: #E1E0D9;
+	color: #000;
+}
+
+.sand .garaList:focus .garaListItem[aria-selected=true] .garaListItemText {
+	background-color: #EAE6D6;
+	color: #000;
+}
+
+/* --- checkbox & image --- */
+.sand .garaList .garaListItem[aria-selected=true] .garaCheckbox,
+.sand .garaListFullSelection .garaListItem[aria-selected=true] .garaListItemImage {
+	opacity: 0.7;
+	background-color: #E1E0D9;
+}
+
+.sand .garaList:focus .garaListItem[aria-selected=true] .garaCheckbox,
+.sand .garaListFullSelection:focus .garaListItem[aria-selected=true] .garaListItemImage {
+	opacity: 0.7;
+	background-color: #EAE6D6;
+}
+
+/* === Active Item State === */
+.sand .garaList:focus .garaActiveItem .garaListItemText {
+	outline: 1px dotted #000;
+	margin-left: 1px;
+	padding-left: 2px;
+}
+
+.sand .garaListFullSelection:focus .garaActiveItem .garaListItemText {
+	margin: 1px 1px 0 1px;
+	line-height: 17px;
+}
+
+.sand .garaListFullSelection .garaActiveItem .garaListItemImage {
+	margin-top: 0;
+}
+
+.sand .garaListFullSelection .garaActiveItem .garaCheckbox {
+	margin: 2px 5px 0;
+}

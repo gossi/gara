@@ -108,7 +108,7 @@ gara.Class("gara.jswt.widgets.Label", function() { return {
 		this.handle.tabIndex = -1;
 
 		// css
-		this.addClass("jsWTLabel");
+		this.addClass("garaLabel");
 
 		this.imgNode = document.createElement("img");
 		this.imgNode.widget = this;

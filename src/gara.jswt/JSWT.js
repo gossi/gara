@@ -462,7 +462,39 @@ gara.Singleton("gara.jswt.JSWT", {
 	 * @field
 	 * Contains the scrollbar width (in px).
 	 */
-	SCROLLBAR_WIDTH : 19,
+	SCROLLBAR_HEIGHT : (function () {
+		var elem = document.createElement("div");
+		elem.style.width = "200px";
+		elem.style.height = "200px";
+		elem.style.position = "absolute";
+		elem.style.left = "-1000px";
+		elem.style.top = "-1000px";
+		document.getElementsByTagName("body")[0].appendChild(elem);
+
+		elem.style.overflow = "scroll";
+		var width = elem.offsetHeight - elem.clientHeight;
+		document.getElementsByTagName("body")[0].removeChild(elem);
+		return width;
+	})(),
+	
+	/**
+	 * @field
+	 * Contains the scrollbar width (in px).
+	 */
+	SCROLLBAR_WIDTH : (function () {
+		var elem = document.createElement("div");
+		elem.style.width = "200px";
+		elem.style.height = "200px";
+		elem.style.position = "absolute";
+		elem.style.left = "-1000px";
+		elem.style.top = "-1000px";
+		document.getElementsByTagName("body")[0].appendChild(elem);
+
+		elem.style.overflow = "scroll";
+		var width = elem.offsetWidth - elem.clientWidth;
+		document.getElementsByTagName("body")[0].removeChild(elem);
+		return width;
+	})(),
 
 	/**
 	 * @field

@@ -1,13 +1,13 @@
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Text
+ * gara.gara.Text
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.sand .jsWTText,
-.sand .jsWTPassword,
-.sand .jsWTMultiText {
+.sand .garaText,
+.sand .garaPassword,
+.sand .garaMultiText {
 	font-size: 1em;
 	margin-right: 5px;
 }

@@ -117,7 +117,7 @@ gara.Class("gara.jswt.widgets.Item", function() { return {
 	 */
 	setActive : function (active) {
 		this.active = active;
-		this.setClass("active", this.active);
+		this.setClass("garaActiveItem", this.active);
 	},
 
 	/**

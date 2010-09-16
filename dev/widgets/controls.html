@@ -7,11 +7,8 @@
 <script src="../../src/gara.js"></script>
 <script>
 
-var list, table, tree, tab, menu, tbl;
-
-gara.Class("WidgetListener", {
-	$constructor : function() {},
-
+var list, table, tree, tab, menu, tbl,
+WidgetListener = {
 	focusGained : function(e) {
 		//console.log("Focus gained: " + e.widget);
 	},
@@ -20,7 +17,7 @@ gara.Class("WidgetListener", {
 		//console.log("Focus lost: " + e.widget);
 	}
 	
-});
+};
 
 function main() {
 	// Images
@@ -130,10 +127,9 @@ function main() {
 	list.setMenu(listMenu);
 
 	// listeners
-	var widgetListener = new WidgetListener();
-	menu.addFocusListener(widgetListener);
-	tab.addFocusListener(widgetListener);
-	list.addFocusListener(widgetListener);
+	menu.addFocusListener(WidgetListener);
+	tab.addFocusListener(WidgetListener);
+	list.addFocusListener(WidgetListener);
 
 	// focussing menu
 	gara.EventManager.addListener(document, "keydown", function(e) {
@@ -241,16 +237,10 @@ h2 {
 <script>
 gara.require(
 	["gara.jswt.widgets.Menu",
-	"gara.jswt.widgets.MenuItem",
 	"gara.jswt.widgets.TabFolder",
-	"gara.jswt.widgets.TabItem",
 	"gara.jswt.widgets.Table",
-	"gara.jswt.widgets.TableColumn",
-	"gara.jswt.widgets.TableItem",
 	"gara.jswt.widgets.List",
-	"gara.jswt.widgets.ListItem",
 	"gara.jswt.widgets.Tree",
-	"gara.jswt.widgets.TreeItem",
 	"gara.jswt.widgets.Button",
 	"gara.jswt.widgets.Label",
 	"gara.jswt.widgets.Text"], 

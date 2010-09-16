@@ -1,8 +1,8 @@
-html {
+html.sand[role=application] {
 	height: 100%;
 }
 
-body.sand[role=application] {
+html.sand[role=application] body {
 	margin: 0;
 	background-color: #F7F3E4;
 	box-sizing: border-box;

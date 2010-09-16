@@ -173,7 +173,7 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.door = document.createElement("span");
 		this.door.widget = this;
 		this.door.control = this.parent;
-		this.door.className = "door";
+		this.door.className = "garaTabItemDoor";
 		this.door.setAttribute("role", "presentation");
 		this.handle.appendChild(this.door);
 
@@ -182,6 +182,7 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.img.id = this.getId() + "-image";
 		this.img.widget = this;
 		this.img.control = this.tree;
+		this.img.className = "garaTabItemImage garaItemImage";
 		this.img.setAttribute("role", "presentation");
 
 		// set image
@@ -196,14 +197,14 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.span.id = this.getId()+"-label";
 		this.span.widget = this;
 		this.span.control = this.parent;
-		this.span.className = "text";
+		this.span.className = "garaTabItemText garaItemText";
 		this.span.appendChild(this.spanText);
 		this.span.setAttribute("role", "presentation");
 
 		// close
 		if ((this.style & gara.jswt.JSWT.CLOSE) !== 0) {
 			this.closeButton = document.createElement("span");
-			this.closeButton.className = "jsWTDecorationsCloseButton";
+			this.closeButton.className = "garaDecorationsCloseButton";
 			this.closeButton.widget = this;
 			this.door.appendChild(this.closeButton);
 		}
@@ -211,8 +212,11 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		this.door.appendChild(this.img);
 		this.door.appendChild(this.span);
 		
+		// CSS
+		this.addClass("garaTabItem");
 		
 
+		// client area
 		this.clientArea = document.createElement("div");
 		this.clientArea.style.display = this.active ? "block" : "none";
 		this.clientArea.id = this.getId()+"-panel";
@@ -306,6 +310,10 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 		if (e.type === "mousedown" && e.target === this.closeButton) {
 			this.close();
 		}
+		
+		if (e.type === "contextmenu") {
+			e.preventDefault();
+		}
 	},
 
 	/**
@@ -320,7 +328,7 @@ gara.Class("gara.jswt.widgets.TabItem", function () { return {
 	setActive : function (active) {
 		this.checkWidget();
 		this.active = active;
-		this.setClass("active", this.active);
+		this.setClass("garaActiveItem", this.active);
 		if (this.handle) {
 			this.handle.setAttribute("aria-selected", this.active);
 			this.clientArea.setAttribute("aria-hidden", !this.active);

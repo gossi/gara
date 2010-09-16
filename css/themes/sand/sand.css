@@ -29,17 +29,17 @@ Item Selected (inactive):	#E1E0D9		#000
 /** sprite: button; sprite-image: url('sprite-button.png'); */
 
 @import url('../../gara.css');
-@import url('jsWTCheckbox.css');
-@import url('jsWTList.css');
-@import url('jsWTTree.css');
-@import url('jsWTTabFolder.css');
-@import url('jsWTTable.css');
-@import url('jsWTMenu.css');
-@import url('jsWTButton.css');
-@import url('jsWTText.css');
-@import url('jsWTLabel.css');
-@import url('jsWTComposite.css');
-@import url('jsWTDecorations.css');
-@import url('jsWTDialog.css');
-@import url('jsWTLayout.css');
-@import url('jsWTApplication.css');
+@import url('garaCheckbox.css');
+@import url('garaText.css');
+@import url('garaList.css');
+@import url('garaTree.css');
+@import url('garaTabFolder.css');
+@import url('garaTable.css');
+@import url('garaMenu.css');
+@import url('garaButton.css');
+@import url('garaLabel.css');
+@import url('garaComposite.css');
+@import url('garaDecorations.css');
+@import url('garaDialog.css');
+@import url('garaLayout.css');
+@import url('garaApplication.css');
