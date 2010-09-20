@@ -66,7 +66,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 
 	createHandle : function (element) {
 		this.$super(element);
-		this.addClass("jsWTComposite");
+		this.addClass("garaComposite");
 	},
 
 	createWidget : function () {
@@ -95,7 +95,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 		// 		ORDER BY childNode.style.zIndex DESC
 		for (i = 0, len = childs.length; i < len; i++) {
 			child = childs[i];
-			if (child.widget && child.widget instanceof gara.jswt.widgets.Control) {
+			if (child.widget && child.widget !== this && child.widget instanceof gara.jswt.widgets.Control) {
 				z = child.widget.handle.style.zIndex === "" ? 0 : child.widget.handle.style.zIndex;
 				if (!layers[z]) {
 					layers[z] = [];
@@ -133,7 +133,7 @@ gara.Class("gara.jswt.widgets.Composite", function() { return {
 			ratios = [0.25, 0.5, 0.75, 0.3333, 0.6666],
 			height = this.getClientArea().clientHeight,
 			width = this.getClientArea().clientWidth;
-			
+
 		if (this.layoutInformation !== null) {
 			return this.layoutInformation.layout(this);
 		}

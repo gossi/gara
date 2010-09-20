@@ -36,11 +36,11 @@
 	color: #000;
 }
 
-.sand .garaMenuItem[aria-disabled=true] > .garaMenuItemText {
+.sand .garaMenuItem[aria-disabled=true] > .garaMenuItemButton .garaMenuItemText {
 	color: #777;
 }
 
-.sand .garaMenuItem[aria-disabled=true] > .garaMenuItemImage {
+.sand .garaMenuItem[aria-disabled=true] > .garaMenuItemButton .garaMenuItemImage {
 	opacity: 0.5;
 }
 

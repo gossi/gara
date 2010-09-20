@@ -180,7 +180,7 @@ gara.Class("gara.jswt.widgets.Text", function() { return {
 		this.handle.setAttribute("aria-readonly", this.handle.readOnly);
 
 		// css
-		this.addClass(this.multi ? "jsWTMultiText" : ((this.style & gara.jswt.JSWT.PASSWORD) === gara.jswt.JSWT.PASSWORD ? "jsWTPassword" : "jsWTText"));
+		this.addClass(this.multi ? "garaMultiText" : ((this.style & gara.jswt.JSWT.PASSWORD) === gara.jswt.JSWT.PASSWORD ? "garaPassword" : "garaText"));
 
 		// listeners
 		this.addKeyListener(this);

@@ -199,6 +199,11 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 //		for (var i = 0, cols = this.parent.getColumns().length, cells = this.cells.length; i < cols && i < cells; ++i) {
 //			this.cells[i] = this.createCell(i);
 //		}
+		
+		if (!this.parent.getColumnCount() && this.parent.virtualColumn === null) {
+			this.parent.update();
+		}
+		
 		this.update();
 
 		this.parentNode.appendChild(this.handle);
@@ -330,13 +335,13 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 	 * @private
 	 */
 	setCheckboxClass : function () {
-		this.checkbox.className = "jsWTCheckbox";
+		this.checkbox.className = "garaCheckbox";
 		if (this.checked && this.grayed) {
-			this.checkbox.className += " jsWTCheckboxGrayedChecked";
+			this.checkbox.className += " garaCheckboxGrayedChecked";
 		} else if (this.grayed) {
-			this.checkbox.className += " jsWTCheckboxGrayed";
+			this.checkbox.className += " garaCheckboxGrayed";
 		} else if (this.checked) {
-			this.checkbox.className += " jsWTCheckboxChecked";
+			this.checkbox.className += " garaCheckboxChecked";
 		}
 	},
 
@@ -462,10 +467,11 @@ gara.Class("gara.jswt.widgets.TableItem", function () { return {
 			}
 
 			order = this.parent.getColumnOrder(), cols = this.parent.getColumns();
-			for (i = 0, len = order.length; i < len; i++) {
-				if (cols[order[i]].getVisible()) {
-					cell = this.getCell(order[i]);
-					cell.handle.className ="garaTableItemCell " + (!first ? "first" : "");
+			virtual = order.length === 0;
+			for (i = 0, len = order.length || 1; i < len; i++) {
+				if (virtual || cols[order[i]].getVisible()) {
+					cell = this.getCell(virtual ? 0 : order[i]);
+					cell.handle.className ="garaTableItemCell " + (!first ? "garaFirstTableItemCell" : "");
 					this.handle.appendChild(cell.handle);
 					first = true;
 				}

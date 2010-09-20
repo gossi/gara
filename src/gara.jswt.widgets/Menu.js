@@ -307,7 +307,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 		this.menuBarDropDownShown = true;
 		this.event = e;
 		if (this.items.length && this.activeItem === null) {
-			if (e.target.widget && e.target.widget instanceof gara.jswt.widgets.MenuItem
+			if (e.target && e.target.widget && e.target.widget instanceof gara.jswt.widgets.MenuItem
 					&& e.target.widget.getParent() === this) {
 				this.activateItem(e.target.widget);
 			} else {
@@ -459,7 +459,7 @@ gara.Class("gara.jswt.widgets.Menu", function() { return {
 						? e.target.widget.activeItem
 						: this.activeItem);
 
-				if (activeItem !== null) {
+				if (typeof (activeItem) !== "undefined" && activeItem !== null) {
 					invokeItem(activeItem);
 				}
 			}

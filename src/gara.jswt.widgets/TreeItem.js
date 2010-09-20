@@ -648,13 +648,13 @@ gara.Class("gara.jswt.widgets.TreeItem", function () { return {
 	 * @private
 	 */
 	setCheckboxClass : function () {
-		this.checkbox.className = "jsWTCheckbox";
+		this.checkbox.className = "garaCheckbox";
 		if (this.checked && this.grayed) {
-			this.checkbox.className += " jsWTCheckboxGrayedChecked";
+			this.checkbox.className += " garaCheckboxGrayedChecked";
 		} else if (this.grayed) {
-			this.checkbox.className += " jsWTCheckboxGrayed";
+			this.checkbox.className += " garaCheckboxGrayed";
 		} else if (this.checked) {
-			this.checkbox.className += " jsWTCheckboxChecked";
+			this.checkbox.className += " garaCheckboxChecked";
 		}
 	},
 

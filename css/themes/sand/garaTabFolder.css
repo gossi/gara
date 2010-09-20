@@ -83,8 +83,7 @@
 	border-bottom: 1px solid #B6AD87; /*#765*/
 	position: relative;
 	z-index: 2;
-	bottom: 0 !important;
-	bottom: -1px;
+	/*bottom: 0;*/
 }
 
 .sand .garaTabFolderTopbar .garaTabItemDoor {
@@ -113,21 +112,21 @@
 
 /*.sand div.garaTabFolderTopbar ul.garaTabFolderBar > ul .door {width:auto;}*/
 
-.sand .garaTabFolderTopbar .garaActiveItem {
+.sand .garaTabFolderTopbar > .garaTabFolderBar > .garaActiveItem {
 	background-image: url('stone_sand_left.png'); /** sprite-ref: stone-sand; */
 	border-width: 0;
 }
 
-.sand .garaTabFolderTopbar .garaActiveItem .garaTabItemDoor {
+.sand .garaTabFolderTopbar > .garaTabFolderBar > .garaActiveItem .garaTabItemDoor {
 	background-image: url('stone_sand_right.png'); /** sprite-ref: stone-sand; sprite-alignment: right;*/
 	padding-bottom: 5px;
 }
 
-.sand .garaTabFolderTopbar .garaTabItem:hover {
+.sand .garaTabFolderTopbar > .garaTabFolderBar > .garaTabItem:hover {
 	background-image: url('stone_sand_left.png'); /** sprite-ref: stone-sand; */
 }
 
-.sand .garaTabFolderTopbar .garaTabItem:hover .garaTabItemDoor {
+.sand .garaTabFolderTopbar > .garaTabFolderBar > .garaTabItem:hover .garaTabItemDoor {
 	background-image: url('stone_sand_right.png'); /** sprite-ref: stone-sand; sprite-alignment: right;*/
 }
 
@@ -206,26 +205,26 @@
 
 /*.sand div.garaTabFolderBottombar ul.garaTabFolderBar > ul .door {width:auto;}*/
 
-.sand .garaTabFolderBottombar .garaActiveItem {
+.sand .garaTabFolderBottombar > .garaTabFolderBar > .garaActiveItem {
 	background-image: url('stone_sand_left_bottom.png'); /** sprite-ref: stone-sand;*/
 	border-width: 0;
 }
 
-.sand .garaTabFolderBottombar .garaActiveItem .garaTabItemDoor {
+.sand .garaTabFolderBottombar > .garaTabFolderBar > .garaActiveItem .garaTabItemDoor {
 	background-image: url('stone_sand_right_bottom.png'); /** sprite-ref: stone-sand; sprite-alignment: right; */
 	padding-top: 4px;
 	padding-bottom: 7px;
 }
 
-.sand .garaTabFolderBottombar .garaActiveItem .garaTabItemImage {
+.sand .garaTabFolderBottombar > .garaTabFolderBar > .garaActiveItem .garaTabItemImage {
 	padding-top: 4px;
 }
 
-.sand .garaTabFolderBottombar .garaTabItem:hover {
+.sand .garaTabFolderBottombar > .garaTabFolderBar > .garaTabItem:hover {
 	background-image: url('stone_sand_left_bottom.png'); /** sprite-ref: stone-sand;*/
 }
 
-.sand .garaTabFolderBottombar .garaTabItem:hover .garaTabItemDoor {
+.sand .garaTabFolderBottombar > .garaTabFolderBar > .garaTabItem:hover .garaTabItemDoor {
 	background-image: url('stone_sand_right_bottom.png'); /** sprite-ref: stone-sand; sprite-alignment: right; */
 	padding-bottom: 7px;
 }

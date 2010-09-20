@@ -177,7 +177,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 				e.item.addSelectionListener(menuItemListener);
 				e.widget.getData().setFocus();
 			}
-		}
+		};
 		this.colMenuItem = new gara.jswt.widgets.MenuItem(this.parent.colMenu, gara.jswt.JSWT.CHECK).setSelection(true).setData(this);
 		this.colMenuItem.addSelectionListener(menuItemListener);
 
@@ -189,7 +189,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 	adjustWidth : function (width) {
 //		this.span.style.width = "auto";
 		width = width < this.minWidth ? this.minWidth : width;
-		if (this.width === null) {
+		if (width === null) {
 			this.col.removeAttribute("width");
 		} else {
 			this.col.width = width;
@@ -213,7 +213,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 		
 		this.parent.adjustedColWidth(this, this.handle.offsetWidth);
 
-		return this.handle.offsetWidth;
+//		return this.col.width;
 	},
 
 	/**
@@ -335,9 +335,17 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 		}
 		return 0;
 	},
+	
+	getMoveable : function () {
+		return this.moveable;
+	},
 
 	getMinWidth : function () {
 		return this.minWidth;
+	},
+	
+	getResizable : function () {
+		return this.resizable;
 	},
 
 	getVisible : function () {
@@ -357,7 +365,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 		switch(e.type) {
 		case "mousedown":
 			// Resizing Column
-			if (e.target === this.resizer && this.resizable) {
+			if (e.target === this.resizer && this.parent.getColumnCount() > 1 && this.resizable) {
 				this.isResizing = true;
 
 				this.resizeLineLeft = (this.parent.getStyle() & gara.jswt.JSWT.CHECK) !== 0
@@ -394,7 +402,7 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 			}
 
 			// Moving Column
-			if ((e.target === this.handle || e.target === this.span) && this.moveable) {
+			if ((e.target === this.handle || e.target === this.span) && this.parent.getColumnCount() > 1 && this.moveable) {
 				this.isMoving = true;
 
 				order = this.parent.getColumns();
@@ -513,8 +521,18 @@ gara.ready(function() {gara.Class("gara.jswt.widgets.TableColumn", {
 		return this;
 	},
 	
+	setMoveable : function (moveable) {
+		this.moveable = moveable;
+		return this;
+	},
+	
 	setMinWidth : function (width) {
 		this.minWidth = width;
+	},
+	
+	setResizable : function (resizable) {
+		this.resizable = resizable;
+		return this;
 	},
 	
 	setVisible : function (visible) {

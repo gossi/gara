@@ -50,7 +50,7 @@
 	margin: 0 4px -3px 0;
 }
 
-.sand .garaButtonPush .garaText {
+.sand .garaButtonPush .garaButtonText {
 	line-height: 20px;
 }
 
@@ -58,7 +58,7 @@
 	opacity: 0.5;
 }
 
-.sand .garaButtonPush[aria-disabled=false]:focus .garaText {
+.sand .garaButtonPush[aria-disabled=false]:focus .garaButtonText {
 	outline: 1px dotted #000;
 }
 
@@ -66,6 +66,7 @@
 .sand .garaButtonCheckbox,
 .sand .garaButtonRadio {
 	background: no-repeat;
+	background-position: 1px 1px;
 	padding-left: 17px;
  	margin-right: 2px;
  	position: relative;
@@ -77,7 +78,7 @@
 .sand .garaButtonCheckbox .garaButtonFocus,
 .sand .garaButtonRadio .garaButtonFocus {
 	position: absolute;
-	top: 2px;
+	top: 1px;
 	left: 1px;
 	width: 13px;
 	height: 13px;
@@ -89,8 +90,8 @@
 	float: left;
 }
 
-.sand .garaButtonCheckbox .garaText,
-.sand .garaButtonRadio .garaText {
+.sand .garaButtonCheckbox .garaButtonText,
+.sand .garaButtonRadio .garaButtonText {
 	line-height: 16px;
 	display: inline-block;
 }

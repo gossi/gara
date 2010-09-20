@@ -47,19 +47,38 @@ gara.Class("gara.jswt.layout.ColumnLayout", function() { return {
 	},
 
 	layout : function (composite) {
-		var resizeable = [];
+		var ratio, width, height,
+			widths = ["w25", "w50", "w75", "w33", "w66"],
+			ratios = [0.25, 0.5, 0.75, 0.32, 0.65],
+			overflow = gara.getStyle(composite.handle, "overflow-y");
+		
 
+		composite.handle.style.overflowY = "hidden";
+
+		width = composite.getClientArea().clientWidth;
+		height = composite.getClientArea().clientHeight;
+		
 		composite.getChildren().forEach(function (widget) {
 			if (widget instanceof gara.jswt.widgets.Scrollable) {
 				if (widget.getHeight() === null) {
-					resizeable.push(widget);
+					widget.adjustHeight(height);
 				}
+				
+				// css width
+//				if (widget.hasClass("w25") || widget.hasClass("w50") || widget.hasClass("w75") || widget.hasClass("w33") || widget.hasClass("w66")) {
+//					widths.forEach(function (cssWidthClass, j) {
+//						if (widget.hasClass(cssWidthClass)) {
+//							ratio = ratios[j];
+//							return;
+//						}
+//					}, this);
+//					
+//					widget.adjustWidth(Math.floor(ratio * width) - gara.getNumStyle(widget.handle, "margin-left") - gara.getNumStyle(widget.handle, "margin-right"));
+//				}
 			}
 		}, this);
-
-		resizeable.forEach(function (widget, i, arr) {
-			widget.adjustHeight(composite.handle.clientHeight);
-		}, this);
+		
+		composite.handle.style.overflowY = overflow;
 
 		this.$super(composite);
 	}

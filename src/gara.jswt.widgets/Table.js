@@ -299,34 +299,52 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	adjustHeight : function (height) {
 		var scrollbar = this.getVerticalScrollbar(), scrollbarVisible, headerHeight;
 		
+		this.handle.style.height = "auto";
+		
+		if (height === null) {
+			height = this.handle.offsetHeight;
+		}
+		
 		headerHeight = this.getHeaderHeight();
-		height -= headerHeight;
+//		height -= headerHeight;
 		this.$super(height);
 
 		if (height !== null) {
-			height = this.handle.offsetHeight;
+			height = this.handle.clientHeight;
 			this.scroller.style.height = (height - headerHeight) + "px";
 		} else {
 			this.scroller.style.height = "auto";
 		}
+	
 		this.resizeLine.style.top = headerHeight + "px";
-
-		if (this.headerVisible) {
-			this.handle.style.paddingTop = headerHeight + "px";
-		}
+		this.handle.style.paddingTop = headerHeight + "px";
+		
+		this.setClass("garaTableVerticalOverflow", this.getVerticalScrollbar());
 	},
 
 	adjustWidth : function (width) {
-		var colWidths = 0, cols = [], allWidth = 0;
+		var colWidths = 0, cols = [], allWidth = 0, hideHeader = false, overflow;
 		
 		if ((this.getStyle() & gara.jswt.JSWT.CHECK) !== 0) {
+			if (!this.headerVisible) {
+				this.setHeaderVisible(true);
+				hideHeader = true;
+			}
+			
 			allWidth = this.checkboxCell.clientWidth // FF and Webkit have different offsetWidth
 				+ gara.getNumStyle(this.checkboxCell, "border-right-width")
 				+ gara.getNumStyle(this.checkboxCell, "border-left-width");
 			this.checkboxCol.width = allWidth;
+			
+			if (hideHeader) {
+				this.setHeaderVisible(false);
+			} 
 		}
 
+		overflow = gara.getStyle(this.scrolledHandle(), "overflow");
+		this.scrolledHandle().style.overflow = "hidden";
 		this.$super(width);
+		this.scrolledHandle().style.overflow = overflow;
 
 		width = this.handle.clientWidth - (this.getVerticalScrollbar() ? gara.jswt.JSWT.SCROLLBAR_WIDTH : 0);
 
@@ -344,16 +362,24 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 		width -= allWidth;
 
 		cols.forEach(function (col, index) {
-			var colWidth = Math.floor(width / cols.length);
-			colWidths += col.adjustWidth(index === cols.length - 1 ? width - colWidths : colWidth);
+			var colWidth = Math.floor(width / cols.length),
+				newWidth = index === cols.length - 1 ? width - colWidths : colWidth;
+			
+			col.adjustWidth(newWidth);
+			colWidths += newWidth;
 		}, this);
+		
+		if (this.virtualColumn !== null) {
+			colWidths += width; 
+			this.virtualColumn.adjustWidth(width);
+		}
 
 		allWidth += colWidths + gara.jswt.JSWT.SCROLLBAR_WIDTH;
 		
 		this.table.style.width = (allWidth - gara.jswt.JSWT.SCROLLBAR_WIDTH) + "px";
 		this.thead.style.width = allWidth > this.handle.clientWidth ? allWidth + "px" : "100%";
 		this.tbody.style.width = (allWidth - gara.jswt.JSWT.SCROLLBAR_WIDTH) + "px";
-		this.setClass("garaTableHeadOverflow", allWidth + (this.getVerticalScrollbar() ? gara.jswt.JSWT.SCROLLBAR_WIDTH : 0) > this.handle.clientWidth);
+		this.setClass("garaTableHorizontalOverflow", allWidth + (this.getVerticalScrollbar() ? gara.jswt.JSWT.SCROLLBAR_WIDTH : 0) >= this.handle.clientWidth);
 		
 		// adjust items based on new measurements
 //		if (this.items.length) {
@@ -500,6 +526,10 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 				return false;
 			}
 			
+			if (self.getColumnCount() === 0) {
+				return false;
+			}
+			
 			if (!self.colMenu.offsetWidth) {
 				self.colMenu.setLocation(-1000, -1000);
 				self.colMenu.setVisible(true);
@@ -628,6 +658,10 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 			this.activateItem(this.items[0]);
 		}
 	},
+	
+//	getChildren : function () {
+//		return [];
+//	},
 
 	/**
 	 * @method
@@ -1327,10 +1361,12 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 
 	setHeaderVisible : function (show) {
 		this.headerVisible = show;
-		if (this.thead !== null) {
-			this.thead.style.display = this.headerVisible ? (document.all ? "block" : "table-row-group") : "none";
-		}
+		this.thead.style.display = this.headerVisible ? "table-row-group" : "none";
 		this.arrow.style.display = this.headerVisible ? "block" : "none";
+		
+		this.adjustHeight(this.getHeight() || (this.parent instanceof gara.jswt.widgets.Composite 
+			? this.handle.offsetHeight
+			: null));
 		return this;
 	},
 
@@ -1463,11 +1499,9 @@ gara.Class("gara.jswt.widgets.Table", function () { return {
 	 * @private
 	 */
 	updateMeasurements : function () {
-		var height = this.getHeight() || (this.parent instanceof gara.jswt.widgets.Composite 
+		this.adjustHeight(this.getHeight() || (this.parent instanceof gara.jswt.widgets.Composite 
 			? this.handle.offsetHeight
-			: null);
-		this.handle.style.height = "auto";
+			: null));
 		this.adjustWidth(this.handle.offsetWidth);
-		this.adjustHeight(height);
 	}
 };});

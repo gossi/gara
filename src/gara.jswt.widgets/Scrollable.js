@@ -46,24 +46,24 @@ gara.Class("gara.jswt.widgets.Scrollable", function () { return {
 		}
 	},
 
-	addClass : function (className) {
-		this.$super(className);
+//	addClass : function (className) {
+//		this.$super(className);
 //		if (this.parent instanceof gara.jswt.widgets.Composite && (this.hasClass("h25") || this.hasClass("h50" || this.hasClass("h75") || this.hasClass("h100") || this.hasClass("h33") || this.hasClass("h66")))) {
 //			this.parent.resize();
 //		}
-		return this;
-	},
+//		return this;
+//	},
 
 	getClientArea : function () {
 		return this.scrolledHandle();
 	},
 
 	getHorizontalScrollbar : function () {
-		return this.scrolledHandle().clientWidth < this.scrolledHandle().scrollWidth && this.scrolledHandle().style.overflowX != "hidden";
+		return this.scrolledHandle().clientWidth < this.scrolledHandle().scrollWidth && this.scrolledHandle().style.overflowX !== "hidden";
 	},
 
 	getVerticalScrollbar : function () {
-		return this.scrolledHandle().clientHeight < this.scrolledHandle().scrollHeight && this.scrolledHandle().style.overflowY != "hidden";
+		return this.scrolledHandle().clientHeight < this.scrolledHandle().scrollHeight && this.scrolledHandle().style.overflowY !== "hidden";
 	},
 
 //	handleEvent : function (e) {

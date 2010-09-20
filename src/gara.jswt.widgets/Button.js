@@ -252,7 +252,7 @@ gara.Class("gara.jswt.widgets.Button", function() { return {
 		this.span.id = this.getId()+"-label";
 		this.span.widget = this;
 		this.span.control = this.list;
-		this.span.className = "garaText";
+		this.span.className = "garaItemText garaButtonText";
 		this.span.appendChild(this.spanText);
 		this.span.setAttribute("role", "presentation");
 

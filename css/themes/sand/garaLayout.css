@@ -5,21 +5,21 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
 
-.loosy .garaRowLayout > .garaControl,
-.loosy .garaRowLayout > .garaLayout,
-.loosy .garaRowLayout > .garaStub,
-.loosy .garaRowLayout > .garaClientArea > .garaControl,
-.loosy .garaRowLayout > .garaClientArea > .garaLayout,
-.loosy .garaRowLayout > .garaClientArea > .garaStub {
+.garaLoosyLayout .garaRowLayout > .garaControl,
+.garaLoosyLayout .garaRowLayout > .garaLayout,
+.garaLoosyLayout .garaRowLayout > .garaStub,
+.garaLoosyLayout .garaRowLayout > .garaClientArea > .garaControl,
+.garaLoosyLayout .garaRowLayout > .garaClientArea > .garaLayout,
+.garaLoosyLayout .garaRowLayout > .garaClientArea > .garaStub {
 	padding-top: 10px;
 }
 
-.loosy .garaRowLayout > .garaControl:first-child,
-.loosy .garaRowLayout > .garaLayout:first-child,
-.loosy .garaRowLayout > .garaStub:first-child,
-.loosy .garaRowLayout > .garaClientArea > .garaControl:first-child,
-.loosy .garaRowLayout > .garaClientArea > .garaLayout:first-child,
-.loosy .garaRowLayout > .garaClientArea > .garaStub:first-child {
+.garaLoosyLayout .garaRowLayout > .garaControl:first-child,
+.garaLoosyLayout .garaRowLayout > .garaLayout:first-child,
+.garaLoosyLayout .garaRowLayout > .garaStub:first-child,
+.garaLoosyLayout .garaRowLayout > .garaClientArea > .garaControl:first-child,
+.garaLoosyLayout .garaRowLayout > .garaClientArea > .garaLayout:first-child,
+.garaLoosyLayout .garaRowLayout > .garaClientArea > .garaStub:first-child {
 	padding-top: 0;
 }
 
@@ -55,7 +55,7 @@
 	margin: 0;
 }
 
-.loosy .w25 {
+.garaLoosyLayout .w25 {
 	width: 24%;
 	margin: 0 0.5%;
 }
@@ -71,7 +71,7 @@
 	margin: 0;
 }
 
-.loosy .w50 {
+.garaLoosyLayout .w50 {
 	width: 49%;
 	margin: 0 0.5%;
 }
@@ -86,7 +86,7 @@
 	margin: 0;
 }
 
-.loosy .w75 {
+.garaLoosyLayout .w75 {
 	width: 74%;
 	margin: 0 0.5%;
 }
@@ -101,7 +101,7 @@
 	margin: 0;
 }
 
-.loosy .w33 {
+.garaLoosyLayout .w33 {
 	width: 32.33%;
 	margin: 0 0.5%;
 }
@@ -116,7 +116,7 @@
 	margin: 0;
 }
 
-.loosy .w66 {
+.garaLoosyLayout .w66 {
 	width: 65.66%;
 	margin: 0 0.5%;
 }

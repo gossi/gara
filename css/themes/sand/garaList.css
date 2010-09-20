@@ -11,12 +11,17 @@
 	background-color: #FFF; /*#EAE6D6*/
 }
 
+.sand .garaBorder > .garaDecorationsClientArea > .garaList,
 .sand .garaTabClientArea div[role=tabpanel] > .garaList {
 	border: 0;
 }
 
 .sand .garaList .garaCheckbox {
-	margin: 3px 5px 0 5px;
+	margin: 2px 5px 0 5px;
+}
+
+.sand .garaListItemImage {
+	vertical-align: top;
 }
 
 .sand .garaListItemText {
@@ -30,11 +35,12 @@
 
 .sand .garaListFullSelection .garaListItemImage {
 	float: left;
-	margin-top: 1px;
+	margin: 1px 3px 0 1px;
 }
 
 .sand .garaListFullSelection .garaListItemText {
 	padding: 0;
+	padding-left: 2px;
 }
 
 /* === Selection === */
@@ -64,19 +70,20 @@
 /* === Active Item State === */
 .sand .garaList:focus .garaActiveItem .garaListItemText {
 	outline: 1px dotted #000;
+	padding: 0 2px;
 	margin-left: 1px;
-	padding-left: 2px;
 }
 
 .sand .garaListFullSelection:focus .garaActiveItem .garaListItemText {
-	margin: 1px 1px 0 1px;
-	line-height: 17px;
+	margin: 1px;
+	line-height: 16px;
+	/*padding: 1px 3px 1px 1px;*/
 }
 
-.sand .garaListFullSelection .garaActiveItem .garaListItemImage {
+.sand .garaListFullSelection:focus .garaActiveItem .garaListItemImage {
 	margin-top: 0;
 }
 
-.sand .garaListFullSelection .garaActiveItem .garaCheckbox {
+.sand .garaListFullSelection:focus .garaActiveItem .garaCheckbox {
 	margin: 2px 5px 0;
 }

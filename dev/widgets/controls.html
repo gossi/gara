@@ -7,7 +7,7 @@
 <script src="../../src/gara.js"></script>
 <script>
 
-var list, table, tree, tab, menu, tbl,
+var list, table, tree, tab, menu, tbl, layout,
 WidgetListener = {
 	focusGained : function(e) {
 		//console.log("Focus gained: " + e.widget);
@@ -30,12 +30,58 @@ function main() {
 	var imgWarning = new Image();
 	imgWarning.src = '../../css/themes/sand/icon_warning.png';
 
+
+
+/*	// Init Layout
+	layout = new gara.jswt.widgets.Composite(document.getElementById("layout"));
+	layout.setLayout(new gara.jswt.layout.ColumnLayout(gara.jswt.JSWT.LAYOUT_LOOSY));
+	layout.setHeight(200);
+
+	// Tree Widget
+	_tree = new gara.jswt.widgets.Tree(layout, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.BORDER);
+	_tree.addClass("w33");
+
+	new gara.jswt.widgets.TreeItem(_tree).setText("Item 1");
+	var ti2 = new gara.jswt.widgets.TreeItem(_tree).setText("Item 2").setImage(imgInfo);
+	//new gara.jswt.widgets.TreeItem(ti2).setText("Item 2a");
+	new gara.jswt.widgets.TreeItem(_tree).setText("Item 3");
+	new gara.jswt.widgets.TreeItem(_tree).setText("Item 4").setImage(imgWarning);
+	new gara.jswt.widgets.TreeItem(_tree).setText("Item 5");
+	new gara.jswt.widgets.TreeItem(_tree).setText("Item 6");
+	new gara.jswt.widgets.TreeItem(_tree).setText("Item 7");
+
+
+	// List Widget
+	_list = new gara.jswt.widgets.List(layout, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.BORDER); //
+	_list.addClass("w33");
+	
+	new gara.jswt.widgets.ListItem(_list).setText("Item 1");
+	new gara.jswt.widgets.ListItem(_list).setText("Item 2").setImage(imgInfo);
+	new gara.jswt.widgets.ListItem(_list).setText("Item 3");
+	new gara.jswt.widgets.ListItem(_list).setText("Item 4").setImage(imgWarning);
+	new gara.jswt.widgets.ListItem(_list).setText("Item 5");
+	new gara.jswt.widgets.ListItem(_list).setText("Item 6");
+	new gara.jswt.widgets.ListItem(_list).setText("Item 7");
+	
+	// Table Widget
+	_table = new gara.jswt.widgets.Table(layout, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION |  gara.jswt.JSWT.BORDER); // | gara.jswt.JSWT.CHECK
+	//_table.setHeaderVisible(false);
+	_table.setLinesVisible(false);
+	_table.addClass("w33");
+
+	new gara.jswt.widgets.TableItem(_table).setText(["Item1", "i1, 2", "i1, 3"]);
+	new gara.jswt.widgets.TableItem(_table).setText(["Item2", "i2, 2", "i2, 3"]).setImage([imgInfo]);
+	new gara.jswt.widgets.TableItem(_table).setText(["Item3", "i3, 2", "i3, 3"]);
+	new gara.jswt.widgets.TableItem(_table).setText(["Item4", "i4, 2", "i4, 3"]).setImage([imgWarning]);
+	new gara.jswt.widgets.TableItem(_table).setText(["Item5", "i5, 2", "i5, 3"]);
+	new gara.jswt.widgets.TableItem(_table).setText(["Item6", "i6, 2", "i6, 3"]);*/
+
 	// Init TabFolder
 	tab = new gara.jswt.widgets.TabFolder(document.getElementById("tab"), gara.jswt.JSWT.DROP_DOWN);
 	tab.setHeight(200);
 
 	// Tree Widget
-	tree = new gara.jswt.widgets.Tree(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION);
+	tree = new gara.jswt.widgets.Tree(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.BORDER);
 
 	var treeItem = new gara.jswt.widgets.TreeItem(tree).setText("Item 1").setImage(imgInfo);
 	new gara.jswt.widgets.TreeItem(tree).setText("Item 1a");
@@ -56,7 +102,7 @@ function main() {
 
 
 	// List Widget
-	list = new gara.jswt.widgets.List(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI  | gara.jswt.JSWT.FULL_SELECTION); //
+	list = new gara.jswt.widgets.List(tab, gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI  | gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.BORDER); //
 
 	new gara.jswt.widgets.ListItem(list).setText("Item 1");
 	new gara.jswt.widgets.ListItem(list).setText("Item 2").setImage(imgInfo);
@@ -67,7 +113,7 @@ function main() {
 	new gara.jswt.widgets.ListItem(list).setText("Item 7");
 	
 	// Table Widget
-	table = new gara.jswt.widgets.Table(tab, gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION); // | gara.jswt.JSWT.CHECK  
+	table = new gara.jswt.widgets.Table(tab, gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION | gara.jswt.JSWT.BORDER); // | gara.jswt.JSWT.CHECK  
 	table.setHeaderVisible(true);
 	table.setLinesVisible(false);
 
@@ -128,8 +174,8 @@ function main() {
 
 	// listeners
 	menu.addFocusListener(WidgetListener);
-	tab.addFocusListener(WidgetListener);
-	list.addFocusListener(WidgetListener);
+	//tab.addFocusListener(WidgetListener);
+	//list.addFocusListener(WidgetListener);
 
 	// focussing menu
 	gara.EventManager.addListener(document, "keydown", function(e) {
@@ -199,6 +245,11 @@ h2 {
 <div id="menu" style="width: 750px; margin-bottom: 20px;">
 <h2>Menu Widget</h2>
 </div>
+
+<div id="layout" style="width: 750px; margin-bottom: 20px;">
+<h2>Layout</h2>
+</div>
+
 <div id="tab" style="width: 750px; margin-bottom: 20px;">
 <h2>TabFolder Widget</h2>
 </div>
@@ -243,7 +294,8 @@ gara.require(
 	"gara.jswt.widgets.Tree",
 	"gara.jswt.widgets.Button",
 	"gara.jswt.widgets.Label",
-	"gara.jswt.widgets.Text"], 
+	"gara.jswt.widgets.Text",
+	"gara.jswt.layout.ColumnLayout"], 
 	main);
 </script>
 </body>

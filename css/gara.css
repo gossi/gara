@@ -206,7 +206,7 @@ ul.gara  {
 }
 
 .garaTreeItemToggler {
-	display: block;
+	display: inline-block;
 	float: left;
 }
 
@@ -372,4 +372,5 @@ ul.gara  {
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
+	vertical-align: baseline;
 }

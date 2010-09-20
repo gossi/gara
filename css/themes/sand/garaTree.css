@@ -15,12 +15,13 @@
 	padding: 0;
 }
 
+.sand .garaBorder > .garaDecorationsClientArea > .garaTree,
 .sand .garaTabClientArea div[role=tabpanel] > .garaTree {
 	border: 0;
 }
 
 .sand .garaTree .garaCheckbox {
-	margin: 3px 5px 0 1px;
+	margin: 2px 5px 0 1px;
 	float: left;
 }
 
@@ -33,6 +34,8 @@
 .sand .garaTreeItem {
 	background-image: none;
 	background-repeat: no-repeat;
+	position: relative;
+	min-height: 18px;
 }
 
 .sand .garaTreeItemChildContainer {
@@ -49,10 +52,13 @@
 }
 
 .sand .garaTreeItemImage {
-	margin-right: 3px;
 	vertical-align: middle;
 	float: left;
-	margin-left: 2px;
+	margin: 0 3px 0 2px;
+}
+
+.sand .garaTreeFullSelection .garaTreeItemImage {
+	margin-top: 1px;
 }
 
 .sand .garaTreeFullSelection .garaTreeItemText {
@@ -90,11 +96,41 @@
 /* === Active Item === */
 .sand .garaTree:focus .garaActiveItem > .garaTreeItemText {
 	outline: 1px dotted #000;
+	
+	padding: 0 2px;
+	margin-left: 1px;
 }
 
+.sand .garaTree:focus .garaActiveItem > .garaTreeItemImage {
+	margin-top: 0;
+}
+
+.sand .garaTreeFullSelection:focus .garaActiveItem {
+	padding-top: 1px;
+	margin-bottom: -1px;
+}
+
+.sand .garaTree:focus .garaActiveItem.garaTreeItemExpanded {
+	margin-bottom: 0;
+}
+
+.sand .garaTreeFullSelection:focus .garaActiveItem > .garaCheckbox {
+	margin-top: 2px;
+}
+
+.sand .garaTree:focus .garaActiveItem > .garaTreeItemToggler {
+	margin-top: -1px;
+/*	height: 17px;*/
+}
+
+/*.sand .garaTree:focus .garaActiveItem + .garaTreeItem > .garaTreeItemToggler {
+	height: 17px;
+}*/
+
 .sand .garaTreeFullSelection:focus .garaActiveItem > .garaTreeItemText {
-	margin: 0 1px 0 18px;
+	margin: 0 1px 1px 18px;
 	line-height: 16px;
+	padding: 0 3px;
 }
 
 /* === Lines === */
@@ -116,11 +152,11 @@
 }
 
 /* Toggler */
-.sand .garaTreeItemExpanded .garaTreeItemToggler {
+.sand .garaTreeItemExpanded > .garaTreeItemToggler {
 	background-image: url('collapse.gif'); /** sprite-ref: tree; */
 }
 
-.sand .garaTreeItemCollapsed .garaTreeItemToggler {
+.sand .garaTreeItemCollapsed > .garaTreeItemToggler {
 	background-image: url('expand.gif'); /** sprite-ref: tree; */
 }
 

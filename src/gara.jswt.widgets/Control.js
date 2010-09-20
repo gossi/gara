@@ -139,7 +139,7 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
-		this.addClass("jsWTControl");
+		this.addClass("garaControl");
 
 		this.controlListeners = [];
 		this.focusListeners = [];
@@ -962,6 +962,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 		this.height = height;
 		this.adjustHeight(height);
 		
+		if (height === null && this.parent instanceof gara.jswt.widgets.Composite) {
+			this.parent.layout();			
+		}
+		
 		this.controlListeners.forEach(function (listener) {
 			if (listener.controlResized) {
 				listener.controlResized({widget:this});
@@ -1060,6 +1064,10 @@ gara.Class("gara.jswt.widgets.Control", function () { return {
 	setWidth : function (width) {
 		this.width = width;
 		this.adjustWidth(width);
+		
+		if (width === null && this.parent instanceof gara.jswt.widgets.Composite) {
+			this.parent.layout();			
+		}
 		
 		this.controlListeners.forEach(function (listener) {
 			if (listener.controlResized) {
