@@ -21,44 +21,51 @@
 	===========================================================================
 */
 
-gara.provide("gara.jswt.events.MouseListener");
+gara.provide("gara.jswt.events.MouseTrackListener");
 
 /**
- * @interface MouseListener
- * @author Thomas Gossmann
+ * @interface MouseTrackListener
+ * 
+ * @summary
+ * Classes which implement this interface provide methods that deal with the events that are 
+ * generated as the mouse pointer passes (or hovers) over controls.
+ * 
+ * @description
+ * After creating an instance of a class that implements this interface it can be added to a 
+ * control using the <code>addMouseTrackListener</code> method and removed using the 
+ * <code>removeMouseTrackListener</code> method. When the mouse pointer passes into or out of 
+ * the area of the screen covered by a control or pauses while over a control, the appropriate 
+ * method will be invoked.
+ *
  * @namespace gara.jswt.events
  */
 
-gara.Class("gara.jswt.events.MouseListener", {
+gara.Class("gara.jswt.events.MouseTrackListener", {
 
 	/**
 	 * @method
-	 * Sent when a mouse button is pressed twice within the (operating system
-	 * specified) double click period.
+	 * Sent when the mouse pointer passes into the area of the screen covered by a control. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {Event} e an event containing information about the mouse double click
+	 * @param {Event} e an event containing information about the mouse enter
 	 * @return {void}
 	 */
-	mouseDoubleClick : function(e) {},
+	mouseEnter : function(e) {},
 
 	/**
 	 * @method
-	 * Sent when a mouse button is pressed.
+	 * Sent when the mouse pointer passes out of the area of the screen covered by a control. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {Event} e an event containing information about the mouse button press
+	 * @param {Event} e an event containing information about the mouse exit
 	 * @return {void}
 	 */
-	mouseDown : function(e) {},
+	mouseExit : function(e) {},
 
 	/**
 	 * @method
-	 * Sent when a mouse button is released.
+	 * Sent when the mouse pointer hovers over a control. 
 	 *
-	 * @author Thomas Gossmann
-	 * @param {Event} e an event containing information about the mouse button release
+	 * @param {Event} e an event containing information about the hover
 	 * @return {void}
 	 */
-	mouseUp : function(e) {}
+	mouseHover : function(e) {}
 });
