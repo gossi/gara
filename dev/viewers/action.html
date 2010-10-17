@@ -1,14 +1,16 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jsface.action (dev)</title>
-<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript">
-gara.require(["gara.jsface.action.Action", "gara.jsface.action.MenuManager"], function() {
+<meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.action (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css">
+<script src="../../src/gara.js"></script>
+<script>
+gara.require("gara.action.Action", "gara.action.MenuManager", function() {
 	gara.Class("WarnAction", {
-		$extends : gara.jsface.action.Action,
+		$extends : gara.action.Action,
 		getText : function() {
 			return "Warning";
 		},
@@ -26,7 +28,7 @@ gara.require(["gara.jsface.action.Action", "gara.jsface.action.MenuManager"], fu
 	});
 	
 	gara.Class("ErrorAction", {
-		$extends : gara.jsface.action.Action,
+		$extends : gara.action.Action,
 		getText : function() {
 			return "Error";
 		},
@@ -44,7 +46,7 @@ gara.require(["gara.jsface.action.Action", "gara.jsface.action.MenuManager"], fu
 	});
 	
 	gara.Class("InfoAction", {
-		$extends : gara.jsface.action.Action,
+		$extends : gara.action.Action,
 		getText : function() {
 			return "Information";
 		},
@@ -62,11 +64,11 @@ gara.require(["gara.jsface.action.Action", "gara.jsface.action.MenuManager"], fu
 	});
 
 	gara.Class("BlankAction", {
-		$extends : gara.jsface.action.Action
+		$extends : gara.action.Action
 	});
 
 	gara.Class("JustTextAction", {
-		$extends : gara.jsface.action.Action,
+		$extends : gara.action.Action,
 		getText : function() {
 			return "Just Text";
 		}
@@ -74,42 +76,40 @@ gara.require(["gara.jsface.action.Action", "gara.jsface.action.MenuManager"], fu
 });
 
 function main() {
-	gara.require(["gara.jsface.action.Action", "gara.jsface.action.MenuManager", "gara.jswt.widgets.List", "gara.jswt.widgets.ListItem"], function() {
-		var l = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.MULTI);
+	var l = new gara.widgets.List(document.getElementById("container"), gara.BORDER | gara.MULTI);
 
-		for (var i = 1; i <= 5; i++) {
-			new gara.jswt.widgets.ListItem(l).setText("Item " + i);
-		}
+	for (var i = 1; i <= 5; i++) {
+		new gara.widgets.ListItem(l).setText("Item " + i);
+	}
 
-		// create actions
-		var warn = new WarnAction();
-		var err = new ErrorAction();
-		var info = new InfoAction();
-		var blank = new BlankAction();
-		var text = new JustTextAction();
+	// create actions
+	var warn = new WarnAction();
+	var err = new ErrorAction();
+	var info = new InfoAction();
+	var blank = new BlankAction();
+	var text = new JustTextAction();
 
-		var mgr, sub;
+	var mgr, sub;
 
-		sub = new gara.jsface.action.MenuManager("Extended");
-		sub.add(blank);
-		sub.add(text);
-		
-		mgr = new gara.jsface.action.MenuManager();
-		mgr.add(warn);
-		mgr.add(err);
-		mgr.add(info);
-		mgr.add(sub);
+	sub = new gara.action.MenuManager("Extended");
+	sub.add(blank);
+	sub.add(text);
+	
+	mgr = new gara.action.MenuManager();
+	mgr.add(warn);
+	mgr.add(err);
+	mgr.add(info);
+	mgr.add(sub);
 
-		mgr.createMenuBar(document.getElementById("menuBar"));
-		mgr.createContextMenu(l);
-		mgr.createToolBar(document.getElementById("toolBar"));
-		
-	});
+	mgr.createMenuBar(document.getElementById("menuBar"));
+	mgr.createContextMenu(l);
+	mgr.createToolBar(document.getElementById("toolBar"));
+
 }
 </script>
 </head>
 <body style="padding: 10px;" class="sand">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Menu</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.action</h1>
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Menu.BAR</h2>
 <div id="menuBar" class="sand" style="margin-bottom: 10px;"></div>
@@ -119,6 +119,12 @@ function main() {
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Menu.POP_UP</h2>
 <div id="container" class="sand" style="width: 300px;"></div>
-<script type="text/javascript">main();</script>
+<script>
+gara.require(
+	"gara.action.Action", 
+	"gara.action.MenuManager", 
+	"gara.widgets.List", 
+	main
+);</script>
 </body>
 </html>

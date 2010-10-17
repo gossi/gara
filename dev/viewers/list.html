@@ -1,16 +1,19 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
-<title>gara.jsface.viewers.ListViewer</title>
-<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.viewers.ListViewer (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css">
 <script src="../../src/gara.js"></script>
 <script>
-var controller = {
-		$constructor : function() {
-			this.model = null;
-		},
-		
+var view, filter,
+	modelA = ["ameise", "zebra", "Chamaeleon", "beluga"],
+	modelB = ["düsenflieger", "Ferd", "eimerfahrzeug"],
+	currentModel = modelA,
+	controller = {
+		model : null,
 		getText : function(element) {
 			return element;
 		},
@@ -22,21 +25,16 @@ var controller = {
 		inputChanged : function(viewer, oldInput, newInput) {
 			this.model = newInput;
 		},
-	},
-	view, filter,
-	modelA = ["ameise", "zebra", "Chamaeleon", "beluga"],
-	modelB = ["düsenflieger", "Ferd", "eimerfahrzeug"],
-	currentModel = modelA;
+	};
+
 
 function main() {
-	gara.require(["gara.jsface.viewers.ListViewer", "gara.jsface.viewers.PatternFilter", "gara.jsface.viewers.ViewerSorter"], function() {
-		filter = new gara.jsface.viewers.PatternFilter();
-		view = new gara.jsface.viewers.ListViewer(document.getElementById("container"), gara.jswt.JSWT.MULTI | gara.jswt.JSWT.FULL_SELECTION);
-		view.setContentProvider(controller);
-		view.setLabelProvider(controller);
-		view.setInput(modelA);
-		view.addFilter(filter);
-	});
+	filter = new gara.viewers.PatternFilter();
+	view = new gara.viewers.ListViewer(document.getElementById("container"), gara.BORDER | gara.MULTI | gara.FULL_SELECTION);
+	view.setContentProvider(controller);
+	view.setLabelProvider(controller);
+	view.setInput(modelA);
+	view.addFilter(filter);
 }
 
 function addModelData() {
@@ -48,23 +46,15 @@ function addModelData() {
 
 function toggleSorter() {
 	if (view.getSorter() == null) {
-		view.setSorter(new gara.jsface.viewer.ViewerSorter());
+		view.setSorter(new gara.viewers.ViewerSorter());
 	} else {
 		view.setSorter(null);
 	}
 }
 
 function filterIt() {
-	try {
-		filter.setPattern(document.getElementById("pattern").value);
-		refresh();
-	} catch(e) {
-		var message = "";
-		for (p in e) {
-			message += p + ": " + e[p] + "\n";
-		}
-		console.log(message);
-	}
+	filter.setPattern(document.getElementById("pattern").value);
+	refresh();
 }
 
 function refresh() {
@@ -86,7 +76,7 @@ label {display: block;}
 </style>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.viewers.ListViewer</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.viewers.ListViewer</h1>
 <fieldset style="width: 300px; float: right;">
 <legend>Widget Control</legend>
 <label>Add Model Data</label>
@@ -109,6 +99,13 @@ Refresh model: <input type="button" value="refresh" onclick="refresh()"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>
-<script type="text/javascript">main();</script>
+<script>
+gara.require(
+	"gara.viewers.ListViewer", 
+	"gara.viewers.PatternFilter", 
+	"gara.viewers.ViewerSorter", 
+	main
+);
+</script>
 </body>
 </html>

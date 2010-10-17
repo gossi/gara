@@ -49,10 +49,10 @@
 .sand .garaTabFolderBar .garaTabItem:hover .garaDecorationsCloseButton {
 	visibility: visible;
 }
-
+/*
 .sand .garaTabFolder .garaTabClientArea {
 	overflow: auto;
-}
+}*/
 
 /*
  * Top Style

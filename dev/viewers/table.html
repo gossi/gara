@@ -1,9 +1,11 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
-<title>gara.jsface.viewers.tableviewer (dev)</title>
-<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.viewers.TableViewer (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css">
 <script src="../../src/gara.js"></script>
 <script>
 var model = [
@@ -39,24 +41,24 @@ controller = {
 };
 
 function main() {
-	gara.require(["gara.jsface.viewers.PatternFilter","gara.jsface.viewers.TableViewer","gara.jswt.widgets.TableColumn"], function() {
-		console.log("bootstrap");
-		filter = new gara.jsface.viewers.PatternFilter();
-		view = new gara.jsface.viewers.TableViewer(document.getElementById("container"), gara.jswt.JSWT.SINGLE | gara.jswt.JSWT.FULL_SELECTION);
-		view.addFilter(filter);
-		table = view.getTable();
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		new gara.jswt.widgets.TableColumn(table).setText("bla");
-		new gara.jswt.widgets.TableColumn(table).setText("bla2");
-		new gara.jswt.widgets.TableColumn(table).setText("bla3");
+	console.log("bootstrap");
+	filter = new gara.viewers.PatternFilter();
+	view = new gara.viewers.TableViewer(document.getElementById("container"), gara.SINGLE | gara.FULL_SELECTION);
+	view.addFilter(filter);
+	table = view.getTable();
+	table.setHeaderVisible(true);
+	table.setLinesVisible(true);
+	new gara.widgets.TableColumn(table).setText("bla");
+	new gara.widgets.TableColumn(table).setText("bla2");
+	new gara.widgets.TableColumn(table).setText("bla3");
 
-		view.setContentProvider(controller);
-		view.setLabelProvider(controller);
-		view.addSelectionChangedListener(controller);
-		view.setInput(model);
-	});
+	view.setContentProvider(controller);
+	view.setLabelProvider(controller);
+	view.addSelectionChangedListener(controller);
+
+	view.setInput(model);
 }
+
 function filterIt(that) {
 	filter.setPattern(that.value);
 	view.refresh();
@@ -64,7 +66,7 @@ function filterIt(that) {
 </script>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.viewers.TableViewer</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.viewers.TableViewer</h1>
 <fieldset style="width: 300px; float: right;">
 <legend>Widget Control</legend>
 <label>Filter</label>
@@ -72,6 +74,13 @@ function filterIt(that) {
 </fieldset>
 <div id="container" class="sand" style="width: 300px;">
 </div>
-<script type="text/javascript">main();</script>
+<script type="text/javascript">
+gara.require(
+	"gara.viewers.PatternFilter",
+	"gara.viewers.TableViewer",
+	"gara.widgets.TableColumn", 
+	main
+);
+</script>
 </body>
 </html>

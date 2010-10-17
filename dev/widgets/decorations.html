@@ -4,75 +4,70 @@
 <meta charset="utf-8" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
-<title>gara.jswt.widgets.decorations (dev)</title>
+<title>gara.widgets.Decorations (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<style>
-.erster {
-float: left;
-}
-</style>
 <script src="../../src/gara.js"></script>
 <script>
 var shell;
 function main() {
-	var container = new gara.jswt.widgets.Decorations(gara.jswt.widgets.Display.getDefault(), gara.jswt.JSWT.BORDER)
-		.setLayout(new gara.jswt.layout.ColumnLayout())
+	container = new gara.widgets.Decorations(gara.widgets.Display.getDefault(), gara.BORDER)
+		.setLayout(new gara.layout.ColumnLayout())
 		.setHeight(450);
 
 	var img = new Image();
 	img.src = '../../css/themes/sand/icon_information.png';
-	d1 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM | gara.jswt.JSWT.RESIZE)
+	d1 = new gara.widgets.Decorations(container, gara.SHELL_TRIM | gara.RESIZE)
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
 		.setHeight(180)
-		.setLocation(350, 150);
-	var menu = new gara.jswt.widgets.Menu(d1, gara.jswt.JSWT.BAR);
+	//	.setLocation(350, 150);
+	var menu = new gara.widgets.Menu(d1, gara.BAR);
 	d1.setMenuBar(menu);
-	var menuItem1 = new gara.jswt.widgets.MenuItem(menu).setText("Do it!");
+	var menuItem1 = new gara.widgets.MenuItem(menu).setText("Do it!");
 	
 	
-	d2 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM)
+	d2 = new gara.widgets.Decorations(container, gara.SHELL_TRIM)
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
 		.setHeight(180);
-	var menu2 = new gara.jswt.widgets.Menu(d2, gara.jswt.JSWT.TOOLBAR);
+	var menu2 = new gara.widgets.Menu(d2, gara.TOOLBAR);
 	d2.setMenuBar(menu2);
-	var menuItem2 = new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CHECK).setText("Do it!");
+	var menuItem2 = new gara.widgets.MenuItem(menu2, gara.CHECK).setText("Do it!");
 	
-	d3 = new gara.jswt.widgets.Decorations(container, gara.jswt.JSWT.SHELL_TRIM)
+	d3 = new gara.widgets.Decorations(container, gara.SHELL_TRIM)
 		.setText("Hello")
 		.setImage(img)
 		.setWidth(300)
 		.setHeight(180);
 
 	// contents
-	var l = new gara.jswt.widgets.List(d3, gara.jswt.JSWT.BORDER);
+	var l = new gara.widgets.List(d3, gara.BORDER);
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(l).setText("Item " + i);
+		new gara.widgets.ListItem(l).setText("Item " + i);
 	}
 
-	var tbl = new gara.jswt.widgets.Table(d2, gara.jswt.JSWT.BORDER);
+	var tbl = new gara.widgets.Table(d2, gara.BORDER);
 	tbl.setHeaderVisible(true);
 	tbl.setLinesVisible(true);
 	for (var i = 1; i <= 5; i++) {
-		new gara.jswt.widgets.TableColumn(tbl).setText("Col " + i);
+		new gara.widgets.TableColumn(tbl).setText("Col " + i);
 	}
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.TableItem(tbl).setText(["Item "+i+".1", i+".2", i+".3", i+".4", i+".5"]);
+		new gara.widgets.TableItem(tbl).setText(["Item "+i+".1", i+".2", i+".3", i+".4", i+".5"]);
 	}
 
-	var tree = new gara.jswt.widgets.Tree(d1, gara.jswt.JSWT.BORDER);
+	var tree = new gara.widgets.Tree(d1, gara.BORDER);
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.TreeItem(tree).setText("Item " + i);
+		new gara.widgets.TreeItem(tree).setText("Item " + i);
 	}
 
 
-	gara.EventManager.addListener(document.getElementById("shellOpener"), "click", function () {
+	gara.addEventListener(document.getElementById("shellOpener"), "click", function () {
 		if (!shell) {
-			shell = new gara.jswt.widgets.Shell().setText("Shell");
-			new gara.jswt.widgets.Label(shell).setText("Text bei die Shell");
+			shell = new gara.widgets.Shell().setText("Shell");
+			new gara.widgets.Label(shell).setText("Text bei die Shell");
 		}
 		shell.open();
 	});
@@ -80,17 +75,17 @@ function main() {
 </script>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.Decorations</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.widgets.Decorations</h1>
 <button id="shellOpener">Open Shell</button>
-<script>gara.require([
-	//"gara.jswt.widgets.Decorations",
-	"gara.jswt.widgets.Label", 
-	"gara.jswt.widgets.Menu", 
-	"gara.jswt.widgets.List", 
-	"gara.jswt.widgets.Shell",
-	"gara.jswt.widgets.Table",
-	"gara.jswt.widgets.Tree",
-	"gara.jswt.layout.ColumnLayout"
-], main);</script>
+<script>gara.require(
+	//"gara.widgets.Decorations",
+	"gara.widgets.Label", 
+	"gara.widgets.Menu", 
+	"gara.widgets.List", 
+	"gara.widgets.Shell",
+	"gara.widgets.Table",
+	"gara.widgets.Tree",
+	"gara.layout.ColumnLayout"
+, main);</script>
 </body>
 </html>

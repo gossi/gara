@@ -1,82 +1,85 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
-<title>gara.jswt.layout</title>
+<title>gara.layout (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../src/gara.js"></script>
 <script>
 function main() {
-	var container = new gara.jswt.widgets.Composite(document.getElementById("container"))
-		.setLayout(new gara.jswt.layout.ColumnLayout(gara.jswt.JSWT.LAYOUT_LOOSY));
-	var list = new gara.jswt.widgets.List(container).addClasses(["w25", "h100"]);
+	var container = new gara.widgets.Composite(document.getElementById("container"))
+		.setLayout(new gara.layout.ColumnLayout(gara.LAYOUT_LOOSY));
+	var list = new gara.widgets.List(container).addClasses(["w25", "h100"]);
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(list).setText("Left " + i);
+		new gara.widgets.ListItem(list).setText("Left " + i);
 	}
 
-	var right = new gara.jswt.widgets.Composite(container)
-		.setLayout(new gara.jswt.layout.RowLayout())
+	var right = new gara.widgets.Composite(container)
+		.setLayout(new gara.layout.RowLayout())
 		.addClass("w75");
 
-	var layout1 = new gara.jswt.widgets.Composite(right)
-		.setLayout(new gara.jswt.layout.ColumnLayout())
+	var layout1 = new gara.widgets.Composite(right)
+		.setLayout(new gara.layout.ColumnLayout())
 		.addClass("h25");
 
-	var list2 = new gara.jswt.widgets.List(layout1).addClass("w25");
+	var list2 = new gara.widgets.List(layout1).addClass("w25");
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(list2).setText("Top1 " + i);
+		new gara.widgets.ListItem(list2).setText("Top1 " + i);
 	}
 
-	list3 = new gara.jswt.widgets.List(layout1).addClass("w25");
+	list3 = new gara.widgets.List(layout1).addClass("w25");
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(list3).setText("Top2 " + i);
+		new gara.widgets.ListItem(list3).setText("Top2 " + i);
 	}
 
-	var list4 = new gara.jswt.widgets.List(layout1).addClass("w50");
+	var list4 = new gara.widgets.List(layout1).addClass("w50");
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(list4).setText("Top3 " + i);
+		new gara.widgets.ListItem(list4).setText("Top3 " + i);
 	}
 
-	var layout2 = new gara.jswt.widgets.Composite(right)
-		.setLayout(new gara.jswt.layout.ColumnLayout())
+	var layout2 = new gara.widgets.Composite(right)
+		.setLayout(new gara.layout.ColumnLayout())
 		.addClass("h50");
 
 	var lists = [];
 	for (var j = 1; j <= 4; j++) {
-		lists[j] = new gara.jswt.widgets.List(layout2).addClass("w25");
+		lists[j] = new gara.widgets.List(layout2).addClass("w25");
 		for (var i = 1; i <= 10; i++) {
-			new gara.jswt.widgets.ListItem(lists[j]).setText("Middle "+j+" " + i);
+			new gara.widgets.ListItem(lists[j]).setText("Middle "+j+" " + i);
 		}
 	}
 
-	var layout3 = new gara.jswt.widgets.Composite(right)
-		.setLayout(new gara.jswt.layout.ColumnLayout())
+	var layout3 = new gara.widgets.Composite(right)
+		.setLayout(new gara.layout.ColumnLayout())
 		.addClass("h25");
 
-	var list5 = new gara.jswt.widgets.List(layout3).addClass("w33");
+	var list5 = new gara.widgets.List(layout3).addClass("w33");
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(list5).setText("Bot 1 " + i);
+		new gara.widgets.ListItem(list5).setText("Bot 1 " + i);
 	}
 
-	list6 = new gara.jswt.widgets.List(layout3).addClass("w66");
+	list6 = new gara.widgets.List(layout3).addClass("w66");
 	for (var i = 1; i <= 10; i++) {
-		new gara.jswt.widgets.ListItem(list6).setText("Bot 2 " + i);
+		new gara.widgets.ListItem(list6).setText("Bot 2 " + i);
 	}
 
 	container.layout();
 }
 </script>
-<body class="sand" role="application">
-<h1>gara.jswt.layout</h1>
+<body>
+<h1>gara.layout</h1>
 <div id="container" style="position: absolute; top: 100px; left: 10px; right: 10px; bottom: 30px;">
 
 </div>
 <script>
-gara.require(["gara.jswt.layout.ColumnLayout", "gara.jswt.layout.RowLayout", "gara.jswt.widgets.List", "gara.jswt.widgets.ListItem"], function () {
-	main();	
-});
+gara.require(
+	"gara.layout.ColumnLayout", 
+	"gara.layout.RowLayout", 
+	"gara.widgets.List",
+	main
+);	
 </script>
 </body>
 </html>

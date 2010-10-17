@@ -1,40 +1,42 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
-<title>gara.jswt.list (dev)</title>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.widgets.List (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript">
+<script src="../../src/gara.js"></script>
+<script>
 var list;
 
 function main() {
-	list = new gara.jswt.widgets.List(document.getElementById("container"), gara.jswt.JSWT.CHECK | gara.jswt.JSWT.MULTI | gara.jswt.JSWT.BORDER);
+	list = new gara.widgets.List(document.getElementById("container"), gara.CHECK | gara.MULTI | gara.BORDER);
 
-	new gara.jswt.widgets.ListItem(list).setText("Item 1");
-	new gara.jswt.widgets.ListItem(list).setText("Item 2");
-	new gara.jswt.widgets.ListItem(list).setText("Item 3");
-	new gara.jswt.widgets.ListItem(list).setText("Item 4");
-	new gara.jswt.widgets.ListItem(list).setText("Item 5");
-	new gara.jswt.widgets.ListItem(list).setText("Item 6");
-	new gara.jswt.widgets.ListItem(list).setText("Item 7");
-	new gara.jswt.widgets.ListItem(list).setText("Item 8");
-	new gara.jswt.widgets.ListItem(list).setText("Item 9");
-	new gara.jswt.widgets.ListItem(list).setText("Item 10");
-	new gara.jswt.widgets.ListItem(list).setText("Item 12");
-	new gara.jswt.widgets.ListItem(list).setText("Item 13");
-	new gara.jswt.widgets.ListItem(list).setText("Item 14");
-	new gara.jswt.widgets.ListItem(list).setText("Item 15");
-	new gara.jswt.widgets.ListItem(list).setText("Item 16");
-	new gara.jswt.widgets.ListItem(list).setText("Item 17");
-	new gara.jswt.widgets.ListItem(list).setText("Item 18");
-	new gara.jswt.widgets.ListItem(list).setText("Item 19");
-	new gara.jswt.widgets.ListItem(list).setText("Item 20");
-	new gara.jswt.widgets.ListItem(list).setText("Item 21");
-	new gara.jswt.widgets.ListItem(list).setText("Item 22");
-	new gara.jswt.widgets.ListItem(list).setText("Item 23");
-	new gara.jswt.widgets.ListItem(list).setText("Item 24");
-	new gara.jswt.widgets.ListItem(list).setText("Item 25");
+	new gara.widgets.ListItem(list).setText("Item 1");
+	new gara.widgets.ListItem(list).setText("Item 2");
+	new gara.widgets.ListItem(list).setText("Item 3");
+	new gara.widgets.ListItem(list).setText("Item 4");
+	new gara.widgets.ListItem(list).setText("Item 5");
+	new gara.widgets.ListItem(list).setText("Item 6");
+	new gara.widgets.ListItem(list).setText("Item 7");
+	new gara.widgets.ListItem(list).setText("Item 8");
+	new gara.widgets.ListItem(list).setText("Item 9");
+	new gara.widgets.ListItem(list).setText("Item 10");
+	new gara.widgets.ListItem(list).setText("Item 12");
+	new gara.widgets.ListItem(list).setText("Item 13");
+	new gara.widgets.ListItem(list).setText("Item 14");
+	new gara.widgets.ListItem(list).setText("Item 15");
+	new gara.widgets.ListItem(list).setText("Item 16");
+	new gara.widgets.ListItem(list).setText("Item 17");
+	new gara.widgets.ListItem(list).setText("Item 18");
+	new gara.widgets.ListItem(list).setText("Item 19");
+	new gara.widgets.ListItem(list).setText("Item 20");
+	new gara.widgets.ListItem(list).setText("Item 21");
+	new gara.widgets.ListItem(list).setText("Item 22");
+	new gara.widgets.ListItem(list).setText("Item 23");
+	new gara.widgets.ListItem(list).setText("Item 24");
+	new gara.widgets.ListItem(list).setText("Item 25");
 	
 	
 
@@ -46,8 +48,8 @@ function main() {
 	//list.addMouseListener(listener);
 	//list.addKeyListener(listener);
 	list.addListener("keydown", listener);
-	list.addListener("mousedown", listener);
-	list.getItems()[2].addListener("mousedown", listener);
+	list.addMouseListener(listener);
+	list.getItems()[2].addListener("keydown", listener);
 	list.addFocusListener({
 		focusGained : function (e) {
 			console.log("FocusListener gained Focus");
@@ -56,23 +58,23 @@ function main() {
 }
 
 gara.Class("Listener", {
-	widgetSelected : function(e) {
+	widgetSelected : function (e) {
 		var item = e.item;
 		var widget = e.widget;
-		var checked = e.detail == gara.jswt.JSWT.CHECK || false;
+		var checked = e.detail == gara.CHECK || false;
 //		console.log("Item: " + item + ", widget: " + widget + ", checked: " + checked);
 //		console.log("Listener.widgetSelected, widget: " + e.widget + ", item: " + e.item);
 	},
 
-	handleEvent : function(e) {
+	handleEvent : function (e) {
 		console.log("Listener.handleEvent("+e.type+"), widget: " + e.target.widget + ", target: " + e.target + ", bubbling: " + e.bubbles);
 	},
 
-	mouseDown : function(e) {
-		console.log("Listener.mouseDown, widget: " + e.widget + ", item: " + e.item);
+	mouseDown : function (e) {
+		console.log("Listener.mouseDown, widget: " + e.widget + ", item: " + e.item + " bubble: " + e.bubbles);
 	},
 
-	keyPressed : function(e) {
+	keyPressed : function (e) {
 		console.log("Listener.keyPressed, widget: " + e.widget + ", item: " + e.item);
 	},
 });
@@ -99,10 +101,10 @@ function getTopItem() {
 	var item = list.getTopItem();
 	console.log("Top Item: " + item.getText());
 }
---></script>
+</script>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.List</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.widgets.List</h1>
 <fieldset>
 	<legend>Options</legend>
 	<!-- 
@@ -115,6 +117,6 @@ function getTopItem() {
 	<input type="button" value="setTopItem(Item 10)" onclick="list.setTopItem(list.getItems()[9])"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px; margin-top: 5px;"></div>
-<script type="text/javascript">gara.require(["gara.jswt.widgets.List"], main);</script>
+<script type="text/javascript">gara.require("gara.widgets.List", "gara.widgets.ListItem", main);</script>
 </body>
 </html>

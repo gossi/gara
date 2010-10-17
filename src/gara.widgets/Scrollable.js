@@ -1,0 +1,81 @@
+/*	$Id $
+
+		gara - Javascript Toolkit
+	===========================================================================
+
+		Copyright (c) 2007 Thomas Gossmann
+
+		Homepage:
+			http://gara.creative2.net
+
+		This library is free software;  you  can  redistribute  it  and/or
+		modify  it  under  the  terms  of  the   GNU Lesser General Public
+		License  as  published  by  the  Free Software Foundation;  either
+		version 2.1 of the License, or (at your option) any later version.
+
+		This library is distributed in  the hope  that it  will be useful,
+		but WITHOUT ANY WARRANTY; without  even  the  implied  warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
+		Lesser General Public License for more details.
+
+	===========================================================================
+*/
+
+gara.provide("gara.widgets.Scrollable", "gara.widgets.Control");
+
+gara.use("gara.widgets.Composite");
+
+/**
+ * @class Scrollable
+ * @author Thomas Gossmann
+ * @extends gara.widgets.Control
+ * @namespace gara.widgets
+ */
+gara.Class("gara.widgets.Scrollable", function () { return {
+	$extends : gara.widgets.Control,
+
+	/**
+	 * @constructor
+	 */
+	$constructor : function (parent, style) {
+		this.$super(parent, style);
+		if (parent instanceof gara.widgets.Composite) {
+//			this.setWidth(parent.getClientArea().clientWidth);
+//			this.setHeight(parent.getClientArea().clientHeight);
+			parent.layout();
+		}
+	},
+
+//	addClass : function (className) {
+//		this.$super(className);
+//		if (this.parent instanceof gara.widgets.Composite && (this.hasClass("h25") || this.hasClass("h50" || this.hasClass("h75") || this.hasClass("h100") || this.hasClass("h33") || this.hasClass("h66")))) {
+//			this.parent.resize();
+//		}
+//		return this;
+//	},
+
+	getClientArea : function () {
+		return this.scrolledHandle();
+	},
+
+	getHorizontalScrollbar : function () {
+		return this.scrolledHandle().clientWidth < this.scrolledHandle().scrollWidth && this.scrolledHandle().style.overflowX !== "hidden";
+	},
+
+	getVerticalScrollbar : function () {
+		return this.scrolledHandle().clientHeight < this.scrolledHandle().scrollHeight && this.scrolledHandle().style.overflowY !== "hidden";
+	},
+
+//	handleEvent : function (e) {
+//		this.$super(e);
+//	},
+
+	/**
+	 * @method
+	 *
+	 * @private
+	 */
+	scrolledHandle : function () {
+		return this.handle;
+	}
+};});

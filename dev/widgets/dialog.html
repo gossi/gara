@@ -1,29 +1,28 @@
 <!doctype html>
-<html style="height: 100%;">
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
-<title>gara.jsface.dialogs.Dialog (dev)</title>
+<title>gara.dialogs.Dialog (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script src="../../src/gara.js"></script>
 <script>
-
 function main() {
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Abstract Dialog")
 		.addSelectionListener({
 			widgetSelected : function () {
-				var d = new gara.jsface.dialogs.Dialog();
+				var d = new gara.dialogs.Dialog();
 				d.open();
 			}
 		});
 
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Input Dialog")
 		.addSelectionListener({
 			widgetSelected : function () {
-				var d = new gara.jsface.dialogs.InputDialog(null, "Question?", "Do you love gara?", "of course!");
+				var d = new gara.dialogs.InputDialog(null, "Question?", "Do you love gara?", "of course!");
 				d.open(function (ok) {
 					if (ok) {
 						console.log("Input Dialog Response, clicked ok: " + d.getValue());
@@ -34,7 +33,7 @@ function main() {
 			}
 		});
 
-	new gara.jswt.widgets.Composite(document.getElementsByTagName("body")[0]);
+	//new gara.widgets.Composite(document.getElementsByTagName("body")[0]);
 
 	// Message Dialogs
 	var imgInformation = new Image();
@@ -47,56 +46,56 @@ function main() {
 	imgError.src = "../../css/themes/sand/icon_error.png";
 	imgQuestion.src = "../../css/themes/sand/icon_question.png"; 
 	
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Information Dialog")
 		.setImage(imgInformation)
 		.addSelectionListener({
 			widgetSelected : function () {
-				gara.jsface.dialogs.MessageDialog.openInformation(null, "", "gara rocks!", function (re) {
+				gara.dialogs.MessageDialog.openInformation(null, "", "gara rocks!", function (re) {
 					console.log("Information Dialog closed: " + re);
 				});
 			}
 		});
 	
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Warning Dialog")
 		.setImage(imgWarning)
 		.addSelectionListener({
 			widgetSelected : function () {
-				gara.jsface.dialogs.MessageDialog.openWarning(null, "", "gara is sexy", function (re) {
+				gara.dialogs.MessageDialog.openWarning(null, "", "gara is sexy", function (re) {
 					console.log("Warning Dialog closed: " + re);
 				});
 			}
 		});
 
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Error Dialog")
 		.setImage(imgError)
 		.addSelectionListener({
 			widgetSelected : function () {
-				gara.jsface.dialogs.MessageDialog.openError(null, "", "gara is so damn hot", function (re) {
+				gara.dialogs.MessageDialog.openError(null, "", "gara is so damn hot", function (re) {
 					console.log("Error Dialog closed: " + re);
 				});
 			}
 		});
 
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Question Dialog")
 		.setImage(imgQuestion)
 		.addSelectionListener({
 			widgetSelected : function () {
-				gara.jsface.dialogs.MessageDialog.openQuestion(null, "", "so what?", function (re) {
+				gara.dialogs.MessageDialog.openQuestion(null, "", "so what?", function (re) {
 					console.log("Question Dialog closed: " + re);
 				});
 			}
 		});
 
-	new gara.jswt.widgets.Button(document.getElementsByTagName("body")[0])
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Confirm Dialog")
 		.setImage(imgQuestion)
 		.addSelectionListener({
 			widgetSelected : function () {
-				gara.jsface.dialogs.MessageDialog.openQuestion(null, "", "really so what?", function (re) {
+				gara.dialogs.MessageDialog.openQuestion(null, "", "really so what?", function (re) {
 					console.log("Confirm Dialog closed: " + re);
 				});
 			}
@@ -105,10 +104,10 @@ function main() {
 
 </script>
 </head>
-<body style="padding: 10px; background-color: #FFF;" class="sand">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jsface.dialogs.Dialog</h1>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.dialogs.Dialog</h1>
 <script type="text/javascript">
-gara.require(["gara.jswt.widgets.Button", "gara.jsface.dialogs.InputDialog", "gara.jswt.widgets.Composite", "gara.jsface.dialogs.MessageDialog"], main);
+gara.require("gara.widgets.Button", "gara.dialogs.InputDialog", "gara.widgets.Composite", "gara.dialogs.MessageDialog", main);
 </script>
 </body>
 </html>

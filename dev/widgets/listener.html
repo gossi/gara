@@ -1,11 +1,13 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
-<title>control listener (dev)</title>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>Control Listener (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript">
+<script src="../../src/gara.js"></script>
+<script>
 var list, text, tree,
 controlListener = {
 	mouseEnter : function(e) {
@@ -53,13 +55,13 @@ treeListener = {
 
 function main() {
 	// text
-	text = new gara.jswt.widgets.Text(document.getElementById("text"));
+	text = new gara.widgets.Text(document.getElementById("text"));
 	text.addModifyListener(modifyListener);
 
 	// list
-	list = new gara.jswt.widgets.List(document.getElementById("list"), gara.jswt.JSWT.MULTI);
+	list = new gara.widgets.List(document.getElementById("list"), gara.MULTI);
 	for (var i = 1; i <= 20; i++) {
-		new gara.jswt.widgets.ListItem(list).setText("Item " + i);
+		new gara.widgets.ListItem(list).setText("Item " + i);
 	}
 
 	list.addControlListener(controlListener);
@@ -70,19 +72,19 @@ function main() {
 	list.setHeight(200);
 
 	//tree
-	tree = new gara.jswt.widgets.Tree(document.getElementById("tree"));
+	tree = new gara.widgets.Tree(document.getElementById("tree"));
 	tree.addTreeListener(treeListener);
 	tree.setHeight(200);
 
-	var movies = new gara.jswt.widgets.TreeItem(tree).setText("Movies");
-	new gara.jswt.widgets.TreeItem(movies).setText("300!");
-	new gara.jswt.widgets.TreeItem(movies).setText("Bud Spencer and Terrance Hill");
-	new gara.jswt.widgets.TreeItem(movies).setText("Last Samurai");
+	var movies = new gara.widgets.TreeItem(tree).setText("Movies");
+	new gara.widgets.TreeItem(movies).setText("300!");
+	new gara.widgets.TreeItem(movies).setText("Bud Spencer and Terrance Hill");
+	new gara.widgets.TreeItem(movies).setText("Last Samurai");
 
-	var series = new gara.jswt.widgets.TreeItem(tree).setText("Series");
-	new gara.jswt.widgets.TreeItem(series).setText("Two and a half man");
-	new gara.jswt.widgets.TreeItem(series).setText("Big Bang");
-	new gara.jswt.widgets.TreeItem(series).setText("Monk");
+	var series = new gara.widgets.TreeItem(tree).setText("Series");
+	new gara.widgets.TreeItem(series).setText("Two and a half man");
+	new gara.widgets.TreeItem(series).setText("Big Bang");
+	new gara.widgets.TreeItem(series).setText("Monk");
 }
 </script>
 </head>
@@ -101,7 +103,7 @@ function main() {
 </div>
 
 <script type="text/javascript">
-gara.require(["gara.jswt.widgets.List", "gara.jswt.widgets.Text", "gara.jswt.widgets.Tree"], main);
+gara.require("gara.widgets.List", "gara.widgets.Text", "gara.widgets.Tree", main);
 </script>
 </body>
 </html>

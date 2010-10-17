@@ -1,12 +1,13 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jswt.button (dev)</title>
+<meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.widgets.Button + gara.widgets.Text (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript">
-
+<script src="../../src/gara.js"></script>
+<script>
 function main() {
 	var img = new Image();
 	img.src = '../../css/themes/sand/icon_information.png';
@@ -14,42 +15,37 @@ function main() {
 	var img2 = new Image();
 	img2.src = '../../css/themes/sand/icon_warning.png';
 
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Hoo ");
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Woo ").setImage(img).setEnabled(false);
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Foo ").setEnabled(false).setSelection(true);
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.CHECK).setText("Boo ").setImage(img2);
+	new gara.widgets.Button(document.getElementById("container"), gara.CHECK).setText("Hoo ");
+	new gara.widgets.Button(document.getElementById("container"), gara.CHECK).setText("Woo ").setImage(img).setEnabled(false);
+	new gara.widgets.Button(document.getElementById("container"), gara.CHECK).setText("Foo ").setEnabled(false).setSelection(true);
+	new gara.widgets.Button(document.getElementById("container"), gara.CHECK).setText("Boo ").setImage(img2);
 
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Woo ").setImage(img2).setEnabled(false);
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Hoo ");
-	new gara.jswt.widgets.Button(document.getElementById("container"), gara.jswt.JSWT.RADIO).setText("Boo ").setImage(img2);
+	new gara.widgets.Button(document.getElementById("container"), gara.RADIO).setText("Woo ").setImage(img2).setEnabled(false);
+	new gara.widgets.Button(document.getElementById("container"), gara.RADIO).setText("Hoo ");
+	new gara.widgets.Button(document.getElementById("container"), gara.RADIO).setText("Boo ").setImage(img2);
 
-	new gara.jswt.widgets.Button(document.getElementById("container")).setText("Woo").setImage(img2);
-	new gara.jswt.widgets.Button(document.getElementById("container")).setText("Hoo").addSelectionListener({
+	new gara.widgets.Button(document.getElementById("container")).setText("Woo").setImage(img2);
+	new gara.widgets.Button(document.getElementById("container")).setText("Hoo").addSelectionListener({
 		widgetSelected : function(e) {
 			console.log("selected: " + e.widget.getText());
 		}
 	});
-	new gara.jswt.widgets.Button(document.getElementById("container")).setText("Boo").setImage(img2).setEnabled(false);
+	new gara.widgets.Button(document.getElementById("container")).setText("Boo").setImage(img2).setEnabled(false);
 
-	new gara.jswt.widgets.Label(document.getElementById("container")).setText("SalamiS");
-	new gara.jswt.widgets.Text(document.getElementById("container")).setText("Salami");
-	new gara.jswt.widgets.Text(document.getElementById("container"), gara.jswt.JSWT.PASSWORD).setText("Salami");
-	new gara.jswt.widgets.Text(document.getElementById("container"), gara.jswt.JSWT.MULTI).setText("Salami");
+	new gara.widgets.Label(document.getElementById("container")).setText("SalamiS");
+	new gara.widgets.Text(document.getElementById("container")).setText("Salami");
+	new gara.widgets.Text(document.getElementById("container"), gara.PASSWORD).setText("Salami");
+	new gara.widgets.Text(document.getElementById("container"), gara.MULTI).setText("Salami");
 }
 
 </script>
-<style type="text/css">
-#container .jsWTButtonRadio {
-	display: block;
-}
-</style>
 </head>
 <body style="padding: 10px;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Button</h1>
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.widgets.Button + gara.widgets.Text</h1>
 <div id="container" class="sand">
 </div>
 <script type="text/javascript">
-gara.require(["gara.jswt.widgets.Button","gara.jswt.widgets.Label","gara.jswt.widgets.Text"], main);
+gara.require("gara.widgets.Button", "gara.widgets.Label", "gara.widgets.Text", main);
 </script>
 </body>
 </html>

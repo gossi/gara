@@ -1,15 +1,17 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
 <meta charset="utf-8" />
-<title>gara.jswt.widgets.TabFolder (dev)</title>
-<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.widgets.TabFolder (dev)</title>
+<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css">
 <script src="../../src/gara.js"></script>
 <script>
 var t;
 function main() {
-	t = new gara.jswt.widgets.TabFolder(document.getElementById("container"), gara.jswt.JSWT.TOP);
-	//var e = new gara.jswt.widgets.FocusManager();
+	t = new gara.widgets.TabFolder(document.getElementById("container"), gara.TOP);
+	//var e = new gara.widgets.FocusManager();
 	
 	var img1 = new Image();
 	img1.src = '../../css/themes/sand/icon_error.png';
@@ -17,20 +19,22 @@ function main() {
 	var img2 = new Image();
 	img2.src = '../../css/themes/sand/icon_warning.png';
 
-	var list = new gara.jswt.widgets.List(t);
+	var list = new gara.widgets.List(t);
 	for (var i = 1; i <= 20; i++) {
-		new gara.jswt.widgets.ListItem(list).setText("Item " + i);
+		new gara.widgets.ListItem(list).setText("Item " + i);
 	}
 
-	new gara.jswt.widgets.TabItem(t).setText("Item 1").setControl(list);
-	//i1.setControl(new gara.jswt.widgets.Label(t).setText("Content 1"));
-	new gara.jswt.widgets.TabItem(t, gara.jswt.JSWT.CLOSE).setText("Item 2").setImage(img1).setControl(new gara.jswt.widgets.Label(t).setText("Content 2"));
-	new gara.jswt.widgets.TabItem(t, gara.jswt.JSWT.CLOSE).setText("Item 3").setControl(new gara.jswt.widgets.Label(t).setText("Content 3"));
-	new gara.jswt.widgets.TabItem(t, gara.jswt.JSWT.CLOSE).setText("Item 4").setImage(img2).setControl(new gara.jswt.widgets.Label(t).setText("Content 4"));
-	new gara.jswt.widgets.TabItem(t).setText("Item 5").setControl(new gara.jswt.widgets.Label(t).setText("Content 5"));
+	new gara.widgets.TabItem(t).setText("Item 1").setControl(list);
+	//i1.setControl(new gara.widgets.Label(t).setText("Content 1"));
+	new gara.widgets.TabItem(t, gara.CLOSE).setText("Item 2").setImage(img1).setControl(new gara.widgets.Label(t).setText("Content 2"));
+	new gara.widgets.TabItem(t, gara.CLOSE).setText("Item 3").setControl(new gara.widgets.Label(t).setText("Content 3"));
+	new gara.widgets.TabItem(t, gara.CLOSE).setText("Item 4").setImage(img2).setControl(new gara.widgets.Label(t).setText("Content 4"));
+	new gara.widgets.TabItem(t).setText("Item 5").setControl(new gara.widgets.Label(t).setText("Content 5"));
 
+	
 	t.setWidth(300);
 	t.setHeight(300);
+	
 	t.addTabFolderListener({
 		close : function (e) {
 			console.log("TabFolderListener, Tab closed: " + e.item.getText()); 
@@ -43,15 +47,15 @@ function dispose() {
 }
 </script>
 </head>
-<body style="padding: 10px; background-color: #FBF6E4;">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.widgets.TabFolder</h1>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.widgets.TabFolder</h1>
 <fieldset style="margin-bottom: 10px">
 	<legend>Options</legend>
 	<input type="button" value="dispose()" onclick="dispose()"/>
 </fieldset>
-<div id="container" class="sand"></div>
+<div id="container"></div>
 <script>
-gara.require(["gara.jswt.widgets.TabFolder", "gara.jswt.widgets.List","gara.jswt.widgets.ListItem","gara.jswt.widgets.Label"], main);
+gara.require("gara.widgets.TabFolder", "gara.widgets.List","gara.widgets.ListItem","gara.widgets.Label", main);
 </script>
 </body>
 </html>

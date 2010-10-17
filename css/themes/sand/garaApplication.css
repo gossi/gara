@@ -4,11 +4,15 @@ html.sand[role=application] {
 
 html.sand[role=application] body {
 	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
 	background-color: #F7F3E4;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-o-box-sizing: border-box;
-	height: 100%;
+	position: absolute;
 }

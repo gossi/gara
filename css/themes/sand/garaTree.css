@@ -118,7 +118,7 @@
 	margin-top: 2px;
 }
 
-.sand .garaTree:focus .garaActiveItem > .garaTreeItemToggler {
+.sand .garaTreeFullSelection:focus .garaActiveItem > .garaTreeItemToggler {
 	margin-top: -1px;
 /*	height: 17px;*/
 }
@@ -139,7 +139,7 @@
 	background-image: none;
 }
 
-.sand .garaTreeLines .garaLastTreeItem .garaTreeItemChildContainer {
+.sand .garaTreeLines .garaLastTreeItem > .garaTreeItemChildContainer {
 	background-image: none;
 }
 

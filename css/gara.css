@@ -52,7 +52,7 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.widgets.Control
+ * gara.widgets.Control
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -68,8 +68,8 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.widgets.Label
- * gara.jswt.widgets.Composite
+ * gara.widgets.Label
+ * gara.widgets.Composite
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -84,9 +84,14 @@ ul.gara  {
 	-webkit-user-select: none;*/
 }
 
+.garaComposite {
+	width: 100%;
+	height: 100%;
+}
+
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.widgets.Scrollable
+ * gara.widgets.Scrollable
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -97,7 +102,7 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.widgets.Decorations
+ * gara.widgets.Decorations
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -118,18 +123,20 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.widgets.Shell
+ * gara.widgets.Shell
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
  
 .garaShell {
 	position: absolute;
+	width: auto;
+	height: auto;
 }
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.List
+ * gara.widgets.List
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -168,7 +175,7 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Tree
+ * gara.widgets.Tree
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -212,7 +219,7 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Table
+ * gara.widgets.Table
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -289,7 +296,7 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.TabFolder
+ * gara.widgets.TabFolder
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -313,13 +320,23 @@ ul.gara  {
 }
 
 .garaTabClientArea {
+	overflow: hidden;
+	position: relative;
+}
+
+.garaTabClientArea div[role=tabpanel] {
 	overflow: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Menu
+ * gara.widgets.Menu
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */
@@ -360,7 +377,7 @@ ul.gara  {
 
 /*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * gara.jswt.Button
+ * gara.widgets.Button
  * 
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  */

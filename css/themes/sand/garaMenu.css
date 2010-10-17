@@ -176,7 +176,8 @@
 }
 
 .sand .garaToolbar > .garaMenuItem {
-	margin: 1px 0;
+	margin: 1px 2px 1px 0 ;
+	padding: 0;
 }
 
 .sand .garaToolbar > .garaMenuItemCheck,
@@ -193,11 +194,10 @@
 	display: inline-block;
 	background-repeat: no-repeat;
  	padding-left: 9px;
- 	margin-right: 5px;
 }
 
-.sand .garaToolbar > .garaMenuItem .garaMenuItemDoor,
-.sand .garaToolbar > .garaMenuItem[aria-pressed=false] .garaMenuItemDoor {
+.sand .garaToolbar > .garaMenuItem > .garaMenuItemButton .garaMenuItemDoor,
+.sand .garaToolbar > .garaMenuItem[aria-pressed=false] > .garaMenuItemButton .garaMenuItemDoor {
 	background-position: right;
 	height: 21px;
 	line-height: 20px;
@@ -213,12 +213,12 @@
 	padding-left: 8px;
 }
 
-.sand .garaToolbar > .garaMenuItem[aria-checked=true] .garaMenuItemDoor {
+.sand .garaToolbar > .garaMenuItem[aria-checked=true] > .garaMenuItemButton .garaMenuItemDoor {
 	padding-top: 0;
 	padding-right: 8px;
 }
 
-.sand .garaToolbar > .garaMenuItem .garaMenuItemButton:hover {
+.sand .garaToolbar > .garaMenuItem > .garaMenuItemButton:hover {
 	border: none;
 	background-color: transparent;
 	height: 22px;
@@ -260,15 +260,15 @@
 	outline: 1px dotted #000;
 }
 
-.sand .garaToolbar > .garaMenuItem .garaMenuItemImage {
+.sand .garaToolbar > .garaMenuItem > .garaMenuItemButton .garaMenuItemImage {
 	margin: 0 4px 2px 0;
 }
 
-.sand .garaToolbar > .garaMenuItem .garaMenuItemText {
+.sand .garaToolbar > .garaMenuItem > .garaMenuItemButton .garaMenuItemText {
 	line-height: 20px;
 }
 
-.sand ul.garaToolbar > .garaMenuItemButton[aria-haspopup=true] .garaMenuItemText {
+.sand .garaToolbar > .garaMenuItem[aria-haspopup=true] > .garaMenuItemButton .garaMenuItemText {
 	background-repeat: no-repeat;
 	background-position: right 6px;
 	background-image: url('arrow_down.png');

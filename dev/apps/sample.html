@@ -9,15 +9,16 @@
 <script src="../../src/gara.js"></script>
 <script>
 function main() {
-	var app = new sample.SampleApp();
+	app = new sample.SampleApp();
 	app.open();
 }
 </script>
 </head>
 <body>
-<script>gara.require([
-	"sample.SampleApp"
-], main);
+<script>gara.require(
+	"sample.SampleApp", 
+	main
+);
 </script>
 </body>
 </html>

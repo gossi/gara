@@ -1,17 +1,19 @@
 <!doctype html>
-<html>
+<html class="sand" role="application">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>gara.jswt.widgets.menu (dev)</title>
+<meta charset="utf-8" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
+<title>gara.Menu (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script type="text/javascript" src="../../src/gara.js"></script>
-<script type="text/javascript"><!--
+<script src="../../src/gara.js"></script>
+<script>
 gara.Class("MenuController", {
 	i : 0,
 	
 	handleEvent : function(e) {
 		if (e.type == "mousedown" && e.target.obj
-				&& e.target.obj instanceof gara.jswt.widgets.MenuItem) {
+				&& e.target.obj instanceof gara.widgets.MenuItem) {
 			var mi = e.target.widget;
 			var m = e.target.control;
 
@@ -40,102 +42,91 @@ gara.Class("MenuController", {
 var l, menu2, mi1, subi1;
 
 function main() {
-	gara.require(["gara.jswt.widgets.Tree", "gara.jswt.widgets.TreeItem", "gara.jswt.widgets.Menu", "gara.jswt.widgets.MenuItem"], function() {
-		var t = new gara.jswt.widgets.Tree(document.getElementById("container"));
+	var t = new gara.widgets.Tree(document.getElementById("container"), gara.BORDER);
 
-		new gara.jswt.widgets.TreeItem(t).setText("Item 1");
-		new gara.jswt.widgets.TreeItem(t).setText("Item 2");
-		new gara.jswt.widgets.TreeItem(t).setText("Item 3");
-		new gara.jswt.widgets.TreeItem(t).setText("Item 4");
-		new gara.jswt.widgets.TreeItem(t).setText("Item 5");
+	new gara.widgets.TreeItem(t).setText("Item 1");
+	new gara.widgets.TreeItem(t).setText("Item 2");
+	new gara.widgets.TreeItem(t).setText("Item 3");
+	new gara.widgets.TreeItem(t).setText("Item 4");
+	new gara.widgets.TreeItem(t).setText("Item 5");
 
-		// submenu
-		var menu = new gara.jswt.widgets.Menu(t);
-		
-		mi1 = new gara.jswt.widgets.MenuItem(menu).setText("test");
-		var mi2 = new gara.jswt.widgets.MenuItem(menu, gara.jswt.JSWT.CASCADE).setText("test 2");
-		
-		var subpmenu = new gara.jswt.widgets.Menu(mi2);
-		mi2.setMenu(subpmenu);
-		
-		subi1 = new gara.jswt.widgets.MenuItem(subpmenu).setText("sub pop 1"); 
-		new gara.jswt.widgets.MenuItem(subpmenu, gara.jswt.JSWT.SEPARATOR);
-		new gara.jswt.widgets.MenuItem(subpmenu).setText("sub pop 2");
+	// submenu
+	var menu = new gara.widgets.Menu(t);
+	
+	mi1 = new gara.widgets.MenuItem(menu).setText("test");
+	var mi2 = new gara.widgets.MenuItem(menu, gara.CASCADE).setText("test 2");
+	
+	var subpmenu = new gara.widgets.Menu(mi2);
+	mi2.setMenu(subpmenu);
+	
+	subi1 = new gara.widgets.MenuItem(subpmenu).setText("sub pop 1"); 
+	new gara.widgets.MenuItem(subpmenu, gara.SEPARATOR);
+	new gara.widgets.MenuItem(subpmenu).setText("sub pop 2");
 
-		t.setMenu(menu);
+	t.setMenu(menu);
 
-		// menubar
-		menu2 = new gara.jswt.widgets.Menu(document.getElementById("menuBar"), gara.jswt.JSWT.NO_RADIO_GROUP);
-		
-		var m2i1 = new gara.jswt.widgets.MenuItem(menu2).setText("bar");
-		var m2sep = new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.SEPARATOR);
-		var m2i2 = new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CASCADE).setText("bar 2");
-		var m2i3 = new gara.jswt.widgets.MenuItem(menu2, gara.jswt.JSWT.CASCADE).setText("bar 3");
-		var m2i4 = new gara.jswt.widgets.MenuItem(menu2).setText("bar 4");
+	// menubar
+	menu2 = new gara.widgets.Menu(document.getElementById("menuBar"), gara.NO_RADIO_GROUP);
+	
+	var m2i1 = new gara.widgets.MenuItem(menu2).setText("bar");
+	var m2sep = new gara.widgets.MenuItem(menu2, gara.SEPARATOR);
+	var m2i2 = new gara.widgets.MenuItem(menu2, gara.CASCADE).setText("bar 2");
+	var m2i3 = new gara.widgets.MenuItem(menu2, gara.CASCADE).setText("bar 3");
+	var m2i4 = new gara.widgets.MenuItem(menu2).setText("bar 4");
 
-		var m21 = new gara.jswt.widgets.Menu(m2i2);
-		m2i2.setMenu(m21);
-		
-		var m21i2 = new gara.jswt.widgets.MenuItem(m21, gara.jswt.JSWT.CHECK).setText("sub 2");
-		var m21i1 = new gara.jswt.widgets.MenuItem(m21, gara.jswt.JSWT.CASCADE).setText("sub 1");
-		
-		var mxy = new gara.jswt.widgets.Menu(m21i1);
-		m21i1.setMenu(mxy);
-		
-		var mxi1 = new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.RADIO).setText("sub 1.1");
-		var mxi2 = new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.CHECK).setText("sub 1.2");
-		new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.RADIO).setText("sub 1.3");
-		new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.SEPARATOR);
-		var mxi4 = new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.RADIO).setText("sub 1.4");
-		var mxi5 = new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.RADIO).setText("sub 1.5");
-		var mxi6 = new gara.jswt.widgets.MenuItem(mxy, gara.jswt.JSWT.RADIO).setText("sub 1.6");
+	var m21 = new gara.widgets.Menu(m2i2);
+	m2i2.setMenu(m21);
+	
+	var m21i2 = new gara.widgets.MenuItem(m21, gara.CHECK).setText("sub 2");
+	var m21i1 = new gara.widgets.MenuItem(m21, gara.CASCADE).setText("sub 1");
+	
+	var mxy = new gara.widgets.Menu(m21i1);
+	m21i1.setMenu(mxy);
+	
+	var mxi1 = new gara.widgets.MenuItem(mxy, gara.RADIO).setText("sub 1.1");
+	var mxi2 = new gara.widgets.MenuItem(mxy, gara.CHECK).setText("sub 1.2");
+	new gara.widgets.MenuItem(mxy, gara.RADIO).setText("sub 1.3");
+	new gara.widgets.MenuItem(mxy, gara.SEPARATOR);
+	var mxi4 = new gara.widgets.MenuItem(mxy, gara.RADIO).setText("sub 1.4");
+	var mxi5 = new gara.widgets.MenuItem(mxy, gara.RADIO).setText("sub 1.5");
+	var mxi6 = new gara.widgets.MenuItem(mxy, gara.RADIO).setText("sub 1.6");
 
-		var menuBar3 = new gara.jswt.widgets.Menu(m2i3);
-		m2i3.setMenu(menuBar3);
+	var menuBar3 = new gara.widgets.Menu(m2i3);
+	m2i3.setMenu(menuBar3);
 
-		var mb3i1 = new gara.jswt.widgets.MenuItem(menuBar3, gara.jswt.JSWT.RADIO).setText("bar3.1");
-		var mb3i2 = new gara.jswt.widgets.MenuItem(menuBar3, gara.jswt.JSWT.RADIO).setText("bar3.2");
-		var mb3i3 = new gara.jswt.widgets.MenuItem(menuBar3, gara.jswt.JSWT.RADIO).setText("bar3.3");
+	var mb3i1 = new gara.widgets.MenuItem(menuBar3, gara.RADIO).setText("bar3.1");
+	var mb3i2 = new gara.widgets.MenuItem(menuBar3, gara.RADIO).setText("bar3.2");
+	var mb3i3 = new gara.widgets.MenuItem(menuBar3, gara.RADIO).setText("bar3.3");
 
-		controller = new MenuController();
-		//menu.addListener("mousedown", controller);
-		menu.addMenuListener(controller);
-		m21i2.addSelectionListener(controller);
+	controller = new MenuController();
+	//menu.addListener("mousedown", controller);
+	menu.addMenuListener(controller);
+	m21i2.addSelectionListener(controller);
 
-		// menubar
-		var toolbar = new gara.jswt.widgets.Menu(document.getElementById("toolBar"), gara.jswt.JSWT.TOOLBAR);
-		
-		var ti1 = new gara.jswt.widgets.MenuItem(toolbar, gara.jswt.JSWT.CASCADE).setText("bar");
-		new gara.jswt.widgets.MenuItem(toolbar, gara.jswt.JSWT.SEPARATOR);
-		var ti2 = new gara.jswt.widgets.MenuItem(toolbar, gara.jswt.JSWT.RADIO).setText("bar 2");
-		var ti3 = new gara.jswt.widgets.MenuItem(toolbar, gara.jswt.JSWT.RADIO).setText("bar 3");
-		var ti4 = new gara.jswt.widgets.MenuItem(toolbar, gara.jswt.JSWT.CHECK).setText("bar 4");
+	// menubar
+	var toolbar = new gara.widgets.Menu(document.getElementById("toolBar"), gara.TOOLBAR);
+	
+	var ti1 = new gara.widgets.MenuItem(toolbar, gara.CASCADE).setText("bar");
+	new gara.widgets.MenuItem(toolbar, gara.SEPARATOR);
+	var ti2 = new gara.widgets.MenuItem(toolbar, gara.RADIO).setText("bar 2");
+	var ti3 = new gara.widgets.MenuItem(toolbar, gara.RADIO).setText("bar 3");
+	var ti4 = new gara.widgets.MenuItem(toolbar, gara.CHECK).setText("bar 4");
 
-		var toolbarSub = new gara.jswt.widgets.Menu(ti1);
-		ti1.setMenu(toolbarSub);
+	var toolbarSub = new gara.widgets.Menu(ti1);
+	ti1.setMenu(toolbarSub);
 
-		new gara.jswt.widgets.MenuItem(toolbarSub).setText("Open");
-		new gara.jswt.widgets.MenuItem(toolbarSub).setText("Edit");
-		new gara.jswt.widgets.MenuItem(toolbarSub).setText("Delete");
-
-	});
-		
-	/*} catch(e) {
-		var message = "";
-		for (p in e) {
-			message += p + ": " + e[p] + "\n";
-		}
-		console.log(message);
-	}*/
+	new gara.widgets.MenuItem(toolbarSub).setText("Open");
+	new gara.widgets.MenuItem(toolbarSub).setText("Edit");
+	new gara.widgets.MenuItem(toolbarSub).setText("Delete");
 }
 
 function dispose() {
 	menu2.dispose();
 }
---></script>
+</script>
 </head>
-<body style="padding: 10px;" class="sand">
-<h1 style="font-size: 24px; margin-bottom: 10px;">gara.jswt.Menu</h1>
+<body style="padding: 10px;">
+<h1 style="font-size: 24px; margin-bottom: 10px;">gara.Menu</h1>
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Menu.BAR</h2>
 <fieldset>
@@ -149,6 +140,12 @@ function dispose() {
 
 <h2 style="font-size: 18px; margin-bottom: 10px;">Toolbar</h2>
 <div id="toolBar" class="sand" style="width: 300px;"></div>
-<script type="text/javascript">main();</script>
+<script>
+gara.require("gara.widgets.Tree", 
+		"gara.widgets.TreeItem", 
+		"gara.widgets.Menu", 
+		"gara.widgets.MenuItem", 
+main);
+</script>
 </body>
 </html>
