@@ -1,12 +1,12 @@
-/*	$Id: TabFolder.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
-	================================================================================================================
+	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -18,8 +18,10 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	================================================================================================================
+	===========================================================================
 */
+
+"use strict";
 
 gara.provide("gara.widgets.TabFolder", "gara.widgets.Composite");
 
@@ -30,16 +32,13 @@ gara.use("gara.widgets.MenuItem");
 /**
  * gara TabFolder Widget
  *
- * @class TabFolder
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.TabFolder
  * @extends gara.widgets.Composite
  */
-gara.Class("gara.widgets.TabFolder", function () { return {
+gara.Class("gara.widgets.TabFolder", function () { return /** @lends gara.widgets.TabFolder# */ {
 	$extends : gara.widgets.Composite,
 
 	/**
-	 * @field
 	 * The <code>TabFolder</code>'s items.
 	 *
 	 * @private
@@ -48,7 +47,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	items : [],
 
 	/**
-	 * @field
 	 * The recent activated items.
 	 *
 	 * @private
@@ -57,7 +55,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	recents : [],
 
 	/**
-	 * @field
 	 * Contains the active item.
 	 *
 	 * @private
@@ -66,7 +63,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	activeItem : null,
 
 	/**
-	 * @field
 	 * Contains a collection of selection listeners, that will be notified
 	 * when selection changes.
 	 *
@@ -76,7 +72,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	selectionListeners : [],
 
 	/**
-	 * @field
 	 * Contains the current selection.
 	 *
 	 * @private
@@ -85,7 +80,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	selection : [],
 
 	/**
-	 * @field
 	 * A queue of images which are currently being loaded and which size is
 	 * calculated afterwards.
 	 * (Webkit workaround, width and height are not available after an image's
@@ -97,7 +91,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	imageQueue : [],
 
 	/**
-	 * @field
 	 * Contains the <code>Menu</code> for invisible <code>TabItem</code>'s.
 	 *
 	 * @private
@@ -106,7 +99,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	dropDownMenu : null,
 
 	/**
-	 * @field
 	 * More's DOM reference.
 	 *
 	 * @private
@@ -115,7 +107,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	more : null,
 
 	/**
-	 * @field
 	 * More's text DOM reference.
 	 *
 	 * @private
@@ -124,7 +115,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	moreText : null,
 
 	/**
-	 * @field
 	 * Tabbar's DOM reference.
 	 *
 	 * @private
@@ -133,7 +123,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	tabbar : null,
 
 	/**
-	 * @field
 	 * ClientArea's DOM reference.
 	 *
 	 * @private
@@ -142,9 +131,10 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	clientArea : null,
 
 	/**
-	 * @constructor
-	 * @param {gara.Composite|HTMLElement} parent parent dom node or composite
-	 * @param {int} style The style for the list
+	 * @constructs
+	 * @extends gara.widgets.Composite
+	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
+	 * @param {int} style The style for the tabfolder (optional)
 	 */
 	$constructor : function (parent, style) {
 		this.items = [];
@@ -167,13 +157,13 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 
 		// style
 		style = style || gara.TOP | gara.DROP_DOWN;
-		if (!((style & gara.TOP) === gara.TOP) &&
-				!((style & gara.BOTTOM) === gara.BOTTOM)) {
+		if ((style & gara.TOP) === 0 &&
+				(style & gara.BOTTOM) === 0) {
 			style |= gara.TOP;
 		}
 
-		if (!((style & gara.MULTI) === gara.MULTI) &&
-				!((style & gara.DROP_DOWN) === gara.DROP_DOWN)) {
+		if ((style & gara.MULTI) === 0 &&
+				(style & gara.DROP_DOWN) === 0) {
 			style |= gara.DROP_DOWN;
 		}
 
@@ -181,13 +171,12 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds an item to this <code>TabFolder</code>
 	 *
 	 * @private
 	 * @param {gara.widgets.TabItem} item the item to be added
 	 * @throws {TypeError} if the item is not type of gara.widgets.TabItem
-	 * @return {void}
+	 * @returns {void}
 	 */
 	addItem : function (item) {
 		this.checkWidget();
@@ -208,13 +197,12 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection, by sending it one of 
 	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
-	 * @return {gara.widgets.TabFolder} this
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
@@ -225,13 +213,12 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * by sending it one of the messages defined in the 
 	 * <code>TabFolderListener</code> interface
 	 *
 	 * @param {gara.events.TabFolderListener} listener the listener which should be notified 
-	 * @return {gara.widgets.TabFolder} this
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	addTabFolderListener : function (listener) {
 		this.checkWidget();
@@ -241,6 +228,9 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 		return this;
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	adjustHeight : function (height) {
 		var clientHeight;
 		this.$super(height);
@@ -259,7 +249,9 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 		return this;
 	},
 	
-
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	adjustWidth : function (width) {
 		var clientWidth;
 		this.$super(width);
@@ -278,13 +270,12 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Activates an item and notifies the selection listener
 	 *
 	 * @private
 	 * @param {gara.widgets.TabItem} item the item to be activated
 	 * @throws {TypeError} if the item is not type of gara.widgets.TabItem
-	 * @return {void}
+	 * @returns {void}
 	 */
 	activateItem : function (item) {
 		this.checkWidget();
@@ -316,20 +307,17 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
-	 *
+	 * Creates the HTML
 	 * @private
 	 */
 	createWidget : function () {
@@ -383,6 +371,9 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 		}
 	},
 	
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.items = null;
 		this.recents = null;
@@ -396,37 +387,34 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Returns the client area off the active TabItem. Takes an TabItem as
 	 * argument to retrieve the client area of that one.
 	 *
-	 * @author Thomas Gossmann
-	 * @return {HTMLElement} the client area HTML element
+	 * @returns {HTMLElement} the client area HTML element
 	 */
 	getClientArea : function () {
 		return this.clientArea;
 	},
 
 	/**
-	 * @method
-	 *
+	 * 
 	 * @private
+	 * @returns {gara.widgets.Menu}
 	 */
 	getDropDownMenu : function () {
 		return this.dropDownMenu;
 	},
 
 	/**
-	 * @method
 	 * Gets a specified item with a zero-related index
 	 *
 	 * @param {int} index the zero-related index
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {gara.widgets.TabItem} the item
+	 * @returns {gara.widgets.TabItem} the item
 	 */
 	getItem : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 
@@ -434,31 +422,28 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the amount of the items in the tabfolder
+	 * Returns the receiver's number of items.
 	 *
 	 * @author Thomas Gossmann
-	 * @return {int} the amount
+	 * @returns {int} the number of items
 	 */
 	getItemCount : function () {
 		return this.items.length;
 	},
 
 	/**
-	 * @method
-	 * Returns an array with all the items in the tabfolder
+	 * Returns the receiver's items as an array.
 	 *
-	 * @return {gara.TabItem[]} the array with the items
+	 * @returns {gara.widgets.TabItem[]} the array with the items
 	 */
 	getItems : function () {
 		return this.items;
 	},
 
 	/**
-	 * @method
-	 * Returns an array with the items which are currently selected in the tabfolder
+	 * Returns the receiver's selected items as an array.
 	 *
-	 * @return {gara.TabItem[]} an array with items
+	 * @returns {gara.widgets.TabItem[]} the array with the selected items
 	 */
 	getSelection : function () {
 		this.checkWidget();
@@ -466,10 +451,9 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Returns the zero-related index of the selected item or -1 if there is no item selected
 	 *
-	 * @return {int} the index of the selected item
+	 * @returns {int} the index of the selected item
 	 */
 	getSelectionIndex : function () {
 		this.checkWidget();
@@ -481,20 +465,19 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * Returns the tabbar handle
 	 * @private
+	 * @returns {HTMLElement}
 	 */
 	getTabbar : function () {
 		return this.tabbar;
 	},
 
 	/**
-	 * @method
 	 * Handles events for this tabfolder
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
@@ -531,15 +514,13 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 *
 	 * @private
 	 */
 	handleMouseEvents : function (e) {
-		switch (e.type) {
-		case "mousedown":
+		if (e.type === "mousedown") {
 			if (e.target === this.more) {
-				var left = top = 0, obj = this.more;
+				var left = 0, top = 0, obj = this.more;
 				if (this.dropDownMenu.getVisible()) {
 					this.dropDownMenu.setVisible(false);
 					return false;
@@ -574,26 +555,21 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 //				this.dropDownMenu.setVisible(false);
 //				this.activateItem(e.target.widget.getData("gara__tabItem"));
 //			}
-			break;
 		}
 	},
 
 	/**
-	 * @method
-	 *
+	 * 
 	 * @private
 	 */
 	handleKeyEvents : function (e) {
-		switch (e.type) {
-			case "keydown":
-				this.handleKeyNavigation(e);
-				break;
+		if (e.type === "keydown") {
+			this.handleKeyNavigation(e);
 		}
 	},
 
 	/**
-	 * @method
-	 *
+	 * 
 	 * @private
 	 */
 	handleKeyNavigation : function (e) {
@@ -636,12 +612,11 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Looks for the index of a specified item
 	 *
 	 * @param {gara.widgets.TabItem} item the item for the index
-	 * @throws {TypeError} if the item is not a gara.widgets.TabItem
-	 * @return {int} the index of the specified item
+	 * @throws {TypeError} if the item is not a <code>gara.widgets.TabItem</code>
+	 * @returns {int} the index of the specified item
 	 */
 	indexOf : function (item) {
 		this.checkWidget();
@@ -653,11 +628,10 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Notifies selection listener about the changed selection within the List
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	notifySelectionListener : function () {
 		this.selectionListeners.forEach(function (listener) {
@@ -669,10 +643,9 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	
 
 	/**
-	 * @method
 	 * 
 	 * @private
-	 * @param eventType
+	 * @param {String} eventType
 	 * @returns {boolean} true if the operation is permitted
 	 */
 	notifyTabFolderListener : function (eventType) {
@@ -693,12 +666,8 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 	
 	
-	/**
-	 * @method
-	 * Releases all children from the receiver
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	releaseChildren : function () {
 		this.items.forEach(function (item) {
@@ -709,12 +678,11 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 	
 	/**
-	 * @method
-	 * Releases an item from the receiver
+	 * Releases an item from the receiver.
 	 *
 	 * @private
 	 * @param {gara.widgets.TableItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @returns {void}
 	 */
 	releaseItem : function (item) {
 		if (this.items.contains(item)) {
@@ -731,8 +699,6 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
 	 * @private
 	 */
 	remeasureItems : function (item) {
@@ -744,11 +710,10 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes an item from the <code>TabFolder</code>
+	 * Removes an item from the receiver.
 	 *
 	 * @param {gara.widgets.TabItem} item the item to remove
-	 * @return {void}
+	 * @returns {void}
 	 */
 	remove : function (item) {
 		this.checkWidget();
@@ -761,21 +726,19 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 			this.selection.remove(item);
 		}
 		item.dispose();
-		delete item;
 	},
 
 	/**
-	 * @method
-	 * Removes an item from the <code>TabFolder</code>
+	 * Removes an item at a given zero-related index from the receiver.
 	 *
 	 * @param {int} index the index of the item
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeIndex : function (index) {
 		var item;
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 		item = this.items.removeAt(index)[0];
@@ -783,16 +746,14 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 			this.selection.remove(item);
 		}
 		item.dispose();
-		delete item;
 	},
 
 	/**
-	 * @method
 	 * Removes items within an indices range
 	 *
 	 * @param {int} start start index
 	 * @param {int} end end index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeRange : function (start, end) {
 		for (var i = start; i <= end; ++i) {
@@ -801,11 +762,10 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Removes items which indices are passed by an array
 	 *
-	 * @param {Array} inidices the array with the indices
-	 * @return {void}
+	 * @param {int[]} inidices the array with the indices
+	 * @returns {void}
 	 */
 	removeFromArray : function (indices) {
 		indices.forEach(function (index) {
@@ -814,11 +774,9 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Removes all items from the tree
 	 *
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeAll : function () {
 		this.checkWidget();
@@ -828,12 +786,11 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes the listener from the collection of listeners who will be notified 
+	 * Removes the listener from the collection of listeners who will no longer be notified 
 	 * when the user changes the receiver's selection. 
 	 *
 	 * @param {gara.widgets.SelectionListener} listener the listener which should no longer be notified 
-	 * @return {gara.widgets.TabFolder} this
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
@@ -842,11 +799,10 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener the listener from the receiver.
 	 *
 	 * @param {gara.events.TabFolderListener} listener the listener which should be notified 
-	 * @return {gara.widgets.TabFolder} this
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	removeTabFolderListener : function (listener) {
 		this.checkWidget();
@@ -854,43 +810,38 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Scrollable
 	 */
 	scrolledHandle : function () {
 		return this.clientArea;
 	},
 
 	/**
-	 * @method
-	 * Selects the item in the TabFolder.
+	 * Selects an item in the receiver.
 	 *
-	 * @param {gara.TabItem} item the item to select
-	 * @throws {RangeError} when there is no item at the given index
-	 * @return {void}
+	 * @param {gara.widgets.TabItem} item the item to select
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	setSelectionItem : function (item) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
-			throw new RangeError("There is no item for the given index");
+		if (!(item instanceof gara.widgets.TabItem)) {
+			throw new RangeError("item is no gara.widgets.TabItem");
 		}
-		this.activateItem(this.items[index]);
+		this.activateItem(item);
 		return this;
 	},
 
 	/**
-	 * @method
 	 * Selects the item at the given zero-related index in the TabFolder.
 	 *
-	 * @param {mixed} arg the given zero-related index or the given array
+	 * @param {int} index the given zero-related index or the given array
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {void}
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	setSelectionIndex : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 		this.activateItem(this.items[index]);
@@ -898,12 +849,14 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Selects the item at the given zero-related index in the TabFolder.
+	 * Selects the item at the given zero-related index in the receiver.
+	 * 
+	 * @description
+	 * Selects the item at the given zero-related index in the receiver.
 	 * Takes an array as argument, though the first element within is selected (indices[0])
 	 *
 	 * @param {int[]} indices an array with zero-related indices
-	 * @return {void}
+	 * @returns {gara.widgets.TabFolder} this
 	 */
 	setSelectionFromArray : function (indices) {
 		this.checkWidget();
@@ -913,32 +866,23 @@ gara.Class("gara.widgets.TabFolder", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.Widget
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
-	/**
-	 * @method
-	 * updates this tabfolder
-	 *
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Control
 	 */
 	update : function () {
 		this.checkWidget();
-
 		this.updateMeasurements();
 	},
 
 	/**
-	 * @method
-	 *
+	 * 
 	 * @private
 	 */
 	updateMeasurements : function () {

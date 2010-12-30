@@ -1,0 +1,1 @@
+gara.provide("gara.events.DisposeListener");gara.Class("gara.events.DisposeListener",{widgetDisposed:function(){}});

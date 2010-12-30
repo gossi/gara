@@ -1,0 +1,921 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  
+  
+  <title>JsDoc Reference - gara.dialogs.MessageDialog</title>
+  <meta name="generator" content="JsDoc Toolkit" />
+
+  <link href="../stylesheets/default.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+
+<body id="class_detail">
+  <div id="body_wrapper">
+    <div id="wrapper">
+      <div id="box">
+        <span id="blue_label"></span>
+        <div id="box_wrapper">
+
+          <div id="nav">
+            <h2>Classes</h2>
+<ul>
+  
+    <li><a href="../symbols/%24constructor.html">$constructor</a></li>
+  
+    <li><em><a href="../symbols/_global_.html">_global_</a></em></li>
+  
+    <li><a href="../symbols/gara.html">gara</a></li>
+  
+    <li><a href="../symbols/gara.action.html">gara.action</a></li>
+  
+    <li><a href="../symbols/gara.action.Action.html">gara.action.Action</a></li>
+  
+    <li><a href="../symbols/gara.action.ActionChangedListener.html">gara.action.ActionChangedListener</a></li>
+  
+    <li><a href="../symbols/gara.action.IAction.html">gara.action.IAction</a></li>
+  
+    <li><a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.html">gara.dialogs</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.Dialog.html">gara.dialogs.Dialog</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.InputDialog.html">gara.dialogs.InputDialog</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.MessageDialog.html">gara.dialogs.MessageDialog</a></li>
+  
+    <li><a href="../symbols/gara.events.html">gara.events</a></li>
+  
+    <li><a href="../symbols/gara.events.ControlListener.html">gara.events.ControlListener</a></li>
+  
+    <li><a href="../symbols/gara.events.DisposeListener.html">gara.events.DisposeListener</a></li>
+  
+    <li><a href="../symbols/gara.events.FocusListener.html">gara.events.FocusListener</a></li>
+  
+    <li><a href="../symbols/gara.events.KeyListener.html">gara.events.KeyListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MenuListener.html">gara.events.MenuListener</a></li>
+  
+    <li><a href="../symbols/gara.events.ModifyListener.html">gara.events.ModifyListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseListener.html">gara.events.MouseListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseMoveListener.html">gara.events.MouseMoveListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseTrackListener.html">gara.events.MouseTrackListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseWheelListener.html">gara.events.MouseWheelListener</a></li>
+  
+    <li><a href="../symbols/gara.events.SelectionListener.html">gara.events.SelectionListener</a></li>
+  
+    <li><a href="../symbols/gara.events.ShellListener.html">gara.events.ShellListener</a></li>
+  
+    <li><a href="../symbols/gara.events.TabFolderListener.html">gara.events.TabFolderListener</a></li>
+  
+    <li><a href="../symbols/gara.widgets.html">gara.widgets</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Button.html">gara.widgets.Button</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Composite.html">gara.widgets.Composite</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Decorations.html">gara.widgets.Decorations</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Display.html">gara.widgets.Display</a></li>
+  
+    <li><a href="../symbols/gara.widgets.HTML.html">gara.widgets.HTML</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Item.html">gara.widgets.Item</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Label.html">gara.widgets.Label</a></li>
+  
+    <li><a href="../symbols/gara.widgets.List.html">gara.widgets.List</a></li>
+  
+    <li><a href="../symbols/gara.widgets.ListItem.html">gara.widgets.ListItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a></li>
+  
+    <li><a href="../symbols/gara.widgets.MenuItem.html">gara.widgets.MenuItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Point.html">gara.widgets.Point</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Scrollable.html">gara.widgets.Scrollable</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Shell.html">gara.widgets.Shell</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TabFolder.html">gara.widgets.TabFolder</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TabItem.html">gara.widgets.TabItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Table.html">gara.widgets.Table</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TableColumn.html">gara.widgets.TableColumn</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TableItem.html">gara.widgets.TableItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Text.html">gara.widgets.Text</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Tree.html">gara.widgets.Tree</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TreeItem.html">gara.widgets.TreeItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Widget.html">gara.widgets.Widget</a></li>
+  
+    <li><a href="../symbols/gara.widgets.WidgetException.html">gara.widgets.WidgetException</a></li>
+  
+</ul>
+
+<p class="class_index index_link"><span>&#x21A9;</span> <a href="../index.html">Class Index</a></p>
+<p class="class_index index_link"><span>&#x21A9;</span> <a href="../files.html">File Index</a></p>
+
+          </div>
+
+          <div id="content">
+            <h1>
+              
+              Class gara.dialogs.MessageDialog
+            </h1>
+            <div id="content_wrapper">
+
+                
+                
+                  <p>Extends
+                  <a href="../symbols/gara.dialogs.Dialog.html">gara.dialogs.Dialog</a>.
+                  </p>
+                
+                
+                <p>
+                  
+                </p>
+                
+                
+                  <p class="defined">
+                    Defined in: &lt;/Users/thomas/Sites/gara/src/gara.dialogs/MessageDialog.js&gt;.
+                  </p>
+                
+
+                <!-- ============================== constructor summary ==================== -->			
+                
+                  <table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class gara.dialogs.MessageDialog.">
+                    <caption>Class Summary</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Constructor Attributes</th>
+                        <th scope="col">Constructor Name and Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="attributes">
+                          &nbsp;
+                        </td>
+                        <td class="nameDescription" >
+                          <div class="fixedFont">
+                            <strong><a href="../symbols/gara.dialogs.MessageDialog.html#constructor">gara.dialogs.MessageDialog</a></strong>(parentShell, dialogTitle, dialogTitleImage, dialogMessage, dialogImageType, dialogButtonLabels, defaultIndex)
+                          </div>
+                          <p class="description"></p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+
+                <!-- ============================== properties summary ===================== -->
+                
+                  
+                  
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class gara.dialogs.MessageDialog.">
+                      <caption>Field Summary</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Field Attributes</th>
+                          <th scope="col">Field Name and Description</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                          <tr>
+                            <td class="attributes">
+                              &nbsp;
+                            </td>
+                            <td class="nameDescription">
+                              <div class="fixedFont">
+                                <strong><a href="../symbols/gara.dialogs.MessageDialog.html#openConfirm">openConfirm</a></strong>
+                              </div>
+                              <p class="description"></p>
+                            </td>
+                          </tr>
+                        
+                          <tr>
+                            <td class="attributes">
+                              &nbsp;
+                            </td>
+                            <td class="nameDescription">
+                              <div class="fixedFont">
+                                <strong><a href="../symbols/gara.dialogs.MessageDialog.html#openError">openError</a></strong>
+                              </div>
+                              <p class="description"></p>
+                            </td>
+                          </tr>
+                        
+                          <tr>
+                            <td class="attributes">
+                              &nbsp;
+                            </td>
+                            <td class="nameDescription">
+                              <div class="fixedFont">
+                                <strong><a href="../symbols/gara.dialogs.MessageDialog.html#openInformation">openInformation</a></strong>
+                              </div>
+                              <p class="description">Convenience method to open a standard information dialog.</p>
+                            </td>
+                          </tr>
+                        
+                          <tr>
+                            <td class="attributes">
+                              &nbsp;
+                            </td>
+                            <td class="nameDescription">
+                              <div class="fixedFont">
+                                <strong><a href="../symbols/gara.dialogs.MessageDialog.html#openQuestion">openQuestion</a></strong>
+                              </div>
+                              <p class="description">Convenience method to open a simple Yes/No question dialog.</p>
+                            </td>
+                          </tr>
+                        
+                          <tr>
+                            <td class="attributes">
+                              &nbsp;
+                            </td>
+                            <td class="nameDescription">
+                              <div class="fixedFont">
+                                <strong><a href="../symbols/gara.dialogs.MessageDialog.html#openWarning">openWarning</a></strong>
+                              </div>
+                              <p class="description"></p>
+                            </td>
+                          </tr>
+                        
+                      </tbody>
+                    </table>
+                  
+
+                  
+                    <dl class="inheritsList">
+                      
+                      </dl>
+                    
+                  
+
+                  <!-- ============================== methods summary ======================== -->
+                  
+                    
+                    
+                      <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class gara.dialogs.MessageDialog.">
+                        <caption>Method Summary</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Method Attributes</th>
+                            <th scope="col">Method Name and Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#createCustomArea">createCustomArea</a></strong>(parent)
+                                  </div>
+                                  <p class="description">Creates and returns the contents of an area of the dialog which appearsbelow the message and above the button bar.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#createDialogArea">createDialogArea</a></strong>(parent)
+                                  </div>
+                                  <p class="description"></p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#createMessageArea">createMessageArea</a></strong>(composite)
+                                  </div>
+                                  <p class="description"></p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#getButton">getButton</a></strong>(index)
+                                  </div>
+                                  <p class="description"></p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#getButtonLabels">getButtonLabels</a></strong>()
+                                  </div>
+                                  <p class="description"></p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#getDefaultButtonIndex">getDefaultButtonIndex</a></strong>()
+                                  </div>
+                                  <p class="description"></p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#setButtonLabels">setButtonLabels</a></strong>(buttonLabels)
+                                  </div>
+                                  <p class="description">A mutator for the button labels.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.dialogs.MessageDialog.html#setButtons">setButtons</a></strong>(buttons)
+                                  </div>
+                                  <p class="description">A mutator for the array of buttons in the button bar.</p>
+                                </td>
+                              </tr>
+                            
+                          </tbody>
+                        </table>
+                    
+
+                    
+                      <dl class="inheritsList">
+                        
+                        </dl>
+                      
+                    
+                    
+                    <!-- ============================== events summary ======================== -->
+                    
+
+
+                        <!-- ============================== constructor details ==================== -->		
+                        
+                          <div class="details"><a name="constructor"> </a>
+                            <div class="sectionTitle">
+                              Class Detail
+                            </div>
+                            
+                            <div class="module">
+                              
+                              <h2><strong> 
+                                gara.dialogs.MessageDialog(parentShell, dialogTitle, dialogTitleImage, dialogMessage, dialogImageType, dialogButtonLabels, defaultIndex)</strong>
+                              </h2>
+
+                              <p class="description">
+                                
+                                
+                              </p>
+
+                              
+
+
+                              
+                                <dl class="detailList">
+                                  <dt class="heading">Parameters:</dt>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{<a href="../symbols/gara.widgets.Shell.html">gara.widgets.Shell</a>}</span>  <strong>parentShell</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{String}</span>  <strong>dialogTitle</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{Image}</span>  <strong>dialogTitleImage</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{String}</span>  <strong>dialogMessage</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{int}</span>  <strong>dialogImageType</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{String[]}</span>  <strong>dialogButtonLabels</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{int}</span>  <strong>defaultIndex</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                </dl>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+
+                            </div>
+                          </div>
+                        
+                          
+                        
+                        
+                        <!-- ============================== field details ========================== -->		
+                        
+                          <div class="sectionTitle">
+                            Field Detail
+                          </div>
+                          
+                            <div class="module">
+                            <a name="openConfirm"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.dialogs.MessageDialog.html">gara.dialogs.MessageDialog</a>}</span>
+                              <strong>openConfirm</strong>
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                            
+
+                            </div>
+                          
+                            <div class="module">
+                            <a name="openError"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>openError</strong>
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                            
+
+                            </div>
+                          
+                            <div class="module">
+                            <a name="openInformation"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>openInformation</strong>
+
+                            </h2>
+                            <p class="description">
+                              Convenience method to open a standard information dialog.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                            
+
+                            </div>
+                          
+                            <div class="module">
+                            <a name="openQuestion"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>openQuestion</strong>
+
+                            </h2>
+                            <p class="description">
+                              Convenience method to open a simple Yes/No question dialog.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                            
+
+                            </div>
+                          
+                            <div class="module">
+                            <a name="openWarning"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>openWarning</strong>
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                            
+
+                            </div>
+                          
+                        
+
+                        <!-- ============================== method details ========================= -->		
+                        
+                          <div class="sectionTitle">
+                            Method Detail
+                          </div>
+                          
+                            <div class="module">
+                            <a name="createCustomArea"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>createCustomArea</strong>(parent)
+
+                            </h2>
+                            <p class="description">
+                              Creates and returns the contents of an area of the dialog which appearsbelow the message and above the button bar.<p>The default implementation of this framework method returns<code>null</code>. Subclasses may override.</p>
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Composite.html">gara.widgets.Composite</a>}</span> <strong>parent</strong>
+                                    
+                                  </dt>
+                                  <dd>parent composite to contain the custom area</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> the custom area control, or <code>null</code></dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="createDialogArea"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>createDialogArea</strong>(parent)
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Composite.html">gara.widgets.Composite</a>}</span> <strong>parent</strong>
+                                    
+                                  </dt>
+                                  <dd>parent composite to contain the dialog area</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="createMessageArea"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>createMessageArea</strong>(composite)
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <strong>composite</strong>
+                                    
+                                  </dt>
+                                  <dd>The composite to parent from.</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd>Control</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getButton"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Button.html">gara.widgets.Button</a>}</span>
+                              <strong>getButton</strong>(index)
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{int}</span> <strong>index</strong>
+                                    
+                                  </dt>
+                                  <dd>the index of the button in the dialog's button bar</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Button.html">gara.widgets.Button</a>}</span> a button in the dialog's button bar, or <code>null</code> if there's no button with that index</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getButtonLabels"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>getButtonLabels</strong>()
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd>The button labels to used; never <code>null</code>.</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getDefaultButtonIndex"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>getDefaultButtonIndex</strong>()
+
+                            </h2>
+                            <p class="description">
+                              
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd>The default button index.</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setButtonLabels"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>setButtonLabels</strong>(buttonLabels)
+
+                            </h2>
+                            <p class="description">
+                              A mutator for the button labels.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <strong>buttonLabels</strong>
+                                    
+                                  </dt>
+                                  <dd>The button labels to use; must not be <code>null</code>.</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setButtons"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>setButtons</strong>(buttons)
+
+                            </h2>
+                            <p class="description">
+                              A mutator for the array of buttons in the button bar.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <strong>buttons</strong>
+                                    
+                                  </dt>
+                                  <dd>The buttons in the button bar; must not be <code>null</code>.</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                      
+
+                      <!-- ============================== event details ========================= -->		
+                      
+
+            </div><!-- #content_wrapper -->
+          </div><!-- #content -->
+          
+          <hr/>
+          
+        </div><!-- #box_wrapper -->
+      </div><!-- #box -->
+
+      <div id="footer">
+        
+        Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 30 2010 21:29:03 GMT+0100 (MEZ)
+      </div><!-- #footer -->
+
+    </div><!-- #wrapper -->
+  </div><!-- #body_wrapper -->
+</body>
+</html>

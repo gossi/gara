@@ -1,12 +1,12 @@
-/*	$Id: TabFolder.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
-	================================================================================================================
+	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -18,24 +18,23 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	================================================================================================================
+	===========================================================================
 */
+
+"use strict";
 
 gara.provide("gara.widgets.Label", "gara.widgets.Control");
 
 /**
  * gara Label Widget
  *
- * @class Label
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.Label
  * @extends gara.widgets.Control
  */
-gara.Class("gara.widgets.Label", function() { return {
+gara.Class("gara.widgets.Label", function() { return /** @lends gara.widgets.Label# */{
 	$extends : gara.widgets.Control,
 
 	/**
-	 * @field
 	 * Image's DOM reference.
 	 *
 	 * @private
@@ -44,7 +43,6 @@ gara.Class("gara.widgets.Label", function() { return {
 	imgNode : null,
 
 	/**
-	 * @field
 	 * Text's DOM reference.
 	 *
 	 * @private
@@ -53,7 +51,6 @@ gara.Class("gara.widgets.Label", function() { return {
 	txtNode : null,
 
 	/**
-	 * @field
 	 * The <code>Label</code>'s image.
 	 *
 	 * @private
@@ -62,7 +59,6 @@ gara.Class("gara.widgets.Label", function() { return {
 	image : null,
 
 	/**
-	 * @field
 	 * The <code>Label</code>'s text.
 	 *
 	 * @private
@@ -71,8 +67,9 @@ gara.Class("gara.widgets.Label", function() { return {
 	text : "",
 
 	/**
-	 * @constructor
-	 * @param {gara.Composite|HTMLElement} parent parent dom node or composite
+	 * @constructs
+	 * @extends gara.widgets.Control
+	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or <code>Composite</code>
 	 * @param {int} style The style for the Label
 	 */
 	$constructor : function (parent, style) {
@@ -85,19 +82,17 @@ gara.Class("gara.widgets.Label", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
 	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
 	 *
 	 * @private
 	 */
@@ -128,34 +123,28 @@ gara.Class("gara.widgets.Label", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the items image
+	 * Returns the receiver's image.
 	 *
-	 * @author Thomas Gossmann
-	 * @return {Image} the items image
+	 * @returns {Image} the items image
 	 */
 	getImage : function () {
 		return this.image;
 	},
 
 	/**
-	 * @method
-	 * Returns the items text
+	 * Returns the receiver's text.
 	 *
-	 * @author Thomas Gossmann
-	 * @return {String} the text for this item
+	 * @returns {String} the text for this item
 	 */
 	getText : function () {
 		return this.text;
 	},
 
 	/**
-	 * @method
-	 * Sets the image for the Label
+	 * Sets the receiver's image.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Image} image the new image
-	 * @return {void}
+	 * @returns {gara.widgets.Label} this
 	 */
 	setImage : function (image) {
 		this.image = image;
@@ -169,12 +158,10 @@ gara.Class("gara.widgets.Label", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the text for the <code>Label</code>
+	 * Sets the receiver's text.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} text the new text
-	 * @return {void}
+	 * @returns {gara.widgets.Label} this
 	 */
 	setText : function (text) {
 		this.text = text;
@@ -183,18 +170,12 @@ gara.Class("gara.widgets.Label", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
-	},
-
-	update : function () {
-
 	}
 };});

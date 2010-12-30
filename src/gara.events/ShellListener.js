@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,12 +21,11 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.events.ShellListener");
 
 /**
- * @interface ShellListener
- * 
- * @summary
  * Classes which implement this interface provide methods that deal with changes in state of Shells.
  * 
  * @description
@@ -34,14 +33,16 @@ gara.provide("gara.events.ShellListener");
  * using the <code>addShellListener</code> method and removed using the <code>removeShellListener</code>
  * method. When the state of the shell changes, the appropriate method will be invoked.
  *  
- * @author Thomas Gossmann
- * @namespace gara.events
+ * @interface gara.events.ShellListener
+ * @name gara.events.ShellListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
 
-gara.Class("gara.events.ShellListener", {
+gara.Class("gara.events.ShellListener", /** @lends gara.events.ShellListener# */ {
 
 	/**
-	 * @method shellActivated
 	 * Sent when a shell becomes the active window. 
 	 * 
 	 * @param e {Event} an event containing information about the activation
@@ -50,7 +51,6 @@ gara.Class("gara.events.ShellListener", {
 	shellActivated : function (e) {},
 	
 	/**
-	 * @method shellClosed
 	 * Sent when a shell is closed.
 	 * 
 	 * @param e {Event} an event containing information about the activation
@@ -59,7 +59,6 @@ gara.Class("gara.events.ShellListener", {
 	shellClosed : function (e) {},
 	
 	/**
-	 * @method shellDeactivated
 	 * Sent when a shell stops being the active window.
 	 * 
 	 * @param e {Event} an event containing information about the activation
@@ -68,7 +67,6 @@ gara.Class("gara.events.ShellListener", {
 	shellDeactivated : function (e) {},
 	
 	/**
-	 * @method shellDeiconified
 	 * Sent when a shell is un-minimized.
 	 * 
 	 * @param e {Event} an event containing information about the activation
@@ -77,7 +75,6 @@ gara.Class("gara.events.ShellListener", {
 	shellDeiconified : function (e) {},
 	
 	/**
-	 * @method shellIconified
 	 * Sent when a shell is minimized.
 	 * 
 	 * @param e {Event} an event containing information about the activation

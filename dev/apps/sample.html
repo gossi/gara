@@ -5,8 +5,15 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
 <title>Sample Application</title>
+
+<!-- dev --
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script src="../../src/gara.js"></script>
+<script src="../../src/gara.js"></script>-->
+
+<!-- production -->
+<link rel="stylesheet" href="../../themes/sand/sand.css" type="text/css"/>
+<script src="../../runtime/gara.js"></script>
+
 <script>
 function main() {
 	app = new sample.SampleApp();
@@ -15,7 +22,8 @@ function main() {
 </script>
 </head>
 <body>
-<script>gara.require(
+<script>
+gara.require(
 	"sample.SampleApp", 
 	main
 );

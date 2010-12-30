@@ -1,12 +1,12 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
-	================================================================================================================
+	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -18,8 +18,10 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	================================================================================================================
+	===========================================================================
 */
+
+"use strict";
 
 gara.provide("gara.widgets.Table", "gara.widgets.Composite");
 
@@ -29,20 +31,20 @@ gara.use("gara.widgets.Menu");
 
 /**
  * gara Table Widget
+ * 
+ * @description
+ * full description of the gara Table Widget
  *
- * @class Table
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.Table
  * @extends gara.widgets.Composite
  */
-gara.Class("gara.widgets.Table", function () { return {
+gara.Class("gara.widgets.Table", function () { return /** @lends gara.widgets.Table# */ {
 	$extends : gara.widgets.Composite,
 
 	SCROLLBAR_WIDTH : 19,
 
 	// items
 	/**
-	 * @field
 	 * Contains the <code>Table</code>'s items.
 	 *
 	 * @private
@@ -51,7 +53,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	items : [],
 
 	/**
-	 * @field
 	 * Contains the <code>Table</code>'s columns.
 	 *
 	 * @private
@@ -60,7 +61,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	columns : [],
 
 	/**
-	 * @field
 	 * Contains the column's order. The indices of the columns are stored
 	 * in this array.
 	 *
@@ -70,17 +70,31 @@ gara.Class("gara.widgets.Table", function () { return {
 	columnOrder : [],
 
 	/**
-	 * @field
 	 * This virtual column is used if there are not columns added.
 	 *
 	 * @private
 	 * @type {gara.widgets.TableColumn}
 	 */
 	virtualColumn : null,
+	
+	/**
+	 * Contains the item, that was active when shift was pressed.
+	 *
+	 * @private
+	 * @type {gara.widgets.TableItem}
+	 */
+	shiftItem : null,
+
+	/**
+	 * Contains the current active item.
+	 *
+	 * @private
+	 * @type {gara.widgets.TableItem}
+	 */
+	activeItem : null,
 
 	// flags
 	/**
-	 * @field
 	 * Holds the header visible flag.
 	 *
 	 * @private
@@ -89,7 +103,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	headerVisible : false,
 
 	/**
-	 * @field
 	 * Holds the lines visible flag.
 	 *
 	 * @private
@@ -99,7 +112,6 @@ gara.Class("gara.widgets.Table", function () { return {
 
 	// nodes
 	/**
-	 * @field
 	 * Table's DOM reference.
 	 *
 	 * @private
@@ -108,7 +120,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	table : null,
 
 	/**
-	 * @field
 	 * Thead's DOM reference.
 	 *
 	 * @private
@@ -117,7 +128,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	thead : null,
 
 	/**
-	 * @field
 	 * Thead's row DOM reference.
 	 *
 	 * @private
@@ -126,7 +136,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	theadRow : null,
 
 	/**
-	 * @field
 	 * Tbody's DOM reference.
 	 *
 	 * @private
@@ -135,7 +144,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	tbody : null,
 
 	/**
-	 * @field
 	 * Checkbox column's DOM reference.
 	 *
 	 * @private
@@ -144,8 +152,8 @@ gara.Class("gara.widgets.Table", function () { return {
 	checkboxCol : null,
 
 
+	// selection
 	/**
-	 * @field
 	 * Contains the selection.
 	 *
 	 * @private
@@ -154,7 +162,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	selection : [],
 
 	/**
-	 * @field
 	 * Contains a collection of listeners that will be notified, when the
 	 * selection changes.
 	 *
@@ -163,29 +170,14 @@ gara.Class("gara.widgets.Table", function () { return {
 	 */
 	selectionListeners : [],
 
-	/**
-	 * @field
-	 * Contains the item, that was active when shift was pressed.
-	 *
-	 * @private
-	 * @type {gara.widgets.TableItem}
-	 */
-	shiftItem : null,
 
 	/**
-	 * @field
-	 * Contains the current active item.
-	 *
-	 * @private
-	 * @type {gara.widgets.TableItem}
-	 */
-	activeItem : null,
-
-	/**
-	 * @constructor
+	 * Creates a new Table
+	 * @constructs
+	 * @extends gara.widgets.Composite
 	 *
 	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
-	 * @param {int} style The style for the list
+	 * @param {int} style the style for the table (optional)
 	 */
 	$constructor : function (parent, style) {
 		// items
@@ -220,9 +212,11 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
+	 * Activates an item
 	 *
 	 * @private
+	 * @param {gara.widgets.TableItem} item the item that should be activated
+	 * @returns {void}
 	 */
 	activateItem : function (item) {
 		this.checkWidget();
@@ -243,9 +237,12 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * Adds an table item to the table.
+	 * 
 	 * @private
+	 * @param {gara.widgets.TableItem} item the item that should be added
+	 * @param {int} index the offset where the new item should be inserted (optional)
+	 * @returns {HTMLElement} the parent html node for items
 	 */
 	addItem : function (item, index) {
 		this.checkWidget();
@@ -263,9 +260,12 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * Adds an table column to the table.
+	 * 
 	 * @private
+	 * @param {gara.widgets.TableColumn} column the column that should be added
+	 * @param {int} index the offset where the new column should be inserted (optional)
+	 * @returns {HTMLElement} the parent html node for columns
 	 */
 	addColumn : function (column, index) {
 		this.checkWidget();
@@ -288,12 +288,24 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this.theadRow;
 	},
 	
+	/**
+	 * Gets called whenever a column gets resized. Resizes all items at the column with the 
+	 * specified width
+	 * 
+	 * @private
+	 * @param {gara.widgets.TableColumn} column the affected column
+	 * @param {int} width the new width 
+	 * @returns {void}
+	 */
 	adjustedColWidth : function (column, width) {
 		this.items.forEach(function (item) {
 			item.adjustWidth(column, width);
 		}, this);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	adjustHeight : function (height) {
 		var scrollbar = this.getVerticalScrollbar(), scrollbarVisible, headerHeight;
 		
@@ -320,6 +332,9 @@ gara.Class("gara.widgets.Table", function () { return {
 		this.setClass("garaTableVerticalOverflow", this.getVerticalScrollbar() || height === null);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	adjustWidth : function (width) {
 		var colWidths = 0, cols = [], allWidth = 0, hideHeader = false, overflow;
 		
@@ -386,13 +401,12 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection, by sending it one of 
 	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
-	 * @return {gara.widgets.Table} this
+	 * @returns {gara.widgets.Table} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
@@ -402,36 +416,30 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
 	 * Clears an item at a given index
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the position of the item
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	clear : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 		this.items[index].clear();
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Control
 	 */
 	createWidget : function () {
 		var self = this;
@@ -518,7 +526,7 @@ gara.Class("gara.widgets.Table", function () { return {
 		this.arrow.appendChild(document.createElement("span"));
 		this.handle.appendChild(this.arrow);
 		gara.addEventListener(this.arrow, "mousedown", function (e) {
-			var left = top = 0, obj = self.arrow;
+			var left = 0, top = 0, obj = self.arrow;
 			if (self.colMenu.getVisible()) {
 				self.colMenu.setVisible(false);
 				return false;
@@ -573,22 +581,19 @@ gara.Class("gara.widgets.Table", function () { return {
 		//this.theadRow.style.width = this.handle.offsetWidth + "px";
 	},
 
-
 	/**
-	 * @method
-	 * Deselects an item
+	 * Deselects an item.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index item at zero-related index that should be deselected
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	deselect : function (index) {
 		var item;
 		this.checkWidget();
 
 		// return if index are out of bounds
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 
@@ -602,11 +607,9 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Deselects all items in the <code>List</code>
+	 * Deselects all items of the receiver.
 	 *
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	deselectAll : function () {
 		this.checkWidget();
@@ -618,10 +621,16 @@ gara.Class("gara.widgets.Table", function () { return {
 		}
 	},
 
+	/**
+	 * Deselects items which indices passed as an array.
+	 * 
+	 * @param {int[]} indices an array with zero-related indices
+	 * @returns {void}
+	 */
 	deselectArray : function (indices) {
 		if (this.selection.length) {
 			indices.forEach(function (index) {
-				if (typeof(this.items.indexOf(index)) == "undefined") {
+				if (typeof(this.items.indexOf(index)) === "undefined") {
 					return;
 				}
 				this.items[index].setSelected(false);
@@ -630,6 +639,13 @@ gara.Class("gara.widgets.Table", function () { return {
 		}
 	},
 
+	/**
+	 * Deselects a range of items.
+	 * 
+	 * @param {int} from
+	 * @param {int} to
+	 * @returns {void}
+	 */
 	deselectRange : function (from, to) {
 		for (var i = from; i <= to; i++) {
 			this.items[i].setSelected(false);
@@ -637,6 +653,9 @@ gara.Class("gara.widgets.Table", function () { return {
 		this.notifySelectionListener();
 	},
 	
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.items = null;
 		this.columns = null;
@@ -650,74 +669,147 @@ gara.Class("gara.widgets.Table", function () { return {
 		this.$super();
 	},
 
+	/**
+	 * Focus listener. Will be notified when the receiver gets focussed.
+	 * 
+	 * @private
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	focusGained : function () {
 		// mark first item active
 		if (this.activeItem === null && this.items.length) {
 			this.activateItem(this.items[0]);
 		}
 	},
-	
-//	getChildren : function () {
-//		return [];
-//	},
 
 	/**
-	 * @method
+	 * Returns the column at the given, zero-relative index in the receiver.
+	 * 
+	 * @description
+	 * Returns the column at the given, zero-relative index in the receiver. Throws an exception 
+	 * if the index is out of range. Columns are returned in the order that they were created. If no 
+	 * <code>TableColumn</code>s were created by the programmer, this method will throw a 
+	 * <code>RangeError</code> Exception despite the fact that a single column of data may be visible 
+	 * in the table. This occurs when the programmer uses the table like a list, adding items but 
+	 * never creating a column.
 	 *
+	 * @see gara.widgets.Table#getColumnOrder
+	 * @param {int} index the index of the column to return 
 	 * @throws {RangeError} when there is no column at the given index
+	 * @returns {gara.widgets.TableColumn} the column at the given index 
 	 */
 	getColumn : function (index) {
 		this.checkWidget();
-		if (typeof(this.columns.indexOf(index)) == "undefined") {
+		if (typeof(this.columns.indexOf(index)) === "undefined" || this.virtualColumn !== null) {
 			throw new RangeError("There is no column for the given index");
 		}
 		return this.columns[index];
 	},
 
+	/**
+	 * Returns the number of columns contained in the receiver.
+	 * 
+	 * @description
+	 * Returns the number of columns contained in the receiver. If no <code>TableColumn</code>s were 
+	 * created by the programmer, this value is zero, despite the fact that visually, one column of 
+	 * items may be visible. This occurs when the programmer uses the table like a list, adding 
+	 * items but never creating a column.
+	 *  
+	 * @returns {int} the number of columns 
+	 */
 	getColumnCount : function () {
-		return this.columns.length;
+		if (this.virtualColumn === null) {
+			return this.columns.length;
+		} else {
+			return 0;
+		}
 	},
 
+	/**
+	 * Returns an array of zero-relative integers that map the creation order of the receiver's columns 
+	 * to the order in which they are currently being displayed.
+	 * 
+	 * @description
+	 * <p>Returns an array of zero-relative integers that map the creation order of the receiver's 
+	 * columns to the order in which they are currently being displayed.</p>
+	 * <p>Specifically, the indices of the returned array represent the current visual order of the 
+	 * items, and the contents of the array represent the creation order of the columns.</p>
+	 * 
+	 * @see gara.widgets.Table#setColumnOrder
+	 * @returns {int[]} the current visual order of the receiver's columns 
+	 */
 	getColumnOrder : function () {
 		return this.columnOrder;
 	},
 
+	/**
+	 * Returns an array of <code>TableColumn</code>s which are the columns in the receiver.
+	 * 
+	 * @description
+	 * Returns an array of <code>TableColumn</code>s which are the columns in the receiver. Columns 
+	 * are returned in the order that they were created. If no <code>TableColumn</code>s were created 
+	 * by the programmer, the array is empty, despite the fact that visually, one column of items 
+	 * may be visible. This occurs when the programmer uses the table like a list, adding items but 
+	 * never creating a column.
+	 *  
+	 * @returns {gara.widgets.TableColumn[]} the columns in the receiver 
+	 */
 	getColumns : function () {
 		return this.columns;
 	},
 	
+	/**
+	 * Returns the height of the receiver's header. 
+	 * 
+	 * @returns {int} the height of the header or zero if the header is not visible 
+	 */
 	getHeaderHeight : function () {
 		return this.theadRow.offsetHeight;
 	},
 
+	/**
+	 * Returns wether the receiver's header is visible
+	 *  
+	 * @returns {boolean} <code>true</code> for visible, <code>false</code> for invisible
+	 */
 	getHeaderVisible : function () {
 		return this.headerVisible;
 	},
 
 	/**
-	 * @method
-	 * Gets a specified item with a zero-related index
+	 * Returns the item at the given, zero-relative index in the receiver.
+	 * 
+	 * @description
+	 * Returns the item at the given, zero-relative index in the receiver. 
+	 * Throws an exception if the index is out of range. 
 	 *
-	 * @param {int} index the zero-related index
-	 * @throws {RangeError} when there is no item at the given index
-	 * @return {gara.widgets.TreeItem} the item
+	 * @param {int} index the index of the item to return 
+	 * @throws {RangeError} if the index is out of bounds
+	 * @returns {gara.widgets.TreeItem} the item at the given index
 	 */
 	getItem : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 		return this.items[index];
 	},
 
+	/**
+	 * Returns the number of items contained in the receiver. 
+	 * 
+	 * @returns {int} the number of items.
+	 */
 	getItemCount : function () {
 		return this.items.length;
 	},
 
 	/**
-	 * @method
+	 * Returns the height of a specified item of the receiver. 
 	 *
-	 * @private
+	 * @param {gara.widgets.TableItem} the item of the height to return
+	 * @returns {int} the height of one item 
 	 */
 	getItemHeight : function (item) {
 		return item.handle.offsetHeight
@@ -725,36 +817,49 @@ gara.Class("gara.widgets.Table", function () { return {
 			+ gara.getNumStyle(item.handle, "margin-bottom");
 	},
 
+	/**
+	 * Returns a (possibly empty) array of TableItems which are the items in the receiver. 
+	 * 
+	 * @returns {gara.widgets.TableItem[]} the items in the receiver
+	 */
 	getItems : function () {
 		return this.items;
 	},
 
+	/**
+	 * Returns <code>true</code> if the receiver's lines are visible, and <code>false</code> otherwise. 
+	 * 
+	 * @returns {boolean} the visibility state of the lines
+	 */
 	getLinesVisible : function () {
 		return this.linesVisible;
 	},
 
 	/**
-	 * @method
-	 * Returns an array with the items which are currently selected in the table
+	 * Returns an array of <code>TableItems</code> that are currently selected in the receiver. 
+	 * The order of the items is unspecified. An empty array indicates that no items are selected. 
 	 *
-	 * @author Thomas Gossmann
-	 * @return {gara.widgets.TreeItem[]}an array with items
+	 * @returns {gara.widgets.TreeItem[]} an array representing the selection 
 	 */
 	getSelection : function () {
 		return this.selection;
 	},
 
 	/**
-	 * @method
-	 * Returns the amount of the selected items in the table
+	 * Returns the number of selected items contained in the receiver. 
 	 *
-	 * @author Thomas Gossmann
-	 * @return {int} the amount
+	 * @returns {int} the number of selected items
 	 */
 	getSelectionCount : function () {
 		return this.selection.length;
 	},
 
+	/**
+	 * Returns a <code>TableItem</code> which is currently at the top of the receiver. This 
+	 * <code>TableItem</code> can change when items are scrolled or new items are added or removed.
+	 * 
+	 * @returns {gara.widgets.TableItem} the top item
+	 */
 	getTopItem : function () {
 		var scrollTop = this.scrolledHandle().scrollTop,
 			h = 0, i;
@@ -771,8 +876,6 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
 	 * @private
 	 */
 	handleEvent : function (e) {
@@ -813,14 +916,11 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
 	 * @private
 	 */
 	handleMouseEvents : function (e) {
 		var item = e.item;
-		switch (e.type) {
-		case "mousedown":
+		if (e.type === "mousedown") {
 			if (item instanceof gara.widgets.TableItem) {
 				this.activateItem(item);
 				if (!e.ctrlKey && !e.shiftKey) {
@@ -839,13 +939,10 @@ gara.Class("gara.widgets.Table", function () { return {
 					this.select(this.indexOf(item));
 				}
 			}
-			break;
 		}
 	},
 
 	/**
-	 * @method
-	 *
 	 * @private
 	 */
 	handleKeyEvents : function (e) {
@@ -864,12 +961,10 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
 	 * @private
 	 */
 	handleKeyNavigation : function (e) {
-		var prev, activeIndex, h, i, viewport, itemAddition, next, min;
+		var prev, activeIndex, h, i, viewport, itemAddition, next, min, scrollRange;
 		switch (e.keyCode) {
 
 		// up
@@ -1007,13 +1102,12 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Looks for the index of a specified item
+	 * Searches the receiver's list starting at the first item (index 0) until an item is found that 
+	 * is equal to the argument, and returns the index of that item. If no item is found, returns -1.  
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.widgets.TableItem} item the item for the index
-	 * @throws {TypeError} if the item is not a TableItem
-	 * @return {int} the index of the specified item
+	 * @param {gara.widgets.TableItem} item the search item 
+	 * @throws {TypeError} if the item is not a {@link gara.widgets.TableItem}
+	 * @returns {int} the index of the item 
 	 */
 	indexOf : function (item) {
 		this.checkWidget();
@@ -1024,16 +1118,18 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this.items.indexOf(item);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Scrollable
+	 */
 	getVerticalScrollbar : function () {
 		return this.tbody.clientHeight > this.scroller.clientHeight;
 	},
 
 	/**
-	 * @method
-	 * Notifies all selection listeners about the selection change
+	 * Notifies selection listener about the changed selection within the receiver.
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	notifySelectionListener : function () {
 		this.selectionListeners.forEach(function (listener) {
@@ -1042,13 +1138,9 @@ gara.Class("gara.widgets.Table", function () { return {
 			}
 		}, this);
 	},
-	
-	/**
-	 * @method
-	 * Releases all children from the receiver
-	 *
-	 * @private
-	 * @return {void}
+
+	/*
+	 * jsdoc in gara.widgets.Composite
 	 */
 	releaseChildren : function () {
 		this.items.forEach(function (item) {
@@ -1063,12 +1155,11 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 	
 	/**
-	 * @method
-	 * Releases a column from the receiver
+	 * Releases a column from the receiver.
 	 *
 	 * @private
-	 * @param {gara.widgets.TableColumn} column the column that should removed from the receiver
-	 * @return {void}
+	 * @param {gara.widgets.TableColumn} column the column that should released from the receiver
+	 * @returns {void}
 	 */
 	releaseColumn : function (column) {
 		if (this.columns.contains(column)) {
@@ -1078,12 +1169,11 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 	
 	/**
-	 * @method
-	 * Releases an item from the receiver
+	 * Releases an item from the receiver.
 	 *
 	 * @private
-	 * @param {gara.widgets.TableItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @param {gara.widgets.TableItem} item the item that should released from the receiver
+	 * @returns {void}
 	 */
 	releaseItem : function (item) {
 		if (this.items.contains(item)) {
@@ -1094,38 +1184,25 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes an item from the table
+	 * Removes an item from the receiver.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {int} index the index of the item
-	 * @return {void}
+	 * @throw {RangeError} if the index is out of bounds
+	 * @returns {void}
 	 */
 	remove : function (index) {
 		var item;
 		this.checkWidget();
+		if (index < 0 || index > this.items.length) {
+			throw new RangeError("index out of bounds");
+		}
 		this.releaseItem(this.items[index]);
 	},
 
 	/**
-	 * @method
-	 * Removes items whose indices are passed by an array
+	 * Removes all items from the receiver.
 	 *
-	 * @param {Array} inidices the array with the indices
-	 * @return {void}
-	 */
-	removeArray : function (indices) {
-		this.checkWidget();
-		indices.forEach(function (index) {
-			this.remove(index);
-		}, this);
-	},
-
-	/**
-	 * @method
-	 * Removes all items from the table
-	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeAll : function () {
 		var item;
@@ -1135,14 +1212,26 @@ gara.Class("gara.widgets.Table", function () { return {
 			this.releaseItem(item);
 		}
 	},
+	
+	/**
+	 * Removes items which indices are passed by an array
+	 *
+	 * @param {int[]} indices the array with the indices
+	 * @returns {void}
+	 */
+	removeArray : function (indices) {
+		this.checkWidget();
+		indices.forEach(function (index) {
+			this.remove(index);
+		}, this);
+	},
 
 	/**
-	 * @method
-	 * Removes items within an indices range
+	 * Removes items within an indices range.
 	 *
 	 * @param {int} start start index
 	 * @param {int} end end index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeRange : function (start, end) {
 		var i;
@@ -1153,12 +1242,11 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes the listener from the collection of listeners who will be notified 
+	 * Removes the listener from the collection of listeners who will no longer be notified 
 	 * when the user changes the receiver's selection. 
 	 *
 	 * @param {gara.widgets.SelectionListener} listener the listener which should no longer be notified 
-	 * @return {gara.widgets.Table} this
+	 * @returns {gara.widgets.Table} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
@@ -1166,29 +1254,30 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Scrollable
 	 */
 	scrolledHandle : function () {
 		return this.scroller;
 	},
 
 	/**
-	 * @method
-	 * Selects an item
+	 * Selects an item.
 	 *
-	 * @param {int} index the index of the Item that should be selected
-	 * @throws {RangeError} when there is no item at the given index
-	 * @return {void}
+	 * @see gara.widgets.Table#selectAll
+	 * @see gara.widgets.Table#selectArray
+	 * @see gara.widgets.Table#selectRange
+	 * @see gara.widgets.Table#setSelection
+	 * @param {int} index the item that should be selected
+	 * @throws {RangeError} if the index is out of bounds
+	 * @returns {void}
 	 */
 	select : function (index) {
 		this.checkWidget();
 
 		// return if index are out of bounds
-		if (typeof(this.items.indexOf(index)) == "undefined") {
-			throw new RangeError("There is no item for the given index");
+		if (index < 0 || index >= this.items.length) {
+			throw new RangeError("index out of bounds");
 		}
 
 		var item = this.items[index];
@@ -1201,12 +1290,11 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Selects an item
 	 *
 	 * @private
 	 * @param {gara.widgets.TableItem} item the item that should be selected
-	 * @throws {TypeError} if the item is not a TableItem
+	 * @throws {TypeError} if the item is not a {@link gara.widgets.TableItem}
 	 * @return {void}
 	 */
 	selectAdd : function (item, add) {
@@ -1225,10 +1313,16 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Select all items in the list
-	 *
-	 * @return {void}
+	 * Select all items in the receiver.
+	 * 
+	 * @description
+	 * Select all items in the receiver. If the receiver is single-select, do nothing.
+	 * 
+	 * @see gara.widgets.Table#select
+	 * @see gara.widgets.Table#selectArray
+	 * @see gara.widgets.Table#selectRange
+	 * @see gara.widgets.Table#setSelection
+	 * @returns {void}
 	 */
 	selectAll : function () {
 		this.checkWidget();
@@ -1243,6 +1337,16 @@ gara.Class("gara.widgets.Table", function () { return {
 		}
 	},
 
+	/**
+	 * Selects items passed by an array with zero-related indices.
+	 * 
+	 * @see gara.widgets.Table#select
+	 * @see gara.widgets.Table#selectAll
+	 * @see gara.widgets.Table#selectRange
+	 * @see gara.widgets.Table#setSelection
+	 * @param {int[]} indices an array with zero-related indices
+	 * @returns {void}
+	 */
 	selectArray : function (indices) {
 		if (!indices.length) {
 			return;
@@ -1261,6 +1365,17 @@ gara.Class("gara.widgets.Table", function () { return {
 		}
 	},
 
+	/**
+	 * Selects items within a specified range.
+	 *
+	 * @see gara.widgets.Table#select
+	 * @see gara.widgets.Table#selectAll
+	 * @see gara.widgets.Table#selectArray
+	 * @see gara.widgets.Table#setSelection
+	 * @param {int} from range start
+	 * @param {int} to range end
+	 * @returns {void}
+	 */
 	selectRange : function (from, to) {
 		var i;
 		if ((to - from) > 1 && (this.style & gara.MULTI) === gara.MULTI) {
@@ -1277,15 +1392,15 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Selects a Range of items. From shiftItem to the passed item.
+	 * Selects a range. From the item with shift-lock to the passed item.
 	 *
 	 * @private
-	 * @param {gara.widgets.TableItem} item the item
-	 * @return {void}
+	 * @param {gara.widgets.TableItem} item the item that should be selected
+	 * @throws {TypeError} if the item is not a {@link gara.widgets.TableItem}
+	 * @returns {void}
 	 */
 	selectShift : function (item, add) {
-		var indexShift, indexItem, from, to;
+		var indexShift, indexItem, from, to, i;
 		this.checkWidget();
 		if (!(item instanceof gara.widgets.TableItem)) {
 			throw new TypeError("item is not type of gara.widgets.TableItem");
@@ -1303,7 +1418,7 @@ gara.Class("gara.widgets.Table", function () { return {
 			from = indexShift > indexItem ? indexItem : indexShift;
 			to = indexShift < indexItem ? indexItem : indexShift;
 
-			for (var i = from; i <= to; ++i) {
+			for (i = from; i <= to; ++i) {
 				this.selection.push(this.items[i]);
 				this.items[i].setSelected(true);
 			}
@@ -1315,22 +1430,17 @@ gara.Class("gara.widgets.Table", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the selection of the <code>Table</code>
+	 * Sets the selection on the receiver. The current selection is cleared before the new items are selected. 
 	 *
-	 * @param {gara.widgets.TableItem[]|gara.widgets.TableItem} items an array or single <code>TableItem</code>
-	 * @return {void}
+	 * @see gara.widgets.Table#deselectAll
+	 * @param {gara.widgets.TableItem[]|gara.widgets.TableItem} items the array with the <code>TableItem</code> items
+	 * @returns {gara.widgets.Table} this
 	 */
 	setSelection : function (items) {
 		var item;
 		this.checkWidget();
 
-		while (this.selection.length) {
-			item = this.selection.pop();
-			if (!item.isDisposed()) {
-				item.setSelected(false);
-			}
-		}
+		this.deselectAll();
 
 		if (items instanceof Array) {
 			if (items.length > 1 && (this.style & gara.MULTI) === gara.MULTI) {
@@ -1351,11 +1461,27 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the order that the items in the receiver should be displayed in to the 
+	 * given argument which is described in terms of the zero-relative ordering of 
+	 * when the items were added. 
+	 * 
+	 * @see gara.widgets.Table#getColumnOrder 
+	 * @param {int[]} order the new order to display the items 
+	 * @returns {gara.widgets.Table} this
+	 */
 	setColumnOrder : function (order) {
 		this.columnOrder = order;
 		return this;
 	},
 
+	/**
+	 * Marks the receiver's header as visible if the argument is <code>true</code>, and
+	 * marks it invisible otherwise. 
+	 * 
+	 * @param {boolean} show the new visibility state 
+	 * @returns {gara.widgets.Table} this
+	 */
 	setHeaderVisible : function (show) {
 		this.headerVisible = show;
 		this.thead.style.display = this.headerVisible ? "table-row-group" : "none";
@@ -1367,6 +1493,13 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this;
 	},
 
+	/**
+	 * Marks the receiver's lines as visible if the argument is <code>true</code>, and 
+	 * marks it invisible otherwise.
+	 *  
+	 * @param {boolean} show the new visibility state 
+	 * @returns {gara.widgets.Table} this
+	 */
 	setLinesVisible : function (show) {
 		this.linesVisible = show;
 		this.setClass("garaTableLines", this.linesVisible);
@@ -1374,6 +1507,13 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the item which is currently at the top of the receiver. This item can 
+	 * change when items are scrolled or new items are added and removed. 
+	 * 
+	 * @param {gara.widgets.TableItem} item the top item
+	 * @returns {gara.widgets.Table} this
+	 */
 	setTopItem : function (item) {
 		var index, h = 0, i;
 		if (!(item instanceof gara.widgets.TableItem)) {
@@ -1389,6 +1529,14 @@ gara.Class("gara.widgets.Table", function () { return {
 		return this;
 	},
 
+	/**
+	 * Shows the item. If the item is already showing in the receiver, this method 
+	 * simply returns. Otherwise, the items are scrolled until the item is visible.
+	 *  
+	 * @see gara.widgets.Table#showSelection
+	 * @param {gara.widgets.TableItem} item the item to be shown
+	 * @returns {void}
+	 */
 	showItem : function (item) {
 		var index, h, i, newScrollTop;
 		if (!(item instanceof gara.widgets.TableItem)) {
@@ -1410,26 +1558,32 @@ gara.Class("gara.widgets.Table", function () { return {
 		}
 	},
 
+	/**
+	 * Shows the selection. If the selection is already showing in the receiver, this 
+	 * method simply returns. Otherwise, the items are scrolled until the selection is 
+	 * visible.
+	 * 
+	 * @see gara.widgets.Table#showItem
+	 * @returns {void}
+	 */
 	showSelection : function () {
 		if (this.selection.length) {
 			this.showItem(this.selection[0]);
 		}
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	update : function () {
-		var i, col;
+		var i, col, len;
 		this.checkWidget();
 
 		// -- update table head
@@ -1463,7 +1617,7 @@ gara.Class("gara.widgets.Table", function () { return {
 
 		// adding cols
 		for (i = 0, len = this.columnOrder.length; i < len; ++i) {
-			var col = this.columns[this.columnOrder[i]];
+			col = this.columns[this.columnOrder[i]];
 
 			if (col.isDisposed()) {
 				this.releaseColumn(col);

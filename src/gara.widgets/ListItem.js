@@ -1,4 +1,4 @@
-/*	$Id: ListItem.class.js 176 2008-11-22 01:27:51Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,22 +21,19 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.ListItem", "gara.widgets.Item");
 
 gara.use("gara.widgets.List");
 
 /**
- * @summary
  * gara ListItem for List Widget
  *
- * @description
- *
- * @class ListItem
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.ListItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.ListItem", function () { return {
+gara.Class("gara.widgets.ListItem", function () { return /** @lends gara.widgets.ListItem# */ {
 	$extends : gara.widgets.Item,
 
 	/**
@@ -82,15 +79,14 @@ gara.Class("gara.widgets.ListItem", function () { return {
 	checked : false,
 
 	/**
-	 * @constructor
-	 * Constructor
-	 *
-	 * @author Thomas Gossmann
+	 * Creates a new ListItem
+	 * 
+	 * @constructs
+	 * @extends gara.widgets.Item
 	 * @param {gara.widgets.List} parent the List Widget for this item
 	 * @param {int} style the style for this item
 	 * @param {int} index index to insert the item at
 	 * @throws {TypeError} if the list is not a List widget
-	 * @return {gara.widgets.ListItem}
 	 */
 	$constructor : function (parent, style, index) {
 		if (!(parent instanceof gara.widgets.List)) {
@@ -109,12 +105,10 @@ gara.Class("gara.widgets.ListItem", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.img, eventType, listener);
@@ -122,12 +116,10 @@ gara.Class("gara.widgets.ListItem", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Internal creation process of this item
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	createWidget : function () {
 		var items = this.parent.getItems(),
@@ -199,6 +191,12 @@ gara.Class("gara.widgets.ListItem", function () { return {
 
 	},
 
+	/**
+	 * Destroys the <code>ListItem</code>
+	 * 
+	 * @private
+	 * @returns {void}
+	 */
 	destroyWidget : function () {
 		this.parent.releaseItem(this);
 
@@ -210,25 +208,35 @@ gara.Class("gara.widgets.ListItem", function () { return {
 		this.$super();
 	},
 
+	/**
+	 * Returns the receiver's checked state.
+	 * 
+	 * @see gara.widgets.ListItem#setChecked
+	 * @returns {boolean} <code>true</code> for checked and <code>false</code> otherwise
+	 */
 	getChecked : function () {
 		this.checkWidget();
 		return this.checked;
 	},
 
+	/**
+	 * Returns the receiver's grayed state.
+	 * 
+	 * @see gara.widgets.ListItem#setGrayed
+	 * @returns {boolean} <code>true</code> for grayed and <code>false</code> otherwise
+	 */
 	getGrayed : function () {
 		this.checkWidget();
 		return this.grayed;
 	},
 
 	/**
-	 * @method
 	 * Event handler for this item. Its main use is to pass through keyboard events
 	 * to all listeners.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} e DOMEvent
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
@@ -265,12 +273,11 @@ gara.Class("gara.widgets.ListItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the checked state for this item
+	 * Sets the receiver's checked state.
 	 *
-	 * @author Thomas Gossmann
-	 * @param {boolean} checked the new checked state
-	 * @return {void}
+	 * @see gara.widgets.ListItem#getChecked
+	 * @param {boolean} checked <code>true</code> for checked and <code>false</code> otherwise
+	 * @returns {void}
 	 */
 	setChecked : function (checked) {
 		this.checkWidget();
@@ -282,6 +289,13 @@ gara.Class("gara.widgets.ListItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's grayed state.
+	 *
+	 * @see gara.widgets.ListItem#getGrayed
+	 * @param {boolean} grayed <code>true</code> for grayed and <code>false</code> otherwise
+	 * @returns {void}
+	 */
 	setGrayed : function (grayed) {
 		this.checkWidget();
 		this.grayed = grayed;
@@ -292,6 +306,12 @@ gara.Class("gara.widgets.ListItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's image.
+	 * 
+	 * @param {Image} image the new image
+	 * @returns {gara.widgets.ListItem} this
+	 */
 	setImage : function (image) {
 		this.$super(image);
 
@@ -311,8 +331,15 @@ gara.Class("gara.widgets.ListItem", function () { return {
 	},
 
 	/**
-	 *
+	 * Sets the receiver's selected state.
+	 * 
 	 * @private
+	 * @see gara.widgets.List#select
+	 * @see gara.widgets.List#selectAll
+	 * @see gara.widgets.List#selectArray
+	 * @see gara.widgets.List#selectRange
+	 * @see gara.widgets.List#setSelection
+	 * @param {boolean} selected <code>true</code> for selected and <code>false</code> otherwise
 	 */
 	setSelected : function (selected) {
 		this.checkWidget();
@@ -321,6 +348,12 @@ gara.Class("gara.widgets.ListItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's text.
+	 * 
+	 * @param {String} text the new text
+	 * @returns {gara.widgets.ListItem} this
+	 */
 	setText : function (text) {
 		this.$super(text);
 		this.spanText.nodeValue = this.text;
@@ -328,12 +361,10 @@ gara.Class("gara.widgets.ListItem", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	unbindListener : function (eventType, listener) {
 		if (this.img !== null) {

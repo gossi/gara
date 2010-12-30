@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,12 +21,11 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.events.ModifyListener");
 
 /**
- * @interface ModifyListener
- * 
- * @summary
  * Classes which implement this interface provide a method that deals with 
  * the events that are generated when text is modified.
  * 
@@ -36,17 +35,19 @@ gara.provide("gara.events.ModifyListener");
  * method and removed using the <code>removeModifyListener</code> method. 
  * When the text is modified, the modifyText method will be invoked.
  *  
- * @namespace gara.events
+ * @interface gara.events.ModifyListener
+ * @name gara.events.ModifyListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
 
-gara.Class("gara.events.ModifyListener", {
+gara.Class("gara.events.ModifyListener", /** @lends gara.events.ModifyListener# */ {
 
 	/**
-	 * @method
 	 * Sent when the text is modified.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Event} e an event containing information about the modify
 	 */
-	modifyText : function(e) {}
+	modifyText : function (e) {}
 });

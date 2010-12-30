@@ -1,0 +1,1 @@
+gara.provide("gara.action.ActionChangedListener");gara.Class("gara.action.ActionChangedListener",{actionChanged:function(a){}});

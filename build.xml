@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gara" basedir="." default="build">
+	
+	<!-- Properties -->
+	<property file="${basedir}/build.properties"/>
+	
+	<!-- Task definitions -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"
+		classpath="${basedir}/lib/antcontrib/ant-contrib-1.0b3.jar"/>
+	
+    <taskdef resource="smartsprites.xml">
+		<classpath>
+			<fileset dir="${basedir}/lib/smartsprites-0.2.6">
+				<include name="*.jar" />
+			</fileset>
+		</classpath>
+    </taskdef>
+	
+	<taskdef name="jslint"
+		classname="com.googlecode.jslint4java.ant.JSLintTask"
+		classpath="${basedir}/lib/jslint4java/jslint4java-1.4.4.jar" />
+
+	<target name="-cleanupCommon">
+		
+	</target>
+
+	<target name="-cleanupXmlDoc" depends="-cleanupCommon">
+		<delete dir="${basedir}/docs/xml">
+			<include name="**/*.xml"/>
+		</delete>
+	</target>
+	
+	<target name="-cleanupDoc" depends="-cleanupCommon">
+		<delete dir="${basedir}/docs/api">
+			<include name="**/*"/>
+		</delete>
+	</target>
+
+	<target name="-cleanupDeploy" depends="-cleanupCommon">
+		<delete failonerror="false">
+			<fileset dir="${deployDir}">
+				<include name="**/*"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="xmldoc" depends="-cleanupXmlDoc">
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/gara"/>
+			<arg value="-d=../../docs/xml/" />
+			<arg value="../../build/gara-src.js" />
+		</java>
+		<move file="${docDir}/xml/jsdoc.xml" tofile="${docDir}/xml/gara.xml"/>
+
+		<!-- Core Classes -->
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/garaclasses"/>
+			<arg value="-d=../../docs/xml/core" />
+			<arg value="../../src/core" />
+		</java>
+
+		<!-- gara.jswt Classes -->
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/garaclasses"/>
+			<arg value="-d=../../docs/xml/jswt" />
+			<arg value="../../src/jswt" />
+		</java>
+
+		<!-- gara.jsface Classes -->
+		<java jar="buildscripts/jsdoc/lib/js.jar" failonerror="true" dir="buildscripts/jsdoc" fork="true">
+			<arg value="lib/jsDoc.js" />
+			<arg value="-t=templates/garaclasses"/>
+			<arg value="-d=../../docs/xml/jsface" />
+			<arg value="../../src/jsface" />
+		</java>
+		
+		<!-- build class hierarchy -->
+		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/xml/class_hierarchy.xml" style="${basedir}/buildscripts/xml2doc/class_hierarchy.xsl"/>
+	</target>
+	
+	<target name="doc" depends="-cleanupDoc">
+		<!-- copy static files -
+		<copy file="${basedir}/buildscripts/xml2doc/static/garaapi.css" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/xml2doc/static/garaapi.js" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/xml2doc/static/blank.html" todir="${basedir}/docs/api"/>
+		<copy file="${basedir}/buildscripts/xml2doc/static/frameset.html" tofile="${basedir}/docs/api/index.html"/>
+
+		<!- creating frame stuff -
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/_overview.html" style="${basedir}/buildscripts/xml2doc/overview.xsl"/>
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/_nav_namespaces.html" style="${basedir}/buildscripts/xml2doc/nav_namespaces.xsl"/>
+
+		<!- gara core files -
+		<antcall target=".docPackage">
+			<param name="srcDir" value="${basedir}/docs/xml/core"/>
+			<param name="pkg" value="gara"/>
+		</antcall>
+
+		<!- gara.jswt files -
+		<antcall target=".docPackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jswt"/>
+			<param name="pkg" value="gara.jswt"/>
+		</antcall>
+
+		<!- gara.jsface files -
+		<antcall target=".docPackage">
+			<param name="srcDir" value="${basedir}/docs/xml/jsface"/>
+			<param name="pkg" value="gara.jsface"/>
+		</antcall>-->
+		<java  jar="${basedir}/lib/jsdoc-toolkit-2.4.0/jsrun.jar" failonerror="true" fork="true"
+			logerror="true">
+			<arg value="${basedir}/lib/jsdoc-toolkit-2.4.0/app/run.js"/>
+			<!--arg value="-t=${basedir}/lib/jsdoc-toolkit-2.4.0/templates/jsdoc"/-->
+			<arg value="-t=${basedir}/lib/jsdoc-templates/bluelabel"/>
+			<arg value="-d=${dir.deploy.docs}/api"/>
+			<arg value="-r"/>
+			<arg value="-s"/>
+			<arg value="${dir.src}"/>
+		</java>
+	</target>
+	
+	<target name="buildSource">
+		<!-- prepare directories -->
+		<delete dir="${dir.build}"/>
+		<mkdir dir="${dir.build}"/>
+				
+		<!-- run Packer -->
+		<java classname="org.mozilla.javascript.tools.shell.Main" failonerror="true"
+			logerror="true">
+			<arg value="${basedir}/lib/packer/pack.js"/>
+			<arg value="-s"/>
+			<arg value="${dir.src}"/>
+			<arg value="${dir.build}"/>
+			<classpath>
+				<pathelement location="${basedir}/lib/packer/js.jar"/>
+			</classpath>
+		</java>
+	</target>
+	
+	<target name="buildThemes">
+		<!-- prepare directories -->
+		<delete dir="${dir.deploy.themes}"/>
+		<mkdir dir="${dir.deploy.themes}"/>
+
+		<!-- build themes -->
+		<foreach target=".buildTheme" param="theme.path">
+			<path>
+				<dirset dir="${dir.dev.themes}">
+					<include name="*"/>
+				</dirset>
+			</path>
+		</foreach>
+	</target>
+	
+	<target name="build" depends="buildSource,buildThemes"/>
+	
+	<target name="lint">
+		<jslint options="browser,eqeqeq,immed,laxbreak,newcap,nomen,onevar,regexp,strict,undef">
+			<formatter type="plain"/>
+			<fileset dir="${dir.src}" includes="**/*.js"/>
+			<predef>gara,window</predef>
+		</jslint>
+	</target>
+
+	<target name="deploy" depends="-cleanupDeploy,build">
+		<mkdir dir="${deployDir}"/>
+		<copy file="${basedir}/README" todir="${deployDir}"/>
+		<copy file="${basedir}/lgpl-2.1.txt" todir="${deployDir}"/>
+		
+		<copy file="${buildDir}/gara.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara-b.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara-c.js" todir="${deployDir}"/>
+		<copy file="${buildDir}/gara-bc.js" todir="${deployDir}"/>
+		
+		<mkdir dir="${deployDir}/res"/>
+		<copy file="${buildDir}/gara.css" todir="${deployDir}/res"/>
+		<copy file="${buildDir}/gara-yui-reset-fonts.css" todir="${deployDir}/res"/>
+		
+		<mkdir dir="${deployDir}/themes"/>
+		<antcall target=".deployTheme">
+			<param name="destDir" value="${deployDir}/themes"/>
+			<param name="theme" value="sand"/>
+		</antcall>
+
+		<tar destfile="${archiveDir}/gara-${version}.tar.gz" compression="gzip">
+			<tarfileset dir="${basedir}/gara" includes="*"/>
+		</tar>
+	</target>
+	
+	<target name=".buildTheme">
+		<propertyregex property="theme"
+						input="${theme.path}"
+						regexp="${dir.dev.themes}${file.separator}(.*)"
+						select="\1"
+						override="true"
+						casesensitive="false" />
+		
+		<echo message="Build Theme: ${theme}"/>
+		<mkdir dir="${dir.deploy.themes}/${theme}"/>
+
+		<!-- Concatening -->
+		<delete file="${dir.dev.themes}/${theme}/${theme}-combined.css"/>
+		<concat destfile="${dir.dev.themes}/${theme}/${theme}-combined.css">
+			<fileset dir="${dir.dev.css}" includes="gara.css"/>
+			<fileset dir="${dir.dev.themes}/${theme}" includes="${theme}.css"/>
+			<fileset dir="${dir.dev.themes}/${theme}" includes="*.css" excludes="${theme}.css"/>
+		</concat>
+		
+		<replaceregexp file="${dir.dev.themes}/${theme}/${theme}-combined.css"
+		               match="@import url\('.+'\);"
+		               replace=""
+		               byline="true"/>
+
+		<!-- Generating Sprites -->
+		<smartsprites
+				rootdir="${dir.dev.themes}/${theme}"
+				outputdir="${dir.deploy.themes}/${theme}"
+				cssfileencoding="${sprite.css.file.encoding}"
+				cssfilesuffix="${sprite.css.file.suffix}"
+				loglevel="${sprite.log.level}"
+				spritepngdepth="${sprite.png.depth}"
+				spritepngie6="${sprite.png.ie6}">
+			<fileset dir="${dir.dev.themes}/${theme}">
+				<include name="${theme}-combined.css" />
+			</fileset>
+		</smartsprites>
+		
+		<!-- Copying remaining images -->
+		<copy todir="${dir.deploy.themes}/${theme}">
+			<fileset dir="${dir.dev.themes}/${theme}" includesfile="${dir.dev.themes}/${theme}/images.txt"/>
+		</copy>
+	
+		<!-- Compressing -->
+		<java jar="${basedir}/buildscripts/lib/yuicompressor-2.4.2/yuicompressor-2.4.2.jar" dir="${basedir}/buildscripts/lib/yuicompressor-2.4.2" failonerror="true" fork="true"
+			logerror="true">
+			<arg value="--type"/>
+			<arg value="css"/>
+			<arg value="-o"/>
+			<arg value="${dir.deploy.themes}/${theme}/${theme}-compressed.css"/>
+			<arg value="${dir.deploy.themes}/${theme}/${theme}-combined.css"/>
+		</java>
+		<replace file="${dir.deploy.themes}/${theme}/${theme}-compressed.css" token="@media all and(min-width:0)" value="@media all and (min-width:0)"/>
+		<replace file="${dir.deploy.themes}/${theme}/${theme}-compressed.css" token="@media screen and(-webkit-min-device-pixel-ratio:0)" value="@media screen and (-webkit-min-device-pixel-ratio:0)"/>
+		
+		<!-- Add copyright information -->
+		<concat destfile="${dir.deploy.themes}/${theme}/${theme}.css">
+			<fileset dir="${dir.dev.themes}/${theme}" includes="header.txt"/>
+			<fileset dir="${dir.deploy.themes}/${theme}" includes="${theme}-compressed.css"/>
+		</concat>
+		
+		<!-- Clean up -->
+		<delete file="${dir.dev.themes}/${theme}/${theme}-combined.css"/>
+		<delete file="${dir.deploy.themes}/${theme}/${theme}-combined.css"/>
+		<delete file="${dir.deploy.themes}/${theme}/${theme}-compressed.css"/>
+	</target>
+	
+	<target name=".docPackage">
+		<xslt basedir="${srcDir}" destdir="${basedir}/docs/api" style="${basedir}/buildscripts/xml2doc/class.xsl">
+			<mapper>
+				<regexpmapper from="^([^\\\/]+)\.xml$$" to="${pkg}.\1.html" handledirsep="true"/>
+			</mapper>
+			<param name="jsXml" expression="${basedir}/docs/xml/gara.xml"/>
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+		</xslt>
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/${pkg}._tree.html" style="${basedir}/buildscripts/xml2doc/class_tree.xsl">
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+			<param name="namespace" expression="${pkg}"/>
+		</xslt>
+		<xslt in="${basedir}/docs/xml/gara.xml" out="${basedir}/docs/api/${pkg}._namespace.html" style="${basedir}/buildscripts/xml2doc/namespace.xsl">
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+			<param name="namespace" expression="${pkg}"/>
+		</xslt>
+		<xslt in="${basedir}/docs/xml/class_hierarchy.xml" out="${basedir}/docs/api/${pkg}._nav.html" style="${basedir}/buildscripts/xml2doc/nav_namespace.xsl">
+			<param name="hierarchyPath" expression="${basedir}/docs/xml/class_hierarchy.xml"/>
+			<param name="namespace" expression="${pkg}"/>
+		</xslt>
+	</target>
+</project>

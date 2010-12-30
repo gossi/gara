@@ -1,0 +1,1 @@
+gara.provide("gara.events.KeyListener");gara.Class("gara.events.KeyListener",{keyPressed:function(a){},keyReleased:function(a){}});

@@ -1,0 +1,1 @@
+gara.provide("gara.events.ShellListener");gara.Class("gara.events.ShellListener",{shellActivated:function(a){},shellClosed:function(a){},shellDeactivated:function(a){},shellDeiconified:function(a){},shellIconified:function(a){}});

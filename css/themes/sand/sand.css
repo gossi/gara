@@ -26,7 +26,7 @@ Item Selected (inactive):	#E1E0D9		#000
 /** sprite: stone-mud; sprite-image: url('sprite-stone-mud.png'); sprite-layout: vertical; */
 /** sprite: stone-sand; sprite-image: url('sprite-stone-sand.png'); sprite-layout: vertical; */
 /** sprite: menu; sprite-image: url('sprite-menu.png');*/
-/** sprite: button; sprite-image: url('sprite-button.png'); */
+/** sprite: button; sprite-image: url('sprite-button.png'); sprite-layout: vertical; */
 
 @import url('../../gara.css');
 @import url('garaCheckbox.css');

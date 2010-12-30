@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,12 +21,11 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.events.MouseWheelListener");
 
 /**
- * @interface MouseListener
- * 
- * @summary
  * Classes which implement this interface provide a method that deals with the event that is 
  * generated as the mouse wheel is scrolled. 
  * 
@@ -36,17 +35,19 @@ gara.provide("gara.events.MouseWheelListener");
  * <code>removeMouseWheelListener</code> method. When the mouse wheel is scrolled the 
  * mouseScrolled method will be invoked. 
  * 
- * @namespace gara.events
+ * @interface gara.events.MouseWheelListener
+ * @name gara.events.MouseWheelListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
-gara.Class("gara.events.MouseWheelListener", {
+gara.Class("gara.events.MouseWheelListener", /** @lends gara.events.MouseWheelListener# */ {
 
 	/**
-	 * @method
 	 * Sent when the mouse wheel is scrolled. 
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Event} e an event containing information about the mouse wheel action
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseScrolled : function(e) {}
+	mouseScrolled : function (e) {}
 });

@@ -35,6 +35,10 @@ gara.Class("gara.window.ApplicationWindow", function () { return {
 
 	$extends : gara.window.Window,
 	
+	actions : null,
+	
+	showMenuBar : false,
+	
 	/**
 	 * @field
 	 * The application's menubar manager
@@ -43,6 +47,8 @@ gara.Class("gara.window.ApplicationWindow", function () { return {
 	 * @type {gara.action.MenuManager}
 	 */
 	menuBarManager : null,
+	
+	showToolBar : false,
 	
 	toolBarControl : null,
 	
@@ -64,22 +70,14 @@ gara.Class("gara.window.ApplicationWindow", function () { return {
 		this.toolBarControl = null;
 		this.toolBarManager = null;
 		
-		document.documentElement.setAttribute("role", "application");
-	},
-	
-	addMenuBar : function () {
-		if (this.getShell() === null && this.menuBarManager === null) {
-			this.menuBarManager = this.createMenuManager();
-		} 
-	},	
-
-	addToolBar : function () {
-		if (this.getShell() === null && this.toolBarManager === null) {
-			this.toolBarManager = this.createToolBarManager();
-		} 
+		this.showMenuBar = false;
+		this.showToolBar = false;
+		
+		this.actions = {};
 	},
 	
 	close : function () {
+		this.preWindowShellClose();
 		if (this.menuBarManager !== null) {
             this.menuBarManager.dispose();
             this.menuBarManager = null;
@@ -93,19 +91,9 @@ gara.Class("gara.window.ApplicationWindow", function () { return {
 //            this.statusLineManager = null;
 //        }
         this.$super();
+        this.postWindowClose();
 	},
-	
-	/**
-	 * @method
-	 * Creates the contents of the application. Subclasses should override this.
-	 * 
-	 * @param {gara.widgets.Shell} parent
-	 * @return
-	 */
-	createAppContents : function (parent) {
-		
-	},
-	
+
 	/**
 	 * @method
 	 * Creates and returns the contents of the application window.
@@ -116,46 +104,164 @@ gara.Class("gara.window.ApplicationWindow", function () { return {
 	 * @returns {gara.widgets.Control}
 	 */
 	createContents : function (parent) {
-//		var composite;
+		var composite;
 		if (!(parent instanceof gara.widgets.Composite)) {
 			throw new TypeError("parent not instance of gara.widgets.Composite");
 		}
+		
+		if (this.showMenuBar) {
+			this.menuBarManager = this.createMenuManager();
+		}
+		
+		if (this.showToolBar) {
+			this.toolBarManager = this.createToolBarManager();
+		}
+		
+		this.fillActionBars();
 		
 		if (this.menuBarManager !== null) {
         	this.shell.setMenuBar(this.menuBarManager.createMenuBar(parent));
             this.menuBarManager.update();
         }
 		
+				
 		this.createToolBarControl(parent);
-		this.createAppContents(parent);
+		
+		
+		composite = this.createPageComposite(parent);
+		this.createWindowContents(composite);
 
-		return parent;
+		return composite;
 	},
 	
 	createMenuManager : function () {
 		return new gara.action.MenuManager();
 	},
+	
+	createPageComposite : function (parent) {
+		return new gara.widgets.Composite(parent);
+	},
 
 	createToolBarControl : function (parent) {
 		if (this.toolBarManager !== null) {
-			this.toolBarControll = this.toolBarManager.createToolBar(parent);
+			this.toolBarControl = this.toolBarManager.createToolBar(parent);
 		}
 	},
 	
 	createToolBarManager : function () {
 		return new gara.action.MenuManager();
 	},
+	
+	/**
+	 * @method
+	 * Creates the contents of the application. Subclasses should override this.
+	 * 
+	 * @param {gara.widgets.Shell} parent
+	 * @return
+	 */
+	createWindowContents : function (parent) {
+		
+	},
+	
+	fillActionBars : function () {
+		this.makeActions();
+
+		if (this.showMenuBar) {
+			this.fillMenuBar(this.menuBarManager);
+		}
+		
+		if (this.showToolBar) {
+			this.fillToolBar(this.toolBarManager);
+		}
+	},
+	
+	fillMenuBar : function (menuManager) {
+		
+	},
+	
+	fillToolBar : function (toolBarManager) {
+		
+	},
+	
+	/**
+	 * Returns the action with the given id, or <code>null</code> if not found.
+	 * 
+	 * @param {String} id the action id
+	 * @return the action with the given id, or <code>null</code> if not found
+	 */
+	getAction : function (id) {
+		if (Object.prototype.hasOwnProperty.call(this.actions, id)) {
+			return this.actions[id];
+		}
+		return null;
+	},
 
 	getMenuBarManager : function () {
 		return this.menuBarManager;
+	},
+	
+	getShellStyle : function () {
+		return gara.BORDER;
 	},
 	
 	getToolBarManager : function () {
 		return this.toolBarManager;
 	},
 	
-	run : function () {
-		this.build();
-		this.open();
+	makeActions : function () {
+		
+	},
+	
+	open : function (callback, context) {
+		this.preWindowOpen();
+		if (this.shell == null || this.shell.isDisposed()) {
+			this.shell = null;
+			this.create();
+			this.postWindowCreate();
+		}
+		this.callback = callback || this.callback;
+		this.context = context || this.context;
+		this.shell.open();
+		this.shell.layout();
+		this.postWindowOpen();
+	},
+	
+	preWindowOpen : function () {
+		
+	},
+	
+	preWindowShellClose : function () {
+		
+	},
+	
+	postWindowClose : function () {
+		
+	},
+	
+	postWindowCreate : function () {
+		
+	},
+	
+	postWindowOpen : function () {
+		
+	},
+	
+	register : function (action) {
+		if (!action.getId) {
+			throw new TypeError("action is not implementing IAction, getId is missing");
+		}
+		var id = action.getId();
+		if (id === null) {
+			throw new Error("action.getId must not null");
+		}
+		this.actions[id] = action;
+	},
+	
+	setShowMenuBar : function (show) {
+		this.showMenuBar = show;
+	},
+	
+	setShowToolBar : function (show) {
+		this.showToolBar = show;
 	}
 };});

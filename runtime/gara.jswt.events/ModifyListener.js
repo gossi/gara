@@ -1,1 +1,0 @@
-gara.provide("gara.jswt.events.ModifyListener");gara.Class("gara.jswt.events.ModifyListener",{modifyText:function(a){}});

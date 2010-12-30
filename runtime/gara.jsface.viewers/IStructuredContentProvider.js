@@ -1,1 +1,0 @@
-gara.provide("gara.jsface.viewers.IStructuredContentProvider");$package("gara.jsface.viewers");$interface("IStructuredContentProvider",{$extends:gara.jsface.viewers.IContentProvider,getElements:function(a){}});$package("");

@@ -1,1 +1,0 @@
-gara.provide("gara.jsface.viewers.CheckStateChangedEvent");$package("gara.jsface.viewers");$class("CheckStateChangedEvent",{$constructor:function(a,b,c){this._source=a;this._element=b;this._state=c},getElement:function(){return this._element},getSource:function(){return this._source},getState:function(){return this._state}});$package("");

@@ -1,0 +1,1 @@
+gara.provide("gara.events.ModifyListener");gara.Class("gara.events.ModifyListener",{modifyText:function(a){}});

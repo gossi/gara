@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ITableLabelProvider","gara.viewers.IBaseLabelProvider");gara.Class("gara.viewers.ITableLabelProvider",function(){return{$extends:gara.viewers.IBaseLabelProvider,getColumnImage:function(a,b){},getColumnText:function(a,b){}}});

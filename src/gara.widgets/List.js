@@ -1,4 +1,4 @@
-/*	$Id: List.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,23 +21,22 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.List", "gara.widgets.Composite");
 
 gara.use("gara.widgets.ListItem");
 
 /**
- * @summary
  * gara List Widget
  *
  * @description
  * long description for the List Widget...
  *
- * @class List
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.List
  * @extends gara.widgets.Composite
  */
-gara.Class("gara.widgets.List", function () { return {
+gara.Class("gara.widgets.List", function () { return /** @lends gara.widgets.List# */ {
 	$extends : gara.widgets.Composite,
 
 	/**
@@ -82,9 +81,8 @@ gara.Class("gara.widgets.List", function () { return {
 	shiftItem : null,
 
 	/**
-	 * @constructor
-	 * Constructor
-	 *
+	 * @constructs
+	 * @extends gara.widgets.Composite
 	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
@@ -102,13 +100,12 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Activates an item
 	 *
 	 * @private
 	 * @param {gara.widgets.ListItem} item the item that should added to the List
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {void}
+	 * @returns {void}
 	 */
 	activateItem : function (item) {
 		this.checkWidget();
@@ -129,13 +126,12 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds an item to the list (invoked by the constructor of ListItem)
 	 *
 	 * @private
 	 * @param {gara.widgets.ListItem} item the item that should added to the List
-	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {void}
+	 * @throws {TypeError} if the item is not a gara.widgets.ListItem
+	 * @returns {void}
 	 */
 	addItem : function (item, index) {
 		this.checkWidget();
@@ -153,13 +149,12 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection, by sending it one of 
 	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
-	 * @return {gara.widgets.List} this
+	 * @returns {gara.widgets.List} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
@@ -170,11 +165,10 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
@@ -204,20 +198,19 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Deselects an item
+	 * Deselects an item.
 	 *
 	 * @param {int} index item at zero-related index that should be deselected
-	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {void}
+	 * @throws {RangeError} when there is no item at the given index
+	 * @returns {void}
 	 */
 	deselect : function (index) {
 		var item;
 		this.checkWidget();
 
 		// return if index are out of bounds
-		if (index < 0 || index >= this.items.length) {
-			return;
+		if (typeof(this.items.indexOf(index)) === "undefined") {
+			throw new RangeError("There is no item for the given index");
 		}
 
 		item = this.items[index];
@@ -230,10 +223,9 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Deselects all items in the <code>List</code>
+	 * Deselects all items of the receiver.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	deselectAll : function () {
 		var item;
@@ -247,6 +239,12 @@ gara.Class("gara.widgets.List", function () { return {
 		}
 	},
 
+	/**
+	 * Deselects items which indices passed as an array.
+	 * 
+	 * @param {int[]} indices an array with zero-related indices
+	 * @returns {void}
+	 */
 	deselectArray : function (indices) {
 		if (this.selection.length) {
 			indices.forEach(function (index) {
@@ -259,6 +257,13 @@ gara.Class("gara.widgets.List", function () { return {
 		}
 	},
 
+	/**
+	 * Deselects a range of items.
+	 * 
+	 * @param {int} from
+	 * @param {int} to
+	 * @returns {void}
+	 */
 	deselectRange : function (from, to) {
 		for (var i = from; i <= to; i++) {
 			this.items[i].setSelected(false);
@@ -266,6 +271,9 @@ gara.Class("gara.widgets.List", function () { return {
 		this.notifySelectionListener();
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.items = null;
 
@@ -279,12 +287,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes an item from the receiver
 	 *
 	 * @private
 	 * @param {gara.widgets.ListItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @returns {void}
 	 */
 	destroyItem : function (item) {
 		if (this.items.contains(item)) {
@@ -293,6 +300,13 @@ gara.Class("gara.widgets.List", function () { return {
 		}
 	},
 
+	/**
+	 * Focus listener. Will be notified when the receiver gets focussed.
+	 * 
+	 * @private
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	focusGained : function (e) {
 		// mark first item active
 		if (this.activeItem === null && this.items.length) {
@@ -301,16 +315,15 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Get a specified item with a zero-related index
+	 * Get a specified item with a zero-related index.
 	 *
 	 * @param {int} index the zero-related index
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {gara.widgets.ListItem} the item
+	 * @returns {gara.widgets.ListItem} the item
 	 */
 	getItem : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 
@@ -318,17 +331,20 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the amount of the items in the list
+	 * Returns the amount of the items in the receiver.
 	 *
-	 * @return {int} the amount
+	 * @returns {int} the amount
 	 */
 	getItemCount : function () {
 		return this.items.length;
 	},
 
 	/**
+	 * Returns the items height.
+	 * 
 	 * @private
+	 * @param {gara.widgets.Item} item
+	 * @returns {int} the height
 	 */
 	getItemHeight : function (item) {
 		return item.handle.offsetHeight
@@ -337,10 +353,9 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Returns an array with all the items in the list
 	 *
-	 * @return {gara.widgets.ListItem[]} the array with the items
+	 * @returns {gara.widgets.ListItem[]} the array with the items
 	 */
 	getItems : function () {
 		this.checkWidget();
@@ -348,10 +363,9 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Returns an array with the items which are currently selected in the list
 	 *
-	 * @return {gara.widgets.ListItem[]} an array with items
+	 * @returns {gara.widgets.ListItem[]} an array with items
 	 */
 	getSelection : function () {
 		this.checkWidget();
@@ -359,17 +373,23 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Returns the amount of the selected items in the tree
 	 *
-	 * @return {int} the amount
+	 * @returns {int} the amount
 	 */
 	getSelectionCount : function () {
 		this.checkWidget();
 		return this.selection.length;
 	},
 
+	/**
+	 * Returns a <code>ListItem</code> which is currently at the top of the receiver. This 
+	 * <code>ListItem</code> can change when items are scrolled or new items are added or removed.
+	 *  
+	 * @returns {gara.widgets.ListItem} the top item
+	 */
 	getTopItem : function () {
+		this.checkWidget();
 		var scrollTop, h, i;
 
 		if (!this.items.length) {
@@ -387,12 +407,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Handles events on the list. Implements DOMEvent Interface by the W3c.
 	 *
 	 * @private
 	 * @param {Event} e event the users triggers
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleEvent : function (e) {
 		var widget;
@@ -434,8 +453,7 @@ gara.Class("gara.widgets.List", function () { return {
 	 */
 	handleMouseEvents : function (e) {
 		var item = e.item;
-		switch (e.type) {
-		case "mousedown":
+		if (e.type === "mousedown") {
 			if (item !== null) {
 				this.activateItem(item);
 				if (!e.ctrlKey && !e.shiftKey) {
@@ -454,7 +472,6 @@ gara.Class("gara.widgets.List", function () { return {
 					this.select(this.indexOf(item));
 				}
 			}
-			break;
 		}
 	},
 
@@ -477,12 +494,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * handling key events on the List
+	 * Handling key events on the receiver.
 	 *
 	 * @private
 	 * @param {Event} e event the users triggers
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleKeyNavigation : function (e) {
 		var prev, next, activeIndex, i, h, viewport, itemAddition, min, lastOffset, scrollRange;
@@ -639,12 +655,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Looks for the index of a specified item
+	 * Looks for the index of a specified item.
 	 *
 	 * @param {gara.widgets.ListItem} item the item for the index
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {int} the index of the specified item
+	 * @returns {int} the index of the specified item
 	 */
 	indexOf : function (item) {
 		this.checkWidget();
@@ -656,11 +671,10 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Notifies selection listener about the changed selection within the List
+	 * Notifies selection listener about the changed selection within the receiver.
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	notifySelectionListener : function () {
 		this.selectionListeners.forEach(function (listener) {
@@ -671,11 +685,10 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 	
 	/**
-	 * @method
-	 * Releases all children from the receiver
+	 * Releases all children from the receiver.
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	releaseChildren : function () {
 		this.items.forEach(function (item) {
@@ -686,12 +699,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 	
 	/**
-	 * @method
-	 * Releases an item from the receiver
+	 * Releases an item from the receiver.
 	 *
 	 * @private
 	 * @param {gara.widgets.TableItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @returns {void}
 	 */
 	releaseItem : function (item) {
 		if (this.items.contains(item)) {
@@ -702,12 +714,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes an item from the list
+	 * Removes an item from the receiver.
 	 *
 	 * @param {int} index the index of the item
-	 * @throw {RangeError} when the specified index is not an item
-	 * @return {void}
+	 * @throw {RangeError} if the index is out of bounds
+	 * @returns {void}
 	 */
 	remove : function (index) {
 		var item;
@@ -718,16 +729,39 @@ gara.Class("gara.widgets.List", function () { return {
 		item = this.items.removeAt(index)[0];
 		this.selection.remove(item);
 		item.dispose();
-		delete item;
 	},
 
 	/**
-	 * @method
-	 * Removes items within an indices range
+	 * Removes all items from the receiver.
+	 *
+	 * @returns {void}
+	 */
+	removeAll : function () {
+		this.checkWidget();
+		while (this.items.length) {
+			this.remove(0);
+		}
+	},
+	
+	/**
+	 * Removes items which indices are passed as an array.
+	 *
+	 * @param {int[]} indices the array with the indices
+	 * @returns {void}
+	 */
+	removeArray : function (indices) {
+		this.checkWidget();
+		indices.forEach(function (item, index, arr) {
+			this.remove(index);
+		}, this);
+	},
+	
+	/**
+	 * Removes items within an indices range.
 	 *
 	 * @param {int} start start index
 	 * @param {int} end end index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeRange : function (start, end) {
 		var i;
@@ -738,39 +772,11 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes items which indices are passed by an array
-	 *
-	 * @param {Array} inidices the array with the indices
-	 * @return {void}
-	 */
-	removeFromArray : function (indices) {
-		this.checkWidget();
-		indices.forEach(function (item, index, arr) {
-			this.remove(index);
-		}, this);
-	},
-
-	/**
-	 * @method
-	 * Removes all items from the list
-	 *
-	 * @return {void}
-	 */
-	removeAll : function () {
-		this.checkWidget();
-		while (this.items.length) {
-			this.remove(0);
-		}
-	},
-
-	/**
-	 * @method
-	 * Removes the listener from the collection of listeners who will be notified 
+	 * Removes the listener from the collection of listeners who will no longer be notified 
 	 * when the user changes the receiver's selection. 
 	 *
 	 * @param {gara.widgets.SelectionListener} listener the listener which should no longer be notified 
-	 * @return {gara.widgets.Tree} this
+	 * @returns {gara.widgets.List} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
@@ -779,12 +785,15 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Selects an item
+	 * Selects an item.
 	 *
-	 * @param {gara.widgets.ListItem} item the item that should be selected
-	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {void}
+	 * @see gara.widgets.List#selectAll
+	 * @see gara.widgets.List#selectArray
+	 * @see gara.widgets.List#selectRange
+	 * @see gara.widgets.List#setSelection
+	 * @param {int} item the item that should be selected
+	 * @throws {RangeError} if the index is out of bounds
+	 * @returns {void}
 	 */
 	select : function (index) {
 		var item;
@@ -792,7 +801,7 @@ gara.Class("gara.widgets.List", function () { return {
 
 		// return if index are out of bounds
 		if (index < 0 || index >= this.items.length) {
-			return;
+			throw new RangeError("index out of bounds");
 		}
 
 		item = this.items[index];
@@ -810,6 +819,7 @@ gara.Class("gara.widgets.List", function () { return {
 	selectAdd : function (item, add) {
 		var i;
 		this.checkWidget();
+		
 		if (!(item instanceof gara.widgets.ListItem)) {
 			throw new TypeError("item not instance of gara.widgets.ListItem");
 		}
@@ -825,10 +835,16 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Select all items in the list
-	 *
-	 * @return {void}
+	 * Select all items in the receiver.
+	 * 
+	 * @description
+	 * Select all items in the receiver. If the receiver is single-select, do nothing. 
+	 * 
+	 * @see gara.widgets.List#select
+	 * @see gara.widgets.List#selectArray
+	 * @see gara.widgets.List#selectRange
+	 * @see gara.widgets.List#setSelection
+	 * @returns {void}
 	 */
 	selectAll : function () {
 		this.checkWidget();
@@ -843,10 +859,21 @@ gara.Class("gara.widgets.List", function () { return {
 		}
 	},
 
+	/**
+	 * Selects items passed by an array with zero-related indices.
+	 * 
+	 * @see gara.widgets.List#select
+	 * @see gara.widgets.List#selectAll
+	 * @see gara.widgets.List#selectRange
+	 * @see gara.widgets.List#setSelection
+	 * @param {int[]} indices an array with zero-related indices
+	 * @returns {void}
+	 */
 	selectArray : function (indices) {
 		if (!indices.length) {
 			return;
 		}
+		this.checkWidget();
 
 		if (indices.length > 1 && (this.style & gara.MULTI) === gara.MULTI) {
 			indices.forEach(function (index) {
@@ -861,8 +888,21 @@ gara.Class("gara.widgets.List", function () { return {
 		}
 	},
 
+	/**
+	 * Selects items within a specified range.
+	 *
+	 * @see gara.widgets.List#select
+	 * @see gara.widgets.List#selectAll
+	 * @see gara.widgets.List#selectArray
+	 * @see gara.widgets.List#setSelection
+	 * @param {int} from range start
+	 * @param {int} to range end
+	 * @returns {void}
+	 */
 	selectRange : function (from, to) {
 		var i;
+		this.checkWidget();
+		
 		if ((to - from) > 1 && (this.style & gara.MULTI) === gara.MULTI) {
 			for (i = from; i <= to; i++) {
 				if (!this.selection.contains(this.items[i])) {
@@ -877,13 +917,12 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Selects a range. From the item with shift-lock to the passed item.
 	 *
 	 * @private
 	 * @param {gara.widgets.ListItem} item the item that should be selected
-	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {void}
+	 * @throws {TypeError} if the item is not a gara.widgets.ListItem
+	 * @returns {void}
 	 */
 	selectShift : function (item, add) {
 		var indexShift, indexItem, from, to, i;
@@ -919,22 +958,17 @@ gara.Class("gara.widgets.List", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the selection of the <code>List</code>
+	 * Sets the selection on the receiver.
 	 *
+	 * @see gara.widgets.List#deselectAll
 	 * @param {gara.widgets.ListItem[]|gara.widgets.ListItem} items the array with the <code>ListItem</code> items
-	 * @return {void}
+	 * @returns {gara.widgets.List} this
 	 */
 	setSelection : function (items) {
 		var item;
 		this.checkWidget();
 
-		while (this.selection.length) {
-			item = this.selection.pop();
-			if (!item.isDisposed()) {
-				item.setSelected(false);
-			}
-		}
+		this.deselectAll();
 
 		if (items instanceof Array) {
 			if (items.length > 1 && (this.style & gara.MULTI) === gara.MULTI) {
@@ -949,13 +983,20 @@ gara.Class("gara.widgets.List", function () { return {
 				this.select(this.items.indexOf(items[items.length - 1]));
 			}
 
-		} else if (gara.instanceOf(items, gara.widgets.ListItem)) {
+		} else if (items instanceof gara.widgets.ListItem) {
 			this.select(this.indexOf(items));
 		}
 
 		return this;
 	},
 
+	/**
+	 * Sets the topmost item.
+	 * 
+	 * @see gara.widgets.List#getTopItem
+	 * @param {gara.widgets.ListItem} item the new top item
+	 * @returns {gara.widgets.List} this
+	 */
 	setTopItem : function (item) {
 		var index, h, i;
 		if (!(item instanceof gara.widgets.ListItem)) {
@@ -972,6 +1013,12 @@ gara.Class("gara.widgets.List", function () { return {
 		return this;
 	},
 
+	/**
+	 * Scrolls the receiver that the passed item is visible.
+	 * 
+	 * @param {gara.widgets.ListItem} item 
+	 * @returns {void}
+	 */
 	showItem : function (item) {
 		var index, h, i, newScrollTop;
 		if (!(item instanceof gara.widgets.ListItem)) {
@@ -993,23 +1040,22 @@ gara.Class("gara.widgets.List", function () { return {
 		}
 	},
 
+	/**
+	 * Scrolls the receiver that the selection is visible.
+	 * 
+	 * @see gara.widgets.List#showItem
+	 * @returns {void}
+	 */
 	showSelection : function () {
 		if (this.selection.length) {
 			this.showItem(this.selection[0]);
 		}
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
-	},
-
-	/**
-	 * @method
-	 * Works on the <code>List</code>'s outstanding paint requests.
-	 *
-	 * @return {void}
-	 */
-	update : function () {
-		this.checkWidget();
 	}
 };});

@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.BaseLabelProvider");gara.Class("gara.viewers.BaseLabelProvider",{listeners:[],$constructor:function(){this.listeners=[]},addListener:function(a){if(!this.listeners.contains(a)){this.listeners.push(a)}},removeListener:function(a){this.listener.remove(a)}});

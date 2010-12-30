@@ -21,6 +21,15 @@
 	padding: 3px;
 }
 
+/**
+ * Dimensions
+ */
+.sand .garaInputDialog,
+.sand .garaMessageDialog {
+	min-width: 250px;
+	min-height: 100px;
+}
+
 
 /**
  * Input Dialog
@@ -34,13 +43,6 @@
 	margin: 0;
 }
 
-
-/**
- * Message Dialog
- */
-.sand .garaMessageDialog {
-	min-width: 250px;
-}
 
 /**
  * Icons

@@ -1,12 +1,12 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
-	================================================================================================================
+	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -18,8 +18,10 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	================================================================================================================
+	===========================================================================
 */
+
+"use strict";
 
 gara.provide("gara.widgets.TableItem", "gara.widgets.Item");
 
@@ -28,16 +30,13 @@ gara.use("gara.widgets.Table");
 /**
  * gara TableItem
  *
- * @class TableItem
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.TableItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.TableItem", function () { return {
+gara.Class("gara.widgets.TableItem", function () { return /** @lends gara.widgets.TableItem# */ {
 	$extends : gara.widgets.Item,
 
 	/**
-	 * @field
 	 * Contains an array of objects with the DOM reference of each cell.
 	 *
 	 * @private
@@ -46,7 +45,6 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	cells : [],
 
 	/**
-	 * @field
 	 * Contains the checkbox td DOM reference, if check style is present.
 	 *
 	 * @private
@@ -55,7 +53,6 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	checkboxTd : null,
 
 	/**
-	 * @field
 	 * Contains the checkbox DOM reference, if check style is present.
 	 *
 	 * @private
@@ -64,7 +61,6 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	checkbox : null,
 
 	/**
-	 * @field
 	 * Holds the active state.
 	 *
 	 * @private
@@ -73,7 +69,6 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	active : false,
 
 	/**
-	 * @field
 	 * Holds the checked state.
 	 *
 	 * @private
@@ -82,7 +77,6 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	checked : false,
 
 	/**
-	 * @field
 	 * Holds the grayed state.
 	 *
 	 * @private
@@ -91,7 +85,6 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	grayed : false,
 
 	/**
-	 * @field
 	 * Holds the selected state.
 	 *
 	 * @private
@@ -99,6 +92,15 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	 */
 	selected : false,
 
+	/**
+	 * Creates a new TableItem
+	 * @constructs
+	 * @extends gara.widgets.Item
+	 * 
+	 * @param {gara.widgets.Table} parent a composite control which will be the parent of the new instance (cannot be null)
+	 * @param {int} style the style for the new <code>TableItem</code> (optional)
+	 * @param {int} index the zero-relative index to store the receiver in its parent (optional) 
+	 */
 	$constructor : function (parent, style, index) {
 		if (!(parent instanceof gara.widgets.Table)) {
 			throw new TypeError("parent is not a gara.widgets.Table");
@@ -120,9 +122,11 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * Adjusts the receivers width for a specified column.
+	 * 
 	 * @private
+	 * @param {gara.widgets.TableColumn} column the column that should get its width adjusted
+	 * @param {int} width the new width for the specified column
 	 */
 	adjustWidth : function (column, width) {
 		var order = this.parent.getColumnOrder(), i, cell;
@@ -135,7 +139,7 @@ gara.Class("gara.widgets.TableItem", function () { return {
 					- gara.getNumStyle(cell.wrapper, "border-right-width")
 				) + "px";
 			}
-		} 
+		}
 //		else {
 //			for (i = 0, len = order.length; i < len; ++i) {
 //				cell = this.cells[order[i]];
@@ -146,15 +150,19 @@ gara.Class("gara.widgets.TableItem", function () { return {
 //		}
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.TableItem
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
+	/**
+	 * Clears the receiver.
+	 * 
+	 * @private
+	 * @returns {void}
+	 */
 	clear : function () {
 		this.checkWidget();
 		this.text = "";
@@ -164,7 +172,7 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
+	 * Creates the widget.
 	 *
 	 * @private
 	 */
@@ -209,10 +217,11 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Creates the cell
+	 * Creates the cell or returns the cell at a given index, if already created.
 	 *
 	 * @private
+	 * @param {int} index the index
+	 * @returns {HTMLElement} the cells HTML Node 
 	 */
 	createCell : function (index) {
 //		var index = this.cells.indexOf(cell), i, c,
@@ -261,13 +270,21 @@ gara.Class("gara.widgets.TableItem", function () { return {
 		return cell;
 	},
 
-
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.parent.releaseItem(this);
 		this.cells = null;
 		this.$super();
 	},
 	
+	/**
+	 * Returns a cell at a given index.
+	 * 
+	 * @param {int} index the index
+	 * @returns {HTMLElement} the cell at the given index
+	 */
 	getCell : function (index) {
 		if (!this.cells[index]) {
 			this.cells[index] = this.createCell(index);
@@ -276,22 +293,32 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the checked state for this item
+	 * Returns the receiver's checked state.
 	 *
-	 * @author Thomas Gossmann
-	 * @return {boolean} the checked state
+	 * @returns {boolean} <code>true</code> for checked and <code>false</code> otherwise
 	 */
 	getChecked : function () {
 		this.checkWidget();
 		return this.checked;
 	},
 
+	/**
+	 * Returns the receiver's grayed state.
+	 * 
+	 * @returns {boolean} <code>true</code> for grayed and <code>false</code> otherwise
+	 */
 	getGrayed : function () {
 		this.checkWidget();
 		return this.grayed;
 	},
 
+	/**
+	 * Returns the text stored at the given column index in the receiver, or empty string if the 
+	 * text has not been set.
+	 * 
+	 * @param {int} index the column index
+	 * @returns {String} the text stored at the given column index in the receiver 
+	 */
 	getText : function (index) {
 		this.checkWidget();
 		if (this.cells[index]) {
@@ -300,6 +327,13 @@ gara.Class("gara.widgets.TableItem", function () { return {
 		return null;
 	},
 
+	/**
+	 * Returns the image stored at the given column index in the receiver, or null if the image has 
+	 * not been set or if the column does not exist.
+	 *  
+	 * @param {int} index the column index
+	 * @returns {String} the image stored at the given column index in the receiver 
+	 */
 	getImage : function (index) {
 		this.checkWidget();
 		if (this.cells[index]) {
@@ -308,10 +342,8 @@ gara.Class("gara.widgets.TableItem", function () { return {
 		return null;
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
@@ -328,9 +360,10 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
+	 * Sets the receiver's css class based on the grayed and checked state.
 	 *
 	 * @private
+	 * @returns {void}
 	 */
 	setCheckboxClass : function () {
 		this.checkbox.className = "garaCheckbox";
@@ -344,12 +377,10 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the checked state for this item
+	 * Sets the receiver's checked state.
 	 *
-	 * @author Thomas Gossmann
-	 * @param {boolean} checked the new checked state
-	 * @return {void}
+	 * @param {boolean} checked <code>true</code> for checked and <code>false</code> otherwise
+	 * @returns {gara.widgets.TableItem} this
 	 */
 	setChecked : function (checked) {
 		if (!this.grayed) {
@@ -360,6 +391,12 @@ gara.Class("gara.widgets.TableItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's grayed state-
+	 * 
+	 * @param {boolean} grayed <code>true</code> for grayed and <code>false</code> otherwise
+	 * @returns {gara.widgets.TableItem} this
+	 */
 	setGrayed : function (grayed) {
 		this.grayed = grayed;
 		this.checkbox.setAttribute("aria-disabled", this.grayed);
@@ -367,6 +404,13 @@ gara.Class("gara.widgets.TableItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's image at a given column index.
+	 * 
+	 * @param {int} index the column index
+	 * @param {Image} image the new image
+	 * @returns {gara.widgets.TableItem} this
+	 */
 	setImage : function (index, image) {
 		var self = this,
 			updateCell = function (index, image) {
@@ -403,16 +447,26 @@ gara.Class("gara.widgets.TableItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * Sets the receiver's selected state.
+	 * 
 	 * @private
+	 * @param {boolean} selected <code>true</code> for selected and <code>false</code> otherwise
+	 * @returns {gara.widgets.TableItem} this
 	 */
 	setSelected : function (selected) {
 		this.checkWidget();
 		this.selected = selected;
 		this.handle.setAttribute('aria-selected', this.selected);
+		return this;
 	},
 
+	/**
+	 * Sets the receiver's text at a given column index.
+	 * 
+	 * @param {int} index the column index
+	 * @param {String} image the new text
+	 * @returns {gara.widgets.TableItem} this
+	 */
 	setText : function (index, text) {
 		var self = this,
 			updateCell = function (index, text) {
@@ -438,20 +492,20 @@ gara.Class("gara.widgets.TableItem", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
+	/**
+	 * Updates the receiver
+	 * 
+	 * @returns {void}
+	 */
 	update : function () {
-		var order, i, cell, len, cols, first = false;
+		var order, i, cell, len, cols, first = false, virtual;
 		this.checkWidget();
 
 		if (this.handle === null) {
@@ -464,7 +518,8 @@ gara.Class("gara.widgets.TableItem", function () { return {
 				this.handle.appendChild(this.checkboxTd);
 			}
 
-			order = this.parent.getColumnOrder(), cols = this.parent.getColumns();
+			order = this.parent.getColumnOrder();
+			cols = this.parent.getColumns();
 			virtual = order.length === 0;
 			for (i = 0, len = order.length || 1; i < len; i++) {
 				if (virtual || cols[order[i]].getVisible()) {

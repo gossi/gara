@@ -1,4 +1,4 @@
-/*	$Id: Control.class.js 178 2009-07-26 15:50:44Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Control", "gara.widgets.Widget");
 
 gara.use("gara.widgets.Item");
@@ -29,16 +31,15 @@ gara.use("gara.widgets.Menu");
 gara.use("gara.widgets.Display");
 
 /**
- * @class Control
- * @author Thomas Gossmann
- * @extends gara.wigdets.Widget
- * @namespace gara.widgets
+ * Some exemplary description
+ * 
+ * @class gara.widgets.Control
+ * @extends gara.widgets.Widget
  */
-gara.Class("gara.widgets.Control", function () { return {
+gara.Class("gara.widgets.Control", function () { return /** @lends gara.widgets.Control# */{
 	$extends : gara.widgets.Widget,
 
 	/**
-	 * @field
 	 * Holds the focus state.
 	 *
 	 * @private
@@ -47,7 +48,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	hasFocus : false,
 
 	/**
-	 * @field
 	 * Contains the context menu.
 	 *
 	 * @private
@@ -56,7 +56,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	menu : null,
 
 	/**
-	 * @field
 	 * Holds the enabled state.
 	 *
 	 * @private
@@ -65,7 +64,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	enabled : true,
 
 	/**
-	 * @field
 	 * Holds the visible state.
 	 *
 	 * @private
@@ -74,7 +72,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	visible : true,
 
 	/**
-	 * @field
 	 * X coordinate relative to the Control's parent
 	 *
 	 * @private
@@ -83,7 +80,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	x : null,
 
 	/**
-	 * @field
 	 * Y coordinate relative to the Control's parent
 	 *
 	 * @private
@@ -93,7 +89,6 @@ gara.Class("gara.widgets.Control", function () { return {
 
 
 	/**
-	 * @field
 	 * X Mouse Coordinate. Mouse Coords are used to show the context menu at this position.
 	 *
 	 * @private
@@ -102,7 +97,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	mouseX : 0,
 
 	/**
-	 * @field
 	 * Y Mouse Coordinate. Mouse Coords are used to show the context menu at this position.
 	 *
 	 * @private
@@ -111,7 +105,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	mouseY : 0,
 
 	/**
-	 * @field
 	 * Contains the Control's width. Null is auto.
 	 *
 	 * @private
@@ -120,7 +113,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	width : 0,
 
 	/**
-	 * @field
 	 * Contains the Control's height. Null is auto.
 	 *
 	 * @private
@@ -129,7 +121,8 @@ gara.Class("gara.widgets.Control", function () { return {
 	height : 0,
 
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.widgets.Widget
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
@@ -175,13 +168,12 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified when the control 
 	 * is moved or resized, by sending it one of the messages defined in the 
 	 * <code>ControlListener</code> interface. 
 	 *
 	 * @param {gara.events.ControlListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addControlListener : function (listener) {
 		this.checkWidget();
@@ -192,13 +184,12 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified
 	 * when the control gains or loses focus, by sending it one of the messages
 	 * defined in the <code>FocusListener</code> interface.
 	 *
 	 * @param {gara.events.FocusListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addFocusListener : function (listener) {
 		this.checkWidget();
@@ -209,13 +200,13 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified
 	 * when keys are pressed and released on the system keyboard, by sending
 	 * it one of the messages defined in the <code>KeyListener</code> interface.
 	 *
+	 * @function
 	 * @param {gara.events.KeyListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addKeyListener : function (listener) {
 		this.checkWidget();
@@ -227,13 +218,13 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified
 	 * when mouse buttons are pressed and released, by sending it one of the
 	 * messages defined in the <code>MouseListener</code> interface.
 	 *
+	 * @function
 	 * @param {gara.events.MouseListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addMouseListener : (function () {
 		var registered = false;
@@ -251,16 +242,16 @@ gara.Class("gara.widgets.Control", function () { return {
 			}
 			return this;
 		};
-	})(),
+	}()),
 	
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the mouse moves, by sending it one of the messages defined in the 
 	 * <code>MouseMoveListener</code> interface. 
 	 *
+	 * @function
 	 * @param {gara.events.MouseMoveListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addMouseMoveListener : (function () {
 		var registered = false;
@@ -276,16 +267,16 @@ gara.Class("gara.widgets.Control", function () { return {
 			}
 			return this;
 		};
-	})(),
+	}()),
 	
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified
 	 * when the mouse passes or hovers over controls, by sending it one of the
 	 * messages defined in the <code>MouseTrackListener</code> interface. 
 	 *
+	 * @function
 	 * @param {gara.events.MouseTrackListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addMouseTrackListener : (function () {
 		var registered = false;
@@ -302,16 +293,16 @@ gara.Class("gara.widgets.Control", function () { return {
 			}
 			return this;
 		};
-	})(),
+	}()),
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the mouse wheel is scrolled, by sending it one of the 
 	 * messages defined in the <code>MouseWheelListener</code> interface. 
 	 *
+	 * @function
 	 * @param {gara.events.MouseWheelListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	addMouseWheelListener : (function () {
 		var registered = false;
@@ -327,12 +318,19 @@ gara.Class("gara.widgets.Control", function () { return {
 			}
 			return this;
 		};
-	})(),
+	}()),
 
+	/**
+	 * Adjust the height of the receiver. For internal usage only.
+	 * 
+	 * @private
+	 * @param {int} height the new height
+	 * @returns {void}
+	 */
 	adjustHeight : function (height) {
 		// absolute value
 		if (height > 1) {
-			this.handle.style.height = parseInt(height) + "px";
+			this.handle.style.height = parseInt(height, 10) + "px";
 		}
 
 		// null => auto
@@ -346,10 +344,17 @@ gara.Class("gara.widgets.Control", function () { return {
 		}
 	},
 
+	/**
+	 * Adjust the width of the receiver. For internal usage only.
+	 * 
+	 * @private
+	 * @param {int} width the new width
+	 * @returns {void}
+	 */
 	adjustWidth : function (width) {
 		// absolute value
 		if (width > 1) {
-			this.handle.style.width = parseInt(width) + "px";
+			this.handle.style.width = parseInt(width, 10) + "px";
 		}
 
 		// null => auto
@@ -364,8 +369,9 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Creates the widget. Should be overridden by subclasses.
+	 * Internal method for creating a node representing an item. This is used for
+	 * creating a new item or put updated content to an existing node of an earlier
+	 * painted item. Should be overridden by subclasses.
 	 *
 	 * @private
 	 */
@@ -374,16 +380,15 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Creates the dom node for the handle. Should be called by subclasses in createWidget.
 	 *
 	 * @private
 	 * @param {String} element node name for the handle element
 	 * @param {boolean} preventAppending when <code>true</code> the handles isn't appended to the parent
-	 * @return {void}
+	 * @returns {void}
 	 */
 	createHandle : function (element, preventAppending) {
-		var eventType;
+		var eventType, i, len;
 		this.handle = document.createElement(element);
 		this.handle.id = this.getId();
 		this.handle.widget = this;
@@ -393,9 +398,14 @@ gara.Class("gara.widgets.Control", function () { return {
 
 		// register listeners
 		for (eventType in this.listeners) {
-			this.listeners[eventType].forEach(function (elem, index, arr) {
-				this.bindListener(eventType, elem);
-			}, this);
+//			this.listeners[eventType].forEach(function (elem, index, arr) {
+//				this.bindListener(eventType, elem);
+//			}, this);
+			if (Object.prototype.hasOwnProperty.call(this.listeners, eventType)) {
+				for (i = 0, len = this.listeners[eventType].length; i < len; i++) {
+					this.bindListener(eventType, this.listeners[eventType][i]);
+				}
+			}
 		}
 
 		if (!preventAppending) {
@@ -417,8 +427,10 @@ gara.Class("gara.widgets.Control", function () { return {
 	destroyWidget : function () {
 		this.display.removeWidget(this);
 		
-		if (this.parentNode != null) {
-			this.parentNode.removeChild(this.handle);
+		if (this.parentNode !== null) {
+			try {
+				this.parentNode.removeChild(this.handle);
+			} catch (e) {}
 		}
 		
 		this.controlListeners = [];
@@ -436,10 +448,9 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Forces the <code>Control</code> to gain focus.
+	 * Forces the receiver to gain focus.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	forceFocus : function () {
 		this.handle.setAttribute("data-gara-forcefocus", true);
@@ -447,25 +458,28 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns <code>true</code> if the <code>Control</code> is enabled, and <code>false</code> otherwise.
+	 * Returns <code>true</code> if the receiver is enabled, and <code>false</code> otherwise.
 	 *
-	 * @returns {boolean} the <code>Control</code>'s enabled state
+	 * @returns {boolean} the receiver's enabled state
 	 */
 	getEnabled : function () {
 		return this.enabled;
 	},
 
 	/**
-	 * @method
-	 * Returns <code>Control</code>'s height.
+	 * Returns the receiver's height.
 	 *
-	 * @returns {int} the <code>Control</code>'s height in pixels
+	 * @returns {int} the receivers height in pixels
 	 */
 	getHeight : function () {
 		return this.height;
 	},
 	
+	/**
+	 * Returns the receiver's location.
+	 * 
+	 * @returns {Object} obj.x contains the left offset and obj.y the top offset
+	 */
 	getLocation : function () {
 		return {
 			x: this.x,
@@ -473,13 +487,17 @@ gara.Class("gara.widgets.Control", function () { return {
 		};
 	},
 	
+	/**
+	 * Returns the receiver's shell.
+	 * 
+	 * @returns {gara.widgets.Shell}
+	 */
 	getShell : function () {
 		return this.shell;
 	},
 
 	/**
-	 * @method
-	 * Returns <code>Control</code>'s width.
+	 * Returns the receiver's width.
 	 *
 	 * @returns {int} the <code>Control</code>'s width in pixels
 	 */
@@ -487,17 +505,21 @@ gara.Class("gara.widgets.Control", function () { return {
 		return this.width;
 	},
 
+	/**
+	 * Returns the receiver's visibility.
+	 * 
+	 * @returns {boolean} true if visible
+	 */
 	getVisible : function () {
 		return this.visible;
 	},
 
 	/**
-	 * @method
 	 * Handles <code>Control</code> related events.
 	 *
 	 * @private
 	 * @param {Event} e
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleEvent: function (e) {
 		if (this.isDisposed()) {
@@ -601,12 +623,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Handles the <code>Control</code>'s <code>Menu</code>.
+	 * Handles the receiver's <code>Menu</code>.
 	 *
 	 * @private
 	 * @param {Event} e the user-event
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleMenu : function (e) {
 		switch (e.type) {
@@ -645,10 +666,9 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns true if the <code>Control</code> has <i>keyboard-focus</i>, and false otherwise.
+	 * Returns true if the receiver has <i>keyboard-focus</i>, and false otherwise.
 	 *
-	 * @return {boolean} the <code>Control</code>'s focus state
+	 * @returns {boolean} the receiver's focus state
 	 */
 	isFocusControl : function () {
 		return this.display.getFocusControl() === this;
@@ -662,7 +682,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * @summary
 	 * Moves the receiver above the specified control in the drawing order.
 	 * 
@@ -672,6 +691,7 @@ gara.Class("gara.widgets.Control", function () { return {
 	 * drawing order will not be covered by other controls even if they occupy intersecting areas. 
 	 *
 	 * @param {gara.widgets.Control} control the sibling control (optional)
+	 * @returns {void}
 	 */
 	moveAbove : function (control) {
 		var layers;
@@ -687,7 +707,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * @summary
 	 * Moves the receiver below the specified control in the drawing order.
 	 * 
@@ -697,6 +716,7 @@ gara.Class("gara.widgets.Control", function () { return {
 	 * the drawing order will be covered by all other controls which occupy intersecting areas. 
 	 *
 	 * @param {gara.widgets.Control} control the sibling control (optional)
+	 * @returns {void}
 	 */
 	moveBelow : function (control) {
 		var layers;
@@ -712,8 +732,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * 
 	 * @private
 	 * @param eventType
 	 * @returns {boolean} true if the operation is permitted
@@ -738,8 +756,6 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 	
 	/**
-	 * @method
-	 * 
 	 * @private
 	 * @param eventType
 	 * @returns {boolean} true if the operation is permitted
@@ -764,15 +780,15 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 * Prevents the browser from scrolling the window. Prevents the default when
 	 * the either one of the following keys is pressed:
 	 * <ul>
-	 * 	<li>Arrow Keys</li>
-	 *	<li>Page up and down keys</li>
-	 *	<li>Home Key</li>
-	 *	<li>End Key</li>
-	 *	<li>Spacebar</li>
+	 *  <li>Arrow Keys</li>
+	 *  <li>Page up and down keys</li>
+	 *  <li>Home Key</li>
+	 *  <li>End Key</li>
+	 *  <li>Spacebar</li>
 	 * </ul>
 	 *
 	 * @private
@@ -789,12 +805,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified
 	 * when the control is moved or resized.
 	 *
 	 * @param {gara.events.ControlListener} listener the listener which should no longer be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeControlListener : function (listener) {
 		this.checkWidget();
@@ -803,12 +818,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when the control gains or loses focus.
 	 *
 	 * @param {gara.events.FocusListener} listener the listener which should no longer be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeFocusListener : function (listener) {
 		this.checkWidget();
@@ -817,12 +831,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when keys are pressed and released on the system keyboard. 
 	 *
 	 * @param {gara.events.KeyListener} listener the listener which should be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeKeyListener : function (listener) {
 		this.checkWidget();
@@ -831,12 +844,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when mouse buttons are pressed and released. 
 	 *
 	 * @param {gara.events.MouseListener} listener the listener which should be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeMouseListener : function (listener) {
 		this.checkWidget();
@@ -845,12 +857,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified
 	 * when the mouse moves. 
 	 *
 	 * @param {gara.events.MouseMoveListener} listener the listener which should be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeMouseMoveListener : function (listener) {
 		this.checkWidget();
@@ -859,12 +870,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when the mouse passes or hovers over controls. 
 	 *
 	 * @param {gara.events.MouseTrackListener} listener the listener which should be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeMouseTrackListener : function (listener) {
 		this.checkWidget();
@@ -873,12 +883,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when the mouse wheel is scrolled. 
 	 *
 	 * @param {gara.events.MouseWheelListener} listener the listener which should be notified
-	 * @return {gara.widgets.Control} this
+	 * @returns {gara.widgets.Control} this
 	 */
 	removeMouseWheelListener : function (listener) {
 		this.checkWidget();
@@ -887,11 +896,10 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the enabled state for this <code>Control</code>.
+	 * Sets the receiver's enabled state.
 	 *
 	 * @param {boolean} enabled true for enabled and false for disabled state
-	 * @return {void}
+	 * @returns {gara.widgets.Control} this
 	 */
 	setEnabled : function (enabled) {
 		this.enabled = enabled;
@@ -900,20 +908,25 @@ gara.Class("gara.widgets.Control", function () { return {
 		return this;
 	},
 	
+	/**
+	 * Tries to set focus on the receiver.
+	 * 
+	 * @returns {gara.widgets.Control} this
+	 */
 	setFocus : function () {
 		this.handle.focus();
+		return this;
 	},
 
 	/**
-	 * @method
-	 * Sets the height for the <code>Control</code> in pixels.
+	 * Sets the receiver's height.
 	 *
 	 * @param {mixed} height the new height <ul>
-	 * 	<li>height > 1: height in pixels</li>
-	 * 	<li>height = [0; 1]: height in percent</li>
-	 * 	<li>height = null: height is auto</li>
+	 *  <li>height > 1: height in pixels</li>
+	 *  <li>height = [0; 1]: height in percent</li>
+	 *  <li>height = null: height is auto</li>
 	 * </ul>
-	 * @return {gara.widgets.Control}
+	 * @returns {gara.widgets.Control} this
 	 */
 	setHeight : function (height) {
 		this.height = height;
@@ -932,6 +945,13 @@ gara.Class("gara.widgets.Control", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's location.
+	 * 
+	 * @param {int} x the new left offset
+	 * @param {int} y the new top offset
+	 * @returns {gara.widgets.Control} this
+	 */
 	setLocation : function (x, y) {
 		if (x >= 0) {
 			this.x = x;
@@ -953,12 +973,11 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets a <code>Menu</code> for this <code>Control</code>.
+	 * Set a <code>Menu</code> for the receiver.
 	 *
 	 * @param {gara.widget.Menu} menu the new <code>Menu</code>
 	 * @throws {TypeError} if the menu is not instance of <code>gara.widgets.Menu</code>
-	 * @return {gara.widgets.Control}
+	 * @returns {gara.widgets.Control} this
 	 */
 	setMenu : function (menu) {
 		if (menu !== null && !(menu instanceof gara.widgets.Menu)) {
@@ -988,19 +1007,31 @@ gara.Class("gara.widgets.Control", function () { return {
 		return this;
 	},
 	
+	/**
+	 * Sets the receiver's size. Either the x and y parameters or the object is passed.
+	 * 
+	 * @param {int} x the new width
+	 * @param {int} y the new height
+	 * @param {Object} obj an object containing the new size obj.x and obj.y
+	 * @returns {gara.widgets.Control} this
+	 */
 	setSize : function () {
-		if (arguments.length == 2) {
+		if (arguments.length === 2) {
 			this.setWidth(arguments[0]);
 			this.setHeight(arguments[1]);
 		} else {
 			this.setWidth(arguments[0].x);
 			this.setHeight(arguments[0].y);
 		}
+		
+		return this;
 	},
 
 	/**
-	 * @method
-	 *
+	 * Sets the receiver's visibility.
+	 * 
+	 * @param {boolean} visible <code>true</code> for visible or <code>false</code> for invisible
+	 * @returns {gara.widgets.Control} this
 	 */
 	setVisible : function (visible) {
 		this.visible = visible;
@@ -1008,15 +1039,14 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the width for the <code>Control</code> in pixels.
+	 * Sets the receiver's width.
 	 *
 	 * @param {mixed} width the new width <ul>
-	 * 	<li>width > 1: width in pixels</li>
-	 * 	<li>width = [0; 1]: width in percent</li>
-	 * 	<li>else: width is auto</li>
+	 *  <li>width > 1: width in pixels</li>
+	 *  <li>width = [0; 1]: width in percent</li>
+	 *  <li>else: width is auto</li>
 	 * </ul>
-	 * @return {gara.widgets.Control}
+	 * @returns {gara.widgets.Control} this
 	 */
 	setWidth : function (width) {
 		this.width = width;
@@ -1036,22 +1066,20 @@ gara.Class("gara.widgets.Control", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Returns the top handle.
 	 *
 	 * @private
-	 * @return {HTMLElement}
+	 * @returns {HTMLElement}
 	 */
 	topHandle : function () {
 		return this.handle;
 	},
 
 	/**
-	 * @method
-	 * Updates the <code>Control</code>. Does some outstanding paint processes or
+	 * Updates outstanding changes in the receiver. E.g. Does some outstanding paint processes or
 	 * remeasures the boundaries
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	update : function () {
 //		alert("Control.update() invoked on " + this + ". Method not implemented");

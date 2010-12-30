@@ -1,4 +1,4 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,18 +21,18 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Decorations", "gara.widgets.Composite");
 
 gara.use("gara.widgets.Menu");
 gara.use("gara.widgets.Display");
 
 /**
- * @class Composite
- * @author Thomas Gossmann
+ * @class gara.widgets.Composite
  * @extends gara.widgets.Scrollable
- * @namespace gara.widgets
  */
-gara.Class("gara.widgets.Decorations", function() { return {
+gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widgets.Decorations# */ {
 	$extends : gara.widgets.Composite,
 
 	image : null,
@@ -50,7 +50,8 @@ gara.Class("gara.widgets.Decorations", function() { return {
 	minis : gara.$static({}),
 
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.widgets.Scrollable
 	 */
 	$constructor : function (parent, style) {
 		var self = this;
@@ -134,7 +135,7 @@ gara.Class("gara.widgets.Decorations", function() { return {
 	},
 	
 	/**
-	 * @method
+	 * 
 	 * Register listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
@@ -227,7 +228,7 @@ gara.Class("gara.widgets.Decorations", function() { return {
 //				clearer.className = "garaDialogBarClearer";
 
 				this.titleCloseButton = document.createElement("span");
-				this.titleCloseButton.className = "garaDecorationsCloseButton" + (((this.style & gara.CLOSE) !== 0) ? " garaDecorationsCloseButtonActive" : " garaDecorationsCloseButtonDeactive");;
+				this.titleCloseButton.className = "garaDecorationsCloseButton" + (((this.style & gara.CLOSE) !== 0) ? " garaDecorationsCloseButtonActive" : " garaDecorationsCloseButtonDeactive");
 				this.titleButtons.appendChild(this.titleCloseButton);
 				this.title.appendChild(this.titleButtons);
 
@@ -365,13 +366,14 @@ gara.Class("gara.widgets.Decorations", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 *
 	 * @private
 	 */
 	handleEvent : function (e) {
 		var offset, getOffset = function (elem) {
-				var currentLeft = currentTop = 0;
+				var currentLeft = 0,
+					currentTop = 0;
 				if (elem.offsetParent) {
 					do {
 						currentLeft += elem.offsetLeft;
@@ -597,7 +599,7 @@ gara.Class("gara.widgets.Decorations", function() { return {
 	},
 	
 	/**
-	 * @method
+	 * 
 	 * 
 	 * @private
 	 */
@@ -628,7 +630,7 @@ gara.Class("gara.widgets.Decorations", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 *
 	 * @private
 	 */
@@ -682,6 +684,18 @@ gara.Class("gara.widgets.Decorations", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the maximized state of the receiver.
+	 * 
+	 * @description
+	 * Sets the maximized state of the receiver. If the argument is <code>true</code> causes the receiver 
+	 * to switch to the maximized state, and if the argument is <code>false</code> and the receiver was 
+	 * previously maximized, causes the receiver to switch back to either the minimized or normal states. 
+	 * 
+	 * @see gara.widgets.Decorations#setMinimized
+	 * @param {boolean} maximized the new maximized state
+	 * @returns {gara.widgets.Decorations} this
+	 */
 	setMaximized : function (maximized) {
 		var parent = this.getParent().getClientArea ? this.getParent().getClientArea() : this.getParent(),
 			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id,
@@ -749,7 +763,7 @@ gara.Class("gara.widgets.Decorations", function() { return {
 
 		if (menu) {
 			if (!(menu instanceof gara.widgets.Menu)
-					&& !((menu.getStyle() & gara.BAR) !== 0)) {
+					&& (menu.getStyle() & gara.BAR) === 0) {
 				throw new TypeError("menu not instance of gara.widgets.Menu and not of BAR style");
 			}
 
@@ -769,10 +783,23 @@ gara.Class("gara.widgets.Decorations", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the minimized stated of the receiver.
+	 * 
+	 * @description
+	 * Sets the minimized stated of the receiver. If the argument is <code>true</code> causes the 
+	 * receiver to switch to the minimized state, and if the argument is <code>false</code> and the 
+	 * receiver was previously minimized, causes the receiver to switch back to either the maximized 
+	 * or normal states. 
+	 * 
+	 * @see gara.widgets.Decorations#setMaximized
+	 * @param {boolean} minimized the new minimized state
+	 * @returns {gara.widgets.Decorations} this
+	 */
 	setMinimized : function (minimized) {
 		var parent = this.getParent().getClientArea ? this.getParent().getClientArea() : this.getParent(),
 			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id,
-			left = false, i;
+			left = false, i, len;
 
 		this.minimized = minimized;
 		this.maximized = false;
@@ -865,7 +892,7 @@ gara.Class("gara.widgets.Decorations", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 *
 	 * @private
 	 */

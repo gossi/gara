@@ -1,1 +1,0 @@
-gara.provide("gara.jswt.events.MouseListener");gara.Class("gara.jswt.events.MouseListener",{mouseDoubleClick:function(a){},mouseDown:function(a){},mouseUp:function(a){}});

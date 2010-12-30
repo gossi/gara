@@ -1,0 +1,1491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  
+  
+  <title>JsDoc Reference - gara.action.MenuManager</title>
+  <meta name="generator" content="JsDoc Toolkit" />
+
+  <link href="../stylesheets/default.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+
+<body id="class_detail">
+  <div id="body_wrapper">
+    <div id="wrapper">
+      <div id="box">
+        <span id="blue_label"></span>
+        <div id="box_wrapper">
+
+          <div id="nav">
+            <h2>Classes</h2>
+<ul>
+  
+    <li><a href="../symbols/%24constructor.html">$constructor</a></li>
+  
+    <li><em><a href="../symbols/_global_.html">_global_</a></em></li>
+  
+    <li><a href="../symbols/gara.html">gara</a></li>
+  
+    <li><a href="../symbols/gara.action.html">gara.action</a></li>
+  
+    <li><a href="../symbols/gara.action.Action.html">gara.action.Action</a></li>
+  
+    <li><a href="../symbols/gara.action.ActionChangedListener.html">gara.action.ActionChangedListener</a></li>
+  
+    <li><a href="../symbols/gara.action.IAction.html">gara.action.IAction</a></li>
+  
+    <li><a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.html">gara.dialogs</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.Dialog.html">gara.dialogs.Dialog</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.InputDialog.html">gara.dialogs.InputDialog</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.MessageDialog.html">gara.dialogs.MessageDialog</a></li>
+  
+    <li><a href="../symbols/gara.events.html">gara.events</a></li>
+  
+    <li><a href="../symbols/gara.events.ControlListener.html">gara.events.ControlListener</a></li>
+  
+    <li><a href="../symbols/gara.events.DisposeListener.html">gara.events.DisposeListener</a></li>
+  
+    <li><a href="../symbols/gara.events.FocusListener.html">gara.events.FocusListener</a></li>
+  
+    <li><a href="../symbols/gara.events.KeyListener.html">gara.events.KeyListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MenuListener.html">gara.events.MenuListener</a></li>
+  
+    <li><a href="../symbols/gara.events.ModifyListener.html">gara.events.ModifyListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseListener.html">gara.events.MouseListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseMoveListener.html">gara.events.MouseMoveListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseTrackListener.html">gara.events.MouseTrackListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseWheelListener.html">gara.events.MouseWheelListener</a></li>
+  
+    <li><a href="../symbols/gara.events.SelectionListener.html">gara.events.SelectionListener</a></li>
+  
+    <li><a href="../symbols/gara.events.ShellListener.html">gara.events.ShellListener</a></li>
+  
+    <li><a href="../symbols/gara.events.TabFolderListener.html">gara.events.TabFolderListener</a></li>
+  
+    <li><a href="../symbols/gara.widgets.html">gara.widgets</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Button.html">gara.widgets.Button</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Composite.html">gara.widgets.Composite</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Decorations.html">gara.widgets.Decorations</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Display.html">gara.widgets.Display</a></li>
+  
+    <li><a href="../symbols/gara.widgets.HTML.html">gara.widgets.HTML</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Item.html">gara.widgets.Item</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Label.html">gara.widgets.Label</a></li>
+  
+    <li><a href="../symbols/gara.widgets.List.html">gara.widgets.List</a></li>
+  
+    <li><a href="../symbols/gara.widgets.ListItem.html">gara.widgets.ListItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a></li>
+  
+    <li><a href="../symbols/gara.widgets.MenuItem.html">gara.widgets.MenuItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Point.html">gara.widgets.Point</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Scrollable.html">gara.widgets.Scrollable</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Shell.html">gara.widgets.Shell</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TabFolder.html">gara.widgets.TabFolder</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TabItem.html">gara.widgets.TabItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Table.html">gara.widgets.Table</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TableColumn.html">gara.widgets.TableColumn</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TableItem.html">gara.widgets.TableItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Text.html">gara.widgets.Text</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Tree.html">gara.widgets.Tree</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TreeItem.html">gara.widgets.TreeItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Widget.html">gara.widgets.Widget</a></li>
+  
+    <li><a href="../symbols/gara.widgets.WidgetException.html">gara.widgets.WidgetException</a></li>
+  
+</ul>
+
+<p class="class_index index_link"><span>&#x21A9;</span> <a href="../index.html">Class Index</a></p>
+<p class="class_index index_link"><span>&#x21A9;</span> <a href="../files.html">File Index</a></p>
+
+          </div>
+
+          <div id="content">
+            <h1>
+              
+              Class gara.action.MenuManager
+            </h1>
+            <div id="content_wrapper">
+
+                
+                
+                
+                <p>
+                  
+                </p>
+                
+                
+                  <p class="defined">
+                    Defined in: &lt;/Users/thomas/Sites/gara/src/gara.action/MenuManager.js&gt;.
+                  </p>
+                
+
+                <!-- ============================== constructor summary ==================== -->			
+                
+                  <table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class gara.action.MenuManager.">
+                    <caption>Class Summary</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Constructor Attributes</th>
+                        <th scope="col">Constructor Name and Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="attributes">
+                          &nbsp;
+                        </td>
+                        <td class="nameDescription" >
+                          <div class="fixedFont">
+                            <strong><a href="../symbols/gara.action.MenuManager.html#constructor">gara.action.MenuManager</a></strong>(text, image, id)
+                          </div>
+                          <p class="description">Creates a menu manager with the given text, image, and id.</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+
+                <!-- ============================== properties summary ===================== -->
+                
+
+                  <!-- ============================== methods summary ======================== -->
+                  
+                    
+                    
+                      <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class gara.action.MenuManager.">
+                        <caption>Method Summary</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Method Attributes</th>
+                            <th scope="col">Method Name and Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#add">add</a></strong>(actionOrMngr)
+                                  </div>
+                                  <p class="description">Adds an action or menu manager as a contribution item to this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#addAction">addAction</a></strong>(action)
+                                  </div>
+                                  <p class="description">Adds an action as a contribution item to this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#addMenuManager">addMenuManager</a></strong>(manager)
+                                  </div>
+                                  <p class="description">Adds a menu manager as a contribution item to this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#createContextMenu">createContextMenu</a></strong>(control)
+                                  </div>
+                                  <p class="description">Creates and returns a context menu control for this menu, and installs all registered 
+contributions.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#createMenuBar">createMenuBar</a></strong>(parent)
+                                  </div>
+                                  <p class="description">Creates and returns a menu bar control for this menu, for use in the given 
+Decorations, and installs all registered contributions.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#createToolBar">createToolBar</a></strong>(parent)
+                                  </div>
+                                  <p class="description">Creates and returns a tool bar control for this menu, for use in the given 
+Decorations, and installs all registered contributions.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#dispose">dispose</a></strong>()
+                                  </div>
+                                  <p class="description">Disposes of this menu manager and frees all allocated resources.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#fillMenu">fillMenu</a></strong>(parent)
+                                  </div>
+                                  <p class="description">Fills the given menu with controls representing this contribution item.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#fillToolBar">fillToolBar</a></strong>(parent)
+                                  </div>
+                                  <p class="description">Fills the given menu with controls representing this contribution item.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#getEnabled">getEnabled</a></strong>()
+                                  </div>
+                                  <p class="description">Returns whether this contribution is enabled.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#getId">getId</a></strong>()
+                                  </div>
+                                  <p class="description">Returns a unique identifier for this contribution, or <code>null</code> if it has
+none.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#getImage">getImage</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the image for this contribution.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#getSize">getSize</a></strong>()
+                                  </div>
+                                  <p class="description">Return the number of contributions in this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#getText">getText</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the text for this contribution.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#remove">remove</a></strong>(actionOrMngr)
+                                  </div>
+                                  <p class="description">Removes the given action or menu manager as a contribution item from this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#removeAction">removeAction</a></strong>(action)
+                                  </div>
+                                  <p class="description">Removes the given action as a contribution item from this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#removeMenuManager">removeMenuManager</a></strong>(manager)
+                                  </div>
+                                  <p class="description">Removes the given menu manager as a contribution item from this manager.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#setEnabled">setEnabled</a></strong>(<code>true</code>)
+                                  </div>
+                                  <p class="description">Sets the enabled state of this contribution.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#setId">setId</a></strong>(the)
+                                  </div>
+                                  <p class="description">Sets the id for this contribution.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#setImage">setImage</a></strong>(the)
+                                  </div>
+                                  <p class="description">Sets the image for this contribution.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#setText">setText</a></strong>(the)
+                                  </div>
+                                  <p class="description">Sets the text for this contribution.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#update">update</a></strong>(ma)
+                                  </div>
+                                  <p class="description">Incrementally builds the menu from the contribution items, and does so recursively for 
+all submenus.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#updateAction">updateAction</a></strong>(action)
+                                  </div>
+                                  <p class="description">Updates all menus that are affected by an update of the specified action.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.action.MenuManager.html#updateMenu">updateMenu</a></strong>(menu)
+                                  </div>
+                                  <p class="description">Incrementally builds the menu from the contribution items, and does so 
+recursively for all submenus.</p>
+                                </td>
+                              </tr>
+                            
+                          </tbody>
+                        </table>
+                    
+
+                    
+                    
+                    
+                    <!-- ============================== events summary ======================== -->
+                    
+
+
+                        <!-- ============================== constructor details ==================== -->		
+                        
+                          <div class="details"><a name="constructor"> </a>
+                            <div class="sectionTitle">
+                              Class Detail
+                            </div>
+                            
+                            <div class="module">
+                              
+                              <h2><strong> 
+                                gara.action.MenuManager(text, image, id)</strong>
+                              </h2>
+
+                              <p class="description">
+                                Creates a menu manager with the given text, image, and id. Typically used for creating 
+a sub-menu, where it needs to be referred to by id.
+                                
+                              </p>
+
+                              
+
+
+                              
+                                <dl class="detailList">
+                                  <dt class="heading">Parameters:</dt>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{String}</span>  <strong>text</strong>
+                                      
+                                    </dt>
+                                    <dd>the text for the menu, or <code>null</code> if none (optional)</dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{Image}</span>  <strong>image</strong>
+                                      
+                                    </dt>
+                                    <dd>the image for the menu, or <code>null</code> if none (optional)</dd>
+                                  
+                                    <dt>
+                                      <span class="fixedFont">{String}</span>  <strong>id</strong>
+                                      
+                                    </dt>
+                                    <dd>the menu id, or <code>null</code> if it is to have no id (optional)</dd>
+                                  
+                                </dl>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+
+                            </div>
+                          </div>
+                        
+                          
+                        
+                        
+                        <!-- ============================== field details ========================== -->		
+                        
+
+                        <!-- ============================== method details ========================= -->		
+                        
+                          <div class="sectionTitle">
+                            Method Detail
+                          </div>
+                          
+                            <div class="module">
+                            <a name="add"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>add</strong>(actionOrMngr)
+
+                            </h2>
+                            <p class="description">
+                              Adds an action or menu manager as a contribution item to this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.IAction.html">gara.action.IAction</a>|<a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a>}</span> <strong>actionOrMngr</strong>
+                                    
+                                  </dt>
+                                  <dd></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">See:</dt>
+                              
+                                <dd><a href="../symbols/gara.action.MenuManager.html#addAction">gara.action.MenuManager#addAction</a></dd>
+                              
+                                <dd><a href="../symbols/gara.action.MenuManager.html#addMenuManager">gara.action.MenuManager#addMenuManager</a></dd>
+                              
+                            </dl>
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addAction"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>addAction</strong>(action)
+
+                            </h2>
+                            <p class="description">
+                              Adds an action as a contribution item to this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.IAction.html">gara.action.IAction</a>}</span> <strong>action</strong>
+                                    
+                                  </dt>
+                                  <dd></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addMenuManager"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>addMenuManager</strong>(manager)
+
+                            </h2>
+                            <p class="description">
+                              Adds a menu manager as a contribution item to this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a>}</span> <strong>manager</strong>
+                                    
+                                  </dt>
+                                  <dd></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="createContextMenu"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span>
+                              <strong>createContextMenu</strong>(control)
+
+                            </h2>
+                            <p class="description">
+                              Creates and returns a context menu control for this menu, and installs all registered 
+contributions.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{gara.widget.Control}</span> <strong>control</strong>
+                                    
+                                  </dt>
+                                  <dd>the parent control</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span> the menu control</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="createMenuBar"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span>
+                              <strong>createMenuBar</strong>(parent)
+
+                            </h2>
+                            <p class="description">
+                              Creates and returns a menu bar control for this menu, for use in the given 
+Decorations, and installs all registered contributions.
+Creates and returns a menu bar control for this menu, for use in the given 
+Decorations, and installs all registered contributions. Does not create a new control if 
+one already exists.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Decorations.html">gara.widgets.Decorations</a>}</span> <strong>parent</strong>
+                                    
+                                  </dt>
+                                  <dd>the parent decorations</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span> the menu control</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="createToolBar"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span>
+                              <strong>createToolBar</strong>(parent)
+
+                            </h2>
+                            <p class="description">
+                              Creates and returns a tool bar control for this menu, for use in the given 
+Decorations, and installs all registered contributions.
+Creates and returns a tool bar control for this menu, for use in the given 
+Decorations, and installs all registered contributions. Does not create a new control if 
+one already exists.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Decorations.html">gara.widgets.Decorations</a>}</span> <strong>parent</strong>
+                                    
+                                  </dt>
+                                  <dd>the parent decorations</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span> the menu control</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="dispose"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>dispose</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Disposes of this menu manager and frees all allocated resources.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="fillMenu"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>fillMenu</strong>(parent)
+
+                            </h2>
+                            <p class="description">
+                              Fills the given menu with controls representing this contribution item.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span> <strong>parent</strong>
+                                    
+                                  </dt>
+                                  <dd>the parent menu</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="fillToolBar"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>fillToolBar</strong>(parent)
+
+                            </h2>
+                            <p class="description">
+                              Fills the given menu with controls representing this contribution item.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span> <strong>parent</strong>
+                                    
+                                  </dt>
+                                  <dd>the parent menu</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getEnabled"> </a>
+                            <h2><span></span>
+
+                              <span>{boolean}</span>
+                              <strong>getEnabled</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns whether this contribution is enabled.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{boolean}</span> <code>true</code> if enabled, and <code>false</code> if disabled</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getId"> </a>
+                            <h2><span></span>
+
+                              <span>{String}</span>
+                              <strong>getId</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns a unique identifier for this contribution, or <code>null</code> if it has
+none.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{String}</span> the contribution id, or <code>null</code> if none</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getImage"> </a>
+                            <h2><span></span>
+
+                              <span>{Image}</span>
+                              <strong>getImage</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the image for this contribution.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{Image}</span> the image</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getSize"> </a>
+                            <h2><span></span>
+
+                              <span>{int}</span>
+                              <strong>getSize</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Return the number of contributions in this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{int}</span> the number of contributions in this manager</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getText"> </a>
+                            <h2><span></span>
+
+                              <span>{String}</span>
+                              <strong>getText</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the text for this contribution.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{String}</span> the text</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="remove"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>remove</strong>(actionOrMngr)
+
+                            </h2>
+                            <p class="description">
+                              Removes the given action or menu manager as a contribution item from this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.IAction.html">gara.action.IAction</a>|<a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a>}</span> <strong>actionOrMngr</strong>
+                                    
+                                  </dt>
+                                  <dd></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">See:</dt>
+                              
+                                <dd><a href="../symbols/gara.action.MenuManager.html#removeAction">gara.action.MenuManager#removeAction</a></dd>
+                              
+                                <dd><a href="../symbols/gara.action.MenuManager.html#removeMenuManager">gara.action.MenuManager#removeMenuManager</a></dd>
+                              
+                            </dl>
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeAction"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>removeAction</strong>(action)
+
+                            </h2>
+                            <p class="description">
+                              Removes the given action as a contribution item from this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.IAction.html">gara.action.IAction</a>}</span> <strong>action</strong>
+                                    
+                                  </dt>
+                                  <dd>the action</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeMenuManager"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>removeMenuManager</strong>(manager)
+
+                            </h2>
+                            <p class="description">
+                              Removes the given menu manager as a contribution item from this manager.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a>}</span> <strong>manager</strong>
+                                    
+                                  </dt>
+                                  <dd>the menu manager</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setEnabled"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>setEnabled</strong>(<code>true</code>)
+
+                            </h2>
+                            <p class="description">
+                              Sets the enabled state of this contribution.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{boolean}</span> <strong><code>true</code></strong>
+                                    
+                                  </dt>
+                                  <dd>for enabled and <code>false</code>for disabled</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setId"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>setId</strong>(the)
+
+                            </h2>
+                            <p class="description">
+                              Sets the id for this contribution.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{String}</span> <strong>the</strong>
+                                    
+                                  </dt>
+                                  <dd>id</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setImage"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>setImage</strong>(the)
+
+                            </h2>
+                            <p class="description">
+                              Sets the image for this contribution.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{Image}</span> <strong>the</strong>
+                                    
+                                  </dt>
+                                  <dd>image</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setText"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>setText</strong>(the)
+
+                            </h2>
+                            <p class="description">
+                              Sets the text for this contribution.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{String}</span> <strong>the</strong>
+                                    
+                                  </dt>
+                                  <dd>text</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="update"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>update</strong>(ma)
+
+                            </h2>
+                            <p class="description">
+                              Incrementally builds the menu from the contribution items, and does so recursively for 
+all submenus. Either for the specified menu respectively action. If the parameter is omitted,
+everything gets updated.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>|<a href="../symbols/gara.action.IAction.html">gara.action.IAction</a>}</span> <strong>ma</strong>
+                                    
+                                  </dt>
+                                  <dd>menu or action (optional)</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">See:</dt>
+                              
+                                <dd><a href="../symbols/gara.action.MenuManager.html#updateMenu">gara.action.MenuManager#updateMenu</a></dd>
+                              
+                                <dd><a href="../symbols/gara.action.MenuManager.html#updateAction">gara.action.MenuManager#updateAction</a></dd>
+                              
+                            </dl>
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="updateAction"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>updateAction</strong>(action)
+
+                            </h2>
+                            <p class="description">
+                              Updates all menus that are affected by an update of the specified action.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.action.IAction.html">gara.action.IAction</a>}</span> <strong>action</strong>
+                                    
+                                  </dt>
+                                  <dd></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="updateMenu"> </a>
+                            <h2><span></span>
+
+                              
+                              <strong>updateMenu</strong>(menu)
+
+                            </h2>
+                            <p class="description">
+                              Incrementally builds the menu from the contribution items, and does so 
+recursively for all submenus.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a>}</span> <strong>menu</strong>
+                                    
+                                  </dt>
+                                  <dd></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                          
+                          
+                          </div>
+                        
+                      
+
+                      <!-- ============================== event details ========================= -->		
+                      
+
+            </div><!-- #content_wrapper -->
+          </div><!-- #content -->
+          
+          <hr/>
+          
+        </div><!-- #box_wrapper -->
+      </div><!-- #box -->
+
+      <div id="footer">
+        
+        Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 30 2010 21:29:03 GMT+0100 (MEZ)
+      </div><!-- #footer -->
+
+    </div><!-- #wrapper -->
+  </div><!-- #body_wrapper -->
+</body>
+</html>

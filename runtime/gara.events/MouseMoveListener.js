@@ -1,0 +1,1 @@
+gara.provide("gara.events.MouseMoveListener");gara.Class("gara.events.MouseMoveListener",{mouseMove:function(a){}});

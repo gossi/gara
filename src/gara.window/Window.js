@@ -183,8 +183,8 @@ gara.Class("gara.window.Window", {
 	},
 
 	getInitialSize : function () {
-		var parent = this.shell.getParent();
-		var x = parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : parent.getClientArea().clientWidth,
+		var parent = this.shell.getParent(),
+			x = parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : parent.getClientArea().clientWidth,
 			y = parent instanceof gara.widgets.Display ? document.documentElement.clientHeight : parent.getClientArea().clientHeight;
 
 		return {
@@ -194,8 +194,8 @@ gara.Class("gara.window.Window", {
 	},
 	
 	getInitialLocation : function (initialSize) {
-		var parent = this.shell.getParent();
-		var x = parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : parent.getClientArea().clientWidth,
+		var parent = this.shell.getParent(),
+			x = parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : parent.getClientArea().clientWidth,
 			y = parent instanceof gara.widgets.Display ? document.documentElement.clientHeight : parent.getClientArea().clientHeight;
 
 		return {

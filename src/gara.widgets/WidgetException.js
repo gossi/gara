@@ -1,4 +1,4 @@
-/*	$Id: JSWTException.class.js 182 2009-08-02 22:34:06Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,33 +21,33 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.WidgetException");
 
 /**
- * @class JSWTException
- * @author Thomas Gossmann
- * @namespace gara.jswt
- * @extends Exception
+ * @class gara.widgets.WidgetException
+ * @extends gara.Exception
  */
-gara.Class("gara.widgets.WidgetException", {
+gara.Class("gara.widgets.WidgetException", /** @lends gara.widgets.WidgetException# */ {
 	$extends : gara.Exception,
 
 	/**
-	 * @field
+	 * @private
 	 * Contains the error code, one of JSWT.ERROR_*
 	 */
 	code : null,
 
 	/**
-	 * @constructor
-	 * Raises a JSWT Exception
-	 *
+	 * Creates a widget exception
+	 * 
+	 * @constructs
 	 * @param {mixed} codeOrMessage Pass either a code or a message
 	 * @param {String} message Wether code is passed place your message as second
 	 */
 	$constructor : function(codeOrMessage, message) {
 		var code;
-		if (typeof(message) == "undefined") {
+		if (typeof(message) === "undefined") {
 			message = codeOrMessage;
 		} else {
 			code = codeOrMessage;

@@ -1,0 +1,1 @@
+gara.provide("gara.widgets.WidgetException");gara.Class("gara.widgets.WidgetException",{$extends:gara.Exception,code:null,$constructor:function(b,a){var c;if(typeof(a)=="undefined"){a=b}else{c=b}this.code=c;this.message=String(a)}});

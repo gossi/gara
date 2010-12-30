@@ -1,0 +1,1 @@
+gara.provide("gara.jswt.events.MouseTrackListener");gara.Class("gara.jswt.events.MouseTrackListener",{mouseEnter:function(a){},mouseExit:function(a){},mouseHover:function(a){}});

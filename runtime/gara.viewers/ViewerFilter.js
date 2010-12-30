@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ViewerFilter");gara.Class("gara.viewers.ViewerFilter",{$constructor:function(){},filter:function(d,e,f){var b=[];f.forEach(function(a,c,g){if(this.select(d,e,a)){b.push(a)}},this);return b},isFilterProperty:function(a,c){return false},select:function(a,c,g){}});

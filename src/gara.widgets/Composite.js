@@ -1,4 +1,4 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,22 +21,21 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Composite", "gara.widgets.Scrollable");
 
 gara.use("gara.widgets.Control");
 
 /**
- * @class Composite
- * @author Thomas Gossmann
+ * @class gara.widgets.Composite
  * @extends gara.widgets.Scrollable
- * @namespace gara.widgets
  */
-gara.Class("gara.widgets.Composite", function() { return {
+gara.Class("gara.widgets.Composite", function() { return /** @lends gara.widgets.Composite# */ {
 	$extends : gara.widgets.Scrollable,
 	
 	/**
-	 * @field
-	 * A specific Layout for this Composite
+	 * A specific Layout of the receiver
 	 * 
 	 * @private
 	 * @type {gara.layout.Layout}
@@ -44,7 +43,8 @@ gara.Class("gara.widgets.Composite", function() { return {
 	layoutInformation : null,
 
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.widgets.Scrollable
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
@@ -54,7 +54,6 @@ gara.Class("gara.widgets.Composite", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
@@ -75,8 +74,6 @@ gara.Class("gara.widgets.Composite", function() { return {
 	},
 
 	/**
-	 * @method
-	 * 
 	 * @summary
 	 * Returns a (possibly empty) array containing the receiver's children.
 	 * 
@@ -85,14 +82,17 @@ gara.Class("gara.widgets.Composite", function() { return {
 	 * in the order that they are drawn. The topmost control appears at the beginning of the array. 
 	 * Subsequent controls draw beneath this control and appear later in the array. 
 	 * 
-	 * @return {gara.widgets.Control[]} an array of children
+	 * @returns {gara.widgets.Control[]} an array of children
 	 */
 	getChildren : function () {
 		var temp = {}, child, i, len, z, layers = {}, max = 0, controls = [],
-			childs = this.getClientArea().childNodes;
+			childs = this.getClientArea().childNodes,
+			addControl = function (widget) {
+				controls[controls.length] = widget;
+			};
 
 		// SELECT childNodes FROM this.getClientArea() WHERE childNode[widget] 
-		// 		ORDER BY childNode.style.zIndex DESC
+		//        ORDER BY childNode.style.zIndex DESC
 		for (i = 0, len = childs.length; i < len; i++) {
 			child = childs[i];
 			if (child.widget && child.widget !== this && child.widget instanceof gara.widgets.Control) {
@@ -107,23 +107,29 @@ gara.Class("gara.widgets.Composite", function() { return {
 
 		for (i = max; i >= 0; i--) {
 			if (layers[i]) {
-				layers[i].forEach(function (widget) {
-					controls[controls.length] = widget;
-				}, this);
+				layers[i].forEach(addControl, this);
 			}
 		}
 		
 		return controls;
 	},
 	
+	/**
+	 * Returns layout which is associated with the receiver, or null if one has not been set. 
+	 * 
+	 * @see gara.widgets.Composite#setLayout
+	 * @returns {gara.layout.Layout} the receiver's layout or null
+	 */
 	getLayout : function () {
 		return this.layoutInformation;
 	},
 
 	/**
-	 * @method
+	 * If the receiver has a layout, asks the layout to <em>lay out</em> (that is, set the size and 
+	 * location of) the receiver's children. If the receiver does not have a layout, do nothing.  
 	 *
-	 * @private
+	 * @see gara.widgets.Composite#setLayout
+	 * @returns {void}
 	 */
 	layout : function () {
 		var resizeable = [], lastHeight, ratio, widgetHeight,
@@ -146,8 +152,6 @@ gara.Class("gara.widgets.Composite", function() { return {
 		if (width === 0 || height === 0) {
 			return;
 		}
-		
-		
 
 		if (this.layoutInformation !== null) {
 			this.layoutInformation.layout(this);
@@ -192,7 +196,7 @@ gara.Class("gara.widgets.Composite", function() { return {
 				if (widget.getHeight() > 1) {
 					height -= widget.getHeight();
 				} else if (widget.hasClass("h25") || widget.hasClass("h50") || widget.hasClass("h75") || widget.hasClass("h33") || widget.hasClass("h66")) {
-					console.log(this + ".layout push cssHeight of " + widget);
+//					console.log(this + ".layout push cssHeight of " + widget);
 					cssHeight.push(widget);
 				} else if (widget.getHeight() === null) {
 //					console.log(this + ".setHeight push autoHeight");
@@ -212,7 +216,7 @@ gara.Class("gara.widgets.Composite", function() { return {
 //		});
 
 		autoHeight.forEach(function (widget, i, arr) {
-			console.log("Composite.layout auto height");
+//			console.log("Composite.layout auto height");
 			if (i === arr.length - 1) {
 //				console.log("Layout.setHeight last-autoHeight("+lastHeight+")");
 	//			widget.setHeight(newHeight);
@@ -272,16 +276,38 @@ gara.Class("gara.widgets.Composite", function() { return {
 			}
 		}, this);
 		
+		this.getChildren().forEach(function (widget) {
+			if (widget instanceof gara.widgets.Composite) {
+				widget.layout();
+			} else if (widget.update) {
+				widget.update();
+			}
+		});
+		
 		this.getClientArea().style.overflowY = overflowY;
 		this.getClientArea().style.overflowX = overflowX;
 	},
 	
+	/**
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @returns {void}
+	 */
 	releaseChildren : function () {
 		this.getChildren().forEach(function (control) {
 			control.release();
 		});
 	},
 
+	/**
+	 * Sets the layout which is associated with the receiver to be the argument which may be null. 
+	 * 
+	 * @see gara.widgets.Composite#getLayout
+	 * @see gara.widgets.Composite#layout
+	 * @param {gara.layout.Layout} layout the receiver's new layout or null 
+	 * @returns {gara.widgets.Composite} this
+	 */
 	setLayout : function (layout) {
 		if (!(layout instanceof gara.layout.Layout)) {
 			throw new TypeError("layout not instance of gara.layout.Layout");
@@ -295,17 +321,17 @@ gara.Class("gara.widgets.Composite", function() { return {
 		return this;
 	},
 	
-	setHeight : function (height) {
-		this.$super(height);
-//		this.layout();
-		return this;
-	},
-	
-	setWidth : function (width) {
-		this.$super(width);
-//		this.layout();
-		return this;
-	},
+//	setHeight : function (height) {
+//		this.$super(height);
+////		this.layout();
+//		return this;
+//	},
+//	
+//	setWidth : function (width) {
+//		this.$super(width);
+////		this.layout();
+//		return this;
+//	},
 
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);

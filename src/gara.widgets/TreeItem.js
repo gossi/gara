@@ -1,12 +1,12 @@
-/*	$Id: TreeItem.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
-	================================================================================================================
+	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -18,8 +18,10 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	================================================================================================================
+	===========================================================================
 */
+
+"use strict";
 
 gara.provide("gara.widgets.TreeItem", "gara.widgets.Item");
 
@@ -28,16 +30,13 @@ gara.require("gara.widgets.Tree");
 /**
  * gara TreeItem
  *
- * @class TreeItem
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.TreeItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.TreeItem", function () { return {
+gara.Class("gara.widgets.TreeItem", function () { return /** @lends gara.widgets.TreeItem# */ {
 	$extends : gara.widgets.Item,
 
 	/**
-	 * @field
 	 * DOM reference of the checkbox.
 	 *
 	 * @privte
@@ -46,7 +45,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	checkbox : null,
 
 	/**
-	 * @field
 	 * Holds the checked state.
 	 *
 	 * @private
@@ -55,7 +53,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	checked : false,
 
 	/**
-	 * @field
 	 * DOM reference of the child container.
 	 *
 	 * @private
@@ -64,7 +61,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	childContainer : null,
 
 	/**
-	 * @field
 	 * Holds the expanded state.
 	 *
 	 * @private
@@ -73,7 +69,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	expanded : true,
 
 	/**
-	 * @field
 	 * Holds the grayed state.
 	 *
 	 * @private
@@ -82,7 +77,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	grayed : false,
 
 	/**
-	 * @field
 	 * Contains the images for each column.
 	 *
 	 * @private
@@ -91,7 +85,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	images : [],
 
 	/**
-	 * @field
 	 * DOM reference of the image.
 	 *
 	 * @private
@@ -100,7 +93,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	img : null,
 
 	/**
-	 * @field
 	 * Contains the sub items.
 	 *
 	 * @private
@@ -109,7 +101,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	items : [],
 
 	/**
-	 * @field
 	 * Holds the selected state.
 	 *
 	 * @private
@@ -118,7 +109,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	selected : false,
 
 	/**
-	 * @field
 	 * DOM reference of the span.
 	 *
 	 * @private
@@ -127,7 +117,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	span : null,
 
 	/**
-	 * @field
 	 * DOM reference of the span's text.
 	 *
 	 * @private
@@ -136,7 +125,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	spanText : null,
 
 	/**
-	 * @field
 	 * Contains the text for each column.
 	 *
 	 * @private
@@ -145,7 +133,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	texts : [],
 
 	/**
-	 * @field
 	 * DOM reference of the toggler.
 	 *
 	 * @private
@@ -154,7 +141,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	toggleNode : null,
 
 	/**
-	 * @field
 	 * Contains the assigned <code>Tree</code>.
 	 *
 	 * @private
@@ -162,6 +148,16 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	 */
 	tree : null,
 
+	/**
+	 * Creates a new TreeItem
+	 * 
+	 * @constructs
+	 * @extends gara.widgets.Item
+	 * 
+	 * @param {gara.widgets.Tree|gara.widgets.TreeItem} parent a composite control which will be the parent of the new instance (cannot be null)
+	 * @param {int} style the style for the new <code>TreeItem</code> (optional)
+	 * @param {int} index the zero-relative index to store the receiver in its parent (optional) 
+	 */
 	$constructor : function (parent, style, index) {
 		if (!(parent instanceof gara.widgets.Tree || parent instanceof gara.widgets.TreeItem)) {
 			throw new TypeError("parent is neither a gara.widgets.Tree nor gara.widgets.TreeItem");
@@ -192,13 +188,12 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Adds an item to this item
+	 * Adds an item to the receiver.
 	 *
 	 * @private
 	 * @param {gara.widgets.TreeItem} item the item to be added
 	 * @throws {TypeError} when the item is not type of a TreeItem
-	 * @return {void}
+	 * @returns {HTMLElement} the parent dom node for the newly added item
 	 */
 	addItem : function (item, index) {
 		this.checkWidget();
@@ -221,15 +216,8 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		return this.childContainer;
 	},
 
-	/**
-	 * @method
-	 * Registers Listener for this widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @param {String} eventType the event type
-	 * @param {Object} listener the listener
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.img, eventType, listener);
@@ -242,8 +230,7 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	 * painted item.
 	 *
 	 * @private
-	 * @param {boolean} wether this item is at the bottom position or not
-	 * @return {void}
+	 * @returns {void}
 	 */
 	createWidget : function () {
 		var parentItems, eventType, items, index, nextNode,
@@ -352,11 +339,10 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Deselect all child items
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	deselectItems : function () {
 		this.checkWidget();
@@ -368,6 +354,9 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		}, this);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.tree.releaseItem(this);
 		this.parent.releaseItem(this);
@@ -385,10 +374,9 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the checked state for this item
+	 * Returns <code>true</code> if the receiver is checked, and <code>false</code> otherwise. 
 	 *
-	 * @return {boolean} the checked state
+	 * @returns {boolean} the checked state
 	 */
 	getChecked : function () {
 		this.checkWidget();
@@ -396,21 +384,31 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the expanded state for this item
+	 * Returns <code>true</code> if the receiver is expanded, and <code>false</code> otherwise.
 	 *
-	 * @return {boolean} the expanded state
+	 * @returns {boolean} the expanded state
 	 */
 	getExpanded : function () {
 		this.checkWidget();
 		return this.expanded;
 	},
 
+	/**
+	 * Returns <code>true</code> if the receiver is grayed, and <code>false</code> otherwise.
+	 *
+	 * @returns {boolean} the grayed state
+	 */
 	getGrayed : function () {
 		this.checkWidget();
 		return this.grayed;
 	},
 
+	/**
+	 * Returns the receiver's image if it has one, or null if it does not.
+	 * 
+	 * @param {int} columnIndex a given column index, to return the image stored for the given column (optional)
+	 * @returns {Image} the image
+	 */
 	getImage : function (columnIndex) {
 		this.checkWidget();
 		columnIndex = columnIndex || 0;
@@ -418,16 +416,15 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns a specifiy item with a zero-related index
+	 * Returns a specific item at a given zero-related index
 	 *
 	 * @param {int} index the zero-related index
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {gara.widgets.TreeItem} the item
+	 * @returns {gara.widgets.TreeItem} the item
 	 */
 	getItem : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 
@@ -435,40 +432,37 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the amount of the items in the tree
+	 * Returns the number of items in the receiver.
 	 *
-	 * @return {int} the amount
+	 * @returns {int} the number of items.
 	 */
 	getItemCount : function () {
 		return this.items.length;
 	},
 
 	/**
-	 * @method
-	 * Returns an array with all the items in the tree
+	 * Returns a (possibly empty) array of TreeItems which are the direct item children of the receiver. 
 	 *
-	 * @return {gara.widgets.TreeItem[]} an array with the items
+	 * @return {gara.widgets.TreeItem[]} the receiver's items.
 	 */
 	getItems : function () {
 		return this.items;
 	},
 
 	/**
-	 * @method
-	 * Returns the widgets parent, which must be a <tt>Tree</tt>
+	 * Returns the receiver's parent, which must be a <code>Tree</code>
 	 *
-	 * @return {gara.widgets.Tree} the parent of this widget
+	 * @return {gara.widgets.Tree} the receiver's parent
 	 */
 	getParent : function () {
 		return this.tree;
 	},
 
 	/**
-	 * @method
-	 * Returns the item's parent item, which must be a <tt>TreeItem</tt> or null when the item is a root.
+	 * Returns the receiver's parent item, which must be a <code>TreeItem</code> or null when the 
+	 * receiver is a root. 
 	 *
-	 * @return {gara.widgets.TreeItem} the parent item
+	 * @return {gara.widgets.TreeItem} the receiver's parent item
 	 */
 	getParentItem : function () {
 		if (this.parent === this.tree) {
@@ -478,19 +472,20 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		}
 	},
 
+	/**
+	 * Returns the receiver's text if it has one, or null if it does not.
+	 * 
+	 * @param {int} columnIndex a given column index, to return the text stored for the given column (optional)
+	 * @returns {String} the text
+	 */
 	getText : function (columnIndex) {
 		this.checkWidget();
 		columnIndex = columnIndex || 0;
 		return this.texts[columnIndex];
 	},
 
-	/**
-	 * @method
-	 * Internal event handler
-	 *
-	 * @private
-	 * @param {Event} e W3C event
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
@@ -520,12 +515,13 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Looks for the index of a specified item
+	 * Searches the receiver's list starting at the first item (index 0) until an item is found 
+	 * that is equal to the argument, and returns the index of that item. If no item is found, 
+	 * returns -1. 
 	 *
-	 * @param {gara.widgets.TreeItem} item the item for the index
-	 * @throws {TypeError} if the item is not a TreeItem
-	 * @return {int} the index of the specified item or -1 if it does not exist
+	 * @param {gara.widgets.TreeItem} item the search item
+	 * @throws {TypeError} if the item is not a <code>TreeItem</code>
+	 * @returns {int} the index of the item
 	 */
 	indexOf : function (item) {
 		this.checkWidget();
@@ -536,14 +532,12 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		return this.items.indexOf(item);
 	},
 	
-	
 	/**
-	 * @method
-	 * Releases an item from the receiver
+	 * Releases an item from the receiver.
 	 *
 	 * @private
 	 * @param {gara.widgets.TreeItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @returns {void}
 	 */
 	releaseItem : function (item) {
 		if (this.items.contains(item)) {
@@ -558,14 +552,12 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		}
 	},
 
-
 	/**
-	 * @method
-	 * Removes an item from the tree-item
+	 * Removes an item from the receiver.
 	 *
-	 * @author Thomas Gossmann
+	 * @private
 	 * @param {int} index the index of the item
-	 * @return {void}
+	 * @returns {void}
 	 */
 	remove : function (index) {
 		var item;
@@ -577,7 +569,6 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		if (!item.isDisposed()) {
 			item.dispose();
 		}
-		delete item;
 
 		if (!this.items.length && this.childContainer.style.display === "block") {
 			this.childContainer.style.display = "none";
@@ -586,10 +577,9 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes all items from the tree-item
+	 * Removes all items from the receiver.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeAll : function () {
 		this.checkWidget();
@@ -599,11 +589,10 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes items which indices are passed by an array
+	 * Removes items which indices are passed as an array.
 	 *
 	 * @param {int[]} inidices the array with the indices
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeArray : function (indices) {
 		this.checkWidget();
@@ -613,12 +602,11 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Removes items within an indices range
+	 * Removes items within an indices range.
 	 *
 	 * @param {int} start start index
 	 * @param {int} end end index
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeRange : function (start, end) {
 		var i;
@@ -649,7 +637,10 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 //	},
 
 	/**
+	 * Sets the receiver's css class based on the grayed and checked state.
+	 *
 	 * @private
+	 * @returns {void}
 	 */
 	setCheckboxClass : function () {
 		this.checkbox.className = "garaCheckbox";
@@ -663,11 +654,10 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the checked state for this item
+	 * Sets the receiver's checked state.
 	 *
-	 * @param {boolean} checked the new checked state
-	 * @return {void}
+	 * @param {boolean} checked <code>true</code> for checked, <code>false</code> otherwise
+	 * @returns {gara.widgets.TreeItem} this
 	 */
 	setChecked : function (checked) {
 		if (!this.grayed) {
@@ -681,12 +671,10 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets a new expanded state for the item
+	 * Sets the receiver's expanded state.
 	 *
-	 * @author Thomas Gossmann
-	 * @param {boolean} expanded the new expanded state
-	 * @return {void}
+	 * @param {boolean} expanded <code>true</code> for expanded, <code>false</code> otherwise
+	 * @returns {gara.widgets.TreeItem} this {void}
 	 */
 	setExpanded : function (expanded) {
 		this.checkWidget();
@@ -712,6 +700,12 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's grayed state.
+	 * 
+	 * @param {boolean} grayed <code>true</code> for checked, <code>false</code> otherwise
+	 * @returns {gara.widgets.TreeItem} this
+	 */
 	setGrayed : function (grayed) {
 		this.grayed = grayed;
 		this.checkbox.setAttribute("aria-disabled", this.grayed);
@@ -719,6 +713,14 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's image to the argument, which may be null indicating that no image should 
+	 * be displayed.
+	 * 
+	 * @param {int} columnIndex an index to set the new image for a column (optional)
+	 * @param {Image} image the new image
+	 * @returns {gara.widgets.TreeItem} this
+	 */
 	setImage : function (columnIndex, image) {
 		if (typeof(image) === "undefined") {
 			image = columnIndex;
@@ -742,7 +744,11 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
+	 * Sets the receiver's selected state.
+	 * 
 	 * @private
+	 * @param {boolean} selected <code>true</code> for selected, <code>false</code> otherwise
+	 * @returns {gara.widgets.TreeItem} this
 	 */
 	setSelected : function (selected) {
 		this.checkWidget();
@@ -750,6 +756,13 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		this.handle.setAttribute("aria-selected", this.selected);
 	},
 
+	/**
+	 * Sets the receiver's text.
+	 * 
+	 * @param {int} columnIndex an index to set the new text for a column (optional)
+	 * @param {String} text the new text
+	 * @returns {gara.widgets.TreeItem} this
+	 */
 	setText : function (columnIndex, text) {
 		if (typeof(columnIndex) === "string") {
 			text = columnIndex;
@@ -761,13 +774,8 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unindListener : function (eventType, listener) {
 		gara.removeEventListener(this.img, eventType, listener);
@@ -775,22 +783,20 @@ gara.Class("gara.widgets.TreeItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Updates this item
+	 * Updates this item.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	update : function () {
-		var i, len, parentItems, bottom;
+		var i, len, parentItems, bottom, item;
 		this.checkWidget();
 
 		// update items
 		i = 0;
 		len = this.items.length;
 		while (i < len) {
-			var item = this.items[i];
+			item = this.items[i];
 			if (item.isDisposed()) {
 				this.remove(i);
 				len--;

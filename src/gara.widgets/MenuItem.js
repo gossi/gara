@@ -1,4 +1,4 @@
-/*	$Id: MenuItem.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,27 +21,22 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.MenuItem", "gara.widgets.Item");
 
 gara.use("gara.widgets.Menu");
 
 /**
- * @summary
  * gara MenuItem Widget
  *
- * @description
- * long description for the MenuItem Widget...
- *
- * @class MenuItem
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.MenuItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.MenuItem", function() { return {
+gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.MenuItem# */ {
 	$extends : gara.widgets.Item,
 
 	/**
-	 * @field
 	 * Holds the enabled state.
 	 *
 	 * @private
@@ -50,7 +45,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	enabled : true,
 
 	/**
-	 * @field
 	 * Seperator DOM reference
 	 *
 	 * @private
@@ -59,7 +53,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	hr : null,
 
 	/**
-	 * @field
 	 * Image DOM reference
 	 *
 	 * @private
@@ -68,7 +61,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	img : null,
 
 	/**
-	 * @field
 	 * Contains a submenu.
 	 *
 	 * @private
@@ -77,7 +69,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	menu : null,
 
 	/**
-	 * @field
 	 * Holds the selected state.
 	 *
 	 * @private
@@ -86,7 +77,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	selected : false,
 
 	/**
-	 * @field
 	 * Contains a collection of selection listeners, that will be notified
 	 * when the selection changes
 	 *
@@ -96,7 +86,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	selectionListeners : [],
 
 	/**
-	 * @field
 	 * Span DOM reference
 	 *
 	 * @private
@@ -105,7 +94,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	span : null,
 
 	/**
-	 * @field
 	 * Span text DOM reference
 	 *
 	 * @private
@@ -114,7 +102,6 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	spanText : null,
 
 	/**
-	 * @field
 	 * Holds the visibility state.
 	 *
 	 * @private
@@ -122,6 +109,14 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	 */
 	visible : true,
 
+	/**
+	 * Creates a new menu item.
+	 * @constructs
+	 * @extends gara.widgets.Item
+	 * @param {gara.widgets.Menu} parent
+	 * @param {int} style the style for the menu item (optional)
+	 * @param {int} index the index at where to insert this item (optional)
+	 */
 	$constructor : function (parent, style, index) {
 		var w, h;
 		if (!(parent instanceof gara.widgets.Menu)) {
@@ -154,13 +149,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection, by sending it one of 
 	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
-	 * @return {gara.widgets.MenuItem} this
+	 * @returns {gara.widgets.MenuItem} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
@@ -171,19 +165,17 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Register listeners for this widget. Implementation for gara.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
+	 * Creates the HTML.
 	 *
 	 * @private
 	 */
@@ -287,6 +279,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		}
 	},
 
+	/**
+	 * Destroys the menu item.
+	 * 
+	 * @private
+	 * @returns {void}
+	 */
 	destroyWidget: function () {
 		this.parent.releaseItem(this);
 		
@@ -304,26 +302,51 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		this.$super();
 	},
 
+	/**
+	 * Returns <code>true</code> if the receiver is enabled, and <code>false</code> otherwise.
+	 *
+	 * @returns {boolean} the receiver's enabled state
+	 */
 	getEnabled : function () {
 		return this.enabled;
 	},
 
+	/**
+	 * Returns a submenu for this menu item or <code>null</code> if it has none.
+	 * 
+	 * @returns {gara.widgets.Menu} the item's submenu 
+	 */
 	getMenu : function () {
 		return this.menu;
 	},
 
-	getParent : function () {
-		return this.parent;
-	},
+//	getParent : function () {
+//		return this.parent;
+//	},
 
+	/**
+	 * Returns <code>true</code> if the receiver is selected, and <code>false</code> otherwise.
+	 *
+	 * @returns {boolean} the receiver's selection state
+	 */
 	getSelection : function () {
 		return this.selected;
 	},
 
+	/**
+	 * Returns the receiver's visibility.
+	 * 
+	 * @returns {boolean} true if visible
+	 */
 	getVisible : function () {
 		return this.visible;
 	},
 
+	/**
+	 * Handles events for the menu item.
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	handleEvent : function (e) {
 		if ((this.style & gara.SEPARATOR) !== gara.SEPARATOR) {
 			switch (e.type) {
@@ -341,7 +364,7 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection. 
 	 *
@@ -354,6 +377,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's enabled state.
+	 *
+	 * @param {boolean} enabled true for enabled and false for disabled state
+	 * @returns {gara.widgets.MenuItem} this
+	 */
 	setEnabled : function (enabled) {
 		this.enabled = enabled;
 		if (this.handle !== null) {
@@ -363,6 +392,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the image for the item.
+	 *
+	 * @param {Image} image the new image
+	 * @returns {gara.widgets.MenuItem} this
+	 */
 	setImage : function (image) {
 		this.$super(image);
 
@@ -380,6 +415,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets a submenu for the menu item.
+	 * 
+	 * @param {gara.widgets.Menu} menu the new submenu
+	 * @returns {gara.widgets.MenuItem} this
+	 */
 	setMenu : function (menu) {
 		this.checkWidget();
 		if (!(menu instanceof gara.widgets.Menu)) {
@@ -394,13 +435,18 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's selected state.
+	 * 
+	 * @param {boolean} selected <code>true</code> for selected and <code>false</code> otherwise
+	 */
 	setSelection : function (selected) {
 		// select when enabled and either radio or check type
 		if (this.enabled) {
 			var e = {
 				item : this,
 				widget : this.parent
-			};
+			}, pos, i;
 
 			if (((this.style & gara.RADIO) === gara.RADIO
 					|| (this.style & gara.CHECK) === gara.CHECK)) {
@@ -411,10 +457,10 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 			if ((this.style & gara.RADIO) === gara.RADIO) {
 				if (!this.parent.managingRadioChecks) {
 					this.parent.managingRadioChecks = true;
-					var pos = this.parent.indexOf(this);
+					pos = this.parent.indexOf(this);
 
 					// removing selection upwards
-					var i = pos - 1;
+					i = pos - 1;
 					while (i >= 0 && (this.parent.getItem(i).getStyle() & gara.RADIO) === gara.RADIO) {
 						this.parent.getItem(i--).setSelection(false);
 					}
@@ -439,6 +485,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the text for the item.
+	 *
+	 * @param {String} text the new text
+	 * @returns {gara.widgets.MenuItem} this
+	 */
 	setText : function (text) {
 		this.$super(text);
 
@@ -448,6 +500,12 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's visibility.
+	 * 
+	 * @param {boolean} visible <code>true</code> for visible or <code>false</code> for invisible
+	 * @returns {gara.widgets.MenuItem} this
+	 */
 	setVisible : function (visible) {
 		this.visible = visible;
 		this.changed = true;
@@ -457,7 +515,7 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
 	 *
 	 * @private
@@ -468,6 +526,11 @@ gara.Class("gara.widgets.MenuItem", function() { return {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
+	/**
+	 * Handles outstanding updates.
+	 * 
+	 * @returns {void}
+	 */
 	update : function () {
 		this.checkWidget();
 

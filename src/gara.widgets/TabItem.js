@@ -1,4 +1,4 @@
-/*	$Id: TabItem.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.TabItem", "gara.widgets.Item");
 
 gara.use("gara.widgets.Control");
@@ -31,17 +33,13 @@ gara.use("gara.widgets.TabFolder");
 /**
  * gara TreeItem
  *
- * @class TabItem
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.TabItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.TabItem", function () { return {
+gara.Class("gara.widgets.TabItem", function () { return /** @lends gara.widgets.TabItem# */ {
 	$extends : gara.widgets.Item,
 
-	// content and flags
 	/**
-	 * @field
 	 * Holds the active state.
 	 *
 	 * @private
@@ -50,7 +48,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	active : false,
 
 	/**
-	 * @field
 	 * Contains the <code>Control</code>.
 	 *
 	 * @private
@@ -59,7 +56,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	control : null,
 
 	/**
-	 * @field
 	 * Contains the tooltip text.
 	 *
 	 * @private
@@ -68,7 +64,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	toolTipText : null,
 
 	/**
-	 * @field
 	 * Bridged menu item, when DROP_DOWN style is used on the <code>TabFolder</code>.
 	 *
 	 * @private
@@ -78,7 +73,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 
 	// nodes
 	/**
-	 * @field
 	 * Span's DOM reference.
 	 *
 	 * @private
@@ -87,7 +81,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	span : null,
 
 	/**
-	 * @field
 	 * Img's DOM reference.
 	 *
 	 * @private
@@ -96,7 +89,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	img : null,
 
 	/**
-	 * @field
 	 * ClientArea's DOM Reference.
 	 *
 	 * @private
@@ -104,8 +96,13 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	 */
 	clientArea : null,
 
+	/**
+	 * @constructs
+	 * @extends gara.widgets.Item
+	 * @param {gara.widgets.TabFolder} parent 
+	 * @param {int} style
+	 */
 	$constructor : function (parent, style) {
-
 		if (!(parent instanceof gara.widgets.TabFolder)) {
 			throw new TypeError("parentWidget is neither a gara.widgets.TabFolder");
 		}
@@ -128,17 +125,18 @@ gara.Class("gara.widgets.TabItem", function () { return {
 		this.createWidget();
 	},
 
-	/**
-	 * @method
-	 * Widget implementation to register listener
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
+	/**
+	 * Closes and disposes the receiver.
+	 * 
+	 * @returns {void}
+	 */
 	close : function () {
 		if (this.parent.notifyTabFolderListener("close")) {
 			this.dispose();
@@ -146,7 +144,6 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Contstructs the dom for this tabitem
 	 *
 	 * @private
@@ -249,6 +246,9 @@ gara.Class("gara.widgets.TabItem", function () { return {
 		this.parent.updateMeasurements();
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.parent.releaseItem(this);
 				
@@ -263,19 +263,20 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * Returns the receiver's client area.
+	 * 
 	 * @private
+	 * @returns {HTMLElement}
 	 */
 	getClientArea : function () {
 		return this.clientArea;
 	},
 
 	/**
-	 * @method
-	 * Returns the content control for this item
+	 * Returns the receiver's control.
 	 *
-	 * @return {gara.Control} the control
+	 * @see gara.widgets.TabItem#setControl
+	 * @returns {gara.widgets.Control} the control
 	 */
 	getControl : function () {
 		this.checkWidget();
@@ -283,10 +284,9 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the tooltip text for this item
+	 * Returns the receiver's tooltip text.
 	 *
-	 * @return {string} the tooltip text
+	 * @returns {string} the tooltip text
 	 */
 	getToolTipText : function () {
 		this.checkWidget();
@@ -294,13 +294,12 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	},
 
 	/**
-	 * @method
 	 * Event handler for this item. Its main use is to pass through keyboard events
 	 * to all listeners.
 	 *
 	 * @private
 	 * @param {Event} e DOMEvent
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
@@ -314,14 +313,8 @@ gara.Class("gara.widgets.TabItem", function () { return {
 		}
 	},
 
-	/**
-	 * @method
-	 * Set a new active state for this item
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @param {boolean} active the new active state
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Item
 	 */
 	setActive : function (active) {
 		this.checkWidget();
@@ -340,13 +333,13 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets a control for that appears in the client area of the TabFolder when this item is activated
+	 * Sets the receiver's control, that appears in the client area of the <code>TabFolder</code> when 
+	 * the receiver gets activated.
 	 *
-	 * @author Thomas Gossmann
-	 * @param {gara.Control} control the control
-	 * @throws {TypeError} when that is not a gara.Control
-	 * @return {gara.widgets.TabItem}
+	 * @see gara.widgets.TabItem#getControl
+	 * @param {gara.widgets.Control} control the control
+	 * @throws {TypeError} when that is not a gara.widgets.Control
+	 * @returns {gara.widgets.TabItem}
 	 */
 	setControl : function (control) {
 		var overflow;
@@ -371,12 +364,8 @@ gara.Class("gara.widgets.TabItem", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Sets the image for the item
-	 *
-	 * @param {Image} image the new image
-	 * @return {gara.widgets.TabItem}
+	/*
+	 * jsdoc in gara.widgets.Item
 	 */
 	setImage: function (image) {
 		this.$super(image);
@@ -399,12 +388,8 @@ gara.Class("gara.widgets.TabItem", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Sets the text for the item
-	 *
-	 * @param {String} text the new text
-	 * @return {gara.widgets.TabItem}
+	/*
+	 * jsdoc in gara.widgets.Item
 	 */
 	setText: function (text) {
 		this.$super(text);
@@ -416,11 +401,10 @@ gara.Class("gara.widgets.TabItem", function () { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the ToolTip text for this item
+	 * Sets the receiver's tooltip text.
 	 *
 	 * @param {string} text the tooltip text
-	 * @return {void}
+	 * @returns {gara.widgets.TabItem} this
 	 */
 	setToolTipText : function (text) {
 		this.toolTipText = text;
@@ -430,25 +414,18 @@ gara.Class("gara.widgets.TabItem", function () { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
-	 * Update this item
+	 * Update the receiver, mostly it's control.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	update : function () {
 		this.checkWidget();

@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,12 +21,11 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.jswt.events.MouseTrackListener");
 
 /**
- * @interface MouseTrackListener
- * 
- * @summary
  * Classes which implement this interface provide methods that deal with the events that are 
  * generated as the mouse pointer passes (or hovers) over controls.
  * 
@@ -37,35 +36,36 @@ gara.provide("gara.jswt.events.MouseTrackListener");
  * the area of the screen covered by a control or pauses while over a control, the appropriate 
  * method will be invoked.
  *
- * @namespace gara.jswt.events
+ * @interface gara.events.MouseTrackListener
+ * @name gara.events.MouseTrackListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
 
-gara.Class("gara.jswt.events.MouseTrackListener", {
+gara.Class("gara.jswt.events.MouseTrackListener", /** @lends gara.events.MouseTrackListener# */ {
 
 	/**
-	 * @method
 	 * Sent when the mouse pointer passes into the area of the screen covered by a control. 
 	 *
 	 * @param {Event} e an event containing information about the mouse enter
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseEnter : function(e) {},
+	mouseEnter : function (e) {},
 
 	/**
-	 * @method
 	 * Sent when the mouse pointer passes out of the area of the screen covered by a control. 
 	 *
 	 * @param {Event} e an event containing information about the mouse exit
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseExit : function(e) {},
+	mouseExit : function (e) {},
 
 	/**
-	 * @method
 	 * Sent when the mouse pointer hovers over a control. 
 	 *
 	 * @param {Event} e an event containing information about the hover
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseHover : function(e) {}
+	mouseHover : function (e) {}
 });

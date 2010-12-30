@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ILabelProviderListener");gara.Class("gara.viewers.ILabelProviderListener",{labelProviderChanged:function(){}});

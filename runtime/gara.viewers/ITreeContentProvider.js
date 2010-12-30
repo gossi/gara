@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ITreeContentProvider","gara.viewers.IStructuredContentProvider");gara.Class("gara.viewers.ITreeContentProvider",function(){return{$extends:gara.viewers.IStructuredContentProvider,getChildren:function(a){},getParent:function(a){},hasChildren:function(a){}}});

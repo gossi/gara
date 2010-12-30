@@ -1,1 +1,0 @@
-gara.provide("gara.jsface.viewers.ICheckStateListener");$package("gara.jsface.viewers");$interface("ICheckStateListener",{checkStateChanged:function(a){}});$package("");

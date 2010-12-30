@@ -1,1 +1,0 @@
-gara.provide("gara.jsface.viewers.ILabelProviderListener");$package("gara.jsface.viewers");$interface("ILabelProviderListener",{labelProviderChanged:function(){}});$package("");

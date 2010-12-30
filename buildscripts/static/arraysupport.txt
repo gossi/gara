@@ -1,9 +1,0 @@
-base2.JavaScript.bind(window);
-
-if (!Array.prototype.clear) {
-	Array.prototype.clear = function() {
-		while (this.length > 0) {
-			this.pop();
-		}
-	}
-}

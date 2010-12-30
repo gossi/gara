@@ -32,8 +32,8 @@
 }
 
 .sand .garaMenu .garaActiveItem {
-	background-color: #EAE6D6;
-	color: #000;
+	background-color: #B6AA8A;
+	color: #F7F3E4;
 }
 
 .sand .garaMenuItem[aria-disabled=true] > .garaMenuItemButton .garaMenuItemText {
@@ -49,7 +49,8 @@
 	padding: 0;
 	background-image: none;
 	background-color: #E2DED0; /* #CCC8BA */
-	height: 21px;
+	height: 22px;
+	border-bottom: 1px solid #B6AA8A;
 }
 
 .sand .garaMenuBar .garaMenuItem {
@@ -171,8 +172,9 @@
 
 .sand .garaToolbar {
 	/*background-color: #EAE6D6; /*#E9E7EB;*/
-	background-color: #E2DED0; /*#D9D4C0 #DEDAC9 #E2DED0*/
+	background-color: transparent; /*#E2DED0 #D9D4C0 #DEDAC9 #E2DED0*/
 	height: 24px;
+	border-bottom: none;
 }
 
 .sand .garaToolbar > .garaMenuItem {
@@ -208,6 +210,7 @@
 .sand .garaToolbar > .garaMenuItem[aria-checked=true] > .garaMenuItemButton {
 	border: 1px solid #B6AD87;
 	background-color: #FFF;
+	border-radius: 7px;
 	-moz-border-radius: 7px;
 	height: 20px;
 	padding-left: 8px;
@@ -218,6 +221,14 @@
 	padding-right: 8px;
 }
 
+/** hover and active state */
+.sand .garaToolbar > .garaActiveItem {
+	background-color: transparent;
+	color: #000;
+}
+
+.sand .garaToolbar > .garaActiveItem > .garaMenuItemButton,
+.sand .garaToolbar > .garaActiveItem[aria-checked=true] > .garaMenuItemButton,
 .sand .garaToolbar > .garaMenuItem > .garaMenuItemButton:hover {
 	border: none;
 	background-color: transparent;
@@ -226,6 +237,8 @@
 	background-image: url('button-start.png'); /** sprite-ref: button; */
 }
 
+.sand .garaToolbar > .garaActiveItem > .garaMenuItemButton .garaMenuItemDoor,
+.sand .garaToolbar > .garaActiveItem[aria-checked=true] > .garaMenuItemButton .garaMenuItemDoor,
 .sand .garaToolbar > .garaMenuItem > .garaMenuItemButton:hover .garaMenuItemDoor {
 	padding-top: 1px;
 	padding-right: 9px;
@@ -237,24 +250,25 @@
 .sand .garaToolbar > .garaMenuItem[aria-pressed=true] > .garaMenuItemButton {
 	border: 1px solid #B6AD87;
 	background-color: #FFF;
+	border-radius: 7px;
 	-moz-border-radius: 7px;
 	height: 20px;
 	padding-left: 8px;
 	background-image: none;
-	/*background-image: url('button-pressed-start.png'); /** sprite-ref: button; */
+	/*background-image: url('button-pressed-start.png'); /** sprite -ref: button; */
 }
 
 .sand .garaToolbar > .garaMenuItem[aria-pressed=true] > .garaMenuItemButton .garaMenuItemDoor {
-	/*background-image: url('button-pressed-end.png'); /** sprite-ref: button; sprite-alignment: right; */
+	/*background-image: url('button-pressed-end.png'); /** sprite -ref: button; sprite-alignment: right; */
 	padding-top: 0;
 	padding-right: 8px;
 	background-image: none;
 }
 
-.sand .garaToolbar > .garaActiveItem {
+/*.sand .garaToolbar > .garaActiveItem {
 	background-color: #EAE6D6;
 	color: #000;
-}
+}*/
 
 .sand .garaToolbar > .garaMenuItem[aria-disabled=false].garaActiveItem > .garaMenuItemText {
 	outline: 1px dotted #000;

@@ -1,12 +1,12 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
-	================================================================================================================
+	===========================================================================
 
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -18,8 +18,10 @@
 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 		Lesser General Public License for more details.
 
-	================================================================================================================
+	===========================================================================
 */
+
+"use strict";
 
 gara.provide("gara.widgets.TableColumn", "gara.widgets.Item");
 
@@ -30,16 +32,13 @@ gara.use("gara.widgets.MenuItem");
 /**
  * gara TableColumn
  *
- * @class TableColumn
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.TableColumn
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.TableColumn", function() { return {
+gara.Class("gara.widgets.TableColumn", function() { return /** @lends gara.widgets.TableColumn# */ {
 	$extends : gara.widgets.Item,
 
 	/**
-	 * @field
 	 * Contains a shadow copy of the <code>Table</code> that is used, when
 	 * moving columns.
 	 *
@@ -49,7 +48,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	shadow : null,
 
 	/**
-	 * @field
 	 * Width of this column.
 	 *
 	 * @private
@@ -58,7 +56,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	width : 0,
 
 	/**
-	 * @field
 	 * Image's DOM reference.
 	 *
 	 * @private
@@ -67,7 +64,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	img : null,
 
 	/**
-	 * @field
 	 * Text's DOM reference.
 	 *
 	 * @private
@@ -76,7 +72,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	span : null,
 
 	/**
-	 * @field
 	 * Text's DOM reference.
 	 *
 	 * @private
@@ -85,7 +80,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	spanText : null,
 
 	/**
-	 * @field
 	 * Operator's DOM reference.
 	 *
 	 * @private
@@ -95,7 +89,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 
 
 	/**
-	 * @field
 	 * Holds the moveable flag.
 	 *
 	 * @private
@@ -104,7 +97,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	moveable : true,
 
 	/**
-	 * @field
 	 * Holds the resizable flag.
 	 *
 	 * @private
@@ -114,7 +106,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 
 
 	/**
-	 * @field
 	 * Holds the flag wether this column is currently being moved.
 	 *
 	 * @private
@@ -123,7 +114,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	isMoving : false,
 
 	/**
-	 * @field
 	 * Holds the flag wether this column is currently being resized.
 	 *
 	 * @private
@@ -131,6 +121,16 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	 */
 	isResizing : false,
 
+	/**
+	 * Creates a new TableColumn
+	 * 
+	 * @constructs
+	 * @extends gara.widgets.Item
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param index
+	 */
 	$constructor : function (parent, style, index) {
 		var menuItemListener;
 		if (!(parent instanceof gara.widgets.Table)) {
@@ -181,6 +181,13 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		this.createWidget();
 	},
 	
+	/**
+	 * Adjust the width of the receiver. For internal usage only.
+	 * 
+	 * @private
+	 * @param {int} width the new width
+	 * @returns {void}
+	 */
 	adjustWidth : function (width) {
 //		this.span.style.width = "auto";
 		width = width < this.minWidth ? this.minWidth : width;
@@ -211,15 +218,18 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 //		return this.col.width;
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	bindListener : function () {},
 
+	/**
+	 * Creates the widget
+	 * 
+	 * @private
+	 */
 	createWidget : function () {
-		var thead, tableCols, cols, colsWidth, colWidths, i, width, parentWidth;
+		var thead, tableCols, cols, colsWidth, i, width, parentWidth;
 		this.handle = document.createElement("th");
 		this.handle.id = this.getId();
 		this.handle.widget = this;
@@ -282,7 +292,6 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 			tableCols = this.parent.getColumns();
 			cols = [];
 			colsWidth = 0;
-			colsWidths = 0;
 
 			// get parent width
 			parentWidth = this.parent.handle.clientWidth - gara.SCROLLBAR_WIDTH;
@@ -300,7 +309,7 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 			cols.forEach(function (col, index) {
 				var colWidth;
 				colWidth = Math.floor(parentWidth / cols.length);
-				colWidths += col.adjustWidth(index === cols.length - 1 ? width - colWidths : colWidth);
+				colsWidth += col.adjustWidth(index === cols.length - 1 ? width - colsWidth : colWidth);
 			}, this);
 
 			thead.style.position = "absolute";
@@ -309,6 +318,9 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		this.parent.updateMeasurements();
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.parent.releaseColumn(this);
 				
@@ -319,8 +331,7 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 	},
 
 	/**
-	 * @method
-	 *
+	 * 
 	 * @private
 	 */
 	getComputedWidth : function () {
@@ -331,27 +342,63 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		return 0;
 	},
 	
+	/**
+	 * Gets the moveable attribute.
+	 * 
+	 * @description
+	 * Gets the moveable attribute. A column that is not moveable cannot be reordered by the user by 
+	 * dragging the header but may be reordered by the programmer.
+	 * 
+	 * @returns {boolean} the movable attribute
+	 */
 	getMoveable : function () {
 		return this.moveable;
 	},
 
+	/**
+	 * Returns the receiver's minimum width.
+	 * 
+	 * @returns {int} the minimum width 
+	 */
 	getMinWidth : function () {
 		return this.minWidth;
 	},
 	
+	/**
+	 * Gets the resizable attribute.
+	 * 
+	 * @description
+	 * Gets the resizable attribute. A column that is not resizable cannot be dragged by the user 
+	 * but may be resized by the programmer.
+	 *  
+	 * @returns {boolean} the resizable attribute
+	 */
 	getResizable : function () {
 		return this.resizable;
 	},
 
+	/**
+	 * Returns the receiver's visibility state.
+	 * 
+	 * @returns {boolean} <code>true</code> for visible and <code>false</code> for hidden.
+	 */
 	getVisible : function () {
 		return this.visible;
 	},
 
+	/**
+	 * Gets the width of the receiver.
+	 * 
+	 * @returns {int} the width
+	 */
 	getWidth : function () {
 		this.checkWidget();
 		return this.width;
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	handleEvent : function (e) {
 		var order, thisColumnIndex, thisColumnOrder, columns, offset,
 			minWidth, delta, nextWidth, width,
@@ -364,7 +411,7 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 				this.isResizing = true;
 
 				this.resizeLineLeft = (this.parent.getStyle() & gara.CHECK) !== 0
-					? parseInt(this.parent.checkboxCol.width) : 0;
+					? parseInt(this.parent.checkboxCol.width, 10) : 0;
 				this.allColsWidth = 0;
 				
 				order = this.parent.getColumnOrder();
@@ -489,6 +536,9 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		}
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Item
+	 */
 	setImage : function (image) {
 		this.$super(image);
 
@@ -508,6 +558,9 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		return this;
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Item
+	 */
 	setText : function (text) {
 		this.$super(text);
 		this.spanText.nodeValue = this.text;
@@ -516,26 +569,67 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		return this;
 	},
 	
+	/**
+	 * Sets the moveable attribute.
+	 * 
+	 * @description
+	 * Sets the moveable attribute. A column that is moveable can be reordered by the user by dragging 
+	 * the header. A column that is not moveable cannot be dragged by the user but may be reordered 
+	 * by the programmer.
+	 *  
+	 * @param {boolean} moveable the moveable attribute
+	 * @returns {gara.widgets.TableColumn} this
+	 */
 	setMoveable : function (moveable) {
 		this.moveable = moveable;
 		return this;
 	},
 	
+	/**
+	 * Sets the receiver's minimum width.
+	 * 
+	 * @param {int} width the new minimum width
+	 * @returns {gara.widgets.TableColumn} this
+	 */
 	setMinWidth : function (width) {
 		this.minWidth = width;
+		return this;
 	},
 	
+	/**
+	 * Sets the resizable attribute.
+	 * 
+	 * @description
+	 * Sets the resizable attribute. A column that is resizable can be resized by the user dragging 
+	 * the edge of the header. A column that is not resizable cannot be dragged by the user but may 
+	 * be resized by the programmer.
+	 *  
+	 * @param {boolean} resizable the resizable attribute
+	 * @returns {gara.widgets.TableColumn} this
+	 */
 	setResizable : function (resizable) {
 		this.resizable = resizable;
 		return this;
 	},
 	
+	/**
+	 * Sets the receiver's visibility.
+	 * 
+	 * @param {boolean} visible <code>true</code> for visible or <code>false</code> for invisible
+	 * @returns {gara.widgets.TableColumn} this
+	 */
 	setVisible : function (visible) {
 		this.visible = visible;
 		this.colMenuItem.setSelection(visible);
 		this.parent.update();
 	},
 
+	/**
+	 * Sets the receiver's width.
+	 *  
+	 * @param {int} width the new width
+	 * @returns {gara.widgets.TableColumn} this
+	 */
 	setWidth : function (width) {
 		this.checkWidget();
 		this.width = width > this.minWidth || width === null ? width : this.minWidth;
@@ -547,12 +641,8 @@ gara.Class("gara.widgets.TableColumn", function() { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {}
 };});

@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.CheckStateChangedEvent");gara.Class("gara.viewers.CheckStateChangedEvent",{source:null,element:null,state:null,$constructor:function(a,b,c){this.source=a;this.element=b;this.state=c},getElement:function(){return this.element},getSource:function(){return this.source},getState:function(){return this.state}});

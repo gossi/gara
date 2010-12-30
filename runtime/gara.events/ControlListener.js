@@ -1,0 +1,1 @@
+gara.provide("gara.events.ControlListener");gara.Class("gara.events.ControlListener",{controlMoved:function(){},controlResized:function(){}});

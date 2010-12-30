@@ -1,4 +1,4 @@
-/*	$Id: Menu.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,29 +21,25 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Menu", "gara.widgets.Control");
 
 gara.use("gara.widgets.Decorations");
 gara.use("gara.widgets.MenuItem");
 
 /**
- * @summary gara Menu Widget
+ * gara Menu Widget
  *
- * @description long description for the Menu Widget...
- *
- * @class Menu
- * @author Thomas Gossmann
- * @namespace gara.widgets
- * @extends gara.widgets.Widget
+ * @class gara.widgets.Menu
+ * @extends gara.widgets.Control
  */
-gara.Class("gara.widgets.Menu", function() { return {
+gara.Class("gara.widgets.Menu", function() { return /** @lends gara.widgets.Menu# */ {
 	$extends : gara.widgets.Control,
-
-	// private members
 
 
 	/**
-	 * @field
+	 * 
 	 * Contains the current active item.
 	 *
 	 * @private
@@ -52,7 +48,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 	activeItem : null,
 
 	/**
-	 * @field
+	 * 
 	 * Holds the enabled state.
 	 *
 	 * @private
@@ -61,7 +57,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 	enabled : false,
 
 	/**
-	 * @field
+	 * 
 	 * Contains the <code>MenuItem</code>s.
 	 *
 	 * @private
@@ -70,16 +66,25 @@ gara.Class("gara.widgets.Menu", function() { return {
 	items : [],
 
 	/**
-	 * @field
+	 * 
 	 * A reminder, if the a drop down menu of a menu bar is shown.
 	 *
 	 * @private
 	 * @type {boolean}
 	 */
 	menuBarDropDownShown : false,
+	
+	/**
+	 * 
+	 * A reminder, if the a drop down menu of a tool bar is shown.
+	 *
+	 * @private
+	 * @type {boolean}
+	 */
+	toolBarDropDownShown : false,
 
 	/**
-	 * @field
+	 * 
 	 * Contains a collection of listeners, that will be notified when the
 	 * visibility of the <code>Menu</code> changes.
 	 *
@@ -89,7 +94,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 	menuListeners : [],
 
 	/**
-	 * @field
+	 * 
 	 * X position of the location.
 	 *
 	 * @private
@@ -98,7 +103,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 	x : 0,
 
 	/**
-	 * @field
+	 * 
 	 * Y position of the location.
 	 *
 	 * @private
@@ -106,6 +111,12 @@ gara.Class("gara.widgets.Menu", function() { return {
 	 */
 	y : 0,
 
+	/**
+	 * @constructs
+	 * @extends gara.widgets.Control
+	 * @param {gara.widgets.Control|gara.widgets.MenuItem|gara.widgets.Composite|HTMLElement} parent
+	 * @param {int} style
+	 */
 	$constructor : function (parent, style) {
 		// style
 		if (parent instanceof gara.widgets.MenuItem
@@ -135,6 +146,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 		// flags
 		this.enabled = false;
 		this.menuBarDropDownShown = false;
+		this.toolBarDropDownShown = false;
 
 		this.$super(parent, style);
 		this.addFocusListener(this);
@@ -142,21 +154,21 @@ gara.Class("gara.widgets.Menu", function() { return {
 
 
 	/**
-	 * @method Register listeners for this widget. Implementation for
-	 *         gara.Widget
+	 * Register listeners for this widget. Implementation for gara.Widget.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
+	 * Activates a menu item.
 	 *
 	 * @private
+	 * @param {gara.widgets.MenuItem} item
+	 * @returns {void}
 	 */
 	activateItem : function (item) {
 		var menu;
@@ -172,23 +184,35 @@ gara.Class("gara.widgets.Menu", function() { return {
 		}
 
 		this.activeItem = item;
-		if ((this.activeItem.getParent().getStyle() & gara.TOOLBAR) !== gara.TOOLBAR
-				|| (this.event !== null && this.event.type && (
-					this.event.type === "keydown" || this.event.type === "keyup"
-					|| this.event.type === "keypress" || this.event.type === "focus"))) {
+		
+//		if (/*(this.activeItem.getParent().getStyle() & gara.TOOLBAR) !== gara.TOOLBAR
+//				|| */(this.event !== null && this.event.type && (
+//					this.event.type === "keydown" || this.event.type === "keyup"
+//					|| this.event.type === "keypress" || this.event.type === "focus"))) {
+//			console.log("Menu.activateItem, setActive: " + this.activeItem.getText());
 			this.activeItem.setActive(true);
-		}
+//		}
 
 		menu = this.activeItem.getMenu();
-		if (this.menuBarDropDownShown && menu !== null) {
+		if ((this.style & gara.TOOLBAR) !== 0 && this.toolBarDropDownShown && menu !== null) {
+			menu.setVisible(true);
+		}
+		
+		if ((this.style & gara.TOOLBAR) === 0 
+				&& (this.style & gara.BAR) !== 0
+				&& this.menuBarDropDownShown 
+				&& menu !== null) {
 			menu.setVisible(true);
 		}
 	},
 
 	/**
-	 * @method
+	 * Adds a menu item to the menu. Optionally at a given index.
 	 *
 	 * @private
+	 * @param {gara.widgets.MenuItem} item
+	 * @param {int} index
+	 * @returns {HTMLElement} menu handle
 	 */
 	addItem : function (item, index) {
 		this.checkWidget();
@@ -203,13 +227,12 @@ gara.Class("gara.widgets.Menu", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when menus are hidden or shown, by sending it one of the messages defined 
 	 * in the <code>MenuListener</code> interface. 
 	 * 
 	 * @param {gara.events.MenuListener} listener the listener which should be notified 
-	 * @return {gara.widgets.Menu} this
+	 * @returns {gara.widgets.Menu} this
 	 */
 	addMenuListener : function (listener) {
 		this.checkWidget();
@@ -219,6 +242,14 @@ gara.Class("gara.widgets.Menu", function() { return {
 		return this;
 	},
 
+	/**
+	 * Checks the style of the menu and clears inconsistencies.
+	 * 
+	 * @static
+	 * @function
+	 * @param {int} style
+	 * @returns {int} new style
+	 */
 	checkStyle : gara.$static(function (style) {
 		if ((style & gara.TOOLBAR) !== 0) {
 			style |= gara.BAR;
@@ -234,9 +265,10 @@ gara.Class("gara.widgets.Menu", function() { return {
 	}),
 
 	/**
-	 * @method
-	 *
+	 * Creates the HTML.
+	 * 
 	 * @private
+	 * @returns {void}
 	 */
 	createWidget : function () {
 		this.visible = (this.style & gara.BAR) !== 0; // bar === true
@@ -258,7 +290,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 
 		if ((this.style & gara.BAR) !== 0) {
 			this.addClass("garaMenuBar");
-			this.parentNode = this.parent;
+//			this.parentNode = this.parent;
 			this.handle.setAttribute("role", "menubar");
 
 			gara.addEventListener(document, "mousedown", this);
@@ -268,9 +300,9 @@ gara.Class("gara.widgets.Menu", function() { return {
 				this.addClass("garaToolbar");
 			}
 
-			if (this.parent instanceof gara.widgets.Composite) {
-				this.parentNode = this.parent.handle;
-			}
+//			if (this.parent instanceof gara.widgets.Composite) {
+//				this.parentNode = this.parent.handle;
+//			}
 		}
 
 		if ((this.style & gara.POP_UP) !== 0) {
@@ -292,6 +324,12 @@ gara.Class("gara.widgets.Menu", function() { return {
 		this.parentNode.appendChild(this.handle);
 	},
 	
+	/**
+	 * Destroys the menu.
+	 *
+	 * @private
+	 * @returns {void}
+	 */
 	destroyWidget : function () {
 		this.menuListeners = null;
 		this.activeItem = null;
@@ -300,8 +338,16 @@ gara.Class("gara.widgets.Menu", function() { return {
 		this.$super();
 	},
 
+	/**
+	 * Focus gained handler for this menu.
+	 * 
+	 * @private
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	focusGained : function (e) {
-		this.menuBarDropDownShown = true;
+		this.menuBarDropDownShown = false;
+		this.toolBarDropDownShown = false;
 		this.event = e;
 		if (this.items.length && this.activeItem === null) {
 			if (e.target && e.target.widget && e.target.widget instanceof gara.widgets.MenuItem
@@ -313,6 +359,13 @@ gara.Class("gara.widgets.Menu", function() { return {
 		}
 	},
 
+	/**
+	 * Focus lost handler for this menu.
+	 * 
+	 * @private
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	focusLost : function (e) {
 		this.event = e;
 		if (this.activeItem) {
@@ -325,38 +378,66 @@ gara.Class("gara.widgets.Menu", function() { return {
 		}
 	},
 
+	/**
+	 * Returns the item at the given, zero-relative index in the receiver.
+	 * 
+	 * @description
+	 * Returns the item at the given, zero-relative index in the receiver. 
+	 * Throws an exception if the index is out of range. 
+	 * 
+	 * @param {int} index the index of the item to return
+	 * @throws {RangeError} when the given index is out of bounds
+	 * @returns {gara.widgets.MenuItem} the item at the given index
+	 */
 	getItem : function (index) {
 		this.checkWidget();
-		if (typeof(this.items.indexOf(index)) == "undefined") {
+		if (typeof(this.items.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 
 		return this.items[index];
 	},
 
+	/**
+	 * Returns the number of items contained in the receiver.
+	 * 
+	 * @returns {int} the number of items
+	 */
 	getItemCount : function () {
 		return this.items.length;
 	},
 
+	/**
+	 * Returns a (possibly empty) array of <code>MenuItem</code>s which are the items in the receiver. 
+	 * 
+	 * @returns {gara.widgets.MenuItem[]} the items in the receiver 
+	 */
 	getItems : function () {
 		return this.items;
 	},
 
-	getParent : function () {
-		return this.parent;
-	},
+	
+//	getParent : function () {
+//		return this.parent;
+//	},
 
+	/**
+	 * Returns the receiver's parent item, which must be a <code>MenuItem</code> or <code>null</code>
+	 * when the receiver is a root.
+	 * 
+	 * @returns {gara.widgets.MenuItem} the receiver's parent item
+	 */
 	getParentItem : function () {
 		return this.parent;
 	},
 
 	/**
-	 * @method
+	 * 
 	 *
 	 * @private
 	 */
 	handleEvent : function (e) {
-		var item, invokeItem, activeItem;
+		var item, invokeItem, activeItem, parent, invokedSubitem;
 		this.checkWidget();
 		e.widget = this;
 		this.event = e;
@@ -416,7 +497,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 			else if ((e.target.widget ? e.target.widget !== this
 						&& e.target.widget.getParent() !== this : true)
 					&& (this.getStyle() & gara.BAR) === gara.BAR) {
-				var parent, invokedSubitem;
+				
 				if (this.activeItem) {
 					if (e.target.widget
 							&& (e.target.widget instanceof gara.widgets.Menu
@@ -503,6 +584,9 @@ gara.Class("gara.widgets.Menu", function() { return {
 				if (e.keyCode === gara.ENTER) {
 					invokeItem(this.activeItem);
 				}
+				if (e.keyCode === gara.ESC) {
+					e.preventShellClose = true;
+				}
 				this.handleKeyNavigation(e);
 				this.preventScrolling(e);
 			}
@@ -519,7 +603,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 *
 	 * @private
 	 */
@@ -579,6 +663,7 @@ gara.Class("gara.widgets.Menu", function() { return {
 				case gara.ARROW_DOWN:
 					if (this.activeItem && this.activeItem.getMenu() !== null) {
 						this.menuBarDropDownShown = true;
+						this.toolBarDropDownShown = true;
 						this.activeItem.getMenu().setVisible(true);
 					}
 					break;
@@ -631,14 +716,23 @@ gara.Class("gara.widgets.Menu", function() { return {
 	},
 
 	/**
-	 * @method
+	 * 
 	 *
 	 * @private
 	 */
 	hideMenuBarDropDown : function () {
 		this.menuBarDropDownShown = false;
+		this.toolBarDropDownShown = false;
 	},
 
+	/**
+	 * Searches the receiver's list starting at the first item (index 0) until an item is found 
+	 * that is equal to the argument, and returns the index of that item. If no item is 
+	 * found, returns -1. 
+	 * 
+	 * @param {gara.widgets.MenuItem} item the search item
+	 * @returns {int} the index of the item
+	 */
 	indexOf : function (item) {
 		this.checkWidget();
 		if (!(item instanceof gara.widgets.MenuItem)) {
@@ -648,16 +742,15 @@ gara.Class("gara.widgets.Menu", function() { return {
 		return this.items.indexOf(item);
 	},
 
-	isVisible : function () {
-		return this.visible;
-	},
+//	isVisible : function () {
+//		return this.visible;
+//	},
 	
 	/**
-	 * @method
 	 * Releases all children from the receiver
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	releaseChildren : function () {
 		this.items.forEach(function (item) {
@@ -668,12 +761,11 @@ gara.Class("gara.widgets.Menu", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Releases an item from the receiver
 	 *
 	 * @private
-	 * @param {gara.widgets.TableItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @param {gara.widgets.MenuItem} item the item that should removed from the receiver
+	 * @returns {void}
 	 */
 	releaseItem : function (item) {
 		if (this.items.contains(item)) {
@@ -683,7 +775,6 @@ gara.Class("gara.widgets.Menu", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified when the 
 	 * menu events are generated for the control.
 	 * 
@@ -696,12 +787,25 @@ gara.Class("gara.widgets.Menu", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's enabled state.
+	 *
+	 * @param {boolean} enabled true for enabled and false for disabled state
+	 * @returns {gara.widgets.Control} this
+	 */
 	setEnabled : function (enabled) {
 		this.$super(enabled);
-		this.handle.tabIndex = this.enabled && (style & gara.BAR) === gara.BAR ? 0 : -1;
+		this.handle.tabIndex = this.enabled && (this.style & gara.BAR) !== 0 ? 0 : -1;
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's location.
+	 * 
+	 * @param {int} x the new left offset
+	 * @param {int} y the new top offset
+	 * @returns {gara.widgets.Control} this
+	 */
 	setLocation : function (x, y) {
 		this.x = x;
 		this.y = y;
@@ -710,6 +814,12 @@ gara.Class("gara.widgets.Menu", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the receiver's visibility.
+	 * 
+	 * @param {boolean} visible true for visible or false for invisible
+	 * @returns {gara.widgets.Control} this
+	 */
 	setVisible : function (visible, event) {
 		this.checkWidget();
 		this.visible = visible;
@@ -759,17 +869,20 @@ gara.Class("gara.widgets.Menu", function() { return {
 	},
 
 	/**
-	 * @method Unregister listeners for this widget. Implementation for
-	 *         gara.Widget
+	 * Unregister listeners for this widget. Implementation for gara.Widget
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
+	/**
+	 * Handles outstanding updates.
+	 * 
+	 * @returns {void}
+	 */
 	update : function () {
 		this.checkWidget();
 

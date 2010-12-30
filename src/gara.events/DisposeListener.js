@@ -1,4 +1,4 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,14 +21,21 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.events.DisposeListener");
 
 /**
- * @interface DisposeListener
- * @author Thomas Gossmann
- * @namespace gara.events
+ * @interface gara.events.DisposeListener
+ * @name gara.events.DisposeListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
 
-gara.Class("gara.events.DisposeListener", {
-	widgetDisposed : function() {}
+gara.Class("gara.events.DisposeListener", /** @lends gara.events.DisposeListener# */ {
+	/**
+	 * Sent when a widget gets disposed.
+	 */
+	widgetDisposed : function () {}
 });

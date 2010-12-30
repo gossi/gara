@@ -1,4 +1,4 @@
-/*	$Id: Tree.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Tree", "gara.widgets.Composite");
 
 gara.use("gara.widgets.TreeItem");
@@ -28,16 +30,13 @@ gara.use("gara.widgets.TreeItem");
 /**
  * gara Tree Widget
  *
- * @class Tree
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.Tree
  * @extends gara.widgets.Composite
  */
-gara.Class("gara.widgets.Tree", function() { return {
+gara.Class("gara.widgets.Tree", function() { return /** @lends gara.widgets.Tree# */ {
 	$extends : gara.widgets.Composite,
 
 	/**
-	 * @field
 	 * Contains the activeItem
 	 *
 	 * @private
@@ -46,7 +45,6 @@ gara.Class("gara.widgets.Tree", function() { return {
 	activeItem : null,
 
 	/**
-	 * @field
 	 * Contains the items
 	 *
 	 * @private
@@ -55,7 +53,6 @@ gara.Class("gara.widgets.Tree", function() { return {
 	items : [],
 
 	/**
-	 * @field
 	 * Contains the root items
 	 *
 	 * @private
@@ -81,7 +78,6 @@ gara.Class("gara.widgets.Tree", function() { return {
 	selectionListeners : [],
 
 	/**
-	 * @field
 	 * Holds the show lines state
 	 *
 	 * @private
@@ -97,6 +93,14 @@ gara.Class("gara.widgets.Tree", function() { return {
 	 */
 	shiftItem : null,
 
+	/**
+	 * Creates a new Tree.
+	 * @constructs
+	 * @extends gara.widgets.Composite
+	 * 
+	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
+	 * @param {int} style The style for the tree
+	 */
 	$constructor : function (parent, style) {
 		this.items = [];
 		this.rootItems = [];
@@ -114,13 +118,12 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Activates an item
 	 *
 	 * @private
 	 * @param {gara.widgets.TreeItem} item the new item to be activated
 	 * @throws {TypeError} if the item is not a ListItem
-	 * @return {void}
+	 * @returns {void}
 	 */
 	activateItem : function (item) {
 		this.checkWidget();
@@ -141,16 +144,15 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Adds an item to the tree. This is automatically done by instantiating a new item.
 	 *
 	 * @private
 	 * @param {gara.widgets.TreeItem} item the new item to be added
 	 * @throws {TypeError}
-	 * @return void
+	 * @returns {HTMLElement} the parent dom node for the new item
 	 */
 	addItem : function (item, index) {
-		var parentItem, previousItem, nextItemIndex, append;
+		var parentItem, previousItem, nextItemIndex, append, getDescendents;
 		this.checkWidget();
 		if (!(item instanceof gara.widgets.TreeItem)) {
 			throw new TypeError("item is not type of gara.widgets.TreeItem");
@@ -201,13 +203,12 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection, by sending it one of 
 	 * the messages defined in the <code>SelectionListener</code> interface. 
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should be notified when the user changes the receiver's selection 
-	 * @return {gara.widgets.Tree} this
+	 * @returns {gara.widgets.Tree} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
@@ -218,13 +219,12 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified 
 	 * when an item in the receiver is expanded or collapsed by sending it one of 
 	 * the messages defined in the <code>TreeListener</code> interface. 
 	 *
 	 * @param {gara.events.TreeListener} listener the listener which should be notified 
-	 * @return {gara.widgets.Tree} this
+	 * @returns {gara.widgets.Tree} this
 	 */
 	addTreeListener : function (listener) {
 		this.checkWidget();
@@ -234,17 +234,16 @@ gara.Class("gara.widgets.Tree", function() { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Register listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	createWidget : function () {
 		this.createHandle("ul");
 		this.handle.setAttribute("role", "tree");
@@ -268,12 +267,10 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Deselects a specific item
+	 * Deselects an item in the receiver.
 	 *
-	 * @private
-	 * @param {gara.widgets.TreeItem} item the item to deselect
-	 * @return {void}
+	 * @param {gara.widgets.TreeItem} item the item to be deselected
+	 * @returns {void}
 	 */
 	deselect : function (item) {
 		this.checkWidget();
@@ -290,10 +287,9 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Deselects all items in the <code>Tree</code>
+	 * Deselects all items in the receiver.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	deselectAll : function () {
 		this.checkWidget();
@@ -303,6 +299,9 @@ gara.Class("gara.widgets.Tree", function() { return {
 		this.notifySelectionListener();
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.items = null;
 		this.rootItems = null;
@@ -315,27 +314,37 @@ gara.Class("gara.widgets.Tree", function() { return {
 		this.$super();
 	},
 
+	/**
+	 * Focus gained handler
+	 * 
+	 * @private
+	 * @returns {void}
+	 */
 	focusGained : function () {
 		if (this.activeItem === null && this.items.length) {
 			this.activateItem(this.items[0]);
 		}
 	},
 
+	/**
+	 * Returns the number of columns contained in the receiver. 
+	 * 
+	 * @returns {int} the number of columns
+	 */
 	getColumnCount : function () {
 		return 0;
 	},
 
 	/**
-	 * @method
-	 * Returns a specifiy item with a zero-related index
+	 * Returns a specific item at a zero-related index
 	 *
 	 * @param {int} index the zero-related index
 	 * @throws {RangeError} when there is no item at the given index
-	 * @return {gara.widgets.TreeItem} the item
+	 * @returns {gara.widgets.TreeItem} the item
 	 */
 	getItem : function (index) {
 		this.checkWidget();
-		if (typeof(this.rootItems.indexOf(index)) == "undefined") {
+		if (typeof(this.rootItems.indexOf(index)) === "undefined") {
 			throw new RangeError("There is no item for the given index");
 		}
 
@@ -343,22 +352,20 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the amount of items that are direct items of the tree
+	 * Returns the number of items contained in the receiver that are direct item children of 
+	 * the receiver. 
 	 *
-	 * @return {int} the amount
+	 * @returns {int} the number of items
 	 */
 	getItemCount : function () {
 		return this.rootItems.length;
 	},
 
 	/**
-	 * @method
-	 * Returns the height of an item
+	 * Returns the height of an item.
 	 *
-	 * @private
-	 * @param {gara.widgets.TreeItem}
-	 * @return {int}
+	 * @param {gara.widgets.TreeItem} the item to know the height from
+	 * @returns {int} the height of the item
 	 */
 	getItemHeight : function (item) {
 		return item.handle.offsetHeight
@@ -370,57 +377,57 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Returns an array with direct items of the tree
+	 * Returns a (possibly empty) array of items contained in the receiver that 
+	 * are direct item children of the receiver.
 	 *
-	 * @return {gara.widgets.TreeItem[]} an array with the items
+	 * @returns {gara.widgets.TreeItem[]} the items
 	 */
 	getItems : function () {
 		return this.rootItems;
 	},
 
 	/**
-	 * @method
-	 * Returns whether the lines of the tree are visible or not.
+	 * Returns whether the receiver's lines are visible or not.
 	 *
-	 * @return {boolean} true if the lines are visible and false if they are not
+	 * @returns {boolean} <code>true</code> if the lines are visible and <code>false</code> if they are not
 	 */
 	getLinesVisible : function () {
 		return this.showLines;
 	},
 
 	/**
-	 * @method
-	 * Returns an array with the items which are currently selected in the <code>Tree</code>.
+	 * Returns an array of <code>TreeItem</code>s that are currently selected in the receiver. 
 	 *
-	 * @return {gara.widgets.TreeItem[]}an array with items
+	 * @returns {gara.widgets.TreeItem[]} the selected items
 	 */
 	getSelection : function () {
 		return this.selection;
 	},
 
 	/**
-	 * @method
-	 * Returns the amount of the selected items in the <code>Tree</code>.
+	 * Returns the number of selected items contained in the receiver.
 	 *
-	 * @return {int} the amount
+	 * @returns {int} the number of selected items
 	 */
 	getSelectionCount : function () {
 		return this.selection.length;
 	},
 
 	/**
-	 * @method
-	 * Returns the top item of the <code>Tree</code>.
+	 * Returns a <code>TreeItem</code> which is currently at the top of the receiver. This 
+	 * <code>TreeItem</code> can change when items are scrolled or new items are added or removed.
+	 *  
+	 * @returns {gara.widgets.TreeItem} the top item
 	 */
 	getTopItem : function () {
+		var h, i, scrollTop;
 		if (!this.items.length) {
 			return null;
 		}
 
-		var scrollTop = this.scrolledHandle().scrollTop;
-		var h = 0;
-		for (var i = 0; i < this.items.length; i++) {
+		scrollTop = this.scrolledHandle().scrollTop;
+		h = 0;
+		for (i = 0; i < this.items.length; i++) {
 			h += this.getItemHeight(this.items[i]);
 			if (h > scrollTop) {
 				return this.items[i];
@@ -428,13 +435,8 @@ gara.Class("gara.widgets.Tree", function() { return {
 		}
 	},
 
-	/**
-	 * @method
-	 * Event Handler for the <code>Tree</code>.
-	 *
-	 * @private
-	 * @param {Event} W3C-event
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	handleEvent : function (e) {
 		var widget;
@@ -471,10 +473,16 @@ gara.Class("gara.widgets.Tree", function() { return {
 		return false;
 	},
 
+	/**
+	 * Handles the receiver's mouse events
+	 * 
+	 * @private
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	handleMouseEvents : function (e) {
 		var item = e.item;
-		switch (e.type) {
-		case "mousedown":
+		if (e.type === "mousedown") {
 			if (item !== null) {
 				if (e.ctrlKey && !e.shiftKey) {
 					if (this.selection.contains(item)) {
@@ -491,10 +499,16 @@ gara.Class("gara.widgets.Tree", function() { return {
 				}
 				this.activateItem(item);
 			}
-			break;
 		}
 	},
 
+	/**
+	 * Handles the receiver's keyboard events
+	 * 
+	 * @private
+	 * @param {Event} e
+	 * @returns {void}
+	 */
 	handleKeyEvents : function (e) {
 		switch (e.type) {
 		case "keyup":
@@ -511,13 +525,11 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Key Event Handler for the Tree
+	 * Handles the receiver's keyboard navigation
 	 *
 	 * @private
-	 * @author Thomas Gossmann
 	 * @param {Event} W3C-Event
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleKeyNavigation : function (e) {
 		var prev, siblings, parentWidget, sibOffset, prevSibling, h, i, viewport,
@@ -716,12 +728,12 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Looks for the index of a specified item
+	 * Searches the receiver's list starting at the first item (index 0) until an item is found that 
+	 * is equal to the argument, and returns the index of that item. 
 	 *
-	 * @param {gara.widgets.TreeItem} item the item for the index
-	 * @throws {TypeError} if the item is not a TreeItem
-	 * @return {int} the index of the specified item or -1 if it does not exist
+	 * @param {gara.widgets.TreeItem} item the item to look for
+	 * @throws {TypeError} if the item is not a <code>TreeItem</code>
+	 * @returns {int} the index of the specified item or -1 if it does not exist
 	 */
 	indexOf : function (item) {
 		this.checkWidget();
@@ -733,11 +745,10 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Notifies all selection listeners about the selection change
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	notifySelectionListener : function () {
 		this.selectionListeners.forEach(function (listener) {
@@ -748,10 +759,10 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 	
 	/**
-	 * @method
+	 * Notifies all tree listeners about a specific event.
 	 * 
 	 * @private
-	 * @param eventType
+	 * @param {String} eventType the event
 	 * @returns {boolean} true if the operation is permitted
 	 */
 	notifyTreeListener : function (eventType, item) {
@@ -774,12 +785,8 @@ gara.Class("gara.widgets.Tree", function() { return {
 		return ret;
 	},
 
-	/**
-	 * @method
-	 * Releases all children from the receiver
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Composite 
 	 */
 	releaseChildren : function () {
 		this.rootItems.forEach(function (item) {
@@ -790,12 +797,11 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Releases an item from the receiver
 	 *
 	 * @private
 	 * @param {gara.widgets.TreeItem} item the item that should removed from the receiver
-	 * @return {void}
+	 * @returns {void}
 	 */
 	releaseItem : function (item) {
 		if (this.items.contains(item)) {
@@ -809,9 +815,11 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
+	 * Removes an item from the receiver.
 	 *
 	 * @private
+	 * @param {gara.widgets.TreeItem} item the item that should be removed
+	 * @returns {void}
 	 */
 	removeItem : function (item) {
 		this.checkWidget();
@@ -824,10 +832,9 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Removes all items from the tree
+	 * Removes all items from the receiver.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeAll : function () {
 		this.checkWidget();
@@ -836,12 +843,11 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when the user changes the receiver's selection. 
 	 *
 	 * @param {gara.widgets.SelectionListener} listener the listener which should no longer be notified 
-	 * @return {gara.widgets.Tree} this
+	 * @returns {gara.widgets.Tree} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
@@ -850,12 +856,11 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified 
 	 * when items in the receiver are expanded or collapsed. 
 	 *
 	 * @param {gara.widgets.TreeListener} listener the listener which should no longer be notified 
-	 * @return {gara.widgets.Tree} this
+	 * @returns {gara.widgets.Tree} this
 	 */
 	removeTreeListener : function (listener) {
 		this.checkWidget();
@@ -864,14 +869,13 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Selects a specific item
 	 *
 	 * @private
 	 * @param {gara.widgets.TreeItem} item the item to select
 	 * @param {boolean} _add true for adding to the current selection, false will select only this item
 	 * @throws {TypeError} if the item is not a TreeItem
-	 * @return {void}
+	 * @returns {void}
 	 */
 	selectAdd : function (item, add) {
 		var i;
@@ -896,10 +900,9 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Select all items in the list
+	 * Select all items in the receiver.
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	selectAll : function () {
 		this.checkWidget();
@@ -915,11 +918,10 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Selects a Range of items. From shiftItem to the passed item.
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	selectShift : function (item, add) {
 		var i, indexShift, indexItem, from, to;
@@ -941,7 +943,7 @@ gara.Class("gara.widgets.Tree", function() { return {
 			from = indexShift > indexItem ? indexItem : indexShift;
 			to = indexShift < indexItem ? indexItem : indexShift;
 
-			for (var i = from; i <= to; ++i) {
+			for (i = from; i <= to; ++i) {
 				this.selection.push(this.items[i]);
 				this.items[i].setSelected(true);
 			}
@@ -953,11 +955,10 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Sets lines visible or invisible.
 	 *
-	 * @param {boolean} show true if the lines should be visible or false for invisibility
-	 * @return {void}
+	 * @param {boolean} show <code>true<code> if the lines should be visible or <code>false</code> for invisibility
+	 * @returns {gara.widgets.Tree} this
 	 */
 	setLinesVisible : function (show) {
 		this.showLines = show;
@@ -966,11 +967,10 @@ gara.Class("gara.widgets.Tree", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the selection of the <code>Tree</code>
+	 * Sets the receiver's selection to the given item or array of items.
 	 *
 	 * @param {gara.widgets.TreeItem[]|gara.widgets.TreeItem} items the array with the <code>TreeItem</code> items
-	 * @return {void}
+	 * @returns {gara.widgets.Tree} this
 	 */
 	setSelection : function (items) {
 		var item;
@@ -1001,6 +1001,13 @@ gara.Class("gara.widgets.Tree", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the topmost item.
+	 * 
+	 * @see gara.widgets.Tree#getTopItem
+	 * @param {gara.widgets.TreeItem} item the new top item
+	 * @returns {gara.widgets.Tree} this
+	 */
 	setTopItem : function (item) {
 		var index, h, i;
 		if (!(item instanceof gara.widgets.TreeItem)) {
@@ -1027,6 +1034,12 @@ gara.Class("gara.widgets.Tree", function() { return {
 //		return this;
 //	},
 
+	/**
+	 * Scrolls the receiver that the passed item is visible.
+	 * 
+	 * @param {gara.widgets.TreeItem} item 
+	 * @returns {void}
+	 */
 	showItem : function (item) {
 		var index, h, i, newScrollTop;
 		if (!(item instanceof gara.widgets.TreeItem)) {
@@ -1048,31 +1061,29 @@ gara.Class("gara.widgets.Tree", function() { return {
 		}
 	},
 
+	/**
+	 * Scrolls the receiver that the selection is visible.
+	 * 
+	 * @see gara.widgets.Tree#showItem
+	 * @returns {void}
+	 */
 	showSelection : function () {
 		if (this.selection.length) {
 			this.showItem(this.selection[0]);
 		}
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
 	/**
-	 * @method
-	 * Updates the <code>Tree</code>, remeasures the <code>Tree</code>. Removing
-	 * disposed items, updates the others.
+	 * Updates the receiver, remeasures the receiver. Removing disposed items, updates the others.
 	 *
-	 * @author Thomas Gossmann
-	 * @return {void}
+	 * @returns {void}
 	 */
 	update : function () {
 		var i = 0, item,

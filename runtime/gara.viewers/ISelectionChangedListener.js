@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ISelectionChangedListener");gara.Class("gara.viewers.ISelectionChangedListener",{selectionChanged:function(a){}});

@@ -1,4 +1,4 @@
-/*	$Id: InputDialog.class.js 182 2009-08-02 22:34:06Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.dialogs.MessageDialog", "gara.dialogs.Dialog");
 
 gara.use("gara.widgets.Composite");
@@ -29,11 +31,10 @@ gara.use("gara.widgets.Label");
 gara.use("gara.widgets.Text");
 
 /**
- * @class InputDialog
+ * @class gara.dialogs.MessageDialog
  * @extends gara.dialogs.Dialog
- * @namespace gara.dialogs
  */
-gara.Class("gara.dialogs.MessageDialog", function() { return {
+gara.Class("gara.dialogs.MessageDialog", function() { return /** @lends gara.dialogs.MessageDialog# */ {
 	$extends : gara.dialogs.Dialog,
 
 	NONE : gara.$static(0),
@@ -45,7 +46,8 @@ gara.Class("gara.dialogs.MessageDialog", function() { return {
 	QUESTION_WITH_CANCEL  : gara.$static(6),
 	
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.dialogs.Dialog
 	 * 
 	 * @param {gara.widgets.Shell} parentShell
 	 * @param {String} dialogTitle
@@ -280,9 +282,9 @@ gara.Class("gara.dialogs.MessageDialog", function() { return {
 	}),
 
 	/**
-	 * @method
 	 * Convenience method to open a standard information dialog.
 	 * 
+	 * @static
 	 * @param parent
 	 *            the parent shell of the dialog, or <code>null</code> if none
 	 * @param title
@@ -295,9 +297,9 @@ gara.Class("gara.dialogs.MessageDialog", function() { return {
 	}),
 
 	/**
-	 * @method
 	 * Convenience method to open a simple Yes/No question dialog.
 	 * 
+	 * @static
 	 * @param parent
 	 *            the parent shell of the dialog, or <code>null</code> if none
 	 * @param title

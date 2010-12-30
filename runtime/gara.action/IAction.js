@@ -1,0 +1,1 @@
+gara.provide("gara.action.IAction");gara.Class("gara.action.IAction",{addActionChangedListener:function(a){},getId:function(){},getText:function(){},getImage:function(){},getEnabled:function(){},removeActionChangedListener:function(a){},run:function(){}});

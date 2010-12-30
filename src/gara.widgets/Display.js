@@ -1,4 +1,4 @@
-/*	$Id: ControlManager.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Display");
 
 gara.use("gara.widgets.Widget");
@@ -28,15 +30,11 @@ gara.use("gara.widgets.Control");
 gara.use("gara.widgets.Shell");
 
 /**
- * @class FocusManager
- * @author Thomas Gossmann
- * @namespace gara.widgets
- * @private
+ * @class gara.widgets.Display
  */
-gara.Class("gara.widgets.Display", {
+gara.Class("gara.widgets.Display", /** @lends gara.widgets.Display# */ {
 
 	/**
-	 * @field
 	 * Holds the current focus control.
 	 *
 	 * @private
@@ -45,7 +43,6 @@ gara.Class("gara.widgets.Display", {
 	focusControl : null,
 
 	/**
-	 * @field
 	 *
 	 * @private
 	 * @type Object
@@ -53,7 +50,6 @@ gara.Class("gara.widgets.Display", {
 	disposeListener : null,
 
 	/**
-	 * @field
 	 * Contains the widgets attached to this display
 	 *
 	 * @private
@@ -62,7 +58,6 @@ gara.Class("gara.widgets.Display", {
 	widgets : [],
 
 	/**
-	 * @field
 	 * Contains the shells attached to this display
 	 *
 	 * @private
@@ -71,7 +66,6 @@ gara.Class("gara.widgets.Display", {
 	shells : [],
 
 	/**
-	 * @field
 	 * static default display
 	 *
 	 * @private
@@ -80,13 +74,15 @@ gara.Class("gara.widgets.Display", {
 	defaultDisplay : gara.$static(null),
 	
 	/**
-	 * @field
 	 * 
 	 * @private
 	 * @type {gara.widgets.Shell}
 	 */
 	activeShell : null,
 
+	/**
+	 * @constructs
+	 */
 	$constructor : function () {
 		var self = this;
 		gara.addEventListener(document, "keydown", this);
@@ -101,12 +97,11 @@ gara.Class("gara.widgets.Display", {
 	},
 
 	/**
-	 * @method
 	 * Adds a widget to the Display.
 	 *
 	 * @private
 	 * @param {gara.widgets.Widget} widget the widget
-	 * @return {void}
+	 * @returns {void}
 	 */
 	addWidget : function (widget) {
 		var id;
@@ -155,16 +150,20 @@ gara.Class("gara.widgets.Display", {
 	},
 
 	/**
-	 * @method
+	 * 
 	 * Returns a HTMLElement describes the area which is capable of displaying data.
 	 * The &lt;body&gt; element.
 	 *
-	 * @return {HTMLElement}
+	 * @returns {HTMLElement}
 	 */
 	getClientArea : function () {
 		return document.getElementsByTagName("body")[0];
 	},
 
+	/**
+	 * 
+	 * @static
+	 */
 	getDefault : gara.$static(function () {
 		if (gara.widgets.Display.defaultDisplay === null) {
 			gara.widgets.Display.defaultDisplay = new gara.widgets.Display();
@@ -173,21 +172,17 @@ gara.Class("gara.widgets.Display", {
 	}),
 
 	/**
-	 * @method
 	 * Returns the control which currently has keyboard focus, or null if
 	 * keyboard events are not currently going to any of the controls built by
 	 * the currently running application.
 	 *
-	 * @return {gara.widgets.Control}
+	 * @returns {gara.widgets.Control}
 	 */
 	getFocusControl : function () {
 		return this.focusControl;
 	},
 	
 	/**
-	 * @method
-	 * 
-	 * @summary
 	 * Returns a (possibly empty) array containing the receiver's shells.
 	 * 
 	 * @description
@@ -195,10 +190,13 @@ gara.Class("gara.widgets.Display", {
 	 * in the order that they are drawn. The topmost shell appears at the beginning of the array. 
 	 * Subsequent shells draw beneath this shell and appear later in the array. 
 	 * 
-	 * @return {gara.widgets.Shell[]} an array of children
+	 * @returns {gara.widgets.Shell[]} an array of children
 	 */
 	getShells : function () {
-		var temp = {}, child, i, z, layers = {}, max = 0, shells = [];
+		var temp = {}, child, i, z, layers = {}, max = 0, shells = [],
+			addShell = function (shell) {
+				shells[shells.length] = shell;
+			};
 	
 		this.shells.forEach(function (shell) {
 			if (!shell.isDisposed()) {
@@ -213,9 +211,7 @@ gara.Class("gara.widgets.Display", {
 	
 		for (i = max; i >= 0; i--) {
 			if (layers[i]) {
-				layers[i].forEach(function (shell) {
-					shells[shells.length] = shell;
-				}, this);
+				layers[i].forEach(addShell, this);
 			}
 		}
 		
@@ -223,7 +219,6 @@ gara.Class("gara.widgets.Display", {
 	},
 
 	/**
-	 * @method
 	 *
 	 * @private
 	 */
@@ -243,13 +238,13 @@ gara.Class("gara.widgets.Display", {
 	},
 
 	/**
-	 * @method
+	 * 
 	 * Internal event handler to pass keyboard events and focussing the active
 	 * widget
 	 *
 	 * @private
 	 * @param {Event} e the event
-	 * @return {void}
+	 * @returns {void}
 	 */
 	handleEvent : function (e) {
 		var control, parent, shell, success, layers, id, notifyResult;
@@ -268,7 +263,7 @@ gara.Class("gara.widgets.Display", {
 						if (typeof(listener) === "object" && listener.handleEvent) {
 							listener.handleEvent(e);
 						} else if (typeof(listener) === "function") {
-							listener.call(window, e);
+							listener.call(null, e);
 						}
 					}, this);
 				}
@@ -367,13 +362,12 @@ gara.Class("gara.widgets.Display", {
 	},
 
 	/**
-	 * @method
 	 * Removes a widget from the Dialog. The Dialog removes the
 	 * previous registered when added with addWidget.
 	 *
 	 * @private
 	 * @param {gara.widgets.Widget} widget the widget
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeWidget : function (widget) {
 		if (!(widget instanceof gara.widgets.Widget)) {
@@ -399,7 +393,6 @@ gara.Class("gara.widgets.Display", {
 	},
 	
 	/**
-	 * 
 	 * @private
 	 * @param {gara.widgets.Shell} shell
 	 * @returns {void}
@@ -412,7 +405,6 @@ gara.Class("gara.widgets.Display", {
 	},
 	
 	/**
-	 * 
 	 * @private
 	 * @param {gara.widgets.Control} control
 	 * @returns {void}

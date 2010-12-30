@@ -1,4 +1,4 @@
-/*	$Id: Item.class.js 163 2008-11-01 17:17:05Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,20 +21,20 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Item", "gara.widgets.Widget");
 
 /**
  * 'Abstract' Item class
- * @class Item
- * @author Thomas Gossmann
+ * @class gara.widgets.Item
  * @extends gara.widgets.Widget
- * @namespace gara.widgets
  */
-gara.Class("gara.widgets.Item", function() { return {
+gara.Class("gara.widgets.Item", function() { return /** @lends gara.widgets.Item# */ {
 	$extends : gara.widgets.Widget,
 
 	/**
-	 * @field
+	 * 
 	 * Holds the active static.
 	 *
 	 * @private
@@ -42,7 +42,7 @@ gara.Class("gara.widgets.Item", function() { return {
 	active : false,
 
 	/**
-	 * @field
+	 * 
 	 * The <code>Item</code>'s image.
 	 *
 	 * @private
@@ -50,7 +50,7 @@ gara.Class("gara.widgets.Item", function() { return {
 	image : null,
 
 	/**
-	 * @field
+	 * 
 	 * The <code>Item</code>'s text.
 	 *
 	 * @private
@@ -58,13 +58,12 @@ gara.Class("gara.widgets.Item", function() { return {
 	text : "",
 
 	/**
-	 * @constructor
-	 * Constructor of gara.widgets.Item
-	 *
-	 * @author Thomas Gossmann
+	 * Creates a new Item.
+	 * 
+	 * @constructs
+	 * @extends gara.widgets.Widget
 	 * @param {gara.widgets.List} parent the parent <code>Control</code> widget
 	 * @param {int} style information for this <code>Item</code>
-	 * @return {gara.widgets.Item}
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
@@ -85,8 +84,7 @@ gara.Class("gara.widgets.Item", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the items image
+	 * Returns the items image.
 	 *
 	 * @author Thomas Gossmann
 	 * @return {Image} the items image
@@ -96,10 +94,8 @@ gara.Class("gara.widgets.Item", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Returns the items text
+	 * Returns the items text.
 	 *
-	 * @author Thomas Gossmann
 	 * @return {String} the text for this item
 	 */
 	getText : function () {
@@ -107,26 +103,23 @@ gara.Class("gara.widgets.Item", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the item active or inactive
+	 * Sets the item active state.
 	 *
 	 * @private
-	 * @author Thomas Gossmann
-	 * @param {boolean} active true for active and false for inactive
-	 * @return {void}
+	 * @param {boolean} active <code>true</code> for active and <code>false</code> for inactive
+	 * @returns {gara.widgets.Item} this
 	 */
 	setActive : function (active) {
 		this.active = active;
 		this.setClass("garaActiveItem", this.active);
+		return this;
 	},
 
 	/**
-	 * @method
-	 * Sets the image for the item
+	 * Sets the image for the item.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Image} image the new image
-	 * @return {void}
+	 * @returns {gara.widgets.Item} this
 	 */
 	setImage : function (image) {
 		this.image = image;
@@ -134,12 +127,10 @@ gara.Class("gara.widgets.Item", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Sets the text for the item
+	 * Sets the text for the item.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {String} text the new text
-	 * @return {void}
+	 * @returns {gara.widgets.Item} this
 	 */
 	setText : function (text) {
 		this.text = text;

@@ -94,11 +94,11 @@ gara.Class("gara.layout.Layout", function() { return {
 	layout : function (composite) {
 //		var tempHeight = composite.getHeight();
 
-		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
+//		if (composite.getParent().style && composite.getParent().style.position === "absolute") {
 //			console.log("Layout.layout, set 'absolute' widthxheight: " + composite.getParent().offsetWidth + "x" + composite.getParent().offsetHeight);
 //			composite.setWidth(composite.getParent().offsetWidth);
 //			composite.setHeight(composite.getParent().offsetHeight);
-		} else {
+//		} else {
 //			if (!(this.hasClass("w25") || this.hasClass("w50") || this.hasClass("w75") || this.hasClass("w33") || this.hasClass("w66"))) {
 //				console.log("Layout.resize() -> set width");
 //				this.setWidth(this.handle.offsetWidth - gara.getNumStyle(this.handle, "margin-left") - gara.getNumStyle(this.handle, "margin-right"));
@@ -108,9 +108,7 @@ gara.Class("gara.layout.Layout", function() { return {
 //				composite.adjustHeight(composite.handle.offsetHeight - gara.getNumStyle(composite.handle, "margin-top") - gara.getNumStyle(composite.handle, "margin-bottom"));
 //			}
 //			this.height = tempHeight;
-
-
-		}
+//		}
 
 		composite.getChildren().forEach(function (widget) {
 			if (widget instanceof gara.widgets.Composite) {

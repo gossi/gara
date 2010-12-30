@@ -1,0 +1,1 @@
+gara.provide("gara.events.TabFolderListener");gara.Class("gara.events.TabFolderListener",{close:function(a){}});

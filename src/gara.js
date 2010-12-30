@@ -1,4 +1,4 @@
-/*	$Id: MessageBox.class.js 180 2009-07-28 18:28:51Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -19,13 +19,16 @@
 		Lesser General Public License for more details.
 
 	===========================================================================
+*/
+
+"use strict";
+
+/**
+ * gara namespace
+ * 
+ * @namespace
  */
-
-if (typeof(gara) !== "undefined") {
-	var gara = {};
-}
-
-(function() {
+var gara = (function (gara) {
 	// Var defs and inits
 	// #########################################################################
 
@@ -83,6 +86,33 @@ if (typeof(gara) !== "undefined") {
 	if (typeof Array.prototype.add === "undefined") {
 		Array.prototype.add = function (value) {
 			this[this.length] = value;
+		};
+	}
+	
+	if (typeof Array.prototype.contains === "undefined") {
+		Array.prototype.contains = function (item) {
+			return this.indexOf(item) !== -1;
+		};
+	}
+	
+	if (typeof Array.prototype.remove === "undefined") {
+		Array.prototype.remove = function (item) {
+			var index = this.indexOf(item);
+		    if (index !== -1) {
+		    	this.splice(index, 1);
+		    }
+		};
+	}
+	
+	if (typeof Array.prototype.removeAt === "undefined") {
+		Array.prototype.removeAt = function (index) {
+			this.splice(index, 1);
+		};
+	}
+	
+	if (typeof Array.prototype.insertAt === "undefined") {
+		Array.prototype.insertAt = function (index, item) {
+			this.splice(index, 0, item);
 		};
 	}
 	
@@ -152,10 +182,10 @@ if (typeof(gara) !== "undefined") {
 		}
 	};
 
-	if (typeof (base2) == "undefined" || typeof (base2.DOM) == "undefined") {
-		loadLib("base2-dom-fp.js");
-	}
-	base2.JavaScript.bind(window);
+//	if (typeof (base2) == "undefined" || typeof (base2.DOM) == "undefined") {
+//		loadLib("base2-dom-fp.js");
+//	}
+//	base2.JavaScript.bind(window);
 
 	// Utils
 	// #########################################################################
@@ -202,7 +232,7 @@ if (typeof(gara) !== "undefined") {
 	 * @return {Event} generated event-object for this listener
 	 */
 	gara.addEventListener = function(domNode, type, listener, useCapture) {
-		base2.DOM.EventTarget(domNode);
+//		base2.DOM.EventTarget(domNode);
 		domNode.addEventListener(type, listener, useCapture || false);
 
 //		console.log("EventManager.addListener " + type + " on " + domNode);
@@ -266,23 +296,30 @@ if (typeof(gara) !== "undefined") {
 		}
 	};
 	
-	base2.DOM.EventTarget(window);
+//	base2.DOM.EventTarget(window);
 	window.addEventListener("unload", unregisterAllEvents, false);
 
 	// L10n
 	// #########################################################################
 	
+	/**
+	 * Returns the value for the key (if existent). If value is passed then the key is set.
+	 * 
+	 * @param {String} key the L10n key
+	 * @param {String} value a new value for the key
+	 * @returns {String} the value for the key or an empty string
+	 */
 	gara.l10n = function (key, value) {
-		var k;
+		var v = "";
 		if (Object.prototype.hasOwnProperty.call(l10n, key)) {
-			k = l10n[key];
+			v = l10n[key];
 		}
 		
 		if (typeof value !== "undefined") {
-			k = value;
+			v = value;
 		}
 		
-		return k;
+		return v;
 	};
 	
 	// Resource Management
@@ -846,49 +883,47 @@ if (typeof(gara) !== "undefined") {
 	// #########################################################################
 	
 	/**
-	 * @field
+	 * @constant
 	 * The <tt>MessageBox</tt> style constant for an ABORT button; the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;9).
 	 */
 	gara.ABORT = 512;
 
 	/**
-	 * @field
 	 * Keyboard event constant representing the DOWN ARROW key.
 	 */
 	gara.ARROW_DOWN = 40;
 
 	/**
-	 * @field
 	 * Keyboard event constant representing the LEFT ARROW key.
 	 */
 	gara.ARROW_LEFT = 37;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the RIGHT ARROW key.
 	 */
 	gara.ARROW_RIGHT = 39;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the UP ARROW key.
 	 */
 	gara.ARROW_UP = 38;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for application modal behavior (value is 1&lt;&lt;16).
 	 */
 	gara.APPLICATION_MODAL = 65536;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for menu bar behavior (value is 1&lt;&lt;1).
 	 */
 	gara.BAR = 2;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for bordered behavior (value is 1&lt;&lt;11).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>Decorations</code> and subclasses</li>
@@ -897,19 +932,19 @@ if (typeof(gara) !== "undefined") {
 	gara.BORDER = 2048;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for align bottom behavior (value is 1&lt;&lt;10; since align DOWN and align BOTTOM are considered the same).
 	 */
 	gara.BOTTOM = 1024;
 
 	/**
-	 * @field
+	 * 
 	 * The <tt>MessageBox</tt> style constant for a CANCEL button; valid combinations are OK|CANCEL; YES|NO|CANCEL; RETRY|CANCEL (value is 1&lt;&lt;8).
 	 */
 	gara.CANCEL = 256;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for cascade behavior (value is 1&lt;&lt;6).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>MenuItem</code></li>
@@ -918,7 +953,7 @@ if (typeof(gara) !== "undefined") {
 	gara.CASCADE = 64;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for check box behavior (value is 1&lt;&lt;5).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>MenuItem</code></li>
@@ -931,7 +966,7 @@ if (typeof(gara) !== "undefined") {
 	/**
 	 * Style constant for close box trim (value is 1&lt;&lt;6;
 	 * since we do not distinguish between CLOSE style and MENU style).
-	 * <p><b>Used By=</b><ul>
+	 * <p><b>Used By:</b><ul>
 	 * <li><code>Decorations</code> and subclasses</li>
 	 * <li><code>TabFolder</code></li>
 	 * </ul></p>
@@ -939,7 +974,7 @@ if (typeof(gara) !== "undefined") {
 	gara.CLOSE = 64;
 
 	/**
-	 * @field
+	 * 
 	 * Indicates that a default should be used (value is 0).
 	 *
 	 * NOTE= In SWT; this value is -1; but that causes problems with bitwise JavaScript operators...
@@ -947,13 +982,13 @@ if (typeof(gara) !== "undefined") {
 	gara.DEFAULT = 0;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the DEL key.
 	 */
 	gara.DEL = 46;
 
 	/**
-	 * @field
+	 * 
 	 * Trim style convenience constant for the most common dialog shell appearance
 	 * (value is CLOSE|TITLE|BORDER).
 	 * <p><b>Used By=</b><ul>
@@ -963,19 +998,19 @@ if (typeof(gara) !== "undefined") {
 	gara.DIALOG_TRIM = 32 | 64 | 2048;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for align down behavior (value is 1&lt;&lt;10; since align DOWN and align BOTTOM are considered the same).
 	 */
 	gara.DOWN = 1024;
 
 	/**
-	 * @field
+	 * 
 	 * Indicates that a user-interface component is being dragged; for example dragging the thumb of a scroll bar (value is 1).
 	 */
 	gara.DRAG = 1;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for drop down menu/list behavior (value is 1&lt;&lt;2).
 	 */
 	gara.DROP_DOWN = 4;
@@ -1003,157 +1038,157 @@ if (typeof(gara) !== "undefined") {
 	gara.ERROR_MENUITEM_NOT_CASCADE = 27;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the END key.
 	 */
 	gara.END = 35;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the ENTER key.
 	 */
 	gara.ENTER = 13;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the ESC key.
 	 */
 	gara.ESC = 27;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the HOME key.
 	 */
 	gara.HOME = 36;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for horizontal alignment or orientation behavior (value is 1&lt;&lt;8).
 	 */
 	gara.HORIZONTAL = 256;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F1 key.
 	 */
 	gara.F1 = 112;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F2 key.
 	 */
 	gara.F2 = 113;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F3 key.
 	 */
 	gara.F3 = 114;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F4 key.
 	 */
 	gara.F4 = 115;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F5 key.
 	 */
 	gara.F5 = 116;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F6 key.
 	 */
 	gara.F6 = 117;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F7 key.
 	 */
 	gara.F7 = 118;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F8 key.
 	 */
 	gara.F8 = 119;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F9 key.
 	 */
 	gara.F9 = 120;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F10 key.
 	 */
 	gara.F10 = 121;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F11 key.
 	 */
 	gara.F11 = 122;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the F12 key.
 	 */
 	gara.F12 = 123;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for full row selection behavior (value is 1&lt;&lt;16).
 	 */
 	gara.FULL_SELECTION = 65536;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for error icon behavior (value is 1).
 	 */
 	gara.ICON_ERROR = 1;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for information icon behavior (value is 1&lt;&lt;1).
 	 */
 	gara.ICON_INFORMATION = 2;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for question icon behavior (value is 1&lt;&lt;2).
 	 */
 	gara.ICON_QUESTION = 4;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for warning icon behavior (value is 1&lt;&lt;3).
 	 */
 	gara.ICON_WARNING = 8;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for "working" icon behavior (value is 1&lt;&lt;4).
 	 */
 	gara.ICON_WORKING = 16;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for an IGNORE button; the only valid combination is ABORT|RETRY|IGNORE (value is 1&lt;&lt;11).
 	 */
 	gara.IGNORE = 2048;
 	
 	/**
-	 * @field
+	 * 
 	 * The Layout style for a Loosy layout. (value is 1)
 	 */
 	gara.LAYOUT_LOOSY = 1;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for maximize box trim (value is 1&lt;&lt;10).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>Decorations</code> and subclasses</li>
@@ -1162,7 +1197,7 @@ if (typeof(gara) !== "undefined") {
 	gara.MAX = 1024;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for minimize box trim (value is 1&lt;&lt;7).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>Decorations</code> and subclasses</li>
@@ -1171,19 +1206,19 @@ if (typeof(gara) !== "undefined") {
 	gara.MIN = 128;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for multi-selection behavior in lists and multiple line support on text fields (value is 1&lt;&lt;1).
 	 */
 	gara.MULTI = 2;
 
 	/**
-	 * @field
+	 * 
 	 * The <tt>MessageBox</tt> style constant for NO button; valid combinations are YES|NO; YES|NO|CANCEL (value is 1&lt;&lt;7).
 	 */
 	gara.NO = 128;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for preventing child radio group behavior (value is 1&lt;&lt;22).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>Menu</code></li>
@@ -1192,7 +1227,7 @@ if (typeof(gara) !== "undefined") {
 	gara.NO_RADIO_GROUP = 4194304;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant to ensure no trimmings are used (value is 1&lt;&lt;3).
 	 * <br>Note that this overrides all other trim styles.
 	 * <p><b>Used By=</b><ul>
@@ -1208,37 +1243,37 @@ if (typeof(gara) !== "undefined") {
 	gara.NONE = 0;
 
 	/**
-	 * @field
+	 * 
 	 * The <tt>MessageBox</tt> style constant for an OK button; valid combinations are OK; OK|CANCEL (value is 1&lt;&lt;5).
 	 */
 	gara.OK = 32;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the PAGE DOWN key.
 	 */
 	gara.PAGE_DOWN = 34;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the PGAE UP key.
 	 */
 	gara.PAGE_UP = 33;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for password behavior (value is 1<<22).
 	 */
 	gara.PASSWORD = 4194304;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for pop up menu behavior (value is 1&lt;&lt;3).
 	 */
 	gara.POP_UP = 8;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for push button behavior (value is 1&lt;&lt;3).
 	 */
 	gara.PUSH = 8;
@@ -1252,13 +1287,13 @@ if (typeof(gara) !== "undefined") {
 	gara.RADIO = 16;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for read-only behavior (value is 1<<3).
 	 */
 	gara.READ_ONLY = 8;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for resize box trim (value is 1&lt;&lt;4).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>Decorations</code> and subclasses</li>
@@ -1267,19 +1302,19 @@ if (typeof(gara) !== "undefined") {
 	gara.RESIZE = 16;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for a RETRY button; valid combinations are ABORT|RETRY|IGNORE; RETRY|CANCEL (value is 1&lt;&lt;10).
 	 */
 	gara.RETRY = 1024;
 
 	/**
-	 * @field
+	 * 
 	 * Contains the scrollbar width (in px).
 	 */
 	gara.SCROLLBAR_HEIGHT = 0;
 	
 	/**
-	 * @field
+	 * 
 	 * Contains the scrollbar width (in px).
 	 */
 	gara.SCROLLBAR_WIDTH = 0; 
@@ -1313,13 +1348,13 @@ if (typeof(gara) !== "undefined") {
 	}, false);
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for line separator behavior (value is 1&lt;&lt;1).
 	 */
 	gara.SEPARATOR = 2;
 
 	/**
-	 * @field
+	 * 
 	 * Trim style convenience constant for the most common top level shell appearance
 	 * (value is CLOSE|TITLE|MIN|MAX|RESIZE|BORDER).
 	 * <p><b>Used By=</b><ul>
@@ -1329,25 +1364,25 @@ if (typeof(gara) !== "undefined") {
 	gara.SHELL_TRIM = 32 | 64 | 128 | 1024 | 16 | 2048;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for single selection behavior in lists and single line support on text fields (value is 1&lt;&lt;2).
 	 */
 	gara.SINGLE = 4;
 
 	/**
-	 * @field
+	 * 
 	 * Keyboard event constant representing the SPACE key.
 	 */
 	gara.SPACE = 32;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for system modal behavior (value is 1&lt;&lt;17).
 	 */
 	gara.SYSTEM_MODAL = 131072;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for title area trim (value is 1&lt;&lt;5).
 	 * <p><b>Used By=</b><ul>
 	 * <li><code>Decorations</code> and subclasses</li>
@@ -1356,33 +1391,34 @@ if (typeof(gara) !== "undefined") {
 	gara.TITLE = 32;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for toolbar behavior (value is 1&lt;&lt;4). (gara only; not part of SWT)
 	 */
 	gara.TOOLBAR = 16;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for align top behavior (value is 1&lt;&lt;7; since align UP and align TOP are considered the same).
 	 */
 	gara.TOP = 128;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for align up behavior (value is 1&lt;&lt;7; since align UP and align TOP are considered the same).
 	 */
 	gara.UP = 128;
 
 	/**
-	 * @field
+	 * 
 	 * Style constant for vertical alignment or orientation behavior (value is 1&lt;&lt;9).
 	 */
 	gara.VERTICAL = 512;
 
 	/**
-	 * @field
+	 * 
 	 * The MessageBox style constant for YES button; valid combinations are YES|NO; YES|NO|CANCEL (value is 1&lt;&lt;6).
 	 */
 	gara.YES = 64;
-
-})();
+	
+	return gara;
+})(gara || {});

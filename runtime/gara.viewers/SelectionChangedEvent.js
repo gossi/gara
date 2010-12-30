@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.SelectionChangedEvent");gara.Class("gara.viewers.SelectionChangedEvent",{source:null,selection:null,$constructor:function(a,b){this.source=a;this.selection=b},getSelection:function(){return this.selection},getSource:function(){return this.source}});

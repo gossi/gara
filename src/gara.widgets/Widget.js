@@ -1,4 +1,4 @@
-/*	$Id: Widget.class.js 169 2008-11-13 23:29:49Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,77 +21,57 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Widget");
 
 gara.use("gara.widgets.Display");
 gara.use("gara.widgets.WidgetException");
 
 /**
- * @class Widget
- *
- * @summary
- * short description
- *
- * @description
- * long description (just testing the doc...)
- * @author Thomas Gossmann
- * @namespace gara.widgets
- * @see http://gara.creative2.net
- * @see gara.List
- * @see <span style="color: #f00">doc-test... am i red?</span>
+ * Widget Super Hero!
+ * 
+ * @class gara.widgets.Widget
  */
-gara.Class("gara.widgets.Widget", {
+gara.Class("gara.widgets.Widget", /** @lends gara.widgets.Widget# */ {
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type Array
 	 */
 	classes : [],
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type Object
 	 */
 	data : {},
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type Object
 	 */
 	dataMap : {},
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type gara.widgets.Display
 	 */
 	display : null,
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type Array
 	 */
 	disposeListeners : [],
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type Object
 	 */
 	event : null,
 
 	/**
-	 * @field
 	 * contains the DOM handle of the widget
 	 *
 	 * @type HTMLElement
@@ -99,50 +79,40 @@ gara.Class("gara.widgets.Widget", {
 	handle : null,
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type String
 	 */
 	id : "",
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type Object
 	 */
 	listeners : {},
 
 	/**
-	 * @field
-	 *
 	 * @type HTMLElement|gara.widgets.Composite
 	 * @private
 	 */
 	parent : null,
 
 	/**
-	 * @field
-	 *
 	 * @type HTMLElement|gara.widgets.Composite
 	 * @private
 	 */
 	parentNode : null,
 
 	/**
-	 * @field
-	 *
 	 * @private
 	 * @type int
 	 */
 	style : 0,
 
 	/**
-	 * @constructor
 	 * Widget base constructor
 	 *
-	 * @param {gara.Widget|HTMLElement} parent the parent for this widget
+	 * @constructs
+	 * @param {gara.widgets.Widget|HTMLElement} parent the parent for this widget
 	 * @param {int} style the style codec for this widget
 	 */
 	$constructor : function (parent, style) {
@@ -166,11 +136,10 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Adds a CSS class to the item
 	 *
 	 * @param {String} className new class
-	 * @return {gara.widgets.Widget}
+	 * @returns {gara.widgets.Widget}
 	 */
 	addClass : function (className) {
 		if (!this.classes.contains(className)) {
@@ -183,11 +152,10 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Adds multiple CSS classes to the <code>Widget</code>
 	 *
 	 * @param {String[]} classNames new classes in an array
-	 * @return {gara.widgets.Widget}
+	 * @returns {gara.widgets.Widget}
 	 */
 	addClasses : function (classNames) {
 		classNames.forEach(function (className) {
@@ -197,11 +165,10 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Adds a dispose listener to the widget
 	 *
 	 * @param {gara.events.DisposeListener} listener the listener which gets notified about the disposal
-	 * @return {void}
+	 * @returns {void}
 	 */
 	addDisposeListener : function (listener) {
 		if (!this.disposeListeners.contains(listener)) {
@@ -211,12 +178,11 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Adds an event listener to the widget
 	 *
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
-	 * @return {void}
+	 * @returns {void}
 	 */
 	addListener : function (eventType, listener) {
 		if (!Object.prototype.hasOwnProperty.call(this.listeners, eventType)) {
@@ -231,7 +197,6 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Binds the listener to the widgets elements. Should be implemented
 	 * by the widget authors!
 	 *
@@ -239,7 +204,7 @@ gara.Class("gara.widgets.Widget", {
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
 	 * @see unbindListener
-	 * @return {void}
+	 * @returns {void}
 	 */
 	bindListener : function (eventType, listener) {
 //		alert("Trying to bind listener on " + this + ". Method not implemented.\n" +
@@ -248,19 +213,20 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Returns a style with exactly one style bit set out of
 	 * the specified set of exclusive style bits. All other
 	 * possible bits are cleared when the first matching bit
 	 * is found. Bits that are not part of the possible set
 	 * are untouched.
 	 *
+	 * @static
+	 * @function
 	 * @author SWT-Team
 	 *
 	 * @param style the original style bits
 	 * @param n the nth possible style bit (n is unlimited, pass as much as you want)
 	 *
-	 * @return the new style bits
+	 * @returns {int} the new style bits
 	 */
 	checkBits : gara.$static(function () {
 		var mask = 0, i, style = arguments[0];
@@ -277,14 +243,13 @@ gara.Class("gara.widgets.Widget", {
 	}),
 
 	/**
-	 * @method
 	 * Checks wether the widget is disposed or not
 	 *
 	 * @throws gara.WidgetException <ul>
-	 * 		<li>gara.gara.ERROR_WIDGET_DISPOSED - If widget is disposed</li>
+	 *  <li>gara.gara.ERROR_WIDGET_DISPOSED - If widget is disposed</li>
 	 * </ul>
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	checkWidget : function () {
 		if (this.isDisposed()) {
@@ -293,10 +258,9 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Disposes the widget
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	dispose : function () {
 		if (this.disposed) {
@@ -306,6 +270,11 @@ gara.Class("gara.widgets.Widget", {
 		this.release();
 	},
 	
+	/**
+	 * Destroys the widget
+	 * 
+	 * @private
+	 */
 	destroyWidget : function () {
 		this.handle = null;
 		this.classes = null;
@@ -319,10 +288,9 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Returns application based data for this widget, or <code>null</code> if it has not been set
 	 *
-	 * @return {Object} application based data
+	 * @returns {Object} application based data
 	 */
 	getData : function (key) {
 		if (typeof(key) === "undefined") {
@@ -336,7 +304,6 @@ gara.Class("gara.widgets.Widget", {
 	},
 	
 	/**
-	 * @method
 	 * Returns the Display, the receiver is attached to
 	 * 
 	 * @returns {gara.widgets.Display} the display
@@ -346,7 +313,6 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Returns the ID for this widget. This ID is also used in the DOM handle.
 	 *
 	 * @return {String} the ID
@@ -359,55 +325,50 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
-	 * Returns the parent for this widget
+	 * Returns the receiver's parent. 
 	 *
-	 * @return {gara.Widget|HTMLElement} the widgets parent
+	 * @returns {gara.widgets.Widget|HTMLElement} the receiver's parent
 	 */
 	getParent : function () {
 		return this.parent;
 	},
 
 	/**
-	 * @method
 	 * Returns the style for this widget
 	 *
-	 * @return {int} the style
+	 * @returns {int} the style
 	 */
 	getStyle : function () {
 		return this.style;
 	},
 
 	/**
-	 * @method
 	 * Tests if there is a specified class available
 	 *
 	 * @param {String} className the class name to look for
-	 * @return {boolean} true if the class is available and false if not
+	 * @returns {boolean} true if the class is available and false if not
 	 */
 	hasClass : function (className) {
 		return this.classes.contains(className);
 	},
 
 	/**
-	 * @method
 	 * Tells wether this widget is disposed or not
 	 *
-	 * @return {boolean} true for disposed status otherwise false
+	 * @returns {boolean} true for disposed status otherwise false
 	 */
 	isDisposed : function () {
 		return this.disposed;
 	},
 
-	/**
-	 * @method
+	/*
 	 * Workaround for passing keyboard events to the widget with focus
 	 *
 	 * @private
 	 * @param {Event} e the event
 	 * @param {gara.widgets.Widget} widget the obj on which the event belongs to
 	 * @param {gara.widgets.Control} control the control to witch the event belongs
-	 * @return {void}
+	 * @returns {void}
 	 */
 //	handleEvent : function(e) {
 //		switch (e.type) {
@@ -430,11 +391,10 @@ gara.Class("gara.widgets.Widget", {
 
 
 	/**
-	 * @method
 	 * Removes a CSS class name from this item.
 	 *
 	 * @param {String} className the class name that should be removed
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeClass : function (className) {
 		this.classes.remove(className);
@@ -445,11 +405,10 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Removes a dispose listener from the widget
 	 *
 	 * @param {gara.events.DisposeListener} listener the listener which should be removed
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeDisposeListener : function (listener) {
 		this.disposeListeners.remove(listener);
@@ -457,12 +416,11 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Removes a listener from this item
 	 *
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
-	 * @return {void}
+	 * @returns {void}
 	 */
 	removeListener : function (eventType, listener) {
 		if (Object.prototype.hasOwnProperty.call(this.listeners, eventType)
@@ -474,13 +432,16 @@ gara.Class("gara.widgets.Widget", {
 	},
 	
 	release : function () {
+		var type, i, len;
 		this.disposed = true;
 		
 		// remove attached listener
-		for (var type in this.listener) {
-			this.listener[type].forEach(function (item, index, arr) {
-				this.removeListener(type, item);
-			}, this);
+		for (type in this.listener) {
+			if (Object.prototype.hasOwnProperty.call(this.listener, type)) {
+				for (i = 0, len = this.listener[type].length; i < len; i++) {
+					this.removeListener(type, this.listener[type][i]);
+				}
+			}
 		}
 		
 		// notify dispose listeners
@@ -494,15 +455,20 @@ gara.Class("gara.widgets.Widget", {
 		this.destroyWidget();
 	},
 	
+	/**
+	 * Releases all children from the receiver
+	 *
+	 * @private
+	 * @returns {void}
+	 */
 	releaseChildren : function () {},
 
 	/**
-	 * @method
 	 * Sets a class on or off
 	 *
 	 * @param {String} className the class to set
 	 * @param {boolean} on true for setting the class and false for removing
-	 * @return {void}
+	 * @returns {void}
 	 */
 	setClass : function (className, on) {
 		if (!on) {
@@ -514,11 +480,10 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Sets application based data for this widget
 	 *
 	 * @param {Object} data your data for this widget
-	 * @return {void}
+	 * @returns {void}
 	 */
 	setData : function (key, data) {
 		if (typeof data === "undefined") {
@@ -530,12 +495,11 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Sets the ID for this widget. Even sets the ID in the DOM handle wether
 	 * the widget is created
 	 *
 	 * @param {String} id the ID
-	 * @return {void}
+	 * @returns {void}
 	 */
 	setId : function (id) {
 		this.id = id;
@@ -543,11 +507,10 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Toggles a class
 	 *
 	 * @param {String} className the class to toggle
-	 * @return {void}
+	 * @returns {void}
 	 */
 	toggleClass : function (className) {
 		if (this.classes.contains(className)) {
@@ -561,7 +524,6 @@ gara.Class("gara.widgets.Widget", {
 	},
 
 	/**
-	 * @method
 	 * Unbinds listener from the widgets elements. Should be implemented
 	 * by the widget authors!
 	 *
@@ -569,7 +531,7 @@ gara.Class("gara.widgets.Widget", {
 	 * @param {String} eventType the type of the event
 	 * @param {Object} listener the listener
 	 * @see unbindListener
-	 * @return {void}
+	 * @returns {void}
 	 */
 	unbindListener : function (eventType, listener) {
 //		alert("Trying to unbind listener on " + this + ". Method not implemented.\n" +

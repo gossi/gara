@@ -1,4 +1,4 @@
-/*	$Id: List.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,8 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Button", "gara.widgets.Control");
 
 gara.use("gara.widgets.Composite");
@@ -32,12 +34,10 @@ gara.use("gara.widgets.Composite");
  * @description
  * long description for the Button Widget...
  *
- * @class Button
- * @author Thomas Gossmann
- * @namespace gara.widgets
+ * @class gara.widgets.Button
  * @extends gara.widgets.Control
  */
-gara.Class("gara.widgets.Button", function() { return {
+gara.Class("gara.widgets.Button", function() { return /** @lends gara.widgets.Button# */ {
 	$extends : gara.widgets.Control,
 
 	/**
@@ -116,7 +116,7 @@ gara.Class("gara.widgets.Button", function() { return {
 	selectionListeners : [],
 
 	/**
-	 * @constructor
+	 * @constructs
 	 * Constructor
 	 *
 	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
@@ -313,7 +313,7 @@ gara.Class("gara.widgets.Button", function() { return {
 	 * @private
 	 */
 	getSiblingRadioButtons : function () {
-		var controls, childs, i, child, buttons, index;
+		var controls, childs, i, child, buttons, index, len;
 		// parent is composite
 		if (this.parent instanceof gara.widgets.Composite) {
 			controls = this.parent.getChildren();

@@ -36,6 +36,7 @@ gara.Class("gara.window.Application", function () { return {
 	 */
 	$constructor : function (parentShell) {
 		this.$super(parentShell);
+		document.documentElement.setAttribute("role", "application");
 	},
 
 	configureShell : function (newShell) {
@@ -48,11 +49,11 @@ gara.Class("gara.window.Application", function () { return {
 	
 	getInitialLocation : function () {
 		return {x:0,y:0};
-	},
-	
-	open : function (callback, context) {
-		this.$super(callback, context);
-		console.log("App.open");
-		this.shell.layout();
 	}
+	
+//	open : function (callback, context) {
+//		this.$super(callback, context);
+//		console.log("App.open");
+//		this.shell.layout();
+//	}
 };});

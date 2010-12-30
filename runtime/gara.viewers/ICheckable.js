@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ICheckable");gara.Class("gara.viewers.ICheckable",{addCheckStateListener:function(a){},getChecked:function(a){},removeCheckStateListener:function(a){},setChecked:function(a,b){}});

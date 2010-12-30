@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.LabelProvider","gara.viewers.BaseLabelProvider");gara.Class("gara.viewers.LabelProvider",function(){return{$extends:gara.viewers.BaseLabelProvider,$constructor:function(){},getImage:function(a){return null},getText:function(a){return""+a}}});

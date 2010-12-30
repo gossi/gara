@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ViewerSorter","gara.viewers.ViewerComparator");gara.Class("gara.viewers.ViewerSorter",function(){return{$extends:gara.viewers.ViewerComparator,$constructor:function(){}}});

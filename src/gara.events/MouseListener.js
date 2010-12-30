@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,12 +21,11 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.events.MouseListener");
 
 /**
- * @interface MouseListener
- * 
- * @summary
  * Classes which implement this interface provide methods that deal with the events that are 
  * generated as mouse buttons are pressed. 
  * 
@@ -36,40 +35,37 @@ gara.provide("gara.events.MouseListener");
  * <code>removeMouseListener</code> method. When a mouse button is pressed or released, the 
  * appropriate method will be invoked. 
  * 
- * @author Thomas Gossmann
- * @namespace gara.events
+ * @interface gara.events.MouseListener
+ * @name gara.events.MouseListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
 
-gara.Class("gara.events.MouseListener", {
+gara.Class("gara.events.MouseListener", /** @lends gara.events.MouseListener# */ {
 
 	/**
-	 * @method
 	 * Sent when a mouse button is pressed twice within the (operating system
 	 * specified) double click period.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Event} e an event containing information about the mouse double click
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseDoubleClick : function(e) {},
+	mouseDoubleClick : function (e) {},
 
 	/**
-	 * @method
 	 * Sent when a mouse button is pressed.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Event} e an event containing information about the mouse button press
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseDown : function(e) {},
+	mouseDown : function (e) {},
 
 	/**
-	 * @method
 	 * Sent when a mouse button is released.
 	 *
-	 * @author Thomas Gossmann
 	 * @param {Event} e an event containing information about the mouse button release
-	 * @return {void}
+	 * @returns {void}
 	 */
-	mouseUp : function(e) {}
+	mouseUp : function (e) {}
 });

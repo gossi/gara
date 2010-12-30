@@ -1,4 +1,4 @@
-/*	$Id: FocusListener.interface.js 91 2007-12-09 18:58:43Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,20 +21,26 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.events.FocusListener");
 
 /**
- * @interface FocusListener
- * @author Thomas Gossmann
- * @namespace gara.events
+ * @interface gara.events.FocusListener
+ * @name gara.events.FocusListener
+ * @class
+ * 
+ * TODO: Remove class in favor of interface
  */
 
-gara.Class("gara.events.FocusListener", {
+gara.Class("gara.events.FocusListener", /** @lends gara.events.FocusListener# */ {
 	/**
-	 * @method
-	 * focus gained [DOCTEST]
+	 * Sent when a control gains focus.
 	 */
-	focusGained : function() {},
+	focusGained : function () {},
 
-	focusLost : function() {}
+	/**
+	 * Sent when a control loses focus.
+	 */
+	focusLost : function () {}
 });

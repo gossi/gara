@@ -1,0 +1,1 @@
+gara.provide("gara.events.SelectionListener");gara.Class("gara.events.SelectionListener",{widgetSelected:function(a){}});

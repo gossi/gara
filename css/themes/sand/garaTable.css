@@ -25,8 +25,8 @@
 	top: 0px;
 	right: 0px;
 	height: 24px;
-	background-image: url('button-bar.png');
 	background-repeat: repeat-x;
+	background-image: url('button-bar.png'); /** sprite-ref: button; sprite-alignment: repeat; */
 	border-left: 1px solid #B6AD87;
 	
 	box-sizing: border-box;
@@ -42,7 +42,7 @@
 	height: 100%;
 	background-position: center 10px;
 	background-repeat: no-repeat;
-	background-image: url('arrow_down.png'); 
+	background-image: url('arrow_down.png'); /** sprite-ref: misc; sprite-align: center; sprite-margin-top: 10px; sprite-margin-left: 4px; */
 }
 
 .sand .garaTableResizeLine {
@@ -82,8 +82,8 @@
 
 .sand .garaTableHeadRow {
 	height: 24px;
-	background-image: url('button-bar.png');
 	background-repeat: repeat-x;
+	background-image: url('button-bar.png'); /** sprite-ref: button; sprite-alignment: repeat; */
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -129,7 +129,8 @@
 .sand .garaTabClientArea div[role=tabpanel] > .garaTable .garaTableArrow,
 .sand .garaBorder .garaTableArrow {
 	height: 23px;
-	background-position: 0 -1px;
+	background-repeat: repeat-x;
+	background-image: url('button-bar-border-bottom.png'); /** sprite-ref: button; sprite-alignment: repeat;*/
 }
 
 .sand .garaBorder > .garaDecorationsClientArea > .garaTable .garaTableColumnResizer,

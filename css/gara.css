@@ -84,6 +84,10 @@ ul.gara  {
 	-webkit-user-select: none;*/
 }
 
+.garaLabel {
+	display: block;
+}
+
 .garaComposite {
 	width: 100%;
 	height: 100%;

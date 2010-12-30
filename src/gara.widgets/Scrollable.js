@@ -1,4 +1,4 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,59 +21,62 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Scrollable", "gara.widgets.Control");
 
 gara.use("gara.widgets.Composite");
 
 /**
- * @class Scrollable
- * @author Thomas Gossmann
+ * @class gara.widgets.Scrollable
  * @extends gara.widgets.Control
- * @namespace gara.widgets
  */
-gara.Class("gara.widgets.Scrollable", function () { return {
+gara.Class("gara.widgets.Scrollable", function () { return /** @lends gara.widgets.Scrollable# */ {
 	$extends : gara.widgets.Control,
 
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.widgets.Control
 	 */
 	$constructor : function (parent, style) {
 		this.$super(parent, style);
 		if (parent instanceof gara.widgets.Composite) {
-//			this.setWidth(parent.getClientArea().clientWidth);
-//			this.setHeight(parent.getClientArea().clientHeight);
 			parent.layout();
 		}
 	},
 
-//	addClass : function (className) {
-//		this.$super(className);
-//		if (this.parent instanceof gara.widgets.Composite && (this.hasClass("h25") || this.hasClass("h50" || this.hasClass("h75") || this.hasClass("h100") || this.hasClass("h33") || this.hasClass("h66")))) {
-//			this.parent.resize();
-//		}
-//		return this;
-//	},
-
+	/**
+	 * Returns the receiver's client area.
+	 * 
+	 * @returns {HTMLElement} the scrolled HTMLElement
+	 */
 	getClientArea : function () {
 		return this.scrolledHandle();
 	},
 
+	/**
+	 * Returns true when the receiver has a horizontal scrollbar, false otherwise
+	 * 
+	 * @returns {boolean} true wether there is a horizontal scrollbar otherwise false 
+	 */
 	getHorizontalScrollbar : function () {
 		return this.scrolledHandle().clientWidth < this.scrolledHandle().scrollWidth && this.scrolledHandle().style.overflowX !== "hidden";
 	},
 
+	/**
+	 * Returns true when the receiver has a vertical scrollbar, false otherwise
+	 * 
+	 * @returns {boolean} true wether there is a vertical scrollbar otherwise false 
+	 */
 	getVerticalScrollbar : function () {
 		return this.scrolledHandle().clientHeight < this.scrolledHandle().scrollHeight && this.scrolledHandle().style.overflowY !== "hidden";
 	},
 
-//	handleEvent : function (e) {
-//		this.$super(e);
-//	},
-
 	/**
-	 * @method
-	 *
+	 * Returns the scrolled handle of the receiver
+	 * 
 	 * @private
+	 * @returns {HTMLElement}
 	 */
 	scrolledHandle : function () {
 		return this.handle;

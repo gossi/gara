@@ -1,4 +1,4 @@
-/*	$Id: InputDialog.class.js 182 2009-08-02 22:34:06Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,6 +21,7 @@
 	===========================================================================
 */
 
+"use strict";
 gara.provide("gara.dialogs.InputDialog", "gara.dialogs.Dialog");
 
 gara.use("gara.widgets.Composite");
@@ -29,15 +30,15 @@ gara.use("gara.widgets.Label");
 gara.use("gara.widgets.Text");
 
 /**
- * @class InputDialog
+ * @class gara.dialogs.InputDialog
  * @extends gara.dialogs.Dialog
- * @namespace gara.dialogs
  */
-gara.Class("gara.dialogs.InputDialog", function() { return {
+gara.Class("gara.dialogs.InputDialog", function() { return /** @lends gara.dialogs.InputDialog# */ {
 	$extends : gara.dialogs.Dialog,
 
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.dialogs.Dialog
 	 */
 	$constructor : function (parentShell, dialogTitle, dialogMessage, initialValue) {
 		var self = this;

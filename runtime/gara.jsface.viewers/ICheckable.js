@@ -1,1 +1,0 @@
-gara.provide("gara.jsface.viewers.ICheckable");$package("gara.jsface.viewers");$interface("ICheckable",{addCheckStateListener:function(a){},getChecked:function(a){},removeCheckStateListener:function(a){},setChecked:function(a,b){}});$package("");

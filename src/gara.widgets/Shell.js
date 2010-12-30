@@ -1,4 +1,4 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,21 +21,20 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Shell", "gara.widgets.Decorations");
 
 gara.use("gara.widgets.Display");
 
 /**
- * @class Shell
- * @author Thomas Gossmann
+ * @class gara.widgets.Shell
  * @extends gara.widgets.Decorations
- * @namespace gara.widgets
  */
-gara.Class("gara.widgets.Shell", function() { return {
+gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.Shell# */ {
 	$extends : gara.widgets.Decorations,
 
 	/**
-	 * @field
 	 * Contains the alpha value of this shell
 	 * 
 	 * @private
@@ -44,7 +43,6 @@ gara.Class("gara.widgets.Shell", function() { return {
 	alpha : 100,
 	
 	/**
-	 * @field
 	 * Contains the shell listeners
 	 * 
 	 * @private
@@ -53,7 +51,10 @@ gara.Class("gara.widgets.Shell", function() { return {
 	shellListeners : null,
 	
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.widgets.Decorations
+	 * @param {gara.widgets.Shell|gara.widgets.Display} parent the parent container for the new shell (optinal)
+	 * @param {void} style the style for the new shell (optional)
 	 */
 	$constructor : function (parent, style) {
 		if (!(parent instanceof gara.widgets.Shell) && !(parent instanceof gara.widgets.Display)) {
@@ -87,7 +88,6 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified when operations are 
 	 * performed on the receiver, by sending the listener one of the messages defined in the 
 	 * <code>ShellListener</code> interface.
@@ -103,6 +103,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this;
 	},
 	
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	adjustHeight : function (height) {
 		if (this.fullScreen) {
 			this.restoreHeight = height;
@@ -112,6 +115,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		this.$super(height);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Control
+	 */
 	adjustWidth : function (width) {
 		if (this.fullScreen) {
 			this.restoreWidth = width;
@@ -120,12 +126,25 @@ gara.Class("gara.widgets.Shell", function() { return {
 		this.$super(width);
 	},
 
+	/**
+	 * Checks the consistency of the shell's style.
+	 * 
+	 * @static
+	 * @function
+	 * @param {int} style the style
+	 * @returns {int} the consistent style
+	 */
 	checkStyle : gara.$static(function (style) {
 		style = gara.widgets.Decorations.checkStyle(style);
 
 		return style;
 	}),
 	
+	/**
+	 * Closes the shell.
+	 * 
+	 * @returns {void}
+	 */
 	close : function () {
 		if (this.notifyShellListener("shellClosed")) {
 			this.handle.blur();
@@ -135,6 +154,7 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 
 	/**
+	 * Creates the HTML.
 	 * @private
 	 */
 	createWidget : function () {
@@ -151,7 +171,8 @@ gara.Class("gara.widgets.Shell", function() { return {
 			this.handle.setAttribute("role", "dialog");
 		}
 
-		this.addListener("keydown", this);
+//		this.addListener("keydown", this);
+		gara.addEventListener(document, "keydown", this);
 
 		if (this.stub) {
 			this.handle.parentNode.removeChild(this.stub);
@@ -160,20 +181,25 @@ gara.Class("gara.widgets.Shell", function() { return {
 		}
 	},
 	
+	/**
+	 * Destroys the shell.
+	 * 
+	 * @private
+	 * @returns {void}
+	 */
 	destroyWidget : function () {
 		this.shellListeners = [];
 		
 		this.$super();
 	},
 
-	/**
-	 * @method
-	 * Focus the shell and disables tab indexes
-	 *
-	 * Code below taken from subModal {@link http://gabrito.com/files/subModal/}
-	 *
-	 * @private
-	 */
+//	/**
+//	 * Focus the shell and disables tab indexes
+//	 *
+//	 * Code below taken from subModal {@link http://gabrito.com/files/subModal/}
+//	 *
+//	 * @private
+//	 */
 //	focusGained : function (e) {
 //		if (this.notifyShellListener("shellActivated")) {
 //			// store tab indexes
@@ -214,23 +240,52 @@ gara.Class("gara.widgets.Shell", function() { return {
 //		}
 //	},
 	
+	/**
+	 * Forces the receiver to be the active control.
+	 * 
+	 * @returns {void}
+	 */
 	forceActive : function () {
 		this.handle.setAttribute("data-gara-forceactive", true);
 		this.setActivate();
 	},
-	
+
+	/**
+	 * Returns the receiver's opacity
+	 * 
+	 * @see gara.widgets.Shell#setAlpha
+	 * @returns {int} the alpha value
+	 */
 	getAlpha : function () {
 		return this.alpha;
 	},
 	
+	/**
+	 * Returns <code>true</code> when the receiver is in fullscreen else <code>false</code>
+	 * 
+	 * @see gara.widgets.Shell#setFullScreen
+	 * @returns {boolean} <code>true</code> for fullscreen and <code>false</code> otherwise
+	 */
 	getFullScreen : function () {
 		return this.fullScreen;
 	},
 	
+	/**
+	 * Returns this.
+	 * 
+	 * @returns {gara.widgets.Shell} this
+	 */
 	getShell : function () {
 		return this;
 	},
 	
+	/**
+	 * Internal event handler
+	 * 
+	 * @private
+	 * @param {Eventl} e
+	 * @returns {void}
+	 */
 	handleEvent : function (e) {
 		var propagate = true;
 		switch (e.type) {
@@ -242,7 +297,7 @@ gara.Class("gara.widgets.Shell", function() { return {
 			break;
 			
 		case "keydown":
-			if (e.keyCode === gara.ESC) {
+			if (e.keyCode === gara.ESC && !e.preventShellClose) {
 				this.close();
 				propagate = false;
 			}
@@ -255,8 +310,6 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 	
 	/**
-	 * @method
-	 * @summary
 	 * Moves the receiver above the specified control in the drawing order.
 	 * 
 	 * @description
@@ -276,8 +329,6 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 	
 	/**
-	 * @method
-	 * @summary
 	 * Moves the receiver below the specified control in the drawing order.
 	 * 
 	 * @description
@@ -297,10 +348,10 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 
 	/**
-	 * @method
+	 * Notifies shell listener, that a specific event happens.
 	 * 
 	 * @private
-	 * @param eventType
+	 * @param {String} eventType
 	 * @returns {boolean} true if the operation is permitted
 	 */
 	notifyShellListener : function (eventType) {
@@ -322,6 +373,11 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return ret;
 	},
 	
+	/**
+	 * Opens the receiver.
+	 * 
+	 * @returns {void}
+	 */
 	open : function () {
 		var x = this.parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : this.parent.getClientArea().clientWidth,
 			y = this.parent instanceof gara.widgets.Display ? document.documentElement.clientHeight : this.parent.getClientArea().clientHeight;
@@ -344,11 +400,10 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified when 
 	 * operations are performed on the receiver.
 	 * 
-	 * @param listener {gara.events.ShellListener} the listener which should no longer be notified 
+	 * @param {gara.events.ShellListener} listener the listener which should no longer be notified 
 	 * @returns {gara.widgets.Shell} this
 	 */
 	removeShellListener : function (listener) {
@@ -356,6 +411,11 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this;
 	},
 	
+	/**
+	 * Sets the receiver to be the active shell.
+	 * 
+	 * @returns {boolean} <code>true</code> when setting the shell active or <code>false</code> if not
+	 */
 	setActive : function () {
 		if (this.getMinimized()) {
 			return false;
@@ -384,10 +444,10 @@ gara.Class("gara.widgets.Shell", function() { return {
 	},
 	
 	/**
-	 * @method
 	 * Sets the shell's transparency value, which must be between 0 (transparent) and 100 (opaque).
 	 * 
-	 * @param alpha {int} the alpha value
+	 * @see gara.widgets.Shell#getAlpha
+	 * @param {int} alpha the alpha value
 	 * @returns {gara.widgets.Shell} this
 	 */
 	setAlpha : function (alpha) {
@@ -398,6 +458,13 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this;
 	},
 	
+	/**
+	 * Sets the receiver's fullscreen
+	 * 
+	 * @see gara.widgets.Shell#getFullScreen
+	 * @param {boolean} fullScreen <code>true</code> for fullscreen otherwise <code>false</code>
+	 * @returns
+	 */
 	setFullScreen : function (fullScreen) {
 		var parent = document.documentElement, 
 			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
@@ -492,6 +559,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		this.layout();
 	},
 	
+	/* 
+	 * jsdoc in gara.widgets.Control 
+	 */
 	setHeight : function (height) {
 		if (this.maximized || this.minimized || this.fullScreen) {
 			this.height = height;
@@ -502,6 +572,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this;
 	},
 	
+	/* 
+	 * jsdoc in gara.widgets.Control
+	 */
 	setLocation : function (x, y) {
 		if (this.maximized || this.minimized || this.fullScreen) {		
 			if (x > 0) {
@@ -518,6 +591,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this;
 	},
 	
+	/* 
+	 * jsdoc in gara.widgets.Control 
+	 */
 	setWidth : function (width) {
 		if (this.maximized || this.minimized || this.fullScreen) {
 			this.width = width;
@@ -528,6 +604,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this;
 	},
 	
+	/* 
+	 * jsdoc in gara.widgets.Decorations 
+	 */
 	setMaximized : function (maximized) {
 		if (this.minimized && !this.notifyShellListener("shellDeiconified")) {
 			return this;
@@ -535,6 +614,9 @@ gara.Class("gara.widgets.Shell", function() { return {
 		return this.$super(maximized);
 	},
 	
+	/* 
+	 * jsdoc in gara.widgets.Decorations 
+	 */
 	setMinimized : function (minimized) {
 		if (!minimized && !this.notifyShellListener("shellDeiconified")) {
 			return this;

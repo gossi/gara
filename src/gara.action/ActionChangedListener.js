@@ -1,4 +1,4 @@
-/*	$Id $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,13 +21,22 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.action.ActionChangedListener");
 
 /**
- * @interface ActionChangedListener
- * @namespace gara.action
- * @author Thomas Gossmann
+ * @interface gara.action.ActionChangedListener
+ * @name gara.action.ActionChangedListener
+ * @class
+ * 
+ * @TODO: Remove class in favor of interface
  */
-gara.Class("gara.action.ActionChangedListener", {
-	actionChanged : function(action) {}
+gara.Class("gara.action.ActionChangedListener", /** @lends gara.action.ActionChangedListener# */ {
+
+	/**
+	 * Notifies an action has changed
+	 * @param {gara.action.IAction} action
+	 */
+	actionChanged : function (action) {}
 });

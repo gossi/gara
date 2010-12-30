@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.ICheckStateListener");gara.Class("gara.viewers.ICheckStateListener",{checkStateChanged:function(a){}});

@@ -1,1 +1,0 @@
-gara.provide("gara.jswt.events.SelectionListener");gara.Class("gara.jswt.events.SelectionListener",{widgetSelected:function(a){}});

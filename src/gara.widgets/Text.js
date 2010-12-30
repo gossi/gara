@@ -1,4 +1,4 @@
-/*	$Id: List.class.js 181 2009-08-02 20:51:16Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,25 +21,23 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.widgets.Text", "gara.widgets.Scrollable");
 
 /**
- * @summary
  * gara Text Widget
  *
  * @description
  * long description for the Button Widget...
  *
- * @class Text
- * @author Thomas Gossmann
- * @namespace gara.widgets
- * @extends gara.widgets.Control
+ * @class gara.widgets.Text
+ * @extends gara.widgets.Scrollable
  */
-gara.Class("gara.widgets.Text", function() { return {
+gara.Class("gara.widgets.Text", function() { return /** @lends gara.widgets.Text# */ {
 	$extends : gara.widgets.Scrollable,
 
 	/**
-	 * @field
 	 * Multi distinguishes wether this is a single or multi line input.
 	 *
 	 * @private
@@ -48,7 +46,6 @@ gara.Class("gara.widgets.Text", function() { return {
 	multi : false,
 
 	/**
-	 * @field
 	 * Contains a collection of listeners, that will be notified, when the
 	 * <code>Text</code> is modified.
 	 *
@@ -58,7 +55,6 @@ gara.Class("gara.widgets.Text", function() { return {
 	modifyListeners : [],
 
 	/**
-	 * @field
 	 * Contains a collection of listeners, that will be notified, when the
 	 * selection changes.
 	 *
@@ -68,9 +64,11 @@ gara.Class("gara.widgets.Text", function() { return {
 	selectionListeners : [],
 
 	/**
-	 * @constructor
-	 * Constructor
-	 *
+	 * Creates a new Text.
+	 * 
+	 * @constructs
+	 * @extends gara.widgets.Scrollable
+	 * 
 	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the list
 	 */
@@ -87,12 +85,11 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Adds the listener to the collection of listeners who will be notified when the receiver's
 	 * text is modified, by sending it one of the messages defined in the <code>ModifyListener</code> interface.
 	 *
 	 * @param {gara.events.ModifyListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Text} this
 	 */
 	addModifyListener : function (listener) {
 		this.checkWidget();
@@ -103,11 +100,10 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Adds a selection listener on the list
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Text} this
 	 */
 	addSelectionListener : function (listener) {
 		this.checkWidget();
@@ -118,12 +114,11 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Appends a string.
 	 * The new text is appended to the text at the end of the widget.
 	 *
 	 * @param {String} string the string to be appended
-	 * @return {void}
+	 * @returns {void}
 	 */
 	append : function (string) {
 		this.handle.value += string;
@@ -131,24 +126,18 @@ gara.Class("gara.widgets.Text", function() { return {
 		this.notifyModifyListener();
 	},
 
-	/**
-	 * @method
-	 * Register listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	bindListener : function (eventType, listener) {
 		gara.addEventListener(this.handle, eventType, listener);
 	},
 
-	/**
-	 * @method
-	 *
-	 * @private
+	/*
+	 * jsdoc in gara.widgets.Control
 	 */
 	createWidget : function () {
-		var handle;
+		var handle, eventType, i, len;
 		this.createHandle(this.multi ? "textarea" : "input");
 
 		// if type is password, IE forbids setting an input's type. For a workaround
@@ -164,9 +153,11 @@ gara.Class("gara.widgets.Text", function() { return {
 
 			// bind listeners ...again
 			for (eventType in this.listeners) {
-				this.listeners[eventType].forEach(function (elem, index, arr) {
-					this.bindListener(eventType, elem);
-				}, this);
+				if (Object.prototype.hasOwnProperty.call(this.listeners, eventType)) {
+					for (i = 0, len = this.listeners[eventType].length; i < len; i++) {
+						this.bindListener(eventType, this.listeners[eventType][i]);
+					}
+				}
 			}
 		}
 
@@ -185,6 +176,9 @@ gara.Class("gara.widgets.Text", function() { return {
 //		this.addListener("mouseup", this);
 	},
 
+	/*
+	 * jsdoc in gara.widgets.Widget
+	 */
 	destroyWidget : function () {
 		this.modifyListeners = null;
 		this.selectionListeners = null;
@@ -192,29 +186,46 @@ gara.Class("gara.widgets.Text", function() { return {
 		this.$super();
 	},
 	
+	/**
+	 * Returns a Point whose x coordinate is the character position representing the start of the 
+	 * selected text, and whose y coordinate is the character position representing the end of the 
+	 * selection.
+	 * 
+	 * @returns {gara.widgets.Point} a point representing the selection start and end 
+	 */
 	getSelection : function () {
 		return {x:this.handle.selectionStart, y:this.handle.selectionEnd};
 	},
 	
+	/**
+	 * Returns the number of selected characters. 
+	 * 
+	 * @returns {int} the number of selected characters.
+	 */
 	getSelectionCount : function () {
 		return this.handle.selectionEnd - this.handle.selectionStart; 
 	},
 
+	/**
+	 * Gets the selected text, or an empty string if there is no current selection.
+	 * 
+	 * @returns {String} the selected text 
+	 */
 	getSelectionText : function () {
 		return this.handle.value.substring(this.handle.selectionStart, this.handle.selectionEnd);
 	},
 
+	/**
+	 * Returns the widget text.
+	 *  
+	 * @returns {String} the widget text
+	 */
 	getText : function () {
 		return this.handle.value;
 	},
 
-	/**
-	 * @method
-	 * Handles events on the list. Implements DOMEvent Interface by the W3c.
-	 *
-	 * @private
-	 * @param {Event} e event the users triggers
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	handleEvent : function (e) {
 		this.checkWidget();
@@ -245,12 +256,11 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
-	 * Handles the internal key released behavior.
+	 * Internal keyReleased handler.
 	 * 
 	 * @private
 	 * @param e
-	 * @return {void}
+	 * @returns {void}
 	 */
 	keyReleased : function (e) {
 		if (this.handle.value !== this.lastValue) {
@@ -260,11 +270,10 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Notifies modify listener
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	notifyModifyListener : function () {
 		this.modifyListeners.forEach(function (listener) {
@@ -275,11 +284,10 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Notifies selection listener about the changed selection within the List
 	 *
 	 * @private
-	 * @return {void}
+	 * @returns {void}
 	 */
 	notifySelectionListener : function () {
 		this.selectionListener.forEach(function (listener) {
@@ -290,12 +298,11 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Removes the listener from the collection of listeners who will be notified when
 	 * the <code>Text</code>'s text is modified.
 	 *
 	 * @param {gara.events.ModifyListener} listener the listener which should no longer be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Text} this
 	 */
 	removeModifyListener : function (listener) {
 		this.checkWidget();
@@ -304,11 +311,10 @@ gara.Class("gara.widgets.Text", function() { return {
 	},
 
 	/**
-	 * @method
 	 * Removes a selection listener from this list
 	 *
 	 * @param {gara.events.SelectionListener} listener the listener which should no longer be notified
-	 * @return {void}
+	 * @returns {gara.widgets.Text} this
 	 */
 	removeSelectionListener : function (listener) {
 		this.checkWidget();
@@ -316,16 +322,21 @@ gara.Class("gara.widgets.Text", function() { return {
 		return this;
 	},
 	
+	/**
+	 * Selects all the text in the receiver.
+	 *  
+	 * @returns {void}
+	 */
 	selectAll : function () {
 		this.handle.select();
 	},
 
 	/**
-	 * @method
-	 * Sets the selection of the <code>Text</code>
+	 * Sets the receiver's selection.
 	 *
-	 * @param {boolean} selected new selected state
-	 * @return {void}
+	 * @param {int} start start of the new selection
+	 * @param {int} end end of the new selection
+	 * @return {gara.widgets.Text} this
 	 */
 	setSelection : function (start, end) {
 		this.checkWidget();
@@ -339,6 +350,12 @@ gara.Class("gara.widgets.Text", function() { return {
 		return this;
 	},
 
+	/**
+	 * Sets the contents of the receiver to the given string.
+	 * 
+	 * @param {String} text the new text
+	 * @returns {gara.widgets.Text} this
+	 */
 	setText : function (text) {
 		this.handle.value = text;
 		this.lastValue = this.handle.value;
@@ -346,24 +363,15 @@ gara.Class("gara.widgets.Text", function() { return {
 		return this;
 	},
 
-	/**
-	 * @method
-	 * Unregister listeners for this widget. Implementation for gara.widgets.Widget
-	 *
-	 * @private
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Widget
 	 */
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	},
 
-	/**
-	 * @method
-	 * Updates the <code>Text</code>
-	 *
-	 * @author Thomas Gossmann
-	 * @return {void}
+	/*
+	 * jsdoc in gara.widgets.Control
 	 */
 	update : function () {
 		this.checkWidget();

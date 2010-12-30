@@ -1,4 +1,4 @@
-/*	$Id: Dialog.class.js 182 2009-08-02 22:34:06Z tgossmann $
+/*
 
 		gara - Javascript Toolkit
 	===========================================================================
@@ -6,7 +6,7 @@
 		Copyright (c) 2007 Thomas Gossmann
 
 		Homepage:
-			http://gara.creative2.net
+			http://garathekit.org
 
 		This library is free software;  you  can  redistribute  it  and/or
 		modify  it  under  the  terms  of  the   GNU Lesser General Public
@@ -21,16 +21,17 @@
 	===========================================================================
 */
 
+"use strict";
+
 gara.provide("gara.dialogs.Dialog", "gara.window.Window");
 
 gara.use("gara.widgets.Composite");
 gara.use("gara.widgets.Button");
 
 /**
- * @class Dialog
- * @namespace gara.dialogs
+ * @class gara.dialogs.Dialog
  */
-gara.Class("gara.dialogs.Dialog", function () { return {
+gara.Class("gara.dialogs.Dialog", function () { return /** @lends gara.dialogs.Dialog# */ {
 	$extends: gara.window.Window,
 	
 	OK_ID : gara.$static(0),
@@ -38,7 +39,8 @@ gara.Class("gara.dialogs.Dialog", function () { return {
 	
 
 	/**
-	 * @constructor
+	 * @constructs
+	 * @extends gara.window.Window
 	 */
 	$constructor : function(parentShell) {
 		this.$super(parentShell);

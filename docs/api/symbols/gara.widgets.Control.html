@@ -1,0 +1,2009 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  
+  
+  <title>JsDoc Reference - gara.widgets.Control</title>
+  <meta name="generator" content="JsDoc Toolkit" />
+
+  <link href="../stylesheets/default.css" type="text/css" rel="stylesheet" media="all" />
+</head>
+
+<body id="class_detail">
+  <div id="body_wrapper">
+    <div id="wrapper">
+      <div id="box">
+        <span id="blue_label"></span>
+        <div id="box_wrapper">
+
+          <div id="nav">
+            <h2>Classes</h2>
+<ul>
+  
+    <li><a href="../symbols/%24constructor.html">$constructor</a></li>
+  
+    <li><em><a href="../symbols/_global_.html">_global_</a></em></li>
+  
+    <li><a href="../symbols/gara.html">gara</a></li>
+  
+    <li><a href="../symbols/gara.action.html">gara.action</a></li>
+  
+    <li><a href="../symbols/gara.action.Action.html">gara.action.Action</a></li>
+  
+    <li><a href="../symbols/gara.action.ActionChangedListener.html">gara.action.ActionChangedListener</a></li>
+  
+    <li><a href="../symbols/gara.action.IAction.html">gara.action.IAction</a></li>
+  
+    <li><a href="../symbols/gara.action.MenuManager.html">gara.action.MenuManager</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.html">gara.dialogs</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.Dialog.html">gara.dialogs.Dialog</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.InputDialog.html">gara.dialogs.InputDialog</a></li>
+  
+    <li><a href="../symbols/gara.dialogs.MessageDialog.html">gara.dialogs.MessageDialog</a></li>
+  
+    <li><a href="../symbols/gara.events.html">gara.events</a></li>
+  
+    <li><a href="../symbols/gara.events.ControlListener.html">gara.events.ControlListener</a></li>
+  
+    <li><a href="../symbols/gara.events.DisposeListener.html">gara.events.DisposeListener</a></li>
+  
+    <li><a href="../symbols/gara.events.FocusListener.html">gara.events.FocusListener</a></li>
+  
+    <li><a href="../symbols/gara.events.KeyListener.html">gara.events.KeyListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MenuListener.html">gara.events.MenuListener</a></li>
+  
+    <li><a href="../symbols/gara.events.ModifyListener.html">gara.events.ModifyListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseListener.html">gara.events.MouseListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseMoveListener.html">gara.events.MouseMoveListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseTrackListener.html">gara.events.MouseTrackListener</a></li>
+  
+    <li><a href="../symbols/gara.events.MouseWheelListener.html">gara.events.MouseWheelListener</a></li>
+  
+    <li><a href="../symbols/gara.events.SelectionListener.html">gara.events.SelectionListener</a></li>
+  
+    <li><a href="../symbols/gara.events.ShellListener.html">gara.events.ShellListener</a></li>
+  
+    <li><a href="../symbols/gara.events.TabFolderListener.html">gara.events.TabFolderListener</a></li>
+  
+    <li><a href="../symbols/gara.widgets.html">gara.widgets</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Button.html">gara.widgets.Button</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Composite.html">gara.widgets.Composite</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Decorations.html">gara.widgets.Decorations</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Display.html">gara.widgets.Display</a></li>
+  
+    <li><a href="../symbols/gara.widgets.HTML.html">gara.widgets.HTML</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Item.html">gara.widgets.Item</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Label.html">gara.widgets.Label</a></li>
+  
+    <li><a href="../symbols/gara.widgets.List.html">gara.widgets.List</a></li>
+  
+    <li><a href="../symbols/gara.widgets.ListItem.html">gara.widgets.ListItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Menu.html">gara.widgets.Menu</a></li>
+  
+    <li><a href="../symbols/gara.widgets.MenuItem.html">gara.widgets.MenuItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Point.html">gara.widgets.Point</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Scrollable.html">gara.widgets.Scrollable</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Shell.html">gara.widgets.Shell</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TabFolder.html">gara.widgets.TabFolder</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TabItem.html">gara.widgets.TabItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Table.html">gara.widgets.Table</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TableColumn.html">gara.widgets.TableColumn</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TableItem.html">gara.widgets.TableItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Text.html">gara.widgets.Text</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Tree.html">gara.widgets.Tree</a></li>
+  
+    <li><a href="../symbols/gara.widgets.TreeItem.html">gara.widgets.TreeItem</a></li>
+  
+    <li><a href="../symbols/gara.widgets.Widget.html">gara.widgets.Widget</a></li>
+  
+    <li><a href="../symbols/gara.widgets.WidgetException.html">gara.widgets.WidgetException</a></li>
+  
+</ul>
+
+<p class="class_index index_link"><span>&#x21A9;</span> <a href="../index.html">Class Index</a></p>
+<p class="class_index index_link"><span>&#x21A9;</span> <a href="../files.html">File Index</a></p>
+
+          </div>
+
+          <div id="content">
+            <h1>
+              
+              Class gara.widgets.Control
+            </h1>
+            <div id="content_wrapper">
+
+                
+                
+                  <p>Extends
+                  <a href="../symbols/gara.widgets.Widget.html">gara.widgets.Widget</a>.
+                  </p>
+                
+                
+                <p>
+                  
+                </p>
+                
+                
+                  <p class="defined">
+                    Defined in: &lt;/Users/thomas/Sites/gara/src/gara.widgets/Control.js&gt;.
+                  </p>
+                
+
+                <!-- ============================== constructor summary ==================== -->			
+                
+                  <table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class gara.widgets.Control.">
+                    <caption>Class Summary</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Constructor Attributes</th>
+                        <th scope="col">Constructor Name and Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="attributes">
+                          &nbsp;
+                        </td>
+                        <td class="nameDescription" >
+                          <div class="fixedFont">
+                            <strong><a href="../symbols/gara.widgets.Control.html#constructor">gara.widgets.Control</a></strong>(parent, style)
+                          </div>
+                          <p class="description"></p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+
+                <!-- ============================== properties summary ===================== -->
+                
+                  
+                  
+
+                  
+                    <dl class="inheritsList">
+                      <dt>Fields borrowed from class <a href="../symbols/gara.widgets.Widget.html">gara.widgets.Widget</a>: </dt><dd><a href="../symbols/gara.widgets.Widget.html#handle">handle</a></dd>
+                      </dl>
+                    
+                  
+
+                  <!-- ============================== methods summary ======================== -->
+                  
+                    
+                    
+                      <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class gara.widgets.Control.">
+                        <caption>Method Summary</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Method Attributes</th>
+                            <th scope="col">Method Name and Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addControlListener">addControlListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notified when the control is moved or resized, by sending it one of the messages defined in the <code>ControlListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addFocusListener">addFocusListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notifiedwhen the control gains or loses focus, by sending it one of the messagesdefined in the <code>FocusListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addKeyListener">addKeyListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notifiedwhen keys are pressed and released on the system keyboard, by sendingit one of the messages defined in the <code>KeyListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addMouseListener">addMouseListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notifiedwhen mouse buttons are pressed and released, by sending it one of themessages defined in the <code>MouseListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addMouseMoveListener">addMouseMoveListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notified when the mouse moves, by sending it one of the messages defined in the <code>MouseMoveListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addMouseTrackListener">addMouseTrackListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notifiedwhen the mouse passes or hovers over controls, by sending it one of themessages defined in the <code>MouseTrackListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#addMouseWheelListener">addMouseWheelListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Adds the listener to the collection of listeners who will be notified when the mouse wheel is scrolled, by sending it one of the messages defined in the <code>MouseWheelListener</code> interface.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#forceFocus">forceFocus</a></strong>()
+                                  </div>
+                                  <p class="description">Forces the receiver to gain focus.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#getEnabled">getEnabled</a></strong>()
+                                  </div>
+                                  <p class="description">Returns <code>true</code> if the receiver is enabled, and <code>false</code> otherwise.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#getHeight">getHeight</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the receiver's height.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#getLocation">getLocation</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the receiver's location.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#getShell">getShell</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the receiver's shell.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#getVisible">getVisible</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the receiver's visibility.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#getWidth">getWidth</a></strong>()
+                                  </div>
+                                  <p class="description">Returns the receiver's width.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#isFocusControl">isFocusControl</a></strong>()
+                                  </div>
+                                  <p class="description">Returns true if the receiver has <i>keyboard-focus</i>, and false otherwise.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#moveAbove">moveAbove</a></strong>(control)
+                                  </div>
+                                  <p class="description">Moves the receiver above the specified control in the drawing order.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#moveBelow">moveBelow</a></strong>(control)
+                                  </div>
+                                  <p class="description">Moves the receiver below the specified control in the drawing order.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeControlListener">removeControlListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notifiedwhen the control is moved or resized.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeFocusListener">removeFocusListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notified when the control gains or loses focus.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeKeyListener">removeKeyListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notified when keys are pressed and released on the system keyboard.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeMouseListener">removeMouseListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notified when mouse buttons are pressed and released.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeMouseMoveListener">removeMouseMoveListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notifiedwhen the mouse moves.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeMouseTrackListener">removeMouseTrackListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notified when the mouse passes or hovers over controls.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#removeMouseWheelListener">removeMouseWheelListener</a></strong>(listener)
+                                  </div>
+                                  <p class="description">Removes the listener from the collection of listeners who will be notified when the mouse wheel is scrolled.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setEnabled">setEnabled</a></strong>(enabled)
+                                  </div>
+                                  <p class="description">Sets the receiver's enabled state.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setFocus">setFocus</a></strong>()
+                                  </div>
+                                  <p class="description">Tries to set focus on the receiver.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setHeight">setHeight</a></strong>(height)
+                                  </div>
+                                  <p class="description">Sets the receiver's height.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setLocation">setLocation</a></strong>(x, y)
+                                  </div>
+                                  <p class="description">Sets the receiver's location.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setMenu">setMenu</a></strong>(menu)
+                                  </div>
+                                  <p class="description">Set a <code>Menu</code> for the receiver.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setSize">setSize</a></strong>(x, y, obj)
+                                  </div>
+                                  <p class="description">Sets the receiver's size.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setVisible">setVisible</a></strong>(visible)
+                                  </div>
+                                  <p class="description">Sets the receiver's visibility.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#setWidth">setWidth</a></strong>(width)
+                                  </div>
+                                  <p class="description">Sets the receiver's width.</p>
+                                </td>
+                              </tr>
+                            
+                            <tr>
+                              <td class="attributes">
+                                &nbsp;
+                              </td>
+                                <td class="nameDescription">
+                                  <div class="fixedFont"><strong><a href="../symbols/gara.widgets.Control.html#update">update</a></strong>()
+                                  </div>
+                                  <p class="description">Updates outstanding changes in the receiver.</p>
+                                </td>
+                              </tr>
+                            
+                          </tbody>
+                        </table>
+                    
+
+                    
+                      <dl class="inheritsList">
+                        <dt>Methods borrowed from class <a href="../symbols/gara.widgets.Widget.html">gara.widgets.Widget</a>: </dt><dd><a href="../symbols/gara.widgets.Widget.html#addClass">addClass</a>, <a href="../symbols/gara.widgets.Widget.html#addClasses">addClasses</a>, <a href="../symbols/gara.widgets.Widget.html#addDisposeListener">addDisposeListener</a>, <a href="../symbols/gara.widgets.Widget.html#addListener">addListener</a>, <a href="../symbols/gara.widgets.Widget.html#checkBits">checkBits</a>, <a href="../symbols/gara.widgets.Widget.html#checkWidget">checkWidget</a>, <a href="../symbols/gara.widgets.Widget.html#dispose">dispose</a>, <a href="../symbols/gara.widgets.Widget.html#getData">getData</a>, <a href="../symbols/gara.widgets.Widget.html#getDisplay">getDisplay</a>, <a href="../symbols/gara.widgets.Widget.html#getId">getId</a>, <a href="../symbols/gara.widgets.Widget.html#getParent">getParent</a>, <a href="../symbols/gara.widgets.Widget.html#getStyle">getStyle</a>, <a href="../symbols/gara.widgets.Widget.html#hasClass">hasClass</a>, <a href="../symbols/gara.widgets.Widget.html#isDisposed">isDisposed</a>, <a href="../symbols/gara.widgets.Widget.html#removeClass">removeClass</a>, <a href="../symbols/gara.widgets.Widget.html#removeDisposeListener">removeDisposeListener</a>, <a href="../symbols/gara.widgets.Widget.html#removeListener">removeListener</a>, <a href="../symbols/gara.widgets.Widget.html#setClass">setClass</a>, <a href="../symbols/gara.widgets.Widget.html#setData">setData</a>, <a href="../symbols/gara.widgets.Widget.html#setId">setId</a>, <a href="../symbols/gara.widgets.Widget.html#toggleClass">toggleClass</a></dd>
+                        </dl>
+                      
+                    
+                    
+                    <!-- ============================== events summary ======================== -->
+                    
+
+
+                        <!-- ============================== constructor details ==================== -->		
+                        
+                          <div class="details"><a name="constructor"> </a>
+                            <div class="sectionTitle">
+                              Class Detail
+                            </div>
+                            
+                            <div class="module">
+                              
+                              <h2><strong> 
+                                gara.widgets.Control(parent, style)</strong>
+                              </h2>
+
+                              <p class="description">
+                                
+                                
+                              </p>
+
+                              
+
+
+                              
+                                <dl class="detailList">
+                                  <dt class="heading">Parameters:</dt>
+                                  
+                                    <dt>
+                                       <strong>parent</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                    <dt>
+                                       <strong>style</strong>
+                                      
+                                    </dt>
+                                    <dd></dd>
+                                  
+                                </dl>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+
+                            </div>
+                          </div>
+                        
+                          
+                        
+                        
+                        <!-- ============================== field details ========================== -->		
+                        
+
+                        <!-- ============================== method details ========================= -->		
+                        
+                          <div class="sectionTitle">
+                            Method Detail
+                          </div>
+                          
+                            <div class="module">
+                            <a name="addControlListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addControlListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notified when the control is moved or resized, by sending it one of the messages defined in the <code>ControlListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.ControlListener.html">gara.events.ControlListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addFocusListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addFocusListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notifiedwhen the control gains or loses focus, by sending it one of the messagesdefined in the <code>FocusListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.FocusListener.html">gara.events.FocusListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addKeyListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addKeyListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notifiedwhen keys are pressed and released on the system keyboard, by sendingit one of the messages defined in the <code>KeyListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.KeyListener.html">gara.events.KeyListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addMouseListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addMouseListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notifiedwhen mouse buttons are pressed and released, by sending it one of themessages defined in the <code>MouseListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseListener.html">gara.events.MouseListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addMouseMoveListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addMouseMoveListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notified when the mouse moves, by sending it one of the messages defined in the <code>MouseMoveListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseMoveListener.html">gara.events.MouseMoveListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addMouseTrackListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addMouseTrackListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notifiedwhen the mouse passes or hovers over controls, by sending it one of themessages defined in the <code>MouseTrackListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseTrackListener.html">gara.events.MouseTrackListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="addMouseWheelListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>addMouseWheelListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Adds the listener to the collection of listeners who will be notified when the mouse wheel is scrolled, by sending it one of the messages defined in the <code>MouseWheelListener</code> interface.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseWheelListener.html">gara.events.MouseWheelListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="forceFocus"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>forceFocus</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Forces the receiver to gain focus.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getEnabled"> </a>
+                            <h2><span></span>
+
+                              <span>{boolean}</span>
+                              <strong>getEnabled</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns <code>true</code> if the receiver is enabled, and <code>false</code> otherwise.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{boolean}</span> the receiver's enabled state</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getHeight"> </a>
+                            <h2><span></span>
+
+                              <span>{int}</span>
+                              <strong>getHeight</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the receiver's height.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{int}</span> the receivers height in pixels</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getLocation"> </a>
+                            <h2><span></span>
+
+                              <span>{Object}</span>
+                              <strong>getLocation</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the receiver's location.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{Object}</span> obj.x contains the left offset and obj.y the top offset</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getShell"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Shell.html">gara.widgets.Shell</a>}</span>
+                              <strong>getShell</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the receiver's shell.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Shell.html">gara.widgets.Shell</a>}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getVisible"> </a>
+                            <h2><span></span>
+
+                              <span>{boolean}</span>
+                              <strong>getVisible</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the receiver's visibility.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{boolean}</span> true if visible</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="getWidth"> </a>
+                            <h2><span></span>
+
+                              <span>{int}</span>
+                              <strong>getWidth</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns the receiver's width.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{int}</span> the <code>Control</code>'s width in pixels</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="isFocusControl"> </a>
+                            <h2><span></span>
+
+                              <span>{boolean}</span>
+                              <strong>isFocusControl</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Returns true if the receiver has <i>keyboard-focus</i>, and false otherwise.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{boolean}</span> the receiver's focus state</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="moveAbove"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>moveAbove</strong>(control)
+
+                            </h2>
+                            <p class="description">
+                              Moves the receiver above the specified control in the drawing order. If no argument, then the receiver is moved to the top of the drawing order. The control at the top of the drawing order will not be covered by other controls even if they occupy intersecting areas.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> <strong>control</strong>
+                                    
+                                  </dt>
+                                  <dd>the sibling control (optional)</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="moveBelow"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>moveBelow</strong>(control)
+
+                            </h2>
+                            <p class="description">
+                              Moves the receiver below the specified control in the drawing order. If no argument, then the receiver is moved to the bottom of the drawing order. The control at the bottom of the drawing order will be covered by all other controls which occupy intersecting areas.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> <strong>control</strong>
+                                    
+                                  </dt>
+                                  <dd>the sibling control (optional)</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeControlListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeControlListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notifiedwhen the control is moved or resized.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.ControlListener.html">gara.events.ControlListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should no longer be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeFocusListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeFocusListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notified when the control gains or loses focus.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.FocusListener.html">gara.events.FocusListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should no longer be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeKeyListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeKeyListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notified when keys are pressed and released on the system keyboard.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.KeyListener.html">gara.events.KeyListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeMouseListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeMouseListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notified when mouse buttons are pressed and released.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseListener.html">gara.events.MouseListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeMouseMoveListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeMouseMoveListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notifiedwhen the mouse moves.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseMoveListener.html">gara.events.MouseMoveListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeMouseTrackListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeMouseTrackListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notified when the mouse passes or hovers over controls.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseTrackListener.html">gara.events.MouseTrackListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="removeMouseWheelListener"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>removeMouseWheelListener</strong>(listener)
+
+                            </h2>
+                            <p class="description">
+                              Removes the listener from the collection of listeners who will be notified when the mouse wheel is scrolled.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{<a href="../symbols/gara.events.MouseWheelListener.html">gara.events.MouseWheelListener</a>}</span> <strong>listener</strong>
+                                    
+                                  </dt>
+                                  <dd>the listener which should be notified</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setEnabled"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setEnabled</strong>(enabled)
+
+                            </h2>
+                            <p class="description">
+                              Sets the receiver's enabled state.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{boolean}</span> <strong>enabled</strong>
+                                    
+                                  </dt>
+                                  <dd>true for enabled and false for disabled state</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setFocus"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setFocus</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Tries to set focus on the receiver.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setHeight"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setHeight</strong>(height)
+
+                            </h2>
+                            <p class="description">
+                              Sets the receiver's height.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{mixed}</span> <strong>height</strong>
+                                    
+                                  </dt>
+                                  <dd>the new height <ul> <li>height > 1: height in pixels</li> <li>height = [0; 1]: height in percent</li> <li>height = null: height is auto</li></ul></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setLocation"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setLocation</strong>(x, y)
+
+                            </h2>
+                            <p class="description">
+                              Sets the receiver's location.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{int}</span> <strong>x</strong>
+                                    
+                                  </dt>
+                                  <dd>the new left offset</dd>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{int}</span> <strong>y</strong>
+                                    
+                                  </dt>
+                                  <dd>the new top offset</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setMenu"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setMenu</strong>(menu)
+
+                            </h2>
+                            <p class="description">
+                              Set a <code>Menu</code> for the receiver.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{gara.widget.Menu}</span> <strong>menu</strong>
+                                    
+                                  </dt>
+                                  <dd>the new <code>Menu</code></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Throws:</dt>
+                              
+                                <dt>
+                                  <span class="fixedFont">{TypeError}</span>  <strong></strong>
+                                </dt>
+                                <dd>if the menu is not instance of <code>gara.widgets.Menu</code></dd>
+                              
+                            </dl>
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setSize"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setSize</strong>(x, y, obj)
+
+                            </h2>
+                            <p class="description">
+                              Sets the receiver's size. Either the x and y parameters or the object is passed.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{int}</span> <strong>x</strong>
+                                    
+                                  </dt>
+                                  <dd>the new width</dd>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{int}</span> <strong>y</strong>
+                                    
+                                  </dt>
+                                  <dd>the new height</dd>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{Object}</span> <strong>obj</strong>
+                                    
+                                  </dt>
+                                  <dd>an object containing the new size obj.x and obj.y</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setVisible"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setVisible</strong>(visible)
+
+                            </h2>
+                            <p class="description">
+                              Sets the receiver's visibility.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{boolean}</span> <strong>visible</strong>
+                                    
+                                  </dt>
+                                  <dd><code>true</code> for visible or <code>false</code> for invisible</dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="setWidth"> </a>
+                            <h2><span></span>
+
+                              <span>{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span>
+                              <strong>setWidth</strong>(width)
+
+                            </h2>
+                            <p class="description">
+                              Sets the receiver's width.
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                              <dl class="detailList">
+                                <dt class="heading">Parameters:</dt>
+                                
+                                  <dt>
+                                    <span class="fixedFont">{mixed}</span> <strong>width</strong>
+                                    
+                                  </dt>
+                                  <dd>the new width <ul> <li>width > 1: width in pixels</li> <li>width = [0; 1]: width in percent</li> <li>else: width is auto</li></ul></dd>
+                                
+                              </dl>
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{<a href="../symbols/gara.widgets.Control.html">gara.widgets.Control</a>}</span> this</dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                            <div class="module">
+                            <a name="update"> </a>
+                            <h2><span></span>
+
+                              <span>{void}</span>
+                              <strong>update</strong>()
+
+                            </h2>
+                            <p class="description">
+                              Updates outstanding changes in the receiver. E.g. Does some outstanding paint processes orremeasures the boundaries
+                            </p>
+                              
+                              
+
+                            
+
+                            
+                            
+                            
+                          
+                          
+                            <dl class="detailList">
+                              <dt class="heading">Returns:</dt>
+                              
+                                <dd><span class="fixedFont">{void}</span> </dd>
+                              
+                            </dl>
+                          
+                          
+                          
+                          </div>
+                        
+                      
+
+                      <!-- ============================== event details ========================= -->		
+                      
+
+            </div><!-- #content_wrapper -->
+          </div><!-- #content -->
+          
+          <hr/>
+          
+        </div><!-- #box_wrapper -->
+      </div><!-- #box -->
+
+      <div id="footer">
+        
+        Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Thu Dec 30 2010 21:29:04 GMT+0100 (MEZ)
+      </div><!-- #footer -->
+
+    </div><!-- #wrapper -->
+  </div><!-- #body_wrapper -->
+</body>
+</html>

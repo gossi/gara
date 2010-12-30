@@ -1,1 +1,0 @@
-gara.provide("gara.jsface.viewers.ITreeContentProvider");gara.require("gara.jsface.viewers.IStructuredContentProvider");$package("gara.jsface.viewers");$interface("ITreeContentProvider",{$extends:gara.jsface.viewers.IStructuredContentProvider,getChildren:function(a){},getParent:function(a){},hasChildren:function(a){}});$package("");

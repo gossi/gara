@@ -1,0 +1,1 @@
+gara.provide("gara.viewers.IContentProvider");gara.Class("gara.viewers.IContentProvider",{inputChanged:function(a,b,c){}});
