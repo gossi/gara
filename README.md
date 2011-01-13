@@ -1,8 +1,8 @@
 # gara - Javascript Toolkit
-Copyright (c) since 2007 Thomas Gossmann (http://gos.si)
+Copyright (c) since 2007 Thomas Gossmann (<a href="http://gos.si">http://gos.si</a>)
 
 ## Homepage
-http://gara.creative2.net
+<a href="http://gara.creative2.net">http://gara.creative2.net</a>
 
 ## License
 GNU LGPL 2.1
