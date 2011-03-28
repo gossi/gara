@@ -600,7 +600,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 		} else {
 			this.$super(width);	
 		}
-				
+
 		return this;
 	},
 	
@@ -632,5 +632,9 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 		}
 		
 		return this.$super(minimized);
+	},
+	
+	update : function () {
+		
 	}
 };});

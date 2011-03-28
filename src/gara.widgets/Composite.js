@@ -141,6 +141,8 @@ gara.Class("gara.widgets.Composite", function() { return /** @lends gara.widgets
 			overflowX = gara.getStyle(this.getClientArea(), "overflow-x"),
 			overflowY = gara.getStyle(this.getClientArea(), "overflow-y");
 		
+		console.log("Composite ("+this+").layout");
+		
 		this.update();
 		
 		this.getClientArea().style.overflowX = "hidden";

@@ -144,8 +144,13 @@ gara.Class("gara.window.Window", {
 	 * @return {void}
 	 */
 	create : function() {
+		console.log("Window.create() begin");
 		this.shell = this.createShell();
+		
+		console.log("Window.create() mid");
 		this.contents = this.createContents(this.shell);
+		
+		console.log("Window.create() end");
 		
 		this.initializeBounds();
 	},
@@ -173,6 +178,10 @@ gara.Class("gara.window.Window", {
 		newShell = new gara.widgets.Shell(this.getParentShell(), this.getShellStyle());
 		newShell.setData(this);
 		
+//		newShell.handle.style.left = "-5000px";
+//		newShell.handle.style.top = "-5000px";
+		newShell.setVisible(true);
+		
 		// add listener
 		newShell.addShellListener(this.getShellListener());
 		
@@ -194,9 +203,14 @@ gara.Class("gara.window.Window", {
 	},
 	
 	getInitialLocation : function (initialSize) {
-		var parent = this.shell.getParent(),
-			x = parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : parent.getClientArea().clientWidth,
-			y = parent instanceof gara.widgets.Display ? document.documentElement.clientHeight : parent.getClientArea().clientHeight;
+		var parent, x, y;
+		if (initialSize === null) {
+			return null;
+		}
+		
+		parent = this.shell.getParent();
+		x = parent instanceof gara.widgets.Display ? document.documentElement.clientWidth : parent.getClientArea().clientWidth;
+		y = parent instanceof gara.widgets.Display ? document.documentElement.clientHeight : parent.getClientArea().clientHeight;
 
 		return {
 			x: Math.floor((x / 2) - (initialSize.x / 2)),
@@ -271,7 +285,10 @@ gara.Class("gara.window.Window", {
 		var size = this.getInitialSize(),
 			location = this.getInitialLocation(size);
 		
-		this.shell.setSize(size.x, size.y);
+		if (size !== null) {
+			this.shell.setSize(size.x, size.y);
+		}
+
 		if (location !== null) {
 			this.shell.setLocation(location.x, location.y);
 		}
@@ -284,8 +301,8 @@ gara.Class("gara.window.Window", {
 		}
 		this.callback = callback || this.callback;
 		this.context = context || this.context;
-		this.shell.open();
-		this.shell.layout();
+//		this.shell.open();
+//		this.shell.layout();
 	},
 	
 	setReturnValue : function (value) {

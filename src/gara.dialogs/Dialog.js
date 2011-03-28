@@ -73,6 +73,13 @@ gara.Class("gara.dialogs.Dialog", function () { return /** @lends gara.dialogs.D
 		this.$super();
 	},
 	
+//	create : function () {
+//		this.$super();
+//		this.shell.handle.style.left = "-5000px";
+//		this.shell.handle.style.top = "-5000px";
+//		console.log("diag.create");
+//	},
+	
 	createButton : function (parent, id, label, defaultButton) {
 		var shell, self = this,
 		button = new gara.widgets.Button(parent);
@@ -107,10 +114,16 @@ gara.Class("gara.dialogs.Dialog", function () { return /** @lends gara.dialogs.D
 	},
 
 	createContents : function (parent) {
+		console.log("dialog.createContents begin");
 		var composite = new gara.widgets.Composite(parent);
-
+		console.log("dialog.createContents composite done");
+		
+		
 		this.dialogArea = this.createDialogArea(composite);
+		console.log("dialog.createContents mid");
 		this.buttonBar = this.createButtonBar(composite);
+		
+		console.log("dialog.createContents end");
 		
 		return composite;
 	},
@@ -139,8 +152,13 @@ gara.Class("gara.dialogs.Dialog", function () { return /** @lends gara.dialogs.D
 	},
 	
 	getInitialSize : function () {
-		return {x:null,y:null};
+		return null;
 	},
+	
+//	open : function (callback, context) {
+//		this.initializeBounds();
+//		this.$super(callback, context);
+//	},
 	
 	okPressed : function () {
 		this.setReturnValue(gara.OK);

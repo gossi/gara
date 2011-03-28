@@ -10,6 +10,15 @@
 <script>
 function main() {
 	new gara.widgets.Button(document.getElementsByTagName("body")[0])
+	.setText("Open Abstract Window")
+	.addSelectionListener({
+		widgetSelected : function () {
+			var d = new gara.window.Window();
+			d.open();
+		}
+	});
+	
+	new gara.widgets.Button(document.getElementsByTagName("body")[0])
 		.setText("Open Abstract Dialog")
 		.addSelectionListener({
 			widgetSelected : function () {

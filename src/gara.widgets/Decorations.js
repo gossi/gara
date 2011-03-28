@@ -901,6 +901,11 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 	},
 	
 	update : function () {
+		this.clientArea.style.height = "auto";
+		this.clientArea.style.width = "auto";
+		this.handle.style.height = "auto";
+		this.handle.style.width = "auto";
+		
 		this.clientArea.style.height = (this.handle.clientHeight - (this.title ? this.title.offsetHeight : 0) - this.menuBarNode.offsetHeight) + "px";
 		this.clientArea.style.width = this.handle.clientWidth + "px";
 	}
