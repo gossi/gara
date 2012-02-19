@@ -1,0 +1,95 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.gara.List
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .gara-list {
+	border: none;
+	overflow: auto;
+	background-color: #FFF; /*#EAE6D6*/
+	
+	.gara-checkbox {
+		margin: 2px 5px 0 5px;
+	}
+	
+	&-item {
+		&-image {
+			vertical-align: top;
+		}
+	
+		&-text {
+			background-color: #FFF;
+			color: #000;
+			font-family: Verdana;
+			font-size: 85%;
+			line-height: 18px;
+			padding: 1px 3px;
+		}
+	}
+	
+	&-fullselection &-item {
+		&-image {
+			float: left;
+			margin: 1px 3px 0 1px;
+		}
+		
+		&-text {
+			padding: 0;
+			padding-left: 2px;
+		}
+	}
+	
+	
+	/* === Selection === */
+	&-item[aria-selected=true] .gara-list-item-text {
+		background-color: #E1E0D9;
+		color: #000;
+	}
+	
+	&:focus &-item[aria-selected=true] .gara-list-item-text {
+		background-color: #EAE6D6;
+		color: #000;
+	}
+	
+	/* --- checkbox & image --- */
+	&-item[aria-selected=true] .gara-checkbox,
+	&-fullselection .gara-list-item[aria-selected=true] .gara-list-item-image {
+		opacity: 0.7;
+		background-color: #E1E0D9;
+	}
+	
+	&:focus &-item[aria-selected=true] .gara-checkbox,
+	&-fullselection:focus .gara-list-item[aria-selected=true] .gara-list-item-image {
+		opacity: 0.7;
+		background-color: #EAE6D6;
+	}
+	
+	/* === Active Item State === */
+	&:focus .gara-item-active &-item-text {
+		outline: 1px dotted #000;
+		padding: 0 2px;
+		margin-left: 1px;
+	}
+	
+	&-fullselection:focus .gara-item-active .gara-list-item-text {
+		margin: 1px;
+		line-height: 16px;
+		padding-left: 1px;
+		/*padding: 1px 3px 1px 1px;*/
+	}
+	
+	&-fullselection:focus .gara-item-active .gara-list-item-image {
+		margin-top: 0;
+	}
+	
+	&-fullselection:focus .gara-item-active .gara-checkbox {
+		margin: 1px 5px 0;
+	}
+}
+
+.sand .gara-border > .gara-decorations-clientarea > .gara-list,
+.sand .gara-tabfolder-clientarea div[role=tabpanel] > .gara-list {
+	border: 0;
+}

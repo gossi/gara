@@ -11,4 +11,3 @@
  *
  * based on YUI-Resets-Fonts (v2.2.2) Copyright (c) 2007, Yahoo! Inc. (BSD-License)
  */
-

@@ -23,18 +23,16 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Decorations", "gara.widgets.Composite");
+gara.provide("gara.widgets.Decorations");
 
-gara.use("gara.widgets.Menu");
-gara.use("gara.widgets.Display");
+//gara.use("gara.widgets.Menu");
+//gara.use("gara.widgets.Display");
 
 /**
  * @class gara.widgets.Composite
  * @extends gara.widgets.Scrollable
  */
-gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widgets.Decorations# */ {
-	$extends : gara.widgets.Composite,
-
+gara.widgets.Decorations = gara.Class(gara.widgets.Composite, /** @lends gara.widgets.Decorations# */ {
 	image : null,
 	text : "",
 	menuBar : null,
@@ -53,7 +51,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 	 * @constructs
 	 * @extends gara.widgets.Scrollable
 	 */
-	$constructor : function (parent, style) {
+	constructor : function (parent, style) {
 		var self = this;
 		this.image = null;
 		this.text = "";
@@ -105,7 +103,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 			}	
 		};
 
-		this.$super(parent, gara.widgets.Decorations.checkStyle(style));
+		this.super(parent, gara.widgets.Decorations.checkStyle(style));
 		this.addFocusListener(this);
 	},
 
@@ -115,7 +113,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 			return;
 		}
 		
-		this.$super(height);
+		this.super(height);
 		
 		if (height > 1) {
 			this.clientArea.style.height = (height - (this.title ? this.title.offsetHeight : 0) - this.menuBarNode.offsetHeight) + "px";
@@ -127,7 +125,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 			this.restoreWidth = width;
 			return;
 		}
-		this.$super(width);
+		this.super(width);
 		
 		if (width > 1) {
 			this.clientArea.style.width = width + "px";
@@ -168,7 +166,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 			this.stub = null;
 		}
 		
-		this.$super();
+		this.super();
 	},
 
 	checkStyle : gara.$static(function (style) {
@@ -626,7 +624,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 			this.menu = null;
 		}
 		
-		this.$super();
+		this.super();
 	},
 
 	/**
@@ -660,7 +658,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 	},
 	
 	setHeight : function (height) {
-		this.$super(height);
+		this.super(height);
 		
 		if (!this.adjustedHeight && height !== null && this.stub !== null) {
 			this.stub.style.height = height + "px";
@@ -882,7 +880,7 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 	},
 
 	setWidth : function (width) {
-		this.$super(width);
+		this.super(width);
 		
 		if (!this.adjustedWidth && width !== null && this.stub !== null) {
 			this.stub.style.width = width + "px";
@@ -909,4 +907,4 @@ gara.Class("gara.widgets.Decorations", function() { return /** @lends gara.widge
 		this.clientArea.style.height = (this.handle.clientHeight - (this.title ? this.title.offsetHeight : 0) - this.menuBarNode.offsetHeight) + "px";
 		this.clientArea.style.width = this.handle.clientWidth + "px";
 	}
-};});
+});

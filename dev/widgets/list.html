@@ -1,48 +1,30 @@
 <!doctype html>
-<html class="sand" role="application">
+<html class="gara sand" role="application">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"> 
 <title>gara.widgets.List (dev)</title>
 <link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
-<script src="../../src/gara.js"></script>
+<script src="../../bin/gara.js"></script>
 <script>
 var list;
 
 function main() {
-	list = new gara.widgets.List(document.getElementById("container"), gara.CHECK | gara.MULTI | gara.BORDER);
+	list = new gara.widgets.List(window.document.getElementById("container"), {
+		check: true,
+		multi: true,
+		border: true
+	});
 
-	new gara.widgets.ListItem(list).setText("Item 1");
-	new gara.widgets.ListItem(list).setText("Item 2");
-	new gara.widgets.ListItem(list).setText("Item 3");
-	new gara.widgets.ListItem(list).setText("Item 4");
-	new gara.widgets.ListItem(list).setText("Item 5");
-	new gara.widgets.ListItem(list).setText("Item 6");
-	new gara.widgets.ListItem(list).setText("Item 7");
-	new gara.widgets.ListItem(list).setText("Item 8");
-	new gara.widgets.ListItem(list).setText("Item 9");
-	new gara.widgets.ListItem(list).setText("Item 10");
-	new gara.widgets.ListItem(list).setText("Item 12");
-	new gara.widgets.ListItem(list).setText("Item 13");
-	new gara.widgets.ListItem(list).setText("Item 14");
-	new gara.widgets.ListItem(list).setText("Item 15");
-	new gara.widgets.ListItem(list).setText("Item 16");
-	new gara.widgets.ListItem(list).setText("Item 17");
-	new gara.widgets.ListItem(list).setText("Item 18");
-	new gara.widgets.ListItem(list).setText("Item 19");
-	new gara.widgets.ListItem(list).setText("Item 20");
-	new gara.widgets.ListItem(list).setText("Item 21");
-	new gara.widgets.ListItem(list).setText("Item 22");
-	new gara.widgets.ListItem(list).setText("Item 23");
-	new gara.widgets.ListItem(list).setText("Item 24");
-	new gara.widgets.ListItem(list).setText("Item 25");
-	
+	for (var i = 1; i <= 25; i++)
+		new gara.widgets.ListItem(list, {text: 'Item ' + i});
+
 	
 
 	list.setHeight(200);
 	//list.update();
-
+/*
 	var listener = new Listener();
 	list.addSelectionListener(listener);
 	//list.addMouseListener(listener);
@@ -54,9 +36,10 @@ function main() {
 		focusGained : function (e) {
 			console.log("FocusListener gained Focus");
 		}
-	});
+	});*/
 }
 
+/*
 gara.Class("Listener", {
 	widgetSelected : function (e) {
 		var item = e.item;
@@ -77,7 +60,7 @@ gara.Class("Listener", {
 	keyPressed : function (e) {
 		console.log("Listener.keyPressed, widget: " + e.widget + ", item: " + e.item);
 	},
-});
+});*/
 
 function dispose() {
 	list.dispose();
@@ -101,6 +84,18 @@ function getTopItem() {
 	var item = list.getTopItem();
 	console.log("Top Item: " + item.getText());
 }
+
+function showSelection() {
+	list.showSelection();
+}
+
+function showItem(index) {
+	list.showItem(list.getItems()[index]);
+}
+
+function setTopItem(index) {
+	list.setTopItem(list.getItems()[index]);
+}
 </script>
 </head>
 <body style="padding: 10px;">
@@ -112,11 +107,11 @@ function getTopItem() {
 	<input type="button" value="Toggle Checked" onclick="toggleChecked()"/>-->
 	<input type="button" value="Toggle Grayed" onclick="toggleGrayed()"/>
 	<input type="button" value="getTopItem()" onclick="getTopItem()"/>
-	<input type="button" value="showSelection()" onclick="list.showSelection()"/>
-	<input type="button" value="showItem(Item 20)" onclick="list.showItem(list.getItems()[19])"/>
-	<input type="button" value="setTopItem(Item 10)" onclick="list.setTopItem(list.getItems()[9])"/>
+	<input type="button" value="showSelection()" onclick="showSelection()"/>
+	<input type="button" value="showItem(Item 20)" onclick="showItem(19)"/>
+	<input type="button" value="setTopItem(Item 10)" onclick="setTopItem(9)"/>
 </fieldset>
 <div id="container" class="sand" style="width: 300px; margin-top: 5px;"></div>
-<script type="text/javascript">gara.require("gara.widgets.List", "gara.widgets.ListItem", main);</script>
+<script>define('main', ["gara/widgets/List", "gara/widgets/ListItem"], main);</script>
 </body>
 </html>

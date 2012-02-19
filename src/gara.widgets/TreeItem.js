@@ -25,7 +25,7 @@
 
 gara.provide("gara.widgets.TreeItem", "gara.widgets.Item");
 
-gara.require("gara.widgets.Tree");
+//gara.require("gara.widgets.Tree");
 
 /**
  * gara TreeItem
@@ -33,8 +33,7 @@ gara.require("gara.widgets.Tree");
  * @class gara.widgets.TreeItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.TreeItem", function () { return /** @lends gara.widgets.TreeItem# */ {
-	$extends : gara.widgets.Item,
+gara.widgets.TreeItem = gara.Class(gara.widgets.Item, /** @lends gara.widgets.TreeItem# */ {
 
 	/**
 	 * DOM reference of the checkbox.
@@ -158,12 +157,12 @@ gara.Class("gara.widgets.TreeItem", function () { return /** @lends gara.widgets
 	 * @param {int} style the style for the new <code>TreeItem</code> (optional)
 	 * @param {int} index the zero-relative index to store the receiver in its parent (optional) 
 	 */
-	$constructor : function (parent, style, index) {
+	constructor : function (parent, style, index) {
 		if (!(parent instanceof gara.widgets.Tree || parent instanceof gara.widgets.TreeItem)) {
 			throw new TypeError("parent is neither a gara.widgets.Tree nor gara.widgets.TreeItem");
 		}
 
-		this.$super(parent, style);
+		this.super(parent, style);
 		this.parent = parent;
 		this.items = [];
 		this.texts = [];
@@ -812,4 +811,4 @@ gara.Class("gara.widgets.TreeItem", function () { return /** @lends gara.widgets
 		this.setClass("garaLastTreeItem", bottom);
 //		this.childContainer.className = bottom ? "bottom" : "";
 	}
-};});
+});

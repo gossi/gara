@@ -23,12 +23,12 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Control", "gara.widgets.Widget");
+gara.provide("gara.widgets.Control");
 
-gara.use("gara.widgets.Item");
-gara.use("gara.widgets.Composite");
-gara.use("gara.widgets.Menu");
-gara.use("gara.widgets.Display");
+//gara.use("gara.widgets.Item");
+//gara.use("gara.widgets.Composite");
+//gara.use("gara.widgets.Menu");
+//gara.use("gara.widgets.Display");
 
 /**
  * Some exemplary description
@@ -36,9 +36,7 @@ gara.use("gara.widgets.Display");
  * @class gara.widgets.Control
  * @extends gara.widgets.Widget
  */
-gara.Class("gara.widgets.Control", function () { return /** @lends gara.widgets.Control# */{
-	$extends : gara.widgets.Widget,
-
+gara.widgets.Control = gara.Class(gara.widgets.Widget, /** @lends gara.widgets.Control# */{
 	/**
 	 * Holds the focus state.
 	 *
@@ -124,8 +122,8 @@ gara.Class("gara.widgets.Control", function () { return /** @lends gara.widgets.
 	 * @constructs
 	 * @extends gara.widgets.Widget
 	 */
-	$constructor : function (parent, style) {
-		this.$super(parent, style);
+	constructor : function (parent, style) {
+		this.super(parent, style);
 		this.addClass("garaControl");
 
 		this.controlListeners = [];
@@ -1084,4 +1082,4 @@ gara.Class("gara.widgets.Control", function () { return /** @lends gara.widgets.
 	update : function () {
 //		alert("Control.update() invoked on " + this + ". Method not implemented");
 	}
-};});
+});

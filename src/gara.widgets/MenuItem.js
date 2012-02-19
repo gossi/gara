@@ -33,9 +33,7 @@ gara.use("gara.widgets.Menu");
  * @class gara.widgets.MenuItem
  * @extends gara.widgets.Item
  */
-gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.MenuItem# */ {
-	$extends : gara.widgets.Item,
-
+gara.widgets.MenuItem = gara.Class(gara.widgets.Item, /** @lends gara.widgets.MenuItem# */ {
 	/**
 	 * Holds the enabled state.
 	 *
@@ -117,12 +115,12 @@ gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.
 	 * @param {int} style the style for the menu item (optional)
 	 * @param {int} index the index at where to insert this item (optional)
 	 */
-	$constructor : function (parent, style, index) {
+	constructor : function (parent, style, index) {
 		var w, h;
 		if (!(parent instanceof gara.widgets.Menu)) {
 			throw new TypeError("parent is not type of gara.widgets.Menu");
 		}
-		this.$super(parent, style);
+		this.super(parent, style);
 		this.parentNode = this.parent.addItem(this, index);
 
 		this.span = null;
@@ -299,7 +297,7 @@ gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.
 		this.menu = null;
 		this.selectionListeners = null;
 		
-		this.$super();
+		this.super();
 	},
 
 	/**
@@ -399,7 +397,7 @@ gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.
 	 * @returns {gara.widgets.MenuItem} this
 	 */
 	setImage : function (image) {
-		this.$super(image);
+		this.super(image);
 
 		// update image
 		if (image !== null) {
@@ -492,7 +490,7 @@ gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.
 	 * @returns {gara.widgets.MenuItem} this
 	 */
 	setText : function (text) {
-		this.$super(text);
+		this.super(text);
 
 		if (this.handle && (this.style & gara.SEPARATOR) !== gara.SEPARATOR) {
 			this.spanText.nodeValue = this.text;
@@ -543,4 +541,4 @@ gara.Class("gara.widgets.MenuItem", function() { return /** @lends gara.widgets.
 			this.menu.update();
 		}
 	}
-};});
+});

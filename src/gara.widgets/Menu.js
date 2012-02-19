@@ -23,10 +23,10 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Menu", "gara.widgets.Control");
+gara.provide("gara.widgets.Menu");
 
-gara.use("gara.widgets.Decorations");
-gara.use("gara.widgets.MenuItem");
+//gara.use("gara.widgets.Decorations");
+//gara.use("gara.widgets.MenuItem");
 
 /**
  * gara Menu Widget
@@ -34,10 +34,7 @@ gara.use("gara.widgets.MenuItem");
  * @class gara.widgets.Menu
  * @extends gara.widgets.Control
  */
-gara.Class("gara.widgets.Menu", function() { return /** @lends gara.widgets.Menu# */ {
-	$extends : gara.widgets.Control,
-
-
+gara.widgets.Menu = gara.Class(gara.widgets.Control, /** @lends gara.widgets.Menu# */ {
 	/**
 	 * 
 	 * Contains the current active item.
@@ -117,7 +114,7 @@ gara.Class("gara.widgets.Menu", function() { return /** @lends gara.widgets.Menu
 	 * @param {gara.widgets.Control|gara.widgets.MenuItem|gara.widgets.Composite|HTMLElement} parent
 	 * @param {int} style
 	 */
-	$constructor : function (parent, style) {
+	constructor : function (parent, style) {
 		// style
 		if (parent instanceof gara.widgets.MenuItem
 				&& (parent.getStyle() & gara.CASCADE) !== gara.CASCADE) {
@@ -148,7 +145,7 @@ gara.Class("gara.widgets.Menu", function() { return /** @lends gara.widgets.Menu
 		this.menuBarDropDownShown = false;
 		this.toolBarDropDownShown = false;
 
-		this.$super(parent, style);
+		this.super(parent, style);
 		this.addFocusListener(this);
 	},
 
@@ -895,4 +892,4 @@ gara.Class("gara.widgets.Menu", function() { return /** @lends gara.widgets.Menu
 			item.update();
 		}, this);
 	}
-};});
+});

@@ -23,17 +23,15 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Shell", "gara.widgets.Decorations");
+gara.provide("gara.widgets.Shell");
 
-gara.use("gara.widgets.Display");
+//gara.use("gara.widgets.Display");
 
 /**
  * @class gara.widgets.Shell
  * @extends gara.widgets.Decorations
  */
-gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.Shell# */ {
-	$extends : gara.widgets.Decorations,
-
+gara.widgets.Shell = gara.Class(gara.widgets.Decorations, /** @lends gara.widgets.Shell# */ {
 	/**
 	 * Contains the alpha value of this shell
 	 * 
@@ -56,7 +54,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 	 * @param {gara.widgets.Shell|gara.widgets.Display} parent the parent container for the new shell (optinal)
 	 * @param {void} style the style for the new shell (optional)
 	 */
-	$constructor : function (parent, style) {
+	constructor : function (parent, style) {
 		if (!(parent instanceof gara.widgets.Shell) && !(parent instanceof gara.widgets.Display)) {
 			style = parent | gara.SHELL_TRIM;
 			parent = gara.widgets.Display.getDefault();
@@ -78,13 +76,13 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 					self.adjustHeight(document.documentElement.clientHeight);
 					self.layout();
 //				}, 100);
-			}	
+			}
 		};
 //		this.tabIndexes = [];
 //		this.tabIndexElements = [];
 //		this.tabbableTags = ["A","BUTTON","TEXTAREA","INPUT","IFRAME","DIV","UL","SPAN"];
 
-		this.$super(parent, gara.widgets.Shell.checkStyle(style));
+		this.super(parent, gara.widgets.Shell.checkStyle(style));
 	},
 	
 	/**
@@ -112,7 +110,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 			return;
 		}
 		
-		this.$super(height);
+		this.super(height);
 	},
 
 	/*
@@ -123,7 +121,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 			this.restoreWidth = width;
 			return;
 		}
-		this.$super(width);
+		this.super(width);
 	},
 
 	/**
@@ -190,7 +188,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 	destroyWidget : function () {
 		this.shellListeners = [];
 		
-		this.$super();
+		this.super();
 	},
 
 //	/**
@@ -466,8 +464,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 	 * @returns
 	 */
 	setFullScreen : function (fullScreen) {
-		var parent = document.documentElement, 
-			id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
+		var id = this.getParent().getId ? this.getParent().getId() : this.getParent().id;
 
 		if (fullScreen) {
 			if (this.minimized) {
@@ -566,7 +563,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 		if (this.maximized || this.minimized || this.fullScreen) {
 			this.height = height;
 		} else {
-			this.$super(height);
+			this.super(height);
 		}
 				
 		return this;
@@ -585,7 +582,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 				this.y = y;
 			}
 		} else {
-			this.$super(x, y);
+			this.super(x, y);
 		}
 
 		return this;
@@ -598,7 +595,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 		if (this.maximized || this.minimized || this.fullScreen) {
 			this.width = width;
 		} else {
-			this.$super(width);	
+			this.super(width);	
 		}
 
 		return this;
@@ -611,7 +608,7 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 		if (this.minimized && !this.notifyShellListener("shellDeiconified")) {
 			return this;
 		}
-		return this.$super(maximized);
+		return this.super(maximized);
 	},
 	
 	/* 
@@ -631,10 +628,10 @@ gara.Class("gara.widgets.Shell", function() { return /** @lends gara.widgets.She
 			this.getDisplay().setActiveShell(this);
 		}
 		
-		return this.$super(minimized);
+		return this.super(minimized);
 	},
 	
 	update : function () {
 		
 	}
-};});
+});

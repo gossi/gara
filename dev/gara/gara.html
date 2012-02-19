@@ -3,10 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <title>gara.loader</title>
-<link rel="stylesheet" href="../../css/themes/sand/sand.css" type="text/css"/>
 <script type="text/javascript" src="../../src/gara.js"></script>
 <script>
-gara.require(["A", "B"], function () {
+gara.define('A.js').provides('A').uses('B');
+gara.define('B.js').provides('B').uses('A');
+gara.define('C.js').provides('C').uses('D');
+gara.define('D.js').provides('D').uses('E');
+gara.define('E.js').provides('E');
+
+gara.require("D", function () {
 	console.log("yippiie :)");
 });
 </script>

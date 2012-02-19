@@ -23,16 +23,14 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Item", "gara.widgets.Widget");
+gara.provide("gara.widgets.Item");
 
 /**
  * 'Abstract' Item class
  * @class gara.widgets.Item
  * @extends gara.widgets.Widget
  */
-gara.Class("gara.widgets.Item", function() { return /** @lends gara.widgets.Item# */ {
-	$extends : gara.widgets.Widget,
-
+gara.widgets.Item = gara.Class(gara.widgets.Widget, /** @lends gara.widgets.Item# */ {
 	/**
 	 * 
 	 * Holds the active static.
@@ -65,8 +63,8 @@ gara.Class("gara.widgets.Item", function() { return /** @lends gara.widgets.Item
 	 * @param {gara.widgets.List} parent the parent <code>Control</code> widget
 	 * @param {int} style information for this <code>Item</code>
 	 */
-	$constructor : function (parent, style) {
-		this.$super(parent, style);
+	constructor : function (parent, style) {
+		this.super(parent, style);
 		this.active = false;
 		this.image = null;
 		this.text = "";
@@ -80,7 +78,7 @@ gara.Class("gara.widgets.Item", function() { return /** @lends gara.widgets.Item
 //			this.parentNode.removeChild(this.handle);
 //		}
 		
-		this.$super();
+		this.super();
 	},
 
 	/**
@@ -136,4 +134,4 @@ gara.Class("gara.widgets.Item", function() { return /** @lends gara.widgets.Item
 		this.text = text;
 		return this;
 	}
-};});
+});

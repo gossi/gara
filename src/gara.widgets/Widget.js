@@ -25,15 +25,15 @@
 
 gara.provide("gara.widgets.Widget");
 
-gara.use("gara.widgets.Display");
-gara.use("gara.widgets.WidgetException");
+//gara.use("gara.widgets.Display");
+//gara.use("gara.widgets.WidgetException");
 
 /**
  * Widget Super Hero!
  * 
  * @class gara.widgets.Widget
  */
-gara.Class("gara.widgets.Widget", /** @lends gara.widgets.Widget# */ {
+gara.widgets.Widget = gara.Class(/** @lends gara.widgets.Widget# */ {
 
 	/**
 	 * @private
@@ -115,7 +115,7 @@ gara.Class("gara.widgets.Widget", /** @lends gara.widgets.Widget# */ {
 	 * @param {gara.widgets.Widget|HTMLElement} parent the parent for this widget
 	 * @param {int} style the style codec for this widget
 	 */
-	$constructor : function (parent, style) {
+	constructor : function (parent, style) {
 		this.id = "";
 		this.classes = ["gara"];
 

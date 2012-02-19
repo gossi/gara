@@ -1,0 +1,256 @@
+/*** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Decorations
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.sand .gara-border {
+	border: 1px solid #B6AD87;
+}
+
+.sand .gara-border.gara-decorations {
+	border: none;
+}
+
+.sand .garaDecorationsTitle {
+	/*background: url('left.gif') no-repeat;*/
+	line-height: 16px;
+	cursor: default;
+	background-repeat: no-repeat;
+	background-image: url('stone_mud_left.png'); /** sprite-ref: stone-mud; */
+	padding-left: 9px;
+	height: 26px;
+}
+
+.sand .garaDecorationsTitleText {
+	background-repeat: repeat-x;
+	background-image: url('stone_mud_bar.png'); /** sprite-ref: stone-mud; sprite-alignment: repeat; */
+	padding: 5px 5px 5px 0;
+	line-height: 16px;
+	margin-right: 9px;
+	height: 16px;
+	overflow: hidden;
+	white-space: nowrap;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+}
+
+.sand .garaDecorationsTitleText img {
+	margin-right: 5px;
+	vertical-align: bottom;
+}
+
+.sand .garaDecorationsTitleRight {
+	background: no-repeat right top;
+	background-image: url('stone_mud_right.png'); /** sprite-ref: stone-mud; sprite-alignment: right; */
+	width: 9px;
+	height: 26px;
+	float: right;
+}
+
+.sand .garaDecorationsTitleButtons {
+	background-repeat: repeat-x;
+	background-image: url('stone_mud_bar.png'); /** sprite-ref: stone-mud; sprite-alignment: repeat; */
+	float: right;
+	height: 26px;
+}
+
+.sand .garaDecorationsCloseButton {
+	background-repeat: no-repeat;
+	background-image: url('close.png'); /** sprite-ref: misc; */
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 6px 0 0 0;
+	float: right;
+}
+
+.sand .garaDecorationsCloseButtonActive:hover {
+	background-image: url('close_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand .garaDecorationsCloseButtonDeactive {
+	opacity: 0.5;
+}
+
+.sand .garaDecorationsMinButton {
+	background-repeat: no-repeat;
+	background-image: url('min.png'); /** sprite-ref: misc; */
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 6px 3px 0 0;
+	float: left;
+}
+
+.sand .garaDecorationsMinButtonActive:hover {
+	background-image: url('min_hover.png'); /** sprite-ref: misc; */
+}
+
+
+.sand .garaDecorationsMinButtonDeactive {
+	opacity: 0.5;
+}
+
+.sand .garaDecorationsMaxButton {
+	background-repeat: no-repeat;
+	background-image: url('max.png'); /** sprite-ref: misc; */
+	width: 14px;
+	height: 14px;
+	display: block;
+	margin: 6px 3px 0 0;
+	float: left;
+}
+
+.sand .garaDecorationsMaxButtonActive:hover {
+	background-image: url('max_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand .garaDecorationsMaxButtonDeactive {
+	opacity: 0.5;
+}
+
+.sand .garaDecorationsClientArea {
+	background-color: #F7F3E4;
+}
+
+.sand .garaBorder > .garaDecorationsMenuBar {
+	border: solid #B7AE88;
+	border-width: 1px 1px 0 1px;
+}
+
+.sand .garaBorder > .garaDecorationsClientArea {
+	border: 1px solid #B7AE88;
+}
+
+.sand .garaDecorationsMaximized .garaDecorationsMaxButton {
+	background-image: url('restore.png'); /** sprite-ref: misc; */
+}
+
+.sand .garaDecorationsMaximized .garaDecorationsMaxButton:hover {
+	background-image: url('restore_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand .garaDecorationsMinimized > .garaDecorationsClientArea,
+.sand .garaDecorationsMinimized > .garaDecorationsMenuBar {
+	display: none;
+}
+
+.sand .garaDecorationsMinimized {
+	width: 180px;
+	height: 26px;
+}
+
+.sand .garaDecorationsMinimized .garaDecorationsMinButton {
+	background-image: url('restore.png'); /** sprite-ref: misc; */
+}
+
+.sand .garaDecorationsMinimized .garaDecorationsMinButton:hover {
+	background-image: url('restore_hover.png'); /** sprite-ref: misc; */
+}
+
+.sand .garaResize {
+	/*background-color: red;*/
+	position: absolute;
+	z-index: 100;
+}
+
+.sand .garaResizeNNW {
+	top: 0;
+	left: 0;
+	width: 20px;
+	height: 3px;
+	cursor: nw-resize;	
+}
+
+.sand .garaResizeWNW {
+	top: 0;
+	left: 0;
+	width: 3px;
+	height: 20px;
+	cursor: nw-resize;	
+}
+
+.sand .garaResizeN {
+	top: 0;
+	left: 20px;
+	right: 20px;
+	height: 3px;
+	cursor: n-resize;
+}
+
+.sand .garaResizeNNE {
+	top: 0;
+	right: 0;
+	width: 20px;
+	height: 3px;
+	cursor: ne-resize;
+}
+
+.sand .garaResizeENE {
+	top: 0;
+	right: 0;
+	width: 3px;
+	height: 20px;
+	cursor: ne-resize;
+}
+
+.sand .garaResizeW {
+	top: 20px;
+	left: 0;
+	bottom: 20px;
+	width: 3px;
+	cursor: w-resize;
+}
+
+.sand .garaResizeE {
+	top: 20px;
+	right: 0;
+	bottom: 20px;
+	width: 3px;
+	cursor: e-resize;
+}
+
+.sand .garaResizeSSW {
+	bottom: 0;
+	left: 0;
+	height: 3px;
+	width: 20px;
+	cursor: sw-resize;
+}
+
+.sand .garaResizeWSW {
+	bottom: 0;
+	left: 0;
+	height: 20px;
+	width: 3px;
+	cursor: sw-resize;
+}
+
+.sand .garaResizeS {
+	bottom: 0;
+	left: 20px;
+	right: 20px;
+	height: 3px;
+	cursor: s-resize;
+}
+
+.sand .garaResizeSSE {
+	bottom: 0;
+	right: 0;
+	height: 3px;
+	width: 20px;
+	cursor: se-resize;
+}
+
+.sand .garaResizeESE {
+	bottom: 0;
+	right: 0;
+	height: 20px;
+	width: 3px;
+	cursor: se-resize;
+}

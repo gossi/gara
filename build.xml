@@ -16,9 +16,9 @@
 		</classpath>
     </taskdef>
 	
-	<taskdef name="jslint"
+	<!-- taskdef name="jslint"
 		classname="com.googlecode.jslint4java.ant.JSLintTask"
-		classpath="${basedir}/lib/jslint4java/jslint4java-1.4.4.jar" />
+		classpath="${basedir}/lib/jslint4java/jslint4java-1.4.4.jar" -->
 
 	<target name="-cleanupCommon">
 		

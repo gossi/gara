@@ -23,23 +23,21 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Scrollable", "gara.widgets.Control");
+gara.provide("gara.widgets.Scrollable");
 
-gara.use("gara.widgets.Composite");
+//gara.use("gara.widgets.Composite");
 
 /**
  * @class gara.widgets.Scrollable
  * @extends gara.widgets.Control
  */
-gara.Class("gara.widgets.Scrollable", function () { return /** @lends gara.widgets.Scrollable# */ {
-	$extends : gara.widgets.Control,
-
+gara.widgets.Scrollable = gara.Class(gara.widgets.Control, /** @lends gara.widgets.Scrollable# */ {
 	/**
 	 * @constructs
 	 * @extends gara.widgets.Control
 	 */
-	$constructor : function (parent, style) {
-		this.$super(parent, style);
+	constructor : function (parent, style) {
+		this.super(parent, style);
 		if (parent instanceof gara.widgets.Composite) {
 			parent.layout();
 		}
@@ -81,4 +79,4 @@ gara.Class("gara.widgets.Scrollable", function () { return /** @lends gara.widge
 	scrolledHandle : function () {
 		return this.handle;
 	}
-};});
+});

@@ -23,17 +23,15 @@
 
 "use strict";
 
-gara.provide("gara.widgets.Composite", "gara.widgets.Scrollable");
+gara.provide("gara.widgets.Composite");
 
-gara.use("gara.widgets.Control");
+//gara.use("gara.widgets.Control");
 
 /**
  * @class gara.widgets.Composite
  * @extends gara.widgets.Scrollable
  */
-gara.Class("gara.widgets.Composite", function() { return /** @lends gara.widgets.Composite# */ {
-	$extends : gara.widgets.Scrollable,
-	
+gara.widgets.Composite = gara.Class(gara.widgets.Scrollable, /** @lends gara.widgets.Composite# */ {
 	/**
 	 * A specific Layout of the receiver
 	 * 
@@ -46,8 +44,8 @@ gara.Class("gara.widgets.Composite", function() { return /** @lends gara.widgets
 	 * @constructs
 	 * @extends gara.widgets.Scrollable
 	 */
-	$constructor : function (parent, style) {
-		this.$super(parent, style);
+	constructor : function (parent, style) {
+		this.super(parent, style);
 
 		this.layoutInformation = null;
 		//this.resize();
@@ -64,7 +62,7 @@ gara.Class("gara.widgets.Composite", function() { return /** @lends gara.widgets
 	},
 
 	createHandle : function (element) {
-		this.$super(element);
+		this.super(element);
 		this.addClass("garaComposite");
 	},
 
@@ -338,4 +336,4 @@ gara.Class("gara.widgets.Composite", function() { return /** @lends gara.widgets
 	unbindListener : function (eventType, listener) {
 		gara.removeEventListener(this.handle, eventType, listener);
 	}
-};});
+});

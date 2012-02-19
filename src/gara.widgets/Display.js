@@ -25,14 +25,14 @@
 
 gara.provide("gara.widgets.Display");
 
-gara.use("gara.widgets.Widget");
-gara.use("gara.widgets.Control");
-gara.use("gara.widgets.Shell");
+//gara.use("gara.widgets.Widget");
+//gara.use("gara.widgets.Control");
+//gara.use("gara.widgets.Shell");
 
 /**
  * @class gara.widgets.Display
  */
-gara.Class("gara.widgets.Display", /** @lends gara.widgets.Display# */ {
+gara.widgets.Display = gara.Class(/** @lends gara.widgets.Display# */ {
 
 	/**
 	 * Holds the current focus control.
@@ -66,24 +66,39 @@ gara.Class("gara.widgets.Display", /** @lends gara.widgets.Display# */ {
 	shells : [],
 
 	/**
-	 * static default display
-	 *
-	 * @private
-	 * @type {gara.widgets.Display}
-	 */
-	defaultDisplay : gara.$static(null),
-	
-	/**
 	 * 
 	 * @private
 	 * @type {gara.widgets.Shell}
 	 */
 	activeShell : null,
+	
+	/* Static properties */
+	/** @lends gara.widgets.Display# */
+	extend : {
+		/**
+		 * static default display
+		 *
+		 * @private
+		 * @type {gara.widgets.Display}
+		 */
+		defaultDisplay : null,
+
+		/**
+		 * 
+		 * @static
+		 */
+		getDefault : function () {
+			if (gara.widgets.Display.defaultDisplay === null) {
+				gara.widgets.Display.defaultDisplay = new gara.widgets.Display();
+			}
+			return gara.widgets.Display.defaultDisplay;
+		},
+	},
 
 	/**
 	 * @constructs
 	 */
-	$constructor : function () {
+	constructor : function () {
 		var self = this;
 		gara.addEventListener(document, "keydown", this);
 		gara.addEventListener(document, "keypress", this);
@@ -159,17 +174,6 @@ gara.Class("gara.widgets.Display", /** @lends gara.widgets.Display# */ {
 	getClientArea : function () {
 		return document.getElementsByTagName("body")[0];
 	},
-
-	/**
-	 * 
-	 * @static
-	 */
-	getDefault : gara.$static(function () {
-		if (gara.widgets.Display.defaultDisplay === null) {
-			gara.widgets.Display.defaultDisplay = new gara.widgets.Display();
-		}
-		return gara.widgets.Display.defaultDisplay;
-	}),
 
 	/**
 	 * Returns the control which currently has keyboard focus, or null if

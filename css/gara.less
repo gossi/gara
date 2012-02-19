@@ -1,0 +1,389 @@
+/* gara Styles */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * gara Reset & Fonts 
+ * based on YUI-Resets-Fonts (v2.2.2) Copyright (c) 2007, Yahoo! Inc. (BSD-License)
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+.gara div, div.gara,
+.gara ul, ul.gara,
+.gara li, li.gara,
+.gara input, input.gara,
+.gara textarea, textarea.gara,
+.gara td, .gara th {
+	margin: 0;
+	padding: 0;
+}
+.gara img {
+	border: 0;
+}
+ul.gara  {
+	list-style: none;
+}
+.gara th {
+	text-align: left;
+	font-style: normal;
+	font-weight: normal;
+}
+.gara {
+	font: 13px arial,helvetica,clean,sans-serif;
+	*font-size: small;
+	*font: x-small;
+}
+.gara table, table.gara {
+	font-size: inherit;
+	font: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.gara select, select.gara,
+.gara input, input.gara,
+.gara textarea, textarea.gara {
+	font: 99% arial,helvetica,clean,sans-serif;
+}
+.gara * {
+	line-height: 1.22em;
+}
+
+.gara *[tabindex="-1"] {
+	outline: none;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara application
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+html.gara[role=application] {
+	height: 100%;
+	
+	body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		box-sizing: border-box;
+		position: absolute;
+	}
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Control
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+.gara-control {
+	position: relative;
+	box-sizing: border-box;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Label
+ * gara.widgets.Composite
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-label,
+.gara-composite {
+	cursor: default;
+	overflow: auto;
+	outline: none;
+	/*user-select: none;*/
+}
+
+.gara-label {
+	display: block;
+}
+
+.gara-composite {
+	width: 100%;
+	height: 100%;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Scrollable
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-scrollable {
+	overflow: auto;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Decorations
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-decorations {
+	outline: none;
+	overflow: hidden;
+}
+
+.gara-decorations-client-area {
+	box-sizing: border-box;
+	overflow: auto;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Shell
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+ 
+.gara-shell {
+	position: absolute;
+	width: auto;
+	height: auto;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.List
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-list {
+	cursor: default;
+	overflow: auto;	
+	outline: none;
+	user-select: none;
+}
+
+.gara-list .gara-list-item {
+	list-style-type: none;
+}
+
+.gara-list .gara-checkbox {
+	float: left;
+}
+
+.gara-List-item-text {
+	white-space: nowrap;
+	width: auto;
+}
+
+.gara-list-item-image {
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+.gara-list-fullselection .gara-list-item-text {
+	display: block;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Tree
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-tree {
+	cursor: default;
+	overflow: auto;	
+	outline: none;
+	user-select: none;
+	
+	&-item {
+		overflow: visible;
+		list-style-type: none;
+		white-space: nowrap;
+		
+		&-childcontainer {
+			overflow: visible;
+			clear: left;	
+		}
+		
+		&-text {
+			white-space: nowrap;
+			width: auto;
+		}
+		
+		&-toggler {
+			display: inline-block;
+			float: left;
+		}
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Table
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-table {
+	position: relative;
+	cursor: default;
+	overflow: hidden;
+	user-select: none;
+
+	table {
+		border-collapse: collapse;
+		border-spacing: 0 0;
+		table-layout: fixed;
+	}
+	
+	&-scroller {
+		overflow-y: auto;
+	}
+	
+	&-head {
+		top: 0;
+		left: 0;
+		position: relative;
+	}
+	
+	&-columnresizer {
+		margin: -3px -3px -3px 0;
+		float: right;
+		width: 6px;
+		cursor: ew-resize;
+	}
+	
+	&-head-column:last-child &-columnresizer {
+		display: none;
+	}
+	
+	&-resizeline {
+		display: none;
+		width: 1px;
+		position: absolute;
+		bottom: 0;
+	}
+	
+	&-item-cellwrapper {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	/*table tbody {
+		/*overflow-y: auto;*
+		overflow-y: hidden;
+		overflow-x: auto;
+	}*/
+	
+	/* Shadow Table (when reordering columns)*/
+	&-shadow {
+		position: absolute;
+		opacity: 0.3;
+		z-index: 450;
+	}
+	
+	&-shadow &-arrow {
+		display: none !important;
+	}
+	
+	&-shadow &-scroller {
+		overflow: hidden;
+	}
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.TabFolder
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-tabfolder {
+	position: relative;
+	
+	&-more {
+		position: absolute;
+	}
+	
+	&-bar {
+		margin-left: 0;
+		padding-left: 0;
+		cursor: default;
+		outline: none;
+		user-select: none;
+	}
+	
+	&-clientarea {
+		overflow: hidden;
+		position: relative;
+	}
+	
+	&-clientarea div[role=tabpanel] {
+		overflow: auto;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Menu
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-menu {
+	margin: 0;
+	padding: 0;
+	background-image: none;
+	outline: none;
+	cursor: default;
+	user-select: none;
+	
+	&-dropdown, &-popup {
+		z-index: 500;
+	}
+	
+	&-item {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		outline: none;
+		position: relative;
+
+		/* Reset. Anyways the menu inherits styles from controls */
+		&-text {
+			padding: 0;
+			margin: 0;
+		}
+
+		&-image {
+			vertical-align: middle;
+			margin-right: 3px;
+		}
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * gara.widgets.Button
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+
+.gara-button {
+	cursor: default;
+	overflow: auto;	
+	outline: none;
+	user-select: none;
+	vertical-align: baseline;
+}

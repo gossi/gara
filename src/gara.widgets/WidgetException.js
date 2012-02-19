@@ -29,9 +29,7 @@ gara.provide("gara.widgets.WidgetException");
  * @class gara.widgets.WidgetException
  * @extends gara.Exception
  */
-gara.Class("gara.widgets.WidgetException", /** @lends gara.widgets.WidgetException# */ {
-	$extends : gara.Exception,
-
+gara.widgets.WidgetException = gara.Class(gara.Exception, /** @lends gara.widgets.WidgetException# */ {
 	/**
 	 * @private
 	 * Contains the error code, one of JSWT.ERROR_*
@@ -45,7 +43,7 @@ gara.Class("gara.widgets.WidgetException", /** @lends gara.widgets.WidgetExcepti
 	 * @param {mixed} codeOrMessage Pass either a code or a message
 	 * @param {String} message Wether code is passed place your message as second
 	 */
-	$constructor : function(codeOrMessage, message) {
+	constructor : function(codeOrMessage, message) {
 		var code;
 		if (typeof(message) === "undefined") {
 			message = codeOrMessage;

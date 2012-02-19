@@ -1,7 +1,5 @@
 gara.provide("E");
 
-gara.use("C");
-
-gara.Class("E", {
+E = gara.Class({
 
 });

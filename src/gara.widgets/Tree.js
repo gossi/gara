@@ -25,7 +25,7 @@
 
 gara.provide("gara.widgets.Tree", "gara.widgets.Composite");
 
-gara.use("gara.widgets.TreeItem");
+//gara.use("gara.widgets.TreeItem");
 
 /**
  * gara Tree Widget
@@ -33,8 +33,7 @@ gara.use("gara.widgets.TreeItem");
  * @class gara.widgets.Tree
  * @extends gara.widgets.Composite
  */
-gara.Class("gara.widgets.Tree", function() { return /** @lends gara.widgets.Tree# */ {
-	$extends : gara.widgets.Composite,
+gara.widgets.Tree = gara.Class(gara.widgets.Composite, /** @lends gara.widgets.Tree# */ {
 
 	/**
 	 * Contains the activeItem
@@ -101,7 +100,7 @@ gara.Class("gara.widgets.Tree", function() { return /** @lends gara.widgets.Tree
 	 * @param {gara.widgets.Composite|HTMLElement} parent parent dom node or composite
 	 * @param {int} style The style for the tree
 	 */
-	$constructor : function (parent, style) {
+	constructor : function (parent, style) {
 		this.items = [];
 		this.rootItems = [];
 
@@ -113,7 +112,7 @@ gara.Class("gara.widgets.Tree", function() { return /** @lends gara.widgets.Tree
 		this.selectionListeners = [];
 		this.treeListeners = [];
 
-		this.$super(parent, style || gara.SINGLE);
+		this.super(parent, style || gara.SINGLE);
 		this.addFocusListener(this);
 	},
 
@@ -1107,4 +1106,4 @@ gara.Class("gara.widgets.Tree", function() { return /** @lends gara.widgets.Tree
 			}
 		}
 	}
-};});
+});

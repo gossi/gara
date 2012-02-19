@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>gara.require</title>
+<link rel="stylesheet" href="../css/gara.css" type="text/css"/>
+<link rel="stylesheet" href="../css/themes/sand/sand.css" type="text/css"/>
+<!-- <script type="text/javascript" src="../lib/base2-dom-fp.js"></script>-->
+<script type="text/javascript" src="../bin/gara.js"></script>
+<script type="text/javascript">
+/*gara.require(["gara.jswt.widgets.List", "gara.jswt.widgets.ListItem"], function() {
+	var l = new gara.jswt.widgets.List(document.getElementsByTagName("body")[0]);
+
+	for (var i = 1; i <= 5; ++i) {
+		new gara.jswt.widgets.ListItem(l).setText("Item " + i);
+	}
+});*/
+/*
+gara.Class("Foo", {
+	jump : function() {
+		console.log("Jump");
+	},
+
+	bar : gara.$static("mooh")
+});
+
+gara.provide("Bar", "gara.jswt.widgets.Widget");
+
+gara.Class("Bar", function (){ return {
+	$extends : gara.jswt.widgets.Widget,
+	cry : function () {
+		console.log("cry");
+	}	
+};});
+
+var f = new Foo();
+f.jump();
+
+gara.require("Bar", function() {
+	var b = new Bar();
+	b.cry();
+});*/
+
+define('main', function(require) {
+	var List = require('gara/test/List');
+	var l = new List();
+	console.log(l);
+});
+</script>
+</head>
+<body class="sand">
+
+</body>
+</html>
